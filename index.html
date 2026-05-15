@@ -341,19 +341,33 @@ button{font-family:inherit;cursor:pointer;}
 }
 .lock-err.visible{display:block;}
 
-/* ── UNLOCK BAR ──────────────────────────────────────────── */
+/* ── UNLOCK BAR (inside panel, secondary) ────────────────── */
 .unlock-bar{
-  display:flex;align-items:center;justify-content:flex-end;gap:.6rem;
-  padding:.45rem 1rem;
+  display:flex;align-items:center;gap:.5rem;
+  padding:.4rem 1rem;
   background:#f0fdf4;border-bottom:1px solid #bbf7d0;
   font-size:var(--fs-xs);color:#166534;
 }
-.unlock-bar button{
-  background:none;border:1px solid #86efac;border-radius:6px;
-  color:#166534;font-size:var(--fs-xs);font-weight:700;
-  padding:2px 8px;cursor:pointer;
+
+/* ── LOGOUT BUTTON (fixed top-right, always on top) ─────── */
+.logout-btn{
+  position:fixed;top:12px;right:12px;z-index:999;
+  background:rgba(15,23,42,.82);
+  border:1.5px solid rgba(255,255,255,.35);
+  color:#fff;border-radius:9px;
+  padding:.38rem .9rem;
+  font-size:var(--fs-xs);font-weight:700;
+  cursor:pointer;font-family:inherit;
+  backdrop-filter:blur(6px);
+  transition:background .15s,border-color .15s;
+  display:none;
+  white-space:nowrap;
 }
-.unlock-bar button:hover{background:#dcfce7;}
+.logout-btn:hover{
+  background:rgba(220,38,38,.85);
+  border-color:rgba(255,255,255,.5);
+}
+.logout-btn.visible{display:block;}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(min-width:640px){
@@ -391,6 +405,7 @@ button{font-family:inherit;cursor:pointer;}
   </div>
 </header>
 
+<button class="logout-btn" id="logout-btn" onclick="lock()">🔓 Logout</button>
 <nav class="grade-tabs" id="grade-tabs"></nav>
 
 <div id="progress-wrap" class="progress-bar-wrap">
@@ -1241,6 +1256,7 @@ function tryUnlock(){
   if(!input) return;
   if(input.value === CORRECT_PW){
     localStorage.setItem(PASS_KEY, '1');
+    updateLogoutBtn();
     renderPanel(currentGrade);
   } else {
     input.value = '';
@@ -1254,7 +1270,14 @@ function tryUnlock(){
 
 function lock(){
   localStorage.removeItem(PASS_KEY);
+  updateLogoutBtn();
   renderPanel(currentGrade);
+}
+
+function updateLogoutBtn(){
+  const btn = document.getElementById('logout-btn');
+  if(!btn) return;
+  btn.classList.toggle('visible', isUnlocked());
 }
 
 function todayStr(){
@@ -1324,9 +1347,7 @@ function renderPanel(gradeId){
   // ── CLASES FUTURAS — requieren contraseña ──────────────────
   if(unlocked){
     // Barra de estado desbloqueado
-    html += `<div class="unlock-bar">🔓 Modo profesor activo
-      <button onclick="lock()">Volver a modo alumno</button>
-    </div>`;
+    html += `<div class="unlock-bar">🔓 Modo profesor activo</div>`;
 
     if(nextItem){
       html += `<div class="section-label">🎯 Próxima clase</div>`;
@@ -1472,6 +1493,7 @@ function toggleArchive(){
 // ═══════════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════════
+updateLogoutBtn();
 render();
 </script>
 

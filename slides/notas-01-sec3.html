@@ -7,11 +7,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;height:100dvh;overflow:hidden}
-body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5e7eb}
+body{background:#180a00;font-family:system-ui,-apple-system,sans-serif;color:#e5e7eb}
 
-/* ── Fixed chrome ─── */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:20;
-  background:#150800;border-bottom:3px solid #f97316;padding:.7rem 1rem}
+  background:#180a00;border-bottom:3px solid #f97316;padding:.7rem 1rem}
 .hdr h1{color:#f97316;font-size:1.1rem;font-weight:800;line-height:1.2}
 .hdr p{font-size:.82rem;color:#9ca3af;margin-top:.15rem}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
@@ -27,14 +26,11 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   flex-shrink:0;cursor:pointer;user-select:none}
 .qnav a:hover,.qnav a.active{background:#f97316;color:#000}
 
-/* ── Deck (JS-controlled, no scroll-snap) ─── */
 .deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;overflow:hidden}
 
-/* ── Flash card ─── */
 .fc{position:absolute;inset:0;display:flex;flex-direction:column;
-  background:#1f0e02;will-change:transform}
+  background:#2a1000;will-change:transform}
 
-/* Card header */
 .fc-head{display:flex;align-items:center;gap:.65rem;padding:.8rem 1rem;
   background:#111;border-bottom:2px solid #f97316;flex-shrink:0}
 .fc-n{background:#f97316;color:#000;border-radius:50%;
@@ -43,7 +39,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   font-size:.85rem;font-weight:900}
 .fc-title{font-size:1.15rem;font-weight:700;color:#f9fafb;line-height:1.3}
 
-/* Say block — flex:1 to fill space */
 .fc-say{padding:1rem 1.1rem;font-size:1.18rem;color:#d1fae5;
   line-height:1.55;border-left:4px solid #f97316;
   background:rgba(0,0,0,.35);flex:1;
@@ -52,13 +47,11 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
 .fc-say-label{font-size:.76rem;font-weight:700;color:#f97316;
   text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
 
-/* Static "Haz esto" (no detail) */
 .fc-do{padding:.85rem 1.1rem;font-size:1.05rem;color:#cbd5e1;
   line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
 .fc-do-label{font-size:.76rem;font-weight:700;color:#f97316;
   text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem}
 
-/* ── Large expandable togglers ─── */
 .fc-toggler{flex-shrink:0;border-top:2px solid #222}
 .fc-toggler summary{
   list-style:none;
@@ -80,7 +73,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
 .toggler-body b{color:#f9fafb}
 .toggler-body i{color:#9ca3af}
 
-/* Footer */
 .fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.7rem 1rem;
   background:#111;flex-shrink:0;border-top:1px solid #222}
 .fc-time{background:#1f2937;border:1px solid #f97316;color:#f97316;
@@ -88,7 +80,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   font-weight:700;white-space:nowrap;flex-shrink:0}
 .fc-tip{color:#9ca3af;font-size:.85rem;flex:1;line-height:1.4}
 
-/* Desktop */
 @media(min-width:600px){
   .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
   .fc-say{font-size:1.25rem}
@@ -101,252 +92,232 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     <h1>📋 Notas · Sesión 01 · 3ro Secundaria</h1>
     <span class="fc-counter" id="fc-counter">1 / 15</span>
   </div>
-  <p>Diagnóstico y entorno digital · 15 de mayo 2026</p>
+  <p>Diseña algo que importe · 15 de mayo 2026</p>
 </div>
 <div class="qnav" id="qnav"><a onclick="goTo(0)">1</a><a onclick="goTo(1)">2</a><a onclick="goTo(2)">3</a><a onclick="goTo(3)">4</a><a onclick="goTo(4)">5</a><a onclick="goTo(5)">6</a><a onclick="goTo(6)">7</a><a onclick="goTo(7)">8</a><a onclick="goTo(8)">9</a><a onclick="goTo(9)">10</a><a onclick="goTo(10)">11</a><a onclick="goTo(11)">12</a><a onclick="goTo(12)">13</a><a onclick="goTo(13)">14</a><a onclick="goTo(14)">15</a></div>
 <div class="deck" id="deck">
 <div class="fc" id="fc1">
   <div class="fc-head">
     <div class="fc-n">1</div>
-    <div class="fc-title">Portada</div>
+    <div class="fc-title">¿Y si pudieras hacer tu propia app? 📱</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Este año van a pasar de solo usar tecnología a hacer cosas con ella. Empezamos hoy.
+      ¿Y si pudieras hacer tu propia app? Este año eso es exactamente lo que vamos a intentar. No solo aprender herramientas — construir algo real.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Silencio inicial. Que lean la slide.
+    30 segundos de silencio. Deja que la pregunta del título aterrice antes de hablar.
   </div>
   <div class="fc-foot">
     <span class="fc-time">⏱ 1 min</span>
-    <span class="fc-tip">💡 Tono directo. No infantilizar.</span>
+    <span class="fc-tip">💡 La promesa del año es el gancho. No expliques demasiado todavía.</span>
   </div>
 </div>
 <div class="fc" id="fc2">
   <div class="fc-head">
     <div class="fc-n">2</div>
-    <div class="fc-title">¿Qué han creado con tecnología?</div>
+    <div class="fc-title">¿Qué harías si supieras todo de tecnología?</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      No me cuenten lo que han visto. Cuéntenme lo que han hecho. Un video, una presentación, un meme bien hecho.
+      Si supieran todo de tecnología, ¿qué harían? ¿Una app? ¿Una web? ¿Un podcast? ¿Un juego? Este año construyen algo real — y lo eligen ustedes.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Levantar mano: ¿quién ha creado algo digital en los últimos 3 meses?
+    Mano alzada por opción. Luego preguntar: ¿por qué elegiste eso?
   </div>
   <div class="fc-foot">
     <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 Validar todo. Un meme creativo también cuenta.</span>
+    <span class="fc-tip">💡 La elección inicial no es definitiva — pero activa su imaginación desde el día 1.</span>
   </div>
 </div>
 <div class="fc" id="fc3">
   <div class="fc-head">
     <div class="fc-n">3</div>
-    <div class="fc-title">De mirar a hacer</div>
+    <div class="fc-title">El truco de las mejores apps</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Mirar tutoriales está bien. Pero el siguiente paso es intentarlo. Hoy empezamos ese paso.
+      Todas las apps buenas empezaron con alguien frustrado por algo. ¿Qué les da rabia en su colegio? ¿Qué es innecesariamente complicado? ¿Qué le falta a su barrio o familia?
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Analogía: ver cocinar vs cocinar.
+    Dar 2 minutos para que cada quien piense 1 cosa. Escuchar 3-4 respuestas del grupo.
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 Mantener el tono motivador, no crítico.</span>
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 El mejor problema para resolver es uno que conoces de primera mano. Ayúdalos a nombrarlo.</span>
   </div>
 </div>
 <div class="fc" id="fc4">
   <div class="fc-head">
     <div class="fc-n">4</div>
-    <div class="fc-title">¿Qué podemos crear este año?</div>
+    <div class="fc-title">Chicos que ya hicieron algo real</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Infografías, mini videos, páginas web, encuestas, presentaciones interactivas, guías.
+      Brian hizo una app para detectar malaria sin sangre. Jóvenes peruanos hicieron una app para reportar baches en tiempo real. Greta, con 16 años, usó redes para mover millones. No necesitas ser adulto para hacer algo que importe.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Que elijan cuál les llama más. Votación rápida.
+    Preguntar: ¿qué tienen en común estos tres? Guiar hacia la respuesta: empezaron con un problema real y usaron lo que tenían.
   </div>
   <div class="fc-foot">
     <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 No prometer todo a la vez. Solo abrir posibilidades.</span>
+    <span class="fc-tip">💡 Los ejemplos latinoamericanos son especialmente poderosos. Enfatiza el de los peruanos.</span>
   </div>
 </div>
 <div class="fc" id="fc5">
   <div class="fc-head">
     <div class="fc-n">5</div>
-    <div class="fc-title">La IA como colaboradora</div>
+    <div class="fc-title">¿Qué tan bueno eres hoy?</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      La IA puede ser su primera revisora, su generadora de ideas, su correctora de borradores.
+      Sin mentirte: ¿cuánto sabes de documentos y escritura, diseño visual, datos y tablas, e IA? Del 1 al 5. Nadie está en 0. Al final del año comparan.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Pregunta: ¿cómo usarían una IA para un trabajo de literatura?
+    Mano alzada por nivel (1, 2-3, 4-5) para cada categoría. Anotar mentalmente el nivel del grupo.
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 4 min</span>
-    <span class="fc-tip">💡 Conectar con sus materias.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Es diagnóstico, no evaluación. Valida cualquier nivel con igual entusiasmo.</span>
   </div>
 </div>
 <div class="fc" id="fc6">
   <div class="fc-head">
     <div class="fc-n">6</div>
-    <div class="fc-title">Límites de la IA</div>
+    <div class="fc-title">La IA te puede ayudar a empezar</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      La IA no sabe qué aprendieron ayer. No conoce su historia. No puede reemplazar su perspectiva.
+      La IA puede darte 20 nombres para tu proyecto en segundos. Pero la decisión es tuya. La IA no puede elegir el mejor nombre, ni entender a las personas, ni decidir qué importa — eso lo haces tú.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Pregunta: ¿qué parte de un trabajo debe ser siempre suya?
+    Demo en vivo: abrir Claude o Gemini y pedirle 5 ideas de app para resolver un problema escolar. Mostrar el resultado en el proyector.
   </div>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Prompt sugerido para la demo:</b><br>'Dame 5 ideas de app que podrían ayudar a estudiantes de secundaria en Perú. Para cada una: nombre, problema que resuelve y cómo funcionaría en una frase.'</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 Que ellos mismos pongan los límites.</span>
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 La demo en vivo impacta más que cualquier explicación. Elige el prompt en tiempo real con ellos.</span>
   </div>
 </div>
 <div class="fc" id="fc7">
   <div class="fc-head">
     <div class="fc-n">7</div>
-    <div class="fc-title">Proyecto del año</div>
+    <div class="fc-title">Tu primera idea</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Este año van a desarrollar un proyecto digital propio. No un ejercicio. Un trabajo real.
+      Respondan en papel — 5 minutos. No hay respuesta mala. ¿A quién quieren ayudar? ¿Qué problema tienen? ¿Qué podrían hacer con tecnología?
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Mostrar ejemplos concretos del tipo de proyectos posibles.
+    Dar exactamente 5 minutos en silencio. No interrumpir. Circular sin hablar. Al terminar, pedir 3-4 voluntarios.
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 4 min</span>
-    <span class="fc-tip">💡 Generar expectativa. Que fantaseen con qué harían.</span>
+    <span class="fc-time">⏱ 7 min</span>
+    <span class="fc-tip">💡 El silencio para pensar es valioso. No lo llenes. Deja que las ideas emerjan.</span>
   </div>
 </div>
 <div class="fc" id="fc8">
   <div class="fc-head">
     <div class="fc-n">8</div>
-    <div class="fc-title">Cómo funciona la IA (versión honesta)</div>
+    <div class="fc-title">Las herramientas que van a usar</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      La IA predice la siguiente palabra más probable. No piensa, no entiende. Solo predice bien.
+      Este año usan Canva para diseño, Google Sheets para datos, Claude o Gemini para IA, y Google Sites para hacer una web. No necesitan saberlas hoy — las aprenden en clase.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Demo rápida: completar una frase con el teclado predictivo.
+    Preguntar: ¿quién ya usó alguna de estas? ¿Para qué?
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 4 min</span>
-    <span class="fc-tip">💡 La demo del teclado es muy efectiva y no necesita equipos.</span>
+    <span class="fc-time">⏱ 2 min</span>
+    <span class="fc-tip">💡 La lista genera expectativa. No te detengas en detalles técnicos hoy.</span>
   </div>
 </div>
 <div class="fc" id="fc9">
   <div class="fc-head">
     <div class="fc-n">9</div>
-    <div class="fc-title">Cuando la IA se equivoca</div>
+    <div class="fc-title">¿Para quién es tu idea?</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Le preguntas algo y te responde con confianza algo incorrecto. Eso pasa. Por eso tú revisas.
+      Las mejores ideas nacen de entender a una persona real. ¿Cuántos años tiene? ¿Qué le molesta o le cuesta? ¿Cómo usa la tecnología hoy? ¿Qué ganaría con tu solución?
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Ejemplo concreto de error de IA. Preguntar: ¿cómo lo habrían detectado?
+    Pedir que piensen en alguien concreto que conocen — no inventado. ¿Para quién harían su proyecto?
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 4 min</span>
-    <span class="fc-tip">💡 Que ellos sean los detectores del error.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 El usuario real le da propósito a todo lo que sigue. Que lo nombren en voz alta.</span>
   </div>
 </div>
 <div class="fc" id="fc10">
   <div class="fc-head">
     <div class="fc-n">10</div>
-    <div class="fc-title">Privacidad: lo que no comparto</div>
+    <div class="fc-title">Primero pruébalo barato</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Datos, fotos, conversaciones privadas, información de familia. Nada de eso en una IA o app desconocida.
+      Versión rápida: simple, para ver si la idea funciona, se puede cambiar, la hacemos en clase. Versión final: bien terminada, probada con gente real, la presentamos en diciembre.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Clasificación rápida: ¿esto es público o privado?
+    Explicar el ciclo: idea → prototipo rápido → prueba → mejora → versión final.
   </div>
-  <details class="fc-toggler fc-toggler--extra">
-    <summary>
-      <span class="toggler-icon">📋</span>
-      <span>Ver ejercicio / más info</span>
-      <span class="toggler-arrow">▾</span>
-    </summary>
-    <div class="toggler-body"><b>Clasifica en voz alta:</b><br>Tu nombre → público<br>Tu dirección → privado<br>Tu foto de perfil → depende<br>Conversación con un amigo → privado<br>Tu nota de un examen → privado</div>
-  </details>
   <div class="fc-foot">
     <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 Ejemplos concretos, no abstractos.</span>
+    <span class="fc-tip">💡 Desmitifica el proceso creativo: nadie llega a la versión final en el primer intento.</span>
   </div>
 </div>
 <div class="fc" id="fc11">
   <div class="fc-head">
     <div class="fc-n">11</div>
-    <div class="fc-title">Nuestro acuerdo de clase</div>
+    <div class="fc-title">Mini actividad: El usuario de tu idea</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Creamos, revisamos, citamos cuando usamos IA. Eso no es una regla, es un hábito.
+      Inventen un personaje en 8 minutos: un nombre inventado, edad y situación, su problema principal, y lo que lo haría feliz. Luego comparten con 2 compañeros: ¿les parece real?
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Que propongan una regla que les parezca justa.
-  </div>
-  <div class="fc-foot">
-    <span class="fc-time">⏱ 4 min</span>
-    <span class="fc-tip">💡 Que sientan que las reglas son suyas.</span>
-  </div>
-</div>
-<div class="fc" id="fc12">
-  <div class="fc-head">
-    <div class="fc-n">12</div>
-    <div class="fc-title">Diagnóstico: ¿qué sé hacer?</div>
-  </div>
-  <div class="fc-say">
-    <div class="fc-say-inner">
-      <div class="fc-say-label">💬 Qué decir</div>
-      ¿Qué herramientas digitales dominan? ¿Cuáles no conocen? Hoy lo mapeamos.
-    </div>
-  </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Ficha individual. 5 minutos.
+    Dar 8 minutos. Circular y apoyar. Luego pedir 2-3 voluntarios que presenten su personaje.
   </div>
   <details class="fc-toggler fc-toggler--extra">
     <summary>
@@ -354,71 +325,91 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
       <span>Ver ejercicio / más info</span>
       <span class="toggler-arrow">▾</span>
     </summary>
-    <div class="toggler-body"><b>Preguntas de la ficha:</b><br>¿Qué herramientas uso seguido?<br>¿Qué me gustaría aprender a hacer?<br>¿Qué tipo de proyecto me interesaría hacer?</div>
+    <div class="toggler-body"><b>Ejemplo de personaje:</b><br>Nombre: Valeria, 14 años, vive lejos del colegio.<br>Problema: se le olvida qué materiales traer y llega sin lo que necesita.<br>Lo que la haría feliz: recibir un recordatorio automático la noche anterior.<br><br>¿Qué app podría ayudarla?</div>
   </details>
   <div class="fc-foot">
+    <span class="fc-time">⏱ 10 min</span>
+    <span class="fc-tip">💡 Si el personaje se siente real, la idea tiene potencial. Ayúdalos a ser específicos.</span>
+  </div>
+</div>
+<div class="fc" id="fc12">
+  <div class="fc-head">
+    <div class="fc-n">12</div>
+    <div class="fc-title">Di tu idea en 60 segundos ⏱️</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Practiquen en voz alta: 'Mi proyecto ayuda a ___ que tienen el problema de ___. Mi idea es ___.' 60 segundos. Voluntarios al frente.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Dar 2 minutos para practicar en parejas. Luego llamar voluntarios. Dar feedback positivo y breve.
+  </div>
+  <div class="fc-foot">
     <span class="fc-time">⏱ 5 min</span>
-    <span class="fc-tip">💡 Sin presión. Es información, no evaluación.</span>
+    <span class="fc-tip">💡 El pitch rápido entrena la claridad de pensamiento. Celebra que se animen, no corrijas el fondo.</span>
   </div>
 </div>
 <div class="fc" id="fc13">
   <div class="fc-head">
     <div class="fc-n">13</div>
-    <div class="fc-title">¿Qué quiero aprender este año?</div>
+    <div class="fc-title">Las reglas del aula</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Escriban una habilidad que quieran tener al terminar el año. Eso va a guiar su proyecto.
+      Las ideas de todos se respetan. Ayudamos sin hacer el trabajo del otro. Decimos cuando usamos IA. Modo foco en actividades. Equivocarse es parte del proceso.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Trabajo individual. Luego compartir con el de al lado.
+    Leer en voz alta. Preguntar si hay algo que quieran agregar o cambiar.
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 5 min</span>
-    <span class="fc-tip">💡 Guardar estas fichas. Vuelven a ellas en la sesión final.</span>
+    <span class="fc-time">⏱ 2 min</span>
+    <span class="fc-tip">💡 El punto de equivocarse es especialmente importante en un curso de creación.</span>
   </div>
 </div>
 <div class="fc" id="fc14">
   <div class="fc-head">
     <div class="fc-n">14</div>
-    <div class="fc-title">El mapa del año</div>
+    <div class="fc-title">El plan del año 🗺️</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Aquí está el camino. En la sesión 16 ya deberían tener su proyecto en borrador.
+      Mayo a julio: aprenden las herramientas y tienen su idea. Agosto a octubre: hacen la primera versión. Noviembre a diciembre: la terminan y la presentan. Cada sesión importa. Ninguna es relleno.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Mostrar cronograma. Señalar puntos clave.
+    Mostrar el timeline. Preguntar: ¿qué parte les emociona más?
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3 min</span>
-    <span class="fc-tip">💡 Que vean el destino.</span>
+    <span class="fc-time">⏱ 2 min</span>
+    <span class="fc-tip">💡 Dar nombre al proyecto final desde hoy crea anticipación real.</span>
   </div>
 </div>
 <div class="fc" id="fc15">
   <div class="fc-head">
     <div class="fc-n">15</div>
-    <div class="fc-title">Cierre</div>
+    <div class="fc-title">Este año hacemos, no solo miramos 🔨</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Una palabra que describa cómo se sienten sobre este año de Computación.
+      Al final del año van a tener algo que mostrar que antes no existía. Eso es lo que hace un creador.
     </div>
   </div>
   <div class="fc-do">
     <div class="fc-do-label">⚡ Haz esto</div>
-    Ronda rápida.
+    Cerrar con energía. Aplaudir al grupo. La promesa del cierre debe conectar con la pregunta de la portada.
   </div>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 2 min</span>
-    <span class="fc-tip">💡 Terminar con energía positiva.</span>
+    <span class="fc-time">⏱ 1 min</span>
+    <span class="fc-tip">💡 La promesa del cierre conecta con la promesa de apertura. Menciónala.</span>
   </div>
 </div>
 </div>
@@ -463,7 +454,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     setTimeout(function() { locked = false; }, 380);
   }
 
-  // Init positions without animation
   function init() {
     setMetrics();
     cards.forEach(function(card, i) {
@@ -473,10 +463,8 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     updateNav(0);
   }
 
-  // Expose goTo for qnav clicks
   window.goTo = goTo;
 
-  // Touch swipe — strict single-card advance
   let startY = 0, startX = 0;
   deck.addEventListener('touchstart', function(e) {
     startY = e.touches[0].clientY;
@@ -487,11 +475,8 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     if (locked) return;
     const dy = startY - e.changedTouches[0].clientY;
     const dx = startX - e.changedTouches[0].clientX;
-    // Ignore horizontal swipes
     if (Math.abs(dx) > Math.abs(dy)) return;
-    // Minimum threshold: 60px
     if (Math.abs(dy) < 60) return;
-    // Check scroll boundary of current card
     const card = cards[current];
     const atTop    = card.scrollTop <= 5;
     const atBottom = card.scrollTop >= card.scrollHeight - card.clientHeight - 5;
@@ -503,7 +488,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     }
   }, {passive:true});
 
-  // Keyboard
   document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
     if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goTo(current - 1);
@@ -566,7 +550,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   const badgeRoom = document.getElementById('sync-badge-room');
   const input     = document.getElementById('sync-code');
 
-  // ── Push current slide to API ──
   const counter = document.getElementById('fc-counter');
   let lastPushed = -2;
 
@@ -574,7 +557,7 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     if (!connected || !room) return;
     const m = counter.textContent.match(/^(\d+)/);
     if (!m) return;
-    const slide = parseInt(m[1]) - 1;   // 0-indexed
+    const slide = parseInt(m[1]) - 1;
     if (slide === lastPushed) return;
     lastPushed = slide;
     fetch(API, {
@@ -584,13 +567,11 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     }).catch(function(){});
   }
 
-  // Fire on every counter text change
   new MutationObserver(function() {
     clearTimeout(window._pushTimer);
     window._pushTimer = setTimeout(pushSlide, 80);
   }).observe(counter, {childList:true, subtree:true, characterData:true});
 
-  // ── Connect ──
   function connect(code) {
     room = code.toUpperCase().trim();
     if (!room) return;
@@ -599,7 +580,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     overlay.style.display = 'none';
     badge.style.display = 'block';
     badgeRoom.textContent = room;
-    // Push current slide immediately so deck syncs right away
     lastPushed = -2;
     pushSlide();
   }
@@ -618,7 +598,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     if (e.key === 'Enter') window.syncConnect();
   });
 
-  // Pre-fill last used code
   const saved = localStorage.getItem(STORE_KEY);
   if (saved) input.value = saved;
 })();

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Notas S02 · 6.° Primaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;height:100dvh;overflow:hidden}
+body{background:#061a10;font-family:system-ui,-apple-system,sans-serif;color:#e5e7eb}
+
+/* ── Fixed chrome ─── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:#061a10;border-bottom:3px solid #22c55e;padding:.7rem 1rem}
+.hdr h1{color:#22c55e;font-size:1.1rem;font-weight:800;line-height:1.2}
+.hdr p{font-size:.82rem;color:#9ca3af;margin-top:.15rem}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.fc-counter{color:#22c55e;font-size:.95rem;font-weight:800;white-space:nowrap}
+
+.qnav{position:fixed;top:var(--hdr-h,62px);left:0;right:0;z-index:19;
+  display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;padding:.45rem .75rem;
+  background:#111;border-bottom:1px solid #222;
+  scrollbar-width:none;-ms-overflow-style:none}
+.qnav::-webkit-scrollbar{display:none}
+.qnav a{color:#22c55e;text-decoration:none;font-size:.85rem;font-weight:700;
+  background:#1f2937;border-radius:5px;padding:.28rem .6rem;white-space:nowrap;
+  flex-shrink:0;cursor:pointer;user-select:none}
+.qnav a:hover,.qnav a.active{background:#22c55e;color:#000}
+
+/* ── Deck (JS-controlled, no scroll-snap) ─── */
+.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;overflow:hidden}
+
+/* ── Flash card ─── */
+.fc{position:absolute;inset:0;display:flex;flex-direction:column;
+  background:#0a2a18;will-change:transform}
+
+/* Card header */
+.fc-head{display:flex;align-items:center;gap:.65rem;padding:.8rem 1rem;
+  background:#111;border-bottom:2px solid #22c55e;flex-shrink:0}
+.fc-n{background:#22c55e;color:#000;border-radius:50%;
+  width:32px;height:32px;min-width:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:900}
+.fc-title{font-size:1.15rem;font-weight:700;color:#f9fafb;line-height:1.3}
+
+/* Say block — flex:1 to fill space */
+.fc-say{padding:1rem 1.1rem;font-size:1.18rem;color:#d1fae5;
+  line-height:1.55;border-left:4px solid #22c55e;
+  background:rgba(0,0,0,.35);flex:1;
+  overflow-y:auto;display:flex;align-items:center}
+.fc-say-inner{width:100%}
+.fc-say-label{font-size:.76rem;font-weight:700;color:#22c55e;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+
+/* Static "Haz esto" (no detail) */
+.fc-do{padding:.85rem 1.1rem;font-size:1.05rem;color:#cbd5e1;
+  line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
+.fc-do-label{font-size:.76rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem}
+
+/* ── Large expandable togglers ─── */
+.fc-toggler{flex-shrink:0;border-top:2px solid #222}
+.fc-toggler summary{
+  list-style:none;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:1rem 1.2rem;min-height:60px;
+  background:#0d0d0d;
+  font-size:1.05rem;font-weight:800;color:#22c55e;
+  cursor:pointer;user-select:none;width:100%;
+  -webkit-tap-highlight-color:transparent}
+.fc-toggler summary::-webkit-details-marker{display:none}
+.fc-toggler--extra summary{color:#f59e0b}
+.toggler-icon{font-size:1.1rem}
+.toggler-arrow{margin-left:auto;font-size:1rem;
+  transition:transform .2s;display:inline-block}
+.fc-toggler[open] .toggler-arrow{transform:rotate(180deg)}
+.toggler-body{padding:1rem 1.2rem;font-size:1rem;color:#cbd5e1;
+  line-height:1.65;background:#0f0f0f;border-top:1px solid #1f2937;
+  overflow-y:auto;max-height:55vh}
+.toggler-body b{color:#f9fafb}
+.toggler-body i{color:#9ca3af}
+
+/* Footer */
+.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.7rem 1rem;
+  background:#111;flex-shrink:0;border-top:1px solid #222}
+.fc-time{background:#1f2937;border:1px solid #22c55e;color:#22c55e;
+  border-radius:20px;padding:.2rem .7rem;font-size:.85rem;
+  font-weight:700;white-space:nowrap;flex-shrink:0}
+.fc-tip{color:#9ca3af;font-size:.85rem;flex:1;line-height:1.4}
+
+/* Desktop */
+@media(min-width:600px){
+  .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
+  .fc-say{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-row">
+    <h1>📋 Notas · Sesión 02 · 6.° Primaria</h1>
+    <span class="fc-counter" id="fc-counter">1 / 15</span>
+  </div>
+  <p>Tecnología e inteligencia artificial · 22 de mayo 2026</p>
+</div>
+<div class="qnav" id="qnav"><a onclick="goTo(0)">1</a><a onclick="goTo(1)">2</a><a onclick="goTo(2)">3</a><a onclick="goTo(3)">4</a><a onclick="goTo(4)">5</a><a onclick="goTo(5)">6</a><a onclick="goTo(6)">7</a><a onclick="goTo(7)">8</a><a onclick="goTo(8)">9</a><a onclick="goTo(9)">10</a><a onclick="goTo(10)">11</a><a onclick="goTo(11)">12</a><a onclick="goTo(12)">13</a><a onclick="goTo(13)">14</a><a onclick="goTo(14)">15</a></div>
+<div class="deck" id="deck">
+<div class="fc" id="fc1">
+  <div class="fc-head">
+    <div class="fc-n">1</div>
+    <div class="fc-title">Tecnología: ¿me ayuda o me distrae?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Hoy aprendemos a usar la tecnología con más cuidado — no como regaño, sino como entrenamiento para sacarle más provecho a lo que ya usan.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Votación de manos</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo hacerlo:</b><br>Di en voz alta:<br><br><i>'¿Cuántos creen que la tecnología los ayuda más? Levanten la mano.'</i><br><i>'¿Cuántos creen que los distrae más? Manos arriba.'</i><br><i>'¿Cuántos dicen que depende del momento?'</i><br><br>Cuenta en voz alta. No juzgues ninguna respuesta. Usa el resultado para arrancar la conversación.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Tono cercano. No presentar la clase como advertencia.</span>
+  </div>
+</div>
+<div class="fc" id="fc2">
+  <div class="fc-head">
+    <div class="fc-n">2</div>
+    <div class="fc-title">Lo que ya usamos</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Celular, tablet, YouTube, juegos, buscadores, apps con IA. Todo eso ya es parte de su vida. El objetivo no es prohibir nada — es usar mejor lo que ya tienen.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Que mencionen 3 cosas que usan</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo dirigirlo:</b><br>Di: <i>'Dígame 3 cosas que usan seguido en casa o en el colegio. Vale todo: TikTok, WhatsApp, Roblox, YouTube.'</i><br><br>Ve señalando estudiantes. Escribe algunas en la pizarra. No corrijas ni juzgues. Después di: <i>'Todo eso es su mundo digital. Hoy vamos a ver cómo usarlo mejor.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 No juzgar apps o juegos. Usarlos como punto de partida.</span>
+  </div>
+</div>
+<div class="fc" id="fc3">
+  <div class="fc-head">
+    <div class="fc-n">3</div>
+    <div class="fc-title">Usar no es lo mismo que crear</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Mirar videos es usar. Hacer una presentación es crear. Jugar es usar. Diseñar un personaje o una historia es crear. Son dos cosas diferentes, y las dos tienen valor.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Pedir ejemplos propios</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ejemplos para mostrar:</b><br>Usar → mirar un tutorial de Minecraft<br>Crear → construir un mapa en Minecraft<br><br>Usar → ver videos de recetas<br>Crear → hacer tu propia receta en un doc<br><br>Di: <i>'¿Alguien me da un ejemplo de algo que hace con tecnología que sea crear, no solo usar?'</i><br>Acepta: hacer memes, editar fotos, grabar videos, escribir historias.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Mantener ejemplos simples. Esta distinción es central.</span>
+  </div>
+</div>
+<div class="fc" id="fc4">
+  <div class="fc-head">
+    <div class="fc-n">4</div>
+    <div class="fc-title">¿Qué es la IA?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      La IA es una herramienta que responde. Puede ayudar con ideas, puede explicar cosas. Pero también puede equivocarse — y eso es importante saberlo.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Pregunta: ¿creen que una IA siempre tiene razón?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo manejarlo:</b><br>Haz la pregunta y deja que respondan. Espera al menos 4 manos antes de hablar tú.<br><br>Si dicen 'sí, siempre tiene razón': di <i>'Vamos a ver un ejemplo donde se equivocó...'</i><br>Si dicen 'no': di <i>'¿Por qué no?'</i> y deja que expliquen.<br><br>Cierra con: <i>'La IA no piensa. Predice. Como cuando tu celular adivina la siguiente palabra.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Para 6to basta con 'ayudante rápido pero imperfecto'.</span>
+  </div>
+</div>
+<div class="fc" id="fc5">
+  <div class="fc-head">
+    <div class="fc-n">5</div>
+    <div class="fc-title">La IA no es el jefe</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      La IA ayuda. Tú decides. Tú revisas. Tú aprendes. Eso no cambia aunque la IA sea muy rápida.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Coro: &#x27;La IA ayuda, yo pienso&#x27;</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo hacerlo:</b><br>Di: <i>'Vamos a repetir juntos. Yo digo: la IA ayuda... ustedes dicen: yo pienso.'</i><br><br>Hazlo 3 veces. Súbele el volumen cada ronda. Que sea divertido, no solemne.<br><br>Termina con: <i>'Eso es el lema del año. Lo vamos a recordar.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Puede convertirse en lema del curso.</span>
+  </div>
+</div>
+<div class="fc" id="fc6">
+  <div class="fc-head">
+    <div class="fc-n">6</div>
+    <div class="fc-title">Buen uso de IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Hay muchas formas de usar la IA que sí ayudan a aprender: pedir ideas, practicar preguntas, ordenar una exposición, entender palabras difíciles.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Cada estudiante elige un uso</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo dirigirlo:</b><br>Di: <i>'De estos cuatro usos que ven en la pantalla, ¿cuál les serviría más a ustedes ahora mismo?'</i><br><br>Levanten mano por cada uno. Cuenta rápido. Pregunta a 2-3 voluntarios por qué eligieron ese.<br><br>No hay respuesta mala. El objetivo es que piensen en usos reales para ellos.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Dar ejemplos escolares concretos.</span>
+  </div>
+</div>
+<div class="fc" id="fc7">
+  <div class="fc-head">
+    <div class="fc-n">7</div>
+    <div class="fc-title">Mal uso de IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Copiar sin leer, entregar algo que no entiendo, pedir respuestas para hacer trampa, poner datos privados. Esos son problemas reales. No es una regla inventada: es que no funciona.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Tarjetas rojo/verde en voz alta</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Situaciones para leer en voz alta:</b><br><br>🟢 'Le pido a la IA que me explique qué es un volcán con palabras simples.' → Verde<br>🟡 'Le pido que me ayude a organizar mis ideas para un trabajo.' → Amarillo (depende de cómo lo use)<br>🔴 'Copio la respuesta completa y la entrego como mía.' → Rojo<br>🔴 'Le escribo mi nombre completo, mi dirección y le pido ayuda.' → Rojo<br><br>Para cada una: levanten tarjeta o di el color en voz alta.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Decirlo claramente, sin sonar punitivo.</span>
+  </div>
+</div>
+<div class="fc" id="fc8">
+  <div class="fc-head">
+    <div class="fc-n">8</div>
+    <div class="fc-title">Datos que no comparto</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Mi dirección, mi contraseña, mi teléfono, fotos privadas, datos de mi familia. Nunca en una app o IA, por más que parezca segura.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Cuál nunca pondrías?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo hacerlo:</b><br>Lee cada ítem de la slide lentamente. Para cada uno pregunta:<br><i>'¿Alguien pondría esto en una app? ¿Por qué sí o por qué no?'</i><br><br>El foco especial: contraseña y fotos privadas. Di:<br><i>'Si alguien tiene tu contraseña, puede entrar a todo. Si tiene tus fotos privadas, puede compartirlas.'</i><br><br>No necesitas que respondan todos. Basta con que quede claro.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Seguridad básica. Muy importante para primaria.</span>
+  </div>
+</div>
+<div class="fc" id="fc9">
+  <div class="fc-head">
+    <div class="fc-n">9</div>
+    <div class="fc-title">Respeto en internet</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No insulto. No me burlo. No comparto fotos de otros sin permiso. Pido ayuda si algo me incomoda. Las mismas reglas que en el recreo aplican también en internet.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Caso: foto sin permiso</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Caso para discutir:</b><br>Di: <i>'Un amigo te saca una foto graciosa en el recreo. La sube a un grupo de WhatsApp sin preguntarte. A todos les da risa menos a ti. ¿Qué sientes? ¿Qué debería haber hecho?'</i><br><br>Deja que respondan. Guía hacia: pedir permiso primero.<br>Pregunta extra: <i>'¿Cambiaría algo si a ti también te parece graciosa?'</i></div>
+  </details>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Más situaciones para discutir (si hay tiempo):</b><br>• En un grupo de clase alguien pone un apodo burlón a otro. ¿Verde, amarillo o rojo?<br>• Alguien comparte la nota de un examen de otro estudiante. ¿Está bien?<br>• Un compañero te manda algo que te hace sentir mal. ¿Qué haces?</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Conectar con convivencia del salón.</span>
+  </div>
+</div>
+<div class="fc" id="fc10">
+  <div class="fc-head">
+    <div class="fc-n">10</div>
+    <div class="fc-title">Juego: verde, amarillo o rojo</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Verde: está bien. Amarillo: hay que tener cuidado. Rojo: no se debe hacer. Van a clasificar situaciones reales.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Preparar el juego del semáforo</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo organizarlo:</b><br>Opción A — tarjetas de colores: reparte una tarjeta verde, una amarilla y una roja a cada estudiante (o grupo).<br>Opción B — manos: verde = pulgar arriba, rojo = pulgar abajo, amarillo = mano horizontal.<br>Opción C — en voz alta: levanta la mano por color cuando lo diga.<br><br>Di: <i>'Cuando diga el caso, muestran su tarjeta o hacen la señal al mismo tiempo. No hay trampa.'</i><br><br>El objetivo es que razonen, no que adivinen.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Explicar los colores antes de los casos.</span>
+  </div>
+</div>
+<div class="fc" id="fc11">
+  <div class="fc-head">
+    <div class="fc-n">11</div>
+    <div class="fc-title">Caso 1</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Uso IA para que me explique una palabra difícil que no entendí en un libro.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Votación + explicación</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo manejarlo:</b><br>1. Lean el caso en silencio.<br>2. Votación simultánea: todos muestran su color.<br>3. Pregunta a alguien que puso verde: <i>'¿Por qué verde?'</i><br>4. Pregunta a alguien que puso amarillo (si hay): <i>'¿Cuándo sería amarillo?'</i><br><br>Respuesta esperada: verde — si leo la explicación, la entiendo y la uso con mis propias palabras.<br>Sería amarillo si solo copio la definición sin leerla.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Reforzar que el uso está bien cuando se aprende de verdad.</span>
+  </div>
+</div>
+<div class="fc" id="fc12">
+  <div class="fc-head">
+    <div class="fc-n">12</div>
+    <div class="fc-title">Caso 2</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Copio toda una tarea de internet y la entrego como si la hubiera hecho yo.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Qué podría hacer mejor?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo manejarlo:</b><br>1. Votación: casi todos deben decir rojo.<br>2. Pregunta: <i>'¿Por qué es un problema?'</i> — deja que ellos lo expliquen (no aprende, no es honesto, le pueden preguntar y no sabe).<br>3. Pregunta clave: <i>'¿Qué podría haber hecho en cambio?'</i><br><br>Respuestas que buscas: leer el texto y escribirlo con mis palabras / pedirle a la IA que me lo explique, no que lo escriba por mí.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 No regañar. Invitar a pensar en alternativas.</span>
+  </div>
+</div>
+<div class="fc" id="fc13">
+  <div class="fc-head">
+    <div class="fc-n">13</div>
+    <div class="fc-title">Actividad: mis 3 reglas digitales</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Cada uno va a escribir 3 reglas propias para usar tecnología: una para cuidarse, una para usar IA, y una para respetar a otros.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Trabajo individual — 8 minutos</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Instrucciones exactas a dar:</b><br><br>Di: <i>'Saquen su cuaderno o la ficha. Van a escribir 3 reglas que sean suyas. No las copio, no las invento yo. Las deciden ustedes.'</i><br><br>Paso 1 — Regla de cuidado personal (2 min): <i>'¿Qué regla te pones para proteger tus datos o tu tiempo?'</i><br>Paso 2 — Regla de IA (3 min): <i>'¿Cómo vas a usar la IA este año?'</i><br>Paso 3 — Regla de respeto (2 min): <i>'¿Qué regla te pones para tratar bien a otros en internet?'</i><br><br>Circula entre los estudiantes. Si alguien no sabe, pregúntale sobre una situación concreta.</div>
+  </details>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Estructura de la ficha M02-C:</b><br><br>Regla 1 — Para cuidarme:<br><i>Ej: No comparto mi contraseña con nadie, ni con amigos</i><br><br>Regla 2 — Para usar IA:<br><i>Ej: La uso para entender, no para que haga mi tarea</i><br><br>Regla 3 — Para respetar a otros:<br><i>Ej: Antes de subir una foto de alguien, le pregunto</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Actividad central. Material M02-C.</span>
+  </div>
+</div>
+<div class="fc" id="fc14">
+  <div class="fc-head">
+    <div class="fc-n">14</div>
+    <div class="fc-title">Compartimos reglas</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      ¿Quién quiere compartir una regla que escribió? No tiene que ser perfecta. Solo tiene que ser tuya.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ronda de voluntarios — 3 min</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo facilitar:</b><br>Di: <i>'¿Alguien quiere compartir una de sus tres reglas?'</i><br><br>Acepta todas las respuestas. Si alguien dice algo genérico, pide que lo especifique:<br><i>'¿Eso cómo se vería en tu día a día?'</i><br><br>Si nadie levanta la mano: <i>'¿Qué puso alguien en la regla de la IA?'</i> — empieza con la más fácil.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 No obligar. Los voluntarios son suficientes.</span>
+  </div>
+</div>
+<div class="fc" id="fc15">
+  <div class="fc-head">
+    <div class="fc-n">15</div>
+    <div class="fc-title">Cierre</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Hoy aprendieron la diferencia entre usar y crear, qué es la IA, cómo usarla bien, y sus propias reglas digitales. Eso es más de lo que saben muchos adultos.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ticket de salida oral</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo cerrar:</b><br>Di: <i>'Antes de irse: una palabra que describe lo que aprendieron hoy.'</i><br><br>Si hay tiempo: señala 4-5 estudiantes en ronda rápida.<br>Si el tiempo ajusta: di la tuya primero para modelar: <i>'Yo diría: criterio. ¿Y ustedes?'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 2 min</span>
+    <span class="fc-tip">💡 Cierre rápido. No resumir todo de nuevo.</span>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  const deck   = document.getElementById('deck');
+  const hdr    = document.querySelector('.hdr');
+  const qnav   = document.getElementById('qnav');
+  const counter= document.getElementById('fc-counter');
+  const cards  = Array.from(deck.querySelectorAll('.fc'));
+  const navAs  = Array.from(qnav.querySelectorAll('a'));
+  const total  = cards.length;
+  let current  = 0;
+  let locked   = false;
+
+  function setMetrics() {
+    const hh = hdr.offsetHeight;
+    const qh = qnav.offsetHeight;
+    document.documentElement.style.setProperty('--hdr-h', hh + 'px');
+    document.documentElement.style.setProperty('--deck-top', (hh + qh) + 'px');
+  }
+
+  function updateNav(n) {
+    counter.textContent = (n + 1) + ' / ' + total;
+    navAs.forEach((a, i) => a.classList.toggle('active', i === n));
+    navAs[n].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+
+  function goTo(n, animate) {
+    if (n < 0 || n >= total || locked) return;
+    if (animate === undefined) animate = true;
+    locked = true;
+    cards.forEach(function(card, i) {
+      card.style.transition = animate ? 'transform .32s cubic-bezier(.4,0,.2,1)' : 'none';
+      card.style.transform  = 'translateY(' + ((i - n) * 100) + '%)';
+      if (i !== n) {
+        setTimeout(function() { card.scrollTop = 0; }, 350);
+      }
+    });
+    current = n;
+    updateNav(n);
+    setTimeout(function() { locked = false; }, 380);
+  }
+
+  // Init positions without animation
+  function init() {
+    setMetrics();
+    cards.forEach(function(card, i) {
+      card.style.transition = 'none';
+      card.style.transform  = 'translateY(' + (i * 100) + '%)';
+    });
+    updateNav(0);
+  }
+
+  // Expose goTo for qnav clicks
+  window.goTo = goTo;
+
+  // Touch swipe — strict single-card advance
+  let startY = 0, startX = 0;
+  deck.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  deck.addEventListener('touchend', function(e) {
+    if (locked) return;
+    const dy = startY - e.changedTouches[0].clientY;
+    const dx = startX - e.changedTouches[0].clientX;
+    // Ignore horizontal swipes
+    if (Math.abs(dx) > Math.abs(dy)) return;
+    // Minimum threshold: 60px
+    if (Math.abs(dy) < 60) return;
+    // Check scroll boundary of current card
+    const card = cards[current];
+    const atTop    = card.scrollTop <= 5;
+    const atBottom = card.scrollTop >= card.scrollHeight - card.clientHeight - 5;
+    const notScrollable = card.scrollHeight <= card.clientHeight + 10;
+    if (dy > 0 && (notScrollable || atBottom)) {
+      goTo(current + 1);
+    } else if (dy < 0 && (notScrollable || atTop)) {
+      goTo(current - 1);
+    }
+  }, {passive:true});
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goTo(current - 1);
+  });
+
+  window.addEventListener('resize', setMetrics);
+  init();
+})();
+</script>
+
+<!-- ── Remote sync ── -->
+<div id="sync-overlay" style="
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.92);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
+  <div style="font-size:1.4rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
+  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.5">
+    Ingresa el código que aparece en la pantalla del proyector
+  </div>
+  <input id="sync-code" type="text" maxlength="3"
+    autocomplete="off" autocorrect="off" autocapitalize="characters"
+    placeholder="Ej: P62"
+    style="font-size:2.2rem;font-family:monospace;text-align:center;
+      letter-spacing:.35em;text-transform:uppercase;width:140px;
+      background:#1f2937;border:2px solid #374151;color:#f9fafb;
+      border-radius:10px;padding:.5rem .8rem;outline:none">
+  <button onclick="syncConnect()"
+    style="background:#22c55e;color:#000;border:none;border-radius:10px;
+      padding:.8rem 2.4rem;font-size:1.05rem;font-weight:800;cursor:pointer;
+      -webkit-tap-highlight-color:transparent">
+    Conectar
+  </button>
+  <button onclick="syncSkip()"
+    style="background:none;border:none;color:#6b7280;
+      font-size:.9rem;cursor:pointer;padding:.4rem 1rem">
+    Usar sin sync
+  </button>
+</div>
+
+<div id="sync-badge" style="
+  display:none;position:fixed;top:6px;right:6px;z-index:100;
+  background:rgba(0,0,0,.72);border:1.5px solid #22c55e;
+  border-radius:8px;padding:.2rem .55rem;
+  font-family:monospace;font-size:.82rem;font-weight:800;
+  color:#22c55e;letter-spacing:.12em;backdrop-filter:blur(4px)">
+  📡 <span id="sync-badge-room"></span>
+</div>
+
+<script>
+(function(){
+  const API       = '/api/sync';
+  const STORE_KEY = 'sync-room-v1';
+  let room = '';
+  let connected = false;
+
+  const overlay   = document.getElementById('sync-overlay');
+  const badge     = document.getElementById('sync-badge');
+  const badgeRoom = document.getElementById('sync-badge-room');
+  const input     = document.getElementById('sync-code');
+
+  // ── Connect ──
+  function connect(code) {
+    room = code.toUpperCase().trim();
+    if (!room) return;
+    localStorage.setItem(STORE_KEY, room);
+    connected = true;
+    overlay.style.display = 'none';
+    badge.style.display = 'block';
+    badgeRoom.textContent = room;
+  }
+
+  window.syncConnect = function() {
+    const code = input.value.toUpperCase().trim();
+    if (!code) { input.focus(); return; }
+    connect(code);
+  };
+
+  window.syncSkip = function() {
+    overlay.style.display = 'none';
+  };
+
+  // Enter key on input
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') window.syncConnect();
+  });
+
+  // ── Push slide change via MutationObserver on counter ──
+  const counter = document.getElementById('fc-counter');
+  let lastPushed = -1;
+  let pushTimer  = null;
+
+  function pushSlide() {
+    if (!connected || !room) return;
+    const m = counter.textContent.match(/^(\d+)/);
+    if (!m) return;
+    const slide = parseInt(m[1]) - 1;
+    if (slide === lastPushed) return;
+    lastPushed = slide;
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ room, slide })
+    }).catch(function(){});
+  }
+
+  new MutationObserver(function() {
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(pushSlide, 80);
+  }).observe(counter, { childList: true, subtree: true, characterData: true });
+
+  // ── Auto-connect if stored ──
+  const saved = localStorage.getItem(STORE_KEY);
+  if (saved) {
+    input.value = saved;
+    connect(saved);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Notas S02 · 3ro Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;height:100dvh;overflow:hidden}
+body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5e7eb}
+
+/* ── Fixed chrome ─── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:#150800;border-bottom:3px solid #f97316;padding:.7rem 1rem}
+.hdr h1{color:#f97316;font-size:1.1rem;font-weight:800;line-height:1.2}
+.hdr p{font-size:.82rem;color:#9ca3af;margin-top:.15rem}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.fc-counter{color:#f97316;font-size:.95rem;font-weight:800;white-space:nowrap}
+
+.qnav{position:fixed;top:var(--hdr-h,62px);left:0;right:0;z-index:19;
+  display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;padding:.45rem .75rem;
+  background:#111;border-bottom:1px solid #222;
+  scrollbar-width:none;-ms-overflow-style:none}
+.qnav::-webkit-scrollbar{display:none}
+.qnav a{color:#f97316;text-decoration:none;font-size:.85rem;font-weight:700;
+  background:#1f2937;border-radius:5px;padding:.28rem .6rem;white-space:nowrap;
+  flex-shrink:0;cursor:pointer;user-select:none}
+.qnav a:hover,.qnav a.active{background:#f97316;color:#000}
+
+/* ── Deck (JS-controlled, no scroll-snap) ─── */
+.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;overflow:hidden}
+
+/* ── Flash card ─── */
+.fc{position:absolute;inset:0;display:flex;flex-direction:column;
+  background:#1f0e02;will-change:transform}
+
+/* Card header */
+.fc-head{display:flex;align-items:center;gap:.65rem;padding:.8rem 1rem;
+  background:#111;border-bottom:2px solid #f97316;flex-shrink:0}
+.fc-n{background:#f97316;color:#000;border-radius:50%;
+  width:32px;height:32px;min-width:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;font-weight:900}
+.fc-title{font-size:1.15rem;font-weight:700;color:#f9fafb;line-height:1.3}
+
+/* Say block — flex:1 to fill space */
+.fc-say{padding:1rem 1.1rem;font-size:1.18rem;color:#d1fae5;
+  line-height:1.55;border-left:4px solid #f97316;
+  background:rgba(0,0,0,.35);flex:1;
+  overflow-y:auto;display:flex;align-items:center}
+.fc-say-inner{width:100%}
+.fc-say-label{font-size:.76rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+
+/* Static "Haz esto" (no detail) */
+.fc-do{padding:.85rem 1.1rem;font-size:1.05rem;color:#cbd5e1;
+  line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
+.fc-do-label{font-size:.76rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem}
+
+/* ── Large expandable togglers ─── */
+.fc-toggler{flex-shrink:0;border-top:2px solid #222}
+.fc-toggler summary{
+  list-style:none;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:1rem 1.2rem;min-height:60px;
+  background:#0d0d0d;
+  font-size:1.05rem;font-weight:800;color:#f97316;
+  cursor:pointer;user-select:none;width:100%;
+  -webkit-tap-highlight-color:transparent}
+.fc-toggler summary::-webkit-details-marker{display:none}
+.fc-toggler--extra summary{color:#f59e0b}
+.toggler-icon{font-size:1.1rem}
+.toggler-arrow{margin-left:auto;font-size:1rem;
+  transition:transform .2s;display:inline-block}
+.fc-toggler[open] .toggler-arrow{transform:rotate(180deg)}
+.toggler-body{padding:1rem 1.2rem;font-size:1rem;color:#cbd5e1;
+  line-height:1.65;background:#0f0f0f;border-top:1px solid #1f2937;
+  overflow-y:auto;max-height:55vh}
+.toggler-body b{color:#f9fafb}
+.toggler-body i{color:#9ca3af}
+
+/* Footer */
+.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.7rem 1rem;
+  background:#111;flex-shrink:0;border-top:1px solid #222}
+.fc-time{background:#1f2937;border:1px solid #f97316;color:#f97316;
+  border-radius:20px;padding:.2rem .7rem;font-size:.85rem;
+  font-weight:700;white-space:nowrap;flex-shrink:0}
+.fc-tip{color:#9ca3af;font-size:.85rem;flex:1;line-height:1.4}
+
+/* Desktop */
+@media(min-width:600px){
+  .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
+  .fc-say{font-size:1.25rem}
+}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-row">
+    <h1>📋 Notas · Sesión 02 · 3ro Secundaria</h1>
+    <span class="fc-counter" id="fc-counter">1 / 15</span>
+  </div>
+  <p>IA responsable: criterio y privacidad · 22 de mayo 2026</p>
+</div>
+<div class="qnav" id="qnav"><a onclick="goTo(0)">1</a><a onclick="goTo(1)">2</a><a onclick="goTo(2)">3</a><a onclick="goTo(3)">4</a><a onclick="goTo(4)">5</a><a onclick="goTo(5)">6</a><a onclick="goTo(6)">7</a><a onclick="goTo(7)">8</a><a onclick="goTo(8)">9</a><a onclick="goTo(9)">10</a><a onclick="goTo(10)">11</a><a onclick="goTo(11)">12</a><a onclick="goTo(12)">13</a><a onclick="goTo(13)">14</a><a onclick="goTo(14)">15</a></div>
+<div class="deck" id="deck">
+<div class="fc" id="fc1">
+  <div class="fc-head">
+    <div class="fc-n">1</div>
+    <div class="fc-title">IA y criterio: ¿quién decide?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Hoy el tema es criterio. Tener criterio con IA significa saber cuándo confiar, cuándo verificar, y cuándo decir: esto no me lo puede hacer la IA.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Pregunta inicial: ¿qué le delegarías a la IA?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo dirigirlo:</b><br>Di: <i>'Si pudieran delegar algo de su vida escolar a una IA, ¿qué sería? ¿Y qué no delegarían nunca?'</i><br><br>Escucha 5-6 respuestas. Escribe en pizarra dos columnas: 'Sí delego' / 'No delego'. Vuelve a esa lista al final de la clase.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 La lista al inicio y al final es el arco de aprendizaje.</span>
+  </div>
+</div>
+<div class="fc" id="fc2">
+  <div class="fc-head">
+    <div class="fc-n">2</div>
+    <div class="fc-title">Cómo trabaja la IA por dentro</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      La IA predice probabilidades. No entiende. No siente. No tiene opinión real. Cuando parece tenerla, es porque aprendió que ciertos textos suelen ir juntos.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ejemplo: pregunta filosófica a la IA</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ejemplo para usar en clase:</b><br>Pregunta retórica: <i>'Si le pregunto a la IA si soy una buena persona, ¿qué me diría?'</i><br><br>Respuesta esperada: algo amable y genérico. Di: <i>'¿Eso es una opinión real? ¿O es lo que estadísticamente la gente espera escuchar?'</i><br><br>Punto clave: <i>'La IA no te conoce. Te da lo más probable, no lo más verdadero.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Para 3ro es útil profundizar en cómo funciona.</span>
+  </div>
+</div>
+<div class="fc" id="fc3">
+  <div class="fc-head">
+    <div class="fc-n">3</div>
+    <div class="fc-title">Sesgos en la IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      La IA aprendió de texto humano. Si ese texto tiene sesgos, la IA también los tiene. Puede favorecer ciertos idiomas, culturas, o puntos de vista sin decirlo.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ejemplo de sesgo cultural</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ejemplos para mostrar:</b><br>• Si le pides 'describe un ingeniero exitoso' puede describir cierto perfil demográfico.<br>• Si preguntas en español, suele dar menos detalle que en inglés en ciertos temas técnicos.<br>• Si preguntas sobre historia de Latinoamérica, puede ser más superficial que sobre historia europea.<br><br>Di: <i>'Eso no significa que la IA sea mala. Significa que hay que saber lo que le falta.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Sin paranoia. Pensamiento crítico.</span>
+  </div>
+</div>
+<div class="fc" id="fc4">
+  <div class="fc-head">
+    <div class="fc-n">4</div>
+    <div class="fc-title">Verificación como hábito</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Dato de IA sin verificar = fuente no confirmada. En un trabajo académico, eso puede ser un problema. En la vida real, también.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Cómo verifico en 3 pasos?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Los 3 pasos:</b><br>1. Identifica el dato específico (nombre, fecha, cifra, hecho)<br>2. Busca una fuente secundaria independiente<br>3. Si hay discrepancia → descarta o menciona ambas versiones<br><br>Ejercicio: di una afirmación que parezca verdadera pero tenga un error sutil. Ej: <i>'La Revolución Francesa empezó en 1787.'</i> (fue 1789). Pide que lo verifiquen.<br><br>Pregunta: <i>'¿Hubieran notado el error si yo no lo hubiera dicho?'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 El error sutil es más peligroso que el error obvio.</span>
+  </div>
+</div>
+<div class="fc" id="fc5">
+  <div class="fc-head">
+    <div class="fc-n">5</div>
+    <div class="fc-title">Privacidad en herramientas de IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Muchas IAs guardan tus conversaciones para mejorar sus modelos. Lo que escribes puede ser visto, analizado, o usado para entrenar futuras versiones.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Qué no pondrías ahí?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Clasificación para 3ro:</b><br>✅ Temas de estudio, preguntas de conceptos, borradores sin datos personales<br>⚠️ Nombre de personas reales, situaciones de conflicto escolar, datos de tu institución<br>🚫 DNI, contraseñas, dirección, datos de tu familia, documentos oficiales, fotos privadas<br><br>Di: <i>'Piensen en sus conversaciones de los últimos meses. ¿Pusieron algo que no deberían?'</i> — no pides respuesta pública, es reflexión.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Reflexión interna, no exposición.</span>
+  </div>
+</div>
+<div class="fc" id="fc6">
+  <div class="fc-head">
+    <div class="fc-n">6</div>
+    <div class="fc-title">IA para investigar mejor</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      La IA es buena para partir de cero: estructura un tema, sugiere ángulos, da vocabulario nuevo. Pero no es buena para ser tu única fuente.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Flujo de investigación con IA</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>El flujo recomendado:</b><br>1. Pide a la IA una visión general del tema (estructura + términos clave)<br>2. Identifica las fuentes que deberías consultar<br>3. Lee al menos 2 fuentes reales<br>4. Usa la IA para ordenar lo que encontraste, no para reemplazarlo<br><br>Di: <i>'La IA te da el mapa. Las fuentes reales te dan el terreno.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 El error más común: confiar solo en la IA para investigar.</span>
+  </div>
+</div>
+<div class="fc" id="fc7">
+  <div class="fc-head">
+    <div class="fc-n">7</div>
+    <div class="fc-title">Argumentar con IA vs. argumentar propio</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Si usas argumentos de la IA sin entenderlos, te pueden rebatir fácilmente. Si los entiendes y los haces tuyos, puedes defenderlos.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Caso: debate en clase</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Caso para discutir:</b><br>Dos estudiantes preparan una postura para un debate sobre energía nuclear.<br><br>Estudiante A: copia 5 argumentos de la IA, los memoriza.<br>Estudiante B: pide a la IA los argumentos, los lee, investiga el más convincente, lo desarrolla con sus palabras.<br><br>En el debate, el profesor hace preguntas inesperadas.<br><i>'¿Quién puede responder mejor? ¿Por qué?'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Para 3ro: conectar con habilidades argumentativas del área de lenguaje.</span>
+  </div>
+</div>
+<div class="fc" id="fc8">
+  <div class="fc-head">
+    <div class="fc-n">8</div>
+    <div class="fc-title">Ética del uso de IA en trabajos</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      ¿Está bien usarla? Depende: si la usas para aprender, generalmente sí. Si la usas para evitar aprender, es un problema — aunque no lo detecten.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Línea ética: ¿dónde la trazan?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Escenarios para la línea ética:</b><br>• Pedir ideas para un ensayo → ¿bien o mal?<br>• Pedir que mejore mi borrador → ¿bien o mal?<br>• Pedir que escriba el ensayo completo → ¿bien o mal?<br>• Pedir que cambie palabras para que no parezca de IA → ¿bien o mal?<br><br>Di: <i>'La pregunta no es si te pillan. Es si aprendiste algo.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Sin moralizar. Que ellos tracen la línea.</span>
+  </div>
+</div>
+<div class="fc" id="fc9">
+  <div class="fc-head">
+    <div class="fc-n">9</div>
+    <div class="fc-title">Actividad: análisis de un prompt real</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Van a analizar un prompt, mejorarlo, y predecir si la respuesta de la IA sería útil o genérica.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Trabajar en parejas — 8 minutos</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Instrucciones:</b><br>Di: <i>'Tienen este prompt: [escribe en pizarra] → Explícame la Segunda Guerra Mundial.'</i><br><br>Paso 1 (2 min): ¿qué tiene de malo? Listan los problemas.<br>Paso 2 (3 min): escriben una versión mejorada con rol + tarea + formato + restricción.<br>Paso 3 (2 min): intercambian con otra pareja y dan feedback.<br><br>Al terminar: 2 parejas comparten su versión mejorada.</div>
+  </details>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ficha M02-C: mejora del prompt</b><br><br>Prompt original: 'Explícame la Segunda Guerra Mundial'<br><br>Problemas identificados:<br>1. ___<br>2. ___<br><br>Mi versión mejorada:<br>___<br><br><i>Ej: 'Soy estudiante de 3ro secundaria. Necesito entender las causas económicas de la Segunda Guerra Mundial. Dame 3 causas con ejemplos concretos. Sin fechas todavía, solo contexto.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Material M02-C.</span>
+  </div>
+</div>
+<div class="fc" id="fc10">
+  <div class="fc-head">
+    <div class="fc-n">10</div>
+    <div class="fc-title">Compartimos versiones mejoradas</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      ¿Qué cambió entre el prompt original y el mejorado? Esa diferencia es la habilidad que están desarrollando.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Comparar en voz alta</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo facilitar:</b><br>Pide 2 parejas. Para cada una: que lean el prompt original y el mejorado.<br><br>Pregunta al grupo: <i>'¿Qué creen que cambia en la respuesta de la IA?'</i><br><br>Si hay internet: probarlo en vivo con el prompt bueno vs. el malo.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 La comparación en vivo es la mejor demostración.</span>
+  </div>
+</div>
+<div class="fc" id="fc11">
+  <div class="fc-head">
+    <div class="fc-n">11</div>
+    <div class="fc-title">Caso: IA para un proyecto de historia</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Una estudiante usa IA para estructurar su investigación, luego lee fuentes reales y cita correctamente. ¿Está bien?
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Discusión con el grupo</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Preguntas para guiar:</b><br><i>'¿Qué hizo bien?'</i> → estructuró, luego verificó, luego citó fuentes reales<br><i>'¿Qué hubiera salido mal si solo usaba la IA?'</i> → datos sin verificar, sin citas reales<br><i>'¿Es esto copiar?'</i> → no, si el trabajo final es suyo y verifica la info<br><br>Cierra: <i>'La IA en el proceso de investigar está bien. La IA como única fuente, no.'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Matizar: no todo uso es igual.</span>
+  </div>
+</div>
+<div class="fc" id="fc12">
+  <div class="fc-head">
+    <div class="fc-n">12</div>
+    <div class="fc-title">Privacidad avanzada: metadatos</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No solo el texto que pones importa. A veces las fotos llevan ubicación. Los documentos llevan tu nombre. Los archivos llevan historial de edición.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Qué revelan tus archivos sin que lo sepas?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ejemplos de metadatos:</b><br>• Una foto tomada con el celular tiene GPS incorporado si no lo desactivaste<br>• Un documento de Word tiene el nombre del autor y el historial de cambios<br>• Una captura de pantalla puede mostrar tus notificaciones<br><br>Di: <i>'Si mandas un archivo para un trabajo, ¿qué información vas con él que no planeaste?'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Dato sorpresa que normalmente no conocen.</span>
+  </div>
+</div>
+<div class="fc" id="fc13">
+  <div class="fc-head">
+    <div class="fc-n">13</div>
+    <div class="fc-title">Reglas propias de uso de IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Cada uno necesita su política personal. No es lo que dice el colegio — es lo que tú decides que tiene sentido para tu aprendizaje.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Completar ficha — 8 minutos</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Instrucciones:</b><br>Di: <i>'Tienen 8 minutos para llenar la ficha. Las reglas son suyas. No hay respuesta correcta — pero tienen que ser honestas.'</i><br><br>Circula. Si alguien escribe algo vago ('usarla bien'), pide que lo especifique: <i>'¿Qué significa &lsquo;bien&rsquo; para ti en este caso?'</i></div>
+  </details>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ficha M02-C (3ro):</b><br>Uso de IA que me parece ok: ___<br>Uso de IA que no haría: ___<br>Cómo verifico lo que me dice: ___<br>Qué nunca pondría en una IA: ___</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Material M02-C.</span>
+  </div>
+</div>
+<div class="fc" id="fc14">
+  <div class="fc-head">
+    <div class="fc-n">14</div>
+    <div class="fc-title">Compartimos una regla</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      ¿Qué regla personal escribiste sobre el uso de IA? No tiene que ser perfecta. Tiene que ser tuya.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ronda rápida</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo facilitar:</b><br>Di: <i>'¿Quién quiere compartir una regla? Solo una.'</i><br><br>Después de cada respuesta: <i>'¿Alguien tiene una regla parecida? ¿Alguien tiene una diferente?'</i></div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Sin corregir. Todas las reglas personales son válidas.</span>
+  </div>
+</div>
+<div class="fc" id="fc15">
+  <div class="fc-head">
+    <div class="fc-n">15</div>
+    <div class="fc-title">Cierre</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Tener criterio no es desconfiar de todo. Es saber cuándo confiar, cuándo verificar, y cuándo hacer las cosas tú mismo.
+    </div>
+  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ticket de salida</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Pregunta de salida:</b><br><i>'¿Qué verificarías antes de usar en un trabajo algo que te dio la IA?'</i><br><br>Oral o papel. 3-4 respuestas son suficientes para cerrar.</div>
+  </details>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 2–3 min</span>
+    <span class="fc-tip">💡 Criterio = confianza informada, no paranoia.</span>
+  </div>
+</div>
+</div>
+<script>
+(function(){
+  const deck   = document.getElementById('deck');
+  const hdr    = document.querySelector('.hdr');
+  const qnav   = document.getElementById('qnav');
+  const counter= document.getElementById('fc-counter');
+  const cards  = Array.from(deck.querySelectorAll('.fc'));
+  const navAs  = Array.from(qnav.querySelectorAll('a'));
+  const total  = cards.length;
+  let current  = 0;
+  let locked   = false;
+
+  function setMetrics() {
+    const hh = hdr.offsetHeight;
+    const qh = qnav.offsetHeight;
+    document.documentElement.style.setProperty('--hdr-h', hh + 'px');
+    document.documentElement.style.setProperty('--deck-top', (hh + qh) + 'px');
+  }
+
+  function updateNav(n) {
+    counter.textContent = (n + 1) + ' / ' + total;
+    navAs.forEach((a, i) => a.classList.toggle('active', i === n));
+    navAs[n].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+
+  function goTo(n, animate) {
+    if (n < 0 || n >= total || locked) return;
+    if (animate === undefined) animate = true;
+    locked = true;
+    cards.forEach(function(card, i) {
+      card.style.transition = animate ? 'transform .32s cubic-bezier(.4,0,.2,1)' : 'none';
+      card.style.transform  = 'translateY(' + ((i - n) * 100) + '%)';
+      if (i !== n) {
+        setTimeout(function() { card.scrollTop = 0; }, 350);
+      }
+    });
+    current = n;
+    updateNav(n);
+    setTimeout(function() { locked = false; }, 380);
+  }
+
+  // Init positions without animation
+  function init() {
+    setMetrics();
+    cards.forEach(function(card, i) {
+      card.style.transition = 'none';
+      card.style.transform  = 'translateY(' + (i * 100) + '%)';
+    });
+    updateNav(0);
+  }
+
+  // Expose goTo for qnav clicks
+  window.goTo = goTo;
+
+  // Touch swipe — strict single-card advance
+  let startY = 0, startX = 0;
+  deck.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  deck.addEventListener('touchend', function(e) {
+    if (locked) return;
+    const dy = startY - e.changedTouches[0].clientY;
+    const dx = startX - e.changedTouches[0].clientX;
+    // Ignore horizontal swipes
+    if (Math.abs(dx) > Math.abs(dy)) return;
+    // Minimum threshold: 60px
+    if (Math.abs(dy) < 60) return;
+    // Check scroll boundary of current card
+    const card = cards[current];
+    const atTop    = card.scrollTop <= 5;
+    const atBottom = card.scrollTop >= card.scrollHeight - card.clientHeight - 5;
+    const notScrollable = card.scrollHeight <= card.clientHeight + 10;
+    if (dy > 0 && (notScrollable || atBottom)) {
+      goTo(current + 1);
+    } else if (dy < 0 && (notScrollable || atTop)) {
+      goTo(current - 1);
+    }
+  }, {passive:true});
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goTo(current - 1);
+  });
+
+  window.addEventListener('resize', setMetrics);
+  init();
+})();
+</script>
+
+<!-- ── Remote sync ── -->
+<div id="sync-overlay" style="
+  position:fixed;inset:0;z-index:300;
+  background:rgba(0,0,0,.92);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
+  <div style="font-size:1.4rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
+  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.5">
+    Ingresa el código que aparece en la pantalla del proyector
+  </div>
+  <input id="sync-code" type="text" maxlength="3"
+    autocomplete="off" autocorrect="off" autocapitalize="characters"
+    placeholder="Ej: P62"
+    style="font-size:2.2rem;font-family:monospace;text-align:center;
+      letter-spacing:.35em;text-transform:uppercase;width:140px;
+      background:#1f2937;border:2px solid #374151;color:#f9fafb;
+      border-radius:10px;padding:.5rem .8rem;outline:none">
+  <button onclick="syncConnect()"
+    style="background:#f97316;color:#000;border:none;border-radius:10px;
+      padding:.8rem 2.4rem;font-size:1.05rem;font-weight:800;cursor:pointer;
+      -webkit-tap-highlight-color:transparent">
+    Conectar
+  </button>
+  <button onclick="syncSkip()"
+    style="background:none;border:none;color:#6b7280;
+      font-size:.9rem;cursor:pointer;padding:.4rem 1rem">
+    Usar sin sync
+  </button>
+</div>
+
+<div id="sync-badge" style="
+  display:none;position:fixed;top:6px;right:6px;z-index:100;
+  background:rgba(0,0,0,.72);border:1.5px solid #f97316;
+  border-radius:8px;padding:.2rem .55rem;
+  font-family:monospace;font-size:.82rem;font-weight:800;
+  color:#f97316;letter-spacing:.12em;backdrop-filter:blur(4px)">
+  📡 <span id="sync-badge-room"></span>
+</div>
+
+<script>
+(function(){
+  const API       = '/api/sync';
+  const STORE_KEY = 'sync-room-v1';
+  let room = '';
+  let connected = false;
+
+  const overlay   = document.getElementById('sync-overlay');
+  const badge     = document.getElementById('sync-badge');
+  const badgeRoom = document.getElementById('sync-badge-room');
+  const input     = document.getElementById('sync-code');
+
+  // ── Connect ──
+  function connect(code) {
+    room = code.toUpperCase().trim();
+    if (!room) return;
+    localStorage.setItem(STORE_KEY, room);
+    connected = true;
+    overlay.style.display = 'none';
+    badge.style.display = 'block';
+    badgeRoom.textContent = room;
+  }
+
+  window.syncConnect = function() {
+    const code = input.value.toUpperCase().trim();
+    if (!code) { input.focus(); return; }
+    connect(code);
+  };
+
+  window.syncSkip = function() {
+    overlay.style.display = 'none';
+  };
+
+  // Enter key on input
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') window.syncConnect();
+  });
+
+  // ── Push slide change via MutationObserver on counter ──
+  const counter = document.getElementById('fc-counter');
+  let lastPushed = -1;
+  let pushTimer  = null;
+
+  function pushSlide() {
+    if (!connected || !room) return;
+    const m = counter.textContent.match(/^(\d+)/);
+    if (!m) return;
+    const slide = parseInt(m[1]) - 1;
+    if (slide === lastPushed) return;
+    lastPushed = slide;
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ room, slide })
+    }).catch(function(){});
+  }
+
+  new MutationObserver(function() {
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(pushSlide, 80);
+  }).observe(counter, { childList: true, subtree: true, characterData: true });
+
+  // ── Auto-connect if stored ──
+  const saved = localStorage.getItem(STORE_KEY);
+  if (saved) {
+    input.value = saved;
+    connect(saved);
+  }
+})();
+</script>
+</body>
+</html>

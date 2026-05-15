@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 1 · 2.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);}
+.slide.active{display:flex;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.5px;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(22px,3.2vw,52px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.9);}
+.t-sm{font-size:clamp(13px,1.6vw,26px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#60a5fa;}
+.pill{display:inline-block;background:#60a5fa;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.pill-outline{display:inline-block;border:3px solid #60a5fa;color:#60a5fa;border-radius:999px;
+  padding:.15em .7em;font-weight:700;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.card-row{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.card{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:28%;
+  text-align:center;}
+.emoji-big{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.divider{width:60%;height:3px;background:#60a5fa;border-radius:2px;margin:2% auto;opacity:.6;}
+.list-left{text-align:left;width:100%;max-width:80%;}
+.list-left li{margin:.5em 0;list-style:none;padding-left:1.2em;position:relative;}
+.list-left li::before{content:'▸';position:absolute;left:0;color:#60a5fa;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:90%;text-align:left;}
+.col-box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.tag-row{display:flex;gap:1%;justify-content:center;flex-wrap:wrap;margin-top:1.5%;}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#60a5fa;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:700;cursor:pointer;
+  transition:opacity .15s;}
+.nav button:disabled{opacity:.3;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;}
+.dot{width:clamp(6px,0.9vw,13px);height:clamp(6px,0.9vw,13px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#60a5fa;}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<div class="slide active">
+  <div class="brand">Asunción School</div>
+  <p class="t-sm accent">Viernes 15 de mayo · 2.° Secundaria</p>
+  <div class="divider"></div>
+  <h1 class="t-super">¿Consumes<br>o <span class="accent">creas</span>?</h1>
+  <p class="t-body" style="margin-top:2%">Sesión 1 · Diagnóstico digital</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profesora Estrella Vizcarra</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">📱 Miren sus pantallas</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">¿Cuántas horas pasaron en el celular ayer?</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="pill">+5 horas</p><p class="t-sm" style="margin-top:5%">Promedio de un adolescente peruano</p></div>
+    <div class="card"><p class="pill-outline">¿Y de eso...</p><p class="t-sm" style="margin-top:5%">¿Cuánto fue para crear algo?</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Esa es la pregunta del año.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Diagnóstico rápido</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1%">¿Qué sabes hacer hoy? Sé honesto/a.</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="emoji-big">📊</div><p class="t-sm" style="margin-top:5%">Tablas y fórmulas</p></div>
+    <div class="card"><div class="emoji-big">🎨</div><p class="t-sm" style="margin-top:5%">Diseño básico</p></div>
+    <div class="card"><div class="emoji-big">💻</div><p class="t-sm" style="margin-top:5%">Editar documentos</p></div>
+    <div class="card"><div class="emoji-big">🔎</div><p class="t-sm" style="margin-top:5%">Buscar bien en Google</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.6">Hoy no importa si sabes poco. Importa dónde terminas el año.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Consumo vs <span class="accent">Creación</span></h2>
+  <div class="divider"></div>
+  <div class="two-col" style="margin-top:2%">
+    <div class="col-box">
+      <p class="t-h2" style="text-align:center">👁️</p>
+      <p class="t-sm accent" style="font-weight:700;text-align:center;margin-top:3%">Consumir</p>
+      <ul class="list-left t-sm" style="margin-top:5%">
+        <li>Ver videos</li>
+        <li>Hacer scroll</li>
+        <li>Leer sin producir</li>
+        <li>Usar lo que otros hicieron</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <p class="t-h2" style="text-align:center">⚒️</p>
+      <p class="t-sm accent" style="font-weight:700;text-align:center;margin-top:3%">Crear</p>
+      <ul class="list-left t-sm" style="margin-top:5%">
+        <li>Escribir y publicar</li>
+        <li>Diseñar algo nuevo</li>
+        <li>Programar o editar</li>
+        <li>Resolver un problema real</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Usuario / Creador / <span class="accent">NPC</span></h2>
+  <div class="divider"></div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="emoji-big">👤</div><p class="pill" style="margin-top:5%">Usuario</p><p class="t-sm" style="margin-top:5%">Usa herramientas que otros diseñaron</p></div>
+    <div class="card"><div class="emoji-big">🛠️</div><p class="pill" style="margin-top:5%">Creador</p><p class="t-sm" style="margin-top:5%">Produce contenido o soluciones</p></div>
+    <div class="card"><div class="emoji-big">😶</div><p class="pill" style="margin-top:5%">NPC</p><p class="t-sm" style="margin-top:5%">Sigue el flujo sin decisión propia</p></div>
+  </div>
+  <p class="t-body" style="margin-top:2%">¿Dónde pasas más tiempo?</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Tu mapa de uso digital</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">Dibuja un círculo y divídelo:</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm" style="color:#f87171;font-weight:700">Rojo</p><p class="t-sm" style="margin-top:5%">Consumo puro (redes, videos)</p></div>
+    <div class="card"><p class="t-sm" style="color:#facc15;font-weight:700">Amarillo</p><p class="t-sm" style="margin-top:5%">Uso neutro (mensajes, tareas)</p></div>
+    <div class="card"><p class="t-sm accent" style="font-weight:700">Verde</p><p class="t-sm" style="margin-top:5%">Creación (diseño, escritura, código)</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 5 minutos · Comparte con tu compañero</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">IA: sin misterio</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">La IA <span class="accent">no piensa</span>. Predice la siguiente palabra basándose en millones de textos que leyó.</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">✅ Puede resumir, traducir, generar ideas, corregir</p></div>
+    <div class="card"><p class="t-sm">❌ No sabe si algo es verdad ni tiene opinión real</p></div>
+    <div class="card"><p class="t-sm">🔑 Quien sabe pedirle bien, la usa como superpoder</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Prompt débil vs<br><span class="accent">Prompt inteligente</span></h2>
+  <div class="divider"></div>
+  <div class="two-col" style="margin-top:2%">
+    <div class="col-box" style="border:2px solid #f87171;">
+      <p class="t-sm" style="color:#f87171;font-weight:700">😴 Débil</p>
+      <p class="t-sm" style="margin-top:5%">"Hazme la tarea de historia"</p>
+    </div>
+    <div class="col-box" style="border:2px solid #60a5fa;">
+      <p class="t-sm accent" style="font-weight:700">💡 Inteligente</p>
+      <p class="t-sm" style="margin-top:5%">"Soy estudiante de 2do sec. Explícame las causas de la Guerra del Pacífico en 5 puntos simples, con un ejemplo cada uno."</p>
+    </div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">El que sabe pedir, saca mejor partido.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Tu kit digital 2026</h2>
+  <div class="divider"></div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="emoji-big">📝</div><p class="t-sm" style="margin-top:5%">Google Docs / Word</p></div>
+    <div class="card"><div class="emoji-big">📊</div><p class="t-sm" style="margin-top:5%">Google Sheets / Excel</p></div>
+    <div class="card"><div class="emoji-big">🎨</div><p class="t-sm" style="margin-top:5%">Canva</p></div>
+    <div class="card"><div class="emoji-big">🤖</div><p class="t-sm" style="margin-top:5%">IA (Claude / Gemini)</p></div>
+  </div>
+  <p class="t-body" style="margin-top:2%">Al final del año dominas <span class="accent">todos</span> estos.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Mini caso real 🔍</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">Una estudiante de 14 años publicó en TikTok un tutorial de Canva. En 3 semanas tenía 40 000 seguidores y una marca le ofreció trabajo.</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">¿Qué habilidad usó?</p></div>
+    <div class="card"><p class="t-sm">¿Qué tenía que saber primero?</p></div>
+    <div class="card"><p class="t-sm">¿Podrías hacer algo así?</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Reglas del aula digital</h2>
+  <div class="divider"></div>
+  <ul class="list-left t-body" style="margin-top:2%">
+    <li>🤝 Compartimos recursos, no respuestas</li>
+    <li>🔇 Silenciamos notificaciones en clase</li>
+    <li>✅ Citamos cuando usamos IA o fuentes</li>
+    <li>💬 Preguntamos sin miedo al error</li>
+    <li>🌐 Lo que publicamos nos representa</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Construye tu<br><span class="accent">perfil digital</span></h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">Completa esta ficha hoy:</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">Soy bueno en <span class="accent">___</span></p></div>
+    <div class="card"><p class="t-sm">Necesito mejorar en <span class="accent">___</span></p></div>
+    <div class="card"><p class="t-sm">Este año voy a crear <span class="accent">___</span></p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Esta ficha vuelve al final del año. Tú te evalúas.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Reto de la semana</h2>
+  <div class="divider"></div>
+  <div class="emoji-big" style="margin-top:2%">🎯</div>
+  <p class="t-body" style="margin-top:2%;max-width:75%">Esta semana, <span class="accent">crea algo</span> con tecnología — aunque sea pequeño. Un texto, un diseño, una lista organizada.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">La próxima clase contamos qué hicimos.</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Lo que viene 📅</h2>
+  <div class="divider"></div>
+  <ul class="list-left t-body" style="margin-top:2%">
+    <li><span class="accent">Sesión 2:</span> Productividad digital · 22 mayo</li>
+    <li><span class="accent">Sesión 3:</span> Organización y formato · 29 mayo</li>
+    <li><span class="accent">Proyecto:</span> Portafolio digital personal</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">¡Arrancamos! 🚀</h2>
+  <div class="divider"></div>
+  <div class="emoji-big" style="margin-top:2%">💡</div>
+  <p class="t-body" style="margin-top:2%;max-width:75%">La tecnología no te reemplaza. Pero alguien que <span class="accent">sabe usarla bien</span> sí puede dejarte atrás.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 15</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=15;
+let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('span');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i);
+  dots.appendChild(d);
+});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){
+  slides[cur].classList.remove('active');allDots[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(total-1,n));
+  slides[cur].classList.add('active');allDots[cur].classList.add('active');
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=cur===0;
+  document.getElementById('btn-next').disabled=cur===total-1;
+}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>40)go(dx<0?1:-1);
+});
+goTo(0);
+</script>
+</body>
+</html>

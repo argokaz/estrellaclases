@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 1 · 4.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#1e0533 0%,#3b0764 100%);}
+.slide.active{display:flex;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.5px;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(22px,3.2vw,52px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.9);}
+.t-sm{font-size:clamp(13px,1.6vw,26px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#c084fc;}
+.pill{display:inline-block;background:#c084fc;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.pill-outline{display:inline-block;border:3px solid #c084fc;color:#c084fc;border-radius:999px;
+  padding:.15em .7em;font-weight:700;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.card-row{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.card{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:28%;
+  text-align:center;}
+.emoji-big{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.divider{width:60%;height:3px;background:#c084fc;border-radius:2px;margin:2% auto;opacity:.6;}
+.list-left{text-align:left;width:100%;max-width:80%;}
+.list-left li{margin:.5em 0;list-style:none;padding-left:1.2em;position:relative;}
+.list-left li::before{content:'▸';position:absolute;left:0;color:#c084fc;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:90%;text-align:left;}
+.col-box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.tag-row{display:flex;gap:1%;justify-content:center;flex-wrap:wrap;margin-top:1.5%;}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#c084fc;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:700;cursor:pointer;
+  transition:opacity .15s;}
+.nav button:disabled{opacity:.3;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;}
+.dot{width:clamp(6px,0.9vw,13px);height:clamp(6px,0.9vw,13px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#c084fc;}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<div class="slide active">
+  <div class="brand">Asunción School</div>
+  <p class="t-sm accent">Viernes 15 de mayo · 4.° Secundaria</p>
+  <div class="divider"></div>
+  <h1 class="t-super">¿Tienes <span class="accent">criterio</span><br>digital?</h1>
+  <p class="t-body" style="margin-top:2%">Sesión 1 · Diagnóstico y ética digital</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profesora Estrella Vizcarra</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">La pregunta del año</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">No es <em>"¿sabes usar computadoras?"</em></p>
+  <p class="t-h2 accent" style="margin-top:2%;max-width:80%">"¿Sabes pensar críticamente en un mundo lleno de información?"</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">La respuesta:<br><span class="accent">criterio</span></h2>
+  <div class="divider"></div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="emoji-big">🔍</div><p class="t-sm" style="margin-top:5%">Verificar antes de compartir</p></div>
+    <div class="card"><div class="emoji-big">🤔</div><p class="t-sm" style="margin-top:5%">Cuestionar las fuentes</p></div>
+    <div class="card"><div class="emoji-big">⚖️</div><p class="t-sm" style="margin-top:5%">Pesar perspectivas</p></div>
+    <div class="card"><div class="emoji-big">✋</div><p class="t-sm" style="margin-top:5%">Decidir con ética</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Diagnóstico rápido</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1%">¿Con qué frecuencia haces esto?</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">Verifico una noticia antes de reenviarla</p></div>
+    <div class="card"><p class="t-sm">Sé cuándo una foto puede ser falsa</p></div>
+    <div class="card"><p class="t-sm">Conozco mis derechos en internet</p></div>
+    <div class="card"><p class="t-sm">Sé citar una fuente correctamente</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Respuesta honesta: 1 (nunca) → 5 (siempre)</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Conceptos clave</h2>
+  <div class="divider"></div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="pill">Desinformación</p><p class="t-sm" style="margin-top:5%">Información falsa distribuida sin intención</p></div>
+    <div class="card"><p class="pill">Malinformación</p><p class="t-sm" style="margin-top:5%">Información real usada fuera de contexto</p></div>
+    <div class="card"><p class="pill">Deepfake</p><p class="t-sm" style="margin-top:5%">Video/audio generado por IA que parece real</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">El semáforo de<br><span class="accent">instrucción con IA</span></h2>
+  <div class="divider"></div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card" style="border:2px solid #22c55e;"><p class="t-sm" style="color:#22c55e;font-weight:700">🟢 Verde</p><p class="t-sm" style="margin-top:5%">Usar IA para explorar ideas</p></div>
+    <div class="card" style="border:2px solid #facc15;"><p class="t-sm" style="color:#facc15;font-weight:700">🟡 Amarillo</p><p class="t-sm" style="margin-top:5%">Usar IA con revisión humana</p></div>
+    <div class="card" style="border:2px solid #f87171;"><p class="t-sm" style="color:#f87171;font-weight:700">🔴 Rojo</p><p class="t-sm" style="margin-top:5%">No usar IA (decisiones éticas, exámenes)</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Casos del semáforo</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">¿Verde, amarillo o rojo?</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">"Le pedí a la IA que me sugiera temas para mi ensayo"</p></div>
+    <div class="card"><p class="t-sm">"La IA escribió mi trabajo de investigación completo"</p></div>
+    <div class="card"><p class="t-sm">"Usé IA para corregir mi ortografía"</p></div>
+    <div class="card"><p class="t-sm">"La IA eligió qué carrera seguir"</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Política de IA<br>en el aula</h2>
+  <div class="divider"></div>
+  <ul class="list-left t-body" style="margin-top:2%">
+    <li>✅ Puedes usar IA para <strong>investigar y explorar ideas</strong></li>
+    <li>✅ Puedes usar IA para <strong>corregir y mejorar borradores</strong></li>
+    <li>⚠️ Debes <strong>citar cuando usas IA</strong> en un trabajo</li>
+    <li>🔴 No puedes entregar trabajo <strong>100% generado por IA</strong></li>
+    <li>🔴 No puedes usar IA <strong>en evaluaciones sin permiso</strong></li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Prompt del día</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">Abre Claude o Gemini y escribe:</p>
+  <div class="col-box" style="margin-top:2%;max-width:80%;border:2px solid #c084fc;padding:3%;border-radius:12px;">
+    <p class="t-body accent">"Soy estudiante de 4to de secundaria. Explícame la diferencia entre desinformación y malinformación con un ejemplo de la vida real."</p>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 3 minutos · Compara tu respuesta con la de un compañero</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Analiza esta noticia 🔍</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">"Estudio revela que el 70% de jóvenes peruanos prefiere aprender con IA en vez de maestros"</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">¿Qué fuente dice esto?</p></div>
+    <div class="card"><p class="t-sm">¿Cómo verificarías el dato?</p></div>
+    <div class="card"><p class="t-sm">¿El titular puede ser engañoso?</p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Algoritmos y<br><span class="accent">sesgo</span></h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">Los algoritmos deciden qué ves primero. Y lo que no muestran también importa.</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">TikTok decide qué video sigue</p></div>
+    <div class="card"><p class="t-sm">Google decide qué resultado es el primero</p></div>
+    <div class="card"><p class="t-sm">Netflix decide qué te recomienda</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Quién decide lo que "te gusta"?</p>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Construyendo<br>tu <span class="accent">criterio</span></h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%">Completa en tu cuaderno:</p>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><p class="t-sm">Antes de compartir algo voy a <span class="accent">___</span></p></div>
+    <div class="card"><p class="t-sm">Cuando uso IA en trabajos voy a <span class="accent">___</span></p></div>
+    <div class="card"><p class="t-sm">Si veo algo sospechoso en internet voy a <span class="accent">___</span></p></div>
+  </div>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">Proyecto del año 🎯</h2>
+  <div class="divider"></div>
+  <p class="t-body" style="margin-top:1.5%;max-width:80%">Este año crearás una <span class="accent">investigación digital con ética</span>.</p>
+  <ul class="list-left t-body" style="margin-top:2%">
+    <li>Elegirás un tema que te importe</li>
+    <li>Verificarás fuentes con criterio</li>
+    <li>Usarás IA como herramienta, no como autor</li>
+    <li>Presentarás con argumentos propios</li>
+  </ul>
+</div>
+
+<div class="slide">
+  <div class="brand">Asunción School</div>
+  <h2 class="t-h1">¡El criterio es poder! 💡</h2>
+  <div class="divider"></div>
+  <div class="emoji-big" style="margin-top:2%">⚖️</div>
+  <p class="t-body" style="margin-top:2%;max-width:75%">En un mundo lleno de información, quien tiene <span class="accent">criterio</span> tiene ventaja.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 15</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=15;
+let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('span');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i);
+  dots.appendChild(d);
+});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){
+  slides[cur].classList.remove('active');allDots[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(total-1,n));
+  slides[cur].classList.add('active');allDots[cur].classList.add('active');
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=cur===0;
+  document.getElementById('btn-next').disabled=cur===total-1;
+}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
+});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>40)go(dx<0?1:-1);
+});
+goTo(0);
+</script>
+</body>
+</html>

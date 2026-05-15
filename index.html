@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computación 2026 – Guía de Sesiones</title>
+<style>
+/* ── TOKENS ──────────────────────────────────────────────── */
+:root{
+  --fs-base:18px;          /* 30% > 14px original */
+  --fs-sm:15px;
+  --fs-xs:13px;
+  --fs-lg:22px;
+  --fs-xl:26px;
+  --fs-h1:32px;
+
+  --b1:#1b7a3e; --b1-light:#e8f5ee;
+  --b2:#1565c0; --b2-light:#e3eeff;
+  --b3:#b45309; --b3-light:#fef3c7;
+  --b4:#6d28d9; --b4-light:#ede9fe;
+
+  --next-bg:#fffbeb;  --next-border:#f59e0b;  --next-accent:#92400e;
+  --done-bg:#f8fafc;  --done-text:#94a3b8;
+  --mgmt-bg:#f1f5f9;  --mgmt-border:#cbd5e1;
+
+  --ai-color:#db2777;
+  --sec-color:#0891b2;
+
+  --radius:14px;
+  --shadow:0 2px 12px rgba(0,0,0,.10);
+  --shadow-next:0 4px 24px rgba(245,158,11,.30);
+}
+
+/* ── RESET ───────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:var(--fs-base);
+  background:#f0f4f8;
+  color:#1e293b;
+  -webkit-text-size-adjust:100%;
+}
+button{font-family:inherit;cursor:pointer;}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.site-header{
+  background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 100%);
+  color:#fff;
+  padding:1.4rem 1rem 0;
+  text-align:center;
+}
+.site-header h1{font-size:var(--fs-h1);font-weight:800;letter-spacing:-1px;line-height:1.1;}
+.site-header p{font-size:var(--fs-sm);opacity:.8;margin:.4rem 0 1rem;}
+.header-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-bottom:1rem;}
+.chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:.25rem .8rem;font-size:var(--fs-xs);}
+
+/* ── GRADE TABS ──────────────────────────────────────────── */
+.grade-tabs{
+  display:flex;overflow-x:auto;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  background:#0f172a;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.grade-tabs::-webkit-scrollbar{display:none;}
+.gtab{
+  flex:0 0 auto;
+  color:rgba(255,255,255,.88);
+  background:transparent;
+  padding:.9rem 1.2rem;
+  font-size:var(--fs-sm);font-weight:600;
+  border-bottom:3px solid transparent;
+  border-right:1px solid rgba(255,255,255,.08);
+  white-space:nowrap;
+  transition:color .15s,background .15s,border-bottom-color .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.gtab:hover{color:#fff;background:rgba(255,255,255,.08);}
+.gtab.active{
+  color:#fbbf24;
+  border-bottom-color:#fbbf24;
+  background:rgba(251,191,36,.1);
+  font-weight:700;
+}
+
+/* ── PROGRESS BAR ────────────────────────────────────────── */
+.progress-bar-wrap{
+  background:#fff;
+  padding:.8rem 1rem;
+  border-bottom:1px solid #e2e8f0;
+  display:flex;align-items:center;gap:.8rem;
+}
+.progress-label{font-size:var(--fs-sm);color:#64748b;white-space:nowrap;}
+.progress-track{flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#1d4ed8,#7c3aed);
+  border-radius:4px;transition:width .4s ease;}
+.progress-pct{font-size:var(--fs-sm);font-weight:700;color:#1d4ed8;white-space:nowrap;}
+
+/* ── PANELS ──────────────────────────────────────────────── */
+.panel{display:none;padding:1rem;}
+.panel.active{display:block;}
+
+/* ── SECTION HEADERS ─────────────────────────────────────── */
+.section-label{
+  font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;
+  letter-spacing:.8px;color:#64748b;
+  margin:1.2rem 0 .6rem;display:flex;align-items:center;gap:.5rem;
+}
+.section-label::after{content:'';flex:1;height:1px;background:#e2e8f0;}
+
+/* ── SESSION CARD ────────────────────────────────────────── */
+.card{
+  background:#fff;border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-bottom:.75rem;
+  border:2px solid transparent;
+  transition:box-shadow .2s;
+  overflow:hidden;
+}
+.card:hover{box-shadow:0 4px 18px rgba(0,0,0,.14);}
+
+/* Featured next card */
+.card.next{
+  background:var(--next-bg);
+  border-color:var(--next-border);
+  box-shadow:var(--shadow-next);
+}
+
+/* Done card */
+.card.done{
+  background:var(--done-bg);
+  opacity:.72;
+}
+.card.done .card-title,.card.done .card-cover{color:var(--done-text);}
+
+/* Management (non-lectivo) */
+.card.mgmt{
+  background:var(--mgmt-bg);
+  border-color:var(--mgmt-border);
+  border-style:dashed;
+}
+
+/* ── CARD HEADER ─────────────────────────────────────────── */
+.card-head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  padding:.9rem 1rem .5rem;gap:.5rem;
+}
+.card-meta{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.snum{
+  font-size:var(--fs-lg);font-weight:800;color:#94a3b8;
+  line-height:1;min-width:2rem;
+}
+.card.next .snum{color:var(--next-accent);}
+.card.done .snum{color:#cbd5e1;}
+
+.badge{
+  display:inline-block;border-radius:6px;
+  padding:3px 8px;font-size:var(--fs-xs);font-weight:700;color:#fff;
+}
+.b-I{background:var(--b1);}  .b-II{background:var(--b2);}
+.b-III{background:var(--b3);} .b-IV{background:var(--b4);}
+
+.tag{
+  display:inline-block;border-radius:12px;
+  padding:2px 8px;font-size:var(--fs-xs);font-weight:600;
+}
+.tag-ai{background:#fce7f3;color:var(--ai-color);border:1px solid #fbcfe8;}
+.tag-sec{background:#e0f2fe;color:var(--sec-color);border:1px solid #bae6fd;}
+.tag-next{background:#fef3c7;color:#92400e;border:1px solid #fde68a;}
+
+.card-date{font-size:var(--fs-sm);color:#64748b;}
+.card.next .card-date{color:var(--next-accent);font-weight:600;}
+
+/* ── CARD BODY ───────────────────────────────────────────── */
+.card-body{padding:.25rem 1rem .8rem;}
+.card-focus{
+  font-size:var(--fs-xs);color:#6366f1;font-weight:600;
+  text-transform:uppercase;letter-spacing:.4px;margin-bottom:.2rem;
+}
+.card-title{
+  font-size:var(--fs-lg);font-weight:700;line-height:1.25;
+  margin-bottom:.5rem;
+}
+.card.next .card-title{font-size:var(--fs-xl);color:#78350f;}
+
+.expand-btn{
+  background:none;border:none;color:#64748b;
+  font-size:var(--fs-sm);padding:0;display:flex;align-items:center;gap:.3rem;
+  text-decoration:underline;text-underline-offset:3px;margin-bottom:.5rem;
+}
+.expand-btn .arrow{transition:transform .2s;}
+.card.expanded .expand-btn .arrow{transform:rotate(180deg);}
+
+.card-details{display:none;}
+.card.expanded .card-details,.card.next .card-details{display:block;}
+
+.detail-row{
+  display:grid;grid-template-columns:auto 1fr;gap:.25rem .6rem;
+  align-items:start;margin-bottom:.35rem;font-size:var(--fs-sm);
+}
+.detail-label{font-weight:700;color:#475569;white-space:nowrap;}
+.detail-val{color:#334155;line-height:1.5;}
+.card.done .detail-label,.card.done .detail-val{color:var(--done-text);}
+
+.ai-box{
+  background:#fdf2f8;border:1px solid #f9a8d4;border-radius:8px;
+  padding:.5rem .75rem;margin:.5rem 0;
+  font-size:var(--fs-sm);color:#831843;line-height:1.5;
+}
+.card.done .ai-box{filter:grayscale(.8);opacity:.6;}
+
+.materials{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem;}
+.mat-chip{
+  background:#f1f5f9;border:1px solid #cbd5e1;
+  border-radius:6px;padding:2px 7px;
+  font-size:var(--fs-xs);font-weight:700;color:#475569;
+}
+
+/* ── CARD FOOTER ─────────────────────────────────────────── */
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.5rem 1rem .75rem;border-top:1px solid #f1f5f9;flex-wrap:wrap;
+}
+.card.next .card-foot{border-top-color:#fde68a;}
+
+.foot-actions{display:flex;gap:.4rem;flex-wrap:wrap;}
+.slide-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:#1e40af;color:#fff;
+  border:none;border-radius:8px;
+  padding:.5rem .9rem;
+  font-size:var(--fs-sm);font-weight:600;
+  text-decoration:none;
+  transition:background .15s;
+}
+.slide-btn:hover{background:#1d4ed8;}
+.notes-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:#0f766e;color:#fff;
+  border:none;border-radius:8px;
+  padding:.5rem .9rem;
+  font-size:var(--fs-sm);font-weight:600;
+  text-decoration:none;
+  transition:background .15s;
+}
+.notes-btn:hover{background:#0d9488;}
+.card.next .slide-btn,.card.next .notes-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
+.card.next .slide-btn{background:#0f172a;}
+.card.done .slide-btn,.card.done .notes-btn{background:#64748b;}
+.card.done .slide-btn:hover,.card.done .notes-btn:hover{background:#475569;}
+
+.check-btn{
+  display:flex;align-items:center;gap:.5rem;
+  border:none;border-radius:8px;
+  padding:.5rem .9rem;
+  font-size:var(--fs-sm);font-weight:600;
+  transition:all .2s;
+}
+.check-btn.mark{background:#dcfce7;color:#166534;}
+.check-btn.mark:hover{background:#bbf7d0;}
+.check-btn.unmark{background:#fee2e2;color:#991b1b;}
+.check-btn.unmark:hover{background:#fecaca;}
+.card.next .check-btn.mark{
+  background:#f59e0b;color:#fff;font-size:var(--fs-base);padding:.65rem 1.2rem;
+}
+.card.next .check-btn.mark:hover{background:#d97706;}
+
+/* ── MANAGEMENT CARD ─────────────────────────────────────── */
+.mgmt-card{
+  display:flex;align-items:center;gap:.75rem;
+  padding:.75rem 1rem;
+}
+.mgmt-icon{font-size:1.4rem;flex-shrink:0;}
+.mgmt-info p{font-size:var(--fs-sm);color:#64748b;}
+.mgmt-info strong{color:#475569;font-size:var(--fs-base);}
+
+/* ── ARCHIVE TOGGLE ──────────────────────────────────────── */
+.archive-toggle{
+  width:100%;background:#f8fafc;border:2px solid #e2e8f0;
+  border-radius:var(--radius);padding:.85rem 1rem;
+  text-align:left;display:flex;align-items:center;justify-content:space-between;
+  font-size:var(--fs-base);font-weight:600;color:#475569;
+  margin:1rem 0 .5rem;
+}
+.archive-toggle:hover{background:#f1f5f9;}
+.archive-arrow{font-size:1rem;transition:transform .25s;}
+.archive-arrow.open{transform:rotate(180deg);}
+#archive-section{display:none;}
+#archive-section.visible{display:block;}
+
+/* ── EMPTY STATE ─────────────────────────────────────────── */
+.empty-state{
+  text-align:center;padding:2rem 1rem;color:#94a3b8;
+  font-size:var(--fs-sm);
+}
+
+/* ── MANAGEMENT SIDEBAR NOTE ─────────────────────────────── */
+.calendar-note{
+  background:#f0fdf4;border:1px solid #86efac;border-radius:10px;
+  padding:.75rem 1rem;margin-bottom:.75rem;
+  font-size:var(--fs-sm);color:#14532d;
+  display:flex;gap:.5rem;align-items:center;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media(min-width:640px){
+  .panel{padding:1.2rem 1.4rem;}
+  .card-title{font-size:var(--fs-lg);}
+  .card.next .card-title{font-size:var(--fs-xl);}
+}
+@media(min-width:900px){
+  .future-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+  .future-grid .card{margin-bottom:0;}
+  .done-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+  .done-grid .card{margin-bottom:0;}
+}
+@media(min-width:1200px){
+  .future-grid{grid-template-columns:1fr 1fr 1fr;}
+  .done-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+.session-note-badge{
+  display:inline-block;font-size:var(--fs-xs);color:#92400e;
+  background:#fef3c7;border:1px solid #fde68a;
+  border-radius:6px;padding:2px 8px;margin-bottom:.4rem;line-height:1.5;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>📚 Computación 2026</h1>
+  <p>Guía de sesiones · Viernes · 60 min por grado</p>
+  <div class="header-chips">
+    <span class="chip">📅 15 mayo – 18 dic 2026</span>
+    <span class="chip">✅ 32 sesiones planificadas</span>
+    <span class="chip">🤖 IA integrada</span>
+    <span class="chip">🏫 Colegio particular</span>
+  </div>
+</header>
+
+<nav class="grade-tabs" id="grade-tabs"></nav>
+
+<div id="progress-wrap" class="progress-bar-wrap">
+  <span class="progress-label" id="prog-label">0 / 32</span>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  <span class="progress-pct" id="prog-pct">0%</span>
+</div>
+
+<main id="main"></main>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// CALENDAR  (32 sesiones, todas con tema — colegio particular)
+// ═══════════════════════════════════════════════════════════
+const CALENDAR = [
+  {date:'2026-05-15', session:1},
+  {date:'2026-05-22', session:2,  note:'Semana de gestión Minedu · Confirmar con dirección'},
+  {date:'2026-05-29', session:3},
+  {date:'2026-06-05', session:4,  note:'Día del Medio Ambiente y Día de la Bandera'},
+  {date:'2026-06-12', session:5},
+  {date:'2026-06-19', session:6},
+  {date:'2026-06-26', session:7,  note:'Previo a San Pedro y San Pablo'},
+  {date:'2026-07-03', session:8},
+  {date:'2026-07-10', session:9},
+  {date:'2026-07-17', session:10},
+  {date:'2026-07-24', session:11, note:'Semana de identidad nacional · Fiestas Patrias'},
+  {date:'2026-07-31', session:12, note:'Semana de gestión Minedu · Confirmar con dirección'},
+  {date:'2026-08-07', session:13, note:'Semana de gestión Minedu · Confirmar con dirección'},
+  {date:'2026-08-14', session:14},
+  {date:'2026-08-21', session:15},
+  {date:'2026-08-28', session:16, note:'Previo a Santa Rosa de Lima'},
+  {date:'2026-09-04', session:17},
+  {date:'2026-09-11', session:18},
+  {date:'2026-09-18', session:19},
+  {date:'2026-09-25', session:20},
+  {date:'2026-10-02', session:21},
+  {date:'2026-10-09', session:22, note:'Posterior al Combate de Angamos'},
+  {date:'2026-10-16', session:23, note:'Semana de gestión Minedu · Confirmar con dirección'},
+  {date:'2026-10-23', session:24},
+  {date:'2026-10-30', session:25},
+  {date:'2026-11-06', session:26},
+  {date:'2026-11-13', session:27},
+  {date:'2026-11-20', session:28},
+  {date:'2026-11-27', session:29},
+  {date:'2026-12-04', session:30, note:'Previo a Inmaculada Concepción y Batalla de Ayacucho'},
+  {date:'2026-12-11', session:31},
+  {date:'2026-12-18', session:32},
+];
+
+const TOTAL = 32;
+
+function blockFor(dateStr){
+  if(dateStr <= '2026-07-31') return 'II';
+  if(dateStr <= '2026-10-16') return 'III';
+  return 'IV';
+}
+function fmtDate(iso){
+  const months=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const [,m,d]=iso.split('-');
+  return `Viernes ${parseInt(d)} de ${months[parseInt(m)-1]}`;
+}
+
+// Build SESSION_DATE lookup  {sessionNum -> {block, dateLabel, note}}
+const SESSION_DATE = {};
+CALENDAR.forEach(c=>{
+  SESSION_DATE[c.session] = {block:blockFor(c.date), dateLabel:fmtDate(c.date), note:c.note||''};
+});
+
+// ═══════════════════════════════════════════════════════════
+// CROSS-GRADE FOCUS  (index = session number)
+// ═══════════════════════════════════════════════════════════
+const CROSS_FOCUS=[
+  '',
+  'Diagnóstico, normas y ciudadanía digital',
+  'Fundamentos de productividad según grado',
+  'Organización digital, formato y estructuras',
+  'Comunicación visual y pensamiento organizado',
+  'Búsqueda, fuentes y lectura crítica',
+  'Comunicación, ciudadanía y presentación responsable',
+  'IA básica: qué es, qué no es y para qué sirve',
+  'Prompts, seguridad e IA generativa',
+  'Documentos, tablas y proyectos de investigación',
+  'Formato, fórmulas y verificación',
+  'Derechos de autor, datos y pensamiento computacional',
+  'Colaboración, encuestas y portafolio',
+  'Presentaciones, diseño y sesgos algorítmicos',
+  'Infografías, variables y privacidad',
+  'Seguridad digital y producción colaborativa',
+  'Verificación, huella digital y accesibilidad',
+  'Tablas, video, web y definición de soluciones',
+  'Operaciones, edición y diseño de producto',
+  'Gráficos, IA aplicada y prototipo',
+  'Encuestas, fact-checking y validación',
+  'Comunicación formal, deepfakes y producción ética',
+  'Portafolio, landing y planificación final',
+  'Algoritmos, investigación y proyecto integrador',
+  'Scratch, investigación y producción 1',
+  'IA creativa, ética y producción 2',
+  'Planificación, prueba con usuarios e iteración',
+  'Redacción, iteración y ensayo',
+  'Diseño final y sustentación',
+  'Revisión con IA, pares y sustentación',
+  'Exposición, autoevaluación y metacognición',
+  'Portafolio final de evidencias',
+  'Muestra final, compromiso digital y transición',
+];
+
+const AI_SESSIONS  = new Set([7,8,25]);
+const SEC_SESSIONS = new Set([15,16]);
+
+const SLIDES = {
+  prim6:{ 1:'slides/sesion-01-prim6.html' },
+  sec2: { 1:'slides/sesion-01-sec2.html'  },
+  sec3: { 1:'slides/sesion-01-sec3.html'  },
+  sec4: { 1:'slides/sesion-01-sec4.html'  },
+  sec5: { 1:'slides/sesion-01-sec5.html'  },
+};
+const NOTAS = {
+  prim6:{ 1:'slides/notas-01-prim6.html' },
+  sec2: { 1:'slides/notas-01-sec2.html'  },
+  sec3: { 1:'slides/notas-01-sec3.html'  },
+  sec4: { 1:'slides/notas-01-sec4.html'  },
+  sec5: { 1:'slides/notas-01-sec5.html'  },
+};
+
+// ═══════════════════════════════════════════════════════════
+// CURRICULUM DATA  — 5 grados × 32 sesiones
+// ═══════════════════════════════════════════════════════════
+const GRADES = {
+ prim6:{
+  id:'prim6', label:'6.° Primaria', emoji:'🟢', age:'11-12 años',
+  goal:'Alfabetización digital sólida, productos concretos y primer contacto crítico con IA.',
+  project:'Revista digital del aula',
+  sessions:[
+   {n:1, title:'Diagnóstico y contrato digital',
+    cover:'Reconocer qué saben hacer, cómo usan dispositivos, qué normas seguirán y cómo pedir ayuda.',
+    act:'Mapa de habilidades + acuerdo de aula', evidence:'Ficha diagnóstica y reglas de uso',
+    tools:'Formulario / Docs / pizarra', mat:'M01', ai:''},
+   {n:2, title:'Partes de la computadora',
+    cover:'Identificar hardware, software, periféricos, almacenamiento y cuidado básico del equipo.',
+    act:'Etiquetar partes de una PC y resolver casos de uso', evidence:'Infografía simple',
+    tools:'Canva / Slides', mat:'M02', ai:''},
+   {n:3, title:'Escritorio, ventanas y carpetas',
+    cover:'Usar escritorio, ventanas, búsqueda, copiar/mover archivos y crear carpetas por curso.',
+    act:'Organizar una carpeta escolar modelo', evidence:'Carpeta ordenada en Drive/PC',
+    tools:'Windows / Google Drive', mat:'M03', ai:''},
+   {n:4, title:'Teclado, atajos y escritura básica',
+    cover:'Practicar escritura, acentos, signos, copiar/pegar, deshacer y guardar versiones.',
+    act:'Reto de atajos útiles', evidence:'Texto corto correctamente guardado',
+    tools:'Docs / Word online', mat:'M04', ai:''},
+   {n:5, title:'Búsqueda segura en internet',
+    cover:'Diferenciar navegador, buscador, palabra clave, resultado confiable y publicidad.',
+    act:'Buscar tres datos sobre un tema escolar y comparar fuentes', evidence:'Mini ficha de fuentes',
+    tools:'Navegador / buscador seguro', mat:'M05', ai:''},
+   {n:6, title:'Respeto y comunicación en línea',
+    cover:'Netiqueta, comentarios respetuosos, emojis, tono y consecuencias de publicar sin pensar.',
+    act:'Convertir mensajes agresivos en mensajes respetuosos', evidence:'Decálogo de convivencia digital',
+    tools:'Docs / Canva', mat:'M06', ai:''},
+   {n:7, title:'¿Qué es la inteligencia artificial?',
+    cover:'Explicar IA con ejemplos cercanos: recomendaciones, asistentes, filtros, traducción y errores.',
+    act:'Clasificar ejemplos: IA / no IA / no estoy seguro', evidence:'Tabla de ejemplos',
+    tools:'Slides / tarjetas', mat:'M07',
+    ai:'Clasificar situaciones reales: "¿esto lo hace una IA o una persona?" Discutir por qué importa saberlo.'},
+   {n:8, title:'Cómo hacer buenas preguntas a una IA',
+    cover:'Estructura: rol, tarea, contexto, formato y revisión; usar lenguaje claro.',
+    act:'Transformar preguntas vagas en preguntas útiles', evidence:'Banco de prompts seguros',
+    tools:'ChatGPT/Copilot/Gemini supervisado', mat:'M08',
+    ai:'Comparar: "¿qué es el agua?" vs "Explícame en 2 oraciones qué es el agua para un niño de 11 años". ¿Cuál es más útil?'},
+   {n:9, title:'Documento escolar ordenado',
+    cover:'Crear título, subtítulos, párrafos, listas e imágenes insertadas correctamente.',
+    act:'Redactar una ficha sobre un animal/planta peruana', evidence:'Documento de una página',
+    tools:'Docs / Word online', mat:'M09', ai:''},
+   {n:10, title:'Formato visual y lectura fácil',
+    cover:'Negritas, tamaño, alineación, espaciado, colores moderados y revisión ortográfica.',
+    act:'Mejorar un documento desordenado', evidence:'Antes/después del documento',
+    tools:'Docs / Word online', mat:'M10', ai:''},
+   {n:11, title:'Imágenes, derechos y créditos',
+    cover:'Diferenciar imagen propia, libre, con licencia y generada por IA; agregar créditos simples.',
+    act:'Crear una diapositiva con imagen y crédito', evidence:'Diapositiva con crédito',
+    tools:'Canva / Slides', mat:'M11', ai:''},
+   {n:12, title:'Trabajo compartido en Docs',
+    cover:'Comentar, sugerir, resolver comentarios y trabajar en equipo sin borrar aportes.',
+    act:'Historia colaborativa por equipos', evidence:'Documento compartido',
+    tools:'Google Docs', mat:'M12', ai:''},
+   {n:13, title:'Slides: una idea por diapositiva',
+    cover:'Crear diapositivas claras: título, imagen, poco texto y orden visual.',
+    act:'Presentación de 4 diapositivas', evidence:'Mini presentación',
+    tools:'Slides / PowerPoint online', mat:'M13', ai:''},
+   {n:14, title:'Afiche digital escolar',
+    cover:'Jerarquía visual: título, imagen principal, llamada a la acción y datos necesarios.',
+    act:'Afiche por una campaña de aula', evidence:'Afiche digital',
+    tools:'Canva', mat:'M14', ai:''},
+   {n:15, title:'Contraseñas y cuentas seguras',
+    cover:'Contraseñas largas, no reutilizar, cerrar sesión, reconocer pedidos sospechosos.',
+    act:'Crear reglas para una contraseña segura sin revelar una real', evidence:'Checklist de seguridad',
+    tools:'Docs / Canva', mat:'M15', ai:''},
+   {n:16, title:'Verificación básica de información',
+    cover:'Comparar una respuesta de IA con dos fuentes; detectar datos dudosos.',
+    act:'Semáforo: confiable / dudoso / falta verificar', evidence:'Ficha de verificación',
+    tools:'Buscador / Docs / IA', mat:'M16', ai:''},
+   {n:17, title:'Tablas simples',
+    cover:'Filas, columnas, celdas, encabezados; registrar datos de manera ordenada.',
+    act:'Tabla de hábitos saludables de la clase', evidence:'Tabla en Sheets',
+    tools:'Sheets / Excel online', mat:'M17', ai:''},
+   {n:18, title:'Operaciones básicas en Sheets',
+    cover:'SUMA, PROMEDIO y conteo manual; leer resultados sin miedo a los números.',
+    act:'Calcular puntos de un reto ficticio', evidence:'Tabla con fórmulas',
+    tools:'Sheets / Excel online', mat:'M18', ai:''},
+   {n:19, title:'Gráficos para explicar',
+    cover:'Crear gráfico de barras o circular y escribir una conclusión sencilla.',
+    act:'Graficar resultados de una encuesta de clase', evidence:'Gráfico con conclusión',
+    tools:'Sheets', mat:'M19', ai:''},
+   {n:20, title:'Mini encuesta de aula',
+    cover:'Formular preguntas cerradas, recoger respuestas y ordenar datos.',
+    act:'Encuesta sobre lectura, juegos o deportes', evidence:'Formulario simple',
+    tools:'Google Forms / Sheets', mat:'M20', ai:''},
+   {n:21, title:'Correo y mensajes formales',
+    cover:'Asunto, saludo, cuerpo, despedida, adjuntos y tono respetuoso.',
+    act:'Escribir un correo a la profesora', evidence:'Correo modelo',
+    tools:'Docs / Gmail simulado', mat:'M21', ai:''},
+   {n:22, title:'Drive y portafolio escolar',
+    cover:'Carpetas por curso, nombres de archivo, compartir con permisos correctos.',
+    act:'Ordenar evidencias del trimestre', evidence:'Carpeta de portafolio',
+    tools:'Google Drive', mat:'M22', ai:''},
+   {n:23, title:'Algoritmos de la vida diaria',
+    cover:'Secuencia, pasos, precisión y prueba/error con recetas o instrucciones.',
+    act:'Escribir algoritmo para preparar una lonchera', evidence:'Algoritmo paso a paso',
+    tools:'Docs / tarjetas', mat:'M23', ai:''},
+   {n:24, title:'Scratch: animación simple',
+    cover:'Escenario, personaje, movimiento, eventos y mensajes básicos.',
+    act:'Animar una escena educativa', evidence:'Animación corta',
+    tools:'Scratch', mat:'M24', ai:''},
+   {n:25, title:'Imágenes generadas por IA y ética',
+    cover:'Qué es una imagen generada, cuándo sirve, riesgos de engaño y necesidad de declarar uso.',
+    act:'Comparar imagen real, ilustración e IA generada', evidence:'Ficha comparativa',
+    tools:'Canva / IA de imagen supervisada', mat:'M25',
+    ai:'¿Cómo saber si una imagen es real o generada? ¿Cuándo está bien usarla? ¿Qué hay que declarar siempre?'},
+   {n:26, title:'Plan de revista digital',
+    cover:'Elegir tema, secciones, roles, calendario y criterios de calidad.',
+    act:'Equipos planifican revista escolar', evidence:'Plan de proyecto',
+    tools:'Docs / pizarra', mat:'M26', ai:''},
+   {n:27, title:'Redacción de artículos breves',
+    cover:'Titular, bajada, párrafos cortos, imagen y crédito.',
+    act:'Escribir artículo para la revista', evidence:'Primer borrador',
+    tools:'Docs', mat:'M27', ai:''},
+   {n:28, title:'Diseño de revista',
+    cover:'Portada, índice, páginas internas, consistencia visual y lectura en pantalla.',
+    act:'Maquetar 3–4 páginas', evidence:'Revista en borrador',
+    tools:'Canva / Slides', mat:'M28', ai:''},
+   {n:29, title:'Revisión con IA y pares',
+    cover:'Revisar ortografía, claridad, fuentes, imágenes y permisos.',
+    act:'Checklist de revisión cruzada', evidence:'Revista corregida',
+    tools:'Docs / Canva / IA', mat:'M29',
+    ai:'Usar IA para revisar ortografía y claridad. Comparar sugerencias de IA con las de un compañero. ¿Coinciden?'},
+   {n:30, title:'Exposición breve del producto',
+    cover:'Preparar explicación: qué hice, qué aprendí, qué problema resolví.',
+    act:'Ensayo de exposición de 2 minutos', evidence:'Guion de exposición',
+    tools:'Slides / aula', mat:'M30', ai:''},
+   {n:31, title:'Portafolio final',
+    cover:'Seleccionar mejores evidencias y escribir reflexión sobre aprendizaje digital.',
+    act:'Armar portafolio individual', evidence:'Portafolio digital',
+    tools:'Drive / Sites opcional', mat:'M31', ai:''},
+   {n:32, title:'Muestra final y compromiso digital',
+    cover:'Presentar trabajos destacados, autoevaluarse y fijar reglas personales para las vacaciones.',
+    act:'Galería de proyectos del aula', evidence:'Revista / portafolio final',
+    tools:'Aula / Drive', mat:'M32', ai:''},
+  ]
+ },
+ sec2:{
+  id:'sec2', label:'2.° Secundaria', emoji:'🔵', age:'13-14 años',
+  goal:'Refuerzo de documentos, datos y diseño. Creación de campaña digital escolar.',
+  project:'Producto digital escolar (video, afiche o sitio)',
+  sessions:[
+   {n:1, title:'Diagnóstico digital y normas de aula',
+    cover:'Evaluar manejo de Docs, Slides, Sheets, Drive, Canva e IA; acordar criterios de uso responsable.',
+    act:'Prueba corta + acuerdo digital', evidence:'Ficha diagnóstica',
+    tools:'Forms / Docs', mat:'M01', ai:''},
+   {n:2, title:'Documento académico ordenado',
+    cover:'Portada, título, subtítulos, párrafos, imágenes, numeración y nombre de archivo.',
+    act:'Crear informe de una página', evidence:'Documento formal',
+    tools:'Docs / Word online', mat:'M02', ai:''},
+   {n:3, title:'Formato profesional de texto',
+    cover:'Estilos visuales, listas, interlineado, alineación, tablas e imágenes ajustadas.',
+    act:'Mejorar documento desordenado', evidence:'Documento corregido',
+    tools:'Docs / Word online', mat:'M03', ai:''},
+   {n:4, title:'Introducción a presentaciones efectivas',
+    cover:'Una idea por slide, jerarquía visual, contraste, imágenes útiles y poco texto.',
+    act:'Convertir texto en 5 diapositivas', evidence:'Presentación inicial',
+    tools:'Slides / Canva', mat:'M04', ai:''},
+   {n:5, title:'Diseño y narrativa de exposición',
+    cover:'Inicio, desarrollo y cierre; ritmo, ejemplos y apoyo visual.',
+    act:'Preparar mini exposición escolar', evidence:'Guion + slides',
+    tools:'Slides / Canva', mat:'M05', ai:''},
+   {n:6, title:'Animaciones y transiciones con criterio',
+    cover:'Usar animaciones solo para guiar atención; evitar exceso visual.',
+    act:'Aplicar animaciones funcionales a una presentación', evidence:'Presentación mejorada',
+    tools:'Slides / PowerPoint online', mat:'M06', ai:''},
+   {n:7, title:'IA para estudiar sin copiar',
+    cover:'Resúmenes, ejemplos, preguntas de práctica y límites: verificar y explicar con palabras propias.',
+    act:'Crear guía de estudio sobre tema escolar con apoyo de IA', evidence:'Guía de estudio',
+    tools:'ChatGPT / Gemini / Docs', mat:'M07',
+    ai:'Pedir a la IA un resumen de un tema. Leerlo y luego explicarlo con tus propias palabras. ¿Qué cambió? ¿Qué faltó?'},
+   {n:8, title:'Contraseñas, phishing y permisos',
+    cover:'Buenas contraseñas, códigos, enlaces falsos, permisos de apps y señales de alerta.',
+    act:'Analizar casos de mensajes sospechosos', evidence:'Checklist de seguridad',
+    tools:'Docs / Canva', mat:'M08', ai:''},
+   {n:9, title:'Tablas y datos escolares',
+    cover:'Celdas, rangos, encabezados, formato, orden y limpieza de datos.',
+    act:'Tabla de gastos o notas ficticias', evidence:'Tabla ordenada',
+    tools:'Sheets / Excel online', mat:'M09', ai:''},
+   {n:10, title:'Fórmulas básicas',
+    cover:'SUMA, PROMEDIO, MÁXIMO, MÍNIMO y referencias simples.',
+    act:'Calcular resultados de una feria escolar', evidence:'Hoja con fórmulas',
+    tools:'Sheets', mat:'M10', ai:''},
+   {n:11, title:'Gráficos e interpretación',
+    cover:'Elegir gráfico correcto y escribir conclusiones honestas.',
+    act:'Graficar encuesta de hábitos digitales', evidence:'Gráfico + conclusión',
+    tools:'Sheets', mat:'M11', ai:''},
+   {n:12, title:'Google Forms básico',
+    cover:'Preguntas cerradas, opción múltiple, escala, sección y revisión de respuestas.',
+    act:'Crear encuesta escolar segura', evidence:'Formulario publicado',
+    tools:'Forms', mat:'M12', ai:''},
+   {n:13, title:'Canva: afiche informativo',
+    cover:'Jerarquía, contraste, imagen principal, texto breve y llamado a la acción.',
+    act:'Afiche sobre seguridad digital', evidence:'Afiche',
+    tools:'Canva', mat:'M13', ai:''},
+   {n:14, title:'Infografía sencilla',
+    cover:'Dato, explicación breve, íconos, flujo y fuente.',
+    act:'Infografía sobre IA responsable', evidence:'Infografía',
+    tools:'Canva', mat:'M14', ai:''},
+   {n:15, title:'Trabajo en Drive y comentarios',
+    cover:'Permisos, comentarios, sugerencias, versiones y roles.',
+    act:'Revisión entre pares de un documento', evidence:'Documento comentado',
+    tools:'Drive / Docs', mat:'M15', ai:''},
+   {n:16, title:'Huella digital',
+    cover:'Qué queda publicado, reputación, capturas, privacidad y consecuencias futuras.',
+    act:'Caso: publicación impulsiva y sus consecuencias', evidence:'Reflexión breve',
+    tools:'Docs', mat:'M16', ai:''},
+   {n:17, title:'Guion para video educativo',
+    cover:'Hook, explicación, ejemplo, cierre y texto en pantalla.',
+    act:'Escribir guion de 45 segundos', evidence:'Guion',
+    tools:'Docs / CapCut', mat:'M17', ai:''},
+   {n:18, title:'Edición básica en CapCut',
+    cover:'Cortes, ritmo, subtítulos, música libre y exportación.',
+    act:'Editar video educativo', evidence:'Video corto',
+    tools:'CapCut', mat:'M18', ai:''},
+   {n:19, title:'Prompts para crear y mejorar textos',
+    cover:'Rol, tarea, contexto, formato, criterios; revisión humana obligatoria.',
+    act:'Mejorar un texto propio con IA', evidence:'Texto mejorado + cambios explicados',
+    tools:'IA / Docs', mat:'M19',
+    ai:'Escribir un párrafo propio. Pedir a la IA que lo mejore. Comparar: ¿qué cambió? ¿sigue siendo tu idea? ¿qué ganaste?'},
+   {n:20, title:'Fact-checking básico',
+    cover:'Comparar buscador, fuente oficial, respuesta IA y fecha de publicación.',
+    act:'Verificar una afirmación tecnológica', evidence:'Ficha de verificación',
+    tools:'Buscador / IA / Docs', mat:'M20', ai:''},
+   {n:21, title:'Landing simple en Google Sites',
+    cover:'Estructura: portada, problema, solución, evidencias y contacto escolar seguro.',
+    act:'Crear página informativa', evidence:'Sitio inicial',
+    tools:'Google Sites', mat:'M21', ai:''},
+   {n:22, title:'Mejorar página con recursos visuales',
+    cover:'Botones, imágenes, secciones, enlaces y accesibilidad básica.',
+    act:'Completar sitio informativo', evidence:'Sitio mejorado',
+    tools:'Google Sites / Canva', mat:'M22', ai:''},
+   {n:23, title:'Proyecto integrador: elección de tema',
+    cover:'Elegir problema escolar y producto: afiche, video, sitio o presentación.',
+    act:'Brief de proyecto', evidence:'Plan de proyecto',
+    tools:'Docs', mat:'M23', ai:''},
+   {n:24, title:'Investigación guiada',
+    cover:'Buscar fuentes, resumir, citar y organizar evidencias.',
+    act:'Recolectar información confiable', evidence:'Matriz de fuentes',
+    tools:'Docs / Sheets', mat:'M24', ai:''},
+   {n:25, title:'Producción del prototipo',
+    cover:'Construir primera versión del producto digital.',
+    act:'Trabajo por equipos', evidence:'Prototipo',
+    tools:'Canva / Sites / CapCut', mat:'M25',
+    ai:'Usar IA para generar ideas de diseño o texto inicial. Evaluar qué se usa, qué se descarta y por qué.'},
+   {n:26, title:'Prueba con usuarios',
+    cover:'Recibir feedback de compañeros y registrar mejoras.',
+    act:'Ronda de prueba con otra sección', evidence:'Lista de mejoras',
+    tools:'Forms / Docs', mat:'M26', ai:''},
+   {n:27, title:'Iteración y mejora',
+    cover:'Aplicar correcciones de diseño, texto, datos y seguridad.',
+    act:'Mejorar prototipo', evidence:'Versión casi final',
+    tools:'Herramienta elegida', mat:'M27', ai:''},
+   {n:28, title:'Preparación de exposición',
+    cover:'Problema, proceso, solución, aprendizaje y límites.',
+    act:'Ensayo de pitch de 3 minutos', evidence:'Guion de exposición',
+    tools:'Slides', mat:'M28', ai:''},
+   {n:29, title:'Sustentación final',
+    cover:'Presentar producto y responder preguntas.',
+    act:'Exposición grupal ante el aula', evidence:'Producto final',
+    tools:'Aula / proyector', mat:'M29', ai:''},
+   {n:30, title:'Autoevaluación digital',
+    cover:'Qué aprendí, qué me costó, cómo usé IA y qué haría distinto.',
+    act:'Ficha de reflexión', evidence:'Autoevaluación',
+    tools:'Forms / Docs', mat:'M30', ai:''},
+   {n:31, title:'Portafolio de evidencias',
+    cover:'Organizar mejores trabajos, enlaces, capturas y breve explicación.',
+    act:'Armar carpeta/portafolio', evidence:'Portafolio',
+    tools:'Drive / Sites', mat:'M31', ai:''},
+   {n:32, title:'Muestra final y reglas personales',
+    cover:'Compartir proyectos destacados y compromisos de uso responsable.',
+    act:'Galería digital', evidence:'Muestra final',
+    tools:'Aula / Drive', mat:'M32', ai:''},
+  ]
+ },
+ sec3:{
+  id:'sec3', label:'3.° Secundaria', emoji:'🟠', age:'14-15 años',
+  goal:'Datos, Scratch y pensamiento crítico con IA. Proyecto integrador multimedia.',
+  project:'Proyecto integrador (juego, sitio, video o infografía)',
+  sessions:[
+   {n:1, title:'Diagnóstico de datos, diseño e IA',
+    cover:'Medir manejo de Sheets, presentaciones, búsqueda, Scratch/Sites e IA.',
+    act:'Reto diagnóstico mixto', evidence:'Ficha diagnóstica',
+    tools:'Forms / Sheets', mat:'M01', ai:''},
+   {n:2, title:'Estructura de datos en Sheets',
+    cover:'Celdas, rangos, tipos de datos, encabezados, limpieza y formato.',
+    act:'Tabla de inventario escolar', evidence:'Tabla limpia',
+    tools:'Sheets / Excel online', mat:'M02', ai:''},
+   {n:3, title:'Fórmulas esenciales',
+    cover:'SUMA, PROMEDIO, CONTAR, MAX, MIN y referencias relativas.',
+    act:'Resolver presupuesto de evento escolar', evidence:'Hoja con fórmulas',
+    tools:'Sheets', mat:'M03', ai:''},
+   {n:4, title:'Ordenar y filtrar',
+    cover:'Filtros, ordenamiento, criterios y lectura de patrones.',
+    act:'Analizar lista de productos ficticios', evidence:'Tabla filtrada',
+    tools:'Sheets', mat:'M04', ai:''},
+   {n:5, title:'Gráficos con criterio',
+    cover:'Barras, líneas y circular; cuándo usar cada uno y cómo titular.',
+    act:'Dashboard simple de datos de aula', evidence:'Gráfico + explicación',
+    tools:'Sheets', mat:'M05', ai:''},
+   {n:6, title:'Datos para tomar decisiones',
+    cover:'Formular una pregunta, recoger datos y escribir conclusión.',
+    act:'Mini investigación del aula', evidence:'Informe breve',
+    tools:'Forms / Sheets', mat:'M06', ai:''},
+   {n:7, title:'Presentar datos sin aburrir',
+    cover:'Estructura: pregunta, dato, hallazgo, recomendación.',
+    act:'Exposición de gráfico ante el grupo', evidence:'Slides de datos',
+    tools:'Slides / Canva', mat:'M07', ai:''},
+   {n:8, title:'Cómo funciona la IA generativa',
+    cover:'Modelos que predicen texto/imágenes, alucinaciones, sesgos y límites.',
+    act:'Mapa conceptual de IA generativa', evidence:'Mapa visual',
+    tools:'Canva / Docs', mat:'M08',
+    ai:'Comparar la respuesta de una IA con una fuente académica. Identificar qué inventó, qué acertó y qué sesgó.'},
+   {n:9, title:'Prompts por objetivo',
+    cover:'Prompts para estudiar, resumir, comparar, practicar y crear ideas.',
+    act:'Crear biblioteca de prompts escolares', evidence:'Banco de prompts',
+    tools:'ChatGPT / Copilot / Gemini', mat:'M09', ai:''},
+   {n:10, title:'Auditoría de respuestas de IA',
+    cover:'Comprobar datos, fuentes, fechas, sesgos y contradicciones.',
+    act:'Auditar una respuesta de IA con buscador', evidence:'Ficha de auditoría',
+    tools:'IA + buscador', mat:'M10', ai:''},
+   {n:11, title:'Pensamiento computacional',
+    cover:'Descomposición, patrones, algoritmos y depuración.',
+    act:'Resolver problema cotidiano con pasos precisos', evidence:'Algoritmo',
+    tools:'Docs / Scratch', mat:'M11', ai:''},
+   {n:12, title:'Scratch: eventos y movimiento',
+    cover:'Sprites, escenarios, eventos, coordenadas y movimiento básico.',
+    act:'Animación interactiva', evidence:'Proyecto Scratch',
+    tools:'Scratch', mat:'M12', ai:''},
+   {n:13, title:'Scratch: condiciones y variables',
+    cover:'If/else, puntaje, vidas, temporizador y mensajes.',
+    act:'Mini juego de preguntas', evidence:'Juego simple',
+    tools:'Scratch', mat:'M13', ai:''},
+   {n:14, title:'Scratch: proyecto educativo',
+    cover:'Diseñar juego/animación para explicar un tema escolar.',
+    act:'Plan de juego educativo + storyboard', evidence:'Storyboard',
+    tools:'Scratch / Docs', mat:'M14', ai:''},
+   {n:15, title:'Prueba y depuración',
+    cover:'Encontrar errores, probar con usuarios y mejorar instrucciones.',
+    act:'Ronda de pruebas con compañeros', evidence:'Lista de bugs corregidos',
+    tools:'Scratch / Forms', mat:'M15', ai:''},
+   {n:16, title:'Infografías con datos',
+    cover:'Combinar dato, gráfico, fuente, texto breve e íconos.',
+    act:'Infografía basada en encuesta propia', evidence:'Infografía',
+    tools:'Canva / Sheets', mat:'M16', ai:''},
+   {n:17, title:'Google Sites: página educativa',
+    cover:'Estructura de web simple: inicio, secciones, enlaces, recursos.',
+    act:'Crear sitio sobre un tema escolar', evidence:'Sitio inicial',
+    tools:'Google Sites', mat:'M17', ai:''},
+   {n:18, title:'Accesibilidad web básica',
+    cover:'Títulos claros, contraste, textos alternativos, navegación y lectura móvil.',
+    act:'Mejorar sitio para visualización en celular', evidence:'Sitio mejorado',
+    tools:'Sites / Canva', mat:'M18', ai:''},
+   {n:19, title:'Video educativo: guion',
+    cover:'Guion, escenas, voz, subtítulos, ritmo y evidencia.',
+    act:'Guion de 60 segundos', evidence:'Guion',
+    tools:'Docs / CapCut', mat:'M19', ai:''},
+   {n:20, title:'Video educativo: edición y subtitulado',
+    cover:'Cortes, texto en pantalla, música libre, exportación y revisión.',
+    act:'Editar video educativo', evidence:'Video',
+    tools:'CapCut', mat:'M20', ai:''},
+   {n:21, title:'Deepfakes y manipulación digital',
+    cover:'Qué son, riesgos, señales de detección, consentimiento e impacto social.',
+    act:'Analizar casos ficticios', evidence:'Ficha de riesgos',
+    tools:'Slides / Docs', mat:'M21', ai:''},
+   {n:22, title:'Elección de proyecto integrador',
+    cover:'Elegir entre juego, sitio, video o infografía basada en datos.',
+    act:'Brief de proyecto', evidence:'Plan de proyecto',
+    tools:'Docs', mat:'M22', ai:''},
+   {n:23, title:'Investigación y guion técnico',
+    cover:'Definir contenido, fuentes, funcionalidades y roles.',
+    act:'Storyboard o mapa web', evidence:'Guion técnico',
+    tools:'Docs / Canva', mat:'M23', ai:''},
+   {n:24, title:'Producción 1',
+    cover:'Construir prototipo inicial: juego, sitio, video o infografía.',
+    act:'Trabajo en equipo', evidence:'Prototipo inicial',
+    tools:'Herramienta elegida', mat:'M24', ai:''},
+   {n:25, title:'Producción 2',
+    cover:'Mejorar diseño, contenido, interacción y datos.',
+    act:'Continuar construcción del prototipo', evidence:'Prototipo avanzado',
+    tools:'Herramienta elegida', mat:'M25',
+    ai:'Usar IA para sugerir mejoras de contenido o diseño. Evaluar cuáles aplicas y justificar por qué.'},
+   {n:26, title:'Testeo con compañeros',
+    cover:'Probar producto, recoger feedback y priorizar cambios.',
+    act:'Prueba con usuarios del aula', evidence:'Feedback organizado',
+    tools:'Forms / Docs', mat:'M26', ai:''},
+   {n:27, title:'Iteración final',
+    cover:'Aplicar mejoras, revisar seguridad, fuentes, claridad y permisos.',
+    act:'Corrección final del producto', evidence:'Producto casi final',
+    tools:'Herramienta elegida', mat:'M27', ai:''},
+   {n:28, title:'Pitch técnico',
+    cover:'Explicar problema, solución, herramienta, datos, IA usada y aprendizaje.',
+    act:'Ensayo de exposición', evidence:'Pitch',
+    tools:'Slides', mat:'M28', ai:''},
+   {n:29, title:'Sustentación de proyecto',
+    cover:'Presentar producto y responder preguntas.',
+    act:'Expo final ante el aula', evidence:'Producto final',
+    tools:'Aula / proyector', mat:'M29', ai:''},
+   {n:30, title:'Bitácora de aprendizaje',
+    cover:'Registrar aprendizajes, errores, soluciones y mejoras futuras.',
+    act:'Bitácora individual', evidence:'Reflexión',
+    tools:'Docs / Forms', mat:'M30', ai:''},
+   {n:31, title:'Portafolio digital',
+    cover:'Ordenar evidencias con explicación breve de cada producto.',
+    act:'Crear portafolio', evidence:'Portafolio',
+    tools:'Drive / Sites', mat:'M31', ai:''},
+   {n:32, title:'Muestra y compromisos',
+    cover:'Galería de proyectos y reglas para usar IA el siguiente año.',
+    act:'Muestra final del aula', evidence:'Galería digital',
+    tools:'Aula / Drive', mat:'M32', ai:''},
+  ]
+ },
+ sec4:{
+  id:'sec4', label:'4.° Secundaria', emoji:'🟣', age:'15-16 años',
+  goal:'Investigación formal, diseño de soluciones y emprendimiento digital escolar.',
+  project:'Proyecto de investigación + sitio digital',
+  sessions:[
+   {n:1, title:'Diagnóstico de investigación digital',
+    cover:'Revisar manejo de Word/Docs, referencias, Sheets, Forms, Sites e IA.',
+    act:'Reto diagnóstico', evidence:'Ficha',
+    tools:'Forms / Docs', mat:'M01', ai:''},
+   {n:2, title:'Normas APA: sentido y estructura',
+    cover:'Para qué sirven citas, referencias, portada y orden académico.',
+    act:'Analizar ejemplo correcto vs incorrecto', evidence:'Ficha APA',
+    tools:'Docs', mat:'M02', ai:''},
+   {n:3, title:'Portada y formato APA básico',
+    cover:'Márgenes, título, autor, institución, fecha, encabezados y presentación formal.',
+    act:'Crear portada e índice simple', evidence:'Documento base',
+    tools:'Docs / Word online', mat:'M03', ai:''},
+   {n:4, title:'Citas y paráfrasis',
+    cover:'Diferenciar cita textual corta, paráfrasis y resumen; cuándo citar.',
+    act:'Parafrasear con fuente', evidence:'Párrafo citado',
+    tools:'Docs', mat:'M04', ai:''},
+   {n:5, title:'Referencias y fuentes confiables',
+    cover:'Autor, fecha, título, URL; fuentes oficiales, académicas y periodísticas.',
+    act:'Crear lista de referencias de un tema', evidence:'Bibliografía inicial',
+    tools:'Docs / buscador', mat:'M05', ai:''},
+   {n:6, title:'IA para investigación escolar',
+    cover:'Usar IA para preguntas, esquemas, contraargumentos y explicación; límites y alucinaciones.',
+    act:'Auditar una respuesta de IA con fuente real', evidence:'Ficha de auditoría',
+    tools:'IA / buscador', mat:'M06',
+    ai:'Pedir esquema de tema académico a la IA. Verificar cada punto con fuente real. ¿Cuántos acertó? ¿Cuántos inventó?'},
+   {n:7, title:'Redacción formal clara',
+    cover:'Párrafos, conectores, tono, precisión y revisión ortográfica.',
+    act:'Mejorar introducción de informe', evidence:'Introducción corregida',
+    tools:'Docs', mat:'M07', ai:''},
+   {n:8, title:'Sheets para investigación',
+    cover:'Tablas de datos, variables, categorías y limpieza de datos.',
+    act:'Registrar respuestas de encuesta', evidence:'Base de datos',
+    tools:'Sheets', mat:'M08', ai:''},
+   {n:9, title:'Google Forms ético',
+    cover:'Preguntas no sesgadas, escalas, consentimiento escolar y anonimato.',
+    act:'Diseñar encuesta de hábitos digitales', evidence:'Formulario',
+    tools:'Forms', mat:'M09', ai:''},
+   {n:10, title:'Análisis de resultados',
+    cover:'Promedios, porcentajes, conteos y lectura de gráficos.',
+    act:'Analizar resultados ficticios o propios', evidence:'Informe de datos',
+    tools:'Sheets', mat:'M10', ai:''},
+   {n:11, title:'Informe + gráficos',
+    cover:'Integrar texto, tabla, gráfico y conclusión.',
+    act:'Mini informe con gráfico', evidence:'Informe breve',
+    tools:'Docs / Sheets', mat:'M11', ai:''},
+   {n:12, title:'Infografía argumentativa',
+    cover:'Convertir investigación en explicación visual con fuente y conclusión.',
+    act:'Crear infografía de hallazgos', evidence:'Infografía',
+    tools:'Canva', mat:'M12', ai:''},
+   {n:13, title:'Sesgos algorítmicos',
+    cover:'Cómo los datos pueden producir recomendaciones injustas o incompletas.',
+    act:'Caso ficticio de algoritmo escolar', evidence:'Análisis de caso',
+    tools:'Slides / Docs', mat:'M13', ai:''},
+   {n:14, title:'Privacidad, permisos y datos',
+    cover:'Datos personales, metadatos, permisos de Drive, fotos, geolocalización y formularios.',
+    act:'Auditoría de privacidad de un proyecto', evidence:'Checklist',
+    tools:'Drive / Docs', mat:'M14', ai:''},
+   {n:15, title:'Google Sites para investigación',
+    cover:'Publicar informe escolar como sitio: secciones, fuentes, anexos y navegación.',
+    act:'Crear sitio de proyecto', evidence:'Sitio inicial',
+    tools:'Google Sites', mat:'M15', ai:''},
+   {n:16, title:'Accesibilidad y lectura móvil',
+    cover:'Contraste, estructura, texto alternativo, enlaces claros y versión móvil.',
+    act:'Mejorar sitio para dispositivos móviles', evidence:'Sitio mejorado',
+    tools:'Sites / Canva', mat:'M16', ai:''},
+   {n:17, title:'Problema, usuario y solución digital',
+    cover:'Identificar necesidad escolar/local y definir propuesta de valor.',
+    act:'Mapa problema-solución', evidence:'Canvas simple',
+    tools:'Docs / Canva', mat:'M17', ai:''},
+   {n:18, title:'Marca y comunicación',
+    cover:'Nombre, público, tono, logo simple y mensaje principal.',
+    act:'Crear identidad básica del proyecto', evidence:'Mini brand kit',
+    tools:'Canva', mat:'M18', ai:''},
+   {n:19, title:'Prototipo de solución',
+    cover:'Landing, formulario, afiche o demo del servicio/producto escolar.',
+    act:'Prototipo inicial', evidence:'Prototipo',
+    tools:'Sites / Forms / Canva', mat:'M19', ai:''},
+   {n:20, title:'Validación con encuesta',
+    cover:'Preguntar a potenciales usuarios y analizar respuestas.',
+    act:'Encuesta de validación', evidence:'Reporte de validación',
+    tools:'Forms / Sheets', mat:'M20', ai:''},
+   {n:21, title:'Video o pieza promocional ética',
+    cover:'Crear pieza breve sin exagerar beneficios ni manipular.',
+    act:'Guion y pieza promocional', evidence:'Video / afiche',
+    tools:'CapCut / Canva', mat:'M21', ai:''},
+   {n:22, title:'Plan del proyecto final',
+    cover:'Definir producto final: informe + sitio + pieza visual o emprendimiento digital.',
+    act:'Brief integral', evidence:'Plan de proyecto',
+    tools:'Docs', mat:'M22', ai:''},
+   {n:23, title:'Investigación y fuentes',
+    cover:'Recolectar información, datos y referencias para sustentar el proyecto.',
+    act:'Matriz de fuentes', evidence:'Matriz',
+    tools:'Docs / Sheets', mat:'M23', ai:''},
+   {n:24, title:'Producción del informe',
+    cover:'Redactar problema, análisis, datos, propuesta y fuentes.',
+    act:'Borrador de informe', evidence:'Informe borrador',
+    tools:'Docs', mat:'M24', ai:''},
+   {n:25, title:'Producción del sitio o prototipo',
+    cover:'Construir versión digital del proyecto.',
+    act:'Trabajo por equipos', evidence:'Prototipo avanzado',
+    tools:'Sites / Canva / Forms', mat:'M25',
+    ai:'Usar IA para revisar claridad del informe y diseño del sitio. Documentar qué cambios aceptaron y cuáles rechazaron.'},
+   {n:26, title:'Revisión por pares',
+    cover:'Evaluar claridad, evidencia, diseño, fuentes e IA declarada.',
+    act:'Rúbrica cruzada', evidence:'Feedback',
+    tools:'Forms / Docs', mat:'M26', ai:''},
+   {n:27, title:'Iteración final',
+    cover:'Corregir informe, sitio, diseño y exposición.',
+    act:'Mejoras finales', evidence:'Producto casi final',
+    tools:'Herramientas elegidas', mat:'M27', ai:''},
+   {n:28, title:'Pitch con evidencia',
+    cover:'Presentar problema, datos, solución, límites e impacto.',
+    act:'Ensayo de 4 minutos', evidence:'Pitch',
+    tools:'Slides', mat:'M28', ai:''},
+   {n:29, title:'Sustentación final',
+    cover:'Exponer proyecto y defender decisiones.',
+    act:'Presentación final', evidence:'Proyecto final',
+    tools:'Aula / proyector', mat:'M29', ai:''},
+   {n:30, title:'Reflexión ética',
+    cover:'Qué aprendí sobre tecnología, IA, fuentes, sesgos y responsabilidad.',
+    act:'Ensayo corto de reflexión', evidence:'Reflexión',
+    tools:'Docs', mat:'M30', ai:''},
+   {n:31, title:'Portafolio académico',
+    cover:'Ordenar informe, sitio, piezas, datos y reflexión.',
+    act:'Publicar/organizar portafolio', evidence:'Portafolio',
+    tools:'Drive / Sites', mat:'M31', ai:''},
+   {n:32, title:'Muestra de proyectos',
+    cover:'Galería final, retroalimentación y compromisos de uso responsable.',
+    act:'Muestra del aula', evidence:'Galería',
+    tools:'Aula / Drive', mat:'M32', ai:''},
+  ]
+ },
+ sec5:{
+  id:'sec5', label:'5.° Secundaria', emoji:'🔴', age:'16-17 años',
+  goal:'Competencias de egreso: portafolio, empleabilidad, investigación y uso crítico de IA.',
+  project:'Proyecto final de egreso (portafolio, investigación o emprendimiento)',
+  sessions:[
+   {n:1, title:'Diagnóstico de competencias para egreso',
+    cover:'Revisar documentos formales, datos, portafolio, CV, IA y seguridad.',
+    act:'Reto diagnóstico', evidence:'Ficha',
+    tools:'Forms / Docs', mat:'M01', ai:''},
+   {n:2, title:'Trabajo formal avanzado',
+    cover:'Estructura de informe, portada, índice, secciones, anexos y referencias.',
+    act:'Armar plantilla de informe', evidence:'Plantilla',
+    tools:'Docs / Word online', mat:'M02', ai:''},
+   {n:3, title:'APA avanzado y gestores básicos',
+    cover:'Citas, referencias, paráfrasis, tablas/figuras y consistencia.',
+    act:'Corregir referencias de un texto dado', evidence:'Lista corregida',
+    tools:'Docs', mat:'M03', ai:''},
+   {n:4, title:'Argumentación y criterio',
+    cover:'Tesis, evidencia, contraargumento y conclusión.',
+    act:'Redactar argumento sobre tecnología', evidence:'Párrafo argumentativo',
+    tools:'Docs', mat:'M04', ai:''},
+   {n:5, title:'Sheets para análisis de datos',
+    cover:'Limpieza, porcentajes, promedios, filtros y visualización.',
+    act:'Analizar dataset escolar', evidence:'Hoja analizada',
+    tools:'Sheets', mat:'M05', ai:''},
+   {n:6, title:'Gráficos y dashboard simple',
+    cover:'KPIs, gráficos, segmentación básica y conclusiones.',
+    act:'Dashboard de encuesta propia', evidence:'Dashboard',
+    tools:'Sheets', mat:'M06', ai:''},
+   {n:7, title:'IA, empleo y estudios superiores',
+    cover:'Cómo cambia la productividad, riesgos, habilidades humanas y aprendizaje permanente.',
+    act:'Mapa de habilidades futuras', evidence:'Mapa',
+    tools:'Canva / Docs', mat:'M07',
+    ai:'¿Qué trabajos desaparecerán? ¿Cuáles surgirán? ¿Qué habilidades humanas no puede reemplazar la IA?'},
+   {n:8, title:'Prompting profesional',
+    cover:'Contexto, objetivo, restricciones, formato, audiencia, criterios y revisión.',
+    act:'Crear prompts para CV, estudio y proyectos', evidence:'Banco de prompts',
+    tools:'IA / Docs', mat:'M08',
+    ai:'Diseñar prompts avanzados para situaciones reales: preparar entrevista, mejorar CV, planificar proyecto.'},
+   {n:9, title:'Identidad digital y reputación',
+    cover:'Huella digital, búsqueda de nombre, privacidad, perfiles y consecuencias.',
+    act:'Auditoría personal simulada', evidence:'Checklist',
+    tools:'Docs', mat:'M09', ai:''},
+   {n:10, title:'CV escolar sin inflar logros',
+    cover:'Datos, estudios, habilidades, proyectos, voluntariado y formato simple.',
+    act:'Redactar CV inicial', evidence:'CV borrador',
+    tools:'Docs / Canva', mat:'M10', ai:''},
+   {n:11, title:'Carta/correo formal de presentación',
+    cover:'Asunto, saludo, intención, evidencia y cierre.',
+    act:'Escribir correo de postulación ficticia', evidence:'Correo modelo',
+    tools:'Docs / Gmail simulado', mat:'M11', ai:''},
+   {n:12, title:'Portafolio digital de egreso',
+    cover:'Secciones: sobre mí, proyectos, habilidades, evidencias y contacto escolar seguro.',
+    act:'Crear portafolio inicial', evidence:'Sitio inicial',
+    tools:'Google Sites', mat:'M12', ai:''},
+   {n:13, title:'Evidencias y storytelling personal',
+    cover:'Explicar cada proyecto: reto, proceso, herramienta, resultado, aprendizaje.',
+    act:'Subir 3 evidencias con narrativa', evidence:'Portafolio mejorado',
+    tools:'Sites / Drive', mat:'M13', ai:''},
+   {n:14, title:'Presentación personal de 1 minuto',
+    cover:'Quién soy, qué sé hacer, qué aprendí y qué busco.',
+    act:'Guion de presentación', evidence:'Guion',
+    tools:'Docs / cámara', mat:'M14', ai:''},
+   {n:15, title:'Video de presentación responsable',
+    cover:'Grabación, encuadre, audio, subtítulos, edición y exportación.',
+    act:'Grabar video personal académico', evidence:'Video',
+    tools:'CapCut', mat:'M15', ai:''},
+   {n:16, title:'IA como tutor de estudio',
+    cover:'Plan de estudio, preguntas, flashcards, explicación por niveles y evaluación.',
+    act:'Crear plan de repaso con IA', evidence:'Plan + flashcards',
+    tools:'IA / Docs', mat:'M16',
+    ai:'Usar IA para generar preguntas de práctica de un tema. Responderlas y verificar con apuntes propios.'},
+   {n:17, title:'Evaluar calidad de respuestas IA',
+    cover:'Fuentes, actualidad, sesgo, precisión y utilidad.',
+    act:'Comparar 2 respuestas de IA sobre el mismo tema', evidence:'Matriz comparativa',
+    tools:'IA / buscador', mat:'M17', ai:''},
+   {n:18, title:'Definir proyecto final de egreso',
+    cover:'Elegir entre portafolio profesional, investigación digital o emprendimiento.',
+    act:'Brief final del proyecto', evidence:'Plan',
+    tools:'Docs', mat:'M18', ai:''},
+   {n:19, title:'Fuentes y sustento del proyecto',
+    cover:'Reunir fuentes, datos, entrevistas simuladas o encuestas seguras.',
+    act:'Matriz de evidencias', evidence:'Matriz',
+    tools:'Docs / Sheets', mat:'M19', ai:''},
+   {n:20, title:'Diseño del producto digital',
+    cover:'Estructura, diseño, mensajes, navegación, accesibilidad y coherencia.',
+    act:'Wireframe o storyboard', evidence:'Prototipo visual',
+    tools:'Canva / Sites', mat:'M20', ai:''},
+   {n:21, title:'Producción 1',
+    cover:'Construir el producto final: portafolio, sitio, dashboard, video o campaña.',
+    act:'Trabajo individual/equipo', evidence:'Prototipo inicial',
+    tools:'Herramienta elegida', mat:'M21', ai:''},
+   {n:22, title:'Producción 2',
+    cover:'Completar contenido, evidencias, diseño y funcionalidad.',
+    act:'Trabajo de producción', evidence:'Prototipo avanzado',
+    tools:'Herramienta elegida', mat:'M22', ai:''},
+   {n:23, title:'Medición y mejora',
+    cover:'Crear encuesta de retroalimentación, leer datos y decidir mejoras.',
+    act:'Feedback de usuarios', evidence:'Reporte',
+    tools:'Forms / Sheets', mat:'M23', ai:''},
+   {n:24, title:'Pitch de proyecto',
+    cover:'Problema, solución, evidencia, aprendizaje, límites y próximos pasos.',
+    act:'Armar pitch de 5 minutos', evidence:'Slides de pitch',
+    tools:'Slides / Canva', mat:'M24', ai:''},
+   {n:25, title:'Revisión de seguridad y ética',
+    cover:'Privacidad, citas, permisos, IA declarada, sesgos y accesibilidad.',
+    act:'Auditoría final del producto', evidence:'Checklist final',
+    tools:'Docs / IA', mat:'M25',
+    ai:'Verificar que todo uso de IA esté declarado. Revisar si hay sesgos, información desactualizada o permisos faltantes.'},
+   {n:26, title:'Mejora final del producto',
+    cover:'Aplicar feedback y dejar versión publicable.',
+    act:'Corrección final', evidence:'Producto casi final',
+    tools:'Herramienta elegida', mat:'M26', ai:''},
+   {n:27, title:'Ensayo de sustentación',
+    cover:'Practicar manejo del tiempo, claridad, preguntas difíciles y cierre.',
+    act:'Ensayo cronometrado', evidence:'Pitch ensayado',
+    tools:'Aula / Slides', mat:'M27', ai:''},
+   {n:28, title:'Presentación final',
+    cover:'Exponer producto final y defender decisiones con evidencia.',
+    act:'Sustentación', evidence:'Proyecto final',
+    tools:'Aula / proyector', mat:'M28', ai:''},
+   {n:29, title:'Simulación de entrevista',
+    cover:'Responder sobre habilidades, proyectos, errores, aprendizaje y metas.',
+    act:'Entrevista simulada', evidence:'Rúbrica de entrevista',
+    tools:'Aula', mat:'M29', ai:''},
+   {n:30, title:'Autoevaluación de egreso',
+    cover:'Identificar habilidades digitales logradas y plan personal de mejora.',
+    act:'Ficha de cierre', evidence:'Autoevaluación',
+    tools:'Forms / Docs', mat:'M30', ai:''},
+   {n:31, title:'Entrega de portafolio final',
+    cover:'Organizar enlaces, permisos, evidencias, CV, video y reflexión.',
+    act:'Entrega final', evidence:'Portafolio final',
+    tools:'Sites / Drive', mat:'M31', ai:''},
+   {n:32, title:'Muestra final y transición',
+    cover:'Galería de productos, recomendaciones para siguiente etapa y compromiso digital.',
+    act:'Muestra final del año', evidence:'Galería final',
+    tools:'Aula / Drive', mat:'M32', ai:''},
+  ]
+ },
+};
+
+// ═══════════════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════════════
+function storageKey(gId){ return `cc2026_done_${gId}`; }
+function loadDone(gId){
+  try{ return new Set(JSON.parse(localStorage.getItem(storageKey(gId))||'[]')); }
+  catch(e){ return new Set(); }
+}
+function saveDone(gId, set){ localStorage.setItem(storageKey(gId), JSON.stringify([...set])); }
+
+// ═══════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════
+const GRADE_ORDER = ['prim6','sec2','sec3','sec4','sec5'];
+
+function todayStr(){
+  const d=new Date(); const z=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+}
+
+function render(){
+  const tabs = document.getElementById('grade-tabs');
+  tabs.innerHTML = GRADE_ORDER.map(id=>{
+    const g = GRADES[id];
+    return `<button class="gtab" onclick="switchGrade('${id}')">${g.emoji} ${g.label}</button>`;
+  }).join('');
+  switchGrade(GRADE_ORDER[0]);
+}
+
+function switchGrade(gradeId){
+  document.querySelectorAll('.gtab').forEach((t,i)=>{
+    t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
+  });
+  renderPanel(gradeId);
+}
+
+function renderPanel(gradeId){
+  const g = GRADES[gradeId];
+  const done = loadDone(gradeId);
+  const today = todayStr();
+
+  // Build items list (sessions only)
+  const allItems = g.sessions.map(sdata=>{
+    const calEntry = CALENDAR.find(c=>c.session===sdata.n);
+    const isPast = calEntry && calEntry.date < today;
+    const isDone = done.has(sdata.n);
+    const isOver = isPast || isDone;
+    return {sdata, cal:calEntry, isPast, isDone, isOver};
+  });
+
+  // Classify
+  const nextItem = allItems.find(i => !i.isOver && i.cal && i.cal.date >= today);
+  const pastItems = [], futureItems = [];
+  allItems.forEach(item=>{
+    if(item === nextItem) return;
+    if(item.isOver) pastItems.push(item);
+    else futureItems.push(item);
+  });
+
+  // Progress
+  const doneCount = done.size;
+  const pct = Math.round(doneCount/TOTAL*100);
+  document.getElementById('prog-label').textContent = `${doneCount} / ${TOTAL} sesiones`;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-pct').textContent = pct+'%';
+
+  // Build HTML
+  const main = document.getElementById('main');
+  let html = `<div class="panel active" id="panel-${gradeId}">`;
+
+  // Grade info strip
+  html += `<div class="calendar-note">🎯 <strong>${g.label}</strong> · ${g.age} · Proyecto: ${g.project}</div>`;
+
+  // NEXT SESSION
+  if(nextItem){
+    html += `<div class="section-label">🎯 Próxima clase</div>`;
+    html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true);
+  } else {
+    html += `<div class="empty-state">🎉 ¡Todas las sesiones están completadas! Gran trabajo.</div>`;
+  }
+
+  // UPCOMING SESSIONS
+  if(futureItems.length){
+    html += `<div class="section-label">📅 Sesiones futuras (${futureItems.length})</div>`;
+    html += `<div class="future-grid">`;
+    futureItems.forEach(item=>{
+      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
+    });
+    html += `</div>`;
+  }
+
+  // PAST / ARCHIVED
+  if(pastItems.length){
+    html += `<button class="archive-toggle" onclick="toggleArchive()" id="arch-btn">
+      <span>📦 Sesiones anteriores (${pastItems.length})</span>
+      <span class="archive-arrow" id="arch-arrow">▼</span>
+    </button>`;
+    html += `<div id="archive-section"><div class="done-grid">`;
+    pastItems.forEach(item=>{
+      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
+    });
+    html += `</div></div>`;
+  } else if(done.size > 0){
+    const doneItems = allItems.filter(i=>i.isDone && i!==nextItem && !i.isPast);
+    if(doneItems.length){
+      html += `<button class="archive-toggle" onclick="toggleArchive()" id="arch-btn">
+        <span>✅ Sesiones realizadas (${doneItems.length})</span>
+        <span class="archive-arrow" id="arch-arrow">▼</span>
+      </button>`;
+      html += `<div id="archive-section"><div class="done-grid">`;
+      doneItems.forEach(item=>{
+        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
+      });
+      html += `</div></div>`;
+    }
+  }
+
+  html += `</div>`;
+  main.innerHTML = html;
+}
+
+function buildCard(sdata, cal_info, done, gradeId, isNext){
+  const {n, title, cover, act, evidence, tools, mat, ai} = sdata;
+  const {block, dateLabel, note} = cal_info;
+  const isDone = done.has(n);
+  const isAI  = AI_SESSIONS.has(n);
+  const isSec = SEC_SESSIONS.has(n);
+  const focus = CROSS_FOCUS[n] || '';
+
+  let cls = 'card';
+  if(isNext) cls += ' next';
+  else if(isDone) cls += ' done';
+
+  const tags = [];
+  if(isNext) tags.push(`<span class="tag tag-next">🎯 Próxima</span>`);
+  if(isAI)   tags.push(`<span class="tag tag-ai">🤖 IA</span>`);
+  if(isSec)  tags.push(`<span class="tag tag-sec">🔒 Seguridad</span>`);
+
+  const aiHtml = ai ? `<div class="ai-box">🤖 <strong>Momento IA:</strong> ${ai}</div>` : '';
+  const noteHtml = note ? `<div class="session-note-badge">📌 ${note}</div>` : '';
+  const matHtml = `<span class="mat-chip">${mat}</span>`;
+  const btnClass = isDone ? 'unmark' : 'mark';
+  const btnText  = isDone ? '↩ Desmarcar sesión' : '✓ Marcar como realizada';
+  const slideUrl = (SLIDES[gradeId] || {})[n];
+  const notasUrl = (NOTAS[gradeId]  || {})[n];
+  const slideBtn = slideUrl
+    ? `<a href="${slideUrl}" target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
+  const notasBtn = notasUrl
+    ? `<a href="${notasUrl}" target="_blank" class="notes-btn">📋 Notas del profesor</a>` : '';
+
+  const expandBtn = isNext ? '' :
+    `<button class="expand-btn" onclick="toggleExpand(this)">
+      Ver detalles <span class="arrow">▾</span>
+    </button>`;
+
+  return `<div class="${cls}">
+    <div class="card-head">
+      <div class="card-meta">
+        <span class="snum">${n}</span>
+        <span class="badge b-${block}">Bloque ${block}</span>
+        ${tags.join('')}
+      </div>
+      <span class="card-date">${dateLabel}</span>
+    </div>
+    <div class="card-body">
+      ${noteHtml}
+      <div class="card-focus">${focus}</div>
+      <div class="card-title">${title}</div>
+      ${expandBtn}
+      <div class="card-details">
+        <div class="detail-row">
+          <span class="detail-label">📖 Cubre:</span>
+          <span class="detail-val">${cover}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">🎯 Actividad:</span>
+          <span class="detail-val">${act}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">📋 Evidencia:</span>
+          <span class="detail-val">${evidence}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">🛠 Herramientas:</span>
+          <span class="detail-val">${tools}</span>
+        </div>
+        ${aiHtml}
+        <div class="detail-row">
+          <span class="detail-label">📚 Material:</span>
+          <span class="detail-val"><div class="materials">${matHtml}</div></span>
+        </div>
+      </div>
+    </div>
+    <div class="card-foot">
+      <div class="foot-actions">${slideBtn}${notasBtn}</div>
+      <button class="check-btn ${btnClass}" onclick="toggleDone('${gradeId}',${n})">
+        ${btnText}
+      </button>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════════════════════
+function toggleDone(gradeId, sessionNum){
+  const done = loadDone(gradeId);
+  if(done.has(sessionNum)) done.delete(sessionNum);
+  else done.add(sessionNum);
+  saveDone(gradeId, done);
+  renderPanel(gradeId);
+}
+
+function toggleExpand(btn){
+  const card = btn.closest('.card');
+  card.classList.toggle('expanded');
+}
+
+function toggleArchive(){
+  const sec = document.getElementById('archive-section');
+  const arr = document.getElementById('arch-arrow');
+  sec.classList.toggle('visible');
+  arr.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+render();
+</script>
+
+</body>
+</html>

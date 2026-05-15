@@ -6,86 +6,92 @@
 <title>Notas S02 · 2do Secundaria</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden}
-body{background:#060d1a;font-family:system-ui,-apple-system,sans-serif;font-size:18px;color:#e5e7eb}
+html,body{height:100%;height:100dvh;overflow:hidden}
+body{background:#060d1a;font-family:system-ui,-apple-system,sans-serif;color:#e5e7eb}
 
-/* ── Fixed UI chrome ─────────────────────────────────── */
+/* ── Fixed chrome ─── */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:20;
   background:#060d1a;border-bottom:3px solid #3b82f6;padding:.7rem 1rem}
-.hdr h1{color:#3b82f6;font-size:1.05rem;font-weight:800;line-height:1.2}
-.hdr p{font-size:.8rem;color:#9ca3af;margin-top:.15rem}
+.hdr h1{color:#3b82f6;font-size:1.1rem;font-weight:800;line-height:1.2}
+.hdr p{font-size:.82rem;color:#9ca3af;margin-top:.15rem}
 .hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-.fc-counter{color:#3b82f6;font-size:.9rem;font-weight:800;white-space:nowrap}
+.fc-counter{color:#3b82f6;font-size:.95rem;font-weight:800;white-space:nowrap}
 
 .qnav{position:fixed;top:var(--hdr-h,62px);left:0;right:0;z-index:19;
   display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;padding:.45rem .75rem;
   background:#111;border-bottom:1px solid #222;
   scrollbar-width:none;-ms-overflow-style:none}
 .qnav::-webkit-scrollbar{display:none}
-.qnav a{color:#3b82f6;text-decoration:none;font-size:.82rem;font-weight:700;
-  background:#1f2937;border-radius:5px;padding:.25rem .55rem;white-space:nowrap;flex-shrink:0}
-.qnav a:hover{background:#3b82f6;color:#000}
+.qnav a{color:#3b82f6;text-decoration:none;font-size:.85rem;font-weight:700;
+  background:#1f2937;border-radius:5px;padding:.28rem .6rem;white-space:nowrap;
+  flex-shrink:0;cursor:pointer;user-select:none}
+.qnav a:hover,.qnav a.active{background:#3b82f6;color:#000}
 
-/* ── Scroll deck ─────────────────────────────────────── */
-.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;
-  overflow-y:scroll;scroll-snap-type:y mandatory;
-  -webkit-overflow-scrolling:touch;scrollbar-width:none}
-.deck::-webkit-scrollbar{display:none}
+/* ── Deck (JS-controlled, no scroll-snap) ─── */
+.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;overflow:hidden}
 
-/* ── Flash card = 1 screen ───────────────────────────── */
-.fc{height:100%;scroll-snap-align:start;display:flex;flex-direction:column;
-  background:#0a1628;border-bottom:1px solid #222}
+/* ── Flash card ─── */
+.fc{position:absolute;inset:0;display:flex;flex-direction:column;
+  background:#0a1628;will-change:transform}
 
 /* Card header */
-.fc-head{display:flex;align-items:center;gap:.65rem;padding:.75rem 1rem;
+.fc-head{display:flex;align-items:center;gap:.65rem;padding:.8rem 1rem;
   background:#111;border-bottom:2px solid #3b82f6;flex-shrink:0}
 .fc-n{background:#3b82f6;color:#000;border-radius:50%;
-  width:30px;height:30px;min-width:30px;
+  width:32px;height:32px;min-width:32px;
   display:flex;align-items:center;justify-content:center;
-  font-size:.82rem;font-weight:900}
-.fc-title{font-size:1.08rem;font-weight:700;color:#f9fafb;line-height:1.3}
+  font-size:.85rem;font-weight:900}
+.fc-title{font-size:1.15rem;font-weight:700;color:#f9fafb;line-height:1.3}
 
-/* Say block */
-.fc-say{padding:.9rem 1rem;font-size:1.08rem;color:#d1fae5;
-  line-height:1.5;border-left:4px solid #3b82f6;
-  background:rgba(0,0,0,.35);flex:1;display:flex;align-items:center}
+/* Say block — flex:1 to fill space */
+.fc-say{padding:1rem 1.1rem;font-size:1.18rem;color:#d1fae5;
+  line-height:1.55;border-left:4px solid #3b82f6;
+  background:rgba(0,0,0,.35);flex:1;
+  overflow-y:auto;display:flex;align-items:center}
 .fc-say-inner{width:100%}
-.fc-say-label{font-size:.72rem;font-weight:700;color:#3b82f6;
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.fc-say-label{font-size:.76rem;font-weight:700;color:#3b82f6;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
 
-/* Do block */
-.fc-do{padding:.75rem 1rem;font-size:.98rem;color:#cbd5e1;
+/* Static "Haz esto" (no detail) */
+.fc-do{padding:.85rem 1.1rem;font-size:1.05rem;color:#cbd5e1;
   line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
-.fc-do-label{font-size:.72rem;font-weight:700;color:#f97316;
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
+.fc-do-label{font-size:.76rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.25rem}
+
+/* ── Large expandable togglers ─── */
+.fc-toggler{flex-shrink:0;border-top:2px solid #222}
+.fc-toggler summary{
+  list-style:none;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:1rem 1.2rem;min-height:60px;
+  background:#0d0d0d;
+  font-size:1.05rem;font-weight:800;color:#3b82f6;
+  cursor:pointer;user-select:none;width:100%;
+  -webkit-tap-highlight-color:transparent}
+.fc-toggler summary::-webkit-details-marker{display:none}
+.fc-toggler--extra summary{color:#f59e0b}
+.toggler-icon{font-size:1.1rem}
+.toggler-arrow{margin-left:auto;font-size:1rem;
+  transition:transform .2s;display:inline-block}
+.fc-toggler[open] .toggler-arrow{transform:rotate(180deg)}
+.toggler-body{padding:1rem 1.2rem;font-size:1rem;color:#cbd5e1;
+  line-height:1.65;background:#0f0f0f;border-top:1px solid #1f2937;
+  overflow-y:auto;max-height:55vh}
+.toggler-body b{color:#f9fafb}
+.toggler-body i{color:#9ca3af}
 
 /* Footer */
-.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.6rem 1rem;
+.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.7rem 1rem;
   background:#111;flex-shrink:0;border-top:1px solid #222}
 .fc-time{background:#1f2937;border:1px solid #3b82f6;color:#3b82f6;
-  border-radius:20px;padding:.18rem .65rem;font-size:.82rem;
+  border-radius:20px;padding:.2rem .7rem;font-size:.85rem;
   font-weight:700;white-space:nowrap;flex-shrink:0}
-.fc-tip{color:#9ca3af;font-size:.82rem;flex:1;line-height:1.4}
+.fc-tip{color:#9ca3af;font-size:.85rem;flex:1;line-height:1.4}
 
-/* Expandable */
-.fc-extra{flex-shrink:0;border-top:1px solid #2a2a2a}
-.fc-extra summary{
-  list-style:none;padding:.6rem 1rem;
-  font-size:.85rem;font-weight:700;color:#3b82f6;
-  cursor:pointer;display:flex;align-items:center;gap:.4rem;
-  background:#0a0a0a;user-select:none}
-.fc-extra summary::-webkit-details-marker{display:none}
-.fc-extra summary::before{content:'▶';font-size:.65rem;transition:transform .2s}
-.fc-extra[open] summary::before{transform:rotate(90deg)}
-.fc-extra-body{padding:.75rem 1rem;font-size:.92rem;color:#cbd5e1;
-  line-height:1.6;background:#0f0f0f;border-top:1px solid #1f2937}
-.fc-extra-body b{color:#f9fafb}
-.fc-extra-body i{color:#9ca3af}
-
-/* ── Desktop: max-width container ────────────────────── */
+/* Desktop */
 @media(min-width:600px){
   .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
-  .fc{border-radius:0}
+  .fc-say{font-size:1.25rem}
 }
 </style>
 </head>
@@ -93,375 +99,447 @@ body{background:#060d1a;font-family:system-ui,-apple-system,sans-serif;font-size
 <div class="hdr">
   <div class="hdr-row">
     <h1>📋 Notas · Sesión 02 · 2do Secundaria</h1>
-    <span class="fc-counter" id="fc-counter">1 / 15</span>
+    <span class="fc-counter" id="fc-counter">1 / 14</span>
   </div>
-  <p>Uso responsable de tecnología e IA · 22 de mayo 2026</p>
+  <p>IA: herramienta, no respuesta · 22 de mayo 2026</p>
 </div>
-<div class="qnav"><a href="#fc1" onclick="scrollTo(0)">1</a><a href="#fc2" onclick="scrollTo(1)">2</a><a href="#fc3" onclick="scrollTo(2)">3</a><a href="#fc4" onclick="scrollTo(3)">4</a><a href="#fc5" onclick="scrollTo(4)">5</a><a href="#fc6" onclick="scrollTo(5)">6</a><a href="#fc7" onclick="scrollTo(6)">7</a><a href="#fc8" onclick="scrollTo(7)">8</a><a href="#fc9" onclick="scrollTo(8)">9</a><a href="#fc10" onclick="scrollTo(9)">10</a><a href="#fc11" onclick="scrollTo(10)">11</a><a href="#fc12" onclick="scrollTo(11)">12</a><a href="#fc13" onclick="scrollTo(12)">13</a><a href="#fc14" onclick="scrollTo(13)">14</a><a href="#fc15" onclick="scrollTo(14)">15</a></div>
-<div class="deck">
+<div class="qnav" id="qnav"><a onclick="goTo(0)">1</a><a onclick="goTo(1)">2</a><a onclick="goTo(2)">3</a><a onclick="goTo(3)">4</a><a onclick="goTo(4)">5</a><a onclick="goTo(5)">6</a><a onclick="goTo(6)">7</a><a onclick="goTo(7)">8</a><a onclick="goTo(8)">9</a><a onclick="goTo(9)">10</a><a onclick="goTo(10)">11</a><a onclick="goTo(11)">12</a><a onclick="goTo(12)">13</a><a onclick="goTo(13)">14</a></div>
+<div class="deck" id="deck">
 <div class="fc" id="fc1">
   <div class="fc-head">
     <div class="fc-n">1</div>
-    <div class="fc-title">¿La tecnología te controla o tú la controlas?</div>
+    <div class="fc-title">IA: ¿herramienta o respuesta?</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Hoy veremos cómo usar tecnología sin perder el control. La meta: usar IA y apps con criterio.
+      Hoy vamos a ver la diferencia entre usar la IA para pensar y usarla para que piense por ti. Hay una diferencia grande, y la mayoría no la nota.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Votación: ¿me ayuda más / me distrae más / depende?
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Pregunta inicial: ¿para qué han usado IA?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo dirigirlo:</b><br>Pide manos: <i>'¿Quién ha usado IA para algo escolar? ¿Para qué?'</i><br><br>Escucha 5-6 respuestas. No evalúes todavía. Después di: <i>'Hoy vamos a ver si lo que usaron fue usar la IA... o dejar que la IA hiciera el trabajo.'</i><br><br>Ese es el hilo conductor de la clase.</div>
+  </details>
   <div class="fc-foot">
     <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Entrada directa. Dejar que respondan con sinceridad, sin juzgar.</span>
+    <span class="fc-tip">💡 Sin juicio. El diagnóstico es real.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc2">
   <div class="fc-head">
     <div class="fc-n">2</div>
-    <div class="fc-title">Tu día digital</div>
+    <div class="fc-title">Cómo funciona la IA realmente</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Videos, chats, juegos, tareas, búsquedas, IA. Todo forma parte de su vida digital.
+      La IA no piensa. Predice la siguiente palabra basándose en patrones de texto que leyó. Por eso suena inteligente pero puede estar completamente equivocada con confianza.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Que hagan una lista rápida de 5 usos de tecnología.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Demo en vivo: pregunta mal hecha vs. bien hecha</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Si hay internet: demo en vivo</b><br>Haz esta pregunta a un chat IA: <i>'¿Cuántos planetas tiene el sistema solar?'</i> → respuesta correcta<br>Luego: <i>'¿Quién ganó el mundial de 2026?'</i> → puede inventar<br><br><b>Si no hay internet: describe el resultado</b><br><i>'Si le preguntas algo reciente, inventa nombres y fechas que suenan reales. Eso se llama alucinación.'</i><br><br>Punto clave: <i>'Suena seguro aunque esté mal. Por eso necesitas verificar.'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Validar sin juzgar. La lista sirve como diagnóstico.</span>
+    <span class="fc-time">⏱ 4–5 min</span>
+    <span class="fc-tip">💡 Alucinación = confiar en algo falso dicho con seguridad.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc3">
   <div class="fc-head">
     <div class="fc-n">3</div>
-    <div class="fc-title">Consumir vs crear</div>
+    <div class="fc-title">El prompt: cómo hablarle a la IA</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Consumir es mirar contenido. Crear es hacer algo propio. Consumir es copiar. Crear es explicar con tus palabras.
+      La calidad de tu pregunta determina la calidad de la respuesta. Prompt malo = respuesta genérica. Prompt bueno = respuesta útil.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Pedir ejemplos: ¿qué podrían crear en Computación?
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Comparar dos prompts</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Prompts para comparar (leer en voz alta):</b><br><br>Prompt A: <i>'Explícame el cambio climático'</i><br>Prompt B: <i>'Explícame el cambio climático como si tuviera 14 años. Da 3 ejemplos que pasan en Latinoamérica. Sin tecnicismos.'</i><br><br>Pregunta: <i>'¿Cuál creen que da una respuesta más útil? ¿Por qué?'</i><br><br>Explica los componentes: rol + tarea + formato + restricciones.</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Usar ejemplos de su edad. No usar 'creador digital' como concepto grande.</span>
+    <span class="fc-time">⏱ 4–5 min</span>
+    <span class="fc-tip">💡 El prompt es la habilidad clave de esta generación.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc4">
   <div class="fc-head">
     <div class="fc-n">4</div>
-    <div class="fc-title">IA: ayuda rápida, no respuesta perfecta</div>
+    <div class="fc-title">Prompt básico vs. prompt inteligente</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      La IA puede explicar, resumir, dar ideas. Pero también puede equivocarse o inventar. Siempre revisar.
+      Rol + tarea + formato + restricciones. Eso es todo lo que necesitas para que la IA te dé algo útil.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Pregunta: ¿qué harías si la IA dice algo raro?
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Practica en papel o en voz alta</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Ejercicio:</b><br>Da esta situación: <i>'Tienes que hacer una exposición de 5 minutos sobre energía solar para tu clase de ciencias.'</i><br><br>Pide que escriban (o digan) un prompt bueno para eso. 3 minutos.<br><br>Luego comparte 2-3 prompts de voluntarios. Comenta qué tiene cada uno de bien y qué le falta.</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Lenguaje simple. El error de IA es algo normal.</span>
+    <span class="fc-time">⏱ 5 min</span>
+    <span class="fc-tip">💡 Practicar, no solo teoría.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc5">
   <div class="fc-head">
     <div class="fc-n">5</div>
-    <div class="fc-title">Tres formas buenas de usar IA</div>
+    <div class="fc-title">IA para aprender vs. IA para evitar aprender</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Para entender, para practicar, para ordenar ideas. Tres verbos fáciles de recordar.
+      Si le pides a la IA que te explique algo, aprendes. Si le pides que haga el trabajo por ti, no aprendes nada y no vas a poder responder si te preguntan.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Dar un ejemplo de cada uno.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Dos casos: Diego y Sofía</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Casos para discutir:</b><br><br>Diego: copia la respuesta de la IA, la pega, la entrega. Saca 18. Al día siguiente el profesor le pregunta y no sabe nada.<br><br>Sofía: le pide a la IA que le explique el tema como si fuera nueva en el tema. Lo lee, escribe su respuesta con sus palabras. Saca 16. Puede explicarlo a sus compañeros.<br><br>Pregunta: <i>'¿Quién aprendió más? ¿A quién le va mejor la próxima semana?'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Reducir a tres verbos. Fácil de recordar.</span>
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 La nota no es el único indicador. El aprendizaje sí importa.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc6">
   <div class="fc-head">
     <div class="fc-n">6</div>
-    <div class="fc-title">Tres formas malas de usar IA</div>
+    <div class="fc-title">Verificar lo que dice la IA</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Copiar, no revisar, fingir que lo hiciste tú.
+      Copia + pega sin verificar es el error más común. Si la IA dice un dato, una fecha, un nombre — revísalo. Un solo error puede hundir un trabajo entero.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Que propongan por qué cada una es mala idea.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Cómo verifico?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Pasos para verificar:</b><br>1. Busca el dato en otra fuente (Wikipedia, BBC, enciclopedia)<br>2. Si hay discrepancia → descarta el que no tiene fuente<br>3. Ante la duda: di 'según [fuente]' en lugar de afirmarlo<br><br>Ejercicio rápido: di un dato que inventarías fácilmente (ej: 'la Torre Eiffel tiene 300 metros'). Pide que lo verifiquen en sus cuadernos o mentalmente. ¿Es verdad? (En realidad son 330 m con antena).</div>
+  </details>
   <div class="fc-foot">
     <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Fuerte pero simple. Evitar explicación larga.</span>
+    <span class="fc-tip">💡 Citar fuentes = protegerse de errores.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc7">
   <div class="fc-head">
     <div class="fc-n">7</div>
-    <div class="fc-title">Prompt malo</div>
+    <div class="fc-title">IA y plagio: la línea</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      'Hazme la tarea.' ¿Por qué este pedido no ayuda a aprender?
+      No es plagio pedir ayuda para entender. Sí es plagio entregar algo que no hice y que no entiendo. La diferencia está en si puedo explicarlo con mis palabras.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Debate rápido: ¿qué problema tiene?
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Es plagio o no?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Situaciones para clasificar:</b><br><br>🟢 Pido a la IA que me explique la fotosíntesis. La entiendo. La escribo con mis palabras.<br>🟡 Pido a la IA que me sugiera una estructura para mi ensayo. La adapto.<br>🔴 Pido a la IA que escriba mi ensayo. Lo entrego sin cambiar nada.<br>🔴 Pido a la IA que reescriba mi trabajo 'con mejores palabras' sin leerlo después.<br><br>La pregunta guía: <i>'¿Puedes explicar lo que entregaste sin leerlo?'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Mostrarlo grande y solo en la slide. El contraste es el efecto.</span>
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 La clave es si puedes explicarlo tú.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc8">
   <div class="fc-head">
     <div class="fc-n">8</div>
-    <div class="fc-title">Prompt mejor</div>
+    <div class="fc-title">Privacidad: lo que no le dices a la IA</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Explícame el tema. Dame ejemplos. Hazme preguntas para practicar.
+      Las IAs guardan conversaciones. No pongas datos reales: tu nombre completo, colegio, dirección, notas, fotos de documentos.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Transformar el prompt malo en uno mejor.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: ¿Qué pones y qué no pones?</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Clasificación rápida:</b><br>✅ Puedes poner: temas de estudio, preguntas abstractas, textos que no te identifican<br>⚠️ Cuidado: nombre del colegio + grado + tu nombre juntos<br>🚫 Nunca: DNI, contraseñas, fotos de documentos, dirección, datos de tu familia<br><br>Di: <i>'Imagina que tu conversación con la IA se hace pública mañana. ¿Estás cómodo con lo que pusiste?'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Este es el modelo que deben aprender. Repetirlo.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Criterio de privacidad: ¿estarías cómodo si fuera público?</span>
   </div>
-  <details class="fc-extra">
-  <summary>Ver ejercicio / más info</summary>
-  <div class="fc-extra-body"><b>Estructura de un buen prompt:</b><br><br>1. <b>Contexto:</b> di quién eres y qué estás haciendo<br>2. <b>Pedido:</b> sé específico sobre lo que necesitas<br>3. <b>Límite:</b> dile qué NO quieres que haga<br><br><i>Ejemplo: 'Soy de 2do de secundaria y tengo que exponer sobre la contaminación. Explícame las 3 causas principales con ejemplos. No me hagas el trabajo completo.'</i></div>
-</details>
 </div>
 <div class="fc" id="fc9">
   <div class="fc-head">
     <div class="fc-n">9</div>
-    <div class="fc-title">Datos privados</div>
+    <div class="fc-title">IA para estudiar en 2do</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Contraseñas, dirección, DNI, teléfono, fotos de otros, chats privados. Nada de eso en una app o IA.
+      Pedir que te explique temas, que te haga preguntas de práctica, que te corrija un borrador. Esos son usos que sí sirven para aprender.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Clasificar rápido: ¿público o privado?
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Cada uno elige un uso real</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Usos concretos para 2do:</b><br>• <i>'Explícame [tema] como si fuera nuevo en el tema'</i><br>• <i>'Hazme 5 preguntas de práctica sobre [materia] del nivel de 2do secundaria'</i><br>• <i>'Revisa este párrafo que escribí y dime qué mejorarías'</i><br>• <i>'No sé por dónde empezar con [proyecto]. ¿Qué pasos me sugieres?'</i><br><br>Di: <i>'¿Cuál de estos les sería más útil ahora mismo para alguna materia?'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 En secundaria ya se puede decir que no todo se sube.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Aplicable esta misma semana.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc10">
   <div class="fc-head">
     <div class="fc-n">10</div>
-    <div class="fc-title">Caso: tarea con IA</div>
+    <div class="fc-title">Actividad: mi primera conversación útil con IA</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Ana usa IA para entender. Luis copia todo y entrega. ¿Quién aprende más?
+      Van a diseñar una pregunta real que le harían a la IA para algo de sus clases esta semana.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Votación y explicación breve.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Diseñar un prompt real — 8 minutos</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Instrucciones:</b><br>Di: <i>'Piensen en algo que están estudiando ahora o que tienen pendiente. Escriban el prompt que le harían a una IA para que los ayude a aprender, no a hacer el trabajo.'</i><br><br>Paso 1 (2 min): identificar la tarea o el tema<br>Paso 2 (3 min): escribir el prompt con rol + tarea + formato<br>Paso 3 (2 min): releer y mejorar<br><br>Circula. Si alguien escribe 'hazme la tarea de X': ayúdalo a reformularlo hacia 'explícame X' o 'hazme preguntas sobre X'.</div>
+  </details>
+  <details class="fc-toggler fc-toggler--extra">
+    <summary>
+      <span class="toggler-icon">📋</span>
+      <span>Ver ejercicio / más info</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Estructura del prompt (ficha M02-B):</b><br>Materia o tema: ___<br>Cómo quiero que me ayude: ___<br>Mi prompt: ___<br><i>(Ej: Estoy en 2do secundaria. Necesito entender qué es la célula eucariota. Explícamelo con una analogía y dame 3 ejemplos.)</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Usar nombres ficticios. Que comparen comportamientos.</span>
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Material M02-B.</span>
   </div>
-  <details class="fc-extra">
-  <summary>Ver ejercicio / más info</summary>
-  <div class="fc-extra-body"><b>Preguntas de seguimiento:</b><br>• ¿Qué pasa cuando el profesor pregunta sobre la tarea?<br>• ¿Qué pasa en el examen?<br>• ¿Quién está mejor preparado para la vida?</div>
-</details>
 </div>
 <div class="fc" id="fc11">
   <div class="fc-head">
     <div class="fc-n">11</div>
-    <div class="fc-title">Caso: captura de pantalla</div>
+    <div class="fc-title">Compartimos prompts</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Alguien comparte una conversación privada en un grupo. ¿Verde, amarillo o rojo?
+      Algunos van a compartir el prompt que escribieron. Vamos a ver qué tiene de bueno cada uno.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Semáforo: verde/amarillo/rojo.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Ronda de voluntarios — 3 min</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo facilitar:</b><br>Pide 3-4 voluntarios. Después de cada prompt pregunta al grupo:<br><i>'¿Qué tiene de bueno este prompt? ¿Qué agregarían?'</i><br><br>Si hay internet: puedes probar un prompt en vivo y mostrar la respuesta.</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Conectar con situaciones que pueden vivir en sus propios grupos.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 No corregir en frío. Primero destacar lo bueno.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc12">
   <div class="fc-head">
     <div class="fc-n">12</div>
-    <div class="fc-title">Mini reto: arregla el prompt</div>
+    <div class="fc-title">Caso: exposición con IA</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      Tema: contaminación. Prompt malo: 'Hazme mi exposición'. Mejóralo.
+      Un estudiante usa IA para practicar su exposición haciéndole preguntas. Otro copia el texto de la IA y lo lee en voz alta. ¿Cuál está listo para que le pregunten?
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Escribir un prompt mejor en cuaderno o ficha. Pueden trabajar en parejas.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Discusión breve</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Preguntas para guiar:</b><br><i>'¿Qué pasa si el profesor hace una pregunta fuera del texto?'</i><br><i>'¿Cuál de los dos puede adaptarse si algo sale mal?'</i><br><i>'¿Qué aprende cada uno?'</i><br><br>Cierra: <i>'La IA te puede dar velocidad. Tu trabajo te da seguridad.'</i></div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 7 min</span>
-    <span class="fc-tip">💡 Actividad práctica. Material M02-E disponible.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Conectar con experiencias reales de exposiciones.</span>
   </div>
-  <details class="fc-extra">
-  <summary>Ver ejercicio / más info</summary>
-  <div class="fc-extra-body"><b>Guía para el reto:</b><br>Prompt malo: <i>'Hazme mi exposición de contaminación'</i><br><br>Para mejorarlo, agrega:<br>✓ Tu grado y contexto<br>✓ Qué parte necesitas<br>✓ Qué formato quieres<br>✓ Qué NO debe hacer la IA<br><br>Comparen sus versiones mejoradas.</div>
-</details>
 </div>
 <div class="fc" id="fc13">
   <div class="fc-head">
     <div class="fc-n">13</div>
-    <div class="fc-title">Mis reglas para usar IA</div>
+    <div class="fc-title">Reglas de uso — las nuestras</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      La uso para entender. Reviso lo que dice. No copio sin pensar. No pongo datos privados.
+      No voy a copiar sin entender. Voy a verificar datos. No voy a poner datos privados. Voy a poder explicar lo que entrego.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Cada estudiante elige 3 reglas personales.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Revisión rápida del contrato digital de la sesión pasada</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo conectarlo:</b><br>Di: <i>'En la clase pasada hicieron un contrato digital. ¿Alguien recuerda lo que escribió sobre IA?'</i><br><br>Escucha 2-3 respuestas. Luego di: <i>'Hoy agregaríamos esto a ese contrato...'</i> y dicta o muestra las 4 reglas.<br><br>Si no hay contrato previo: que lo escriban en el cuaderno ahora.</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 6 min</span>
-    <span class="fc-tip">💡 Material M02-C. Dejar que personalicen las reglas.</span>
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Conectar con sesión 01.</span>
   </div>
-  
 </div>
 <div class="fc" id="fc14">
   <div class="fc-head">
     <div class="fc-n">14</div>
-    <div class="fc-title">Compartimos una regla</div>
-  </div>
-  <div class="fc-say">
-    <div class="fc-say-inner">
-      <div class="fc-say-label">💬 Qué decir</div>
-      Una regla clara, un ejemplo real, una duda.
-    </div>
-  </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Ronda breve de voluntarios.
-  </div>
-  <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 No alargar. Que sea rápido y motivador.</span>
-  </div>
-  
-</div>
-<div class="fc" id="fc15">
-  <div class="fc-head">
-    <div class="fc-n">15</div>
     <div class="fc-title">Cierre</div>
   </div>
   <div class="fc-say">
     <div class="fc-say-inner">
       <div class="fc-say-label">💬 Qué decir</div>
-      No se trata de usar menos tecnología. Se trata de usarla mejor.
+      La IA es una herramienta. Tú eres quien decide si la usas para aprender o para evitar aprender. Esa decisión importa más de lo que creen ahora.
     </div>
   </div>
-  <div class="fc-do">
-    <div class="fc-do-label">⚡ Haz esto</div>
-    Ticket: un uso bueno de IA y un uso que evitarás.
-  </div>
+  <details class="fc-toggler">
+    <summary>
+      <span class="toggler-icon">⚡</span>
+      <span>Haz esto: Una cosa que van a hacer distinto esta semana</span>
+      <span class="toggler-arrow">▾</span>
+    </summary>
+    <div class="toggler-body"><b>Cómo recoger:</b><br>Di: <i>'¿Qué va a cambiar en cómo usan la IA esta semana? Una sola cosa concreta.'</i><br><br>Oral en ronda rápida (4-5 personas) o papel si el tiempo ajusta.</div>
+  </details>
   <div class="fc-foot">
-    <span class="fc-time">⏱ 3–4 min</span>
-    <span class="fc-tip">💡 Frase adecuada para adolescentes. Evita sonar prohibicionista.</span>
+    <span class="fc-time">⏱ 2–3 min</span>
+    <span class="fc-tip">💡 El cambio concreto es más poderoso que el resumen.</span>
   </div>
-  
 </div>
 </div>
 <script>
-const cards = document.querySelectorAll('.fc');
-const counter = document.getElementById('fc-counter');
-const total = 15;
+(function(){
+  const deck   = document.getElementById('deck');
+  const hdr    = document.querySelector('.hdr');
+  const qnav   = document.getElementById('qnav');
+  const counter= document.getElementById('fc-counter');
+  const cards  = Array.from(deck.querySelectorAll('.fc'));
+  const navAs  = Array.from(qnav.querySelectorAll('a'));
+  const total  = cards.length;
+  let current  = 0;
+  let locked   = false;
 
-function updateCounter(n){
-  if(counter) counter.textContent = (n+1)+' / '+total;
-}
+  function setMetrics() {
+    const hh = hdr.offsetHeight;
+    const qh = qnav.offsetHeight;
+    document.documentElement.style.setProperty('--hdr-h', hh + 'px');
+    document.documentElement.style.setProperty('--deck-top', (hh + qh) + 'px');
+  }
 
-function scrollTo(idx){
-  const el = document.getElementById('fc'+(idx+1));
-  if(el) el.scrollIntoView({behavior:'smooth'});
-}
+  function updateNav(n) {
+    counter.textContent = (n + 1) + ' / ' + total;
+    navAs.forEach((a, i) => a.classList.toggle('active', i === n));
+    navAs[n].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
 
-// Intersection observer to update counter on scroll
-const obs = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      const idx = Array.from(cards).indexOf(e.target);
-      updateCounter(idx);
+  function goTo(n, animate) {
+    if (n < 0 || n >= total || locked) return;
+    if (animate === undefined) animate = true;
+    locked = true;
+    cards.forEach(function(card, i) {
+      card.style.transition = animate ? 'transform .32s cubic-bezier(.4,0,.2,1)' : 'none';
+      card.style.transform  = 'translateY(' + ((i - n) * 100) + '%)';
+      if (i !== n) {
+        setTimeout(function() { card.scrollTop = 0; }, 350);
+      }
+    });
+    current = n;
+    updateNav(n);
+    setTimeout(function() { locked = false; }, 380);
+  }
+
+  // Init positions without animation
+  function init() {
+    setMetrics();
+    cards.forEach(function(card, i) {
+      card.style.transition = 'none';
+      card.style.transform  = 'translateY(' + (i * 100) + '%)';
+    });
+    updateNav(0);
+  }
+
+  // Expose goTo for qnav clicks
+  window.goTo = goTo;
+
+  // Touch swipe — strict single-card advance
+  let startY = 0, startX = 0;
+  deck.addEventListener('touchstart', function(e) {
+    startY = e.touches[0].clientY;
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  deck.addEventListener('touchend', function(e) {
+    if (locked) return;
+    const dy = startY - e.changedTouches[0].clientY;
+    const dx = startX - e.changedTouches[0].clientX;
+    // Ignore horizontal swipes
+    if (Math.abs(dx) > Math.abs(dy)) return;
+    // Minimum threshold: 60px
+    if (Math.abs(dy) < 60) return;
+    // Check scroll boundary of current card
+    const card = cards[current];
+    const atTop    = card.scrollTop <= 5;
+    const atBottom = card.scrollTop >= card.scrollHeight - card.clientHeight - 5;
+    const notScrollable = card.scrollHeight <= card.clientHeight + 10;
+    if (dy > 0 && (notScrollable || atBottom)) {
+      goTo(current + 1);
+    } else if (dy < 0 && (notScrollable || atTop)) {
+      goTo(current - 1);
     }
+  }, {passive:true});
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowUp'   || e.key === 'ArrowLeft')  goTo(current - 1);
   });
-},{threshold:0.6});
-cards.forEach(c=>obs.observe(c));
 
-// Measure chrome heights after render
-function setHeights(){
-  const hdr = document.querySelector('.hdr');
-  const qnav = document.querySelector('.qnav');
-  const hh = hdr.offsetHeight;
-  const qh = qnav.offsetHeight;
-  document.documentElement.style.setProperty('--hdr-h', hh+'px');
-  document.documentElement.style.setProperty('--deck-top', (hh+qh)+'px');
-}
-window.addEventListener('load', setHeights);
-window.addEventListener('resize', setHeights);
-
-updateCounter(0);
+  window.addEventListener('resize', setMetrics);
+  init();
+})();
 </script>
 </body>
 </html>

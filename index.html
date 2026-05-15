@@ -302,6 +302,59 @@ button{font-family:inherit;cursor:pointer;}
   display:flex;gap:.5rem;align-items:center;
 }
 
+/* ── LOCK WALL ───────────────────────────────────────────── */
+.lock-wall{
+  background:#fff;border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin:1rem 0 1.5rem;padding:2.2rem 1.5rem;
+  text-align:center;border:2px dashed #e2e8f0;
+}
+.lock-icon-big{font-size:2.8rem;margin-bottom:.5rem;}
+.lock-wall h3{font-size:var(--fs-lg);font-weight:800;color:#334155;margin-bottom:.3rem;}
+.lock-wall p{font-size:var(--fs-sm);color:#64748b;margin-bottom:1.4rem;}
+.lock-input{
+  display:block;margin:0 auto .8rem;
+  width:100%;max-width:260px;
+  border:2px solid #e2e8f0;border-radius:10px;
+  padding:.7rem 1rem;font-size:var(--fs-base);
+  font-family:inherit;outline:none;text-align:center;
+  transition:border-color .2s;
+}
+.lock-input:focus{border-color:#1d4ed8;}
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-7px);}
+  40%{transform:translateX(7px);}
+  60%{transform:translateX(-4px);}
+  80%{transform:translateX(4px);}
+}
+.lock-input.shake{animation:shake .4s ease;}
+.lock-btn{
+  background:#0f172a;color:#fff;border:none;border-radius:10px;
+  padding:.7rem 2.2rem;font-size:var(--fs-base);font-weight:700;
+  cursor:pointer;transition:background .15s;
+}
+.lock-btn:hover{background:#1d4ed8;}
+.lock-err{
+  color:#dc2626;font-size:var(--fs-sm);margin-top:.65rem;
+  display:none;
+}
+.lock-err.visible{display:block;}
+
+/* ── UNLOCK BAR ──────────────────────────────────────────── */
+.unlock-bar{
+  display:flex;align-items:center;justify-content:flex-end;gap:.6rem;
+  padding:.45rem 1rem;
+  background:#f0fdf4;border-bottom:1px solid #bbf7d0;
+  font-size:var(--fs-xs);color:#166534;
+}
+.unlock-bar button{
+  background:none;border:1px solid #86efac;border-radius:6px;
+  color:#166534;font-size:var(--fs-xs);font-weight:700;
+  padding:2px 8px;cursor:pointer;
+}
+.unlock-bar button:hover{background:#dcfce7;}
+
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(min-width:640px){
   .panel{padding:1.2rem 1.4rem;}
@@ -1173,6 +1226,36 @@ function saveDone(gId, set){ localStorage.setItem(storageKey(gId), JSON.stringif
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const GRADE_ORDER = ['prim6','sec2','sec3','sec4','sec5'];
+let currentGrade  = GRADE_ORDER[0];
+
+// ═══════════════════════════════════════════════════════════
+// ACCESS CONTROL
+// ═══════════════════════════════════════════════════════════
+const PASS_KEY   = 'cc2026_unlocked';
+const CORRECT_PW = 'yoshipotosucio';
+
+function isUnlocked(){ return localStorage.getItem(PASS_KEY) === '1'; }
+
+function tryUnlock(){
+  const input = document.getElementById('pass-input');
+  if(!input) return;
+  if(input.value === CORRECT_PW){
+    localStorage.setItem(PASS_KEY, '1');
+    renderPanel(currentGrade);
+  } else {
+    input.value = '';
+    input.classList.add('shake');
+    const err = document.getElementById('lock-err');
+    if(err) err.classList.add('visible');
+    setTimeout(()=> input.classList.remove('shake'), 450);
+    input.focus();
+  }
+}
+
+function lock(){
+  localStorage.removeItem(PASS_KEY);
+  renderPanel(currentGrade);
+}
 
 function todayStr(){
   const d=new Date(); const z=n=>String(n).padStart(2,'0');
@@ -1189,6 +1272,7 @@ function render(){
 }
 
 function switchGrade(gradeId){
+  currentGrade = gradeId;
   document.querySelectorAll('.gtab').forEach((t,i)=>{
     t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
   });
@@ -1196,88 +1280,89 @@ function switchGrade(gradeId){
 }
 
 function renderPanel(gradeId){
-  const g = GRADES[gradeId];
-  const done = loadDone(gradeId);
-  const today = todayStr();
+  currentGrade = gradeId;
+  const g       = GRADES[gradeId];
+  const done    = loadDone(gradeId);
+  const today   = todayStr();
+  const unlocked = isUnlocked();
 
-  // Build items list (sessions only)
+  // date <= today  →  past (includes today's session, already happened)
   const allItems = g.sessions.map(sdata=>{
     const calEntry = CALENDAR.find(c=>c.session===sdata.n);
-    const isPast = calEntry && calEntry.date < today;
-    const isDone = done.has(sdata.n);
-    const isOver = isPast || isDone;
+    const isPast   = calEntry && calEntry.date <= today;
+    const isDone   = done.has(sdata.n);
+    const isOver   = isPast || isDone;
     return {sdata, cal:calEntry, isPast, isDone, isOver};
   });
 
-  // Classify
-  const nextItem = allItems.find(i => !i.isOver && i.cal && i.cal.date >= today);
-  const pastItems = [], futureItems = [];
-  allItems.forEach(item=>{
-    if(item === nextItem) return;
-    if(item.isOver) pastItems.push(item);
-    else futureItems.push(item);
-  });
+  const pastItems   = allItems.filter(i=> i.isOver);
+  const futureItems = allItems.filter(i=>!i.isOver);
+  const nextItem    = futureItems[0] || null;
 
-  // Progress
+  // Progress bar
   const doneCount = done.size;
   const pct = Math.round(doneCount/TOTAL*100);
   document.getElementById('prog-label').textContent = `${doneCount} / ${TOTAL} sesiones`;
-  document.getElementById('prog-fill').style.width = pct+'%';
-  document.getElementById('prog-pct').textContent = pct+'%';
+  document.getElementById('prog-fill').style.width   = pct+'%';
+  document.getElementById('prog-pct').textContent    = pct+'%';
 
-  // Build HTML
-  const main = document.getElementById('main');
   let html = `<div class="panel active" id="panel-${gradeId}">`;
-
-  // Grade info strip
   html += `<div class="calendar-note">🎯 <strong>${g.label}</strong> · ${g.age} · Proyecto: ${g.project}</div>`;
 
-  // NEXT SESSION
-  if(nextItem){
-    html += `<div class="section-label">🎯 Próxima clase</div>`;
-    html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true);
-  } else {
-    html += `<div class="empty-state">🎉 ¡Todas las sesiones están completadas! Gran trabajo.</div>`;
-  }
-
-  // UPCOMING SESSIONS
-  if(futureItems.length){
-    html += `<div class="section-label">📅 Sesiones futuras (${futureItems.length})</div>`;
-    html += `<div class="future-grid">`;
-    futureItems.forEach(item=>{
-      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
-    });
-    html += `</div>`;
-  }
-
-  // PAST / ARCHIVED
+  // ── CLASES PASADAS — siempre visibles ──────────────────────
+  html += `<div class="section-label">📦 Clases pasadas (${pastItems.length})</div>`;
   if(pastItems.length){
-    html += `<button class="archive-toggle" onclick="toggleArchive()" id="arch-btn">
-      <span>📦 Sesiones anteriores (${pastItems.length})</span>
-      <span class="archive-arrow" id="arch-arrow">▼</span>
-    </button>`;
-    html += `<div id="archive-section"><div class="done-grid">`;
+    html += `<div class="done-grid">`;
     pastItems.forEach(item=>{
       html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
     });
-    html += `</div></div>`;
-  } else if(done.size > 0){
-    const doneItems = allItems.filter(i=>i.isDone && i!==nextItem && !i.isPast);
-    if(doneItems.length){
-      html += `<button class="archive-toggle" onclick="toggleArchive()" id="arch-btn">
-        <span>✅ Sesiones realizadas (${doneItems.length})</span>
-        <span class="archive-arrow" id="arch-arrow">▼</span>
-      </button>`;
-      html += `<div id="archive-section"><div class="done-grid">`;
-      doneItems.forEach(item=>{
+    html += `</div>`;
+  } else {
+    html += `<div class="empty-state">Aún no hay clases pasadas para este grado.</div>`;
+  }
+
+  // ── CLASES FUTURAS — requieren contraseña ──────────────────
+  if(unlocked){
+    // Barra de estado desbloqueado
+    html += `<div class="unlock-bar">🔓 Modo profesor activo
+      <button onclick="lock()">Volver a modo alumno</button>
+    </div>`;
+
+    if(nextItem){
+      html += `<div class="section-label">🎯 Próxima clase</div>`;
+      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true);
+    }
+
+    const rest = nextItem ? futureItems.slice(1) : futureItems;
+    if(rest.length){
+      html += `<div class="section-label">📅 Sesiones futuras (${rest.length})</div>`;
+      html += `<div class="future-grid">`;
+      rest.forEach(item=>{
         html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
       });
-      html += `</div></div>`;
+      html += `</div>`;
     }
+
+    if(!futureItems.length){
+      html += `<div class="empty-state">🎉 ¡Todas las sesiones están completadas!</div>`;
+    }
+
+  } else {
+    // Muro de acceso
+    html += `<div class="lock-wall">
+      <div class="lock-icon-big">🔒</div>
+      <h3>Clases futuras</h3>
+      <p>${futureItems.length} sesiones planificadas · Solo para profesores</p>
+      <input id="pass-input" class="lock-input" type="password"
+        placeholder="Código de acceso" autocomplete="off"
+        onkeydown="if(event.key==='Enter') tryUnlock()">
+      <button class="lock-btn" onclick="tryUnlock()">Desbloquear</button>
+      <div class="lock-err" id="lock-err">Código incorrecto. Inténtalo de nuevo.</div>
+    </div>`;
   }
 
   html += `</div>`;
-  main.innerHTML = html;
+  document.getElementById('main').innerHTML = html;
 }
 
 function buildCard(sdata, cal_info, done, gradeId, isNext){

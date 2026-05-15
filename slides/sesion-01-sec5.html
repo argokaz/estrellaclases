@@ -10,43 +10,40 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
 .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
-  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#1a0000 0%,#450a0a 100%);}
+  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#1a0000,#450a0a);}
 .slide.active{display:flex;}
 .brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
-  font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.5px;}
-.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
-.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+  font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.t-super{font-size:clamp(40px,6.2vw,96px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(30px,4.5vw,72px);font-weight:800;line-height:1.1;color:#fff;}
 .t-h2{font-size:clamp(22px,3.2vw,52px);font-weight:700;line-height:1.2;color:#fff;}
-.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.9);}
-.t-sm{font-size:clamp(13px,1.6vw,26px);line-height:1.5;color:rgba(255,255,255,.8);}
+.t-body{font-size:clamp(16px,2.1vw,34px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,28px);line-height:1.5;color:rgba(255,255,255,.8);}
 .accent{color:#f87171;}
 .pill{display:inline-block;background:#f87171;color:#000;border-radius:999px;
-  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
-.pill-outline{display:inline-block;border:3px solid #f87171;color:#f87171;border-radius:999px;
-  padding:.15em .7em;font-weight:700;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
-.card-row{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
-.card{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
-  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:28%;
-  text-align:center;}
-.emoji-big{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
-.divider{width:60%;height:3px;background:#f87171;border-radius:2px;margin:2% auto;opacity:.6;}
-.list-left{text-align:left;width:100%;max-width:80%;}
-.list-left li{margin:.5em 0;list-style:none;padding-left:1.2em;position:relative;}
-.list-left li::before{content:'▸';position:absolute;left:0;color:#f87171;}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:90%;text-align:left;}
-.col-box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
-.tag-row{display:flex;gap:1%;justify-content:center;flex-wrap:wrap;margin-top:1.5%;}
+  padding:.15em .7em;font-weight:800;font-size:clamp(14px,1.8vw,30px);margin:.2em;}
+.pill-out{display:inline-block;border:3px solid #f87171;color:#f87171;border-radius:999px;
+  padding:.12em .65em;font-weight:700;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.big-emoji{font-size:clamp(30px,4.8vw,76px);line-height:1.2;}
+.line{width:55%;height:3px;background:#f87171;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);}
+.list li::before{content:'▸';position:absolute;left:0;color:#f87171;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
 /* nav */
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.7);
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
   z-index:99;backdrop-filter:blur(6px);}
 .nav button{background:#f87171;color:#000;border:none;border-radius:8px;
-  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:700;cursor:pointer;
-  transition:opacity .15s;}
-.nav button:disabled{opacity:.3;cursor:default;}
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav button:disabled{opacity:.25;cursor:default;}
 .nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
 .dots{display:flex;gap:.4rem;}
-.dot{width:clamp(6px,0.9vw,13px);height:clamp(6px,0.9vw,13px);border-radius:50%;
+.dot{width:clamp(6px,.9vw,13px);height:clamp(6px,.9vw,13px);border-radius:50%;
   background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
 .dot.active{background:#f87171;}
 </style>
@@ -54,183 +51,157 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <body>
 <div class="deck-wrap" id="deck">
 
-<div class="slide active">
-  <div class="brand">Asunción School</div>
+<div class="slide active"><div class="brand">Asunción School</div>
   <p class="t-sm accent">Viernes 15 de mayo · 5.° Secundaria</p>
-  <div class="divider"></div>
-  <h1 class="t-super">Tu perfil digital<br>en <span class="accent">2026</span></h1>
-  <p class="t-body" style="margin-top:2%">Sesión 1 · Diagnóstico y futuro laboral</p>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Profesora Estrella Vizcarra</p>
+  <div class="line"></div>
+  <h1 class="t-super">¿Estás listo para<br>lo que <span class="accent">viene</span>? 🌍</h1>
+  <p class="t-body" style="margin-top:2%">Sesión 1 · Profa. Estrella Vizcarra</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">La gran pregunta</h2>
-  <div class="divider"></div>
-  <p class="t-h2 accent" style="margin-top:2%;max-width:80%">"¿Las herramientas digitales que tienes hoy son suficientes para el trabajo que quieres tener?"</p>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Respondamos juntos al final de la clase.</p>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">La pregunta real</h2>
+  <div class="line"></div>
+  <p class="t-h2 accent" style="margin-top:2%;max-width:80%">"Las habilidades digitales que tienes hoy, ¿son suficientes para el trabajo o carrera que quieres?"</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Respondemos juntos al final de la clase.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Lo que el mercado<br>pide hoy</h2>
-  <div class="divider"></div>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><div class="emoji-big">📊</div><p class="t-sm" style="margin-top:5%">Análisis de datos básico</p></div>
-    <div class="card"><div class="emoji-big">🤖</div><p class="t-sm" style="margin-top:5%">Saber usar IA en el trabajo</p></div>
-    <div class="card"><div class="emoji-big">🎨</div><p class="t-sm" style="margin-top:5%">Comunicación visual</p></div>
-    <div class="card"><div class="emoji-big">🌐</div><p class="t-sm" style="margin-top:5%">Presencia digital profesional</p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Lo que piden<br>cuando te contratan</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-emoji">📊</div><p class="t-sm" style="margin-top:5%">Leer y entender datos</p></div>
+    <div class="c"><div class="big-emoji">🤖</div><p class="t-sm" style="margin-top:5%">Saber usar IA en el trabajo</p></div>
+    <div class="c"><div class="big-emoji">🎨</div><p class="t-sm" style="margin-top:5%">Comunicar bien visualmente</p></div>
+    <div class="c"><div class="big-emoji">🌐</div><p class="t-sm" style="margin-top:5%">Tener presencia digital real</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Fuente: LinkedIn 2025 · Skills on the Rise</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Fuente: LinkedIn 2025 · Habilidades más buscadas</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Tu diagnóstico</h2>
-  <div class="divider"></div>
-  <p class="t-body" style="margin-top:1%">Califica honestamente tu nivel (1-5):</p>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><p class="t-sm">Presentaciones profesionales</p></div>
-    <div class="card"><p class="t-sm">Hojas de cálculo y fórmulas</p></div>
-    <div class="card"><p class="t-sm">Prompts para IA</p></div>
-    <div class="card"><p class="t-sm">Búsqueda crítica de información</p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">¿Qué tan preparado<br>estás hoy?</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1%">Califica honestamente del 1 al 5:</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><p class="t-sm">Presentaciones que convencen</p></div>
+    <div class="c"><p class="t-sm">Excel con fórmulas</p></div>
+    <div class="c"><p class="t-sm">Usar IA para trabajo real</p></div>
+    <div class="c"><p class="t-sm">Buscar información de forma crítica</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Al final del año, repetiríamos este test.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Al final del año repetimos el test.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Perfil digital<br><span class="accent">profesional</span></h2>
-  <div class="divider"></div>
-  <div class="two-col" style="margin-top:2%">
-    <div class="col-box">
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Cómo te ven<br>en internet hoy</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box">
       <p class="t-sm" style="color:#f87171;font-weight:700">❌ Perfil débil</p>
-      <ul class="list-left t-sm" style="margin-top:5%">
-        <li>Sin foto profesional</li>
-        <li>Sin proyectos publicados</li>
-        <li>Solo redes de consumo</li>
-        <li>No sabe presentarse por escrito</li>
-      </ul>
+      <ul class="list" style="margin-top:5%"><li>Sin trabajos publicados</li><li>Solo redes de entretenimiento</li><li>No sabe presentarse por escrito</li></ul>
     </div>
-    <div class="col-box">
+    <div class="box">
       <p class="t-sm accent" style="font-weight:700">✅ Perfil fuerte</p>
-      <ul class="list-left t-sm" style="margin-top:5%">
-        <li>Portfolio de trabajos</li>
-        <li>Presencia en LinkedIn</li>
-        <li>Proyectos reales publicados</li>
-        <li>Comunicación clara y directa</li>
-      </ul>
+      <ul class="list" style="margin-top:5%"><li>Proyectos concretos visibles</li><li>Sabe comunicarse en texto</li><li>Muestra lo que sabe hacer</li></ul>
     </div>
   </div>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">IA en el mundo<br><span class="accent">laboral real</span></h2>
-  <div class="divider"></div>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><div class="emoji-big">👩‍⚕️</div><p class="t-sm" style="margin-top:5%">Médicos usan IA para diagnóstico</p></div>
-    <div class="card"><div class="emoji-big">⚖️</div><p class="t-sm" style="margin-top:5%">Abogados usan IA para revisar contratos</p></div>
-    <div class="card"><div class="emoji-big">📐</div><p class="t-sm" style="margin-top:5%">Arquitectos usan IA para diseñar planos</p></div>
-    <div class="card"><div class="emoji-big">🎬</div><p class="t-sm" style="margin-top:5%">Creadores de contenido usan IA para guiones</p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">La IA ya está<br>en todos los trabajos</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-emoji">👨‍⚕️</div><p class="t-sm" style="margin-top:5%">Médicos: la IA ayuda a diagnosticar</p></div>
+    <div class="c"><div class="big-emoji">⚖️</div><p class="t-sm" style="margin-top:5%">Abogados: revisan contratos con IA</p></div>
+    <div class="c"><div class="big-emoji">🎬</div><p class="t-sm" style="margin-top:5%">Creadores: guiones y edición con IA</p></div>
+    <div class="c"><div class="big-emoji">📐</div><p class="t-sm" style="margin-top:5%">Arquitectos: diseñan con IA</p></div>
   </div>
   <p class="t-sm" style="margin-top:2%;opacity:.7">No es el futuro. Es el presente.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Prompts<br><span class="accent">profesionales</span></h2>
-  <div class="divider"></div>
-  <p class="t-body" style="margin-top:1.5%">Estructura de un prompt profesional:</p>
-  <div class="col-box" style="margin-top:2%;max-width:85%;border:2px solid #f87171;padding:3%;border-radius:12px;">
-    <p class="t-body accent">[Rol] + [Contexto] + [Tarea específica] + [Formato deseado]</p>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Cómo pedir bien<br>para trabajo real</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%">Fórmula: <span class="accent">[Rol] + [Contexto] + [Tarea] + [Formato]</span></p>
+  <div class="box" style="margin-top:2%;max-width:85%;border:2px solid #f87171;padding:3%;border-radius:12px;">
+    <p class="t-body">"Actúa como reclutador. Revisa este párrafo de presentación personal para un egresado de 5to buscando prácticas. Dame 3 mejoras concretas."</p>
   </div>
-  <p class="t-body" style="margin-top:2%;max-width:80%">"Actúa como reclutador. Revisa este párrafo de presentación personal para un egresado de 5to de sec buscando prácticas. Dame 3 mejoras concretas."</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
+<div class="slide"><div class="brand">Asunción School</div>
   <h2 class="t-h1">Mini debate ⚡</h2>
-  <div class="divider"></div>
-  <p class="t-h2 accent" style="margin-top:2%;max-width:85%">"¿La IA va a quitarles trabajo a los jóvenes que se gradúan hoy?"</p>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card" style="border:2px solid #22c55e;"><p class="t-sm" style="color:#22c55e;">A favor:<br>sí reemplaza trabajos rutinarios</p></div>
-    <div class="card" style="border:2px solid #f87171;"><p class="t-sm" style="color:#f87171;">En contra:<br>crea nuevos trabajos y oportunidades</p></div>
+  <div class="line"></div>
+  <p class="t-h2 accent" style="margin-top:2%;max-width:85%">"¿La IA les va a quitar trabajo cuando terminen el colegio?"</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c" style="border:2px solid #22c55e;"><p class="t-sm" style="color:#22c55e;">Sí: reemplaza trabajos repetitivos</p></div>
+    <div class="c" style="border:2px solid #f87171;"><p class="t-sm" style="color:#f87171;">No: crea trabajos nuevos y necesita gente para usarla</p></div>
   </div>
   <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 5 minutos de debate libre</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Habilidades que<br><span class="accent">no reemplaza la IA</span></h2>
-  <div class="divider"></div>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><div class="emoji-big">❤️</div><p class="t-sm" style="margin-top:5%">Empatía y liderazgo</p></div>
-    <div class="card"><div class="emoji-big">🎨</div><p class="t-sm" style="margin-top:5%">Creatividad con propósito</p></div>
-    <div class="card"><div class="emoji-big">🤝</div><p class="t-sm" style="margin-top:5%">Negociación y persuasión</p></div>
-    <div class="card"><div class="emoji-big">⚖️</div><p class="t-sm" style="margin-top:5%">Juicio ético</p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Lo que la IA<br><span class="accent">no puede hacer</span></h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-emoji">❤️</div><p class="t-sm" style="margin-top:5%">Entender personas de verdad</p></div>
+    <div class="c"><div class="big-emoji">🎨</div><p class="t-sm" style="margin-top:5%">Tener una visión propia</p></div>
+    <div class="c"><div class="big-emoji">🤝</div><p class="t-sm" style="margin-top:5%">Convencer y negociar</p></div>
+    <div class="c"><div class="big-emoji">⚖️</div><p class="t-sm" style="margin-top:5%">Tomar decisiones éticas reales</p></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Esas son tus ventajas. Trabájalas.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Tu pitch personal</h2>
-  <div class="divider"></div>
-  <p class="t-body" style="margin-top:1.5%">Escribe en papel (versión borrador):</p>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><p class="t-sm">Soy <span class="accent">___</span> y me interesa <span class="accent">___</span></p></div>
-    <div class="card"><p class="t-sm">Sé hacer <span class="accent">___</span> y quiero mejorar en <span class="accent">___</span></p></div>
-    <div class="card"><p class="t-sm">Mi meta al terminar el colegio es <span class="accent">___</span></p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Escribe quién eres</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%">Escribe en papel (borrador privado):</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><p class="t-sm">Soy <span class="accent">___</span> y me interesa <span class="accent">___</span></p></div>
+    <div class="c"><p class="t-sm">Sé hacer <span class="accent">___</span> y quiero mejorar en <span class="accent">___</span></p></div>
+    <div class="c"><p class="t-sm">Mi meta al salir del colegio es <span class="accent">___</span></p></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Este pitch lo puliremos durante el año.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Lo pulimos durante el año.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Reglas del aula</h2>
-  <div class="divider"></div>
-  <ul class="list-left t-body" style="margin-top:2%">
-    <li>🤝 Tratamos este espacio como un entorno profesional</li>
-    <li>✅ Citamos fuentes e IA en todos los trabajos</li>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">Las reglas del aula</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>🤝 Tratamos esto como un espacio profesional</li>
+    <li>✅ Decimos cuándo usamos IA</li>
     <li>💡 Las ideas se discuten, no se ridiculizan</li>
-    <li>🔇 Foco total durante actividades</li>
-    <li>📁 Entregamos a tiempo y con calidad</li>
+    <li>📁 Entregamos a tiempo y con esfuerzo real</li>
   </ul>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Tu brecha de<br><span class="accent">habilidades</span></h2>
-  <div class="divider"></div>
-  <p class="t-body" style="margin-top:1.5%">Marca lo que <strong>no sabes hacer aún</strong>:</p>
-  <div class="card-row" style="margin-top:2%">
-    <div class="card"><p class="t-sm">Hacer una presentación que convenza</p></div>
-    <div class="card"><p class="t-sm">Usar fórmulas en Excel</p></div>
-    <div class="card"><p class="t-sm">Crear un portafolio en línea</p></div>
-    <div class="card"><p class="t-sm">Escribir un email profesional</p></div>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">En qué necesitan<br><span class="accent">mejorar</span></h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%">Marca lo que aún no sabes hacer bien:</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><p class="t-sm">Hacer una presentación que convenza</p></div>
+    <div class="c"><p class="t-sm">Usar fórmulas en Excel</p></div>
+    <div class="c"><p class="t-sm">Tener proyectos visibles en internet</p></div>
+    <div class="c"><p class="t-sm">Escribir un mensaje profesional</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Al final del año, marcas lo que ya sabes. Esa es tu nota real.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Al final del año vuelves a marcar. Eso es tu nota real.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">Plan de acción 🗓️</h2>
-  <div class="divider"></div>
-  <ul class="list-left t-body" style="margin-top:2%">
-    <li><span class="accent">Mayo–Julio:</span> Herramientas de productividad + IA</li>
-    <li><span class="accent">Agosto–Oct:</span> Portafolio + investigación aplicada</li>
-    <li><span class="accent">Nov–Dic:</span> Producto final + presentación profesional</li>
+<div class="slide"><div class="brand">Asunción School</div>
+  <h2 class="t-h1">El plan del año 🗓️</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li><span class="accent">Mayo–Julio:</span> Herramientas + usar IA bien</li>
+    <li><span class="accent">Agosto–Octubre:</span> Tu portafolio + investigación</li>
+    <li><span class="accent">Noviembre–Diciembre:</span> Producto final + presentación</li>
   </ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Tu egreso empieza hoy.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Tu egreso empieza hoy, no en diciembre.</p>
 </div>
 
-<div class="slide">
-  <div class="brand">Asunción School</div>
-  <h2 class="t-h1">¿Listo/a para<br>el mundo real? 🌍</h2>
-  <div class="divider"></div>
-  <div class="emoji-big" style="margin-top:2%">🎯</div>
-  <p class="t-body" style="margin-top:2%;max-width:75%">Al final del año tendrás un portafolio, habilidades verificables y criterio digital. Eso vale más que cualquier nota.</p>
-  <p class="t-sm" style="margin-top:2%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+<div class="slide"><div class="brand">Asunción School</div>
+  <div class="big-emoji" style="margin-top:2%">🎯</div>
+  <h2 class="t-h1" style="margin-top:3%">La diferencia la hace<br>lo que <span class="accent">haces hoy</span></h2>
+  <div class="line"></div>
+  <p class="t-body" style="max-width:75%">Al final del año vas a tener un portafolio, habilidades reales y una idea más clara de a dónde vas.</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
 
 </div>
@@ -242,35 +213,16 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 </div>
 <script>
 const slides=[...document.querySelectorAll('.slide')];
-const total=15;
-let cur=0;
+const total=15;let cur=0;
 const dots=document.getElementById('dots');
-slides.forEach((_,i)=>{
-  const d=document.createElement('span');
-  d.className='dot'+(i===0?' active':'');
-  d.onclick=()=>goTo(i);
-  dots.appendChild(d);
-});
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
-function goTo(n){
-  slides[cur].classList.remove('active');allDots[cur].classList.remove('active');
-  cur=Math.max(0,Math.min(total-1,n));
-  slides[cur].classList.add('active');allDots[cur].classList.add('active');
-  document.getElementById('counter').textContent=(cur+1)+' / '+total;
-  document.getElementById('btn-prev').disabled=cur===0;
-  document.getElementById('btn-next').disabled=cur===total-1;
-}
+function goTo(n){slides[cur].classList.remove('active');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
 function go(d){goTo(cur+d);}
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
-  if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
-});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-document.getElementById('deck').addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-tx;
-  if(Math.abs(dx)>40)go(dx<0?1:-1);
-});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
 goTo(0);
 </script>
 </body>

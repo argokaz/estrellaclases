@@ -1,5 +1,4 @@
-// In-memory store — sufficient for a single 60-min class session.
-// State resets if the function instance goes cold (rare during active polling).
+// In-memory store — sufficient for a 60-min class session.
 const rooms = new Map();
 
 const CORS = {
@@ -21,7 +20,8 @@ exports.handler = async (event) => {
   if (event.httpMethod === "GET") {
     const room = (event.queryStringParameters || {}).room || "";
     if (!room || room.length > 8) return res(400, { error: "bad room" });
-    return res(200, rooms.get(room) || { slide: 0 });
+    // -1 = room not initialized yet (deck should not jump)
+    return res(200, rooms.get(room) ?? { slide: -1 });
   }
 
   if (event.httpMethod === "POST") {

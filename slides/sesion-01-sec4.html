@@ -207,5 +207,56 @@ document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
 goTo(0);
 </script>
+
+<!-- ── Remote sync (deck) ── -->
+<div id="room-badge" style="
+  position:fixed;bottom:52px;right:12px;z-index:200;
+  background:rgba(0,0,0,.82);border:2px solid #a855f7;
+  border-radius:12px;padding:.4rem 1rem;
+  font-family:monospace;font-size:1.2rem;font-weight:900;
+  color:#a855f7;letter-spacing:.22em;
+  backdrop-filter:blur(6px);pointer-events:none;
+  display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;
+    font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+(function(){
+  const API    = '/.netlify/functions/sync';
+  const OFFSET = 0;   // deck slide = notes card index + OFFSET
+
+  function genCode() {
+    const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let s = '';
+    for (let i = 0; i < 4; i++) s += c[Math.floor(Math.random() * c.length)];
+    return s;
+  }
+
+  const ROOM = sessionStorage.getItem('deck-room') || genCode();
+  sessionStorage.setItem('deck-room', ROOM);
+  document.getElementById('room-code-display').textContent = ROOM;
+
+  let last = -999, busy = false;
+
+  async function poll() {
+    if (busy) return;
+    busy = true;
+    try {
+      const r = await fetch(API + '?room=' + ROOM + '&_=' + Date.now());
+      if (!r.ok) return;
+      const d = await r.json();
+      // slide === -1 means notes haven't pushed yet → don't move
+      if (typeof d.slide === 'number' && d.slide >= 0 && d.slide !== last) {
+        last = d.slide;
+        goTo(d.slide + OFFSET);
+      }
+    } catch(e) {} finally { busy = false; }
+  }
+
+  setInterval(poll, 1500);
+  poll();
+})();
+</script>
 </body>
 </html>

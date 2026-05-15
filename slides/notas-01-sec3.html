@@ -3,437 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Notas · Sesión 1 · 3.° Secundaria</title>
+<title>Notas S01 · 3ro Secundaria</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  background:#0f0f0f;color:#e2e8f0;font-size:16px;line-height:1.6;}
-.sticky-header{
-  position:sticky;top:0;z-index:10;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  border-bottom:2px solid #fb923c;
-  padding:12px 16px;
-}
-.sticky-header h1{font-size:15px;font-weight:700;color:#fb923c;}
-.sticky-header p{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px;}
-.slides-nav{
-  display:flex;gap:6px;flex-wrap:wrap;padding:10px 16px;
-  background:#111;border-bottom:1px solid #1e293b;
-  overflow-x:auto;
-}
-.slides-nav a{
-  background:#1e293b;color:rgba(255,255,255,.7);
-  border-radius:6px;padding:4px 10px;font-size:12px;font-weight:600;
-  text-decoration:none;border:1px solid #334155;white-space:nowrap;
-}
-.slides-nav a:hover{background:#fb923c;color:#000;}
-.content{padding:16px;max-width:700px;margin:0 auto;}
-.slide-block{
-  background:#1a1a2e;border:1px solid #2d3748;
-  border-radius:12px;margin-bottom:20px;overflow:hidden;
-  scroll-margin-top:90px;
-}
-.slide-block-header{
-  background:#162032;border-bottom:2px solid #fb923c;
-  padding:10px 14px;display:flex;align-items:center;gap:8px;
-}
-.slide-num{
-  background:#fb923c;color:#000;border-radius:50%;
-  width:26px;height:26px;display:flex;align-items:center;
-  justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;
-}
-.slide-title{font-size:14px;font-weight:700;color:#fff;}
-.note-body{padding:12px 14px;}
-.note-section{margin-bottom:12px;}
-.note-label{
-  font-size:11px;font-weight:700;text-transform:uppercase;
-  letter-spacing:.8px;color:#fb923c;margin-bottom:4px;
-}
-.note-text{font-size:14px;color:#cbd5e1;line-height:1.6;}
-.note-text ul{padding-left:16px;margin-top:4px;}
-.note-text li{margin-bottom:3px;}
-.timing-badge{
-  display:inline-block;background:#1e293b;border:1px solid #fb923c;
-  border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;
-  color:#fb923c;margin-top:4px;
-}
-.tip-box{
-  background:rgba(255,255,255,.04);border-left:3px solid #fb923c;
-  border-radius:0 8px 8px 0;padding:8px 12px;margin-top:6px;
-  font-size:13px;color:#94a3b8;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#150800;color:#e5e7eb;font-family:system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;padding-bottom:3rem}
+.hdr{position:sticky;top:0;z-index:10;background:#150800;border-bottom:3px solid #f97316;padding:.75rem 1rem}
+.hdr h1{color:#f97316;font-size:1rem;font-weight:800}
+.hdr p{font-size:.78rem;color:#9ca3af;margin-top:.1rem}
+.qnav{display:flex;gap:.35rem;flex-wrap:wrap;padding:.5rem 1rem;background:#111;border-bottom:1px solid #222}
+.qnav a{color:#f97316;text-decoration:none;font-size:.75rem;font-weight:700;background:#1f2937;border-radius:4px;padding:.2rem .45rem}
+.qnav a:hover{background:#f97316;color:#000}
+.wrap{max-width:640px;margin:0 auto;padding:.75rem}
+.fc{background:#1a1a1a;border-radius:12px;margin-bottom:.9rem;overflow:hidden;border:1px solid #2a2a2a;scroll-margin-top:80px}
+.fc-head{display:flex;align-items:center;gap:.6rem;padding:.6rem .85rem;background:#111;border-bottom:2px solid #f97316}
+.fc-n{background:#f97316;color:#000;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;flex-shrink:0}
+.fc-title{font-size:.92rem;font-weight:700;color:#f9fafb;line-height:1.25}
+.fc-say{background:#0a1a0a;border-left:3px solid #f97316;padding:.55rem .85rem;font-size:.88rem;color:#d1fae5;line-height:1.45}
+.fc-do{padding:.5rem .85rem;font-size:.85rem;color:#cbd5e1;border-bottom:1px solid #222;line-height:1.4}
+.fc-foot{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem .85rem;background:#111;font-size:.78rem}
+.fc-time{background:#1f2937;border:1px solid #f97316;color:#f97316;border-radius:20px;padding:.15rem .6rem;font-weight:700;white-space:nowrap;flex-shrink:0}
+.fc-tip{color:#9ca3af;flex:1;line-height:1.35}
 </style>
 </head>
 <body>
-<div class="sticky-header">
-  <h1>📋 Notas para la profesora · Sesión 1</h1>
-  <p>3.° Secundaria · Viernes 15 de mayo · Asunción School</p>
+<div class="hdr">
+  <h1>📋 Notas · Sesión 01 · 3ro Secundaria</h1>
+  <p>Diagnóstico y contrato digital · Viernes 15 de mayo 2026</p>
 </div>
-<div class="slides-nav">
-  <a href="#s1">D1</a><a href="#s2">D2</a><a href="#s3">D3</a><a href="#s4">D4</a><a href="#s5">D5</a><a href="#s6">D6</a><a href="#s7">D7</a><a href="#s8">D8</a><a href="#s9">D9</a><a href="#s10">D10</a><a href="#s11">D11</a><a href="#s12">D12</a><a href="#s13">D13</a><a href="#s14">D14</a><a href="#s15">D15</a>
-</div>
-<div class="content">
-<div class="slide-block" id="s1">
-  <div class="slide-block-header">
-    <div class="slide-num">1</div>
-    <div class="slide-title">Portada</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Posicionar el año como un espacio de creación con propósito.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Este año no solo aprenden herramientas. Construyen algo que resuelve un problema real.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Silencio inicial. Deja que la pregunta del título resuene.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">1 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> El tono debe ser de reto, no de clase magistral.</div>
-  </div>
-</div><div class="slide-block" id="s2">
-  <div class="slide-block-header">
-    <div class="slide-num">2</div>
-    <div class="slide-title">¿Qué producto podrías crear?</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Activar la imaginación creativa desde el primer minuto.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Antes de aprender herramientas, necesitamos saber para qué las vamos a usar.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Pide que en papel escriban espontáneamente: '¿Qué producto digital me gustaría crear?' Sin pensar mucho.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">3 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> No filtres las ideas. Lo importante es que empiecen a imaginar.</div>
-  </div>
-</div><div class="slide-block" id="s3">
-  <div class="slide-block-header">
-    <div class="slide-num">3</div>
-    <div class="slide-title">El problema real</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Introducir el concepto de design thinking: empieza por el problema, no por la solución.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Las mejores apps del mundo empezaron con alguien frustrado. ¿Qué te frustra a ti?'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Lluvia de ideas oral. Anota en pizarra los problemas que mencionan.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">4 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Conecta sus problemas con posibles soluciones digitales. Muestra que todo es válido.</div>
-  </div>
-</div><div class="slide-block" id="s4">
-  <div class="slide-block-header">
-    <div class="slide-num">4</div>
-    <div class="slide-title">Casos de jóvenes creadores</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Mostrar que la edad no es una barrera para crear impacto.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">Cuenta cada caso con emoción. Haz pausas dramáticas. Especialmente enfatiza los casos locales.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Pregunta: '¿Qué tenían en común estos jóvenes?' Busca que digan: problema + acción + herramientas.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">4 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Si tienes internet, busca en vivo alguno de estos proyectos para mostrar.</div>
-  </div>
-</div><div class="slide-block" id="s5">
-  <div class="slide-block-header">
-    <div class="slide-num">5</div>
-    <div class="slide-title">Diagnóstico: ¿dónde estás?</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Mapear el punto de partida en 4 áreas clave.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Levanta 1, 2, 3, 4 o 5 dedos para cada área. Nadie está en el nivel 0 porque están aquí.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Votación visual por área. Registra los promedios mentalmente para ajustar el ritmo de las primeras sesiones.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">4 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Valora los niveles bajos: 'Los que están en 1 y 2 van a ver el mayor crecimiento este año.'</div>
-  </div>
-</div><div class="slide-block" id="s6">
-  <div class="slide-block-header">
-    <div class="slide-num">6</div>
-    <div class="slide-title">IA como copiloto creativo</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Posicionar la IA como herramienta que amplía, no reemplaza.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'La IA puede darte 20 nombres para tu proyecto en 10 segundos. Pero tú tienes que elegir cuál sirve.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Ejercicio rápido: pide a la IA (si hay internet) que genere 5 ideas para el problema que más votaron. Elige una juntos.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">5 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Demuestra en vivo si es posible. El impacto es inmediato y memorable.</div>
-  </div>
-</div><div class="slide-block" id="s7">
-  <div class="slide-block-header">
-    <div class="slide-num">7</div>
-    <div class="slide-title">Tu idea inicial de proyecto</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Primera articulación del proyecto del año.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Esto no tiene que ser definitivo. Es un borrador. Los proyectos cambian cuando entendemos mejor al usuario.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Trabajo individual (5 min) en papel. Sin computadoras.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">6 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Monitorea y haz preguntas: '¿Quién usaría esto? ¿Por qué lo necesitan?'</div>
-  </div>
-</div><div class="slide-block" id="s8">
-  <div class="slide-block-header">
-    <div class="slide-num">8</div>
-    <div class="slide-title">Herramientas del año</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Presentar el arsenal de herramientas con contexto de uso.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">Para cada herramienta, da un ejemplo de cómo se usará en el proyecto del año.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Pregunta cuál les genera más curiosidad. Anota.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">3 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> No enseñes las herramientas hoy. Solo presenta. La curiosidad es suficiente.</div>
-  </div>
-</div><div class="slide-block" id="s9">
-  <div class="slide-block-header">
-    <div class="slide-num">9</div>
-    <div class="slide-title">¿Quién es tu usuario?</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Introducir el concepto de usuario/persona antes del mini taller.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Un proyecto sin usuario en mente es un proyecto sin dirección. Necesitamos entender a alguien real.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Ejemplo: describe a un usuario ficticio en voz alta con mucho detalle. Hazlo vívido.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">3 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Cuanto más concreto y humano sea el usuario, mejor será el proyecto.</div>
-  </div>
-</div><div class="slide-block" id="s10">
-  <div class="slide-block-header">
-    <div class="slide-num">10</div>
-    <div class="slide-title">Prototipo vs Producto</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Gestionar expectativas: no harán el producto perfecto en la primera sesión.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Este año construimos en etapas. El prototipo es para aprender, no para entregar.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Pregunta: '¿Alguien sabe qué es un MVP?' Explica el concepto de forma simple.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">3 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Esta conversación reduce la ansiedad de perfeccionismo. Muy importante para 3ro sec.</div>
-  </div>
-</div><div class="slide-block" id="s11">
-  <div class="slide-block-header">
-    <div class="slide-num">11</div>
-    <div class="slide-title">Mini taller: Define tu usuario</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Actividad central de la sesión. Empatía aplicada.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Pongan nombre a esta persona. Denle historia. Cuanto más real la sientan, mejor van a diseñar.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Trabajo individual (8 min). Luego comparten en tríos. Piden retroalimentación.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">10 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Circula y haz preguntas que profundicen: '¿Por qué le frustra eso? ¿Cómo lo resuelve ahora?'</div>
-  </div>
-</div><div class="slide-block" id="s12">
-  <div class="slide-block-header">
-    <div class="slide-num">12</div>
-    <div class="slide-title">Pitch en 60 segundos</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Primera práctica de comunicación del proyecto.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Practiquen en voz alta la estructura. No tienen que ser perfectos. Tienen que ser claros.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Práctica en parejas (2 min). Luego 3-4 voluntarios al frente.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">6 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Aplaude el esfuerzo de pararse al frente. Eso cuesta mucho a esta edad.</div>
-  </div>
-</div><div class="slide-block" id="s13">
-  <div class="slide-block-header">
-    <div class="slide-num">13</div>
-    <div class="slide-title">Reglas del aula</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Establecer normas co-construidas para el espacio de creación.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Este espacio es un laboratorio. Los laboratorios tienen protocolos.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Lectura colectiva. Opción de proponer una regla adicional.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">3 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> La regla de respeto a las ideas es la más importante. Las ideas se critican con amabilidad.</div>
-  </div>
-</div><div class="slide-block" id="s14">
-  <div class="slide-block-header">
-    <div class="slide-num">14</div>
-    <div class="slide-title">La ruta del año</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Dar visión completa del año para que vean el camino completo.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">Presenta las 3 etapas. Enfatiza: 'Cada sesión construye sobre la anterior.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Preguntas libres.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">2 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Menciona que al final presentan su proyecto a invitados. Crea urgencia motivadora.</div>
-  </div>
-</div><div class="slide-block" id="s15">
-  <div class="slide-block-header">
-    <div class="slide-num">15</div>
-    <div class="slide-title">Cierre</div>
-  </div>
-  <div class="note-body">
-    <div class="note-section">
-      <div class="note-label">🎯 Objetivo</div>
-      <div class="note-text">Cerrar con sentido de propósito y pertenencia.</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">💬 Qué decir</div>
-      <div class="note-text">'Este año van a crear algo que no existía. Eso es lo que hacen los creadores.'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⚡ Dinámica</div>
-      <div class="note-text">Aplausos. Pide que en papel escriban: 'El problema que más me interesa resolver es...'</div>
-    </div>
-    <div class="note-section">
-      <div class="note-label">⏱ Tiempo</div>
-      <div class="timing-badge">2 min</div>
-    </div>
-    <div class="tip-box">💡 <strong>Tip:</strong> Guarda los papeles. Son el primer artefacto del portafolio del año.</div>
-  </div>
-</div>
+<div class="qnav"><a href="#fc1">1</a><a href="#fc2">2</a><a href="#fc3">3</a><a href="#fc4">4</a><a href="#fc5">5</a><a href="#fc6">6</a><a href="#fc7">7</a><a href="#fc8">8</a><a href="#fc9">9</a><a href="#fc10">10</a><a href="#fc11">11</a><a href="#fc12">12</a><a href="#fc13">13</a><a href="#fc14">14</a><a href="#fc15">15</a></div>
+<div class="wrap">
+<article class="fc" id="fc1">
+  <div class="fc-head"><div class="fc-n">1</div><div class="fc-title">Portada</div></div>
+  <div class="fc-say">💬 Este año van a pasar de solo usar tecnología a hacer cosas con ella. Empezamos hoy.</div>
+  <div class="fc-do">⚡ Silencio inicial. Que lean la slide.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 1 min</span><span class="fc-tip">💡 Tono directo. No infantilizar.</span></div>
+</article>
+<article class="fc" id="fc2">
+  <div class="fc-head"><div class="fc-n">2</div><div class="fc-title">¿Qué han creado con tecnología?</div></div>
+  <div class="fc-say">💬 No me cuenten lo que han visto. Cuéntenme lo que han hecho. Un video, una presentación, un meme bien hecho.</div>
+  <div class="fc-do">⚡ Levantar mano: ¿quién ha creado algo digital en los últimos 3 meses?</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Validar todo. Un meme creativo también cuenta.</span></div>
+</article>
+<article class="fc" id="fc3">
+  <div class="fc-head"><div class="fc-n">3</div><div class="fc-title">De mirar a hacer</div></div>
+  <div class="fc-say">💬 Mirar tutoriales está bien. Pero el siguiente paso es intentarlo. Hoy empezamos ese paso.</div>
+  <div class="fc-do">⚡ Analogía: ver cocinar vs cocinar.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Mantener el tono motivador, no crítico.</span></div>
+</article>
+<article class="fc" id="fc4">
+  <div class="fc-head"><div class="fc-n">4</div><div class="fc-title">¿Qué podemos crear este año?</div></div>
+  <div class="fc-say">💬 Infografías, mini videos, páginas web, encuestas, presentaciones interactivas, guías.</div>
+  <div class="fc-do">⚡ Que elijan cuál les llama más. Votación rápida.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 No prometer todo a la vez. Solo abrir posibilidades.</span></div>
+</article>
+<article class="fc" id="fc5">
+  <div class="fc-head"><div class="fc-n">5</div><div class="fc-title">La IA como colaboradora</div></div>
+  <div class="fc-say">💬 La IA puede ser su primera revisora, su generadora de ideas, su correctora de borradores.</div>
+  <div class="fc-do">⚡ Pregunta: ¿cómo usarían una IA para un trabajo de literatura?</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Conectar con sus materias.</span></div>
+</article>
+<article class="fc" id="fc6">
+  <div class="fc-head"><div class="fc-n">6</div><div class="fc-title">Límites de la IA</div></div>
+  <div class="fc-say">💬 La IA no sabe qué aprendieron ayer. No conoce su historia. No puede reemplazar su perspectiva.</div>
+  <div class="fc-do">⚡ Pregunta: ¿qué parte de un trabajo debe ser siempre suya?</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Que ellos mismos pongan los límites.</span></div>
+</article>
+<article class="fc" id="fc7">
+  <div class="fc-head"><div class="fc-n">7</div><div class="fc-title">Proyecto del año</div></div>
+  <div class="fc-say">💬 Este año van a desarrollar un proyecto digital propio. No un ejercicio. Un trabajo real.</div>
+  <div class="fc-do">⚡ Mostrar ejemplos concretos del tipo de proyectos posibles.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Generar expectativa. Que fantaseen con qué harían.</span></div>
+</article>
+<article class="fc" id="fc8">
+  <div class="fc-head"><div class="fc-n">8</div><div class="fc-title">Cómo funciona la IA (versión honesta)</div></div>
+  <div class="fc-say">💬 La IA predice la siguiente palabra más probable. No piensa, no entiende. Solo predice bien.</div>
+  <div class="fc-do">⚡ Demo rápida: completar una frase con el teclado predictivo.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 La demo del teclado es muy efectiva y no necesita equipos.</span></div>
+</article>
+<article class="fc" id="fc9">
+  <div class="fc-head"><div class="fc-n">9</div><div class="fc-title">Cuando la IA se equivoca</div></div>
+  <div class="fc-say">💬 Le preguntas algo y te responde con confianza algo incorrecto. Eso pasa. Por eso tú revisas.</div>
+  <div class="fc-do">⚡ Ejemplo concreto de error de IA. Preguntar: ¿cómo lo habrían detectado?</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Que ellos sean los detectores del error.</span></div>
+</article>
+<article class="fc" id="fc10">
+  <div class="fc-head"><div class="fc-n">10</div><div class="fc-title">Privacidad: lo que no comparto</div></div>
+  <div class="fc-say">💬 Datos, fotos, conversaciones privadas, información de familia. Nada de eso en una IA o app desconocida.</div>
+  <div class="fc-do">⚡ Clasificación rápida: ¿esto es público o privado?</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Ejemplos concretos, no abstractos.</span></div>
+</article>
+<article class="fc" id="fc11">
+  <div class="fc-head"><div class="fc-n">11</div><div class="fc-title">Nuestro acuerdo de clase</div></div>
+  <div class="fc-say">💬 Creamos, revisamos, citamos cuando usamos IA. Eso no es una regla, es un hábito.</div>
+  <div class="fc-do">⚡ Que propongan una regla que les parezca justa.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Que sientan que las reglas son suyas.</span></div>
+</article>
+<article class="fc" id="fc12">
+  <div class="fc-head"><div class="fc-n">12</div><div class="fc-title">Diagnóstico: ¿qué sé hacer?</div></div>
+  <div class="fc-say">💬 ¿Qué herramientas digitales dominan? ¿Cuáles no conocen? Hoy lo mapeamos.</div>
+  <div class="fc-do">⚡ Ficha individual. 5 minutos.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 5 min</span><span class="fc-tip">💡 Sin presión. Es información, no evaluación.</span></div>
+</article>
+<article class="fc" id="fc13">
+  <div class="fc-head"><div class="fc-n">13</div><div class="fc-title">¿Qué quiero aprender este año?</div></div>
+  <div class="fc-say">💬 Escriban una habilidad que quieran tener al terminar el año. Eso va a guiar su proyecto.</div>
+  <div class="fc-do">⚡ Trabajo individual. Luego compartir con el de al lado.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 5 min</span><span class="fc-tip">💡 Guardar estas fichas. Vuelven a ellas en la sesión final.</span></div>
+</article>
+<article class="fc" id="fc14">
+  <div class="fc-head"><div class="fc-n">14</div><div class="fc-title">El mapa del año</div></div>
+  <div class="fc-say">💬 Aquí está el camino. En la sesión 16 ya deberían tener su proyecto en borrador.</div>
+  <div class="fc-do">⚡ Mostrar cronograma. Señalar puntos clave.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Que vean el destino.</span></div>
+</article>
+<article class="fc" id="fc15">
+  <div class="fc-head"><div class="fc-n">15</div><div class="fc-title">Cierre</div></div>
+  <div class="fc-say">💬 Una palabra que describa cómo se sienten sobre este año de Computación.</div>
+  <div class="fc-do">⚡ Ronda rápida.</div>
+  <div class="fc-foot"><span class="fc-time">⏱ 2 min</span><span class="fc-tip">💡 Terminar con energía positiva.</span></div>
+</article>
 </div>
 </body>
 </html>

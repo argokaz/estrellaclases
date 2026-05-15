@@ -584,11 +584,11 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.5">
     Ingresa el código que aparece en la pantalla del proyector
   </div>
-  <input id="sync-code" type="text" maxlength="3"
+  <input id="sync-code" type="text" maxlength="4"
     autocomplete="off" autocorrect="off" autocapitalize="characters"
-    placeholder="Ej: P62"
+    spellcheck="false" placeholder="Ej: 7KQ4"
     style="font-size:2.2rem;font-family:monospace;text-align:center;
-      letter-spacing:.35em;text-transform:uppercase;width:140px;
+      letter-spacing:.3em;text-transform:uppercase;width:160px;
       background:#1f2937;border:2px solid #374151;color:#f9fafb;
       border-radius:10px;padding:.5rem .8rem;outline:none">
   <button onclick="syncConnect()"
@@ -616,7 +616,7 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
 <script>
 (function(){
   const API       = '/.netlify/functions/sync';
-  const STORE_KEY = 'sync-room-v1';
+  const STORE_KEY = 'sync-room-v2';
   let room = '';
   let connected = false;
 
@@ -625,7 +625,6 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
   const badgeRoom = document.getElementById('sync-badge-room');
   const input     = document.getElementById('sync-code');
 
-  // ── Connect ──
   function connect(code) {
     room = code.toUpperCase().trim();
     if (!room) return;
@@ -646,12 +645,11 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     overlay.style.display = 'none';
   };
 
-  // Enter key on input
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') window.syncConnect();
   });
 
-  // ── Push slide change via MutationObserver on counter ──
+  // Detect slide change via MutationObserver on the counter element
   const counter = document.getElementById('fc-counter');
   let lastPushed = -1;
   let pushTimer  = null;
@@ -675,11 +673,10 @@ body{background:#150800;font-family:system-ui,-apple-system,sans-serif;color:#e5
     pushTimer = setTimeout(pushSlide, 80);
   }).observe(counter, { childList: true, subtree: true, characterData: true });
 
-  // ── Auto-connect if stored ──
+  // Auto-connect with last used code (shows pre-filled, teacher still confirms)
   const saved = localStorage.getItem(STORE_KEY);
   if (saved) {
     input.value = saved;
-    connect(saved);
   }
 })();
 </script>

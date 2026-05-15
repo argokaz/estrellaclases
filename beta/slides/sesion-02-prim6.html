@@ -262,18 +262,31 @@ goTo(0);
 <div id="room-badge" style="
   position:fixed;bottom:52px;right:12px;z-index:200;
   background:rgba(0,0,0,.78);border:2px solid #22c55e;
-  border-radius:10px;padding:.3rem .75rem;
-  font-family:monospace;font-size:1.05rem;font-weight:900;
-  color:#22c55e;letter-spacing:.18em;
+  border-radius:10px;padding:.35rem .85rem;
+  font-family:monospace;font-size:1.15rem;font-weight:900;
+  color:#22c55e;letter-spacing:.2em;
   backdrop-filter:blur(6px);pointer-events:none;
-  display:flex;align-items:center;gap:.4rem">
-  <span style="font-size:.75rem;opacity:.7;font-family:system-ui;
-    letter-spacing:0;font-weight:600">📡</span>P62
+  display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.75rem;letter-spacing:0;font-weight:600;font-family:system-ui">📡</span>
+  <span id="room-code-display"></span>
 </div>
 <script>
 (function(){
-  const ROOM = 'P62';
-  const API  = '/.netlify/functions/sync';
+  const API = '/.netlify/functions/sync';
+
+  // Generate random 4-char code — alphanumeric, no ambiguous chars (0/O, 1/I/L)
+  function genCode() {
+    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let c = '';
+    for (let i = 0; i < 4; i++) c += chars[Math.floor(Math.random() * chars.length)];
+    return c;
+  }
+
+  // Reuse code if same tab is refreshed
+  const ROOM = sessionStorage.getItem('deck-room') || genCode();
+  sessionStorage.setItem('deck-room', ROOM);
+  document.getElementById('room-code-display').textContent = ROOM;
+
   let last = -1, busy = false;
 
   async function poll() {

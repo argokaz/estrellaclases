@@ -6,122 +6,465 @@
 <title>Notas S02 · 3ro Secundaria</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#150800;color:#e5e7eb;font-family:system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;padding-bottom:3rem}
-.hdr{position:sticky;top:0;z-index:10;background:#150800;border-bottom:3px solid #f97316;padding:.75rem 1rem}
-.hdr h1{color:#f97316;font-size:1rem;font-weight:800}
-.hdr p{font-size:.78rem;color:#9ca3af;margin-top:.1rem}
-.qnav{display:flex;gap:.35rem;flex-wrap:wrap;padding:.5rem 1rem;background:#111;border-bottom:1px solid #222}
-.qnav a{color:#f97316;text-decoration:none;font-size:.75rem;font-weight:700;background:#1f2937;border-radius:4px;padding:.2rem .45rem}
+html,body{height:100%;overflow:hidden}
+body{background:#150800;font-family:system-ui,-apple-system,sans-serif;font-size:18px;color:#e5e7eb}
+
+/* ── Fixed UI chrome ─────────────────────────────────── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:#150800;border-bottom:3px solid #f97316;padding:.7rem 1rem}
+.hdr h1{color:#f97316;font-size:1.05rem;font-weight:800;line-height:1.2}
+.hdr p{font-size:.8rem;color:#9ca3af;margin-top:.15rem}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.fc-counter{color:#f97316;font-size:.9rem;font-weight:800;white-space:nowrap}
+
+.qnav{position:fixed;top:var(--hdr-h,62px);left:0;right:0;z-index:19;
+  display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;padding:.45rem .75rem;
+  background:#111;border-bottom:1px solid #222;
+  scrollbar-width:none;-ms-overflow-style:none}
+.qnav::-webkit-scrollbar{display:none}
+.qnav a{color:#f97316;text-decoration:none;font-size:.82rem;font-weight:700;
+  background:#1f2937;border-radius:5px;padding:.25rem .55rem;white-space:nowrap;flex-shrink:0}
 .qnav a:hover{background:#f97316;color:#000}
-.wrap{max-width:640px;margin:0 auto;padding:.75rem}
-.fc{background:#1a1a1a;border-radius:12px;margin-bottom:.9rem;overflow:hidden;border:1px solid #2a2a2a;scroll-margin-top:80px}
-.fc-head{display:flex;align-items:center;gap:.6rem;padding:.6rem .85rem;background:#111;border-bottom:2px solid #f97316}
-.fc-n{background:#f97316;color:#000;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;flex-shrink:0}
-.fc-title{font-size:.92rem;font-weight:700;color:#f9fafb;line-height:1.25}
-.fc-say{background:#0a1a0a;border-left:3px solid #f97316;padding:.55rem .85rem;font-size:.88rem;color:#d1fae5;line-height:1.45}
-.fc-do{padding:.5rem .85rem;font-size:.85rem;color:#cbd5e1;border-bottom:1px solid #222;line-height:1.4}
-.fc-foot{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem .85rem;background:#111;font-size:.78rem}
-.fc-time{background:#1f2937;border:1px solid #f97316;color:#f97316;border-radius:20px;padding:.15rem .6rem;font-weight:700;white-space:nowrap;flex-shrink:0}
-.fc-tip{color:#9ca3af;flex:1;line-height:1.35}
+
+/* ── Scroll deck ─────────────────────────────────────── */
+.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;
+  overflow-y:scroll;scroll-snap-type:y mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.deck::-webkit-scrollbar{display:none}
+
+/* ── Flash card = 1 screen ───────────────────────────── */
+.fc{height:100%;scroll-snap-align:start;display:flex;flex-direction:column;
+  background:#1f0e02;border-bottom:1px solid #222}
+
+/* Card header */
+.fc-head{display:flex;align-items:center;gap:.65rem;padding:.75rem 1rem;
+  background:#111;border-bottom:2px solid #f97316;flex-shrink:0}
+.fc-n{background:#f97316;color:#000;border-radius:50%;
+  width:30px;height:30px;min-width:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:900}
+.fc-title{font-size:1.08rem;font-weight:700;color:#f9fafb;line-height:1.3}
+
+/* Say block */
+.fc-say{padding:.9rem 1rem;font-size:1.08rem;color:#d1fae5;
+  line-height:1.5;border-left:4px solid #f97316;
+  background:rgba(0,0,0,.35);flex:1;display:flex;align-items:center}
+.fc-say-inner{width:100%}
+.fc-say-label{font-size:.72rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+
+/* Do block */
+.fc-do{padding:.75rem 1rem;font-size:.98rem;color:#cbd5e1;
+  line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
+.fc-do-label{font-size:.72rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
+
+/* Footer */
+.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.6rem 1rem;
+  background:#111;flex-shrink:0;border-top:1px solid #222}
+.fc-time{background:#1f2937;border:1px solid #f97316;color:#f97316;
+  border-radius:20px;padding:.18rem .65rem;font-size:.82rem;
+  font-weight:700;white-space:nowrap;flex-shrink:0}
+.fc-tip{color:#9ca3af;font-size:.82rem;flex:1;line-height:1.4}
+
+/* Expandable */
+.fc-extra{flex-shrink:0;border-top:1px solid #2a2a2a}
+.fc-extra summary{
+  list-style:none;padding:.6rem 1rem;
+  font-size:.85rem;font-weight:700;color:#f97316;
+  cursor:pointer;display:flex;align-items:center;gap:.4rem;
+  background:#0a0a0a;user-select:none}
+.fc-extra summary::-webkit-details-marker{display:none}
+.fc-extra summary::before{content:'▶';font-size:.65rem;transition:transform .2s}
+.fc-extra[open] summary::before{transform:rotate(90deg)}
+.fc-extra-body{padding:.75rem 1rem;font-size:.92rem;color:#cbd5e1;
+  line-height:1.6;background:#0f0f0f;border-top:1px solid #1f2937}
+.fc-extra-body b{color:#f9fafb}
+.fc-extra-body i{color:#9ca3af}
+
+/* ── Desktop: max-width container ────────────────────── */
+@media(min-width:600px){
+  .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
+  .fc{border-radius:0}
+}
 </style>
 </head>
 <body>
 <div class="hdr">
-  <h1>📋 Notas · Sesión 02 · 3ro Secundaria</h1>
-  <p>Uso responsable de tecnología e IA · Viernes 22 de mayo 2026</p>
+  <div class="hdr-row">
+    <h1>📋 Notas · Sesión 02 · 3ro Secundaria</h1>
+    <span class="fc-counter" id="fc-counter">1 / 15</span>
+  </div>
+  <p>Uso responsable de tecnología e IA · 22 de mayo 2026</p>
 </div>
-<div class="qnav"><a href="#fc1">1</a><a href="#fc2">2</a><a href="#fc3">3</a><a href="#fc4">4</a><a href="#fc5">5</a><a href="#fc6">6</a><a href="#fc7">7</a><a href="#fc8">8</a><a href="#fc9">9</a><a href="#fc10">10</a><a href="#fc11">11</a><a href="#fc12">12</a><a href="#fc13">13</a><a href="#fc14">14</a><a href="#fc15">15</a></div>
-<div class="wrap">
-<article class="fc" id="fc1">
-  <div class="fc-head"><div class="fc-n">1</div><div class="fc-title">De mirar contenido a hacer algo propio</div></div>
-  <div class="fc-say">💬 Hoy vamos a pasar de solo mirar a crear. La meta: usar tecnología para hacer mejores trabajos.</div>
-  <div class="fc-do">⚡ Pregunta: ¿qué cosas digitales han creado alguna vez?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 'Hacer algo propio' funciona mejor que 'creador digital' para esta edad.</span></div>
-</article>
-<article class="fc" id="fc2">
-  <div class="fc-head"><div class="fc-n">2</div><div class="fc-title">Mirar también enseña... pero no basta</div></div>
-  <div class="fc-say">💬 Ver videos puede ayudar. Buscar ideas puede ayudar. Pero el trabajo final debe ser tuyo.</div>
-  <div class="fc-do">⚡ Ejemplos: tutorial visto vs proyecto hecho.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Validar primero, luego redirigir. No empezar criticando.</span></div>
-</article>
-<article class="fc" id="fc3">
-  <div class="fc-head"><div class="fc-n">3</div><div class="fc-title">¿Qué podemos crear en Computación?</div></div>
-  <div class="fc-say">💬 Infografías, presentaciones, mini videos, guías, encuestas, páginas simples.</div>
-  <div class="fc-do">⚡ Que elijan cuál les gustaría hacer.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Mantener lista concreta. Evitar conceptos abstractos.</span></div>
-</article>
-<article class="fc" id="fc4">
-  <div class="fc-head"><div class="fc-n">4</div><div class="fc-title">La IA como apoyo</div></div>
-  <div class="fc-say">💬 Me ayuda a ordenar, me da ideas, me hace preguntas, me ayuda a mejorar.</div>
-  <div class="fc-do">⚡ Pedir un ejemplo de cada uso.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Cuatro verbos simples. Sirven como regla base para el año.</span></div>
-</article>
-<article class="fc" id="fc5">
-  <div class="fc-head"><div class="fc-n">5</div><div class="fc-title">La IA no debe hacer todo por mí</div></div>
-  <div class="fc-say">💬 Si copia por mí, no aprendo. Si no entiendo, no sirve. Si no reviso, puedo equivocarme.</div>
-  <div class="fc-do">⚡ Preguntar: ¿alguna vez una app les dio una respuesta rara?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Lenguaje directo. Conectar con experiencias reales.</span></div>
-</article>
-<article class="fc" id="fc6">
-  <div class="fc-head"><div class="fc-n">6</div><div class="fc-title">Idea desordenada vs idea clara</div></div>
-  <div class="fc-say">💬 Desordenada: 'quiero hacer algo de videojuegos'. Clara: 'quiero explicar cómo organizar mejor mi tiempo'.</div>
-  <div class="fc-do">⚡ Dar 2 ideas desordenadas y pedir que las aclaren.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Esta slide enseña a enfocar sin necesitar un marco teórico.</span></div>
-</article>
-<article class="fc" id="fc7">
-  <div class="fc-head"><div class="fc-n">7</div><div class="fc-title">Cómo pedir ayuda a una IA</div></div>
-  <div class="fc-say">💬 Dile el tema. Dile tu grado. Dile qué necesitas. Pídele que no haga todo.</div>
-  <div class="fc-do">⚡ Construir un prompt en la pizarra con ellos.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Mini framework, pero expresado de forma simple.</span></div>
-</article>
-<article class="fc" id="fc8">
-  <div class="fc-head"><div class="fc-n">8</div><div class="fc-title">Prompt útil</div></div>
-  <div class="fc-say">💬 'Estoy en 3ro de secundaria. Quiero hacer una infografía sobre hábitos de estudio. Dame ideas, no el trabajo completo.'</div>
-  <div class="fc-do">⚡ Que identifiquen las partes del prompt: contexto, tema, límite.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Explicar por qué funciona: da contexto y pone límites.</span></div>
-</article>
-<article class="fc" id="fc9">
-  <div class="fc-head"><div class="fc-n">9</div><div class="fc-title">Cuidado con datos personales</div></div>
-  <div class="fc-say">💬 No subas datos privados. No uses fotos de otros sin permiso. No compartas chats. No publiques todo.</div>
-  <div class="fc-do">⚡ Preguntar: ¿qué cosas no deberían estar en internet?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Seguridad con ejemplos cercanos a su vida.</span></div>
-</article>
-<article class="fc" id="fc10">
-  <div class="fc-head"><div class="fc-n">10</div><div class="fc-title">Juego: ¿sirve o no sirve?</div></div>
-  <div class="fc-say">💬 Caso 1: uso IA para sacar ideas. Caso 2: copio todo. Caso 3: reviso con mis palabras.</div>
-  <div class="fc-do">⚡ Clasificación rápida con pulgar arriba/medio/abajo o colores.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Mecánica simple. Va rápido.</span></div>
-</article>
-<article class="fc" id="fc11">
-  <div class="fc-head"><div class="fc-n">11</div><div class="fc-title">Actividad: mejora una idea</div></div>
-  <div class="fc-say">💬 Elige un tema. Hazlo más claro. Piensa qué podrías crear.</div>
-  <div class="fc-do">⚡ Trabajo individual o en parejas.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 8 min</span><span class="fc-tip">💡 Actividad central. No pedir proyectos grandes todavía.</span></div>
-</article>
-<article class="fc" id="fc12">
-  <div class="fc-head"><div class="fc-n">12</div><div class="fc-title">Ejemplos de temas</div></div>
-  <div class="fc-say">💬 Videojuegos y tiempo, cuidado de mascotas, seguridad en redes, música, deportes, medio ambiente.</div>
-  <div class="fc-do">⚡ Cada estudiante escoge uno o propone otro.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Dar opciones evita bloqueo creativo.</span></div>
-</article>
-<article class="fc" id="fc13">
-  <div class="fc-head"><div class="fc-n">13</div><div class="fc-title">Mi idea clara</div></div>
-  <div class="fc-say">💬 Mi tema es... Quiero explicar... Lo presentaré como... La IA me puede ayudar a...</div>
-  <div class="fc-do">⚡ Completar ficha.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 8 min</span><span class="fc-tip">💡 Material M02-C. Sirve como base de futuras clases.</span></div>
-</article>
-<article class="fc" id="fc14">
-  <div class="fc-head"><div class="fc-n">14</div><div class="fc-title">Compartimos ideas</div></div>
-  <div class="fc-say">💬 Una idea por voluntario. El grupo puede sugerir mejoras. Sin burlas.</div>
-  <div class="fc-do">⚡ Ronda rápida de 4-5 voluntarios.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Recalcar que las ideas iniciales se pueden mejorar.</span></div>
-</article>
-<article class="fc" id="fc15">
-  <div class="fc-head"><div class="fc-n">15</div><div class="fc-title">Cierre</div></div>
-  <div class="fc-say">💬 No basta con buscar. No basta con copiar. La meta es entender y crear algo propio.</div>
-  <div class="fc-do">⚡ Ticket: escribe un tema que te gustaría trabajar este año.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3–4 min</span><span class="fc-tip">💡 Tres frases cortas. Muy claro para este grado.</span></div>
-</article>
+<div class="qnav"><a href="#fc1" onclick="scrollTo(0)">1</a><a href="#fc2" onclick="scrollTo(1)">2</a><a href="#fc3" onclick="scrollTo(2)">3</a><a href="#fc4" onclick="scrollTo(3)">4</a><a href="#fc5" onclick="scrollTo(4)">5</a><a href="#fc6" onclick="scrollTo(5)">6</a><a href="#fc7" onclick="scrollTo(6)">7</a><a href="#fc8" onclick="scrollTo(7)">8</a><a href="#fc9" onclick="scrollTo(8)">9</a><a href="#fc10" onclick="scrollTo(9)">10</a><a href="#fc11" onclick="scrollTo(10)">11</a><a href="#fc12" onclick="scrollTo(11)">12</a><a href="#fc13" onclick="scrollTo(12)">13</a><a href="#fc14" onclick="scrollTo(13)">14</a><a href="#fc15" onclick="scrollTo(14)">15</a></div>
+<div class="deck">
+<div class="fc" id="fc1">
+  <div class="fc-head">
+    <div class="fc-n">1</div>
+    <div class="fc-title">De mirar contenido a hacer algo propio</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Hoy vamos a pasar de solo mirar a crear. La meta: usar tecnología para hacer mejores trabajos.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Pregunta: ¿qué cosas digitales han creado alguna vez?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 'Hacer algo propio' funciona mejor que 'creador digital' para esta edad.</span>
+  </div>
+  
 </div>
+<div class="fc" id="fc2">
+  <div class="fc-head">
+    <div class="fc-n">2</div>
+    <div class="fc-title">Mirar también enseña... pero no basta</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Ver videos puede ayudar. Buscar ideas puede ayudar. Pero el trabajo final debe ser tuyo.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ejemplos: tutorial visto vs proyecto hecho.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Validar primero, luego redirigir. No empezar criticando.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc3">
+  <div class="fc-head">
+    <div class="fc-n">3</div>
+    <div class="fc-title">¿Qué podemos crear en Computación?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Infografías, presentaciones, mini videos, guías, encuestas, páginas simples.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Que elijan cuál les gustaría hacer.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Mantener lista concreta. Evitar conceptos abstractos.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc4">
+  <div class="fc-head">
+    <div class="fc-n">4</div>
+    <div class="fc-title">La IA como apoyo</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Me ayuda a ordenar, me da ideas, me hace preguntas, me ayuda a mejorar.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Pedir un ejemplo de cada uso.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Cuatro verbos simples. Sirven como regla base para el año.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc5">
+  <div class="fc-head">
+    <div class="fc-n">5</div>
+    <div class="fc-title">La IA no debe hacer todo por mí</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Si copia por mí, no aprendo. Si no entiendo, no sirve. Si no reviso, puedo equivocarme.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Preguntar: ¿alguna vez una app les dio una respuesta rara?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Lenguaje directo. Conectar con experiencias reales.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc6">
+  <div class="fc-head">
+    <div class="fc-n">6</div>
+    <div class="fc-title">Idea desordenada vs idea clara</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Desordenada: 'quiero hacer algo de videojuegos'. Clara: 'quiero explicar cómo organizar mejor mi tiempo'.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Dar 2 ideas desordenadas y pedir que las aclaren.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Esta slide enseña a enfocar sin necesitar un marco teórico.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Ejercicio rápido:</b><br>Mejorar estas ideas desordenadas:<br><br>❌ 'Algo sobre música'<br>✅ '¿Cómo afecta la música al estudio?'<br><br>❌ 'Sobre animales'<br>✅ 'Cómo cuidar mejor a un perro en departamento'<br><br>Pedir que hagan lo mismo con una idea propia.</div>
+</details>
+</div>
+<div class="fc" id="fc7">
+  <div class="fc-head">
+    <div class="fc-n">7</div>
+    <div class="fc-title">Cómo pedir ayuda a una IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Dile el tema. Dile tu grado. Dile qué necesitas. Pídele que no haga todo.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Construir un prompt en la pizarra con ellos.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Mini framework, pero expresado de forma simple.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc8">
+  <div class="fc-head">
+    <div class="fc-n">8</div>
+    <div class="fc-title">Prompt útil</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      'Estoy en 3ro de secundaria. Quiero hacer una infografía sobre hábitos de estudio. Dame ideas, no el trabajo completo.'
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Que identifiquen las partes del prompt: contexto, tema, límite.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Explicar por qué funciona: da contexto y pone límites.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Las 3 partes del prompt:</b><br><br>🎓 <b>Contexto:</b> 'Estoy en 3ro de secundaria'<br>📌 <b>Tema:</b> 'hábitos de estudio para una infografía'<br>🚧 <b>Límite:</b> 'dame ideas, no el trabajo completo'<br><br>Que marquen estas tres partes en el ejemplo de la pizarra.</div>
+</details>
+</div>
+<div class="fc" id="fc9">
+  <div class="fc-head">
+    <div class="fc-n">9</div>
+    <div class="fc-title">Cuidado con datos personales</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No subas datos privados. No uses fotos de otros sin permiso. No compartas chats. No publiques todo.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Preguntar: ¿qué cosas no deberían estar en internet?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Seguridad con ejemplos cercanos a su vida.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc10">
+  <div class="fc-head">
+    <div class="fc-n">10</div>
+    <div class="fc-title">Juego: ¿sirve o no sirve?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Caso 1: uso IA para sacar ideas. Caso 2: copio todo. Caso 3: reviso con mis palabras.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Clasificación rápida con pulgar arriba/medio/abajo o colores.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Mecánica simple. Va rápido.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc11">
+  <div class="fc-head">
+    <div class="fc-n">11</div>
+    <div class="fc-title">Actividad: mejora una idea</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Elige un tema. Hazlo más claro. Piensa qué podrías crear.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Trabajo individual o en parejas.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Actividad central. No pedir proyectos grandes todavía.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Guía para la actividad:</b><br><br>Paso 1: Elige un tema que te guste<br>Paso 2: Escríbelo como idea desordenada<br>Paso 3: Hazlo más específico (¿qué exactamente? ¿para quién?)<br>Paso 4: Piensa qué podrías crear (infografía, video, guía...)<br><br>Tiempo: 8 minutos. Luego comparten.</div>
+</details>
+</div>
+<div class="fc" id="fc12">
+  <div class="fc-head">
+    <div class="fc-n">12</div>
+    <div class="fc-title">Ejemplos de temas</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Videojuegos y tiempo, cuidado de mascotas, seguridad en redes, música, deportes, medio ambiente.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Cada estudiante escoge uno o propone otro.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Dar opciones evita bloqueo creativo.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc13">
+  <div class="fc-head">
+    <div class="fc-n">13</div>
+    <div class="fc-title">Mi idea clara</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Mi tema es... Quiero explicar... Lo presentaré como... La IA me puede ayudar a...
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Completar ficha.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 8 min</span>
+    <span class="fc-tip">💡 Material M02-C. Sirve como base de futuras clases.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Estructura de la ficha M02-C:</b><br><br>Mi tema es: ___<br>Quiero explicar: ___<br>Lo presentaré como: (infografía / video / guía / otro)<br>La IA me puede ayudar a: ___<br><br>Guardar estas fichas. Se retoman en la próxima sesión.</div>
+</details>
+</div>
+<div class="fc" id="fc14">
+  <div class="fc-head">
+    <div class="fc-n">14</div>
+    <div class="fc-title">Compartimos ideas</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Una idea por voluntario. El grupo puede sugerir mejoras. Sin burlas.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ronda rápida de 4-5 voluntarios.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Recalcar que las ideas iniciales se pueden mejorar.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc15">
+  <div class="fc-head">
+    <div class="fc-n">15</div>
+    <div class="fc-title">Cierre</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No basta con buscar. No basta con copiar. La meta es entender y crear algo propio.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ticket: escribe un tema que te gustaría trabajar este año.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3–4 min</span>
+    <span class="fc-tip">💡 Tres frases cortas. Muy claro para este grado.</span>
+  </div>
+  
+</div>
+</div>
+<script>
+const cards = document.querySelectorAll('.fc');
+const counter = document.getElementById('fc-counter');
+const total = 15;
+
+function updateCounter(n){
+  if(counter) counter.textContent = (n+1)+' / '+total;
+}
+
+function scrollTo(idx){
+  const el = document.getElementById('fc'+(idx+1));
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// Intersection observer to update counter on scroll
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = Array.from(cards).indexOf(e.target);
+      updateCounter(idx);
+    }
+  });
+},{threshold:0.6});
+cards.forEach(c=>obs.observe(c));
+
+// Measure chrome heights after render
+function setHeights(){
+  const hdr = document.querySelector('.hdr');
+  const qnav = document.querySelector('.qnav');
+  const hh = hdr.offsetHeight;
+  const qh = qnav.offsetHeight;
+  document.documentElement.style.setProperty('--hdr-h', hh+'px');
+  document.documentElement.style.setProperty('--deck-top', (hh+qh)+'px');
+}
+window.addEventListener('load', setHeights);
+window.addEventListener('resize', setHeights);
+
+updateCounter(0);
+</script>
 </body>
 </html>

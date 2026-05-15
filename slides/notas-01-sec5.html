@@ -6,122 +6,462 @@
 <title>Notas S01 · 5to Secundaria</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#140404;color:#e5e7eb;font-family:system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.5;padding-bottom:3rem}
-.hdr{position:sticky;top:0;z-index:10;background:#140404;border-bottom:3px solid #ef4444;padding:.75rem 1rem}
-.hdr h1{color:#ef4444;font-size:1rem;font-weight:800}
-.hdr p{font-size:.78rem;color:#9ca3af;margin-top:.1rem}
-.qnav{display:flex;gap:.35rem;flex-wrap:wrap;padding:.5rem 1rem;background:#111;border-bottom:1px solid #222}
-.qnav a{color:#ef4444;text-decoration:none;font-size:.75rem;font-weight:700;background:#1f2937;border-radius:4px;padding:.2rem .45rem}
+html,body{height:100%;overflow:hidden}
+body{background:#140404;font-family:system-ui,-apple-system,sans-serif;font-size:18px;color:#e5e7eb}
+
+/* ── Fixed UI chrome ─────────────────────────────────── */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:20;
+  background:#140404;border-bottom:3px solid #ef4444;padding:.7rem 1rem}
+.hdr h1{color:#ef4444;font-size:1.05rem;font-weight:800;line-height:1.2}
+.hdr p{font-size:.8rem;color:#9ca3af;margin-top:.15rem}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.fc-counter{color:#ef4444;font-size:.9rem;font-weight:800;white-space:nowrap}
+
+.qnav{position:fixed;top:var(--hdr-h,62px);left:0;right:0;z-index:19;
+  display:flex;gap:.3rem;flex-wrap:nowrap;overflow-x:auto;padding:.45rem .75rem;
+  background:#111;border-bottom:1px solid #222;
+  scrollbar-width:none;-ms-overflow-style:none}
+.qnav::-webkit-scrollbar{display:none}
+.qnav a{color:#ef4444;text-decoration:none;font-size:.82rem;font-weight:700;
+  background:#1f2937;border-radius:5px;padding:.25rem .55rem;white-space:nowrap;flex-shrink:0}
 .qnav a:hover{background:#ef4444;color:#000}
-.wrap{max-width:640px;margin:0 auto;padding:.75rem}
-.fc{background:#1a1a1a;border-radius:12px;margin-bottom:.9rem;overflow:hidden;border:1px solid #2a2a2a;scroll-margin-top:80px}
-.fc-head{display:flex;align-items:center;gap:.6rem;padding:.6rem .85rem;background:#111;border-bottom:2px solid #ef4444}
-.fc-n{background:#ef4444;color:#000;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;flex-shrink:0}
-.fc-title{font-size:.92rem;font-weight:700;color:#f9fafb;line-height:1.25}
-.fc-say{background:#0a1a0a;border-left:3px solid #ef4444;padding:.55rem .85rem;font-size:.88rem;color:#d1fae5;line-height:1.45}
-.fc-do{padding:.5rem .85rem;font-size:.85rem;color:#cbd5e1;border-bottom:1px solid #222;line-height:1.4}
-.fc-foot{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem .85rem;background:#111;font-size:.78rem}
-.fc-time{background:#1f2937;border:1px solid #ef4444;color:#ef4444;border-radius:20px;padding:.15rem .6rem;font-weight:700;white-space:nowrap;flex-shrink:0}
-.fc-tip{color:#9ca3af;flex:1;line-height:1.35}
+
+/* ── Scroll deck ─────────────────────────────────────── */
+.deck{position:fixed;top:var(--deck-top,104px);bottom:0;left:0;right:0;
+  overflow-y:scroll;scroll-snap-type:y mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.deck::-webkit-scrollbar{display:none}
+
+/* ── Flash card = 1 screen ───────────────────────────── */
+.fc{height:100%;scroll-snap-align:start;display:flex;flex-direction:column;
+  background:#1f0808;border-bottom:1px solid #222}
+
+/* Card header */
+.fc-head{display:flex;align-items:center;gap:.65rem;padding:.75rem 1rem;
+  background:#111;border-bottom:2px solid #ef4444;flex-shrink:0}
+.fc-n{background:#ef4444;color:#000;border-radius:50%;
+  width:30px;height:30px;min-width:30px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:900}
+.fc-title{font-size:1.08rem;font-weight:700;color:#f9fafb;line-height:1.3}
+
+/* Say block */
+.fc-say{padding:.9rem 1rem;font-size:1.08rem;color:#d1fae5;
+  line-height:1.5;border-left:4px solid #ef4444;
+  background:rgba(0,0,0,.35);flex:1;display:flex;align-items:center}
+.fc-say-inner{width:100%}
+.fc-say-label{font-size:.72rem;font-weight:700;color:#ef4444;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+
+/* Do block */
+.fc-do{padding:.75rem 1rem;font-size:.98rem;color:#cbd5e1;
+  line-height:1.5;border-top:1px solid #2a2a2a;flex-shrink:0}
+.fc-do-label{font-size:.72rem;font-weight:700;color:#f97316;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.2rem}
+
+/* Footer */
+.fc-foot{display:flex;align-items:flex-start;gap:.65rem;padding:.6rem 1rem;
+  background:#111;flex-shrink:0;border-top:1px solid #222}
+.fc-time{background:#1f2937;border:1px solid #ef4444;color:#ef4444;
+  border-radius:20px;padding:.18rem .65rem;font-size:.82rem;
+  font-weight:700;white-space:nowrap;flex-shrink:0}
+.fc-tip{color:#9ca3af;font-size:.82rem;flex:1;line-height:1.4}
+
+/* Expandable */
+.fc-extra{flex-shrink:0;border-top:1px solid #2a2a2a}
+.fc-extra summary{
+  list-style:none;padding:.6rem 1rem;
+  font-size:.85rem;font-weight:700;color:#ef4444;
+  cursor:pointer;display:flex;align-items:center;gap:.4rem;
+  background:#0a0a0a;user-select:none}
+.fc-extra summary::-webkit-details-marker{display:none}
+.fc-extra summary::before{content:'▶';font-size:.65rem;transition:transform .2s}
+.fc-extra[open] summary::before{transform:rotate(90deg)}
+.fc-extra-body{padding:.75rem 1rem;font-size:.92rem;color:#cbd5e1;
+  line-height:1.6;background:#0f0f0f;border-top:1px solid #1f2937}
+.fc-extra-body b{color:#f9fafb}
+.fc-extra-body i{color:#9ca3af}
+
+/* ── Desktop: max-width container ────────────────────── */
+@media(min-width:600px){
+  .deck,.hdr,.qnav{max-width:600px;left:50%;transform:translateX(-50%)}
+  .fc{border-radius:0}
+}
 </style>
 </head>
 <body>
 <div class="hdr">
-  <h1>📋 Notas · Sesión 01 · 5to Secundaria</h1>
-  <p>Diagnóstico y contrato digital · Viernes 15 de mayo 2026</p>
+  <div class="hdr-row">
+    <h1>📋 Notas · Sesión 01 · 5to Secundaria</h1>
+    <span class="fc-counter" id="fc-counter">1 / 15</span>
+  </div>
+  <p>Diagnóstico y contrato digital · 15 de mayo 2026</p>
 </div>
-<div class="qnav"><a href="#fc1">1</a><a href="#fc2">2</a><a href="#fc3">3</a><a href="#fc4">4</a><a href="#fc5">5</a><a href="#fc6">6</a><a href="#fc7">7</a><a href="#fc8">8</a><a href="#fc9">9</a><a href="#fc10">10</a><a href="#fc11">11</a><a href="#fc12">12</a><a href="#fc13">13</a><a href="#fc14">14</a><a href="#fc15">15</a></div>
-<div class="wrap">
-<article class="fc" id="fc1">
-  <div class="fc-head"><div class="fc-n">1</div><div class="fc-title">Portada</div></div>
-  <div class="fc-say">💬 Quinto año. El último. Este año hacemos algo que se quede.</div>
-  <div class="fc-do">⚡ 30 s en silencio.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 1 min</span><span class="fc-tip">💡 Tono de cierre de ciclo. Madurez.</span></div>
-</article>
-<article class="fc" id="fc2">
-  <div class="fc-head"><div class="fc-n">2</div><div class="fc-title">¿Qué han aprendido?</div></div>
-  <div class="fc-say">💬 Cuatro años de computación. ¿Qué se llevan? Díganme lo más importante.</div>
-  <div class="fc-do">⚡ Ronda rápida. Recoger en pizarra.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Conectar con el camino recorrido. Genera orgullo.</span></div>
-</article>
-<article class="fc" id="fc3">
-  <div class="fc-head"><div class="fc-n">3</div><div class="fc-title">Este año: aplicación real</div></div>
-  <div class="fc-say">💬 No más ejercicios de práctica. Este año el trabajo tiene que servir para algo real.</div>
-  <div class="fc-do">⚡ ¿Para qué les va a servir lo que aprendan este año?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Conectar con su futuro cercano: universidad, trabajo, vida.</span></div>
-</article>
-<article class="fc" id="fc4">
-  <div class="fc-head"><div class="fc-n">4</div><div class="fc-title">La IA en el mundo profesional</div></div>
-  <div class="fc-say">💬 Ya existe en medicina, derecho, diseño, educación. La pregunta no es si van a usarla, sino cómo.</div>
-  <div class="fc-do">⚡ ¿En qué carrera les interesa aplicar tecnología?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Conectar con sus intereses de carrera.</span></div>
-</article>
-<article class="fc" id="fc5">
-  <div class="fc-head"><div class="fc-n">5</div><div class="fc-title">Usar IA con criterio</div></div>
-  <div class="fc-say">💬 No es copiar. Es dialogar. La IA mejora cuando tú le das contexto. Aprendan a darle contexto.</div>
-  <div class="fc-do">⚡ Demo rápida: prompt básico vs prompt con contexto.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 La diferencia entre un prompt pobre y uno bueno es el corazón del año.</span></div>
-</article>
-<article class="fc" id="fc6">
-  <div class="fc-head"><div class="fc-n">6</div><div class="fc-title">Proyecto final del año</div></div>
-  <div class="fc-say">💬 Este año el proyecto es real. Tiene un problema, una propuesta, una presentación.</div>
-  <div class="fc-do">⚡ Mostrar ejemplos de proyectos de años anteriores si hay.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Generar ambición. Este es el proyecto que pueden mostrar en una entrevista.</span></div>
-</article>
-<article class="fc" id="fc7">
-  <div class="fc-head"><div class="fc-n">7</div><div class="fc-title">Imagen digital</div></div>
-  <div class="fc-say">💬 Lo que publican hoy puede aparecer en una búsqueda cuando postulen a una universidad.</div>
-  <div class="fc-do">⚡ Ejercicio: busquen su nombre. ¿Qué aparece?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Si hay internet en el aula, hacerlo en vivo.</span></div>
-</article>
-<article class="fc" id="fc8">
-  <div class="fc-head"><div class="fc-n">8</div><div class="fc-title">Ética e IA</div></div>
-  <div class="fc-say">💬 Sesgos, derechos de autor, privacidad, transparencia. Son temas que ya les afectan.</div>
-  <div class="fc-do">⚡ Caso: un artista descubre que la IA usó su trabajo sin permiso. ¿Qué harían?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 4 min</span><span class="fc-tip">💡 Caso real. No abstracto.</span></div>
-</article>
-<article class="fc" id="fc9">
-  <div class="fc-head"><div class="fc-n">9</div><div class="fc-title">Soft skills digitales</div></div>
-  <div class="fc-say">💬 Comunicar bien por escrito, organizar proyectos, colaborar en línea. Tan importantes como el código.</div>
-  <div class="fc-do">⚡ ¿Cuál de estas habilidades creen que les cuesta más?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Honestidad. No todos son fuertes en lo mismo.</span></div>
-</article>
-<article class="fc" id="fc10">
-  <div class="fc-head"><div class="fc-n">10</div><div class="fc-title">Privacidad y seguridad avanzada</div></div>
-  <div class="fc-say">💬 Phishing, ingeniería social, contraseñas seguras. Cosas que ya deberían saber.</div>
-  <div class="fc-do">⚡ ¿Alguien ha recibido un mensaje sospechoso? ¿Qué hicieron?</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Experiencias reales son más efectivas que ejemplos teóricos.</span></div>
-</article>
-<article class="fc" id="fc11">
-  <div class="fc-head"><div class="fc-n">11</div><div class="fc-title">Acuerdo del año</div></div>
-  <div class="fc-say">💬 Trabajo real, uso honesto de IA, proyectos con impacto. Ese es el estándar de 5to.</div>
-  <div class="fc-do">⚡ Firmar el acuerdo. Digital o físico.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Que sientan el peso de ser el último año.</span></div>
-</article>
-<article class="fc" id="fc12">
-  <div class="fc-head"><div class="fc-n">12</div><div class="fc-title">Diagnóstico avanzado</div></div>
-  <div class="fc-say">💬 ¿Qué herramientas dominan? ¿Cuáles quieren aprender? ¿Qué carrera les interesa?</div>
-  <div class="fc-do">⚡ Ficha individual. 5 minutos.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 5 min</span><span class="fc-tip">💡 Esta información guía el apoyo personalizado del año.</span></div>
-</article>
-<article class="fc" id="fc13">
-  <div class="fc-head"><div class="fc-n">13</div><div class="fc-title">Mi proyecto del año: primera idea</div></div>
-  <div class="fc-say">💬 No tiene que ser perfecta. Escribe la primera idea que se te ocurre para tu proyecto final.</div>
-  <div class="fc-do">⚡ Individual. 3 minutos. Luego compartir.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 5 min</span><span class="fc-tip">💡 La primera idea siempre mejora. Lo importante es empezar.</span></div>
-</article>
-<article class="fc" id="fc14">
-  <div class="fc-head"><div class="fc-n">14</div><div class="fc-title">El mapa del año</div></div>
-  <div class="fc-say">💬 32 sesiones. Proyecto en sesión 8. Prototipo en 20. Presentación final en 31.</div>
-  <div class="fc-do">⚡ Mostrar cronograma con hitos clave.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 3 min</span><span class="fc-tip">💡 Que tengan visión clara del año desde el primer día.</span></div>
-</article>
-<article class="fc" id="fc15">
-  <div class="fc-head"><div class="fc-n">15</div><div class="fc-title">Cierre</div></div>
-  <div class="fc-say">💬 Una frase para el año: ¿qué quieren que digan de lo que hicieron en Computación al terminar?</div>
-  <div class="fc-do">⚡ Ronda final. Recoger en pizarra.</div>
-  <div class="fc-foot"><span class="fc-time">⏱ 2 min</span><span class="fc-tip">💡 Cerrar con ambición. Este es el año que más va a importar.</span></div>
-</article>
+<div class="qnav"><a href="#fc1" onclick="scrollTo(0)">1</a><a href="#fc2" onclick="scrollTo(1)">2</a><a href="#fc3" onclick="scrollTo(2)">3</a><a href="#fc4" onclick="scrollTo(3)">4</a><a href="#fc5" onclick="scrollTo(4)">5</a><a href="#fc6" onclick="scrollTo(5)">6</a><a href="#fc7" onclick="scrollTo(6)">7</a><a href="#fc8" onclick="scrollTo(7)">8</a><a href="#fc9" onclick="scrollTo(8)">9</a><a href="#fc10" onclick="scrollTo(9)">10</a><a href="#fc11" onclick="scrollTo(10)">11</a><a href="#fc12" onclick="scrollTo(11)">12</a><a href="#fc13" onclick="scrollTo(12)">13</a><a href="#fc14" onclick="scrollTo(13)">14</a><a href="#fc15" onclick="scrollTo(14)">15</a></div>
+<div class="deck">
+<div class="fc" id="fc1">
+  <div class="fc-head">
+    <div class="fc-n">1</div>
+    <div class="fc-title">Portada</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Quinto año. El último. Este año hacemos algo que se quede.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    30 s en silencio.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 1 min</span>
+    <span class="fc-tip">💡 Tono de cierre de ciclo. Madurez.</span>
+  </div>
+  
 </div>
+<div class="fc" id="fc2">
+  <div class="fc-head">
+    <div class="fc-n">2</div>
+    <div class="fc-title">¿Qué han aprendido?</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Cuatro años de computación. ¿Qué se llevan? Díganme lo más importante.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ronda rápida. Recoger en pizarra.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Conectar con el camino recorrido. Genera orgullo.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc3">
+  <div class="fc-head">
+    <div class="fc-n">3</div>
+    <div class="fc-title">Este año: aplicación real</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No más ejercicios de práctica. Este año el trabajo tiene que servir para algo real.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    ¿Para qué les va a servir lo que aprendan este año?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Conectar con su futuro cercano: universidad, trabajo, vida.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc4">
+  <div class="fc-head">
+    <div class="fc-n">4</div>
+    <div class="fc-title">La IA en el mundo profesional</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Ya existe en medicina, derecho, diseño, educación. La pregunta no es si van a usarla, sino cómo.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    ¿En qué carrera les interesa aplicar tecnología?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Conectar con sus intereses de carrera.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc5">
+  <div class="fc-head">
+    <div class="fc-n">5</div>
+    <div class="fc-title">Usar IA con criterio</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No es copiar. Es dialogar. La IA mejora cuando tú le das contexto. Aprendan a darle contexto.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Demo rápida: prompt básico vs prompt con contexto.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 La diferencia entre un prompt pobre y uno bueno es el corazón del año.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Demo: prompt básico vs con contexto</b><br><br>❌ <i>'Hazme un resumen de la Segunda Guerra Mundial'</i><br><br>✅ <i>'Estoy en 5to de secundaria. Necesito entender las causas de la Segunda Guerra Mundial para una exposición de 5 minutos. Dame los 3 puntos más importantes con ejemplos simples.'</i></div>
+</details>
+</div>
+<div class="fc" id="fc6">
+  <div class="fc-head">
+    <div class="fc-n">6</div>
+    <div class="fc-title">Proyecto final del año</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Este año el proyecto es real. Tiene un problema, una propuesta, una presentación.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Mostrar ejemplos de proyectos de años anteriores si hay.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Generar ambición. Este es el proyecto que pueden mostrar en una entrevista.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc7">
+  <div class="fc-head">
+    <div class="fc-n">7</div>
+    <div class="fc-title">Imagen digital</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Lo que publican hoy puede aparecer en una búsqueda cuando postulen a una universidad.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ejercicio: busquen su nombre. ¿Qué aparece?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Si hay internet en el aula, hacerlo en vivo.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc8">
+  <div class="fc-head">
+    <div class="fc-n">8</div>
+    <div class="fc-title">Ética e IA</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Sesgos, derechos de autor, privacidad, transparencia. Son temas que ya les afectan.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Caso: un artista descubre que la IA usó su trabajo sin permiso. ¿Qué harían?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 4 min</span>
+    <span class="fc-tip">💡 Caso real. No abstracto.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Caso para debatir:</b><br>Una IA fue entrenada con miles de ilustraciones de artistas sin pedirles permiso. Ahora la IA genera imágenes 'en el estilo' de esos artistas. Los artistas no reciben nada.<br><br>¿Es ético? ¿Qué derechos tienen los artistas? ¿Debería haber leyes?</div>
+</details>
+</div>
+<div class="fc" id="fc9">
+  <div class="fc-head">
+    <div class="fc-n">9</div>
+    <div class="fc-title">Soft skills digitales</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Comunicar bien por escrito, organizar proyectos, colaborar en línea. Tan importantes como el código.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    ¿Cuál de estas habilidades creen que les cuesta más?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Honestidad. No todos son fuertes en lo mismo.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc10">
+  <div class="fc-head">
+    <div class="fc-n">10</div>
+    <div class="fc-title">Privacidad y seguridad avanzada</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Phishing, ingeniería social, contraseñas seguras. Cosas que ya deberían saber.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    ¿Alguien ha recibido un mensaje sospechoso? ¿Qué hicieron?
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Experiencias reales son más efectivas que ejemplos teóricos.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc11">
+  <div class="fc-head">
+    <div class="fc-n">11</div>
+    <div class="fc-title">Acuerdo del año</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Trabajo real, uso honesto de IA, proyectos con impacto. Ese es el estándar de 5to.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Firmar el acuerdo. Digital o físico.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Que sientan el peso de ser el último año.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc12">
+  <div class="fc-head">
+    <div class="fc-n">12</div>
+    <div class="fc-title">Diagnóstico avanzado</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      ¿Qué herramientas dominan? ¿Cuáles quieren aprender? ¿Qué carrera les interesa?
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ficha individual. 5 minutos.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 5 min</span>
+    <span class="fc-tip">💡 Esta información guía el apoyo personalizado del año.</span>
+  </div>
+  <details class="fc-extra">
+  <summary>Ver ejercicio / más info</summary>
+  <div class="fc-extra-body"><b>Preguntas de la ficha:</b><br>¿Qué herramientas domino bien?<br>¿Cuál me gustaría aprender a usar mejor?<br>¿Qué carrera o área me interesa?<br>¿Qué habilidad quiero tener al terminar el año?</div>
+</details>
+</div>
+<div class="fc" id="fc13">
+  <div class="fc-head">
+    <div class="fc-n">13</div>
+    <div class="fc-title">Mi proyecto del año: primera idea</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      No tiene que ser perfecta. Escribe la primera idea que se te ocurre para tu proyecto final.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Individual. 3 minutos. Luego compartir.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 5 min</span>
+    <span class="fc-tip">💡 La primera idea siempre mejora. Lo importante es empezar.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc14">
+  <div class="fc-head">
+    <div class="fc-n">14</div>
+    <div class="fc-title">El mapa del año</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      32 sesiones. Proyecto en sesión 8. Prototipo en 20. Presentación final en 31.
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Mostrar cronograma con hitos clave.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 3 min</span>
+    <span class="fc-tip">💡 Que tengan visión clara del año desde el primer día.</span>
+  </div>
+  
+</div>
+<div class="fc" id="fc15">
+  <div class="fc-head">
+    <div class="fc-n">15</div>
+    <div class="fc-title">Cierre</div>
+  </div>
+  <div class="fc-say">
+    <div class="fc-say-inner">
+      <div class="fc-say-label">💬 Qué decir</div>
+      Una frase para el año: ¿qué quieren que digan de lo que hicieron en Computación al terminar?
+    </div>
+  </div>
+  <div class="fc-do">
+    <div class="fc-do-label">⚡ Haz esto</div>
+    Ronda final. Recoger en pizarra.
+  </div>
+  <div class="fc-foot">
+    <span class="fc-time">⏱ 2 min</span>
+    <span class="fc-tip">💡 Cerrar con ambición. Este es el año que más va a importar.</span>
+  </div>
+  
+</div>
+</div>
+<script>
+const cards = document.querySelectorAll('.fc');
+const counter = document.getElementById('fc-counter');
+const total = 15;
+
+function updateCounter(n){
+  if(counter) counter.textContent = (n+1)+' / '+total;
+}
+
+function scrollTo(idx){
+  const el = document.getElementById('fc'+(idx+1));
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// Intersection observer to update counter on scroll
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = Array.from(cards).indexOf(e.target);
+      updateCounter(idx);
+    }
+  });
+},{threshold:0.6});
+cards.forEach(c=>obs.observe(c));
+
+// Measure chrome heights after render
+function setHeights(){
+  const hdr = document.querySelector('.hdr');
+  const qnav = document.querySelector('.qnav');
+  const hh = hdr.offsetHeight;
+  const qh = qnav.offsetHeight;
+  document.documentElement.style.setProperty('--hdr-h', hh+'px');
+  document.documentElement.style.setProperty('--deck-top', (hh+qh)+'px');
+}
+window.addEventListener('load', setHeights);
+window.addEventListener('resize', setHeights);
+
+updateCounter(0);
+</script>
 </body>
 </html>

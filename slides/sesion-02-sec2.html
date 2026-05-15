@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 2 · 2.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#0f172a,#1e3a5f);}
+.slide.active{display:flex;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
+  color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#60a5fa;}
+.pill{display:inline-block;background:#60a5fa;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.pill-out{display:inline-block;border:3px solid #60a5fa;color:#60a5fa;border-radius:999px;
+  padding:.12em .65em;font-weight:700;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#60a5fa;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;
+  font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#60a5fa;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #60a5fa;border-radius:clamp(8px,1.2vw,18px);
+  padding:3% 4%;max-width:85%;margin-top:2%;}
+.tag-green{color:#4ade80;font-weight:700;}
+.tag-yellow{color:#fbbf24;font-weight:700;}
+.tag-red{color:#f87171;font-weight:700;}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#60a5fa;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#60a5fa;}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<div class="slide active"><div class="brand">Asunción School</div><div class="snum">2 · 1</div>
+  <p class="t-sm accent">Viernes 22 de mayo · 2.° Secundaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">¿La tecnología<br>te controla o<br><span class="accent">tú la controlas</span>?</h1>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 2</div>
+  <h2 class="t-h1">¿La tecnología<br>te controla a ti?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c"><div class="big-em">😤</div><p class="t-sm" style="margin-top:5%">Me ayuda<br>más</p></div>
+    <div class="c"><div class="big-em">📱</div><p class="t-sm" style="margin-top:5%">Me distrae<br>más</p></div>
+    <div class="c"><div class="big-em">🤔</div><p class="t-sm" style="margin-top:5%">Depende</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Vota con honestidad. No hay respuesta mala.</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 3</div>
+  <h2 class="t-h1">Tu día digital</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-em">▶️</div><p class="t-sm" style="margin-top:5%">Videos</p></div>
+    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">Chats</p></div>
+    <div class="c"><div class="big-em">🎮</div><p class="t-sm" style="margin-top:5%">Juegos</p></div>
+    <div class="c"><div class="big-em">📚</div><p class="t-sm" style="margin-top:5%">Tareas</p></div>
+  </div>
+  <p class="t-body" style="margin-top:2%">¿Cuánto de eso fue para <span class="accent">crear algo</span>?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 4</div>
+  <h2 class="t-h1">Mirar vs <span class="accent">Hacer</span></h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box">
+      <p class="t-sm" style="color:#94a3b8;font-weight:700;margin-bottom:5%">👁️ Mirar (consumir)</p>
+      <ul class="list"><li>Ver contenido</li><li>Copiar</li><li>Usar lo que otros hicieron</li></ul>
+    </div>
+    <div class="box" style="border:1px solid rgba(96,165,250,.4)">
+      <p class="t-sm accent" style="font-weight:700;margin-bottom:5%">⚒️ Hacer (crear)</p>
+      <ul class="list"><li>Explicar con tus palabras</li><li>Hacer algo nuevo</li><li>Resolver un problema</li></ul>
+    </div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Qué podrías crear en Computación?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 5</div>
+  <h2 class="t-h1">IA: ayuda rápida,<br><span class="accent">no respuesta perfecta</span></h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-em">✅</div><p class="t-sm" style="margin-top:5%">Puede explicar y resumir</p></div>
+    <div class="c"><div class="big-em">💡</div><p class="t-sm" style="margin-top:5%">Puede dar ideas</p></div>
+    <div class="c"><div class="big-em">⚠️</div><p class="t-sm" style="margin-top:5%">Puede equivocarse o inventar</p></div>
+  </div>
+  <p class="t-body" style="margin-top:3%">¿Qué harías si la IA dice algo <span class="accent">raro</span>?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 6</div>
+  <h2 class="t-h1">3 formas <span class="accent">buenas</span><br>de usar la IA</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3"><div class="big-em">🧠</div><p class="t-sm" style="margin-top:5%">Para <strong>entender</strong><br>un tema</p></div>
+    <div class="c3"><div class="big-em">💪</div><p class="t-sm" style="margin-top:5%">Para <strong>practicar</strong><br>con preguntas</p></div>
+    <div class="c3"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%">Para <strong>ordenar</strong><br>mis ideas</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 7</div>
+  <h2 class="t-h1">3 formas <span class="accent" style="color:#f87171">malas</span><br>de usar la IA</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3" style="border-color:#f87171"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>Copiar</strong> todo sin leer</p></div>
+    <div class="c3" style="border-color:#f87171"><div class="big-em">🙈</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>No revisar</strong> lo que dice</p></div>
+    <div class="c3" style="border-color:#f87171"><div class="big-em">🎭</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>Fingir</strong> que lo hiciste tú</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Por qué cada una es mala idea?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 8</div>
+  <h2 class="t-h1">Prompt malo 😴</h2>
+  <div class="line"></div>
+  <div class="highlight" style="border-color:#f87171">
+    <p class="t-super" style="font-size:clamp(32px,5vw,80px);color:#f87171">"Hazme la tarea"</p>
+  </div>
+  <p class="t-body" style="margin-top:3%">¿Qué problema tiene este pedido?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 9</div>
+  <h2 class="t-h1">Prompt <span class="accent">mejor</span> 💡</h2>
+  <div class="line"></div>
+  <div class="highlight">
+    <ul class="list">
+      <li>Explícame el tema</li>
+      <li>Dame ejemplos</li>
+      <li>Hazme preguntas para practicar</li>
+    </ul>
+  </div>
+  <p class="t-body" style="margin-top:3%">Ahora tú: transforma el prompt malo en uno mejor</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 10</div>
+  <h2 class="t-h1">Datos privados 🔒</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c"><div class="big-em">🔑</div><p class="t-sm" style="margin-top:5%">Contraseñas</p></div>
+    <div class="c"><div class="big-em">🪪</div><p class="t-sm" style="margin-top:5%">DNI</p></div>
+    <div class="c"><div class="big-em">📞</div><p class="t-sm" style="margin-top:5%">Teléfono</p></div>
+    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">Chats<br>privados</p></div>
+  </div>
+  <p class="t-body" style="margin-top:2%">¿Cuáles son <span class="accent">públicos</span> y cuáles son <span style="color:#f87171">privados</span>?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 11</div>
+  <h2 class="t-h1">Caso: tarea con IA</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box" style="border:1px solid rgba(96,165,250,.5)">
+      <p class="t-sm accent" style="font-weight:700">👩‍🎓 Ana</p>
+      <p class="t-sm" style="margin-top:5%">Usa la IA para entender el tema. Escribe el trabajo con sus propias palabras.</p>
+    </div>
+    <div class="box" style="border:1px solid rgba(248,113,113,.4)">
+      <p class="t-sm" style="color:#f87171;font-weight:700">👦 Luis</p>
+      <p class="t-sm" style="margin-top:5%">Copia todo lo que dice la IA y lo entrega sin leerlo.</p>
+    </div>
+  </div>
+  <p class="t-body" style="margin-top:3%">¿Quién <span class="accent">aprende más</span>?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 12</div>
+  <h2 class="t-h1">Caso: captura de pantalla</h2>
+  <div class="line"></div>
+  <div class="highlight" style="border-color:#f87171">
+    <p class="t-body">"Alguien comparte una conversación privada en un grupo de WhatsApp"</p>
+  </div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c" style="border-color:#4ade80"><p class="tag-green t-sm">🟢 ¿Está bien?</p></div>
+    <div class="c" style="border-color:#fbbf24"><p class="tag-yellow t-sm">🟡 ¿Hay que tener cuidado?</p></div>
+    <div class="c" style="border-color:#f87171"><p class="tag-red t-sm">🔴 ¿No se debe hacer?</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 13</div>
+  <h2 class="t-h1">⚡ Mini reto:<br>Arregla el prompt</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%">Tema: <span class="accent">contaminación</span></p>
+  <div class="highlight" style="border-color:#f87171;margin-top:2%">
+    <p class="t-body" style="color:#f87171">Prompt malo: "Hazme mi exposición sobre contaminación"</p>
+  </div>
+  <p class="t-body" style="margin-top:3%">Escribe un prompt <span class="accent">mejor</span> en tu cuaderno</p>
+  <p class="t-sm" style="margin-top:1%;opacity:.7">⏱ 7 minutos · Puedes hacerlo en parejas</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 14</div>
+  <h2 class="t-h1">Mis reglas para<br>usar la IA</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>La uso para entender, no para copiar</li>
+    <li>Reviso lo que dice antes de usarlo</li>
+    <li>No pongo mis datos privados</li>
+    <li>Agrego mi regla extra: <span class="accent">_______________</span></li>
+  </ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 6 minutos · Elige 3 reglas personales</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 15</div>
+  <h2 class="t-h1">Para llevar 🎒</h2>
+  <div class="line"></div>
+  <div class="highlight">
+    <p class="t-h2 accent">"No se trata de usar<br>menos tecnología."</p>
+    <p class="t-h2" style="margin-top:3%">"Se trata de <span class="accent">usarla mejor</span>."</p>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 15</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+const total=15;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){slides[cur].classList.remove('active');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+goTo(0);
+</script>
+</body>
+</html>

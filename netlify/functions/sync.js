@@ -1,4 +1,6 @@
-import { getStore } from "@netlify/blobs";
+// In-memory store — sufficient for a single 60-min class session.
+// State resets if the function instance goes cold (rare during active polling).
+const rooms = new Map();
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -7,37 +9,29 @@ const CORS = {
   "Content-Type": "application/json",
 };
 
-export default async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS });
+function res(statusCode, body) {
+  return { statusCode, headers: CORS, body: JSON.stringify(body) };
+}
+
+exports.handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 204, headers: CORS, body: "" };
   }
 
-  const store = getStore("slide-sync");
-  const url = new URL(req.url);
-
-  if (req.method === "GET") {
-    const room = url.searchParams.get("room") || "";
-    if (!room || room.length > 8) {
-      return new Response(JSON.stringify({ error: "bad room" }), { status: 400, headers: CORS });
-    }
-    const data = await store.get(room, { type: "json" }).catch(() => null);
-    return new Response(JSON.stringify(data ?? { slide: 0 }), { status: 200, headers: CORS });
+  if (event.httpMethod === "GET") {
+    const room = (event.queryStringParameters || {}).room || "";
+    if (!room || room.length > 8) return res(400, { error: "bad room" });
+    return res(200, rooms.get(room) || { slide: 0 });
   }
 
-  if (req.method === "POST") {
+  if (event.httpMethod === "POST") {
     let body;
-    try { body = await req.json(); } catch {
-      return new Response(JSON.stringify({ error: "bad json" }), { status: 400, headers: CORS });
-    }
+    try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
     const { room, slide } = body;
-    if (!room || room.length > 8 || typeof slide !== "number") {
-      return new Response(JSON.stringify({ error: "bad params" }), { status: 400, headers: CORS });
-    }
-    await store.set(room, { slide });
-    return new Response(JSON.stringify({ ok: true }), { status: 200, headers: CORS });
+    if (!room || room.length > 8 || typeof slide !== "number") return res(400, { error: "bad params" });
+    rooms.set(room, { slide });
+    return res(200, { ok: true });
   }
 
-  return new Response(JSON.stringify({ error: "method not allowed" }), { status: 405, headers: CORS });
+  return res(405, { error: "method not allowed" });
 };
-
-export const config = { path: "/api/sync" };

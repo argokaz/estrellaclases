@@ -9,9 +9,9 @@
 body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
-.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;
   align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#1e0533,#3b0764);}
-.slide.active{display:flex;}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
 .brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
   font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
 .snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
@@ -56,6 +56,45 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
   background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
 .dot.active{background:#c084fc;}
+
+/* ── Animaciones ── */
+.slide::before{content:'';position:absolute;width:55%;height:55%;
+  background:radial-gradient(circle,rgba(192,132,252,.18) 0%,transparent 68%);
+  border-radius:50%;top:-20%;right:-12%;
+  animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;
+  background:radial-gradient(circle,rgba(192,132,252,.12) 0%,transparent 70%);
+  border-radius:50%;bottom:-15%;left:-8%;
+  animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .38s cubic-bezier(.25,.1,.25,1) both;}
+.slide.enter-back{animation:eBack .38s cubic-bezier(.25,.1,.25,1) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both;}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-h2{animation:fUpBig .45s .07s ease both;}
+.slide.active .t-body{animation:fUp .45s .2s ease both;}
+.slide.active .t-sm{animation:fUp .4s .24s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
 </style>
 </head>
 <body>
@@ -230,18 +269,19 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   <button id="btn-next" onclick="go(1)">▶</button>
 </div>
 <script>
-const slides=[...document.querySelectorAll('.slide')];
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=15;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
-function goTo(n){slides[cur].classList.remove('active');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
 function go(d){goTo(cur+d);}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
 goTo(0);
+initialized=true;
 </script>
 
 <!-- ── Remote sync (deck) ── -->

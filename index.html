@@ -1387,7 +1387,7 @@ function renderPanel(gradeId){
   if(pastItems.length){
     html += `<div class="done-grid">`;
     pastItems.forEach(item=>{
-      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
+      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked);
     });
     html += `</div>`;
   } else {
@@ -1401,7 +1401,7 @@ function renderPanel(gradeId){
 
     if(nextItem){
       html += `<div class="section-label">🎯 Próxima clase</div>`;
-      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true);
+      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
     }
 
     const rest = nextItem ? futureItems.slice(1) : futureItems;
@@ -1409,7 +1409,7 @@ function renderPanel(gradeId){
       html += `<div class="section-label">📅 Sesiones futuras (${rest.length})</div>`;
       html += `<div class="future-grid">`;
       rest.forEach(item=>{
-        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false);
+        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, true);
       });
       html += `</div>`;
     }
@@ -1436,7 +1436,7 @@ function renderPanel(gradeId){
   document.getElementById('main').innerHTML = html;
 }
 
-function buildCard(sdata, cal_info, done, gradeId, isNext){
+function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
   const {n, title, cover, act, evidence, tools, mat, ai} = sdata;
   const {block, dateLabel, note} = cal_info;
   const isDone = done.has(n);
@@ -1463,7 +1463,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext){
   const notasUrl = READY_SESSIONS.has(n) ? `slides/notas-${pad(n)}-${gradeId}.html`  : '';
   const slideBtn = slideUrl
     ? `<a href="${slideUrl}" target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
-  const notasBtn = notasUrl
+  const notasBtn = (notasUrl && unlocked)
     ? `<a href="${notasUrl}" target="_blank" class="notes-btn">📋 Notas del profesor</a>` : '';
 
   const expandBtn = isNext ? '' :

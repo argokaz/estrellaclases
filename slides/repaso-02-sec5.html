@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S02 — 5.° Secundaria | Asunción School</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+
+  :root {
+    --brand:   #1e3a8a;
+    --accent:  #2563eb;
+    --gold:    #b45309;
+    --green:   #166534;
+    --red:     #991b1b;
+    --text:    #1e293b;
+    --muted:   #64748b;
+    --border:  #e2e8f0;
+    --bg-alt:  #f8fafc;
+    --radius:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* ── PORTADA / ENCABEZADO ── */
+  .doc-header {
+    border-bottom: 3px solid var(--brand);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
+  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+  .doc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--brand);
+    margin-bottom: 4px;
+  }
+  .doc-subtitle {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 28px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SECCIONES ── */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── RESUMEN ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .concept-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 10px 13px;
+  }
+  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
+  .concept-card p { font-size: 13px; color: var(--text); }
+
+  /* ── GLOSARIO ── */
+  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gloss-item {
+    background: var(--bg-alt);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  .gloss-item b { color: var(--brand); }
+
+  /* ── EJERCICIOS ── */
+  .exercise {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .exercise-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700; font-size: 11px;
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
+  .exercise ul, .exercise ol { padding-left: 18px; }
+  .exercise li { margin-bottom: 4px; }
+  .answer-line {
+    display: block;
+    border-bottom: 1px solid #94a3b8;
+    height: 24px;
+    margin: 6px 0;
+    width: 100%;
+  }
+  .answer-box {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    min-height: 56px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-item {
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+  .quiz-item .q {
+    font-weight: 600; font-size: 13.5px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
+  .options li {
+    font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .options li::before {
+    content: '';
+    display: inline-block;
+    width: 15px; height: 15px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CLAVE DE RESPUESTAS ── */
+  .answer-key {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
+  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .answer-pill {
+    background: #fff;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    padding: 5px 8px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+
+  /* ── EVALUACIÓN ── */
+  .eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .eval-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .eval-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
+  .score-box {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .score-box span { font-size: 13px; color: var(--muted); }
+  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+
+  /* ── IMPRIMIR ── */
+  @media print {
+    body { font-size: 13px; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    @page { margin: 18mm 20mm; }
+  }
+
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 28px 32px;
+  }
+
+  .tag-pill {
+    display: inline-block;
+    background: rgba(37,99,235,.1);
+    color: var(--accent);
+    border: 1px solid rgba(37,99,235,.25);
+    border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 10px;
+    margin-right: 6px;
+  }
+
+  .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: #1e40af;
+    margin-bottom: 14px;
+  }
+
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="doc-header">
+    <div>
+      <div class="school">Asunción School · Computación 2026</div>
+      <div class="teacher">Prof. Estrella Vizcarra</div>
+    </div>
+    <div class="doc-meta">
+      <div>5.° Secundaria</div>
+      <div>Sesión 02 · 22 de mayo de 2026</div>
+    </div>
+  </div>
+  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+  <div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes &nbsp;·&nbsp; Material de estudio y práctica</div>
+
+  <!-- RESUMEN -->
+  <div class="section">
+    <div class="section-title">📖 Lo que aprendimos hoy</div>
+    <div class="info-box">
+      En esta clase revisamos la <strong>estructura completa de un trabajo formal avanzado</strong>: portada, introducción, desarrollo con secciones, conclusión y referencias. También trabajamos tono formal, formato que facilita la lectura y el uso crítico de la IA como revisora.
+    </div>
+    <div class="summary-grid">
+      <div class="concept-card">
+        <strong>Formal ≠ complicado</strong>
+        <p>Formal significa orden, claridad, fuentes y revisión. No implica palabras difíciles ni frases rebuscadas.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Partes del trabajo</strong>
+        <p>Portada · Índice (si aplica) · Introducción · Desarrollo (secciones) · Conclusión · Referencias.</p>
+      </div>
+      <div class="concept-card">
+        <strong>La introducción</strong>
+        <p>Presenta el tema, explica por qué importa y dice qué se hará en el trabajo. No revela todo: ubica al lector.</p>
+      </div>
+      <div class="concept-card">
+        <strong>El desarrollo</strong>
+        <p>Organiza ideas por secciones con subtítulos. Usa evidencias. No mezcla todo en un solo bloque.</p>
+      </div>
+      <div class="concept-card">
+        <strong>La conclusión</strong>
+        <p>No repite todo: resume lo más importante y cierra con una idea clara. Evitar "me gustó hacer este trabajo".</p>
+      </div>
+      <div class="concept-card">
+        <strong>IA como revisora</strong>
+        <p>Puede revisar claridad, orden y repeticiones. No debe inventar contenido ni datos. El borrador debe ser tuyo.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOSARIO -->
+  <div class="section">
+    <div class="section-title">📚 Palabras clave</div>
+    <div class="glossary">
+      <div class="gloss-item"><b>Trabajo formal:</b> documento con estructura, fuentes y tono adecuado al contexto.</div>
+      <div class="gloss-item"><b>Tono formal:</b> sin jergas, emojis ni exageraciones. Frases precisas y directas.</div>
+      <div class="gloss-item"><b>Introducción:</b> ubica al lector en el tema sin revelar todo el contenido.</div>
+      <div class="gloss-item"><b>Desarrollo:</b> cuerpo del trabajo organizado en secciones con evidencias.</div>
+      <div class="gloss-item"><b>Conclusión:</b> cierre que resume lo esencial y propone una idea final.</div>
+      <div class="gloss-item"><b>Borrador:</b> primera versión del trabajo, abierta a correcciones.</div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="section">
+    <div class="section-title">✏️ Ejercicios de práctica</div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 1</div>
+      <h4>Mejora estas introducciones: reescríbelas con más precisión y formalidad</h4>
+      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:12.5px;margin-bottom:8px;">
+        <strong>Introducción A (floja):</strong> "En este trabajo voy a hablar sobre el cambio climático porque es muy importante y hay que cuidar el planeta."
+      </div>
+      <div class="answer-box" style="min-height:70px;"></div>
+      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:12.5px;margin:10px 0 8px;">
+        <strong>Introducción B (vaga):</strong> "Este trabajo trata de tecnología. La tecnología es muy usada hoy en día. En las siguientes páginas veremos cosas sobre eso."
+      </div>
+      <div class="answer-box" style="min-height:70px;"></div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 2</div>
+      <h4>Formal o informal: clasifica cada frase marcando F (formal) o I (informal)</h4>
+      <div style="display:grid;gap:6px;font-size:13px;">
+        <div>( &nbsp; ) "El estudio demuestra que el 60% de los adolescentes utiliza redes sociales más de 4 horas al día."</div>
+        <div>( &nbsp; ) "O sea, las redes sociales son como súper adictivas, bro."</div>
+        <div>( &nbsp; ) "Los resultados obtenidos permiten concluir que existe una correlación entre el uso digital y el rendimiento académico."</div>
+        <div>( &nbsp; ) "La verdad es que esto es lo más importante del trabajo 😊"</div>
+        <div>( &nbsp; ) "Se recomienda implementar estrategias de uso responsable en los entornos educativos."</div>
+        <div>( &nbsp; ) "A mi me parece que deberían hacer algo al respecto, aunque igual no creo que funcione."</div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 3</div>
+      <h4>Planifica tu trabajo formal: completa el esquema</h4>
+      <p style="font-size:12px;color:#64748b;margin-bottom:10px;">Elige un tema de cualquier curso y completa la estructura.</p>
+      <table style="width:100%;font-size:13px;border-collapse:collapse;">
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;width:140px;background:#f8fafc;">Tema del trabajo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">¿Por qué importa?</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 1 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 2 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 3 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Idea de conclusión</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Fuente que usarías</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 4</div>
+      <h4>Checklist de revisión: aplícalo a un trabajo propio</h4>
+      <ul style="font-size:13px;list-style:none;padding-left:0;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <li>☐ El tema queda claro desde el inicio</li>
+        <li>☐ La introducción no revela todo</li>
+        <li>☐ El desarrollo tiene secciones con subtítulos</li>
+        <li>☐ Cada sección tiene una idea central</li>
+        <li>☐ La conclusión no repite todo</li>
+        <li>☐ El tono es formal (sin jergas ni emojis)</li>
+        <li>☐ Las fuentes están citadas</li>
+        <li>☐ No hay frases repetidas innecesariamente</li>
+        <li>☐ Los márgenes y el espaciado son adecuados</li>
+        <li>☐ Tiene portada con mis datos</li>
+      </ul>
+      <p style="margin-top:10px;font-size:13px;">¿Cuántos elementos cumple tu trabajo? ______ / 10</p>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section page-break">
+    <div class="section-title">🧪 Quiz de autoevaluación</div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>1.</span> ¿Qué significa que un trabajo sea "formal"?</div>
+      <ul class="options">
+        <li>Que use palabras muy difíciles</li>
+        <li>Que tenga muchas páginas</li>
+        <li>Que tenga orden, claridad, fuentes y tono adecuado</li>
+        <li>Que esté escrito a mano</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>2.</span> ¿Qué función tiene la introducción?</div>
+      <ul class="options">
+        <li>Resumir toda la conclusión</li>
+        <li>Presentar el tema, su importancia y qué se hará, sin revelar todo</li>
+        <li>Listar todas las fuentes del trabajo</li>
+        <li>Repetir el título con otras palabras</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>3.</span> ¿Qué es más formal para un trabajo académico?</div>
+      <ul class="options">
+        <li>Texto largo sin subtítulos</li>
+        <li>Muchas imágenes sin explicación</li>
+        <li>Texto dividido en secciones claras con evidencias</li>
+        <li>Muchas fuentes sin revisar si son confiables</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>4.</span> ¿Qué debe evitar una buena conclusión?</div>
+      <ul class="options">
+        <li>Presentar la idea más importante</li>
+        <li>Repetir todo lo que ya se dijo en el desarrollo</li>
+        <li>Cerrar con una reflexión final</li>
+        <li>Ser concisa</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>5.</span> ¿Por qué no basta con poner los links al final del trabajo como fuentes?</div>
+      <ul class="options">
+        <li>Porque los links se caen</li>
+        <li>Porque el profesor no los puede abrir</li>
+        <li>Porque no incluyen datos completos: autor, año, título ni editorial</li>
+        <li>Porque las páginas web no son fuentes válidas</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>6.</span> ¿Cuál de estas frases tiene tono formal?</div>
+      <ul class="options">
+        <li>"O sea, el calentamiento global es una locura."</li>
+        <li>"El aumento de temperatura global representa una amenaza para los ecosistemas."</li>
+        <li>"La verdad es que no sé mucho del tema pero igual voy a escribir."</li>
+        <li>"El planeta está mal 😢 hay que hacer algo."</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>7.</span> ¿Para qué sirve usar la IA en el proceso de revisión?</div>
+      <ul class="options">
+        <li>Para que escriba el trabajo completo</li>
+        <li>Para inventar datos que le faltan al trabajo</li>
+        <li>Para revisar claridad, orden y detectar repeticiones en mi borrador</li>
+        <li>Para cambiar todas mis ideas por las de la IA</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>8.</span> ¿Qué parte del trabajo NO debe faltar nunca?</div>
+      <ul class="options">
+        <li>Índice</li>
+        <li>Anexos</li>
+        <li>Glosario</li>
+        <li>Referencias / Fuentes</li>
+      </ul>
+    </div>
+
+    <div class="answer-key no-break">
+      <h4>🔑 Clave de respuestas</h4>
+      <div class="answer-grid">
+        <div class="answer-pill"><b>1</b> C — Orden y claridad</div>
+        <div class="answer-pill"><b>2</b> B — Presentar sin revelar todo</div>
+        <div class="answer-pill"><b>3</b> C — Secciones y evidencias</div>
+        <div class="answer-pill"><b>4</b> B — Repetir el desarrollo</div>
+        <div class="answer-pill"><b>5</b> C — Faltan datos completos</div>
+        <div class="answer-pill"><b>6</b> B — "amenaza para los ecosistemas"</div>
+        <div class="answer-pill"><b>7</b> C — Revisar claridad y orden</div>
+        <div class="answer-pill"><b>8</b> D — Referencias</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVALUACIÓN -->
+  <div class="section no-break">
+    <div class="section-title">📊 Rúbrica de autoevaluación</div>
+    <table class="eval-table">
+      <tr>
+        <th>Criterio</th>
+        <th>Lo logré (3 pts)</th>
+        <th>Casi lo logré (2 pts)</th>
+        <th>Necesito practicar (1 pt)</th>
+        <th style="width:60px;">Mi nivel</th>
+      </tr>
+      <tr>
+        <td>Conozco las partes de un trabajo formal</td>
+        <td>Nombré y expliqué todas las partes</td>
+        <td>Nombré la mayoría</td>
+        <td>Confundí o no recordé varias</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Escribí una introducción mejorada</td>
+        <td>Clara, con tema, importancia y estructura</td>
+        <td>Mejoré pero faltó algo</td>
+        <td>No pude mejorarla</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Uso tono formal en mi escritura</td>
+        <td>Identifiqué todos los ejemplos y aplico el tono</td>
+        <td>Identifiqué la mayoría</td>
+        <td>Confundí formal e informal</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Planifiqué un esquema de trabajo formal</td>
+        <td>Completé todas las secciones del esquema</td>
+        <td>Completé la mayoría</td>
+        <td>No pude completarlo</td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="score-box">
+      <span>Puntaje total (máximo 12 pts)</span>
+      <div class="total">______ / 12</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

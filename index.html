@@ -297,10 +297,23 @@ button{font-family:inherit;cursor:pointer;}
   transition:background .15s,border-color .15s,transform .15s;
 }
 .notes-btn:hover{background:rgba(13,148,136,.28);border-color:rgba(13,148,136,.6);transform:translateY(-1px);}
-.card.next .slide-btn,.card.next .notes-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
+.repaso-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(245,158,11,.12);
+  color:#fcd34d;
+  border:1px solid rgba(245,158,11,.35);
+  border-radius:10px;
+  padding:.5rem .9rem;
+  font-size:var(--fs-sm);font-weight:600;
+  text-decoration:none;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.repaso-btn:hover{background:rgba(245,158,11,.24);border-color:rgba(245,158,11,.6);transform:translateY(-1px);}
+.card.next .slide-btn,.card.next .notes-btn,.card.next .repaso-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
 .card.done .slide-btn{background:rgba(100,116,139,.5);box-shadow:none;}
 .card.done .notes-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
-.card.done .slide-btn:hover,.card.done .notes-btn:hover{transform:none;}
+.card.done .repaso-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
+.card.done .slide-btn:hover,.card.done .notes-btn:hover,.card.done .repaso-btn:hover{transform:none;}
 
 .check-btn{
   display:flex;align-items:center;gap:.5rem;
@@ -580,6 +593,9 @@ const SEC_SESSIONS = new Set([15,16]);
 
 // ── Añadir el número de sesión aquí cada vez que se publiquen nuevas diapositivas ──
 const READY_SESSIONS = new Set([1, 2, 3]);
+
+// ── Añadir el número de sesión aquí cuando exista guía de repaso ──
+const REPASO_SESSIONS = new Set([2]);
 
 // ═══════════════════════════════════════════════════════════
 // CURRICULUM DATA  — 5 grados × 32 sesiones
@@ -1459,12 +1475,15 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
   const btnClass = isDone ? 'unmark' : 'mark';
   const btnText  = isDone ? '↩ Desmarcar sesión' : '✓ Marcar como realizada';
   const pad = x => String(x).padStart(2,'0');
-  const slideUrl = READY_SESSIONS.has(n) ? `slides/sesion-${pad(n)}-${gradeId}.html` : '';
-  const notasUrl = READY_SESSIONS.has(n) ? `slides/notas-${pad(n)}-${gradeId}.html`  : '';
-  const slideBtn = slideUrl
-    ? `<a href="${slideUrl}" target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
-  const notasBtn = (notasUrl && unlocked)
-    ? `<a href="${notasUrl}" target="_blank" class="notes-btn">📋 Notas del profesor</a>` : '';
+  const slideUrl  = READY_SESSIONS.has(n)  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
+  const notasUrl  = READY_SESSIONS.has(n)  ? `slides/notas-${pad(n)}-${gradeId}.html`   : '';
+  const repasoUrl = REPASO_SESSIONS.has(n) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
+  const slideBtn  = slideUrl
+    ? `<a href="${slideUrl}"  target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
+  const notasBtn  = (notasUrl && unlocked)
+    ? `<a href="${notasUrl}"  target="_blank" class="notes-btn">📋 Notas del profesor</a>` : '';
+  const repasoBtn = repasoUrl
+    ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
 
   const expandBtn = isNext ? '' :
     `<button class="expand-btn" onclick="toggleExpand(this)">
@@ -1510,7 +1529,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
       </div>
     </div>
     <div class="card-foot">
-      <div class="foot-actions">${slideBtn}${notasBtn}</div>
+      <div class="foot-actions">${slideBtn}${notasBtn}${repasoBtn}</div>
       <button class="check-btn ${btnClass}" onclick="toggleDone('${gradeId}',${n})">
         ${btnText}
       </button>

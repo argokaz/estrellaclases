@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S02 — 3.° Secundaria | Asunción School</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+
+  :root {
+    --brand:   #1e3a8a;
+    --accent:  #2563eb;
+    --gold:    #b45309;
+    --green:   #166534;
+    --red:     #991b1b;
+    --text:    #1e293b;
+    --muted:   #64748b;
+    --border:  #e2e8f0;
+    --bg-alt:  #f8fafc;
+    --radius:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* ── PORTADA / ENCABEZADO ── */
+  .doc-header {
+    border-bottom: 3px solid var(--brand);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
+  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+  .doc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--brand);
+    margin-bottom: 4px;
+  }
+  .doc-subtitle {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 28px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SECCIONES ── */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── RESUMEN ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .concept-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 10px 13px;
+  }
+  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
+  .concept-card p { font-size: 13px; color: var(--text); }
+
+  /* ── GLOSARIO ── */
+  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gloss-item {
+    background: var(--bg-alt);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  .gloss-item b { color: var(--brand); }
+
+  /* ── EJERCICIOS ── */
+  .exercise {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .exercise-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700; font-size: 11px;
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
+  .exercise ul, .exercise ol { padding-left: 18px; }
+  .exercise li { margin-bottom: 4px; }
+  .answer-line {
+    display: block;
+    border-bottom: 1px solid #94a3b8;
+    height: 24px;
+    margin: 6px 0;
+    width: 100%;
+  }
+  .answer-box {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    min-height: 56px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-item {
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+  .quiz-item .q {
+    font-weight: 600; font-size: 13.5px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
+  .options li {
+    font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .options li::before {
+    content: '';
+    display: inline-block;
+    width: 15px; height: 15px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CLAVE DE RESPUESTAS ── */
+  .answer-key {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
+  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .answer-pill {
+    background: #fff;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    padding: 5px 8px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+
+  /* ── EVALUACIÓN ── */
+  .eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .eval-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .eval-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
+  .score-box {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .score-box span { font-size: 13px; color: var(--muted); }
+  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+
+  /* ── IMPRIMIR ── */
+  @media print {
+    body { font-size: 13px; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    @page { margin: 18mm 20mm; }
+  }
+
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 28px 32px;
+  }
+
+  .tag-pill {
+    display: inline-block;
+    background: rgba(37,99,235,.1);
+    color: var(--accent);
+    border: 1px solid rgba(37,99,235,.25);
+    border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 10px;
+    margin-right: 6px;
+  }
+
+  .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: #1e40af;
+    margin-bottom: 14px;
+  }
+
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="doc-header">
+    <div>
+      <div class="school">Asunción School · Computación 2026</div>
+      <div class="teacher">Prof. Estrella Vizcarra</div>
+    </div>
+    <div class="doc-meta">
+      <div>3.° Secundaria</div>
+      <div>Sesión 02 · 22 de mayo de 2026</div>
+    </div>
+  </div>
+  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+  <div class="doc-subtitle">Tablas que se entienden: estructura de datos en Sheets &nbsp;·&nbsp; Material de estudio y práctica</div>
+
+  <!-- RESUMEN -->
+  <div class="section">
+    <div class="section-title">📖 Lo que aprendimos hoy</div>
+    <div class="info-box">
+      En esta clase aprendimos a <strong>organizar datos correctamente en una tabla de Sheets</strong>: usar encabezados claros, separar tipos de datos en columnas distintas y mantener la tabla limpia para poder calcular y graficar después.
+    </div>
+    <div class="summary-grid">
+      <div class="concept-card">
+        <strong>¿Qué es un dato?</strong>
+        <p>Un número, nombre, fecha, respuesta o categoría. Ejemplos: puntaje, fecha de entrega, curso favorito.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Filas y columnas</strong>
+        <p>Filas = registros (cada persona, producto o respuesta). Columnas = tipos de información (nombre, edad, nota).</p>
+      </div>
+      <div class="concept-card">
+        <strong>Encabezados claros</strong>
+        <p>La primera fila debe tener nombres claros: "Nombre", "Edad", "Puntaje". No "cosa", "dato1" o celdas vacías.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Una columna = un tipo de dato</strong>
+        <p>No mezcles nombre y edad en una sola celda. Cada tipo de información va en su propia columna.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Tabla limpia</strong>
+        <p>Sin celdas vacías raras, sin nombres duplicados por error, sin texto y número mezclados, sin títulos en medio.</p>
+      </div>
+      <div class="concept-card">
+        <strong>¿Por qué importa?</strong>
+        <p>Una tabla bien estructurada permite luego usar fórmulas, ordenar, filtrar y hacer gráficos correctamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOSARIO -->
+  <div class="section">
+    <div class="section-title">📚 Palabras clave</div>
+    <div class="glossary">
+      <div class="gloss-item"><b>Dato:</b> información individual registrada (número, texto, fecha).</div>
+      <div class="gloss-item"><b>Registro:</b> conjunto de datos de una misma entidad (fila completa).</div>
+      <div class="gloss-item"><b>Encabezado:</b> nombre que identifica cada columna.</div>
+      <div class="gloss-item"><b>Rango:</b> grupo de celdas seleccionadas en Sheets.</div>
+      <div class="gloss-item"><b>Tabla limpia:</b> sin mezcla de tipos, sin vacíos raros, sin duplicados.</div>
+      <div class="gloss-item"><b>Estructura de datos:</b> forma organizada de almacenar información para usarla.</div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="section">
+    <div class="section-title">✏️ Ejercicios de práctica</div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 1</div>
+      <h4>Encuentra los errores: esta tabla tiene 5 problemas. Márcalos y explícalos.</h4>
+      <table style="width:100%;font-size:12.5px;border-collapse:collapse;margin-bottom:10px;">
+        <tr style="background:#fef3c7;">
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;">ENCUESTA DEL SALÓN</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">cosa</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">dato</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">info</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan — 14 años</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">18</td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">María</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">natación</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">dieciséis</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
+        </tr>
+        <tr>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td>
+          <td style="padding:5px 8px;border:1px solid #e2e8f0;">19</td>
+        </tr>
+      </table>
+      <p style="font-size:12px;margin-bottom:6px;">Errores encontrados:</p>
+      <span class="answer-line"></span>
+      <span class="answer-line"></span>
+      <span class="answer-line"></span>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 2</div>
+      <h4>Diseña las columnas correctas para cada encuesta</h4>
+      <p style="margin-bottom:8px;"><strong>a)</strong> Encuesta sobre hábitos de lectura del salón:</p>
+      <p style="font-size:12.5px;color:#64748b;">Escribe 4 nombres de columna que usarías:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:6px;">
+        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 1</div>
+        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 2</div>
+        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 3</div>
+        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 4</div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 3</div>
+      <h4>Verdadero o Falso</h4>
+      <div style="display:grid;gap:6px;font-size:13px;">
+        <div>( &nbsp;&nbsp; ) En una tabla, cada fila debe representar un solo registro (persona, producto, etc.).</div>
+        <div>( &nbsp;&nbsp; ) Es correcto escribir el nombre y la edad juntos en una misma celda: "Pedro — 15 años".</div>
+        <div>( &nbsp;&nbsp; ) Los encabezados deben estar en la primera fila de la tabla.</div>
+        <div>( &nbsp;&nbsp; ) Una tabla desordenada sirve igual para hacer fórmulas y gráficos.</div>
+        <div>( &nbsp;&nbsp; ) Mezclar números y texto en una misma columna puede causar errores en las fórmulas.</div>
+        <div>( &nbsp;&nbsp; ) La columna "puntaje" puede tener "18", "dieciséis" y "veinte" sin problema.</div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 4</div>
+      <h4>Completa la tabla correctamente con datos ficticios</h4>
+      <p style="font-size:12px;color:#64748b;margin-bottom:8px;">Tema: lista de materiales para un proyecto de arte. Llena al menos 4 filas.</p>
+      <table style="width:100%;font-size:12.5px;border-collapse:collapse;">
+        <tr style="background:#1e3a8a;color:#fff;">
+          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Material</th>
+          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Cantidad</th>
+          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Precio unitario (S/)</th>
+          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Responsable</th>
+        </tr>
+        <tr><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
+        <tr><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section page-break">
+    <div class="section-title">🧪 Quiz de autoevaluación</div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>1.</span> En una tabla de Sheets, ¿qué representa cada fila en una encuesta simple?</div>
+      <ul class="options">
+        <li>Una pregunta de la encuesta</li>
+        <li>Un color de fondo diferente</li>
+        <li>Una respuesta o persona encuestada</li>
+        <li>Un título de sección</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>2.</span> ¿Por qué no se debe poner "Juan — 14 años" en una sola celda?</div>
+      <ul class="options">
+        <li>Porque es muy largo</li>
+        <li>Porque mezcla dos tipos de datos que deben ir en columnas separadas</li>
+        <li>Porque Sheets no acepta texto con números</li>
+        <li>Porque el nombre debe ir al final</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>3.</span> ¿Qué debe ir en la primera fila de una tabla bien organizada?</div>
+      <ul class="options">
+        <li>El título del proyecto</li>
+        <li>Los encabezados de cada columna</li>
+        <li>El primer registro de datos</li>
+        <li>La fecha del día</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>4.</span> ¿Cuál de estas columnas tiene un encabezado MÁS claro?</div>
+      <ul class="options">
+        <li>cosa</li>
+        <li>info1</li>
+        <li>Puntaje_final</li>
+        <li>dato</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>5.</span> ¿Qué problema causa tener filas vacías en medio de una tabla?</div>
+      <ul class="options">
+        <li>La tabla se ve más ordenada</li>
+        <li>Puede confundir fórmulas y filtros que dependen del rango</li>
+        <li>Los colores se mezclan</li>
+        <li>No causa ningún problema</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>6.</span> ¿Por qué una tabla bien organizada es más útil?</div>
+      <ul class="options">
+        <li>Porque se ve más bonita</li>
+        <li>Porque ocupa menos espacio en el disco</li>
+        <li>Porque permite luego calcular, filtrar y graficar correctamente</li>
+        <li>Porque es más fácil de imprimir</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>7.</span> ¿Qué le pedirías a una IA ANTES de crear tu tabla?</div>
+      <ul class="options">
+        <li>Que invente los datos del salón</li>
+        <li>Que sugiera columnas para organizar la información</li>
+        <li>Que haga toda la tabla por mí</li>
+        <li>Que ponga colores automáticamente</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>8.</span> En la columna "Puntaje", ¿qué valores son correctos?</div>
+      <ul class="options">
+        <li>18, dieciséis, 20, veinte</li>
+        <li>18, 16, 20, 15 (todos números)</li>
+        <li>Alto, Medio, Bajo</li>
+        <li>Cualquier combinación está bien</li>
+      </ul>
+    </div>
+
+    <div class="answer-key no-break">
+      <h4>🔑 Clave de respuestas</h4>
+      <div class="answer-grid">
+        <div class="answer-pill"><b>1</b> C — Una persona</div>
+        <div class="answer-pill"><b>2</b> B — Mezcla datos</div>
+        <div class="answer-pill"><b>3</b> B — Encabezados</div>
+        <div class="answer-pill"><b>4</b> C — Puntaje_final</div>
+        <div class="answer-pill"><b>5</b> B — Confunde fórmulas</div>
+        <div class="answer-pill"><b>6</b> C — Calcular y graficar</div>
+        <div class="answer-pill"><b>7</b> B — Sugerir columnas</div>
+        <div class="answer-pill"><b>8</b> B — Solo números</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVALUACIÓN -->
+  <div class="section no-break">
+    <div class="section-title">📊 Rúbrica de autoevaluación</div>
+    <table class="eval-table">
+      <tr>
+        <th>Criterio</th>
+        <th>Lo logré (3 pts)</th>
+        <th>Casi lo logré (2 pts)</th>
+        <th>Necesito practicar (1 pt)</th>
+        <th style="width:60px;">Mi nivel</th>
+      </tr>
+      <tr>
+        <td>Uso encabezados claros en mis columnas</td>
+        <td>Todos los encabezados son precisos</td>
+        <td>La mayoría son claros</td>
+        <td>Usé nombres genéricos o vacíos</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Separo tipos de datos en columnas distintas</td>
+        <td>Cada columna tiene un solo tipo de dato</td>
+        <td>Mezclé datos en 1 columna</td>
+        <td>Mezclé datos en varias columnas</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Mi tabla está limpia (sin vacíos raros)</td>
+        <td>Sin filas vacías ni duplicados</td>
+        <td>1 o 2 errores menores</td>
+        <td>Varios problemas de limpieza</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Puedo explicar por qué una tabla bien organizada es más útil</td>
+        <td>Lo expliqué con mis propias palabras</td>
+        <td>Di una explicación parcial</td>
+        <td>No pude explicarlo</td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="score-box">
+      <span>Puntaje total (máximo 12 pts)</span>
+      <div class="total">______ / 12</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

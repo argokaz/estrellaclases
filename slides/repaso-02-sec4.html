@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S02 — 4.° Secundaria | Asunción School</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+
+  :root {
+    --brand:   #1e3a8a;
+    --accent:  #2563eb;
+    --gold:    #b45309;
+    --green:   #166534;
+    --red:     #991b1b;
+    --text:    #1e293b;
+    --muted:   #64748b;
+    --border:  #e2e8f0;
+    --bg-alt:  #f8fafc;
+    --radius:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: #fff;
+    line-height: 1.6;
+  }
+
+  /* ── PORTADA / ENCABEZADO ── */
+  .doc-header {
+    border-bottom: 3px solid var(--brand);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
+  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+
+  .doc-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--brand);
+    margin-bottom: 4px;
+  }
+  .doc-subtitle {
+    font-size: 13px; color: var(--muted);
+    margin-bottom: 28px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── SECCIONES ── */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--brand);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── RESUMEN ── */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .concept-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 10px 13px;
+  }
+  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
+  .concept-card p { font-size: 13px; color: var(--text); }
+
+  /* ── GLOSARIO ── */
+  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .gloss-item {
+    background: var(--bg-alt);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+  }
+  .gloss-item b { color: var(--brand); }
+
+  /* ── EJERCICIOS ── */
+  .exercise {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .exercise-num {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700; font-size: 11px;
+    border-radius: 5px;
+    padding: 2px 8px;
+    margin-bottom: 8px;
+  }
+  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
+  .exercise ul, .exercise ol { padding-left: 18px; }
+  .exercise li { margin-bottom: 4px; }
+  .answer-line {
+    display: block;
+    border-bottom: 1px solid #94a3b8;
+    height: 24px;
+    margin: 6px 0;
+    width: 100%;
+  }
+  .answer-box {
+    border: 1px solid #94a3b8;
+    border-radius: 6px;
+    min-height: 56px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-item {
+    margin-bottom: 16px;
+    page-break-inside: avoid;
+  }
+  .quiz-item .q {
+    font-weight: 600; font-size: 13.5px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
+  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
+  .options li {
+    font-size: 13px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .options li::before {
+    content: '';
+    display: inline-block;
+    width: 15px; height: 15px;
+    border: 1.5px solid #94a3b8;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── CLAVE DE RESPUESTAS ── */
+  .answer-key {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 8px;
+  }
+  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .answer-pill {
+    background: #fff;
+    border: 1px solid #86efac;
+    border-radius: 6px;
+    padding: 5px 8px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+
+  /* ── EVALUACIÓN ── */
+  .eval-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .eval-table th {
+    background: var(--brand);
+    color: #fff;
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .eval-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
+  .score-box {
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-top: 12px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .score-box span { font-size: 13px; color: var(--muted); }
+  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+
+  /* ── IMPRIMIR ── */
+  @media print {
+    body { font-size: 13px; }
+    .page-break { page-break-before: always; }
+    .no-break { page-break-inside: avoid; }
+    @page { margin: 18mm 20mm; }
+  }
+
+  .page-wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 28px 32px;
+  }
+
+  .tag-pill {
+    display: inline-block;
+    background: rgba(37,99,235,.1);
+    color: var(--accent);
+    border: 1px solid rgba(37,99,235,.25);
+    border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 10px;
+    margin-right: 6px;
+  }
+
+  .info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: #1e40af;
+    margin-bottom: 14px;
+  }
+
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: var(--radius);
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="doc-header">
+    <div>
+      <div class="school">Asunción School · Computación 2026</div>
+      <div class="teacher">Prof. Estrella Vizcarra</div>
+    </div>
+    <div class="doc-meta">
+      <div>4.° Secundaria</div>
+      <div>Sesión 02 · 22 de mayo de 2026</div>
+    </div>
+  </div>
+  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+  <div class="doc-subtitle">APA sin miedo: citar para ser claro y honesto &nbsp;·&nbsp; Material de estudio y práctica</div>
+
+  <!-- RESUMEN -->
+  <div class="section">
+    <div class="section-title">📖 Lo que aprendimos hoy</div>
+    <div class="info-box">
+      En esta clase entendimos el <strong>sentido de las normas APA</strong>: no son reglas arbitrarias, sino una forma de ser honesto con la información. Aprendimos la diferencia entre citar en el texto y la lista de referencias al final.
+    </div>
+    <div class="summary-grid">
+      <div class="concept-card">
+        <strong>¿Para qué sirve APA?</strong>
+        <p>Para ordenar trabajos, reconocer fuentes y generar confianza en el lector. Es jugar limpio con la información.</p>
+      </div>
+      <div class="concept-card">
+        <strong>La idea clave: dar crédito</strong>
+        <p>Si usas una idea de otra persona (aunque la escribas con tus palabras), debes indicar de dónde viene. Eso se llama citar.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Google no es la fuente</strong>
+        <p>Google ayuda a buscar. La fuente real es la página, libro, video o artículo donde está la información.</p>
+      </div>
+      <div class="concept-card">
+        <strong>Cita en el texto</strong>
+        <p>Va cerca de la idea usada. Ejemplo: <em>Según Pérez (2024)...</em> o al final de la oración: <em>(Pérez, 2024).</em></p>
+      </div>
+      <div class="concept-card">
+        <strong>Referencia al final</strong>
+        <p>Lista completa al final del trabajo. Incluye: autor o institución · año · título · lugar (URL o editorial).</p>
+      </div>
+      <div class="concept-card">
+        <strong>Parafrasear no elimina la cita</strong>
+        <p>Si la idea vino de una fuente, se cita aunque la escribas con otras palabras. Cambiar palabras no es tener la idea propia.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOSARIO -->
+  <div class="section">
+    <div class="section-title">📚 Palabras clave</div>
+    <div class="glossary">
+      <div class="gloss-item"><b>Citar:</b> indicar de dónde viene una idea o información.</div>
+      <div class="gloss-item"><b>Referencia:</b> datos completos de una fuente al final del trabajo.</div>
+      <div class="gloss-item"><b>Fuente:</b> libro, página, artículo, video donde está la información.</div>
+      <div class="gloss-item"><b>Parafrasear:</b> explicar una idea con tus propias palabras (aún se cita).</div>
+      <div class="gloss-item"><b>APA:</b> sistema de normas para citar y ordenar referencias académicas.</div>
+      <div class="gloss-item"><b>Plagio:</b> usar ideas o textos ajenos sin dar crédito a quien corresponde.</div>
+    </div>
+  </div>
+
+  <!-- EJERCICIOS -->
+  <div class="section">
+    <div class="section-title">✏️ Ejercicios de práctica</div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 1</div>
+      <h4>Detective de fuentes: lee esta referencia e identifica sus partes</h4>
+      <div style="background:#f0f4ff;border:1px solid #c7d2fe;border-radius:8px;padding:12px;font-size:13px;margin-bottom:12px;">
+        <p>Ministerio de Educación del Perú. (2023). <em>Guía de ciudadanía digital para secundaria</em>. Gobierno del Perú. https://www.minedu.gob.pe/guia-ciudadania-digital</p>
+      </div>
+      <table style="width:100%;font-size:13px;border-collapse:collapse;">
+        <tr style="background:#f1f5f9;">
+          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;">Parte de la referencia</th>
+          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;">¿Cuál es en el ejemplo?</th>
+        </tr>
+        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Autor o institución</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
+        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Año de publicación</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
+        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Título</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
+        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Lugar / URL</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
+      </table>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 2</div>
+      <h4>¿Necesita cita? Marca Sí o No y explica por qué</h4>
+      <div style="display:grid;gap:8px;font-size:13px;">
+        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
+          <p><strong>Situación A:</strong> Escribí que "el cambio climático afecta a los océanos" usando mis propias palabras, pero la idea la saqué de un artículo de la NASA.</p>
+          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
+          <p><strong>Situación B:</strong> Escribí mi propia opinión sobre por qué me parece importante el reciclaje, sin consultar ninguna fuente.</p>
+          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
+        </div>
+        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
+          <p><strong>Situación C:</strong> Copié exactamente una frase de un libro para ilustrar una idea.</p>
+          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 3</div>
+      <h4>Corrige el error: ¿qué está mal en estas "citas"?</h4>
+      <div style="display:grid;gap:8px;font-size:13px;">
+        <div><p><strong>Error A:</strong> "Lo encontré en Google." <span class="answer-line" style="display:inline-block;width:70%;vertical-align:bottom;"></span></p></div>
+        <div><p><strong>Error B:</strong> La referencia dice solo: <em>https://www.wikipedia.org</em></p><span class="answer-line"></span></div>
+        <div><p><strong>Error C:</strong> "La IA me dijo que el libro fue publicado en 2019 por la editorial Pearson." El estudiante no verificó el dato.</p><span class="answer-line"></span></div>
+      </div>
+    </div>
+
+    <div class="exercise">
+      <div class="exercise-num">Ejercicio 4</div>
+      <h4>Dibuja el mapa APA</h4>
+      <p>Completa el diagrama de flujo: ¿qué va dónde?</p>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;flex-wrap:wrap;">
+        <div style="border:2px solid #2563eb;border-radius:8px;padding:10px 14px;text-align:center;min-width:120px;">
+          <div style="font-size:11px;color:#64748b;margin-bottom:4px;">Paso 1</div>
+          <div style="font-weight:700;color:#1e3a8a;">Uso una idea<br>de otra fuente</div>
+        </div>
+        <div style="font-size:20px;color:#94a3b8;">→</div>
+        <div style="border:2px dashed #94a3b8;border-radius:8px;padding:10px 14px;text-align:center;min-width:140px;min-height:60px;color:#94a3b8;font-size:12px;">
+          Paso 2:<br>¿Qué pongo<br>en el texto?
+        </div>
+        <div style="font-size:20px;color:#94a3b8;">→</div>
+        <div style="border:2px dashed #94a3b8;border-radius:8px;padding:10px 14px;text-align:center;min-width:140px;min-height:60px;color:#94a3b8;font-size:12px;">
+          Paso 3:<br>¿Qué pongo<br>al final?
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section page-break">
+    <div class="section-title">🧪 Quiz de autoevaluación</div>
+    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>1.</span> ¿Para qué sirven las normas APA?</div>
+      <ul class="options">
+        <li>Para hacer los trabajos más difíciles de leer</li>
+        <li>Para ordenar trabajos, reconocer fuentes y dar confianza al lector</li>
+        <li>Para que solo los profesores puedan leer los trabajos</li>
+        <li>Para reemplazar el título del trabajo</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>2.</span> Si busco información en Google y llego a un artículo de la OMS, ¿cuál es mi fuente?</div>
+      <ul class="options">
+        <li>Google</li>
+        <li>Internet en general</li>
+        <li>El artículo de la OMS</li>
+        <li>Mi computadora</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>3.</span> ¿Qué debe incluir una referencia al final del trabajo?</div>
+      <ul class="options">
+        <li>Solo el link de la página</li>
+        <li>Autor o institución, año, título y lugar o URL</li>
+        <li>Solo el nombre del libro</li>
+        <li>El número de página que leí</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>4.</span> Escribí una idea con mis propias palabras, pero la idea vino de un libro. ¿Debo citar?</div>
+      <ul class="options">
+        <li>No, porque la escribí con mis palabras</li>
+        <li>No, porque ya la cambié suficiente</li>
+        <li>Sí, porque la idea sigue siendo de la fuente original</li>
+        <li>Solo si la copié exactamente</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>5.</span> ¿Dónde va la cita en el texto?</div>
+      <ul class="options">
+        <li>Solo al final del trabajo</li>
+        <li>Cerca de la idea usada, dentro del texto</li>
+        <li>En el título del trabajo</li>
+        <li>No tiene lugar específico</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>6.</span> ¿Qué problema tiene que la IA invente fuentes o autores?</div>
+      <ul class="options">
+        <li>Ninguno, la IA siempre tiene razón</li>
+        <li>Que puedo citar algo que no existe, haciendo mi trabajo deshonesto</li>
+        <li>Que la IA cobra por hacerlo</li>
+        <li>Que cambia el formato del trabajo</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>7.</span> ¿Qué significa parafrasear?</div>
+      <ul class="options">
+        <li>Copiar el texto exactamente</li>
+        <li>Poner la idea en un párrafo al inicio</li>
+        <li>Explicar una idea con tus propias palabras</li>
+        <li>Resumir todo el libro</li>
+      </ul>
+    </div>
+
+    <div class="quiz-item no-break">
+      <div class="q"><span>8.</span> ¿Qué ejemplo de cita en el texto está bien escrito?</div>
+      <ul class="options">
+        <li>"Lo encontré en Google (2024)"</li>
+        <li>"Según Wikipedia..."</li>
+        <li>"Según Pérez (2024), el agua cubre el 71% de la Tierra."</li>
+        <li>"Un autor dijo una vez que..."</li>
+      </ul>
+    </div>
+
+    <div class="answer-key no-break">
+      <h4>🔑 Clave de respuestas</h4>
+      <div class="answer-grid">
+        <div class="answer-pill"><b>1</b> B — Ordenar y dar confianza</div>
+        <div class="answer-pill"><b>2</b> C — Artículo de la OMS</div>
+        <div class="answer-pill"><b>3</b> B — Autor, año, título, URL</div>
+        <div class="answer-pill"><b>4</b> C — Sí, siempre</div>
+        <div class="answer-pill"><b>5</b> B — Cerca de la idea</div>
+        <div class="answer-pill"><b>6</b> B — Cito algo inexistente</div>
+        <div class="answer-pill"><b>7</b> C — Con tus palabras</div>
+        <div class="answer-pill"><b>8</b> C — Según Pérez (2024)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVALUACIÓN -->
+  <div class="section no-break">
+    <div class="section-title">📊 Rúbrica de autoevaluación</div>
+    <table class="eval-table">
+      <tr>
+        <th>Criterio</th>
+        <th>Lo logré (3 pts)</th>
+        <th>Casi lo logré (2 pts)</th>
+        <th>Necesito practicar (1 pt)</th>
+        <th style="width:60px;">Mi nivel</th>
+      </tr>
+      <tr>
+        <td>Distingo cita en el texto de referencia al final</td>
+        <td>Los diferencia claramente con ejemplos</td>
+        <td>Los diferencia pero sin ejemplos claros</td>
+        <td>Los confunde o no los distingue</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Identifico las partes de una referencia</td>
+        <td>Identifiqué las 4 partes correctamente</td>
+        <td>Identifiqué 2 o 3 partes</td>
+        <td>No pude identificar las partes</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Sé que parafrasear no elimina la cita</td>
+        <td>Lo expliqué con sus razones</td>
+        <td>Lo sé pero no sé explicarlo bien</td>
+        <td>Pensé que cambiar palabras es suficiente</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Actividad: detective de fuentes</td>
+        <td>Identifiqué todas las partes</td>
+        <td>Identifiqué 2 o 3 partes</td>
+        <td>No pude completar la actividad</td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="score-box">
+      <span>Puntaje total (máximo 12 pts)</span>
+      <div class="total">______ / 12</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

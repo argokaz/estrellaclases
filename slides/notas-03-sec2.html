@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S3 · 2.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #60a5fa;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#60a5fa;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#60a5fa;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
+  transition:border-color .2s;}
+.card.active{border-color:#60a5fa;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#60a5fa;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #60a5fa;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#60a5fa;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #60a5fa;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#60a5fa;opacity:.9;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 3 · 2.° Secundaria</div>
+    <div class="tema">Texto claro: formato profesional sin exagerar</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header">
+    <span class="card-num">S3·2</span>
+    <span class="card-title">Formato no es decorar</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Marcar criterio desde el inicio. Un texto profesional no tiene que ser aburrido, pero sí claro.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar dos casos imaginarios: texto con 5 colores vs texto limpio.</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header">
+    <span class="card-num">S3·3</span>
+    <span class="card-title">Letra legible</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Si usan Docs o Word, mencionar Arial, Calibri, Aptos o similar. No convertirlo en lista larga.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿por qué una letra bonita puede ser mala para leer?</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header">
+    <span class="card-num">S3·4</span>
+    <span class="card-title">Títulos y subtítulos</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El formato debe mostrar jerarquía: qué es más importante y qué es contenido.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: identificar título, subtítulo y párrafo en un ejemplo. Material M03-B.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header">
+    <span class="card-num">S3·5</span>
+    <span class="card-title">Negrita, cursiva y subrayado</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explica que si todo está resaltado, nada resalta. Evitar subrayado excesivo porque parece enlace.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar frase con demasiada negrita y pedir mejorarla.</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S3·6</span>
+    <span class="card-title">Alineación</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">No hacerlo técnico. Explica que la alineación ayuda a que el ojo siga el texto.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿centrarías todo un párrafo largo?</p>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S3·7</span>
+    <span class="card-title">Espaciado</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Usar la palabra «aire» es útil para adolescentes: el texto respira. Evita explicaciones muy densas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Comparar bloque pegado vs bloque con espacio.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S3·8</span>
+    <span class="card-title">Listas con viñetas</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Útil para trabajos escolares. Enseña cuándo conviene una lista en lugar de párrafo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Convertir un párrafo corto en lista.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S3·9</span>
+    <span class="card-title">Mini quiz — ¿Qué formato ayuda más?</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta B: Título claro y párrafos separados. Reforzar que claridad gana sobre decoración.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación rápida.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S3·10</span>
+    <span class="card-title">Márgenes</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explicar con analogía de marco. No es necesario enseñar medidas exactas aún.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar en pantalla dónde están los márgenes.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S3·11</span>
+    <span class="card-title">IA para revisar formato</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Integración IA alineada: ayuda a revisar, no a reemplazar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Preguntar: ¿qué le pedirías a una IA para mejorar tu documento?</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header">
+    <span class="card-num">S3·12</span>
+    <span class="card-title">Prompt útil</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explica que este prompt cuida la autoría del estudiante. La IA apoya el orden.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Que lo copien y cambien según su tema. Material M03-E.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S3·13</span>
+    <span class="card-title">Actividad: mejora un texto</span>
+    <span class="card-time">⏱ 12 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal. Dar una plantilla desordenada o texto breve. Deben aplicar formato, no reescribir todo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Trabajo individual o en parejas. Material M03-B.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header">
+    <span class="card-num">S3·14</span>
+    <span class="card-title">Checklist antes de entregar</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Checklist sencillo. Puede reutilizarse en todo el bimestre.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Revisión en parejas con checklist. Material M03-D.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 13</span>
+  <button id="nnext" onclick="ngo(1)">▶</button>
+</div>
+
+<div class="sync-badge" id="sync-badge">📡 ···</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const total=13;
+let cur=0;
+
+function show(n){
+  cards.forEach((c,i)=>{
+    c.classList.toggle('active',i===n);
+    c.classList.toggle('open',i===n);
+    if(i===n)c.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+total;
+  document.getElementById('nprev').disabled=n===0;
+  document.getElementById('nnext').disabled=n===total-1;
+  push(n);
+}
+function ngo(d){show(Math.max(0,Math.min(total-1,cur+d)));}
+cards.forEach((c,i)=>c.querySelector('.card-header').addEventListener('click',()=>show(i)));
+show(0);
+
+(function(){
+  const API='/.netlify/functions/sync';
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-display').textContent=ROOM;
+  document.getElementById('sync-badge').textContent='📡 '+ROOM;
+
+  async function push(idx){
+    try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:idx})});}catch(e){}
+  }
+  window.push=push;
+})();
+</script>
+</body>
+</html>

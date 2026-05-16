@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S3 · 6.° Primaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #22c55e;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#22c55e;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#22c55e;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
+  transition:border-color .2s;}
+.card.active{border-color:#22c55e;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#22c55e;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #22c55e;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#22c55e;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #22c55e;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#22c55e;opacity:.9;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 3 · 6.° Primaria</div>
+    <div class="tema">Me muevo en la computadora: escritorio, ventanas y carpetas</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header">
+    <span class="card-num">S3·2</span>
+    <span class="card-title">¿Qué es el escritorio?</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explica que el escritorio digital se parece a una mesa de trabajo: si está lleno de cosas, cuesta encontrar algo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Comparar escritorio físico ordenado vs desordenado.</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header">
+    <span class="card-num">S3·3</span>
+    <span class="card-title">Íconos</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Usa ejemplos visibles: navegador, carpeta, papelera, Word/Docs, Chrome. No exigir memorizar todos, solo entender la función.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: señalar un ícono y decir qué creen que abre. Material M03-A.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header">
+    <span class="card-num">S3·4</span>
+    <span class="card-title">Ventanas</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Haz demostración en vivo si es posible. Para 6to, ver la acción ayuda más que explicarla.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: abrir una ventana, minimizar, maximizar y cerrar. Material M03-A.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header">
+    <span class="card-num">S3·5</span>
+    <span class="card-title">Botones importantes</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explica cada uno con gesto. Minimizar no borra; cerrar sí termina esa ventana. Esto evita miedo o errores.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mini juego: la profesora dice una acción y ellos dicen qué botón usarían.</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S3·6</span>
+    <span class="card-title">Mini quiz — Ocultar sin cerrar</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: Minimizar. Aclara que cerrar no siempre borra el archivo, pero sí cierra la ventana.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación con dedos 1, 2 o 3.</p>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S3·7</span>
+    <span class="card-title">Carpetas</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Retoma la idea de mochila digital. Ahora deben aplicarla en la computadora.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar una carpeta real o dibujar una.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S3·8</span>
+    <span class="card-title">Archivos</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Que entiendan que no todo archivo es un texto. Esto ayuda para sus futuros trabajos en Canva/Slides.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Preguntar: ¿un video es archivo? ¿una canción? ¿una imagen?</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S3·9</span>
+    <span class="card-title">Crear una carpeta</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Si no usan Windows, adaptar a Drive o sistema disponible. Lo importante es entender crear y nombrar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo guiada o simulación en pizarra. Material M03-A.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S3·10</span>
+    <span class="card-title">Nombre claro</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Explica que los nombres ayudan a encontrar. No pedir nombres muy largos a esta edad.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: mejorar nombres malos.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S3·11</span>
+    <span class="card-title">Mover archivos</span>
+    <span class="card-time">⏱ 6 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Si hay laboratorio, practicar. Si no, usar tarjetas en papel como si fueran archivos y carpetas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Juego con tarjetas: cada archivo va a su carpeta. Material M03-B.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header">
+    <span class="card-num">S3·12</span>
+    <span class="card-title">Papelera</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Importante: evitar que borren cosas sin permiso. Recalca cuidado con archivos del colegio o compañeros.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿debo borrar archivos de otra persona?</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S3·13</span>
+    <span class="card-title">IA y carpetas</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Integración breve con IA. Solo mostrar que también puede ayudar a pensar nombres o categorías.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Leer prompt: «Dame 3 nombres simples para carpetas de Computación». Material M03-E.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header">
+    <span class="card-num">S3·14</span>
+    <span class="card-title">Actividad: mi escritorio ordenado</span>
+    <span class="card-time">⏱ 10 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Producto de clase. En laboratorio, que creen carpetas reales. Si no, lo hacen en ficha.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Trabajo individual o parejas. Materiales M03-B, M03-D.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 13</span>
+  <button id="nnext" onclick="ngo(1)">▶</button>
+</div>
+
+<div class="sync-badge" id="sync-badge">📡 ···</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const total=13;
+let cur=0;
+
+function show(n){
+  cards.forEach((c,i)=>{
+    c.classList.toggle('active',i===n);
+    c.classList.toggle('open',i===n);
+    if(i===n)c.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+total;
+  document.getElementById('nprev').disabled=n===0;
+  document.getElementById('nnext').disabled=n===total-1;
+  push(n);
+}
+function ngo(d){show(Math.max(0,Math.min(total-1,cur+d)));}
+cards.forEach((c,i)=>c.querySelector('.card-header').addEventListener('click',()=>show(i)));
+show(0);
+
+(function(){
+  const API='/.netlify/functions/sync';
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-display').textContent=ROOM;
+  document.getElementById('sync-badge').textContent='📡 '+ROOM;
+
+  async function push(idx){
+    try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:idx})});}catch(e){}
+  }
+  window.push=push;
+})();
+</script>
+</body>
+</html>

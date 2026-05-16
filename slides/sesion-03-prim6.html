@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 3 · 6.° Primaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;
+  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#052e16,#14532d);}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
+  color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#22c55e;}
+.pill{display:inline-block;background:#22c55e;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#22c55e;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;
+  font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#22c55e;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #22c55e;border-radius:clamp(8px,1.2vw,18px);
+  padding:3% 4%;max-width:85%;margin-top:2%;}
+/* quiz */
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#22c55e;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
+/* nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#22c55e;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#22c55e;}
+/* ── Animaciones ── */
+.slide::before{content:'';position:absolute;width:55%;height:55%;
+  background:radial-gradient(circle,rgba(34,197,94,.18) 0%,transparent 68%);
+  border-radius:50%;top:-20%;right:-12%;
+  animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;
+  background:radial-gradient(circle,rgba(34,197,94,.12) 0%,transparent 70%);
+  border-radius:50%;bottom:-15%;left:-8%;
+  animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both;}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-body{animation:fUp .45s .2s ease both;}
+.slide.active .t-sm{animation:fUp .4s .24s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<div class="slide active"><div class="brand">Asunción School</div><div class="snum">3 · 1</div>
+  <p class="t-sm accent">Viernes 29 de mayo · 6.° Primaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">Me muevo en la<br><span class='accent'>computadora</span></h1>
+  <p class="t-body" style="margin-top:2%">Escritorio, ventanas y carpetas</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 2</div>
+  <h2 class="t-h1">¿Qué es el escritorio?</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Es la pantalla principal.</li><li>Tiene íconos.</li><li>Puede tener accesos a programas y archivos.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Comparar: escritorio físico ordenado vs desordenado</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 3</div>
+  <h2 class="t-h1">Íconos</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Son dibujitos que abren algo.</li><li>Pueden abrir programas.</li><li>Pueden abrir archivos o carpetas.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Señala un ícono y di qué crees que abre · Material M03-A</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 4</div>
+  <h2 class="t-h1">Ventanas</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Una ventana muestra un programa o archivo.</li><li>Puedo moverla.</li><li>Puedo cerrarla.</li><li>Puedo cambiar su tamaño.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Demo: abrir, minimizar, maximizar y cerrar · M03-A</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 5</div>
+  <h2 class="t-h1">Botones importantes</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1%">Cada botón tiene una función diferente</p>
+  <div class="cards" style="margin-top:2%"><div class="c3"><div class="big-em">➖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Minimizar</p><p class="t-sm" style="opacity:.8">Oculta la ventana, no la borra</p></div><div class="c3"><div class="big-em">⬜</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Maximizar</p><p class="t-sm" style="opacity:.8">Ocupa toda la pantalla</p></div><div class="c3"><div class="big-em">✕</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cerrar</p><p class="t-sm" style="opacity:.8">Termina esa ventana</p></div></div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Cuál uso si no quiero borrar pero sí ocultar?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 6</div>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Si quiero ocultar una ventana sin cerrarla, uso...</p>
+  <div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Cerrar</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Minimizar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Borrar</div>
+  </div>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 7</div>
+  <h2 class="t-h1">Carpetas</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Sirven para guardar archivos.</li><li>Ayudan a ordenar.</li><li>Tienen nombres.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Retoma la idea de mochila digital</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 8</div>
+  <h2 class="t-h1">Archivos</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1%">Un archivo puede ser muchas cosas</p>
+  <div class="cards" style="margin-top:2%"><div class="c"><div class="big-em">🖼️</div><p class="t-sm" style="margin-top:5%">Una imagen</p></div><div class="c"><div class="big-em">📄</div><p class="t-sm" style="margin-top:5%">Un documento</p></div><div class="c"><div class="big-em">🎵</div><p class="t-sm" style="margin-top:5%">Una canción</p></div><div class="c"><div class="big-em">🎥</div><p class="t-sm" style="margin-top:5%">Un video</p></div></div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Un video es archivo? ¿Una canción? ¿Una imagen?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 9</div>
+  <h2 class="t-h1">Crear una carpeta</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Clic derecho.</li><li>Nuevo.</li><li>Carpeta.</li><li>Poner nombre claro.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Demo guiada o simulación en pizarra · M03-A</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 10</div>
+  <h2 class="t-h1">Nombre claro</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal</p><ul class="list"><li>nueva carpeta</li><li>Carpeta 1</li><li>mis cosas</li></ul></div>
+    <div class="box" style="border-color:rgba(34,197,94,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Mejor</p><ul class="list"><li>Computacion_2026</li><li>Trabajos_Mayo</li><li>Clase_3</li></ul></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Reto: mejora nombres malos</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 11</div>
+  <h2 class="t-h1">Mover archivos</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Seleccionar.</li><li>Arrastrar.</li><li>Soltar en la carpeta correcta.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Juego con tarjetas: cada archivo va a su carpeta · M03-B</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 12</div>
+  <h2 class="t-h1">Papelera</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Sirve para borrar.</li><li>No es una carpeta para guardar.</li><li>Hay que usarla con cuidado.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Debo borrar archivos de otra persona?</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 13</div>
+  <h2 class="t-h1">IA y carpetas</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
+    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Prompt</p>
+    <ul class="list"><li>Dame 3 nombres simples para carpetas de Computación.</li></ul>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">No le des contraseñas ni subas archivos privados · M03-E</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 14</div>
+  <h2 class="t-h1">✏️ Actividad: mi escritorio ordenado</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Crea o dibuja 3 carpetas.</li><li>Ponles nombres claros.</li><li>Coloca 3 archivos imaginarios.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 10 min · Individual o parejas · M03-B, M03-D</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">3 · 15</div>
+  <h2 class="t-h1">🚀 Para recordar</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%"><div class="c3"><p class="t-sm">Escritorio limpio.</p></div><div class="c3"><p class="t-sm">Ventanas controladas.</p></div><div class="c3"><p class="t-sm">Carpetas claras.</p></div></div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: ¿qué botón uso para ocultar una ventana sin cerrarla?</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 15</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=15;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);
+initialized=true;
+</script>
+
+<!-- ── Remote sync (deck) ── -->
+<div id="room-badge" style="
+  position:fixed;bottom:52px;right:12px;z-index:200;
+  background:rgba(0,0,0,.82);border:2px solid #22c55e;
+  border-radius:12px;padding:.4rem 1rem;
+  font-family:monospace;font-size:1.2rem;font-weight:900;
+  color:#22c55e;letter-spacing:.22em;
+  backdrop-filter:blur(6px);pointer-events:none;
+  display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;
+    font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+(function(){
+  const API    = '/.netlify/functions/sync';
+  const OFFSET = 1;
+
+  function genCode() {
+    const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let s = '';
+    for (let i = 0; i < 4; i++) s += c[Math.floor(Math.random() * c.length)];
+    return s;
+  }
+
+  const ROOM = sessionStorage.getItem('deck-room') || genCode();
+  sessionStorage.setItem('deck-room', ROOM);
+  document.getElementById('room-code-display').textContent = ROOM;
+
+  let last = -999, busy = false;
+
+  async function poll() {
+    if (busy) return;
+    busy = true;
+    try {
+      const r = await fetch(API + '?room=' + ROOM + '&_=' + Date.now());
+      if (!r.ok) return;
+      const d = await r.json();
+      if (typeof d.slide === 'number' && d.slide >= 0 && d.slide !== last) {
+        last = d.slide;
+        goTo(d.slide + OFFSET);
+      }
+    } catch(e) {} finally { busy = false; }
+  }
+
+  setInterval(poll, 1500);
+  poll();
+})();
+</script>
+</body>
+</html>

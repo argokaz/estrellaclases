@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S3 · 4.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #c084fc;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#c084fc;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#c084fc;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
+  transition:border-color .2s;}
+.card.active{border-color:#c084fc;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#c084fc;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#c084fc;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #c084fc;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#c084fc;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #c084fc;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#c084fc;opacity:.9;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 3 · 4.° Secundaria</div>
+    <div class="tema">Portada APA básica: presentar bien tu trabajo</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header">
+    <span class="card-num">S3·2</span>
+    <span class="card-title">APA no es solo citas</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Reforzar que APA incluye formato, no solo referencias. Pero no abrumar con detalles.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mini conversación: ¿por qué un formato común ayuda a revisar trabajos?</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header">
+    <span class="card-num">S3·3</span>
+    <span class="card-title">Elementos de una portada escolar APA</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Aclarar: en colegio se adapta. No necesitan todos los elementos universitarios.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar lista y pedir cuál nunca debe faltar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header">
+    <span class="card-num">S3·4</span>
+    <span class="card-title">Título del trabajo</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El título es la primera señal de claridad. Dar ejemplos concretos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: mejorar un título flojo.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header">
+    <span class="card-num">S3·5</span>
+    <span class="card-title">Orden visual</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">APA no busca decoración. Si el colegio permite logo, usarlo con moderación.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Comparar portada seria vs portada saturada.</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S3·6</span>
+    <span class="card-title">Fuente y tamaño</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">En APA real hay reglas específicas, pero para esta clase basta formato básico escolar y legibilidad.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Preguntar: ¿por qué no usar una letra de fantasía?</p>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S3·7</span>
+    <span class="card-title">Márgenes y espaciado</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Usar lenguaje simple: la página debe respirar. No introducir demasiados números.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar visualmente dónde van los márgenes.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S3·8</span>
+    <span class="card-title">Mini quiz — Portada APA básica</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta B: Título y datos del trabajo. Reforzar función: identificar el trabajo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación rápida.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S3·9</span>
+    <span class="card-title">Primera página de contenido</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Después de portada, el contenido también debe verse ordenado.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar inicio malo vs inicio más claro.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S3·10</span>
+    <span class="card-title">Encabezados simples</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">APA usa niveles de encabezado, pero aquí se comienza con secciones básicas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Que ordenen las secciones en el orden correcto.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S3·11</span>
+    <span class="card-title">IA como apoyo de formato</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Integrar IA con cuidado. No pedirle que invente autor, colegio, fecha o fuentes.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿qué sí puede revisar una IA en una portada? Material M03-E.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header">
+    <span class="card-num">S3·12</span>
+    <span class="card-title">Prompt útil</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Prompt concreto y seguro. Ideal para integrarlo como bloque copiable.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Que lo adapten a su propio trabajo.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S3·13</span>
+    <span class="card-title">Actividad: crea una portada</span>
+    <span class="card-time">⏱ 12 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal. Puede hacerse en Docs/Word. Si no hay laboratorio, hacer boceto en papel.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Trabajo individual. Material M03-B.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header">
+    <span class="card-num">S3·14</span>
+    <span class="card-title">Checklist APA básico</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Checklist alineado con el producto. Sirve para revisión en parejas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Intercambio de portadas y revisión rápida. Material M03-D.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 13</span>
+  <button id="nnext" onclick="ngo(1)">▶</button>
+</div>
+
+<div class="sync-badge" id="sync-badge">📡 ···</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const total=13;
+let cur=0;
+
+function show(n){
+  cards.forEach((c,i)=>{
+    c.classList.toggle('active',i===n);
+    c.classList.toggle('open',i===n);
+    if(i===n)c.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+total;
+  document.getElementById('nprev').disabled=n===0;
+  document.getElementById('nnext').disabled=n===total-1;
+  push(n);
+}
+function ngo(d){show(Math.max(0,Math.min(total-1,cur+d)));}
+cards.forEach((c,i)=>c.querySelector('.card-header').addEventListener('click',()=>show(i)));
+show(0);
+
+(function(){
+  const API='/.netlify/functions/sync';
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-display').textContent=ROOM;
+  document.getElementById('sync-badge').textContent='📡 '+ROOM;
+
+  async function push(idx){
+    try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:idx})});}catch(e){}
+  }
+  window.push=push;
+})();
+</script>
+</body>
+</html>

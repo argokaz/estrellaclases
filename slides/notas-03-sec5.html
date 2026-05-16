@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S3 · 5.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #f87171;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#f87171;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#f87171;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
+  transition:border-color .2s;}
+.card.active{border-color:#f87171;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#f87171;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #f87171;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#f87171;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #f87171;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#f87171;opacity:.9;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 3 · 5.° Secundaria</div>
+    <div class="tema">APA avanzado: fuentes ordenadas y gestores básicos</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header">
+    <span class="card-num">S3·2</span>
+    <span class="card-title">¿Por qué APA avanzado?</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Para 5to, justificar el tema por uso futuro: instituto, universidad, trabajos de investigación.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mini conversación: ¿qué pasa si usas 10 fuentes y no las organizas?</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header">
+    <span class="card-num">S3·3</span>
+    <span class="card-title">Recordatorio rápido</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Reforzar base. Si una cita aparece en el texto, debe estar en referencias. Si está en referencias, debe haberse usado.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Preguntar: ¿qué problema hay si cito algo que no aparece al final?</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header">
+    <span class="card-num">S3·4</span>
+    <span class="card-title">Paráfrasis con cita</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Este es un punto clave para 5to. Cambiar palabras no elimina la cita.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que expliquen una frase simple con sus palabras.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header">
+    <span class="card-num">S3·5</span>
+    <span class="card-title">Cita directa</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">No entrar en detalles exhaustivos de número de página; pero sí introducir que cita directa requiere más precisión.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿por qué no conviene llenar todo de citas directas?</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S3·6</span>
+    <span class="card-title">Referencia completa</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Reforzar piezas. En web, puede ser institución, fecha, título y enlace. No todas las fuentes tienen autor personal.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar ejemplo simple.</p>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S3·7</span>
+    <span class="card-title">Fuentes web</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conectar con investigación digital. Un link pegado no basta si no se sabe quién lo publica.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mini reto: ¿qué revisarías antes de usar una web?</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S3·8</span>
+    <span class="card-title">Mini quiz — Parafrasear y citar</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta B: Citar igual. Parafrasear también requiere cita.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación rápida.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S3·9</span>
+    <span class="card-title">Gestores básicos</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Introduce gestor sin abrumar. Puede ser ZoteroBib, tabla manual o gestor de citas de Docs/Word.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿por qué una herramienta puede equivocarse?</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S3·10</span>
+    <span class="card-title">Opciones simples</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">No imponer herramienta. Para el colegio, empezar con tabla manual también es válido.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Explicar que empezar con tabla también es válido.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S3·11</span>
+    <span class="card-title">Tabla de fuentes</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Esta puede ser la opción más realista para colegio. Antes de automatizar, deben entender qué datos guardar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Crear ejemplo en pizarra. Material M03-B.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header">
+    <span class="card-num">S3·12</span>
+    <span class="card-title">IA y referencias</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Advertencia importante. No dejar que usen IA como generador ciego de referencias.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿cómo comprobarías que una fuente existe? Material M03-E.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S3·13</span>
+    <span class="card-title">Prompt útil</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Prompt seguro y muy útil para 5to. Evita alucinaciones porque prohíbe inventar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Que lo adapten a una fuente real o simulada.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header">
+    <span class="card-num">S3·14</span>
+    <span class="card-title">Actividad: arma tu mini gestor</span>
+    <span class="card-time">⏱ 12 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal. Si hay internet, usar fuentes reales confiables. Si no, entregar fuentes simuladas impresas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Trabajo individual o parejas. Materiales M03-B, M03-D.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 13</span>
+  <button id="nnext" onclick="ngo(1)">▶</button>
+</div>
+
+<div class="sync-badge" id="sync-badge">📡 ···</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const total=13;
+let cur=0;
+
+function show(n){
+  cards.forEach((c,i)=>{
+    c.classList.toggle('active',i===n);
+    c.classList.toggle('open',i===n);
+    if(i===n)c.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+total;
+  document.getElementById('nprev').disabled=n===0;
+  document.getElementById('nnext').disabled=n===total-1;
+  push(n);
+}
+function ngo(d){show(Math.max(0,Math.min(total-1,cur+d)));}
+cards.forEach((c,i)=>c.querySelector('.card-header').addEventListener('click',()=>show(i)));
+show(0);
+
+(function(){
+  const API='/.netlify/functions/sync';
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-display').textContent=ROOM;
+  document.getElementById('sync-badge').textContent='📡 '+ROOM;
+
+  async function push(idx){
+    try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:idx})});}catch(e){}
+  }
+  window.push=push;
+})();
+</script>
+</body>
+</html>

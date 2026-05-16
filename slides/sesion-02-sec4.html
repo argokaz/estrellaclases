@@ -44,6 +44,16 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .tag-green{color:#4ade80;font-weight:700;}
 .tag-yellow{color:#fbbf24;font-weight:700;}
 .tag-red{color:#f87171;font-weight:700;}
+/* quiz */
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(192,132,252,.25);border-color:#c084fc;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#c084fc;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
 /* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
@@ -69,8 +79,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
 .slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
 @keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
-.slide.enter-fwd{animation:eFwd .38s cubic-bezier(.25,.1,.25,1) both;}
-.slide.enter-back{animation:eBack .38s cubic-bezier(.25,.1,.25,1) both;}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.25,.1,.25,1) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.25,.1,.25,1) both;}
 @keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
 @keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
 .slide.active .t-super{animation:fUpBig .55s .05s ease both;}
@@ -87,10 +97,13 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -103,162 +116,132 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">2 · 1</div>
   <p class="t-sm accent">Viernes 22 de mayo · 4.° Secundaria</p>
   <div class="line"></div>
-  <h1 class="t-super">Usar IA sin<br><span class="accent">apagar</span><br>el cerebro 🧠</h1>
+  <h1 class="t-super">APA sin<br><span class='accent'>miedo</span></h1>
+  <p class="t-body" style="margin-top:2%">Citar para ser claro y honesto</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 2</div>
-  <h2 class="t-h1">Pensar antes de copiar</h2>
+  <h2 class="t-h1">APA no es castigo</h2>
   <div class="line"></div>
-  <p class="t-h2 accent" style="margin-top:2%;max-width:80%">"¿Copiar de la IA<br>es siempre malo<br>o depende?"</p>
-  <p class="t-body" style="margin-top:3%;opacity:.8">Debate rápido. Todos tienen razón en parte.</p>
+  <ul class="list"><li>Ayuda a ordenar trabajos.</li><li>Ayuda a reconocer fuentes.</li><li>Ayuda a que el lector confíe.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué pasa si alguien usa tu idea sin decir que era tuya?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 3</div>
-  <h2 class="t-h1">La IA responde rápido</h2>
+  <h2 class="t-h1">Idea clave: dar crédito</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box" style="border:1px solid rgba(192,132,252,.4)">
-      <p class="t-sm accent" style="font-weight:700">✅ Eso puede ayudar</p>
-      <p class="t-sm" style="margin-top:5%">Es rápida para dar ideas, resumir y explicar.</p>
-    </div>
-    <div class="box" style="border:1px solid rgba(248,113,113,.4)">
-      <p class="t-sm" style="color:#f87171;font-weight:700">⚠️ Pero...</p>
-      <p class="t-sm" style="margin-top:5%">Rápido <strong>no significa correcto</strong>. Puede inventar.</p>
-    </div>
+  <div class="highlight" style="margin-top:3%">
+    <p class="t-body">Si usas una idea de otra persona, debes decirlo.</p>
+    <p class="t-body accent" style="margin-top:1.5%;font-weight:700">Eso se llama <span class='accent'>citar</span>.</p>
   </div>
-  <p class="t-body" style="margin-top:3%">Da un ejemplo de una respuesta que suene bien pero esté mal.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Aplica a libros, páginas web, artículos, videos e informes</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 4</div>
-  <h2 class="t-h1">Cuando una respuesta<br>suena perfecta... 🤔</h2>
+  <h2 class="t-h1">Fuente no es solo Google</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">✅</div><p class="t-sm" style="margin-top:5%">Puede estar bien</p></div>
-    <div class="c"><div class="big-em">🧩</div><p class="t-sm" style="margin-top:5%">Puede estar incompleta</p></div>
-    <div class="c"><div class="big-em">🤥</div><p class="t-sm" style="margin-top:5%">Puede estar inventada</p></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">🔍 Google</p><ul class="list"><li>Ayuda a buscar.</li><li>No es la fuente.</li></ul></div>
+    <div class="box" style="border-color:rgba(192,132,252,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">📄 La fuente real</p><ul class="list"><li>La página, libro, video o artículo.</li><li>Donde realmente está la información.</li></ul></div>
   </div>
-  <p class="t-body" style="margin-top:3%">¿Cómo la verificarían?</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Si busco en Google y entro a la NASA, ¿cuál es la fuente?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 5</div>
-  <h2 class="t-h1">3 preguntas antes<br>de <span class="accent">creer</span></h2>
+  <h2 class="t-h1">Dos lugares importantes</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c3"><div class="big-em">🗣️</div><p class="pill" style="margin-top:5%">1</p><p class="t-sm" style="margin-top:5%">¿Quién lo dice?</p></div>
-    <div class="c3"><div class="big-em">📍</div><p class="pill" style="margin-top:5%">2</p><p class="t-sm" style="margin-top:5%">¿De dónde salió?</p></div>
-    <div class="c3"><div class="big-em">🤔</div><p class="pill" style="margin-top:5%">3</p><p class="t-sm" style="margin-top:5%">¿Tiene sentido?</p></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">📝 Cita en el texto</p><ul class="list"><li>Va cerca de la idea usada.</li><li>Dice de dónde viene.</li><li>Es una pista para el lector.</li></ul></div>
+    <div class="box" style="border-color:rgba(192,132,252,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">📚 Referencias al final</p><ul class="list"><li>Dirección completa de la fuente.</li><li>Autor, año, título, lugar.</li></ul></div>
   </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Repítenlo. Va a ser su checklist del año.</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Idea → cita → referencias</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 6</div>
-  <h2 class="t-h1">IA para mejorar,<br><span class="accent">no para mentir</span></h2>
+  <h2 class="t-h1">Cita en el texto</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">✏️</div><p class="t-sm" style="margin-top:5%">Mejora mi texto</p></div>
-    <div class="c"><div class="big-em">❓</div><p class="t-sm" style="margin-top:5%">Hazme preguntas</p></div>
-    <div class="c"><div class="big-em">🐛</div><p class="t-sm" style="margin-top:5%">Encuentra errores</p></div>
-    <div class="c"><div class="big-em">📚</div><p class="t-sm" style="margin-top:5%">Dame ejemplos</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Cuál usarías para estudiar para un examen?</p>
+  <ul class="list"><li>Va cerca de la idea usada.</li><li>Dice de dónde viene.</li><li>No tiene que ser enorme.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ejemplo: Según Pérez (2024)...</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 7</div>
-  <h2 class="t-h1" style="color:#f87171">Lo que no va 🚫</h2>
+  <h2 class="t-h1">Referencia al final</h2>
   <div class="line"></div>
-  <ul class="list" style="margin-top:2%">
-    <li>Inventar fuentes que no existen</li>
-    <li>Copiar trabajos completos</li>
-    <li>Poner datos privados en una IA</li>
-    <li>Hacerse pasar por otra persona</li>
-  </ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Semáforo: ¿verde, amarillo o rojo?</p>
+  <p class="t-body" style="margin-top:1%">Los datos que necesitas para una referencia</p>
+  <div class="cards" style="margin-top:2%"><div class="c"><div class="big-em">🙍</div><p class="t-sm" style="margin-top:5%">Autor o institución</p></div><div class="c"><div class="big-em">📅</div><p class="t-sm" style="margin-top:5%">Año</p></div><div class="c"><div class="big-em">📖</div><p class="t-sm" style="margin-top:5%">Título</p></div><div class="c"><div class="big-em">🔗</div><p class="t-sm" style="margin-top:5%">Lugar / URL</p></div></div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">La precisión completa se trabajará más adelante</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 8</div>
-  <h2 class="t-h1">Prompt flojo 😴</h2>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <div class="highlight" style="border-color:#f87171">
-    <p class="t-super" style="font-size:clamp(28px,4.5vw,70px);color:#f87171">"Hazme todo el trabajo"</p>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Decir «lo encontré en Google» es...</p>
+  <div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Una fuente completa</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Insuficiente</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Una cita APA perfecta</div>
   </div>
-  <p class="t-body" style="margin-top:3%">¿Qué falta aquí? Detecten el problema.</p>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 9</div>
-  <h2 class="t-h1">Prompt con<br><span class="accent">más cabeza</span> 💡</h2>
+  <h2 class="t-h1">Copiar, resumir y parafrasear</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-body accent">"Estoy en 4to de sec. Tengo esta idea. Hazme preguntas para mejorarla. <strong>No escribas el trabajo final.</strong>"</p>
-  </div>
-  <p class="t-body" style="margin-top:3%">Construyan una versión así juntos</p>
+  <ul class="list"><li>Copiar: mismas palabras.</li><li>Resumir: lo principal más corto.</li><li>Parafrasear: con tus palabras.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Explica una frase simple con tus propias palabras</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 10</div>
-  <h2 class="t-h1">Tu huella digital 👣</h2>
+  <h2 class="t-h1">Citar aunque use mis palabras</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">📸</div><p class="t-sm" style="margin-top:5%">Lo que publicas</p></div>
-    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">Lo que comentas</p></div>
-    <div class="c"><div class="big-em">🔁</div><p class="t-sm" style="margin-top:5%">Lo que compartes</p></div>
-    <div class="c"><div class="big-em">👁️</div><p class="t-sm" style="margin-top:5%">Lo que otros ven de ti</p></div>
+  <div class="highlight" style="margin-top:3%">
+    <p class="t-body">Si la idea vino de una fuente, se cita.</p>
+    <p class="t-body accent" style="margin-top:1.5%;font-weight:700">Aunque la escribas diferente.</p>
   </div>
-  <p class="t-body" style="margin-top:2%">¿Qué cosas de internet quedan aunque las <span class="accent">borres</span>?</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Parafrasear no elimina la cita</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 11</div>
-  <h2 class="t-h1">Caso: foto sin permiso</h2>
+  <h2 class="t-h1">IA y APA</h2>
   <div class="line"></div>
-  <div class="highlight" style="border-color:#f87171">
-    <p class="t-body">"Suben una foto graciosa de un compañero.<br>A muchos les da risa. A la persona no."</p>
-  </div>
-  <p class="t-body" style="margin-top:3%">¿Qué debieron haber hecho?</p>
+  <ul class="list"><li>La IA puede ayudar a ordenar.</li><li>Pero puede inventar fuentes.</li><li>Siempre debo revisar.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Por qué sería grave citar una fuente inventada?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 12</div>
-  <h2 class="t-h1">Caso: noticia viral</h2>
+  <h2 class="t-h1">Prompt útil</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-body">"Una noticia se comparte miles de veces. Nadie sabe de dónde salió. Todos opinan."</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
+    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Prompt</p>
+    <ul class="list"><li>Ayúdame a identificar qué datos necesito para citar esta fuente.</li><li>No inventes autores ni enlaces.</li></ul>
   </div>
-  <p class="t-body" style="margin-top:3%">Apliquen las <span class="accent">3 preguntas</span>:</p>
-  <div class="cards" style="margin-top:1.5%">
-    <div class="c"><p class="t-sm">¿Quién lo dice?</p></div>
-    <div class="c"><p class="t-sm">¿De dónde salió?</p></div>
-    <div class="c"><p class="t-sm">¿Tiene sentido?</p></div>
-  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Copia o adapta el prompt</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 13</div>
-  <h2 class="t-h1">Reglas del salón<br>para la IA</h2>
+  <h2 class="t-h1">✏️ Actividad: detective de fuentes</h2>
   <div class="line"></div>
-  <ul class="list" style="margin-top:2%">
-    <li>✅ Sí se puede usar para entender</li>
-    <li>✅ Sí se puede usar para mejorar</li>
-    <li>🔴 No se usa para copiar</li>
-    <li>🔍 Se revisa antes de entregar</li>
-    <li><span class="accent">+</span> El grupo agrega una regla propia</li>
-  </ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 6 minutos · Estas reglas quedan visibles el año</p>
+  <ul class="list"><li>Lee una fuente breve.</li><li>Encuentra autor o institución.</li><li>Encuentra año.</li><li>Encuentra título.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 12 min · Trabajo en parejas · Material M02-B</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 14</div>
-  <h2 class="t-h1">Una frase honesta ✍️</h2>
+  <h2 class="t-h1">Mapa APA simple</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-body accent">"Usé la IA para ordenar mis ideas. Revisé y escribí la versión final con <strong>mis palabras</strong>."</p>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">Dentro del texto</p><ul class="list"><li>Idea usada → cita en el texto.</li><li>Pista rápida para el lector.</li></ul></div>
+    <div class="box" style="border-color:rgba(192,132,252,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">Al final del trabajo</p><ul class="list"><li>Datos completos → referencias.</li><li>Dirección completa de la fuente.</li></ul></div>
   </div>
-  <p class="t-body" style="margin-top:3%">Escribe tu propia versión de esta declaración</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Dibuja el mapa en tu cuaderno</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 15</div>
-  <h2 class="t-h1">Para recordar 🧠</h2>
+  <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-h2">"Usar IA no es el problema."</p>
-    <p class="t-h2 accent" style="margin-top:3%">"El problema es usarla <strong>sin pensar</strong>."</p>
-  </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+  <div class="cards" style="margin-top:3%"><div class="c3"><p class="t-sm">APA sirve para ser claro.</p></div><div class="c3"><p class="t-sm">APA sirve para ser honesto.</p></div><div class="c3"><p class="t-sm">APA sirve para que otros revisen tus fuentes.</p></div></div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: escribe una razón por la que citar es importante.</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
 
 </div>
@@ -280,6 +263,13 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
 goTo(0);
 initialized=true;
 </script>
@@ -287,10 +277,10 @@ initialized=true;
 <!-- ── Remote sync (deck) ── -->
 <div id="room-badge" style="
   position:fixed;bottom:52px;right:12px;z-index:200;
-  background:rgba(0,0,0,.82);border:2px solid #a855f7;
+  background:rgba(0,0,0,.82);border:2px solid #c084fc;
   border-radius:12px;padding:.4rem 1rem;
   font-family:monospace;font-size:1.2rem;font-weight:900;
-  color:#a855f7;letter-spacing:.22em;
+  color:#c084fc;letter-spacing:.22em;
   backdrop-filter:blur(6px);pointer-events:none;
   display:flex;align-items:center;gap:.5rem">
   <span style="font-size:.8rem;letter-spacing:0;font-weight:600;
@@ -322,7 +312,6 @@ initialized=true;
       const r = await fetch(API + '?room=' + ROOM + '&_=' + Date.now());
       if (!r.ok) return;
       const d = await r.json();
-      // slide === -1 means notes haven't pushed yet → don't move
       if (typeof d.slide === 'number' && d.slide >= 0 && d.slide !== last) {
         last = d.slide;
         goTo(d.slide + OFFSET);

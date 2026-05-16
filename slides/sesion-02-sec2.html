@@ -44,6 +44,16 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .tag-green{color:#4ade80;font-weight:700;}
 .tag-yellow{color:#fbbf24;font-weight:700;}
 .tag-red{color:#f87171;font-weight:700;}
+/* quiz */
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(96,165,250,.25);border-color:#60a5fa;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#60a5fa;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
 /* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
@@ -69,8 +79,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
 .slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
 @keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
-.slide.enter-fwd{animation:eFwd .42s cubic-bezier(.25,.46,.45,.94) both;}
-.slide.enter-back{animation:eBack .42s cubic-bezier(.25,.46,.45,.94) both;}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.25,.46,.45,.94) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.25,.46,.45,.94) both;}
 @keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
 @keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
 .slide.active .t-super{animation:fUpBig .55s .05s ease both;}
@@ -87,10 +97,13 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -103,175 +116,120 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">2 · 1</div>
   <p class="t-sm accent">Viernes 22 de mayo · 2.° Secundaria</p>
   <div class="line"></div>
-  <h1 class="t-super">¿La tecnología<br>te controla o<br><span class="accent">tú la controlas</span>?</h1>
+  <h1 class="t-super">Mi trabajo escolar<br><span class='accent'>bien ordenado</span></h1>
+  <p class="t-body" style="margin-top:2%">Documento académico claro y ordenado</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 2</div>
-  <h2 class="t-h1">¿La tecnología<br>te controla a ti?</h2>
+  <h2 class="t-h1">No basta con escribir</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c"><div class="big-em">😤</div><p class="t-sm" style="margin-top:5%">Me ayuda<br>más</p></div>
-    <div class="c"><div class="big-em">📱</div><p class="t-sm" style="margin-top:5%">Me distrae<br>más</p></div>
-    <div class="c"><div class="big-em">🤔</div><p class="t-sm" style="margin-top:5%">Depende</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Vota con honestidad. No hay respuesta mala.</p>
+  <ul class="list"><li>También importa el orden.</li><li>También importa el título.</li><li>También importa cómo se lee.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué hace que un trabajo se vea desordenado?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 3</div>
-  <h2 class="t-h1">Tu día digital</h2>
+  <h2 class="t-h1">Partes de un trabajo escolar</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">▶️</div><p class="t-sm" style="margin-top:5%">Videos</p></div>
-    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">Chats</p></div>
-    <div class="c"><div class="big-em">🎮</div><p class="t-sm" style="margin-top:5%">Juegos</p></div>
-    <div class="c"><div class="big-em">📚</div><p class="t-sm" style="margin-top:5%">Tareas</p></div>
-  </div>
-  <p class="t-body" style="margin-top:2%">¿Cuánto de eso fue para <span class="accent">crear algo</span>?</p>
+  <ul class="list"><li>Título</li><li>Nombre y grado</li><li>Introducción</li><li>Desarrollo</li><li>Conclusión</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué parte suele faltar más?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 4</div>
-  <h2 class="t-h1">Mirar vs <span class="accent">Hacer</span></h2>
+  <h2 class="t-h1">Título claro</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box">
-      <p class="t-sm" style="color:#94a3b8;font-weight:700;margin-bottom:5%">👁️ Mirar (consumir)</p>
-      <ul class="list"><li>Ver contenido</li><li>Copiar</li><li>Usar lo que otros hicieron</li></ul>
-    </div>
-    <div class="box" style="border:1px solid rgba(96,165,250,.4)">
-      <p class="t-sm accent" style="font-weight:700;margin-bottom:5%">⚒️ Hacer (crear)</p>
-      <ul class="list"><li>Explicar con tus palabras</li><li>Hacer algo nuevo</li><li>Resolver un problema</li></ul>
-    </div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Qué podrías crear en Computación?</p>
+  <ul class="list"><li>Debe decir de qué trata.</li><li>No debe ser demasiado largo.</li><li>Debe verse primero.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ejemplo: «Trabajo» vs «Uso responsable de internet»</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 5</div>
-  <h2 class="t-h1">IA: ayuda rápida,<br><span class="accent">no respuesta perfecta</span></h2>
+  <h2 class="t-h1">Nombre, grado y fecha</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">✅</div><p class="t-sm" style="margin-top:5%">Puede explicar y resumir</p></div>
-    <div class="c"><div class="big-em">💡</div><p class="t-sm" style="margin-top:5%">Puede dar ideas</p></div>
-    <div class="c"><div class="big-em">⚠️</div><p class="t-sm" style="margin-top:5%">Puede equivocarse o inventar</p></div>
-  </div>
-  <p class="t-body" style="margin-top:3%">¿Qué harías si la IA dice algo <span class="accent">raro</span>?</p>
+  <ul class="list"><li>Ayuda a identificar el trabajo.</li><li>Evita confusiones.</li><li>Debe estar bien escrito.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué pasa si entregas un archivo sin nombre?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 6</div>
-  <h2 class="t-h1">3 formas <span class="accent">buenas</span><br>de usar la IA</h2>
+  <h2 class="t-h1">Párrafos cortos</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c3"><div class="big-em">🧠</div><p class="t-sm" style="margin-top:5%">Para <strong>entender</strong><br>un tema</p></div>
-    <div class="c3"><div class="big-em">💪</div><p class="t-sm" style="margin-top:5%">Para <strong>practicar</strong><br>con preguntas</p></div>
-    <div class="c3"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%">Para <strong>ordenar</strong><br>mis ideas</p></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Todo junto</p><ul class="list"><li>Un bloque gigante de texto.</li><li>Difícil de leer.</li></ul></div>
+    <div class="box" style="border-color:rgba(96,165,250,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Separado</p><ul class="list"><li>Una idea por párrafo.</li><li>Dejar espacios ayuda a leer.</li></ul></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Cuál prefieren leer y por qué?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 7</div>
-  <h2 class="t-h1">3 formas <span class="accent" style="color:#f87171">malas</span><br>de usar la IA</h2>
+  <h2 class="t-h1">Subtítulos</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c3" style="border-color:#f87171"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>Copiar</strong> todo sin leer</p></div>
-    <div class="c3" style="border-color:#f87171"><div class="big-em">🙈</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>No revisar</strong> lo que dice</p></div>
-    <div class="c3" style="border-color:#f87171"><div class="big-em">🎭</div><p class="t-sm" style="margin-top:5%;color:#f87171"><strong>Fingir</strong> que lo hiciste tú</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Por qué cada una es mala idea?</p>
+  <ul class="list"><li>Ordenan el contenido.</li><li>Ayudan a encontrar ideas.</li><li>Hacen que el trabajo se vea mejor.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Reto: pon subtítulos a un texto desordenado · Material M02-B</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 8</div>
-  <h2 class="t-h1">Prompt malo 😴</h2>
+  <h2 class="t-h1">Formato básico</h2>
   <div class="line"></div>
-  <div class="highlight" style="border-color:#f87171">
-    <p class="t-super" style="font-size:clamp(32px,5vw,80px);color:#f87171">"Hazme la tarea"</p>
-  </div>
-  <p class="t-body" style="margin-top:3%">¿Qué problema tiene este pedido?</p>
+  <p class="t-body" style="margin-top:1%">El formato no es decoración: ayuda a leer</p>
+  <div class="cards" style="margin-top:2%"><div class="c"><div class="big-em">🔤</div><p class="t-sm" style="margin-top:5%">Letra legible</p></div><div class="c"><div class="big-em">📐</div><p class="t-sm" style="margin-top:5%">Tamaño adecuado</p></div><div class="c"><div class="big-em">📄</div><p class="t-sm" style="margin-top:5%">Márgenes</p></div><div class="c"><div class="big-em">↔️</div><p class="t-sm" style="margin-top:5%">Alineación</p></div></div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Qué diferencia un doc saturado de uno ordenado?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 9</div>
-  <h2 class="t-h1">Prompt <span class="accent">mejor</span> 💡</h2>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <ul class="list">
-      <li>Explícame el tema</li>
-      <li>Dame ejemplos</li>
-      <li>Hazme preguntas para practicar</li>
-    </ul>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué ayuda más a leer un documento?</p>
+  <div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Todo en mayúsculas</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Párrafos y subtítulos</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Letra muy pequeña</div>
   </div>
-  <p class="t-body" style="margin-top:3%">Ahora tú: transforma el prompt malo en uno mejor</p>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 10</div>
-  <h2 class="t-h1">Datos privados 🔒</h2>
+  <h2 class="t-h1">Imágenes con sentido</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">🔑</div><p class="t-sm" style="margin-top:5%">Contraseñas</p></div>
-    <div class="c"><div class="big-em">🪪</div><p class="t-sm" style="margin-top:5%">DNI</p></div>
-    <div class="c"><div class="big-em">📞</div><p class="t-sm" style="margin-top:5%">Teléfono</p></div>
-    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">Chats<br>privados</p></div>
-  </div>
-  <p class="t-body" style="margin-top:2%">¿Cuáles son <span class="accent">públicos</span> y cuáles son <span style="color:#f87171">privados</span>?</p>
+  <ul class="list"><li>No poner imágenes por llenar espacio.</li><li>Deben ayudar a entender.</li><li>Mejor si tienen título o explicación.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Cuándo una imagen ayuda y cuándo distrae?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 11</div>
-  <h2 class="t-h1">Caso: tarea con IA</h2>
+  <h2 class="t-h1">IA para ordenar un texto</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box" style="border:1px solid rgba(96,165,250,.5)">
-      <p class="t-sm accent" style="font-weight:700">👩‍🎓 Ana</p>
-      <p class="t-sm" style="margin-top:5%">Usa la IA para entender el tema. Escribe el trabajo con sus propias palabras.</p>
-    </div>
-    <div class="box" style="border:1px solid rgba(248,113,113,.4)">
-      <p class="t-sm" style="color:#f87171;font-weight:700">👦 Luis</p>
-      <p class="t-sm" style="margin-top:5%">Copia todo lo que dice la IA y lo entrega sin leerlo.</p>
-    </div>
-  </div>
-  <p class="t-body" style="margin-top:3%">¿Quién <span class="accent">aprende más</span>?</p>
+  <ul class="list"><li>Puede sugerir subtítulos.</li><li>Puede revisar claridad.</li><li>Puede hacer preguntas.</li><li>No debe escribir todo por mí.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">La IA ayuda a ordenar, no a hacer todo</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 12</div>
-  <h2 class="t-h1">Caso: captura de pantalla</h2>
+  <h2 class="t-h1">Prompt útil</h2>
   <div class="line"></div>
-  <div class="highlight" style="border-color:#f87171">
-    <p class="t-body">"Alguien comparte una conversación privada en un grupo de WhatsApp"</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
+    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Prompt</p>
+    <ul class="list"><li>Estoy en 2do de secundaria.</li><li>Ayúdame a ordenar este texto con subtítulos.</li><li>No cambies mis ideas principales.</li></ul>
   </div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c" style="border-color:#4ade80"><p class="tag-green t-sm">🟢 ¿Está bien?</p></div>
-    <div class="c" style="border-color:#fbbf24"><p class="tag-yellow t-sm">🟡 ¿Hay que tener cuidado?</p></div>
-    <div class="c" style="border-color:#f87171"><p class="tag-red t-sm">🔴 ¿No se debe hacer?</p></div>
-  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Adapta el prompt a tu tema escolar</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 13</div>
-  <h2 class="t-h1">⚡ Mini reto:<br>Arregla el prompt</h2>
+  <h2 class="t-h1">✏️ Actividad: ordena el documento</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%">Tema: <span class="accent">contaminación</span></p>
-  <div class="highlight" style="border-color:#f87171;margin-top:2%">
-    <p class="t-body" style="color:#f87171">Prompt malo: "Hazme mi exposición sobre contaminación"</p>
-  </div>
-  <p class="t-body" style="margin-top:3%">Escribe un prompt <span class="accent">mejor</span> en tu cuaderno</p>
-  <p class="t-sm" style="margin-top:1%;opacity:.7">⏱ 7 minutos · Puedes hacerlo en parejas</p>
+  <ul class="list"><li>Pon un título claro.</li><li>Agrega subtítulos.</li><li>Separa párrafos.</li><li>Revisa nombre y fecha.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 12 min · Individual o parejas en Docs / Word · Material M02-B</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 14</div>
-  <h2 class="t-h1">Mis reglas para<br>usar la IA</h2>
+  <h2 class="t-h1">Checklist antes de entregar</h2>
   <div class="line"></div>
-  <ul class="list" style="margin-top:2%">
-    <li>La uso para entender, no para copiar</li>
-    <li>Reviso lo que dice antes de usarlo</li>
-    <li>No pongo mis datos privados</li>
-    <li>Agrego mi regla extra: <span class="accent">_______________</span></li>
-  </ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 6 minutos · Elige 3 reglas personales</p>
+  <ul class="list"><li>¿Tiene título?</li><li>¿Tiene nombre?</li><li>¿Se lee fácil?</li><li>¿Está ordenado?</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Revisa tu trabajo con esta lista</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 15</div>
-  <h2 class="t-h1">Para llevar 🎒</h2>
+  <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-h2 accent">"No se trata de usar<br>menos tecnología."</p>
-    <p class="t-h2" style="margin-top:3%">"Se trata de <span class="accent">usarla mejor</span>."</p>
-  </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+  <div class="cards" style="margin-top:3%"><div class="c3"><p class="t-sm">Un buen documento no grita.</p></div><div class="c3"><p class="t-sm">Un buen documento guía al lector.</p></div><div class="c3"><p class="t-sm">Ordenar también es comunicar.</p></div></div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: escribe una regla para que un documento se vea ordenado.</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
 
 </div>
@@ -293,6 +251,13 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
 goTo(0);
 initialized=true;
 </script>
@@ -300,10 +265,10 @@ initialized=true;
 <!-- ── Remote sync (deck) ── -->
 <div id="room-badge" style="
   position:fixed;bottom:52px;right:12px;z-index:200;
-  background:rgba(0,0,0,.82);border:2px solid #3b82f6;
+  background:rgba(0,0,0,.82);border:2px solid #60a5fa;
   border-radius:12px;padding:.4rem 1rem;
   font-family:monospace;font-size:1.2rem;font-weight:900;
-  color:#3b82f6;letter-spacing:.22em;
+  color:#60a5fa;letter-spacing:.22em;
   backdrop-filter:blur(6px);pointer-events:none;
   display:flex;align-items:center;gap:.5rem">
   <span style="font-size:.8rem;letter-spacing:0;font-weight:600;
@@ -335,7 +300,6 @@ initialized=true;
       const r = await fetch(API + '?room=' + ROOM + '&_=' + Date.now());
       if (!r.ok) return;
       const d = await r.json();
-      // slide === -1 means notes haven't pushed yet → don't move
       if (typeof d.slide === 'number' && d.slide >= 0 && d.slide !== last) {
         last = d.slide;
         goTo(d.slide + OFFSET);

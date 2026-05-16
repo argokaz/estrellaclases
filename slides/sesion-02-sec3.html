@@ -44,6 +44,16 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .tag-green{color:#4ade80;font-weight:700;}
 .tag-yellow{color:#fbbf24;font-weight:700;}
 .tag-red{color:#f87171;font-weight:700;}
+/* quiz */
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(251,146,60,.25);border-color:#fb923c;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#fb923c;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
 /* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
@@ -69,8 +79,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
 .slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
 @keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
-.slide.enter-fwd{animation:eFwd .44s cubic-bezier(.22,.68,0,1.2) both;}
-.slide.enter-back{animation:eBack .44s cubic-bezier(.22,.68,0,1.2) both;}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.22,.68,0,1.2) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.22,.68,0,1.2) both;}
 @keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
 @keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
 .slide.active .t-super{animation:fUpBig .55s .05s ease both;}
@@ -87,10 +97,13 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -103,178 +116,120 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">2 · 1</div>
   <p class="t-sm accent">Viernes 22 de mayo · 3.° Secundaria</p>
   <div class="line"></div>
-  <h1 class="t-super">De mirar<br>a <span class="accent">hacer</span> 🛠️</h1>
-  <p class="t-body" style="margin-top:2%">Usar tecnología para hacer algo propio</p>
+  <h1 class="t-super">Tablas que<br><span class='accent'>se entienden</span></h1>
+  <p class="t-body" style="margin-top:2%">Datos bien ordenados en Sheets</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 2</div>
-  <h2 class="t-h1">¿Qué han <span class="accent">creado</span><br>con tecnología?</h2>
+  <h2 class="t-h1">¿Qué es un dato?</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">🎨</div><p class="t-sm" style="margin-top:5%">Un diseño</p></div>
-    <div class="c"><div class="big-em">📝</div><p class="t-sm" style="margin-top:5%">Un texto</p></div>
-    <div class="c"><div class="big-em">🎬</div><p class="t-sm" style="margin-top:5%">Un video</p></div>
-    <div class="c"><div class="big-em">📊</div><p class="t-sm" style="margin-top:5%">Una presentación</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Voluntarios al frente. Cuenten qué fue.</p>
+  <ul class="list"><li>Un número.</li><li>Un nombre.</li><li>Una fecha.</li><li>Una respuesta.</li><li>Una categoría.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Da 3 ejemplos de datos sin información sensible</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 3</div>
-  <h2 class="t-h1">Mirar enseña...<br><span class="accent">pero no basta</span></h2>
+  <h2 class="t-h1">Una tabla es una lista ordenada</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box">
-      <p class="t-sm" style="color:#94a3b8;font-weight:700;margin-bottom:5%">✅ Sirve</p>
-      <ul class="list"><li>Ver tutoriales puede ayudar</li><li>Buscar ideas puede inspirar</li></ul>
-    </div>
-    <div class="box" style="border:1px solid rgba(251,146,60,.4)">
-      <p class="t-sm accent" style="font-weight:700;margin-bottom:5%">Pero...</p>
-      <ul class="list"><li>El trabajo final debe ser tuyo</li><li>Tutorial visto ≠ proyecto hecho</li></ul>
-    </div>
-  </div>
+  <ul class="list"><li>Filas: registros.</li><li>Columnas: tipos de información.</li><li>Encabezados: nombres de columnas.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Dónde han visto tablas?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 4</div>
-  <h2 class="t-h1">¿Qué podemos<br>crear en Computación?</h2>
+  <h2 class="t-h1">Encabezados claros</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">🖼️</div><p class="t-sm" style="margin-top:5%">Infografías</p></div>
-    <div class="c"><div class="big-em">📊</div><p class="t-sm" style="margin-top:5%">Presentaciones</p></div>
-    <div class="c"><div class="big-em">📹</div><p class="t-sm" style="margin-top:5%">Mini videos</p></div>
-    <div class="c"><div class="big-em">🌐</div><p class="t-sm" style="margin-top:5%">Páginas simples</p></div>
-  </div>
-  <p class="t-body" style="margin-top:2%">¿Cuál te gustaría <span class="accent">hacer</span>?</p>
+  <p class="t-body" style="margin-top:1%">Los encabezados son la clave de una buena tabla</p>
+  <div class="cards" style="margin-top:2%"><div class="c"><div class="big-em">🙍</div><p class="t-sm" style="margin-top:5%">Nombre</p></div><div class="c"><div class="big-em">📅</div><p class="t-sm" style="margin-top:5%">Fecha</p></div><div class="c"><div class="big-em">📚</div><p class="t-sm" style="margin-top:5%">Curso favorito</p></div><div class="c"><div class="big-em">🔢</div><p class="t-sm" style="margin-top:5%">Puntaje</p></div></div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Mejora estos: cosa, dato1, info · Material M02-A</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 5</div>
-  <h2 class="t-h1">La IA como apoyo</h2>
+  <h2 class="t-h1">Una columna, un tipo de dato</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%">Me ayuda a <strong>ordenar</strong></p></div>
-    <div class="c"><div class="big-em">💡</div><p class="t-sm" style="margin-top:5%">Me da <strong>ideas</strong></p></div>
-    <div class="c"><div class="big-em">❓</div><p class="t-sm" style="margin-top:5%">Me hace <strong>preguntas</strong></p></div>
-    <div class="c"><div class="big-em">✨</div><p class="t-sm" style="margin-top:5%">Me ayuda a <strong>mejorar</strong></p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Da un ejemplo de cada uso</p>
+  <ul class="list"><li>No mezcles todo.</li><li>Una columna para nombres.</li><li>Una columna para fechas.</li><li>Una columna para números.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">No pongas: Juan - 14 - fútbol en una sola celda</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 6</div>
-  <h2 class="t-h1">La IA no debe<br>hacer <span class="accent">todo</span> por mí</h2>
+  <h2 class="t-h1">Filas ordenadas</h2>
   <div class="line"></div>
-  <ul class="list" style="margin-top:2%">
-    <li>Si copia por mí, <strong>no aprendo</strong></li>
-    <li>Si no entiendo lo que dice, <strong>no me sirve</strong></li>
-    <li>Si no reviso, <strong>puedo equivocarme</strong></li>
-  </ul>
-  <p class="t-body" style="margin-top:3%">¿Alguna vez una app les dio una <span class="accent">respuesta rara</span>?</p>
+  <ul class="list"><li>Cada fila representa un registro.</li><li>Una persona, una respuesta o un producto.</li><li>No saltar filas sin razón.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Si hago una encuesta, ¿qué representa cada fila?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 7</div>
-  <h2 class="t-h1">Idea desordenada<br>→ Idea <span class="accent">clara</span></h2>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box" style="border:1px solid rgba(248,113,113,.4)">
-      <p class="t-sm" style="color:#f87171;font-weight:700">😵 Desordenada</p>
-      <p class="t-sm" style="margin-top:5%">"Quiero hacer algo de videojuegos"</p>
-    </div>
-    <div class="box" style="border:1px solid rgba(251,146,60,.6)">
-      <p class="t-sm accent" style="font-weight:700">✅ Clara</p>
-      <p class="t-sm" style="margin-top:5%">"Quiero explicar cómo jugar menos horas y organizar mejor el tiempo"</p>
-    </div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">En una encuesta simple, cada fila suele ser...</p>
+  <div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Una pregunta</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Una respuesta / persona</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Un color</div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">¿Pueden aclarar estas ideas? · Actividad en parejas</p>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 8</div>
-  <h2 class="t-h1">Cómo pedir<br>ayuda a una IA</h2>
+  <h2 class="t-h1">Tabla limpia</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><p class="pill">1</p><p class="t-sm" style="margin-top:5%">Dile <strong>el tema</strong></p></div>
-    <div class="c"><p class="pill">2</p><p class="t-sm" style="margin-top:5%">Dile <strong>tu grado</strong></p></div>
-    <div class="c"><p class="pill">3</p><p class="t-sm" style="margin-top:5%">Dile <strong>qué necesitas</strong></p></div>
-    <div class="c"><p class="pill">4</p><p class="t-sm" style="margin-top:5%">Pídele que <strong>no haga todo</strong></p></div>
-  </div>
+  <ul class="list"><li>Sin celdas vacías raras.</li><li>Sin nombres duplicados por error.</li><li>Sin mezclar texto y número.</li><li>Sin títulos en medio.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué error encuentras primero?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 9</div>
-  <h2 class="t-h1">Prompt útil ✅</h2>
+  <h2 class="t-h1">Tabla mal hecha vs tabla mejor</h2>
   <div class="line"></div>
-  <div class="highlight">
-    <p class="t-body accent">"Estoy en 3ro de secundaria. Quiero hacer una infografía sobre hábitos de estudio. Dame ideas y preguntas, <strong>no el trabajo completo</strong>."</p>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal hecha</p><ul class="list"><li>Nombre y edad juntos.</li><li>Columnas sin título.</li><li>Datos mezclados.</li><li>Filas vacías.</li></ul></div>
+    <div class="box" style="border-color:rgba(251,146,60,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Tabla mejor</p><ul class="list"><li>Nombre | Edad | Curso | Puntaje</li><li>Cada dato en su lugar.</li><li>Encabezados claros.</li></ul></div>
   </div>
-  <p class="t-body" style="margin-top:3%">¿Qué partes del prompt hacen que funcione?</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Material M02-B</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 10</div>
-  <h2 class="t-h1">Cuidado con<br>lo privado 🔒</h2>
+  <h2 class="t-h1">¿Por qué ordenar bien?</h2>
   <div class="line"></div>
-  <ul class="list" style="margin-top:2%">
-    <li>No subas datos privados a ninguna app</li>
-    <li>No uses fotos de otros sin permiso</li>
-    <li>No compartas chats privados</li>
-    <li>No publiques cosas que podrían meterte en problemas</li>
-  </ul>
-  <p class="t-body" style="margin-top:3%">¿Qué cosas <span class="accent">no deberían</span> estar en internet?</p>
+  <ul class="list"><li>Permite filtrar y ordenar datos.</li><li>Permite usar fórmulas después.</li><li>Permite graficar fácilmente.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Una buena tabla es más útil</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 11</div>
-  <h2 class="t-h1">¿Sirve o no sirve? 🎯</h2>
+  <h2 class="t-h1">IA y tablas</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><p class="t-body">1</p><p class="t-sm" style="margin-top:5%">"Uso IA para sacar ideas para mi proyecto"</p></div>
-    <div class="c"><p class="t-body">2</p><p class="t-sm" style="margin-top:5%">"Copio todo lo que dice la IA y lo entrego"</p></div>
-    <div class="c"><p class="t-body">3</p><p class="t-sm" style="margin-top:5%">"Reviso la respuesta y la escribo con mis palabras"</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">👍 Sirve / 👎 No sirve / 🤔 Depende</p>
+  <ul class="list"><li>Puede sugerir columnas.</li><li>Puede ordenar ideas.</li><li>Puede revisar si falta algo.</li><li>No debe inventar datos.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">¿Qué sí podrías pedirle a una IA antes de crear una tabla?</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 12</div>
-  <h2 class="t-h1">✍️ Actividad:<br>Mejora una idea</h2>
+  <h2 class="t-h1">Prompt útil</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">🎮</div><p class="t-sm" style="margin-top:5%">Videojuegos</p></div>
-    <div class="c"><div class="big-em">🌿</div><p class="t-sm" style="margin-top:5%">Medio ambiente</p></div>
-    <div class="c"><div class="big-em">🎵</div><p class="t-sm" style="margin-top:5%">Música</p></div>
-    <div class="c"><div class="big-em">🐾</div><p class="t-sm" style="margin-top:5%">Mascotas</p></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
+    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Prompt</p>
+    <ul class="list"><li>Quiero hacer una tabla sobre hábitos de estudio.</li><li>Sugiere columnas simples.</li><li>No inventes respuestas.</li></ul>
   </div>
-  <p class="t-body" style="margin-top:2%">Elige un tema y <span class="accent">hazlo más claro</span></p>
-  <p class="t-sm" style="margin-top:1%;opacity:.7">⏱ 8 minutos · Individual o parejas</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Adapta el prompt a otro tema</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 13</div>
-  <h2 class="t-h1">Mi idea clara 📋</h2>
+  <h2 class="t-h1">✏️ Actividad: crea una tabla limpia</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%">Completa la ficha:</p>
-  <div class="cards" style="margin-top:2%">
-    <div class="c"><p class="t-sm">Mi tema es <span class="accent">___</span></p></div>
-    <div class="c"><p class="t-sm">Quiero explicar <span class="accent">___</span></p></div>
-    <div class="c"><p class="t-sm">Lo presentaré como <span class="accent">___</span></p></div>
-    <div class="c"><p class="t-sm">La IA me puede ayudar a <span class="accent">___</span></p></div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 8 minutos · Esta ficha sirve para el año</p>
+  <ul class="list"><li>Tema: encuesta de gustos del salón.</li><li>Columnas claras.</li><li>Una fila de ejemplo.</li><li>Sin datos privados.</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 12 min · Trabajo en parejas en Sheets · Material M02-B</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 14</div>
-  <h2 class="t-h1">Compartimos ideas 🗣️</h2>
+  <h2 class="t-h1">Revisión rápida</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c"><div class="big-em">🙋</div><p class="t-sm" style="margin-top:5%">Una idea por voluntario</p></div>
-    <div class="c"><div class="big-em">💬</div><p class="t-sm" style="margin-top:5%">El grupo puede sugerir mejoras</p></div>
-    <div class="c"><div class="big-em">😊</div><p class="t-sm" style="margin-top:5%">Sin burlas</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Las ideas iniciales siempre se pueden mejorar</p>
+  <ul class="list"><li>¿Cada columna tiene nombre?</li><li>¿Cada columna tiene un tipo de dato?</li><li>¿Hay datos mezclados?</li><li>¿Se entiende la tabla?</li></ul>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Intercambio de tablas entre parejas</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">2 · 15</div>
-  <h2 class="t-h1">Para recordar 🧠</h2>
+  <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:3%">
-    <div class="c3"><div class="big-em">🔍</div><p class="t-sm" style="margin-top:5%">No basta con buscar</p></div>
-    <div class="c3"><div class="big-em">📋</div><p class="t-sm" style="margin-top:5%">No basta con copiar</p></div>
-    <div class="c3"><div class="big-em">💡</div><p class="t-sm" style="margin-top:5%">La meta es entender y crear algo propio</p></div>
-  </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.6">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+  <div class="cards" style="margin-top:3%"><div class="c3"><p class="t-sm">Una buena tabla no es más bonita.</p></div><div class="c3"><p class="t-sm">Una buena tabla es más útil.</p></div><div class="c3"><p class="t-sm">Si ordeno bien, después puedo calcular y graficar.</p></div></div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: escribe dos columnas para una encuesta sobre hábitos de estudio.</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
 
 </div>
@@ -296,6 +251,13 @@ document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
 goTo(0);
 initialized=true;
 </script>
@@ -303,10 +265,10 @@ initialized=true;
 <!-- ── Remote sync (deck) ── -->
 <div id="room-badge" style="
   position:fixed;bottom:52px;right:12px;z-index:200;
-  background:rgba(0,0,0,.82);border:2px solid #f97316;
+  background:rgba(0,0,0,.82);border:2px solid #fb923c;
   border-radius:12px;padding:.4rem 1rem;
   font-family:monospace;font-size:1.2rem;font-weight:900;
-  color:#f97316;letter-spacing:.22em;
+  color:#fb923c;letter-spacing:.22em;
   backdrop-filter:blur(6px);pointer-events:none;
   display:flex;align-items:center;gap:.5rem">
   <span style="font-size:.8rem;letter-spacing:0;font-weight:600;
@@ -338,7 +300,6 @@ initialized=true;
       const r = await fetch(API + '?room=' + ROOM + '&_=' + Date.now());
       if (!r.ok) return;
       const d = await r.json();
-      // slide === -1 means notes haven't pushed yet → don't move
       if (typeof d.slide === 'number' && d.slide >= 0 && d.slide !== last) {
         last = d.slide;
         goTo(d.slide + OFFSET);

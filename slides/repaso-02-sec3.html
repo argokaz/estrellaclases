@@ -5,554 +5,571 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Repaso S02 — 3.° Secundaria | Asunción School</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
-  :root {
-    --brand:   #1e3a8a;
-    --accent:  #2563eb;
-    --gold:    #b45309;
-    --green:   #166534;
-    --red:     #991b1b;
-    --text:    #1e293b;
-    --muted:   #64748b;
-    --border:  #e2e8f0;
-    --bg-alt:  #f8fafc;
-    --radius:  10px;
-  }
+:root {
+  --brand:  #1e3a8a; --accent: #2563eb; --accent2: #7c3aed;
+  --gold:   #b45309; --green-ok: #15803d; --red-err: #b91c1c;
+  --text:   #1e293b; --muted:   #64748b; --dim: #94a3b8;
+  --border: #e2e8f0; --bg-alt:  #f8fafc; --bg-quiz: #f0f4ff;
+  --radius: 10px;
+  --ok-bg:  #dcfce7; --ok-border: #86efac; --ok-text: #15803d;
+  --err-bg: #fee2e2; --err-border:#fca5a5; --err-text: #b91c1c;
+  --hint-bg:#fef9c3; --hint-border:#fde047; --hint-text:#713f12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fff;line-height:1.6}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent);text-decoration:none}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HEADER ── */
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.doc-header .school{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.doc-header .teacher{font-size:13px;font-weight:700;color:var(--brand);margin-top:2px}
+.doc-header .doc-meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: #fff;
-    line-height: 1.6;
-  }
+/* ── SCORE BAR ── */
+.score-bar{display:flex;align-items:center;gap:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+.score-bar span{font-size:13px;color:var(--muted)}
+.score-display{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand)}
+.score-bar .reset-btn{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12px;transition:all .15s}
+.score-bar .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.progress-track{flex:1;min-width:80px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;width:0%}
 
-  /* ── PORTADA / ENCABEZADO ── */
-  .doc-header {
-    border-bottom: 3px solid var(--brand);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
-  }
-  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
-  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
-  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+/* ── SECTION HEADERS ── */
+.section{margin-bottom:26px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-  .doc-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--brand);
-    margin-bottom: 4px;
-  }
-  .doc-subtitle {
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 28px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:10px 13px}
+.concept-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.concept-card p{font-size:13px}
 
-  /* ── SECCIONES ── */
-  .section {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--brand);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--accent);
-    display: flex; align-items: center; gap: 8px;
-  }
+/* ── GLOSSARY ── */
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gloss-item{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
+.gloss-item b{color:var(--brand)}
 
-  /* ── RESUMEN ── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .concept-card {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 10px 13px;
-  }
-  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
-  .concept-card p { font-size: 13px; color: var(--text); }
+/* ── EXERCISE WRAPPER ── */
+.exercise{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.exercise-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;border-radius:5px;padding:2px 8px;margin-bottom:8px}
+.exercise h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.exercise p,.exercise li{font-size:13px}
 
-  /* ── GLOSARIO ── */
-  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .gloss-item {
-    background: var(--bg-alt);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-  }
-  .gloss-item b { color: var(--brand); }
+/* ── CLASSIFICATION EXERCISE ── */
+.classify-table{width:100%;border-collapse:collapse}
+.classify-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.classify-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.classify-row.answered-ok td:first-child{color:var(--ok-text);font-weight:600}
+.classify-row.answered-err td:first-child{color:var(--err-text)}
+.cls-btns{display:flex;gap:6px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:all .15s;cursor:pointer}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.75}
+.cls-result{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
+.cls-result.ok{background:var(--ok-bg);color:var(--ok-text);display:inline-block}
+.cls-result.err{background:var(--err-bg);color:var(--err-text);display:inline-block}
 
-  /* ── EJERCICIOS ── */
-  .exercise {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .exercise-num {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700; font-size: 11px;
-    border-radius: 5px;
-    padding: 2px 8px;
-    margin-bottom: 8px;
-  }
-  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
-  .exercise ul, .exercise ol { padding-left: 18px; }
-  .exercise li { margin-bottom: 4px; }
-  .answer-line {
-    display: block;
-    border-bottom: 1px solid #94a3b8;
-    height: 24px;
-    margin: 6px 0;
-    width: 100%;
-  }
-  .answer-box {
-    border: 1px solid #94a3b8;
-    border-radius: 6px;
-    min-height: 56px;
-    width: 100%;
-    margin-top: 8px;
-  }
+/* ── TRUE / FALSE ── */
+.tf-table{width:100%;border-collapse:collapse}
+.tf-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.tf-row td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.tf-btns{display:flex;gap:6px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 14px;font-size:13px;font-weight:700;transition:all .15s;cursor:pointer}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.7}
 
-  /* ── QUIZ ── */
-  .quiz-item {
-    margin-bottom: 16px;
-    page-break-inside: avoid;
-  }
-  .quiz-item .q {
-    font-weight: 600; font-size: 13.5px;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
-  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
-  .options li {
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .options li::before {
-    content: '';
-    display: inline-block;
-    width: 15px; height: 15px;
-    border: 1.5px solid #94a3b8;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+/* ── ORDERING ── */
+.order-items{display:flex;flex-direction:column;gap:6px}
+.order-item{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
+.order-item:hover:not(.locked){border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.selected{border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.correct{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-text);font-weight:600}
+.order-item.wrong{border-color:var(--err-border);background:var(--err-bg);color:var(--err-text)}
+.order-num{width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-item.correct .order-num{background:var(--ok-border);color:var(--ok-text)}
+.order-item.wrong .order-num{background:var(--err-border);color:var(--err-text)}
 
-  /* ── CLAVE DE RESPUESTAS ── */
-  .answer-key {
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-top: 8px;
-  }
-  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .answer-pill {
-    background: #fff;
-    border: 1px solid #86efac;
-    border-radius: 6px;
-    padding: 5px 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+/* ── TEXTAREA + MODEL ── */
+.input-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;color:var(--text)}
+.input-area:focus{border-color:var(--accent)}
+.short-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;color:var(--text);background:#fff}
+.short-input:focus{border-color:var(--accent)}
+.model-toggle{margin-top:8px;background:transparent;border:1.5px solid var(--hint-border);color:var(--hint-text);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
+.model-toggle:hover{background:var(--hint-bg)}
+.model-answer{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-text);line-height:1.6}
+.model-answer.visible{display:block}
+.model-answer strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 
-  /* ── EVALUACIÓN ── */
-  .eval-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .eval-table th {
-    background: var(--brand);
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .eval-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
-  .score-box {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    margin-top: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .score-box span { font-size: 13px; color: var(--muted); }
-  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+/* ── VERIFY BUTTON ── */
+.verify-btn{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:700;transition:opacity .15s}
+.verify-btn:hover{opacity:.85}
+.verify-btn:disabled{opacity:.45;cursor:default}
 
-  /* ── IMPRIMIR ── */
-  @media print {
-    body { font-size: 13px; }
-    .page-break { page-break-before: always; }
-    .no-break { page-break-inside: avoid; }
-    @page { margin: 18mm 20mm; }
-  }
+/* ── QUIZ ── */
+.quiz-item{margin-bottom:16px;padding:12px 14px;background:var(--bg-quiz);border:1px solid #c7d2fe;border-radius:var(--radius)}
+.quiz-item.answered-ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.quiz-item.answered-err{background:var(--err-bg);border-color:var(--err-border)}
+.q{font-weight:600;font-size:13.5px;margin-bottom:8px}
+.q span{color:var(--accent);margin-right:4px}
+.answered-ok .q span{color:var(--ok-text)}
+.answered-err .q span{color:var(--err-text)}
+.quiz-options{list-style:none;display:flex;flex-direction:column;gap:5px}
+.quiz-options li{font-size:13px;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s}
+.quiz-options li:hover:not(.locked){border-color:var(--accent);background:#eff6ff}
+.quiz-options li.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);font-weight:600;cursor:default}
+.quiz-options li.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text);cursor:default}
+.quiz-options li.locked{cursor:default}
+.quiz-options li::before{content:'';display:inline-block;width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s}
+.quiz-options li.correct::before{background:var(--ok-text);border-color:var(--ok-text);box-shadow:0 0 0 2px var(--ok-bg) inset, 0 0 0 4px var(--ok-text)}
+.quiz-options li.wrong::before{background:var(--err-text);border-color:var(--err-text)}
+.q-explanation{display:none;margin-top:8px;font-size:12px;color:var(--muted);padding:6px 10px;background:#fff;border-radius:6px;border:1px solid var(--border)}
+.q-explanation.visible{display:block}
 
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 28px 32px;
-  }
+/* ── RUBRIC ── */
+.rubric-table{width:100%;border-collapse:collapse;font-size:13px}
+.rubric-table th{background:var(--brand);color:#fff;padding:8px 10px;font-size:12px;text-align:left}
+.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.rubric-table tr:nth-child(even) td{background:var(--bg-alt)}
+.rubric-radio{display:flex;gap:6px;justify-content:center}
+.rubric-radio label{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:2px}
+.rubric-radio label span{font-size:10px;color:var(--muted)}
+.rubric-radio input[type=radio]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.score-result{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
+.score-result span{font-size:13px;color:var(--muted)}
+.score-result .total{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
 
-  .tag-pill {
-    display: inline-block;
-    background: rgba(37,99,235,.1);
-    color: var(--accent);
-    border: 1px solid rgba(37,99,235,.25);
-    border-radius: 100px;
-    font-size: 11px; font-weight: 700;
-    padding: 2px 10px;
-    margin-right: 6px;
-  }
+/* ── RESULT BANNER ── */
+.result-banner{display:none;text-align:center;border-radius:var(--radius);padding:16px;margin-top:8px;font-size:15px;font-weight:700}
+.result-banner.perfect{background:var(--ok-bg);color:var(--ok-text);border:1.5px solid var(--ok-border)}
+.result-banner.good{background:#eff6ff;color:var(--accent);border:1.5px solid #bfdbfe}
+.result-banner.keep-going{background:var(--hint-bg);color:var(--hint-text);border:1.5px solid var(--hint-border)}
 
-  .info-box {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: #1e40af;
-    margin-bottom: 14px;
-  }
+/* ── PAGE WRAP / RESPONSIVE ── */
+.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:14px}
+@media(max-width:600px){
+  .summary-grid,.glossary{grid-template-columns:1fr}
+  .page-wrap{padding:16px}
+  .score-bar{gap:8px}
+  .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table td:nth-child(2),.rubric-table td:nth-child(3){display:none}
+}
+@media print{
+  .score-bar,.verify-btn,.model-toggle,.reset-btn{display:none}
+  .quiz-options li.correct,.cls-btn.correct,.tf-btn.correct{background:#dcfce7!important;color:#15803d!important}
+  @page{margin:18mm 20mm}
+}
 
-  .warn-box {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: var(--gold);
-    margin-bottom: 14px;
-  }
+/* ── FILL IN BLANK ── */
+.blank-input{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:inherit;font-size:13px;padding:2px 6px;width:160px;color:var(--text);outline:none}
+.blank-input.ok{border-color:var(--ok-text);color:var(--ok-text)}
+.blank-input.err{border-color:var(--err-text);color:var(--err-text)}
+</style>
 </style>
 </head>
 <body>
 <div class="page-wrap">
-
-  <div class="doc-header">
-    <div>
-      <div class="school">Asunción School · Computación 2026</div>
-      <div class="teacher">Prof. Estrella Vizcarra</div>
-    </div>
-    <div class="doc-meta">
-      <div>3.° Secundaria</div>
-      <div>Sesión 02 · 22 de mayo de 2026</div>
-    </div>
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
   </div>
-  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-  <div class="doc-subtitle">Tablas que se entienden: estructura de datos en Sheets &nbsp;·&nbsp; Material de estudio y práctica</div>
-
-  <!-- RESUMEN -->
-  <div class="section">
-    <div class="section-title">📖 Lo que aprendimos hoy</div>
-    <div class="info-box">
-      En esta clase aprendimos a <strong>organizar datos correctamente en una tabla de Sheets</strong>: usar encabezados claros, separar tipos de datos en columnas distintas y mantener la tabla limpia para poder calcular y graficar después.
-    </div>
-    <div class="summary-grid">
-      <div class="concept-card">
-        <strong>¿Qué es un dato?</strong>
-        <p>Un número, nombre, fecha, respuesta o categoría. Ejemplos: puntaje, fecha de entrega, curso favorito.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Filas y columnas</strong>
-        <p>Filas = registros (cada persona, producto o respuesta). Columnas = tipos de información (nombre, edad, nota).</p>
-      </div>
-      <div class="concept-card">
-        <strong>Encabezados claros</strong>
-        <p>La primera fila debe tener nombres claros: "Nombre", "Edad", "Puntaje". No "cosa", "dato1" o celdas vacías.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Una columna = un tipo de dato</strong>
-        <p>No mezcles nombre y edad en una sola celda. Cada tipo de información va en su propia columna.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Tabla limpia</strong>
-        <p>Sin celdas vacías raras, sin nombres duplicados por error, sin texto y número mezclados, sin títulos en medio.</p>
-      </div>
-      <div class="concept-card">
-        <strong>¿Por qué importa?</strong>
-        <p>Una tabla bien estructurada permite luego usar fórmulas, ordenar, filtrar y hacer gráficos correctamente.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- GLOSARIO -->
-  <div class="section">
-    <div class="section-title">📚 Palabras clave</div>
-    <div class="glossary">
-      <div class="gloss-item"><b>Dato:</b> información individual registrada (número, texto, fecha).</div>
-      <div class="gloss-item"><b>Registro:</b> conjunto de datos de una misma entidad (fila completa).</div>
-      <div class="gloss-item"><b>Encabezado:</b> nombre que identifica cada columna.</div>
-      <div class="gloss-item"><b>Rango:</b> grupo de celdas seleccionadas en Sheets.</div>
-      <div class="gloss-item"><b>Tabla limpia:</b> sin mezcla de tipos, sin vacíos raros, sin duplicados.</div>
-      <div class="gloss-item"><b>Estructura de datos:</b> forma organizada de almacenar información para usarla.</div>
-    </div>
-  </div>
-
-  <!-- EJERCICIOS -->
-  <div class="section">
-    <div class="section-title">✏️ Ejercicios de práctica</div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 1</div>
-      <h4>Encuentra los errores: esta tabla tiene 5 problemas. Márcalos y explícalos.</h4>
-      <table style="width:100%;font-size:12.5px;border-collapse:collapse;margin-bottom:10px;">
-        <tr style="background:#fef3c7;">
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;">ENCUESTA DEL SALÓN</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
-        </tr>
-        <tr>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">cosa</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">dato</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">info</td>
-        </tr>
-        <tr style="background:#f8fafc;">
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan — 14 años</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">18</td>
-        </tr>
-        <tr>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">María</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">natación</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">dieciséis</td>
-        </tr>
-        <tr style="background:#f8fafc;">
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;"></td>
-        </tr>
-        <tr>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td>
-          <td style="padding:5px 8px;border:1px solid #e2e8f0;">19</td>
-        </tr>
-      </table>
-      <p style="font-size:12px;margin-bottom:6px;">Errores encontrados:</p>
-      <span class="answer-line"></span>
-      <span class="answer-line"></span>
-      <span class="answer-line"></span>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 2</div>
-      <h4>Diseña las columnas correctas para cada encuesta</h4>
-      <p style="margin-bottom:8px;"><strong>a)</strong> Encuesta sobre hábitos de lectura del salón:</p>
-      <p style="font-size:12.5px;color:#64748b;">Escribe 4 nombres de columna que usarías:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:6px;">
-        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 1</div>
-        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 2</div>
-        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 3</div>
-        <div style="border:1px solid #94a3b8;border-radius:6px;padding:5px;text-align:center;font-size:12px;color:#94a3b8;">Columna 4</div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 3</div>
-      <h4>Verdadero o Falso</h4>
-      <div style="display:grid;gap:6px;font-size:13px;">
-        <div>( &nbsp;&nbsp; ) En una tabla, cada fila debe representar un solo registro (persona, producto, etc.).</div>
-        <div>( &nbsp;&nbsp; ) Es correcto escribir el nombre y la edad juntos en una misma celda: "Pedro — 15 años".</div>
-        <div>( &nbsp;&nbsp; ) Los encabezados deben estar en la primera fila de la tabla.</div>
-        <div>( &nbsp;&nbsp; ) Una tabla desordenada sirve igual para hacer fórmulas y gráficos.</div>
-        <div>( &nbsp;&nbsp; ) Mezclar números y texto en una misma columna puede causar errores en las fórmulas.</div>
-        <div>( &nbsp;&nbsp; ) La columna "puntaje" puede tener "18", "dieciséis" y "veinte" sin problema.</div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 4</div>
-      <h4>Completa la tabla correctamente con datos ficticios</h4>
-      <p style="font-size:12px;color:#64748b;margin-bottom:8px;">Tema: lista de materiales para un proyecto de arte. Llena al menos 4 filas.</p>
-      <table style="width:100%;font-size:12.5px;border-collapse:collapse;">
-        <tr style="background:#1e3a8a;color:#fff;">
-          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Material</th>
-          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Cantidad</th>
-          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Precio unitario (S/)</th>
-          <th style="padding:7px 10px;text-align:left;border:1px solid #1e3a8a;">Responsable</th>
-        </tr>
-        <tr><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
-        <tr style="background:#f8fafc;"><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
-        <tr style="background:#f8fafc;"><td style="padding:7px;border:1px solid #e2e8f0;height:22px;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td><td style="padding:7px;border:1px solid #e2e8f0;"></td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- QUIZ -->
-  <div class="section page-break">
-    <div class="section-title">🧪 Quiz de autoevaluación</div>
-    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>1.</span> En una tabla de Sheets, ¿qué representa cada fila en una encuesta simple?</div>
-      <ul class="options">
-        <li>Una pregunta de la encuesta</li>
-        <li>Un color de fondo diferente</li>
-        <li>Una respuesta o persona encuestada</li>
-        <li>Un título de sección</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>2.</span> ¿Por qué no se debe poner "Juan — 14 años" en una sola celda?</div>
-      <ul class="options">
-        <li>Porque es muy largo</li>
-        <li>Porque mezcla dos tipos de datos que deben ir en columnas separadas</li>
-        <li>Porque Sheets no acepta texto con números</li>
-        <li>Porque el nombre debe ir al final</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>3.</span> ¿Qué debe ir en la primera fila de una tabla bien organizada?</div>
-      <ul class="options">
-        <li>El título del proyecto</li>
-        <li>Los encabezados de cada columna</li>
-        <li>El primer registro de datos</li>
-        <li>La fecha del día</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>4.</span> ¿Cuál de estas columnas tiene un encabezado MÁS claro?</div>
-      <ul class="options">
-        <li>cosa</li>
-        <li>info1</li>
-        <li>Puntaje_final</li>
-        <li>dato</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>5.</span> ¿Qué problema causa tener filas vacías en medio de una tabla?</div>
-      <ul class="options">
-        <li>La tabla se ve más ordenada</li>
-        <li>Puede confundir fórmulas y filtros que dependen del rango</li>
-        <li>Los colores se mezclan</li>
-        <li>No causa ningún problema</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>6.</span> ¿Por qué una tabla bien organizada es más útil?</div>
-      <ul class="options">
-        <li>Porque se ve más bonita</li>
-        <li>Porque ocupa menos espacio en el disco</li>
-        <li>Porque permite luego calcular, filtrar y graficar correctamente</li>
-        <li>Porque es más fácil de imprimir</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>7.</span> ¿Qué le pedirías a una IA ANTES de crear tu tabla?</div>
-      <ul class="options">
-        <li>Que invente los datos del salón</li>
-        <li>Que sugiera columnas para organizar la información</li>
-        <li>Que haga toda la tabla por mí</li>
-        <li>Que ponga colores automáticamente</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>8.</span> En la columna "Puntaje", ¿qué valores son correctos?</div>
-      <ul class="options">
-        <li>18, dieciséis, 20, veinte</li>
-        <li>18, 16, 20, 15 (todos números)</li>
-        <li>Alto, Medio, Bajo</li>
-        <li>Cualquier combinación está bien</li>
-      </ul>
-    </div>
-
-    <div class="answer-key no-break">
-      <h4>🔑 Clave de respuestas</h4>
-      <div class="answer-grid">
-        <div class="answer-pill"><b>1</b> C — Una persona</div>
-        <div class="answer-pill"><b>2</b> B — Mezcla datos</div>
-        <div class="answer-pill"><b>3</b> B — Encabezados</div>
-        <div class="answer-pill"><b>4</b> C — Puntaje_final</div>
-        <div class="answer-pill"><b>5</b> B — Confunde fórmulas</div>
-        <div class="answer-pill"><b>6</b> C — Calcular y graficar</div>
-        <div class="answer-pill"><b>7</b> B — Sugerir columnas</div>
-        <div class="answer-pill"><b>8</b> B — Solo números</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EVALUACIÓN -->
-  <div class="section no-break">
-    <div class="section-title">📊 Rúbrica de autoevaluación</div>
-    <table class="eval-table">
-      <tr>
-        <th>Criterio</th>
-        <th>Lo logré (3 pts)</th>
-        <th>Casi lo logré (2 pts)</th>
-        <th>Necesito practicar (1 pt)</th>
-        <th style="width:60px;">Mi nivel</th>
-      </tr>
-      <tr>
-        <td>Uso encabezados claros en mis columnas</td>
-        <td>Todos los encabezados son precisos</td>
-        <td>La mayoría son claros</td>
-        <td>Usé nombres genéricos o vacíos</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Separo tipos de datos en columnas distintas</td>
-        <td>Cada columna tiene un solo tipo de dato</td>
-        <td>Mezclé datos en 1 columna</td>
-        <td>Mezclé datos en varias columnas</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Mi tabla está limpia (sin vacíos raros)</td>
-        <td>Sin filas vacías ni duplicados</td>
-        <td>1 o 2 errores menores</td>
-        <td>Varios problemas de limpieza</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Puedo explicar por qué una tabla bien organizada es más útil</td>
-        <td>Lo expliqué con mis propias palabras</td>
-        <td>Di una explicación parcial</td>
-        <td>No pude explicarlo</td>
-        <td></td>
-      </tr>
-    </table>
-    <div class="score-box">
-      <span>Puntaje total (máximo 12 pts)</span>
-      <div class="total">______ / 12</div>
-    </div>
-  </div>
-
+  <div class="doc-meta"><div>3.° Secundaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
 </div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+<div class="doc-subtitle">Tablas que se entienden: estructura de datos en Sheets &nbsp;·&nbsp; Material de estudio y práctica interactiva</div>
+<div class="score-bar">
+  <span>Puntaje:</span>
+  <div class="score-display"><span id="score-val">0</span>&nbsp;<span style="font-size:13px;font-weight:400;color:#64748b">de <span id="score-total">0</span> preguntas</span></div>
+  <div class="progress-track"><div class="progress-fill" id="score-prog"></div></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
+</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Aprendimos a <strong>organizar datos correctamente en una tabla de Sheets</strong>: encabezados claros, tipos de datos separados en columnas distintas y tabla limpia para poder calcular y graficar después.</div><div class="summary-grid"><div class="concept-card"><strong>¿Qué es un dato?</strong><p>Un número, nombre, fecha, respuesta o categoría. Ejemplos: puntaje, fecha de entrega, curso favorito.</p></div><div class="concept-card"><strong>Filas y columnas</strong><p>Filas = registros (cada persona o respuesta). Columnas = tipos de información.</p></div><div class="concept-card"><strong>Encabezados claros</strong><p>Primera fila con nombres precisos: «Nombre», «Edad», «Puntaje». No «cosa» o «dato1».</p></div><div class="concept-card"><strong>Una columna = un tipo</strong><p>No mezcles nombre y edad en una celda. Cada tipo de información va en su columna.</p></div><div class="concept-card"><strong>Tabla limpia</strong><p>Sin celdas vacías raras, sin duplicados, sin texto y número mezclados.</p></div><div class="concept-card"><strong>¿Por qué importa?</strong><p>Una tabla bien estructurada permite luego usar fórmulas, filtros y gráficos.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="glossary"><div class="gloss-item"><b>Dato:</b> información individual registrada (número, texto, fecha)</div><div class="gloss-item"><b>Registro:</b> conjunto de datos de una misma entidad (fila completa)</div><div class="gloss-item"><b>Encabezado:</b> nombre que identifica cada columna</div><div class="gloss-item"><b>Rango:</b> grupo de celdas seleccionadas en Sheets</div><div class="gloss-item"><b>Tabla limpia:</b> sin mezcla de tipos, sin vacíos raros, sin duplicados</div><div class="gloss-item"><b>Estructura de datos:</b> forma organizada de almacenar información para usarla</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 1</div>
+  <h4>¿Bueno o Malo? Clasifica cada encabezado de columna</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Bueno</th><th>Malo</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-1-0">
+  <td>Nombre</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Bueno')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Bueno')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-1">
+  <td>cosa</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Malo')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Malo')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-2">
+  <td>Fecha_entrega</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Bueno')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Bueno')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-3">
+  <td>dato1</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Malo')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Malo')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-4">
+  <td>Puntaje</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Bueno')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Bueno')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-5">
+  <td>info</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Malo')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Malo')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-6">
+  <td>Curso_favorito</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Bueno')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Bueno')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-7">
+  <td>columna</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bueno" onclick="classify(this,'Bueno','Malo')">Bueno</button><button class="cls-btn" data-val="Malo" onclick="classify(this,'Malo','Malo')">Malo</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 2</div>
+  <h4>Verdadero o Falso sobre estructura de datos</h4>
+  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
+  <td>En una tabla, cada fila debe representar un solo registro.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Es correcto escribir «Pedro — 15 años» en una sola celda.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Los encabezados deben estar en la primera fila.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Una tabla desordenada sirve igual para hacer fórmulas.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Mezclar números y texto en una columna puede causar errores.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>La columna «Puntaje» puede tener «18», «dieciséis» y «20» sin problema.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 3</div>
+  <h4>Encuentra los 5 errores en esta tabla</h4>
+  <table style="width:100%;font-size:12.5px;border-collapse:collapse;margin-bottom:10px;">
+    <tr style="background:#fef3c7;"><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;" colspan="3">ENCUESTA DEL SALÓN</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;">cosa</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">dato</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">info</td></tr>
+    <tr style="background:#f8fafc;"><td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan — 14 años</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">18</td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;">María</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">natación</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">dieciséis</td></tr>
+    <tr style="background:#f8fafc;"><td style="padding:5px 8px;border:1px solid #e2e8f0;" colspan="3"></td></tr>
+    <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;">Juan</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">fútbol</td><td style="padding:5px 8px;border:1px solid #e2e8f0;">19</td></tr>
+  </table>
+  <p style="font-size:13px;margin-bottom:8px;">Escribe los 5 errores que encuentras:</p>
+  <textarea class="input-area" placeholder="Error 1:&#10;Error 2:&#10;Error 3:&#10;Error 4:&#10;Error 5:"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-ej3-sec3')">▼ Ver los 5 errores</button>
+  <div class="model-answer" id="model-ej3-sec3"><strong>Los 5 errores:</strong>
+    1. Título «ENCUESTA DEL SALÓN» está en medio de la tabla (debe estar fuera o eliminarse).<br>
+    2. Encabezados genéricos e inútiles: «cosa», «dato», «info» en lugar de «Nombre», «Deporte favorito», «Puntaje».<br>
+    3. «Juan — 14 años» mezcla dos tipos de datos (nombre + edad) en una sola celda.<br>
+    4. «dieciséis» es texto en una columna numérica (mezcla de tipos en la columna Puntaje).<br>
+    5. Fila completamente vacía en medio de la tabla (rompe el rango de datos).<br>
+    <em>Bonus: «Juan» aparece dos veces, posible duplicado.</em>
+  </div>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 4</div>
+  <h4>Diseña los encabezados para una tabla de hábitos de estudio</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Escribe <strong>5 nombres de columna</strong> claros para una encuesta sobre hábitos de estudio del salón. Recuerda: una columna = un tipo de dato.</p>
+  <textarea class="input-area" placeholder="Escribe tus 5 nombres de columna aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-4')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-4"><strong>Respuesta modelo:</strong> Posibles columnas: Nombre | Horas_estudio_diario | Materia_difícil | Usa_internet_para_estudiar (Sí/No) | Tiene_espacio_tranquilo (Sí/No). Otras respuestas válidas siempre que sean precisas y tengan un solo tipo de dato por columna.</div>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 5</div>
+  <h4>¿Qué necesita esta tabla para estar correcta?</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Tienes una tabla con datos de un proyecto de arte: Material, Cantidad, Precio. Alguien puso «Papel y lápiz» en la columna Material y «10 soles» en la columna Cantidad. ¿Qué errores tiene y cómo los corregirías?</p>
+  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-5')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-5"><strong>Respuesta modelo:</strong> Error 1: «Papel y lápiz» mezcla dos materiales distintos en una celda → separar en dos filas.<br>Error 2: «10 soles» combina número y unidad en la columna Cantidad → escribir solo «10» en Cantidad y crear otra columna «Precio (S/)» con el valor numérico.</div>
+</div></div><div class="section"><div class="section-title">🧪 Quiz — Haz clic en la respuesta correcta</div><div class="quiz-item">
+  <div class="q"><span>1.</span> En una tabla de Sheets, ¿qué representa cada fila en una encuesta simple?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Una pregunta</li>
+    <li onclick="quizPick(this)">Un color de fondo</li>
+    <li data-correct="true" onclick="quizPick(this)">Una respuesta o persona encuestada</li>
+    <li onclick="quizPick(this)">Un título de sección</li>
+  </ul>
+  <div class="q-explanation">💡 Cada fila es un registro: la información completa de una persona, producto o respuesta.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>2.</span> ¿Por qué no se debe poner «Juan — 14 años» en una sola celda?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Porque es muy largo</li>
+    <li data-correct="true" onclick="quizPick(this)">Porque mezcla dos tipos de datos que van en columnas separadas</li>
+    <li onclick="quizPick(this)">Porque Sheets no acepta texto con números</li>
+    <li onclick="quizPick(this)">Porque el nombre va al final</li>
+  </ul>
+  <div class="q-explanation">💡 «Nombre» y «Edad» son dos tipos de datos distintos. Mezclarlos impide ordenar, filtrar o calcular.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>3.</span> ¿Qué debe ir en la primera fila de una tabla bien organizada?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">El título del proyecto</li>
+    <li data-correct="true" onclick="quizPick(this)">Los encabezados de cada columna</li>
+    <li onclick="quizPick(this)">El primer registro de datos</li>
+    <li onclick="quizPick(this)">La fecha del día</li>
+  </ul>
+  <div class="q-explanation">💡 Los encabezados identifican qué tipo de dato hay en cada columna. Son la base de la estructura.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>4.</span> ¿Cuál de estos es el encabezado MÁS claro?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">cosa</li>
+    <li onclick="quizPick(this)">info1</li>
+    <li data-correct="true" onclick="quizPick(this)">Puntaje_final</li>
+    <li onclick="quizPick(this)">dato</li>
+  </ul>
+  <div class="q-explanation">💡 «Puntaje_final» es preciso y descriptivo. Los demás son genéricos e inútiles para entender el dato.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>5.</span> ¿Qué problema causa tener filas vacías en medio de la tabla?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">La tabla se ve más ordenada</li>
+    <li data-correct="true" onclick="quizPick(this)">Puede confundir fórmulas y filtros</li>
+    <li onclick="quizPick(this)">Los colores se mezclan</li>
+    <li onclick="quizPick(this)">No causa ningún problema</li>
+  </ul>
+  <div class="q-explanation">💡 Las fórmulas y filtros asumen que el rango de datos es continuo. Una fila vacía lo «rompe».</div>
+</div><div class="quiz-item">
+  <div class="q"><span>6.</span> ¿Por qué una tabla bien organizada es más útil?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Porque se ve más bonita</li>
+    <li onclick="quizPick(this)">Porque ocupa menos espacio</li>
+    <li data-correct="true" onclick="quizPick(this)">Porque permite calcular, filtrar y graficar correctamente</li>
+    <li onclick="quizPick(this)">Porque es más fácil de imprimir</li>
+  </ul>
+  <div class="q-explanation">💡 Una tabla limpia y estructurada es la base para todo el análisis posterior: fórmulas, gráficos, tablas dinámicas.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>7.</span> ¿Qué le pedirías a una IA ANTES de crear tu tabla?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Que invente los datos</li>
+    <li data-correct="true" onclick="quizPick(this)">Que sugiera columnas para organizar la información</li>
+    <li onclick="quizPick(this)">Que haga toda la tabla</li>
+    <li onclick="quizPick(this)">Que ponga colores</li>
+  </ul>
+  <div class="q-explanation">💡 La IA puede ayudar a pensar la estructura (columnas y tipos de dato), pero los datos reales los ingresas tú.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>8.</span> En la columna «Puntaje», ¿qué valores son correctos?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">18, dieciséis, 20, veinte</li>
+    <li data-correct="true" onclick="quizPick(this)">18, 16, 20, 15 (todos números)</li>
+    <li onclick="quizPick(this)">Alto, Medio, Bajo</li>
+    <li onclick="quizPick(this)">Cualquier combinación</li>
+  </ul>
+  <div class="q-explanation">💡 Una columna numérica debe tener solo números. Mezclar texto impide usar SUMA, PROMEDIO, etc.</div>
+</div></div><div class="section">
+  <div class="section-title">📊 Rúbrica de autoevaluación</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:12px">Selecciona el nivel que mejor describe tu desempeño. El puntaje se calcula automáticamente.</p>
+  <table class="rubric-table">
+    <thead><tr>
+      <th>Criterio</th>
+      <th>Lo logré (3)</th>
+      <th>Casi lo logré (2)</th>
+      <th>Necesito practicar (1)</th>
+      <th style="width:80px">Nivel</th>
+    </tr></thead>
+    <tbody><tr>
+  <td><strong>Uso encabezados claros</strong></td>
+  <td>Todos precisos y descriptivos</td>
+  <td>La mayoría son claros</td>
+  <td>Usé nombres genéricos</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub0" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub0" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub0" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Separo tipos de datos en columnas</strong></td>
+  <td>Cada columna tiene un solo tipo</td>
+  <td>Mezclé en 1 columna</td>
+  <td>Mezclé en varias</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub1" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub1" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub1" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Mi tabla está limpia</strong></td>
+  <td>Sin vacíos raros ni duplicados</td>
+  <td>1 o 2 errores menores</td>
+  <td>Varios problemas</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub2" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub2" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub2" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Explico por qué ordenar bien es útil</strong></td>
+  <td>Con mis propias palabras y razones</td>
+  <td>Explicación parcial</td>
+  <td>No pude explicarlo</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub3" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub3" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub3" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+</tbody>
+  </table>
+  <div class="score-result">
+    <span>Mi puntaje total</span>
+    <div class="total" id="rubric-score">— / 12</div>
+  </div>
+</div>
+<div id="result-banner" class="result-banner" style="display:none"></div>
+</div>
+
+<script>
+let quizTotal = 0, quizCorrect = 0;
+
+/* ── Score tracking ── */
+function countable(isCorrect){
+  quizTotal++;
+  if(isCorrect) quizCorrect++;
+  refreshScore();
+}
+function refreshScore(){
+  const el = document.getElementById('score-val');
+  const prog = document.getElementById('score-prog');
+  const total = document.getElementById('score-total');
+  if(!el) return;
+  el.textContent = quizCorrect;
+  total.textContent = quizTotal;
+  if(quizTotal > 0) prog.style.width = (quizCorrect/quizTotal*100)+'%';
+}
+
+/* ── QUIZ ── */
+function quizPick(li){
+  const opts = li.closest('.quiz-options');
+  if(opts.classList.contains('done')) return;
+  opts.classList.add('done');
+  const item = li.closest('.quiz-item');
+  const isCorrect = li.dataset.correct === 'true';
+  opts.querySelectorAll('li').forEach(opt=>{
+    opt.classList.add('locked');
+    if(opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if(isCorrect){ li.classList.add('correct'); item.classList.add('answered-ok'); }
+  else         { li.classList.add('wrong');   item.classList.add('answered-err'); }
+  const exp = item.querySelector('.q-explanation');
+  if(exp) exp.classList.add('visible');
+  countable(isCorrect);
+}
+
+/* ── CLASSIFICATION ── */
+function classify(btn, chosen, correct){
+  const row = btn.closest('.cls-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.cls-btn').forEach(b=>{ b.disabled=true; });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk ? 'correct' : 'wrong');
+  if(!isOk){
+    row.querySelectorAll('.cls-btn').forEach(b=>{
+      if(b.dataset.val === correct) b.classList.add('reveal');
+    });
+  }
+  const res = row.querySelector('.cls-result');
+  if(res){ res.classList.add(isOk?'ok':'err'); res.textContent = isOk?'✓ Correcto':'✗ Incorrecto'; }
+  countable(isOk);
+}
+
+/* ── TRUE / FALSE ── */
+function tfPick(btn, chosen, correct){
+  const row = btn.closest('.tf-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===correct) b.classList.add(chosen===correct?'correct':'reveal');
+  });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk?'correct':'wrong');
+  countable(isOk);
+}
+
+/* ── MODEL ANSWER TOGGLE ── */
+function toggleModel(btn, id){
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('visible');
+  btn.textContent = open ? '▲ Ocultar respuesta modelo' : '▼ Ver respuesta modelo';
+}
+
+/* ── VERIFY FILL-IN ── */
+function verifyBlank(inputId, answers){
+  const inp = document.getElementById(inputId);
+  if(inp.dataset.done) return;
+  inp.dataset.done='1';
+  const val = inp.value.trim().toLowerCase();
+  const ok = answers.some(a => val.includes(a.toLowerCase()));
+  inp.classList.add(ok?'ok':'err');
+  inp.title = ok ? '✓ Correcto' : 'Respuesta esperada: ' + answers[0];
+  countable(ok);
+}
+
+/* ── RUBRIC SCORE ── */
+function calcRubric(){
+  let total=0, count=0;
+  document.querySelectorAll('.rubric-radio input:checked').forEach(r=>{
+    total += parseInt(r.value); count++;
+  });
+  document.getElementById('rubric-score').textContent = total + ' / ' + (count*3);
+}
+
+/* ── RESET ── */
+function resetAll(){
+  if(!confirm('¿Reiniciar todos los ejercicios?')) return;
+  location.reload();
+}
+
+/* ── FINAL RESULT BANNER ── */
+document.addEventListener('click', ()=>{
+  setTimeout(()=>{
+    const banner = document.getElementById('result-banner');
+    if(!banner) return;
+    if(quizTotal < 8) return;
+    banner.style.display = 'block';
+    const pct = quizCorrect/quizTotal;
+    banner.className = 'result-banner ' + (pct===1?'perfect':pct>=.7?'good':'keep-going');
+    banner.textContent = pct===1
+      ? '🏆 ¡Perfecto! Respondiste todo correctamente.'
+      : pct>=.7
+        ? `👍 Buen trabajo: ${quizCorrect} de ${quizTotal} correctas.`
+        : `📚 Sigue repasando: ${quizCorrect} de ${quizTotal} correctas. ¡Tú puedes!`;
+  }, 100);
+});
+</script>
+
 </body>
 </html>

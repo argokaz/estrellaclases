@@ -5,536 +5,558 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Repaso S02 — 4.° Secundaria | Asunción School</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
-  :root {
-    --brand:   #1e3a8a;
-    --accent:  #2563eb;
-    --gold:    #b45309;
-    --green:   #166534;
-    --red:     #991b1b;
-    --text:    #1e293b;
-    --muted:   #64748b;
-    --border:  #e2e8f0;
-    --bg-alt:  #f8fafc;
-    --radius:  10px;
-  }
+:root {
+  --brand:  #1e3a8a; --accent: #2563eb; --accent2: #7c3aed;
+  --gold:   #b45309; --green-ok: #15803d; --red-err: #b91c1c;
+  --text:   #1e293b; --muted:   #64748b; --dim: #94a3b8;
+  --border: #e2e8f0; --bg-alt:  #f8fafc; --bg-quiz: #f0f4ff;
+  --radius: 10px;
+  --ok-bg:  #dcfce7; --ok-border: #86efac; --ok-text: #15803d;
+  --err-bg: #fee2e2; --err-border:#fca5a5; --err-text: #b91c1c;
+  --hint-bg:#fef9c3; --hint-border:#fde047; --hint-text:#713f12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fff;line-height:1.6}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent);text-decoration:none}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HEADER ── */
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.doc-header .school{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.doc-header .teacher{font-size:13px;font-weight:700;color:var(--brand);margin-top:2px}
+.doc-header .doc-meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: #fff;
-    line-height: 1.6;
-  }
+/* ── SCORE BAR ── */
+.score-bar{display:flex;align-items:center;gap:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+.score-bar span{font-size:13px;color:var(--muted)}
+.score-display{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand)}
+.score-bar .reset-btn{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12px;transition:all .15s}
+.score-bar .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.progress-track{flex:1;min-width:80px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;width:0%}
 
-  /* ── PORTADA / ENCABEZADO ── */
-  .doc-header {
-    border-bottom: 3px solid var(--brand);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
-  }
-  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
-  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
-  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+/* ── SECTION HEADERS ── */
+.section{margin-bottom:26px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-  .doc-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--brand);
-    margin-bottom: 4px;
-  }
-  .doc-subtitle {
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 28px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:10px 13px}
+.concept-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.concept-card p{font-size:13px}
 
-  /* ── SECCIONES ── */
-  .section {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--brand);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--accent);
-    display: flex; align-items: center; gap: 8px;
-  }
+/* ── GLOSSARY ── */
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gloss-item{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
+.gloss-item b{color:var(--brand)}
 
-  /* ── RESUMEN ── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .concept-card {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 10px 13px;
-  }
-  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
-  .concept-card p { font-size: 13px; color: var(--text); }
+/* ── EXERCISE WRAPPER ── */
+.exercise{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.exercise-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;border-radius:5px;padding:2px 8px;margin-bottom:8px}
+.exercise h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.exercise p,.exercise li{font-size:13px}
 
-  /* ── GLOSARIO ── */
-  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .gloss-item {
-    background: var(--bg-alt);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-  }
-  .gloss-item b { color: var(--brand); }
+/* ── CLASSIFICATION EXERCISE ── */
+.classify-table{width:100%;border-collapse:collapse}
+.classify-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.classify-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.classify-row.answered-ok td:first-child{color:var(--ok-text);font-weight:600}
+.classify-row.answered-err td:first-child{color:var(--err-text)}
+.cls-btns{display:flex;gap:6px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:all .15s;cursor:pointer}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.75}
+.cls-result{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
+.cls-result.ok{background:var(--ok-bg);color:var(--ok-text);display:inline-block}
+.cls-result.err{background:var(--err-bg);color:var(--err-text);display:inline-block}
 
-  /* ── EJERCICIOS ── */
-  .exercise {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .exercise-num {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700; font-size: 11px;
-    border-radius: 5px;
-    padding: 2px 8px;
-    margin-bottom: 8px;
-  }
-  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
-  .exercise ul, .exercise ol { padding-left: 18px; }
-  .exercise li { margin-bottom: 4px; }
-  .answer-line {
-    display: block;
-    border-bottom: 1px solid #94a3b8;
-    height: 24px;
-    margin: 6px 0;
-    width: 100%;
-  }
-  .answer-box {
-    border: 1px solid #94a3b8;
-    border-radius: 6px;
-    min-height: 56px;
-    width: 100%;
-    margin-top: 8px;
-  }
+/* ── TRUE / FALSE ── */
+.tf-table{width:100%;border-collapse:collapse}
+.tf-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.tf-row td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.tf-btns{display:flex;gap:6px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 14px;font-size:13px;font-weight:700;transition:all .15s;cursor:pointer}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.7}
 
-  /* ── QUIZ ── */
-  .quiz-item {
-    margin-bottom: 16px;
-    page-break-inside: avoid;
-  }
-  .quiz-item .q {
-    font-weight: 600; font-size: 13.5px;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
-  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
-  .options li {
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .options li::before {
-    content: '';
-    display: inline-block;
-    width: 15px; height: 15px;
-    border: 1.5px solid #94a3b8;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+/* ── ORDERING ── */
+.order-items{display:flex;flex-direction:column;gap:6px}
+.order-item{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
+.order-item:hover:not(.locked){border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.selected{border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.correct{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-text);font-weight:600}
+.order-item.wrong{border-color:var(--err-border);background:var(--err-bg);color:var(--err-text)}
+.order-num{width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-item.correct .order-num{background:var(--ok-border);color:var(--ok-text)}
+.order-item.wrong .order-num{background:var(--err-border);color:var(--err-text)}
 
-  /* ── CLAVE DE RESPUESTAS ── */
-  .answer-key {
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-top: 8px;
-  }
-  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .answer-pill {
-    background: #fff;
-    border: 1px solid #86efac;
-    border-radius: 6px;
-    padding: 5px 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+/* ── TEXTAREA + MODEL ── */
+.input-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;color:var(--text)}
+.input-area:focus{border-color:var(--accent)}
+.short-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;color:var(--text);background:#fff}
+.short-input:focus{border-color:var(--accent)}
+.model-toggle{margin-top:8px;background:transparent;border:1.5px solid var(--hint-border);color:var(--hint-text);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
+.model-toggle:hover{background:var(--hint-bg)}
+.model-answer{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-text);line-height:1.6}
+.model-answer.visible{display:block}
+.model-answer strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 
-  /* ── EVALUACIÓN ── */
-  .eval-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .eval-table th {
-    background: var(--brand);
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .eval-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
-  .score-box {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    margin-top: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .score-box span { font-size: 13px; color: var(--muted); }
-  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+/* ── VERIFY BUTTON ── */
+.verify-btn{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:700;transition:opacity .15s}
+.verify-btn:hover{opacity:.85}
+.verify-btn:disabled{opacity:.45;cursor:default}
 
-  /* ── IMPRIMIR ── */
-  @media print {
-    body { font-size: 13px; }
-    .page-break { page-break-before: always; }
-    .no-break { page-break-inside: avoid; }
-    @page { margin: 18mm 20mm; }
-  }
+/* ── QUIZ ── */
+.quiz-item{margin-bottom:16px;padding:12px 14px;background:var(--bg-quiz);border:1px solid #c7d2fe;border-radius:var(--radius)}
+.quiz-item.answered-ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.quiz-item.answered-err{background:var(--err-bg);border-color:var(--err-border)}
+.q{font-weight:600;font-size:13.5px;margin-bottom:8px}
+.q span{color:var(--accent);margin-right:4px}
+.answered-ok .q span{color:var(--ok-text)}
+.answered-err .q span{color:var(--err-text)}
+.quiz-options{list-style:none;display:flex;flex-direction:column;gap:5px}
+.quiz-options li{font-size:13px;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s}
+.quiz-options li:hover:not(.locked){border-color:var(--accent);background:#eff6ff}
+.quiz-options li.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);font-weight:600;cursor:default}
+.quiz-options li.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text);cursor:default}
+.quiz-options li.locked{cursor:default}
+.quiz-options li::before{content:'';display:inline-block;width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s}
+.quiz-options li.correct::before{background:var(--ok-text);border-color:var(--ok-text);box-shadow:0 0 0 2px var(--ok-bg) inset, 0 0 0 4px var(--ok-text)}
+.quiz-options li.wrong::before{background:var(--err-text);border-color:var(--err-text)}
+.q-explanation{display:none;margin-top:8px;font-size:12px;color:var(--muted);padding:6px 10px;background:#fff;border-radius:6px;border:1px solid var(--border)}
+.q-explanation.visible{display:block}
 
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 28px 32px;
-  }
+/* ── RUBRIC ── */
+.rubric-table{width:100%;border-collapse:collapse;font-size:13px}
+.rubric-table th{background:var(--brand);color:#fff;padding:8px 10px;font-size:12px;text-align:left}
+.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.rubric-table tr:nth-child(even) td{background:var(--bg-alt)}
+.rubric-radio{display:flex;gap:6px;justify-content:center}
+.rubric-radio label{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:2px}
+.rubric-radio label span{font-size:10px;color:var(--muted)}
+.rubric-radio input[type=radio]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.score-result{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
+.score-result span{font-size:13px;color:var(--muted)}
+.score-result .total{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
 
-  .tag-pill {
-    display: inline-block;
-    background: rgba(37,99,235,.1);
-    color: var(--accent);
-    border: 1px solid rgba(37,99,235,.25);
-    border-radius: 100px;
-    font-size: 11px; font-weight: 700;
-    padding: 2px 10px;
-    margin-right: 6px;
-  }
+/* ── RESULT BANNER ── */
+.result-banner{display:none;text-align:center;border-radius:var(--radius);padding:16px;margin-top:8px;font-size:15px;font-weight:700}
+.result-banner.perfect{background:var(--ok-bg);color:var(--ok-text);border:1.5px solid var(--ok-border)}
+.result-banner.good{background:#eff6ff;color:var(--accent);border:1.5px solid #bfdbfe}
+.result-banner.keep-going{background:var(--hint-bg);color:var(--hint-text);border:1.5px solid var(--hint-border)}
 
-  .info-box {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: #1e40af;
-    margin-bottom: 14px;
-  }
+/* ── PAGE WRAP / RESPONSIVE ── */
+.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:14px}
+@media(max-width:600px){
+  .summary-grid,.glossary{grid-template-columns:1fr}
+  .page-wrap{padding:16px}
+  .score-bar{gap:8px}
+  .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table td:nth-child(2),.rubric-table td:nth-child(3){display:none}
+}
+@media print{
+  .score-bar,.verify-btn,.model-toggle,.reset-btn{display:none}
+  .quiz-options li.correct,.cls-btn.correct,.tf-btn.correct{background:#dcfce7!important;color:#15803d!important}
+  @page{margin:18mm 20mm}
+}
 
-  .warn-box {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: var(--gold);
-    margin-bottom: 14px;
-  }
+/* ── FILL IN BLANK ── */
+.blank-input{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:inherit;font-size:13px;padding:2px 6px;width:160px;color:var(--text);outline:none}
+.blank-input.ok{border-color:var(--ok-text);color:var(--ok-text)}
+.blank-input.err{border-color:var(--err-text);color:var(--err-text)}
+</style>
 </style>
 </head>
 <body>
 <div class="page-wrap">
-
-  <div class="doc-header">
-    <div>
-      <div class="school">Asunción School · Computación 2026</div>
-      <div class="teacher">Prof. Estrella Vizcarra</div>
-    </div>
-    <div class="doc-meta">
-      <div>4.° Secundaria</div>
-      <div>Sesión 02 · 22 de mayo de 2026</div>
-    </div>
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
   </div>
-  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-  <div class="doc-subtitle">APA sin miedo: citar para ser claro y honesto &nbsp;·&nbsp; Material de estudio y práctica</div>
-
-  <!-- RESUMEN -->
-  <div class="section">
-    <div class="section-title">📖 Lo que aprendimos hoy</div>
-    <div class="info-box">
-      En esta clase entendimos el <strong>sentido de las normas APA</strong>: no son reglas arbitrarias, sino una forma de ser honesto con la información. Aprendimos la diferencia entre citar en el texto y la lista de referencias al final.
-    </div>
-    <div class="summary-grid">
-      <div class="concept-card">
-        <strong>¿Para qué sirve APA?</strong>
-        <p>Para ordenar trabajos, reconocer fuentes y generar confianza en el lector. Es jugar limpio con la información.</p>
-      </div>
-      <div class="concept-card">
-        <strong>La idea clave: dar crédito</strong>
-        <p>Si usas una idea de otra persona (aunque la escribas con tus palabras), debes indicar de dónde viene. Eso se llama citar.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Google no es la fuente</strong>
-        <p>Google ayuda a buscar. La fuente real es la página, libro, video o artículo donde está la información.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Cita en el texto</strong>
-        <p>Va cerca de la idea usada. Ejemplo: <em>Según Pérez (2024)...</em> o al final de la oración: <em>(Pérez, 2024).</em></p>
-      </div>
-      <div class="concept-card">
-        <strong>Referencia al final</strong>
-        <p>Lista completa al final del trabajo. Incluye: autor o institución · año · título · lugar (URL o editorial).</p>
-      </div>
-      <div class="concept-card">
-        <strong>Parafrasear no elimina la cita</strong>
-        <p>Si la idea vino de una fuente, se cita aunque la escribas con otras palabras. Cambiar palabras no es tener la idea propia.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- GLOSARIO -->
-  <div class="section">
-    <div class="section-title">📚 Palabras clave</div>
-    <div class="glossary">
-      <div class="gloss-item"><b>Citar:</b> indicar de dónde viene una idea o información.</div>
-      <div class="gloss-item"><b>Referencia:</b> datos completos de una fuente al final del trabajo.</div>
-      <div class="gloss-item"><b>Fuente:</b> libro, página, artículo, video donde está la información.</div>
-      <div class="gloss-item"><b>Parafrasear:</b> explicar una idea con tus propias palabras (aún se cita).</div>
-      <div class="gloss-item"><b>APA:</b> sistema de normas para citar y ordenar referencias académicas.</div>
-      <div class="gloss-item"><b>Plagio:</b> usar ideas o textos ajenos sin dar crédito a quien corresponde.</div>
-    </div>
-  </div>
-
-  <!-- EJERCICIOS -->
-  <div class="section">
-    <div class="section-title">✏️ Ejercicios de práctica</div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 1</div>
-      <h4>Detective de fuentes: lee esta referencia e identifica sus partes</h4>
-      <div style="background:#f0f4ff;border:1px solid #c7d2fe;border-radius:8px;padding:12px;font-size:13px;margin-bottom:12px;">
-        <p>Ministerio de Educación del Perú. (2023). <em>Guía de ciudadanía digital para secundaria</em>. Gobierno del Perú. https://www.minedu.gob.pe/guia-ciudadania-digital</p>
-      </div>
-      <table style="width:100%;font-size:13px;border-collapse:collapse;">
-        <tr style="background:#f1f5f9;">
-          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;">Parte de la referencia</th>
-          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;">¿Cuál es en el ejemplo?</th>
-        </tr>
-        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Autor o institución</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Año de publicación</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Título</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:7px 10px;border:1px solid #e2e8f0;">Lugar / URL</td><td style="padding:7px 10px;border:1px solid #e2e8f0;"></td></tr>
-      </table>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 2</div>
-      <h4>¿Necesita cita? Marca Sí o No y explica por qué</h4>
-      <div style="display:grid;gap:8px;font-size:13px;">
-        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
-          <p><strong>Situación A:</strong> Escribí que "el cambio climático afecta a los océanos" usando mis propias palabras, pero la idea la saqué de un artículo de la NASA.</p>
-          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
-        </div>
-        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
-          <p><strong>Situación B:</strong> Escribí mi propia opinión sobre por qué me parece importante el reciclaje, sin consultar ninguna fuente.</p>
-          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
-        </div>
-        <div style="background:#f8fafc;border-radius:8px;padding:10px;">
-          <p><strong>Situación C:</strong> Copié exactamente una frase de un libro para ilustrar una idea.</p>
-          <p style="margin-top:6px;">¿Necesita cita? <strong>Sí / No</strong> &nbsp;·&nbsp; ¿Por qué? <span class="answer-line" style="display:inline-block;width:60%;vertical-align:bottom;"></span></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 3</div>
-      <h4>Corrige el error: ¿qué está mal en estas "citas"?</h4>
-      <div style="display:grid;gap:8px;font-size:13px;">
-        <div><p><strong>Error A:</strong> "Lo encontré en Google." <span class="answer-line" style="display:inline-block;width:70%;vertical-align:bottom;"></span></p></div>
-        <div><p><strong>Error B:</strong> La referencia dice solo: <em>https://www.wikipedia.org</em></p><span class="answer-line"></span></div>
-        <div><p><strong>Error C:</strong> "La IA me dijo que el libro fue publicado en 2019 por la editorial Pearson." El estudiante no verificó el dato.</p><span class="answer-line"></span></div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 4</div>
-      <h4>Dibuja el mapa APA</h4>
-      <p>Completa el diagrama de flujo: ¿qué va dónde?</p>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:12px;font-size:13px;flex-wrap:wrap;">
-        <div style="border:2px solid #2563eb;border-radius:8px;padding:10px 14px;text-align:center;min-width:120px;">
-          <div style="font-size:11px;color:#64748b;margin-bottom:4px;">Paso 1</div>
-          <div style="font-weight:700;color:#1e3a8a;">Uso una idea<br>de otra fuente</div>
-        </div>
-        <div style="font-size:20px;color:#94a3b8;">→</div>
-        <div style="border:2px dashed #94a3b8;border-radius:8px;padding:10px 14px;text-align:center;min-width:140px;min-height:60px;color:#94a3b8;font-size:12px;">
-          Paso 2:<br>¿Qué pongo<br>en el texto?
-        </div>
-        <div style="font-size:20px;color:#94a3b8;">→</div>
-        <div style="border:2px dashed #94a3b8;border-radius:8px;padding:10px 14px;text-align:center;min-width:140px;min-height:60px;color:#94a3b8;font-size:12px;">
-          Paso 3:<br>¿Qué pongo<br>al final?
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- QUIZ -->
-  <div class="section page-break">
-    <div class="section-title">🧪 Quiz de autoevaluación</div>
-    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>1.</span> ¿Para qué sirven las normas APA?</div>
-      <ul class="options">
-        <li>Para hacer los trabajos más difíciles de leer</li>
-        <li>Para ordenar trabajos, reconocer fuentes y dar confianza al lector</li>
-        <li>Para que solo los profesores puedan leer los trabajos</li>
-        <li>Para reemplazar el título del trabajo</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>2.</span> Si busco información en Google y llego a un artículo de la OMS, ¿cuál es mi fuente?</div>
-      <ul class="options">
-        <li>Google</li>
-        <li>Internet en general</li>
-        <li>El artículo de la OMS</li>
-        <li>Mi computadora</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>3.</span> ¿Qué debe incluir una referencia al final del trabajo?</div>
-      <ul class="options">
-        <li>Solo el link de la página</li>
-        <li>Autor o institución, año, título y lugar o URL</li>
-        <li>Solo el nombre del libro</li>
-        <li>El número de página que leí</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>4.</span> Escribí una idea con mis propias palabras, pero la idea vino de un libro. ¿Debo citar?</div>
-      <ul class="options">
-        <li>No, porque la escribí con mis palabras</li>
-        <li>No, porque ya la cambié suficiente</li>
-        <li>Sí, porque la idea sigue siendo de la fuente original</li>
-        <li>Solo si la copié exactamente</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>5.</span> ¿Dónde va la cita en el texto?</div>
-      <ul class="options">
-        <li>Solo al final del trabajo</li>
-        <li>Cerca de la idea usada, dentro del texto</li>
-        <li>En el título del trabajo</li>
-        <li>No tiene lugar específico</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>6.</span> ¿Qué problema tiene que la IA invente fuentes o autores?</div>
-      <ul class="options">
-        <li>Ninguno, la IA siempre tiene razón</li>
-        <li>Que puedo citar algo que no existe, haciendo mi trabajo deshonesto</li>
-        <li>Que la IA cobra por hacerlo</li>
-        <li>Que cambia el formato del trabajo</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>7.</span> ¿Qué significa parafrasear?</div>
-      <ul class="options">
-        <li>Copiar el texto exactamente</li>
-        <li>Poner la idea en un párrafo al inicio</li>
-        <li>Explicar una idea con tus propias palabras</li>
-        <li>Resumir todo el libro</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>8.</span> ¿Qué ejemplo de cita en el texto está bien escrito?</div>
-      <ul class="options">
-        <li>"Lo encontré en Google (2024)"</li>
-        <li>"Según Wikipedia..."</li>
-        <li>"Según Pérez (2024), el agua cubre el 71% de la Tierra."</li>
-        <li>"Un autor dijo una vez que..."</li>
-      </ul>
-    </div>
-
-    <div class="answer-key no-break">
-      <h4>🔑 Clave de respuestas</h4>
-      <div class="answer-grid">
-        <div class="answer-pill"><b>1</b> B — Ordenar y dar confianza</div>
-        <div class="answer-pill"><b>2</b> C — Artículo de la OMS</div>
-        <div class="answer-pill"><b>3</b> B — Autor, año, título, URL</div>
-        <div class="answer-pill"><b>4</b> C — Sí, siempre</div>
-        <div class="answer-pill"><b>5</b> B — Cerca de la idea</div>
-        <div class="answer-pill"><b>6</b> B — Cito algo inexistente</div>
-        <div class="answer-pill"><b>7</b> C — Con tus palabras</div>
-        <div class="answer-pill"><b>8</b> C — Según Pérez (2024)</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EVALUACIÓN -->
-  <div class="section no-break">
-    <div class="section-title">📊 Rúbrica de autoevaluación</div>
-    <table class="eval-table">
-      <tr>
-        <th>Criterio</th>
-        <th>Lo logré (3 pts)</th>
-        <th>Casi lo logré (2 pts)</th>
-        <th>Necesito practicar (1 pt)</th>
-        <th style="width:60px;">Mi nivel</th>
-      </tr>
-      <tr>
-        <td>Distingo cita en el texto de referencia al final</td>
-        <td>Los diferencia claramente con ejemplos</td>
-        <td>Los diferencia pero sin ejemplos claros</td>
-        <td>Los confunde o no los distingue</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Identifico las partes de una referencia</td>
-        <td>Identifiqué las 4 partes correctamente</td>
-        <td>Identifiqué 2 o 3 partes</td>
-        <td>No pude identificar las partes</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Sé que parafrasear no elimina la cita</td>
-        <td>Lo expliqué con sus razones</td>
-        <td>Lo sé pero no sé explicarlo bien</td>
-        <td>Pensé que cambiar palabras es suficiente</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Actividad: detective de fuentes</td>
-        <td>Identifiqué todas las partes</td>
-        <td>Identifiqué 2 o 3 partes</td>
-        <td>No pude completar la actividad</td>
-        <td></td>
-      </tr>
-    </table>
-    <div class="score-box">
-      <span>Puntaje total (máximo 12 pts)</span>
-      <div class="total">______ / 12</div>
-    </div>
-  </div>
-
+  <div class="doc-meta"><div>4.° Secundaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
 </div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+<div class="doc-subtitle">APA sin miedo: citar para ser claro y honesto &nbsp;·&nbsp; Material de estudio y práctica interactiva</div>
+<div class="score-bar">
+  <span>Puntaje:</span>
+  <div class="score-display"><span id="score-val">0</span>&nbsp;<span style="font-size:13px;font-weight:400;color:#64748b">de <span id="score-total">0</span> preguntas</span></div>
+  <div class="progress-track"><div class="progress-fill" id="score-prog"></div></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
+</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Entendimos el <strong>sentido de las normas APA</strong>: no son reglas arbitrarias, sino una forma de ser honesto con la información. Aprendimos a diferenciar la cita en el texto de la referencia al final.</div><div class="summary-grid"><div class="concept-card"><strong>¿Para qué sirve APA?</strong><p>Para ordenar trabajos, reconocer fuentes y dar confianza al lector. Es jugar limpio con la información.</p></div><div class="concept-card"><strong>Dar crédito</strong><p>Si usas la idea de otra persona (aunque la escribas diferente), debes indicar de dónde viene. Eso se llama citar.</p></div><div class="concept-card"><strong>Google no es la fuente</strong><p>Google ayuda a buscar. La fuente real es la página, libro o artículo donde está la información.</p></div><div class="concept-card"><strong>Cita en el texto</strong><p>Va cerca de la idea usada. Ejemplo: Según Pérez (2024)… o (Pérez, 2024) al final.</p></div><div class="concept-card"><strong>Referencia al final</strong><p>Lista completa: autor o institución · año · título · lugar o URL.</p></div><div class="concept-card"><strong>Parafrasear ≠ no citar</strong><p>Si la idea vino de una fuente, se cita aunque la escribas con otras palabras.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="glossary"><div class="gloss-item"><b>Citar:</b> indicar de dónde viene una idea o información</div><div class="gloss-item"><b>Referencia:</b> datos completos de una fuente al final del trabajo</div><div class="gloss-item"><b>Fuente:</b> libro, página, artículo o video donde está la información</div><div class="gloss-item"><b>Parafrasear:</b> explicar una idea con tus propias palabras (aún se cita)</div><div class="gloss-item"><b>APA:</b> sistema de normas para citar y ordenar referencias académicas</div><div class="gloss-item"><b>Plagio:</b> usar ideas o textos ajenos sin dar crédito a quien corresponde</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 1</div>
+  <h4>Identifica la parte de la referencia — asigna cada elemento a su categoría</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Autor</th><th>Año</th><th>Título</th><th>URL / Lugar</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-1-0">
+  <td>Ministerio de Educación del Perú</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Autor')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Autor')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Autor')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Autor')">URL / Lugar</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-1">
+  <td>(2023)</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Año')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Año')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Año')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Año')">URL / Lugar</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-2">
+  <td>Guía de ciudadanía digital para secundaria</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Título')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Título')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Título')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Título')">URL / Lugar</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-3">
+  <td>https://www.minedu.gob.pe/guia-ciudadania-digital</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','URL / Lugar')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','URL / Lugar')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','URL / Lugar')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','URL / Lugar')">URL / Lugar</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 2</div>
+  <h4>¿Necesita cita? Marca V (verdadero = sí necesita) o F (falso = no necesita)</h4>
+  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
+  <td>Escribí con mis palabras una idea que saqué de un artículo de la NASA.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Escribí mi propia opinión sobre el reciclaje sin consultar ninguna fuente.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Copié exactamente una frase de un libro.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Hice un resumen de la información de una página web.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Usé datos estadísticos de un informe del INEI.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Describí mi experiencia personal aprendiendo a andar en bicicleta.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 3</div>
+  <h4>¿Esta «fuente» está bien registrada o mal registrada?</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Bien registrada</th><th>Mal registrada</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-3-0">
+  <td>"Lo encontré en Google."</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-3-1">
+  <td>"Pérez, J. (2022). El agua y la vida. Editorial Norma."</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Bien registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Bien registrada')">Mal registrada</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-3-2">
+  <td>"Wikipedia"</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-3-3">
+  <td>"OMS (2021). Informe mundial de salud. https://www.who.int/informe2021"</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Bien registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Bien registrada')">Mal registrada</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-3-4">
+  <td>"Un libro de ciencias"</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 4</div>
+  <h4>Explica con tus palabras: ¿qué diferencia hay entre una cita en el texto y una referencia al final?</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Usa un ejemplo propio para ilustrarlo.</p>
+  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-4')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-4"><strong>Respuesta modelo:</strong> La <strong>cita en el texto</strong> es una señal breve dentro del desarrollo que indica que esa idea viene de alguna fuente: Según la OMS (2021)… La <strong>referencia al final</strong> es la ficha completa de esa fuente (autor, año, título, URL) para que el lector pueda verificarla. Son complementarias: la cita apunta a la referencia completa.</div>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 5</div>
+  <h4>Practica: escribe una cita en el texto</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Tienes esta fuente: <em>Ministerio de Educación del Perú (2023). Guía de ciudadanía digital.</em> Escribe una oración que use esta fuente correctamente con su cita dentro del texto.</p>
+  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-5')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-5"><strong>Respuesta modelo:</strong> Ejemplo correcto: «Según el Ministerio de Educación del Perú (2023), el uso responsable de la tecnología es una competencia clave para los estudiantes de secundaria.»<br>También válido: «La competencia digital es fundamental en la educación actual (Ministerio de Educación del Perú, 2023).»</div>
+</div></div><div class="section"><div class="section-title">🧪 Quiz — Haz clic en la respuesta correcta</div><div class="quiz-item">
+  <div class="q"><span>1.</span> ¿Para qué sirven las normas APA?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Para hacer trabajos más difíciles</li>
+    <li data-correct="true" onclick="quizPick(this)">Para ordenar trabajos, reconocer fuentes y dar confianza al lector</li>
+    <li onclick="quizPick(this)">Para que solo los profesores lean los trabajos</li>
+    <li onclick="quizPick(this)">Para reemplazar el título</li>
+  </ul>
+  <div class="q-explanation">💡 APA es una forma de ser honesto: permite que cualquiera verifique de dónde salió la información.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>2.</span> Si busco en Google y llego a un artículo de la OMS, ¿cuál es mi fuente?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Google</li>
+    <li onclick="quizPick(this)">Internet en general</li>
+    <li data-correct="true" onclick="quizPick(this)">El artículo de la OMS</li>
+    <li onclick="quizPick(this)">Mi computadora</li>
+  </ul>
+  <div class="q-explanation">💡 Google es el motor de búsqueda, no la fuente. La fuente es la página o documento donde está la información.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>3.</span> ¿Qué debe incluir una referencia al final del trabajo?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Solo el link</li>
+    <li data-correct="true" onclick="quizPick(this)">Autor, año, título y lugar o URL</li>
+    <li onclick="quizPick(this)">Solo el nombre del libro</li>
+    <li onclick="quizPick(this)">El número de página</li>
+  </ul>
+  <div class="q-explanation">💡 Una referencia APA completa incluye siempre esas cuatro partes para que el lector pueda ubicar la fuente.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>4.</span> Escribí una idea con mis propias palabras, pero vino de un libro. ¿Debo citar?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">No, la escribí con mis palabras</li>
+    <li onclick="quizPick(this)">No, ya la cambié suficiente</li>
+    <li data-correct="true" onclick="quizPick(this)">Sí, porque la idea sigue siendo de la fuente original</li>
+    <li onclick="quizPick(this)">Solo si la copié exactamente</li>
+  </ul>
+  <div class="q-explanation">💡 Parafrasear no elimina la obligación de citar. La idea sigue perteneciendo a la fuente original.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>5.</span> ¿Dónde va la cita en el texto?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Solo al final</li>
+    <li data-correct="true" onclick="quizPick(this)">Cerca de la idea usada, dentro del texto</li>
+    <li onclick="quizPick(this)">En el título</li>
+    <li onclick="quizPick(this)">No tiene lugar específico</li>
+  </ul>
+  <div class="q-explanation">💡 La cita va inmediatamente después de la idea que usaste, dentro del párrafo.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>6.</span> ¿Qué problema tiene que la IA invente fuentes o autores?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Ninguno, la IA siempre tiene razón</li>
+    <li data-correct="true" onclick="quizPick(this)">Que puedo citar algo que no existe, haciendo mi trabajo deshonesto</li>
+    <li onclick="quizPick(this)">Que la IA cobra por hacerlo</li>
+    <li onclick="quizPick(this)">Que cambia el formato</li>
+  </ul>
+  <div class="q-explanation">💡 Si citas una fuente inventada por la IA, tu trabajo tiene referencias falsas, lo que es un error grave de honestidad académica.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>7.</span> ¿Qué significa parafrasear?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Copiar el texto exactamente</li>
+    <li onclick="quizPick(this)">Poner la idea al inicio de un párrafo</li>
+    <li data-correct="true" onclick="quizPick(this)">Explicar una idea con tus propias palabras</li>
+    <li onclick="quizPick(this)">Resumir todo el libro</li>
+  </ul>
+  <div class="q-explanation">💡 Parafrasear = reformular la idea con tus palabras. Aun así se debe citar la fuente de donde vino.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>8.</span> ¿Qué ejemplo de cita en el texto está bien escrito?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">"Lo encontré en Google (2024)"</li>
+    <li onclick="quizPick(this)">"Según Wikipedia…"</li>
+    <li data-correct="true" onclick="quizPick(this)">"Según Pérez (2024), el agua cubre el 71% de la Tierra."</li>
+    <li onclick="quizPick(this)">"Un autor dijo una vez que…"</li>
+  </ul>
+  <div class="q-explanation">💡 La forma correcta incluye autor y año entre paréntesis, cerca de la idea citada.</div>
+</div></div><div class="section">
+  <div class="section-title">📊 Rúbrica de autoevaluación</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:12px">Selecciona el nivel que mejor describe tu desempeño. El puntaje se calcula automáticamente.</p>
+  <table class="rubric-table">
+    <thead><tr>
+      <th>Criterio</th>
+      <th>Lo logré (3)</th>
+      <th>Casi lo logré (2)</th>
+      <th>Necesito practicar (1)</th>
+      <th style="width:80px">Nivel</th>
+    </tr></thead>
+    <tbody><tr>
+  <td><strong>Distingo cita vs referencia</strong></td>
+  <td>Los diferencia con ejemplos propios</td>
+  <td>Los diferencia sin ejemplos</td>
+  <td>Los confunde</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub0" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub0" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub0" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Identifico partes de referencia</strong></td>
+  <td>Las 4 partes correctas</td>
+  <td>2 o 3 partes</td>
+  <td>No pude identificarlas</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub1" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub1" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub1" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Sé que parafrasear no elimina la cita</strong></td>
+  <td>Lo explico con razones</td>
+  <td>Lo sé pero no lo explico bien</td>
+  <td>Pensé que cambiar palabras es suficiente</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub2" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub2" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub2" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Escribí una cita en el texto correcta</strong></td>
+  <td>Formato y contenido correctos</td>
+  <td>Contenido bien, formato parcial</td>
+  <td>No pude escribirla</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub3" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub3" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub3" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+</tbody>
+  </table>
+  <div class="score-result">
+    <span>Mi puntaje total</span>
+    <div class="total" id="rubric-score">— / 12</div>
+  </div>
+</div>
+<div id="result-banner" class="result-banner" style="display:none"></div>
+</div>
+
+<script>
+let quizTotal = 0, quizCorrect = 0;
+
+/* ── Score tracking ── */
+function countable(isCorrect){
+  quizTotal++;
+  if(isCorrect) quizCorrect++;
+  refreshScore();
+}
+function refreshScore(){
+  const el = document.getElementById('score-val');
+  const prog = document.getElementById('score-prog');
+  const total = document.getElementById('score-total');
+  if(!el) return;
+  el.textContent = quizCorrect;
+  total.textContent = quizTotal;
+  if(quizTotal > 0) prog.style.width = (quizCorrect/quizTotal*100)+'%';
+}
+
+/* ── QUIZ ── */
+function quizPick(li){
+  const opts = li.closest('.quiz-options');
+  if(opts.classList.contains('done')) return;
+  opts.classList.add('done');
+  const item = li.closest('.quiz-item');
+  const isCorrect = li.dataset.correct === 'true';
+  opts.querySelectorAll('li').forEach(opt=>{
+    opt.classList.add('locked');
+    if(opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if(isCorrect){ li.classList.add('correct'); item.classList.add('answered-ok'); }
+  else         { li.classList.add('wrong');   item.classList.add('answered-err'); }
+  const exp = item.querySelector('.q-explanation');
+  if(exp) exp.classList.add('visible');
+  countable(isCorrect);
+}
+
+/* ── CLASSIFICATION ── */
+function classify(btn, chosen, correct){
+  const row = btn.closest('.cls-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.cls-btn').forEach(b=>{ b.disabled=true; });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk ? 'correct' : 'wrong');
+  if(!isOk){
+    row.querySelectorAll('.cls-btn').forEach(b=>{
+      if(b.dataset.val === correct) b.classList.add('reveal');
+    });
+  }
+  const res = row.querySelector('.cls-result');
+  if(res){ res.classList.add(isOk?'ok':'err'); res.textContent = isOk?'✓ Correcto':'✗ Incorrecto'; }
+  countable(isOk);
+}
+
+/* ── TRUE / FALSE ── */
+function tfPick(btn, chosen, correct){
+  const row = btn.closest('.tf-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===correct) b.classList.add(chosen===correct?'correct':'reveal');
+  });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk?'correct':'wrong');
+  countable(isOk);
+}
+
+/* ── MODEL ANSWER TOGGLE ── */
+function toggleModel(btn, id){
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('visible');
+  btn.textContent = open ? '▲ Ocultar respuesta modelo' : '▼ Ver respuesta modelo';
+}
+
+/* ── VERIFY FILL-IN ── */
+function verifyBlank(inputId, answers){
+  const inp = document.getElementById(inputId);
+  if(inp.dataset.done) return;
+  inp.dataset.done='1';
+  const val = inp.value.trim().toLowerCase();
+  const ok = answers.some(a => val.includes(a.toLowerCase()));
+  inp.classList.add(ok?'ok':'err');
+  inp.title = ok ? '✓ Correcto' : 'Respuesta esperada: ' + answers[0];
+  countable(ok);
+}
+
+/* ── RUBRIC SCORE ── */
+function calcRubric(){
+  let total=0, count=0;
+  document.querySelectorAll('.rubric-radio input:checked').forEach(r=>{
+    total += parseInt(r.value); count++;
+  });
+  document.getElementById('rubric-score').textContent = total + ' / ' + (count*3);
+}
+
+/* ── RESET ── */
+function resetAll(){
+  if(!confirm('¿Reiniciar todos los ejercicios?')) return;
+  location.reload();
+}
+
+/* ── FINAL RESULT BANNER ── */
+document.addEventListener('click', ()=>{
+  setTimeout(()=>{
+    const banner = document.getElementById('result-banner');
+    if(!banner) return;
+    if(quizTotal < 8) return;
+    banner.style.display = 'block';
+    const pct = quizCorrect/quizTotal;
+    banner.className = 'result-banner ' + (pct===1?'perfect':pct>=.7?'good':'keep-going');
+    banner.textContent = pct===1
+      ? '🏆 ¡Perfecto! Respondiste todo correctamente.'
+      : pct>=.7
+        ? `👍 Buen trabajo: ${quizCorrect} de ${quizTotal} correctas.`
+        : `📚 Sigue repasando: ${quizCorrect} de ${quizTotal} correctas. ¡Tú puedes!`;
+  }, 100);
+});
+</script>
+
 </body>
 </html>

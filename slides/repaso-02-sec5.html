@@ -5,528 +5,588 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Repaso S02 — 5.° Secundaria | Asunción School</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
-  :root {
-    --brand:   #1e3a8a;
-    --accent:  #2563eb;
-    --gold:    #b45309;
-    --green:   #166534;
-    --red:     #991b1b;
-    --text:    #1e293b;
-    --muted:   #64748b;
-    --border:  #e2e8f0;
-    --bg-alt:  #f8fafc;
-    --radius:  10px;
-  }
+:root {
+  --brand:  #1e3a8a; --accent: #2563eb; --accent2: #7c3aed;
+  --gold:   #b45309; --green-ok: #15803d; --red-err: #b91c1c;
+  --text:   #1e293b; --muted:   #64748b; --dim: #94a3b8;
+  --border: #e2e8f0; --bg-alt:  #f8fafc; --bg-quiz: #f0f4ff;
+  --radius: 10px;
+  --ok-bg:  #dcfce7; --ok-border: #86efac; --ok-text: #15803d;
+  --err-bg: #fee2e2; --err-border:#fca5a5; --err-text: #b91c1c;
+  --hint-bg:#fef9c3; --hint-border:#fde047; --hint-text:#713f12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fff;line-height:1.6}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent);text-decoration:none}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HEADER ── */
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.doc-header .school{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.doc-header .teacher{font-size:13px;font-weight:700;color:var(--brand);margin-top:2px}
+.doc-header .doc-meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: #fff;
-    line-height: 1.6;
-  }
+/* ── SCORE BAR ── */
+.score-bar{display:flex;align-items:center;gap:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+.score-bar span{font-size:13px;color:var(--muted)}
+.score-display{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand)}
+.score-bar .reset-btn{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12px;transition:all .15s}
+.score-bar .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.progress-track{flex:1;min-width:80px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;width:0%}
 
-  /* ── PORTADA / ENCABEZADO ── */
-  .doc-header {
-    border-bottom: 3px solid var(--brand);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
-  }
-  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
-  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
-  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+/* ── SECTION HEADERS ── */
+.section{margin-bottom:26px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-  .doc-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--brand);
-    margin-bottom: 4px;
-  }
-  .doc-subtitle {
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 28px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:10px 13px}
+.concept-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.concept-card p{font-size:13px}
 
-  /* ── SECCIONES ── */
-  .section {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--brand);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--accent);
-    display: flex; align-items: center; gap: 8px;
-  }
+/* ── GLOSSARY ── */
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gloss-item{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
+.gloss-item b{color:var(--brand)}
 
-  /* ── RESUMEN ── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .concept-card {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 10px 13px;
-  }
-  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
-  .concept-card p { font-size: 13px; color: var(--text); }
+/* ── EXERCISE WRAPPER ── */
+.exercise{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.exercise-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;border-radius:5px;padding:2px 8px;margin-bottom:8px}
+.exercise h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.exercise p,.exercise li{font-size:13px}
 
-  /* ── GLOSARIO ── */
-  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .gloss-item {
-    background: var(--bg-alt);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-  }
-  .gloss-item b { color: var(--brand); }
+/* ── CLASSIFICATION EXERCISE ── */
+.classify-table{width:100%;border-collapse:collapse}
+.classify-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.classify-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.classify-row.answered-ok td:first-child{color:var(--ok-text);font-weight:600}
+.classify-row.answered-err td:first-child{color:var(--err-text)}
+.cls-btns{display:flex;gap:6px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:all .15s;cursor:pointer}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.75}
+.cls-result{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
+.cls-result.ok{background:var(--ok-bg);color:var(--ok-text);display:inline-block}
+.cls-result.err{background:var(--err-bg);color:var(--err-text);display:inline-block}
 
-  /* ── EJERCICIOS ── */
-  .exercise {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .exercise-num {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700; font-size: 11px;
-    border-radius: 5px;
-    padding: 2px 8px;
-    margin-bottom: 8px;
-  }
-  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
-  .exercise ul, .exercise ol { padding-left: 18px; }
-  .exercise li { margin-bottom: 4px; }
-  .answer-line {
-    display: block;
-    border-bottom: 1px solid #94a3b8;
-    height: 24px;
-    margin: 6px 0;
-    width: 100%;
-  }
-  .answer-box {
-    border: 1px solid #94a3b8;
-    border-radius: 6px;
-    min-height: 56px;
-    width: 100%;
-    margin-top: 8px;
-  }
+/* ── TRUE / FALSE ── */
+.tf-table{width:100%;border-collapse:collapse}
+.tf-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.tf-row td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.tf-btns{display:flex;gap:6px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 14px;font-size:13px;font-weight:700;transition:all .15s;cursor:pointer}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.7}
 
-  /* ── QUIZ ── */
-  .quiz-item {
-    margin-bottom: 16px;
-    page-break-inside: avoid;
-  }
-  .quiz-item .q {
-    font-weight: 600; font-size: 13.5px;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
-  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
-  .options li {
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .options li::before {
-    content: '';
-    display: inline-block;
-    width: 15px; height: 15px;
-    border: 1.5px solid #94a3b8;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+/* ── ORDERING ── */
+.order-items{display:flex;flex-direction:column;gap:6px}
+.order-item{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
+.order-item:hover:not(.locked){border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.selected{border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.correct{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-text);font-weight:600}
+.order-item.wrong{border-color:var(--err-border);background:var(--err-bg);color:var(--err-text)}
+.order-num{width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-item.correct .order-num{background:var(--ok-border);color:var(--ok-text)}
+.order-item.wrong .order-num{background:var(--err-border);color:var(--err-text)}
 
-  /* ── CLAVE DE RESPUESTAS ── */
-  .answer-key {
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-top: 8px;
-  }
-  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .answer-pill {
-    background: #fff;
-    border: 1px solid #86efac;
-    border-radius: 6px;
-    padding: 5px 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+/* ── TEXTAREA + MODEL ── */
+.input-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;color:var(--text)}
+.input-area:focus{border-color:var(--accent)}
+.short-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;color:var(--text);background:#fff}
+.short-input:focus{border-color:var(--accent)}
+.model-toggle{margin-top:8px;background:transparent;border:1.5px solid var(--hint-border);color:var(--hint-text);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
+.model-toggle:hover{background:var(--hint-bg)}
+.model-answer{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-text);line-height:1.6}
+.model-answer.visible{display:block}
+.model-answer strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 
-  /* ── EVALUACIÓN ── */
-  .eval-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .eval-table th {
-    background: var(--brand);
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .eval-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
-  .score-box {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    margin-top: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .score-box span { font-size: 13px; color: var(--muted); }
-  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+/* ── VERIFY BUTTON ── */
+.verify-btn{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:700;transition:opacity .15s}
+.verify-btn:hover{opacity:.85}
+.verify-btn:disabled{opacity:.45;cursor:default}
 
-  /* ── IMPRIMIR ── */
-  @media print {
-    body { font-size: 13px; }
-    .page-break { page-break-before: always; }
-    .no-break { page-break-inside: avoid; }
-    @page { margin: 18mm 20mm; }
-  }
+/* ── QUIZ ── */
+.quiz-item{margin-bottom:16px;padding:12px 14px;background:var(--bg-quiz);border:1px solid #c7d2fe;border-radius:var(--radius)}
+.quiz-item.answered-ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.quiz-item.answered-err{background:var(--err-bg);border-color:var(--err-border)}
+.q{font-weight:600;font-size:13.5px;margin-bottom:8px}
+.q span{color:var(--accent);margin-right:4px}
+.answered-ok .q span{color:var(--ok-text)}
+.answered-err .q span{color:var(--err-text)}
+.quiz-options{list-style:none;display:flex;flex-direction:column;gap:5px}
+.quiz-options li{font-size:13px;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s}
+.quiz-options li:hover:not(.locked){border-color:var(--accent);background:#eff6ff}
+.quiz-options li.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);font-weight:600;cursor:default}
+.quiz-options li.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text);cursor:default}
+.quiz-options li.locked{cursor:default}
+.quiz-options li::before{content:'';display:inline-block;width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s}
+.quiz-options li.correct::before{background:var(--ok-text);border-color:var(--ok-text);box-shadow:0 0 0 2px var(--ok-bg) inset, 0 0 0 4px var(--ok-text)}
+.quiz-options li.wrong::before{background:var(--err-text);border-color:var(--err-text)}
+.q-explanation{display:none;margin-top:8px;font-size:12px;color:var(--muted);padding:6px 10px;background:#fff;border-radius:6px;border:1px solid var(--border)}
+.q-explanation.visible{display:block}
 
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 28px 32px;
-  }
+/* ── RUBRIC ── */
+.rubric-table{width:100%;border-collapse:collapse;font-size:13px}
+.rubric-table th{background:var(--brand);color:#fff;padding:8px 10px;font-size:12px;text-align:left}
+.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.rubric-table tr:nth-child(even) td{background:var(--bg-alt)}
+.rubric-radio{display:flex;gap:6px;justify-content:center}
+.rubric-radio label{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:2px}
+.rubric-radio label span{font-size:10px;color:var(--muted)}
+.rubric-radio input[type=radio]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.score-result{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
+.score-result span{font-size:13px;color:var(--muted)}
+.score-result .total{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
 
-  .tag-pill {
-    display: inline-block;
-    background: rgba(37,99,235,.1);
-    color: var(--accent);
-    border: 1px solid rgba(37,99,235,.25);
-    border-radius: 100px;
-    font-size: 11px; font-weight: 700;
-    padding: 2px 10px;
-    margin-right: 6px;
-  }
+/* ── RESULT BANNER ── */
+.result-banner{display:none;text-align:center;border-radius:var(--radius);padding:16px;margin-top:8px;font-size:15px;font-weight:700}
+.result-banner.perfect{background:var(--ok-bg);color:var(--ok-text);border:1.5px solid var(--ok-border)}
+.result-banner.good{background:#eff6ff;color:var(--accent);border:1.5px solid #bfdbfe}
+.result-banner.keep-going{background:var(--hint-bg);color:var(--hint-text);border:1.5px solid var(--hint-border)}
 
-  .info-box {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: #1e40af;
-    margin-bottom: 14px;
-  }
+/* ── PAGE WRAP / RESPONSIVE ── */
+.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:14px}
+@media(max-width:600px){
+  .summary-grid,.glossary{grid-template-columns:1fr}
+  .page-wrap{padding:16px}
+  .score-bar{gap:8px}
+  .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table td:nth-child(2),.rubric-table td:nth-child(3){display:none}
+}
+@media print{
+  .score-bar,.verify-btn,.model-toggle,.reset-btn{display:none}
+  .quiz-options li.correct,.cls-btn.correct,.tf-btn.correct{background:#dcfce7!important;color:#15803d!important}
+  @page{margin:18mm 20mm}
+}
 
-  .warn-box {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: var(--gold);
-    margin-bottom: 14px;
-  }
+/* ── FILL IN BLANK ── */
+.blank-input{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:inherit;font-size:13px;padding:2px 6px;width:160px;color:var(--text);outline:none}
+.blank-input.ok{border-color:var(--ok-text);color:var(--ok-text)}
+.blank-input.err{border-color:var(--err-text);color:var(--err-text)}
+</style>
 </style>
 </head>
 <body>
 <div class="page-wrap">
-
-  <div class="doc-header">
-    <div>
-      <div class="school">Asunción School · Computación 2026</div>
-      <div class="teacher">Prof. Estrella Vizcarra</div>
-    </div>
-    <div class="doc-meta">
-      <div>5.° Secundaria</div>
-      <div>Sesión 02 · 22 de mayo de 2026</div>
-    </div>
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
   </div>
-  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-  <div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes &nbsp;·&nbsp; Material de estudio y práctica</div>
-
-  <!-- RESUMEN -->
-  <div class="section">
-    <div class="section-title">📖 Lo que aprendimos hoy</div>
-    <div class="info-box">
-      En esta clase revisamos la <strong>estructura completa de un trabajo formal avanzado</strong>: portada, introducción, desarrollo con secciones, conclusión y referencias. También trabajamos tono formal, formato que facilita la lectura y el uso crítico de la IA como revisora.
-    </div>
-    <div class="summary-grid">
-      <div class="concept-card">
-        <strong>Formal ≠ complicado</strong>
-        <p>Formal significa orden, claridad, fuentes y revisión. No implica palabras difíciles ni frases rebuscadas.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Partes del trabajo</strong>
-        <p>Portada · Índice (si aplica) · Introducción · Desarrollo (secciones) · Conclusión · Referencias.</p>
-      </div>
-      <div class="concept-card">
-        <strong>La introducción</strong>
-        <p>Presenta el tema, explica por qué importa y dice qué se hará en el trabajo. No revela todo: ubica al lector.</p>
-      </div>
-      <div class="concept-card">
-        <strong>El desarrollo</strong>
-        <p>Organiza ideas por secciones con subtítulos. Usa evidencias. No mezcla todo en un solo bloque.</p>
-      </div>
-      <div class="concept-card">
-        <strong>La conclusión</strong>
-        <p>No repite todo: resume lo más importante y cierra con una idea clara. Evitar "me gustó hacer este trabajo".</p>
-      </div>
-      <div class="concept-card">
-        <strong>IA como revisora</strong>
-        <p>Puede revisar claridad, orden y repeticiones. No debe inventar contenido ni datos. El borrador debe ser tuyo.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- GLOSARIO -->
-  <div class="section">
-    <div class="section-title">📚 Palabras clave</div>
-    <div class="glossary">
-      <div class="gloss-item"><b>Trabajo formal:</b> documento con estructura, fuentes y tono adecuado al contexto.</div>
-      <div class="gloss-item"><b>Tono formal:</b> sin jergas, emojis ni exageraciones. Frases precisas y directas.</div>
-      <div class="gloss-item"><b>Introducción:</b> ubica al lector en el tema sin revelar todo el contenido.</div>
-      <div class="gloss-item"><b>Desarrollo:</b> cuerpo del trabajo organizado en secciones con evidencias.</div>
-      <div class="gloss-item"><b>Conclusión:</b> cierre que resume lo esencial y propone una idea final.</div>
-      <div class="gloss-item"><b>Borrador:</b> primera versión del trabajo, abierta a correcciones.</div>
-    </div>
-  </div>
-
-  <!-- EJERCICIOS -->
-  <div class="section">
-    <div class="section-title">✏️ Ejercicios de práctica</div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 1</div>
-      <h4>Mejora estas introducciones: reescríbelas con más precisión y formalidad</h4>
-      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:12.5px;margin-bottom:8px;">
-        <strong>Introducción A (floja):</strong> "En este trabajo voy a hablar sobre el cambio climático porque es muy importante y hay que cuidar el planeta."
-      </div>
-      <div class="answer-box" style="min-height:70px;"></div>
-      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:12.5px;margin:10px 0 8px;">
-        <strong>Introducción B (vaga):</strong> "Este trabajo trata de tecnología. La tecnología es muy usada hoy en día. En las siguientes páginas veremos cosas sobre eso."
-      </div>
-      <div class="answer-box" style="min-height:70px;"></div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 2</div>
-      <h4>Formal o informal: clasifica cada frase marcando F (formal) o I (informal)</h4>
-      <div style="display:grid;gap:6px;font-size:13px;">
-        <div>( &nbsp; ) "El estudio demuestra que el 60% de los adolescentes utiliza redes sociales más de 4 horas al día."</div>
-        <div>( &nbsp; ) "O sea, las redes sociales son como súper adictivas, bro."</div>
-        <div>( &nbsp; ) "Los resultados obtenidos permiten concluir que existe una correlación entre el uso digital y el rendimiento académico."</div>
-        <div>( &nbsp; ) "La verdad es que esto es lo más importante del trabajo 😊"</div>
-        <div>( &nbsp; ) "Se recomienda implementar estrategias de uso responsable en los entornos educativos."</div>
-        <div>( &nbsp; ) "A mi me parece que deberían hacer algo al respecto, aunque igual no creo que funcione."</div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 3</div>
-      <h4>Planifica tu trabajo formal: completa el esquema</h4>
-      <p style="font-size:12px;color:#64748b;margin-bottom:10px;">Elige un tema de cualquier curso y completa la estructura.</p>
-      <table style="width:100%;font-size:13px;border-collapse:collapse;">
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;width:140px;background:#f8fafc;">Tema del trabajo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">¿Por qué importa?</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 1 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 2 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Sección 3 del desarrollo</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Idea de conclusión</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-        <tr><td style="padding:8px 10px;border:1px solid #e2e8f0;font-weight:700;background:#f8fafc;">Fuente que usarías</td><td style="padding:8px 10px;border:1px solid #e2e8f0;height:28px;"></td></tr>
-      </table>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 4</div>
-      <h4>Checklist de revisión: aplícalo a un trabajo propio</h4>
-      <ul style="font-size:13px;list-style:none;padding-left:0;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-        <li>☐ El tema queda claro desde el inicio</li>
-        <li>☐ La introducción no revela todo</li>
-        <li>☐ El desarrollo tiene secciones con subtítulos</li>
-        <li>☐ Cada sección tiene una idea central</li>
-        <li>☐ La conclusión no repite todo</li>
-        <li>☐ El tono es formal (sin jergas ni emojis)</li>
-        <li>☐ Las fuentes están citadas</li>
-        <li>☐ No hay frases repetidas innecesariamente</li>
-        <li>☐ Los márgenes y el espaciado son adecuados</li>
-        <li>☐ Tiene portada con mis datos</li>
-      </ul>
-      <p style="margin-top:10px;font-size:13px;">¿Cuántos elementos cumple tu trabajo? ______ / 10</p>
-    </div>
-  </div>
-
-  <!-- QUIZ -->
-  <div class="section page-break">
-    <div class="section-title">🧪 Quiz de autoevaluación</div>
-    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>1.</span> ¿Qué significa que un trabajo sea "formal"?</div>
-      <ul class="options">
-        <li>Que use palabras muy difíciles</li>
-        <li>Que tenga muchas páginas</li>
-        <li>Que tenga orden, claridad, fuentes y tono adecuado</li>
-        <li>Que esté escrito a mano</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>2.</span> ¿Qué función tiene la introducción?</div>
-      <ul class="options">
-        <li>Resumir toda la conclusión</li>
-        <li>Presentar el tema, su importancia y qué se hará, sin revelar todo</li>
-        <li>Listar todas las fuentes del trabajo</li>
-        <li>Repetir el título con otras palabras</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>3.</span> ¿Qué es más formal para un trabajo académico?</div>
-      <ul class="options">
-        <li>Texto largo sin subtítulos</li>
-        <li>Muchas imágenes sin explicación</li>
-        <li>Texto dividido en secciones claras con evidencias</li>
-        <li>Muchas fuentes sin revisar si son confiables</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>4.</span> ¿Qué debe evitar una buena conclusión?</div>
-      <ul class="options">
-        <li>Presentar la idea más importante</li>
-        <li>Repetir todo lo que ya se dijo en el desarrollo</li>
-        <li>Cerrar con una reflexión final</li>
-        <li>Ser concisa</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>5.</span> ¿Por qué no basta con poner los links al final del trabajo como fuentes?</div>
-      <ul class="options">
-        <li>Porque los links se caen</li>
-        <li>Porque el profesor no los puede abrir</li>
-        <li>Porque no incluyen datos completos: autor, año, título ni editorial</li>
-        <li>Porque las páginas web no son fuentes válidas</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>6.</span> ¿Cuál de estas frases tiene tono formal?</div>
-      <ul class="options">
-        <li>"O sea, el calentamiento global es una locura."</li>
-        <li>"El aumento de temperatura global representa una amenaza para los ecosistemas."</li>
-        <li>"La verdad es que no sé mucho del tema pero igual voy a escribir."</li>
-        <li>"El planeta está mal 😢 hay que hacer algo."</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>7.</span> ¿Para qué sirve usar la IA en el proceso de revisión?</div>
-      <ul class="options">
-        <li>Para que escriba el trabajo completo</li>
-        <li>Para inventar datos que le faltan al trabajo</li>
-        <li>Para revisar claridad, orden y detectar repeticiones en mi borrador</li>
-        <li>Para cambiar todas mis ideas por las de la IA</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>8.</span> ¿Qué parte del trabajo NO debe faltar nunca?</div>
-      <ul class="options">
-        <li>Índice</li>
-        <li>Anexos</li>
-        <li>Glosario</li>
-        <li>Referencias / Fuentes</li>
-      </ul>
-    </div>
-
-    <div class="answer-key no-break">
-      <h4>🔑 Clave de respuestas</h4>
-      <div class="answer-grid">
-        <div class="answer-pill"><b>1</b> C — Orden y claridad</div>
-        <div class="answer-pill"><b>2</b> B — Presentar sin revelar todo</div>
-        <div class="answer-pill"><b>3</b> C — Secciones y evidencias</div>
-        <div class="answer-pill"><b>4</b> B — Repetir el desarrollo</div>
-        <div class="answer-pill"><b>5</b> C — Faltan datos completos</div>
-        <div class="answer-pill"><b>6</b> B — "amenaza para los ecosistemas"</div>
-        <div class="answer-pill"><b>7</b> C — Revisar claridad y orden</div>
-        <div class="answer-pill"><b>8</b> D — Referencias</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EVALUACIÓN -->
-  <div class="section no-break">
-    <div class="section-title">📊 Rúbrica de autoevaluación</div>
-    <table class="eval-table">
-      <tr>
-        <th>Criterio</th>
-        <th>Lo logré (3 pts)</th>
-        <th>Casi lo logré (2 pts)</th>
-        <th>Necesito practicar (1 pt)</th>
-        <th style="width:60px;">Mi nivel</th>
-      </tr>
-      <tr>
-        <td>Conozco las partes de un trabajo formal</td>
-        <td>Nombré y expliqué todas las partes</td>
-        <td>Nombré la mayoría</td>
-        <td>Confundí o no recordé varias</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Escribí una introducción mejorada</td>
-        <td>Clara, con tema, importancia y estructura</td>
-        <td>Mejoré pero faltó algo</td>
-        <td>No pude mejorarla</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Uso tono formal en mi escritura</td>
-        <td>Identifiqué todos los ejemplos y aplico el tono</td>
-        <td>Identifiqué la mayoría</td>
-        <td>Confundí formal e informal</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Planifiqué un esquema de trabajo formal</td>
-        <td>Completé todas las secciones del esquema</td>
-        <td>Completé la mayoría</td>
-        <td>No pude completarlo</td>
-        <td></td>
-      </tr>
-    </table>
-    <div class="score-box">
-      <span>Puntaje total (máximo 12 pts)</span>
-      <div class="total">______ / 12</div>
-    </div>
-  </div>
-
+  <div class="doc-meta"><div>5.° Secundaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
 </div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+<div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes &nbsp;·&nbsp; Material de estudio y práctica interactiva</div>
+<div class="score-bar">
+  <span>Puntaje:</span>
+  <div class="score-display"><span id="score-val">0</span>&nbsp;<span style="font-size:13px;font-weight:400;color:#64748b">de <span id="score-total">0</span> preguntas</span></div>
+  <div class="progress-track"><div class="progress-fill" id="score-prog"></div></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
+</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Revisamos la <strong>estructura completa de un trabajo formal avanzado</strong>: portada, introducción, desarrollo con secciones, conclusión y referencias. También trabajamos tono formal, formato y el uso crítico de la IA como revisora.</div><div class="summary-grid"><div class="concept-card"><strong>Formal ≠ complicado</strong><p>Formal significa orden, claridad, fuentes y revisión. No implica palabras difíciles.</p></div><div class="concept-card"><strong>Partes</strong><p>Portada · Índice (si aplica) · Introducción · Desarrollo (secciones) · Conclusión · Referencias.</p></div><div class="concept-card"><strong>Introducción</strong><p>Presenta el tema, explica por qué importa y dice qué se hará. No revela todo.</p></div><div class="concept-card"><strong>Desarrollo</strong><p>Ideas por secciones con subtítulos. Usa evidencias. No mezcla todo en un bloque.</p></div><div class="concept-card"><strong>Conclusión</strong><p>No repite todo: resume lo más importante. Evitar «me gustó hacer este trabajo».</p></div><div class="concept-card"><strong>IA como revisora</strong><p>Revisa claridad, orden y repeticiones. No inventa contenido ni reemplaza tus ideas.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="glossary"><div class="gloss-item"><b>Trabajo formal:</b> documento con estructura, fuentes y tono adecuado al contexto</div><div class="gloss-item"><b>Tono formal:</b> sin jergas, emojis ni exageraciones. Frases precisas y directas</div><div class="gloss-item"><b>Introducción:</b> ubica al lector en el tema sin revelar todo el contenido</div><div class="gloss-item"><b>Desarrollo:</b> cuerpo organizado en secciones con evidencias</div><div class="gloss-item"><b>Conclusión:</b> cierre que resume lo esencial y propone una idea final</div><div class="gloss-item"><b>Borrador:</b> primera versión del trabajo, abierta a correcciones</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 1</div>
+  <h4>¿Formal o Informal? Clasifica cada frase</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Formal</th><th>Informal</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-1-0">
+  <td>El estudio demuestra que el 60% de los adolescentes usa redes más de 4 horas al día.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-1">
+  <td>O sea, las redes sociales son como súper adictivas, bro.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-2">
+  <td>Los resultados permiten concluir que existe una correlación con el rendimiento académico.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-3">
+  <td>La verdad es que esto es lo más importante del trabajo 😊</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-4">
+  <td>Se recomienda implementar estrategias de uso responsable en entornos educativos.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-5">
+  <td>A mi me parece que deberían hacer algo, igual no creo que funcione.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-6">
+  <td>Este análisis busca evaluar el impacto de la tecnología en los hábitos de estudio.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-7">
+  <td>La tecnología está en todos lados, eso ya lo sabemos todos.</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 2</div>
+  <h4>Verdadero o Falso sobre la estructura del trabajo formal</h4>
+  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
+  <td>La introducción debe revelar todas las conclusiones del trabajo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>El desarrollo puede ser un solo bloque sin subtítulos si es muy largo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>La conclusión puede empezar con «En conclusión, me gustó hacer este trabajo».</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Cada sección del desarrollo debe tener una idea central clara.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Las referencias pueden ser solo una lista de links pegados al final.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>La IA puede revisar claridad y detectar repeticiones en tu borrador.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 3</div>
+  <h4>Mejora esta introducción floja</h4>
+  <p style="margin-bottom:8px;font-size:13px;"><strong>Original:</strong> «En este trabajo voy a hablar sobre el cambio climático porque es muy importante y hay que cuidar el planeta.»<br><br>Reescríbela: debe presentar el tema, explicar por qué importa y decir qué se hará, sin revelar toda la conclusión. Tono formal.</p>
+  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-3')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-3"><strong>Respuesta modelo:</strong> El cambio climático representa uno de los desafíos más urgentes de la actualidad, con consecuencias que afectan los ecosistemas, la economía y la salud de la población global. Comprender sus causas y efectos resulta fundamental para proponer respuestas efectivas. En este trabajo se analizarán los principales factores que contribuyen al calentamiento global y se examinarán algunas estrategias de mitigación aplicables en el contexto escolar.</div>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 4</div>
+  <h4>Checklist de revisión: ¿cuál de estas prácticas es correcta para un trabajo formal?</h4>
+  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
+  <td>Dividir el desarrollo en secciones con subtítulos descriptivos.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Escribir toda la información del trabajo en un solo párrafo largo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Verificar que cada fuente citada en el texto aparezca en la lista de referencias.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Usar emojis para hacer el trabajo más dinámico.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Revisar que la conclusión no repita todo el desarrollo, sino lo esencial.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Pedir a la IA que escriba el borrador completo sin revisarlo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Usar tono adecuado al contexto: sin jergas ni exageraciones.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 5</div>
+  <h4>Planifica el esquema de tu próximo trabajo formal</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Elige un tema de cualquier curso y completa:<br><strong>Tema:</strong> _____ · <strong>¿Por qué importa?</strong> _____ · <strong>Sección 1:</strong> _____ · <strong>Sección 2:</strong> _____ · <strong>Sección 3:</strong> _____ · <strong>Idea de conclusión:</strong> _____ · <strong>Fuente que usarías:</strong> _____</p>
+  <textarea class="input-area" placeholder="Completa el esquema aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-5')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-5"><strong>Respuesta modelo:</strong> Ejemplo: <strong>Tema:</strong> Impacto del uso excesivo de pantallas en el sueño adolescente. <strong>¿Por qué importa?</strong> Afecta la concentración y el rendimiento escolar. <strong>Sección 1:</strong> ¿Qué dice la evidencia científica? <strong>Sección 2:</strong> Efectos en el organismo adolescente. <strong>Sección 3:</strong> Hábitos saludables de uso de pantallas. <strong>Conclusión:</strong> Reducir el tiempo de pantalla antes de dormir mejora la calidad del sueño. <strong>Fuente:</strong> OPS (2022). Guía de salud digital para jóvenes.</div>
+</div></div><div class="section"><div class="section-title">🧪 Quiz — Haz clic en la respuesta correcta</div><div class="quiz-item">
+  <div class="q"><span>1.</span> ¿Qué significa que un trabajo sea «formal»?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Que use palabras muy difíciles</li>
+    <li onclick="quizPick(this)">Que tenga muchas páginas</li>
+    <li data-correct="true" onclick="quizPick(this)">Que tenga orden, claridad, fuentes y tono adecuado</li>
+    <li onclick="quizPick(this)">Que esté escrito a mano</li>
+  </ul>
+  <div class="q-explanation">💡 Formal no significa complicado ni largo. Significa estructura adecuada, claridad y honestidad con las fuentes.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>2.</span> ¿Qué función tiene la introducción?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Resumir toda la conclusión</li>
+    <li data-correct="true" onclick="quizPick(this)">Presentar el tema, su importancia y qué se hará, sin revelar todo</li>
+    <li onclick="quizPick(this)">Listar todas las fuentes</li>
+    <li onclick="quizPick(this)">Repetir el título con otras palabras</li>
+  </ul>
+  <div class="q-explanation">💡 La introducción ubica al lector: le dice de qué va el trabajo y por qué vale la pena leerlo, sin adelantar los resultados.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>3.</span> ¿Qué es más formal para un trabajo académico?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Texto largo sin subtítulos</li>
+    <li onclick="quizPick(this)">Muchas imágenes sin explicación</li>
+    <li data-correct="true" onclick="quizPick(this)">Texto dividido en secciones claras con evidencias</li>
+    <li onclick="quizPick(this)">Muchas fuentes sin revisar</li>
+  </ul>
+  <div class="q-explanation">💡 La formalidad se construye con estructura, evidencias y tono. No con longitud ni cantidad de recursos.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>4.</span> ¿Qué debe evitar una buena conclusión?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Presentar la idea más importante</li>
+    <li data-correct="true" onclick="quizPick(this)">Repetir todo lo dicho en el desarrollo</li>
+    <li onclick="quizPick(this)">Cerrar con una reflexión final</li>
+    <li onclick="quizPick(this)">Ser concisa</li>
+  </ul>
+  <div class="q-explanation">💡 La conclusión no es un resumen completo del desarrollo: sintetiza lo esencial y aporta un cierre con sentido.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>5.</span> ¿Por qué no basta con poner links al final como fuentes?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Porque los links se caen</li>
+    <li onclick="quizPick(this)">Porque el profesor no los abre</li>
+    <li data-correct="true" onclick="quizPick(this)">Porque no incluyen autor, año, título ni editorial</li>
+    <li onclick="quizPick(this)">Porque las páginas web no son fuentes válidas</li>
+  </ul>
+  <div class="q-explanation">💡 Un link sin contexto no permite verificar si la fuente es confiable, actual o de un autor reconocido.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>6.</span> ¿Cuál de estas frases tiene tono formal?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">"O sea, el calentamiento global es una locura."</li>
+    <li data-correct="true" onclick="quizPick(this)">"El aumento de temperatura global representa una amenaza para los ecosistemas."</li>
+    <li onclick="quizPick(this)">"La verdad es que no sé mucho pero igual voy a escribir."</li>
+    <li onclick="quizPick(this)">"El planeta está mal 😢 hay que hacer algo."</li>
+  </ul>
+  <div class="q-explanation">💡 El tono formal es preciso, sin jergas, sin emojis y sin frases de opinión sin sustento.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>7.</span> ¿Para qué sirve usar la IA en el proceso de revisión?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Para que escriba el trabajo completo</li>
+    <li onclick="quizPick(this)">Para inventar datos que faltan</li>
+    <li data-correct="true" onclick="quizPick(this)">Para revisar claridad, orden y detectar repeticiones en tu borrador</li>
+    <li onclick="quizPick(this)">Para cambiar todas tus ideas</li>
+  </ul>
+  <div class="q-explanation">💡 La IA es un revisor, no un autor. Tu idea y tu borrador son la base; la IA ayuda a mejorarlo.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>8.</span> ¿Qué parte del trabajo NO debe faltar nunca?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Índice</li>
+    <li onclick="quizPick(this)">Anexos</li>
+    <li onclick="quizPick(this)">Glosario</li>
+    <li data-correct="true" onclick="quizPick(this)">Referencias / Fuentes</li>
+  </ul>
+  <div class="q-explanation">💡 Las referencias son obligatorias en todo trabajo formal: demuestran que la información tiene respaldo y puede verificarse.</div>
+</div></div><div class="section">
+  <div class="section-title">📊 Rúbrica de autoevaluación</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:12px">Selecciona el nivel que mejor describe tu desempeño. El puntaje se calcula automáticamente.</p>
+  <table class="rubric-table">
+    <thead><tr>
+      <th>Criterio</th>
+      <th>Lo logré (3)</th>
+      <th>Casi lo logré (2)</th>
+      <th>Necesito practicar (1)</th>
+      <th style="width:80px">Nivel</th>
+    </tr></thead>
+    <tbody><tr>
+  <td><strong>Conozco las partes del trabajo formal</strong></td>
+  <td>Nombré y expliqué todas</td>
+  <td>Nombré la mayoría</td>
+  <td>Confundí o no recordé varias</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub0" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub0" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub0" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Distingo tono formal de informal</strong></td>
+  <td>Identifiqué todos los ejemplos</td>
+  <td>Identifiqué la mayoría</td>
+  <td>Confundí formal e informal</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub1" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub1" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub1" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Mejoré la introducción</strong></td>
+  <td>Clara, formal y con las 3 funciones</td>
+  <td>Mejoré pero faltó algo</td>
+  <td>No pude mejorarla</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub2" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub2" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub2" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Planifiqué un esquema de trabajo</strong></td>
+  <td>Completé todas las secciones</td>
+  <td>Completé la mayoría</td>
+  <td>No pude completarlo</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub3" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub3" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub3" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+</tbody>
+  </table>
+  <div class="score-result">
+    <span>Mi puntaje total</span>
+    <div class="total" id="rubric-score">— / 12</div>
+  </div>
+</div>
+<div id="result-banner" class="result-banner" style="display:none"></div>
+</div>
+
+<script>
+let quizTotal = 0, quizCorrect = 0;
+
+/* ── Score tracking ── */
+function countable(isCorrect){
+  quizTotal++;
+  if(isCorrect) quizCorrect++;
+  refreshScore();
+}
+function refreshScore(){
+  const el = document.getElementById('score-val');
+  const prog = document.getElementById('score-prog');
+  const total = document.getElementById('score-total');
+  if(!el) return;
+  el.textContent = quizCorrect;
+  total.textContent = quizTotal;
+  if(quizTotal > 0) prog.style.width = (quizCorrect/quizTotal*100)+'%';
+}
+
+/* ── QUIZ ── */
+function quizPick(li){
+  const opts = li.closest('.quiz-options');
+  if(opts.classList.contains('done')) return;
+  opts.classList.add('done');
+  const item = li.closest('.quiz-item');
+  const isCorrect = li.dataset.correct === 'true';
+  opts.querySelectorAll('li').forEach(opt=>{
+    opt.classList.add('locked');
+    if(opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if(isCorrect){ li.classList.add('correct'); item.classList.add('answered-ok'); }
+  else         { li.classList.add('wrong');   item.classList.add('answered-err'); }
+  const exp = item.querySelector('.q-explanation');
+  if(exp) exp.classList.add('visible');
+  countable(isCorrect);
+}
+
+/* ── CLASSIFICATION ── */
+function classify(btn, chosen, correct){
+  const row = btn.closest('.cls-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.cls-btn').forEach(b=>{ b.disabled=true; });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk ? 'correct' : 'wrong');
+  if(!isOk){
+    row.querySelectorAll('.cls-btn').forEach(b=>{
+      if(b.dataset.val === correct) b.classList.add('reveal');
+    });
+  }
+  const res = row.querySelector('.cls-result');
+  if(res){ res.classList.add(isOk?'ok':'err'); res.textContent = isOk?'✓ Correcto':'✗ Incorrecto'; }
+  countable(isOk);
+}
+
+/* ── TRUE / FALSE ── */
+function tfPick(btn, chosen, correct){
+  const row = btn.closest('.tf-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===correct) b.classList.add(chosen===correct?'correct':'reveal');
+  });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk?'correct':'wrong');
+  countable(isOk);
+}
+
+/* ── MODEL ANSWER TOGGLE ── */
+function toggleModel(btn, id){
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('visible');
+  btn.textContent = open ? '▲ Ocultar respuesta modelo' : '▼ Ver respuesta modelo';
+}
+
+/* ── VERIFY FILL-IN ── */
+function verifyBlank(inputId, answers){
+  const inp = document.getElementById(inputId);
+  if(inp.dataset.done) return;
+  inp.dataset.done='1';
+  const val = inp.value.trim().toLowerCase();
+  const ok = answers.some(a => val.includes(a.toLowerCase()));
+  inp.classList.add(ok?'ok':'err');
+  inp.title = ok ? '✓ Correcto' : 'Respuesta esperada: ' + answers[0];
+  countable(ok);
+}
+
+/* ── RUBRIC SCORE ── */
+function calcRubric(){
+  let total=0, count=0;
+  document.querySelectorAll('.rubric-radio input:checked').forEach(r=>{
+    total += parseInt(r.value); count++;
+  });
+  document.getElementById('rubric-score').textContent = total + ' / ' + (count*3);
+}
+
+/* ── RESET ── */
+function resetAll(){
+  if(!confirm('¿Reiniciar todos los ejercicios?')) return;
+  location.reload();
+}
+
+/* ── FINAL RESULT BANNER ── */
+document.addEventListener('click', ()=>{
+  setTimeout(()=>{
+    const banner = document.getElementById('result-banner');
+    if(!banner) return;
+    if(quizTotal < 8) return;
+    banner.style.display = 'block';
+    const pct = quizCorrect/quizTotal;
+    banner.className = 'result-banner ' + (pct===1?'perfect':pct>=.7?'good':'keep-going');
+    banner.textContent = pct===1
+      ? '🏆 ¡Perfecto! Respondiste todo correctamente.'
+      : pct>=.7
+        ? `👍 Buen trabajo: ${quizCorrect} de ${quizTotal} correctas.`
+        : `📚 Sigue repasando: ${quizCorrect} de ${quizTotal} correctas. ¡Tú puedes!`;
+  }, 100);
+});
+</script>
+
 </body>
 </html>

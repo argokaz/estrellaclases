@@ -5,527 +5,583 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Repaso S02 — 6.° Primaria | Asunción School</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
-  :root {
-    --brand:   #1e3a8a;
-    --accent:  #2563eb;
-    --gold:    #b45309;
-    --green:   #166534;
-    --red:     #991b1b;
-    --text:    #1e293b;
-    --muted:   #64748b;
-    --border:  #e2e8f0;
-    --bg-alt:  #f8fafc;
-    --radius:  10px;
-  }
+:root {
+  --brand:  #1e3a8a; --accent: #2563eb; --accent2: #7c3aed;
+  --gold:   #b45309; --green-ok: #15803d; --red-err: #b91c1c;
+  --text:   #1e293b; --muted:   #64748b; --dim: #94a3b8;
+  --border: #e2e8f0; --bg-alt:  #f8fafc; --bg-quiz: #f0f4ff;
+  --radius: 10px;
+  --ok-bg:  #dcfce7; --ok-border: #86efac; --ok-text: #15803d;
+  --err-bg: #fee2e2; --err-border:#fca5a5; --err-text: #b91c1c;
+  --hint-bg:#fef9c3; --hint-border:#fde047; --hint-text:#713f12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fff;line-height:1.6}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--accent);text-decoration:none}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── HEADER ── */
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.doc-header .school{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.doc-header .teacher{font-size:13px;font-weight:700;color:var(--brand);margin-top:2px}
+.doc-header .doc-meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: #fff;
-    line-height: 1.6;
-  }
+/* ── SCORE BAR ── */
+.score-bar{display:flex;align-items:center;gap:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+.score-bar span{font-size:13px;color:var(--muted)}
+.score-display{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand)}
+.score-bar .reset-btn{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12px;transition:all .15s}
+.score-bar .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.progress-track{flex:1;min-width:80px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;width:0%}
 
-  /* ── PORTADA / ENCABEZADO ── */
-  .doc-header {
-    border-bottom: 3px solid var(--brand);
-    padding-bottom: 16px;
-    margin-bottom: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 16px;
-  }
-  .doc-header .school { font-size: 11px; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
-  .doc-header .teacher { font-size: 13px; font-weight: 600; color: var(--brand); }
-  .doc-header .doc-meta { text-align: right; font-size: 12px; color: var(--muted); line-height: 1.8; }
+/* ── SECTION HEADERS ── */
+.section{margin-bottom:26px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-  .doc-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--brand);
-    margin-bottom: 4px;
-  }
-  .doc-subtitle {
-    font-size: 13px; color: var(--muted);
-    margin-bottom: 28px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── SUMMARY CARDS ── */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:10px 13px}
+.concept-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.concept-card p{font-size:13px}
 
-  /* ── SECCIONES ── */
-  .section {
-    margin-bottom: 28px;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px; font-weight: 700;
-    color: var(--brand);
-    margin-bottom: 12px;
-    padding-bottom: 6px;
-    border-bottom: 2px solid var(--accent);
-    display: flex; align-items: center; gap: 8px;
-  }
+/* ── GLOSSARY ── */
+.glossary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gloss-item{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
+.gloss-item b{color:var(--brand)}
 
-  /* ── RESUMEN ── */
-  .summary-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .concept-card {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    border-radius: var(--radius);
-    padding: 10px 13px;
-  }
-  .concept-card strong { display: block; font-size: 12px; color: var(--accent); margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
-  .concept-card p { font-size: 13px; color: var(--text); }
+/* ── EXERCISE WRAPPER ── */
+.exercise{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.exercise-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;border-radius:5px;padding:2px 8px;margin-bottom:8px}
+.exercise h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
+.exercise p,.exercise li{font-size:13px}
 
-  /* ── GLOSARIO ── */
-  .glossary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .gloss-item {
-    background: var(--bg-alt);
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid var(--border);
-  }
-  .gloss-item b { color: var(--brand); }
+/* ── CLASSIFICATION EXERCISE ── */
+.classify-table{width:100%;border-collapse:collapse}
+.classify-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.classify-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.classify-row.answered-ok td:first-child{color:var(--ok-text);font-weight:600}
+.classify-row.answered-err td:first-child{color:var(--err-text)}
+.cls-btns{display:flex;gap:6px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:all .15s;cursor:pointer}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.75}
+.cls-result{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
+.cls-result.ok{background:var(--ok-bg);color:var(--ok-text);display:inline-block}
+.cls-result.err{background:var(--err-bg);color:var(--err-text);display:inline-block}
 
-  /* ── EJERCICIOS ── */
-  .exercise {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 12px;
-  }
-  .exercise-num {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700; font-size: 11px;
-    border-radius: 5px;
-    padding: 2px 8px;
-    margin-bottom: 8px;
-  }
-  .exercise h4 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-  .exercise p, .exercise li { font-size: 13px; color: var(--text); }
-  .exercise ul, .exercise ol { padding-left: 18px; }
-  .exercise li { margin-bottom: 4px; }
-  .answer-line {
-    display: block;
-    border-bottom: 1px solid #94a3b8;
-    height: 24px;
-    margin: 6px 0;
-    width: 100%;
-  }
-  .answer-box {
-    border: 1px solid #94a3b8;
-    border-radius: 6px;
-    min-height: 56px;
-    width: 100%;
-    margin-top: 8px;
-  }
+/* ── TRUE / FALSE ── */
+.tf-table{width:100%;border-collapse:collapse}
+.tf-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
+.tf-row td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.tf-btns{display:flex;gap:6px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 14px;font-size:13px;font-weight:700;transition:all .15s;cursor:pointer}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.7}
 
-  /* ── QUIZ ── */
-  .quiz-item {
-    margin-bottom: 16px;
-    page-break-inside: avoid;
-  }
-  .quiz-item .q {
-    font-weight: 600; font-size: 13.5px;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-  .quiz-item .q span { color: var(--accent); margin-right: 4px; }
-  .options { list-style: none; display: flex; flex-direction: column; gap: 5px; padding-left: 16px; }
-  .options li {
-    font-size: 13px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .options li::before {
-    content: '';
-    display: inline-block;
-    width: 15px; height: 15px;
-    border: 1.5px solid #94a3b8;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+/* ── ORDERING ── */
+.order-items{display:flex;flex-direction:column;gap:6px}
+.order-item{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
+.order-item:hover:not(.locked){border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.selected{border-color:var(--accent);background:var(--bg-quiz)}
+.order-item.correct{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-text);font-weight:600}
+.order-item.wrong{border-color:var(--err-border);background:var(--err-bg);color:var(--err-text)}
+.order-num{width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.order-item.correct .order-num{background:var(--ok-border);color:var(--ok-text)}
+.order-item.wrong .order-num{background:var(--err-border);color:var(--err-text)}
 
-  /* ── CLAVE DE RESPUESTAS ── */
-  .answer-key {
-    background: #f0fdf4;
-    border: 1px solid #86efac;
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-top: 8px;
-  }
-  .answer-key h4 { font-size: 13px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-  .answer-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .answer-pill {
-    background: #fff;
-    border: 1px solid #86efac;
-    border-radius: 6px;
-    padding: 5px 8px;
-    text-align: center;
-    font-size: 12px;
-  }
-  .answer-pill b { display: block; font-size: 10px; color: var(--muted); }
+/* ── TEXTAREA + MODEL ── */
+.input-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;color:var(--text)}
+.input-area:focus{border-color:var(--accent)}
+.short-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;color:var(--text);background:#fff}
+.short-input:focus{border-color:var(--accent)}
+.model-toggle{margin-top:8px;background:transparent;border:1.5px solid var(--hint-border);color:var(--hint-text);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
+.model-toggle:hover{background:var(--hint-bg)}
+.model-answer{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-text);line-height:1.6}
+.model-answer.visible{display:block}
+.model-answer strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 
-  /* ── EVALUACIÓN ── */
-  .eval-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .eval-table th {
-    background: var(--brand);
-    color: #fff;
-    padding: 8px 10px;
-    text-align: left;
-    font-weight: 600;
-  }
-  .eval-table td {
-    padding: 7px 10px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  .eval-table tr:nth-child(even) td { background: var(--bg-alt); }
-  .score-box {
-    background: var(--bg-alt);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    margin-top: 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .score-box span { font-size: 13px; color: var(--muted); }
-  .score-box .total { font-size: 16px; font-weight: 800; color: var(--brand); }
+/* ── VERIFY BUTTON ── */
+.verify-btn{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:700;transition:opacity .15s}
+.verify-btn:hover{opacity:.85}
+.verify-btn:disabled{opacity:.45;cursor:default}
 
-  /* ── IMPRIMIR ── */
-  @media print {
-    body { font-size: 13px; }
-    .page-break { page-break-before: always; }
-    .no-break { page-break-inside: avoid; }
-    @page { margin: 18mm 20mm; }
-  }
+/* ── QUIZ ── */
+.quiz-item{margin-bottom:16px;padding:12px 14px;background:var(--bg-quiz);border:1px solid #c7d2fe;border-radius:var(--radius)}
+.quiz-item.answered-ok{background:var(--ok-bg);border-color:var(--ok-border)}
+.quiz-item.answered-err{background:var(--err-bg);border-color:var(--err-border)}
+.q{font-weight:600;font-size:13.5px;margin-bottom:8px}
+.q span{color:var(--accent);margin-right:4px}
+.answered-ok .q span{color:var(--ok-text)}
+.answered-err .q span{color:var(--err-text)}
+.quiz-options{list-style:none;display:flex;flex-direction:column;gap:5px}
+.quiz-options li{font-size:13px;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s}
+.quiz-options li:hover:not(.locked){border-color:var(--accent);background:#eff6ff}
+.quiz-options li.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);font-weight:600;cursor:default}
+.quiz-options li.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text);cursor:default}
+.quiz-options li.locked{cursor:default}
+.quiz-options li::before{content:'';display:inline-block;width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s}
+.quiz-options li.correct::before{background:var(--ok-text);border-color:var(--ok-text);box-shadow:0 0 0 2px var(--ok-bg) inset, 0 0 0 4px var(--ok-text)}
+.quiz-options li.wrong::before{background:var(--err-text);border-color:var(--err-text)}
+.q-explanation{display:none;margin-top:8px;font-size:12px;color:var(--muted);padding:6px 10px;background:#fff;border-radius:6px;border:1px solid var(--border)}
+.q-explanation.visible{display:block}
 
-  .page-wrap {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 28px 32px;
-  }
+/* ── RUBRIC ── */
+.rubric-table{width:100%;border-collapse:collapse;font-size:13px}
+.rubric-table th{background:var(--brand);color:#fff;padding:8px 10px;font-size:12px;text-align:left}
+.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.rubric-table tr:nth-child(even) td{background:var(--bg-alt)}
+.rubric-radio{display:flex;gap:6px;justify-content:center}
+.rubric-radio label{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:2px}
+.rubric-radio label span{font-size:10px;color:var(--muted)}
+.rubric-radio input[type=radio]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+.score-result{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
+.score-result span{font-size:13px;color:var(--muted)}
+.score-result .total{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
 
-  .tag-pill {
-    display: inline-block;
-    background: rgba(37,99,235,.1);
-    color: var(--accent);
-    border: 1px solid rgba(37,99,235,.25);
-    border-radius: 100px;
-    font-size: 11px; font-weight: 700;
-    padding: 2px 10px;
-    margin-right: 6px;
-  }
+/* ── RESULT BANNER ── */
+.result-banner{display:none;text-align:center;border-radius:var(--radius);padding:16px;margin-top:8px;font-size:15px;font-weight:700}
+.result-banner.perfect{background:var(--ok-bg);color:var(--ok-text);border:1.5px solid var(--ok-border)}
+.result-banner.good{background:#eff6ff;color:var(--accent);border:1.5px solid #bfdbfe}
+.result-banner.keep-going{background:var(--hint-bg);color:var(--hint-text);border:1.5px solid var(--hint-border)}
 
-  .info-box {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: #1e40af;
-    margin-bottom: 14px;
-  }
+/* ── PAGE WRAP / RESPONSIVE ── */
+.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:14px}
+@media(max-width:600px){
+  .summary-grid,.glossary{grid-template-columns:1fr}
+  .page-wrap{padding:16px}
+  .score-bar{gap:8px}
+  .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table td:nth-child(2),.rubric-table td:nth-child(3){display:none}
+}
+@media print{
+  .score-bar,.verify-btn,.model-toggle,.reset-btn{display:none}
+  .quiz-options li.correct,.cls-btn.correct,.tf-btn.correct{background:#dcfce7!important;color:#15803d!important}
+  @page{margin:18mm 20mm}
+}
 
-  .warn-box {
-    background: #fffbeb;
-    border: 1px solid #fde68a;
-    border-radius: var(--radius);
-    padding: 11px 14px;
-    font-size: 13px;
-    color: var(--gold);
-    margin-bottom: 14px;
-  }
+/* ── FILL IN BLANK ── */
+.blank-input{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:inherit;font-size:13px;padding:2px 6px;width:160px;color:var(--text);outline:none}
+.blank-input.ok{border-color:var(--ok-text);color:var(--ok-text)}
+.blank-input.err{border-color:var(--err-text);color:var(--err-text)}
+</style>
 </style>
 </head>
 <body>
 <div class="page-wrap">
-
-  <div class="doc-header">
-    <div>
-      <div class="school">Asunción School · Computación 2026</div>
-      <div class="teacher">Prof. Estrella Vizcarra</div>
-    </div>
-    <div class="doc-meta">
-      <div>6.° Primaria</div>
-      <div>Sesión 02 · 22 de mayo de 2026</div>
-    </div>
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
   </div>
-  <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-  <div class="doc-subtitle">Conozco mi computadora: partes, periféricos y cuidado &nbsp;·&nbsp; Material de estudio y práctica</div>
-
-  <!-- RESUMEN -->
-  <div class="section">
-    <div class="section-title">📖 Lo que aprendimos hoy</div>
-    <div class="info-box">
-      En esta clase exploramos las <strong>partes principales de la computadora</strong>, sus funciones y cómo cuidarla. También distinguimos entre partes principales y periféricos, y entre dispositivos de entrada y de salida.
-    </div>
-    <div class="summary-grid">
-      <div class="concept-card">
-        <strong>Partes visibles</strong>
-        <p>Pantalla, teclado, mouse (o touchpad), parlantes y cámara. Las podemos ver y tocar.</p>
-      </div>
-      <div class="concept-card">
-        <strong>CPU — Centro de procesamiento</strong>
-        <p>Hace funcionar los programas. En una laptop está dentro del equipo. No es la pantalla.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Memoria vs Almacenamiento</strong>
-        <p>Memoria = mesa de trabajo (ayuda a trabajar rápido). Almacenamiento = mochila (guarda archivos). ¡No son lo mismo!</p>
-      </div>
-      <div class="concept-card">
-        <strong>Periféricos</strong>
-        <p>Accesorios externos: impresora, audífonos, micrófono, USB. Se conectan a la computadora pero no son parte principal.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Dispositivos de ENTRADA</strong>
-        <p>Le damos información a la computadora: teclado, mouse, micrófono, cámara.</p>
-      </div>
-      <div class="concept-card">
-        <strong>Dispositivos de SALIDA</strong>
-        <p>La computadora nos entrega información: pantalla, parlantes, impresora.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- GLOSARIO -->
-  <div class="section">
-    <div class="section-title">📚 Palabras clave</div>
-    <div class="glossary">
-      <div class="gloss-item"><b>Hardware:</b> partes físicas de la computadora.</div>
-      <div class="gloss-item"><b>Software:</b> programas e instrucciones (no se tocan).</div>
-      <div class="gloss-item"><b>Periférico:</b> accesorio que se conecta a la computadora.</div>
-      <div class="gloss-item"><b>CPU:</b> unidad que procesa instrucciones.</div>
-      <div class="gloss-item"><b>Memoria:</b> espacio temporal para trabajar rápido.</div>
-      <div class="gloss-item"><b>Almacenamiento:</b> espacio donde se guardan archivos.</div>
-      <div class="gloss-item"><b>Entrada:</b> información que doy a la computadora.</div>
-      <div class="gloss-item"><b>Salida:</b> información que me entrega la computadora.</div>
-    </div>
-  </div>
-
-  <!-- EJERCICIOS -->
-  <div class="section">
-    <div class="section-title">✏️ Ejercicios de práctica</div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 1</div>
-      <h4>Clasifica cada parte: escribe <em>Principal</em> o <em>Periférico</em></h4>
-      <table style="width:100%;font-size:13px;border-collapse:collapse;">
-        <tr style="background:#f1f5f9;">
-          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;">Parte</th>
-          <th style="padding:6px 10px;text-align:left;border:1px solid #e2e8f0;width:180px;">¿Principal o Periférico?</th>
-        </tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">Teclado integrado en laptop</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">Impresora</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">Pantalla</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">USB</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">Audífonos</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e2e8f0;">Mouse</td><td style="padding:6px 10px;border:1px solid #e2e8f0;"></td></tr>
-      </table>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 2</div>
-      <h4>Entrada o Salida: escribe <em>E</em> (entrada) o <em>S</em> (salida) en el paréntesis</h4>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;">
-        <div>( &nbsp; ) Teclado</div>
-        <div>( &nbsp; ) Pantalla</div>
-        <div>( &nbsp; ) Micrófono</div>
-        <div>( &nbsp; ) Parlantes</div>
-        <div>( &nbsp; ) Mouse</div>
-        <div>( &nbsp; ) Impresora</div>
-        <div>( &nbsp; ) Cámara web</div>
-        <div>( &nbsp; ) Touchpad</div>
-      </div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 3</div>
-      <h4>Completa la analogía: Memoria y Almacenamiento</h4>
-      <p>La <strong>memoria</strong> es como una _____________ de trabajo: sirve para trabajar rápido pero no guarda cuando apago la computadora.</p>
-      <p style="margin-top:8px;">El <strong>almacenamiento</strong> es como una _____________ : guarda mis archivos aunque apague el equipo.</p>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 4</div>
-      <h4>Dibuja y etiqueta</h4>
-      <p>En el recuadro de abajo, dibuja una computadora (puede ser laptop o de escritorio) y etiqueta <strong>al menos 5 partes</strong>. Indica con una flecha cuáles son de <em>entrada</em> y cuáles de <em>salida</em>.</p>
-      <div style="border:1px dashed #94a3b8;border-radius:8px;height:140px;margin-top:10px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:12px;">Espacio para dibujar</div>
-    </div>
-
-    <div class="exercise">
-      <div class="exercise-num">Ejercicio 5</div>
-      <h4>Reglas de cuidado del equipo</h4>
-      <p>Escribe <strong>3 reglas</strong> para cuidar la computadora del colegio:</p>
-      <span class="answer-line"></span>
-      <span class="answer-line"></span>
-      <span class="answer-line"></span>
-    </div>
-  </div>
-
-  <!-- QUIZ -->
-  <div class="section page-break">
-    <div class="section-title">🧪 Quiz de autoevaluación</div>
-    <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Marca con una ✓ la respuesta correcta.</p>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>1.</span> ¿Cuál de estos es un dispositivo de ENTRADA?</div>
-      <ul class="options">
-        <li>Parlantes</li>
-        <li>Micrófono</li>
-        <li>Pantalla</li>
-        <li>Impresora</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>2.</span> ¿Para qué sirve la memoria de la computadora?</div>
-      <ul class="options">
-        <li>Guardar archivos de forma permanente</li>
-        <li>Mostrar imágenes en la pantalla</li>
-        <li>Ayudar a trabajar rápido de forma temporal</li>
-        <li>Conectarse a internet</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>3.</span> ¿Qué es un periférico?</div>
-      <ul class="options">
-        <li>La parte más importante de la computadora</li>
-        <li>Un accesorio externo que se conecta a la computadora</li>
-        <li>El lugar donde se guardan archivos</li>
-        <li>El programa que hace funcionar la pantalla</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>4.</span> Si la computadora enciende pero la pantalla no funciona, ¿puedo ver lo que hago?</div>
-      <ul class="options">
-        <li>Sí, porque la CPU sigue funcionando</li>
-        <li>No, porque la pantalla es el único dispositivo de salida visual</li>
-        <li>Sí, con los parlantes puedo ver igual</li>
-        <li>No importa, el teclado lo compensa</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>5.</span> ¿La inteligencia artificial (IA) es una parte física de la computadora?</div>
-      <ul class="options">
-        <li>Sí, es como el teclado</li>
-        <li>No, vive en programas y apps, no es física</li>
-        <li>Sí, está dentro del CPU</li>
-        <li>No, es parte del almacenamiento</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>6.</span> ¿Cuál de estas acciones NO cuida bien la computadora?</div>
-      <ul class="options">
-        <li>Avisar si algo falla</li>
-        <li>No jalar los cables</li>
-        <li>Comer sobre el teclado</li>
-        <li>No golpear la pantalla</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>7.</span> En una laptop, ¿dónde suele estar el CPU?</div>
-      <ul class="options">
-        <li>En la pantalla</li>
-        <li>En el mouse</li>
-        <li>Dentro del equipo</li>
-        <li>En los parlantes</li>
-      </ul>
-    </div>
-
-    <div class="quiz-item no-break">
-      <div class="q"><span>8.</span> ¿Cuál es la diferencia entre almacenamiento y memoria?</div>
-      <ul class="options">
-        <li>No hay diferencia, son lo mismo</li>
-        <li>La memoria guarda archivos; el almacenamiento trabaja rápido</li>
-        <li>El almacenamiento guarda archivos; la memoria ayuda a trabajar rápido</li>
-        <li>Ambos se pierden al apagar la computadora</li>
-      </ul>
-    </div>
-
-    <div class="answer-key no-break">
-      <h4>🔑 Clave de respuestas</h4>
-      <div class="answer-grid">
-        <div class="answer-pill"><b>1</b> B — Micrófono</div>
-        <div class="answer-pill"><b>2</b> C — Trabajar rápido</div>
-        <div class="answer-pill"><b>3</b> B — Accesorio externo</div>
-        <div class="answer-pill"><b>4</b> B — No puedo ver</div>
-        <div class="answer-pill"><b>5</b> B — En programas</div>
-        <div class="answer-pill"><b>6</b> C — Comer</div>
-        <div class="answer-pill"><b>7</b> C — Dentro del equipo</div>
-        <div class="answer-pill"><b>8</b> C — Almacenamiento guarda</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EVALUACIÓN -->
-  <div class="section no-break">
-    <div class="section-title">📊 Rúbrica de autoevaluación</div>
-    <p style="font-size:12px;color:#64748b;margin-bottom:12px;">Marca con una ✓ el nivel que describes mejor tu trabajo del día.</p>
-    <table class="eval-table">
-      <tr>
-        <th>Criterio</th>
-        <th>Lo logré (3 pts)</th>
-        <th>Casi lo logré (2 pts)</th>
-        <th>Necesito practicar (1 pt)</th>
-        <th style="width:60px;">Mi nivel</th>
-      </tr>
-      <tr>
-        <td>Identifico partes principales de la computadora</td>
-        <td>Identifiqué todas sin ayuda</td>
-        <td>Identifiqué la mayoría</td>
-        <td>Confundí varias partes</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Distingo entrada y salida</td>
-        <td>Clasifiqué todos correctamente</td>
-        <td>Me equivoqué en 1 o 2</td>
-        <td>Confundí entrada y salida</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Explico qué es un periférico</td>
-        <td>Lo expliqué con mis palabras</td>
-        <td>Di una explicación parcial</td>
-        <td>No pude explicarlo</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Armé el mapa de partes</td>
-        <td>Etiqueté 6 o más partes</td>
-        <td>Etiqueté 4 o 5 partes</td>
-        <td>Etiqueté menos de 4</td>
-        <td></td>
-      </tr>
-    </table>
-    <div class="score-box">
-      <span>Puntaje total (máximo 12 pts)</span>
-      <div class="total">______ / 12</div>
-    </div>
-  </div>
-
+  <div class="doc-meta"><div>6.° Primaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
 </div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
+<div class="doc-subtitle">Conozco mi computadora: partes, periféricos y cuidado &nbsp;·&nbsp; Material de estudio y práctica interactiva</div>
+<div class="score-bar">
+  <span>Puntaje:</span>
+  <div class="score-display"><span id="score-val">0</span>&nbsp;<span style="font-size:13px;font-weight:400;color:#64748b">de <span id="score-total">0</span> preguntas</span></div>
+  <div class="progress-track"><div class="progress-fill" id="score-prog"></div></div>
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
+</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Exploramos las <strong>partes principales de la computadora</strong>, sus funciones, qué son los periféricos y cómo distinguir dispositivos de entrada y salida.</div><div class="summary-grid"><div class="concept-card"><strong>Partes visibles</strong><p>Pantalla, teclado, mouse (o touchpad), parlantes y cámara. Las podemos ver y tocar.</p></div><div class="concept-card"><strong>CPU</strong><p>Hace funcionar los programas. En una laptop está dentro del equipo. No es la pantalla.</p></div><div class="concept-card"><strong>Memoria vs Almacenamiento</strong><p>Memoria = mesa de trabajo (rapidez temporal). Almacenamiento = mochila (guarda archivos).</p></div><div class="concept-card"><strong>Periféricos</strong><p>Accesorios externos: impresora, audífonos, micrófono, USB.</p></div><div class="concept-card"><strong>Entrada</strong><p>Damos información a la computadora: teclado, mouse, micrófono, cámara.</p></div><div class="concept-card"><strong>Salida</strong><p>La computadora nos entrega información: pantalla, parlantes, impresora.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="glossary"><div class="gloss-item"><b>Hardware:</b> partes físicas de la computadora</div><div class="gloss-item"><b>Software:</b> programas e instrucciones (no se tocan)</div><div class="gloss-item"><b>Periférico:</b> accesorio externo que se conecta a la computadora</div><div class="gloss-item"><b>CPU:</b> unidad que procesa instrucciones</div><div class="gloss-item"><b>Memoria:</b> espacio temporal para trabajar rápido</div><div class="gloss-item"><b>Almacenamiento:</b> espacio donde se guardan archivos</div><div class="gloss-item"><b>Entrada:</b> información que doy a la computadora</div><div class="gloss-item"><b>Salida:</b> información que me entrega la computadora</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 1</div>
+  <h4>¿Principal o Periférico? Haz clic en la opción correcta</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Principal</th><th>Periférico</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-1-0">
+  <td>Teclado integrado en laptop</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Principal')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Principal')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-1">
+  <td>Impresora</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Periférico')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Periférico')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-2">
+  <td>Pantalla</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Principal')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Principal')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-3">
+  <td>USB (memoria externa)</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Periférico')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Periférico')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-4">
+  <td>Audífonos</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Periférico')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Periférico')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-1-5">
+  <td>Mouse</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Principal" onclick="classify(this,'Principal','Principal')">Principal</button><button class="cls-btn" data-val="Periférico" onclick="classify(this,'Periférico','Principal')">Periférico</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 2</div>
+  <h4>¿Entrada o Salida? Haz clic en la opción correcta</h4>
+  <table class="classify-table"><thead><tr><th>Elemento</th><th>Entrada</th><th>Salida</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-2-0">
+  <td>Teclado</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Entrada')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Entrada')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-1">
+  <td>Pantalla</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Salida')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Salida')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-2">
+  <td>Micrófono</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Entrada')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Entrada')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-3">
+  <td>Parlantes</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Salida')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Salida')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-4">
+  <td>Mouse</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Entrada')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Entrada')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-5">
+  <td>Impresora</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Salida')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Salida')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-6">
+  <td>Cámara web</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Entrada')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Entrada')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+<tr class="cls-row" id="cls-2-7">
+  <td>Touchpad</td>
+  <td><div class="cls-btns"><button class="cls-btn" data-val="Entrada" onclick="classify(this,'Entrada','Entrada')">Entrada</button><button class="cls-btn" data-val="Salida" onclick="classify(this,'Salida','Entrada')">Salida</button></div></td>
+  <td><span class="cls-result"></span></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 3</div>
+  <h4>Verdadero o Falso: haz clic en V o F</h4>
+  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
+  <td>La pantalla es la que procesa los programas de la computadora.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>Un periférico es un accesorio externo que se conecta a la computadora.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>La memoria y el almacenamiento son lo mismo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>El micrófono es un dispositivo de entrada.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>En una laptop, el CPU suele estar dentro del equipo.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
+</tr>
+<tr class="tf-row">
+  <td>La inteligencia artificial (IA) es una pieza física como el teclado.</td>
+  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
+  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
+</tr>
+</tbody></table>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 4</div>
+  <h4>Completa la analogía con tus palabras</h4>
+  <p style="margin-bottom:8px;font-size:13px;">¿En qué se parece la <strong>memoria</strong> a una mesa de trabajo? ¿Y el <strong>almacenamiento</strong> a una mochila? Explícalo con tus propias palabras.</p>
+  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-4')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-4"><strong>Respuesta modelo:</strong> La memoria es como una mesa de trabajo porque te permite usar cosas rápido mientras estás trabajando, pero cuando terminas (apagas la computadora) se vacía. El almacenamiento es como una mochila porque guarda tus cosas (archivos) de forma permanente aunque cierres la computadora.</div>
+</div><div class="exercise">
+  <div class="exercise-num">Ejercicio 5</div>
+  <h4>Reglas de cuidado del equipo</h4>
+  <p style="margin-bottom:8px;font-size:13px;">Escribe <strong>3 reglas propias</strong> para cuidar la computadora del colegio:</p>
+  <textarea class="input-area" placeholder="Escribe tus 3 reglas aquí…"></textarea>
+  <button class="model-toggle" onclick="toggleModel(this,'model-5')">▼ Ver respuesta modelo</button>
+  <div class="model-answer" id="model-5"><strong>Respuesta modelo:</strong> Ejemplos válidos: No comer ni tomar sobre el teclado. No jalar ni doblar los cables. Avisar a la profesora si algo falla. No golpear la pantalla. Guardar los archivos antes de apagar.</div>
+</div></div><div class="section"><div class="section-title">🧪 Quiz — Haz clic en la respuesta correcta</div><div class="quiz-item">
+  <div class="q"><span>1.</span> ¿Cuál de estos es un dispositivo de ENTRADA?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Parlantes</li>
+    <li data-correct="true" onclick="quizPick(this)">Micrófono</li>
+    <li onclick="quizPick(this)">Pantalla</li>
+    <li onclick="quizPick(this)">Impresora</li>
+  </ul>
+  <div class="q-explanation">💡 El micrófono recoge tu voz y la envía a la computadora → es entrada. Parlantes, pantalla e impresora muestran o entregan información → salida.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>2.</span> ¿Para qué sirve la memoria de la computadora?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Guardar archivos de forma permanente</li>
+    <li onclick="quizPick(this)">Mostrar imágenes</li>
+    <li data-correct="true" onclick="quizPick(this)">Ayudar a trabajar rápido de forma temporal</li>
+    <li onclick="quizPick(this)">Conectarse a internet</li>
+  </ul>
+  <div class="q-explanation">💡 La memoria es temporal: ayuda a que los programas corran rápido. Cuando apagas la computadora, se vacía.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>3.</span> ¿Qué es un periférico?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">La parte más importante de la computadora</li>
+    <li data-correct="true" onclick="quizPick(this)">Un accesorio externo que se conecta a la computadora</li>
+    <li onclick="quizPick(this)">El lugar donde se guardan los archivos</li>
+    <li onclick="quizPick(this)">El programa que hace funcionar la pantalla</li>
+  </ul>
+  <div class="q-explanation">💡 Periférico = accesorio externo. Ejemplos: impresora, audífonos, USB, micrófono.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>4.</span> Si la computadora enciende pero la pantalla no funciona, ¿puedo ver lo que hago?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Sí, el CPU sigue funcionando</li>
+    <li data-correct="true" onclick="quizPick(this)">No, la pantalla es el único dispositivo de salida visual</li>
+    <li onclick="quizPick(this)">Sí, con los parlantes puedo ver igual</li>
+    <li onclick="quizPick(this)">No importa, el teclado lo compensa</li>
+  </ul>
+  <div class="q-explanation">💡 La pantalla es el dispositivo de salida visual principal. Sin ella no puedes ver nada aunque todo lo demás funcione.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>5.</span> ¿La inteligencia artificial (IA) es una parte física de la computadora?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Sí, es como el teclado</li>
+    <li data-correct="true" onclick="quizPick(this)">No, vive en programas y apps</li>
+    <li onclick="quizPick(this)">Sí, está dentro del CPU</li>
+    <li onclick="quizPick(this)">No, es parte del almacenamiento</li>
+  </ul>
+  <div class="q-explanation">💡 La IA es software: vive en programas y aplicaciones, muchas veces necesita internet. No es una pieza que puedas tocar.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>6.</span> ¿Cuál de estas acciones NO cuida bien la computadora?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">Avisar si algo falla</li>
+    <li onclick="quizPick(this)">No jalar los cables</li>
+    <li data-correct="true" onclick="quizPick(this)">Comer sobre el teclado</li>
+    <li onclick="quizPick(this)">No golpear la pantalla</li>
+  </ul>
+  <div class="q-explanation">💡 Comer sobre el teclado puede meter migas o líquidos y dañarlo. Las otras opciones son correctas.</div>
+</div><div class="quiz-item">
+  <div class="q"><span>7.</span> En una laptop, ¿dónde suele estar el CPU?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">En la pantalla</li>
+    <li onclick="quizPick(this)">En el mouse</li>
+    <li data-correct="true" onclick="quizPick(this)">Dentro del equipo</li>
+    <li onclick="quizPick(this)">En los parlantes</li>
+  </ul>
+  <div class="q-explanation">💡 En laptops, el CPU está integrado dentro del cuerpo del equipo (no visible desde afuera).</div>
+</div><div class="quiz-item">
+  <div class="q"><span>8.</span> ¿Cuál es la diferencia entre almacenamiento y memoria?</div>
+  <ul class="quiz-options">
+    <li onclick="quizPick(this)">No hay diferencia</li>
+    <li onclick="quizPick(this)">La memoria guarda archivos; el almacenamiento trabaja rápido</li>
+    <li data-correct="true" onclick="quizPick(this)">El almacenamiento guarda archivos; la memoria ayuda a trabajar rápido</li>
+    <li onclick="quizPick(this)">Ambos se pierden al apagar</li>
+  </ul>
+  <div class="q-explanation">💡 Almacenamiento = permanente (disco, SSD). Memoria (RAM) = temporal y rápida. Son complementos, no lo mismo.</div>
+</div></div><div class="section">
+  <div class="section-title">📊 Rúbrica de autoevaluación</div>
+  <p style="font-size:12px;color:#64748b;margin-bottom:12px">Selecciona el nivel que mejor describe tu desempeño. El puntaje se calcula automáticamente.</p>
+  <table class="rubric-table">
+    <thead><tr>
+      <th>Criterio</th>
+      <th>Lo logré (3)</th>
+      <th>Casi lo logré (2)</th>
+      <th>Necesito practicar (1)</th>
+      <th style="width:80px">Nivel</th>
+    </tr></thead>
+    <tbody><tr>
+  <td><strong>Identifico partes principales</strong></td>
+  <td>Todas correctas sin ayuda</td>
+  <td>La mayoría correctas</td>
+  <td>Confundí varias partes</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub0" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub0" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub0" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Distingo entrada y salida</strong></td>
+  <td>Todos correctos</td>
+  <td>1 o 2 errores</td>
+  <td>Confundí entrada y salida</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub1" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub1" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub1" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Explico qué es un periférico</strong></td>
+  <td>Con mis propias palabras</td>
+  <td>Explicación parcial</td>
+  <td>No pude explicarlo</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub2" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub2" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub2" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td><strong>Conozco la diferencia memoria/almacenamiento</strong></td>
+  <td>Lo expliqué con analogía propia</td>
+  <td>Di explicación parcial</td>
+  <td>Los confundí</td>
+  <td style="text-align:center">
+    <div class="rubric-radio">
+      <label><input type="radio" name="rub3" value="3" onchange="calcRubric()"><span>3</span></label>
+      <label><input type="radio" name="rub3" value="2" onchange="calcRubric()"><span>2</span></label>
+      <label><input type="radio" name="rub3" value="1" onchange="calcRubric()"><span>1</span></label>
+    </div>
+  </td>
+</tr>
+</tbody>
+  </table>
+  <div class="score-result">
+    <span>Mi puntaje total</span>
+    <div class="total" id="rubric-score">— / 12</div>
+  </div>
+</div>
+<div id="result-banner" class="result-banner" style="display:none"></div>
+</div>
+
+<script>
+let quizTotal = 0, quizCorrect = 0;
+
+/* ── Score tracking ── */
+function countable(isCorrect){
+  quizTotal++;
+  if(isCorrect) quizCorrect++;
+  refreshScore();
+}
+function refreshScore(){
+  const el = document.getElementById('score-val');
+  const prog = document.getElementById('score-prog');
+  const total = document.getElementById('score-total');
+  if(!el) return;
+  el.textContent = quizCorrect;
+  total.textContent = quizTotal;
+  if(quizTotal > 0) prog.style.width = (quizCorrect/quizTotal*100)+'%';
+}
+
+/* ── QUIZ ── */
+function quizPick(li){
+  const opts = li.closest('.quiz-options');
+  if(opts.classList.contains('done')) return;
+  opts.classList.add('done');
+  const item = li.closest('.quiz-item');
+  const isCorrect = li.dataset.correct === 'true';
+  opts.querySelectorAll('li').forEach(opt=>{
+    opt.classList.add('locked');
+    if(opt.dataset.correct === 'true') opt.classList.add('correct');
+  });
+  if(isCorrect){ li.classList.add('correct'); item.classList.add('answered-ok'); }
+  else         { li.classList.add('wrong');   item.classList.add('answered-err'); }
+  const exp = item.querySelector('.q-explanation');
+  if(exp) exp.classList.add('visible');
+  countable(isCorrect);
+}
+
+/* ── CLASSIFICATION ── */
+function classify(btn, chosen, correct){
+  const row = btn.closest('.cls-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.cls-btn').forEach(b=>{ b.disabled=true; });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk ? 'correct' : 'wrong');
+  if(!isOk){
+    row.querySelectorAll('.cls-btn').forEach(b=>{
+      if(b.dataset.val === correct) b.classList.add('reveal');
+    });
+  }
+  const res = row.querySelector('.cls-result');
+  if(res){ res.classList.add(isOk?'ok':'err'); res.textContent = isOk?'✓ Correcto':'✗ Incorrecto'; }
+  countable(isOk);
+}
+
+/* ── TRUE / FALSE ── */
+function tfPick(btn, chosen, correct){
+  const row = btn.closest('.tf-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===correct) b.classList.add(chosen===correct?'correct':'reveal');
+  });
+  const isOk = chosen === correct;
+  btn.classList.add(isOk?'correct':'wrong');
+  countable(isOk);
+}
+
+/* ── MODEL ANSWER TOGGLE ── */
+function toggleModel(btn, id){
+  const box = document.getElementById(id);
+  const open = box.classList.toggle('visible');
+  btn.textContent = open ? '▲ Ocultar respuesta modelo' : '▼ Ver respuesta modelo';
+}
+
+/* ── VERIFY FILL-IN ── */
+function verifyBlank(inputId, answers){
+  const inp = document.getElementById(inputId);
+  if(inp.dataset.done) return;
+  inp.dataset.done='1';
+  const val = inp.value.trim().toLowerCase();
+  const ok = answers.some(a => val.includes(a.toLowerCase()));
+  inp.classList.add(ok?'ok':'err');
+  inp.title = ok ? '✓ Correcto' : 'Respuesta esperada: ' + answers[0];
+  countable(ok);
+}
+
+/* ── RUBRIC SCORE ── */
+function calcRubric(){
+  let total=0, count=0;
+  document.querySelectorAll('.rubric-radio input:checked').forEach(r=>{
+    total += parseInt(r.value); count++;
+  });
+  document.getElementById('rubric-score').textContent = total + ' / ' + (count*3);
+}
+
+/* ── RESET ── */
+function resetAll(){
+  if(!confirm('¿Reiniciar todos los ejercicios?')) return;
+  location.reload();
+}
+
+/* ── FINAL RESULT BANNER ── */
+document.addEventListener('click', ()=>{
+  setTimeout(()=>{
+    const banner = document.getElementById('result-banner');
+    if(!banner) return;
+    if(quizTotal < 8) return;
+    banner.style.display = 'block';
+    const pct = quizCorrect/quizTotal;
+    banner.className = 'result-banner ' + (pct===1?'perfect':pct>=.7?'good':'keep-going');
+    banner.textContent = pct===1
+      ? '🏆 ¡Perfecto! Respondiste todo correctamente.'
+      : pct>=.7
+        ? `👍 Buen trabajo: ${quizCorrect} de ${quizTotal} correctas.`
+        : `📚 Sigue repasando: ${quizCorrect} de ${quizTotal} correctas. ¡Tú puedes!`;
+  }, 100);
+});
+</script>
+
 </body>
 </html>

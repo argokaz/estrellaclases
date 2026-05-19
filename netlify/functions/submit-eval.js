@@ -45,6 +45,6 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
   } catch (err) {
     console.error("submit-eval error:", err);
-    return { statusCode: 500, headers: CORS, body: '{"error":"Storage error"}' };
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({error: err.message, stack: err.stack}) };
   }
 };

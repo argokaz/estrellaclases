@@ -42,7 +42,11 @@ exports.handler = async (event) => {
     }
 
     const results = await Promise.all(
-      blobs.map(({ key }) => store.get(key, { type: "json" }).catch(() => null))
+      blobs.map(async ({ key }) => {
+        const data = await store.get(key, { type: "json" }).catch(() => null);
+        if (data) data._key = key;
+        return data;
+      })
     );
 
     const sorted = results

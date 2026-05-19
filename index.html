@@ -579,6 +579,16 @@ button{font-family:inherit;cursor:pointer;}
   cursor:pointer;font-family:inherit;transition:all .15s;
 }
 .results-export-btn:hover{border-color:var(--blue);color:var(--blue);}
+.res-delete-btn{
+  background:transparent;border:1px solid rgba(239,68,68,.25);
+  color:rgba(239,68,68,.5);border-radius:6px;
+  padding:3px 8px;font-size:12px;cursor:pointer;font-family:inherit;
+  transition:all .15s;
+}
+.res-delete-btn:hover{
+  background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.6);
+  color:#fca5a5;
+}
 .grade-group-label{
   background:rgba(255,255,255,.04);
   font-size:12px;font-weight:700;color:var(--text-muted);
@@ -1784,15 +1794,17 @@ function renderResults(data, session){
     if(r.grado !== currentGrade){
       currentGrade = r.grado;
       const count = sorted.filter(x=>x.grado===r.grado).length;
-      groupRow = `<tr><td colspan="6" class="grade-group-label">📚 ${gl} &nbsp;·&nbsp; ${count} alumno${count===1?'':'s'}</td></tr>`;
+      groupRow = `<tr><td colspan="7" class="grade-group-label">📚 ${gl} &nbsp;·&nbsp; ${count} alumno${count===1?'':'s'}</td></tr>`;
     }
-    return groupRow + `<tr>
+    const keyAttr = r._key ? `data-key="${r._key}"` : '';
+    return groupRow + `<tr id="row-${encodeURIComponent(r._key||'')}">
       <td><strong style="color:#fff">${r.nombre}</strong></td>
       <td style="color:var(--text-muted);font-size:13px">${gl}</td>
       <td class="res-score-cell">${r.score}<sub> /20</sub></td>
       <td style="color:var(--text-muted)">${r.correctas ?? r.correct ?? '?'} / ${r.total ?? 10}</td>
       <td><span class="res-pill ${cls}">${emoji} ${label}</span></td>
       <td style="color:var(--text-dim);font-size:13px">${fechaStr}</td>
+      <td>${r._key ? `<button class="res-delete-btn" onclick="deleteResult('${r._key.replace(/'/g,"\\'")}','${r.nombre.replace(/'/g,"\\'")}')">🗑</button>` : ''}</td>
     </tr>`;
   }).join('');
 
@@ -1800,11 +1812,36 @@ function renderResults(data, session){
   content.innerHTML = `<div class="results-table-wrap">
     <table class="results-table">
       <thead><tr>
-        <th>Nombre</th><th>Grado</th><th>Puntaje</th><th>Correctas</th><th>Nivel</th><th>Fecha y hora</th>
+        <th>Nombre</th><th>Grado</th><th>Puntaje</th><th>Correctas</th><th>Nivel</th><th>Fecha y hora</th><th></th>
       </tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>`;
+}
+
+async function deleteResult(key, nombre){
+  if(!confirm(`¿Borrar el resultado de "${nombre}"?\nEsto también libera su intento para que pueda volver a rendir.`)) return;
+  try {
+    const res = await fetch('/.netlify/functions/delete-result', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ pw: CORRECT_PW, key })
+    });
+    if(!res.ok) throw new Error('Error ' + res.status);
+    // Remove row from DOM immediately
+    const rowId = 'row-' + encodeURIComponent(key);
+    const row = document.getElementById(rowId);
+    if(row) row.remove();
+    // Update cache
+    const active = document.querySelector('.results-session-tab.active');
+    const session = active ? active.dataset.session : '02';
+    if(_resultsCache[session]){
+      _resultsCache[session] = _resultsCache[session].filter(r => r._key !== key);
+      renderResults(_resultsCache[session], session);
+    }
+  } catch(err) {
+    alert('Error al borrar: ' + err.message);
+  }
 }
 
 function exportXLSX(){

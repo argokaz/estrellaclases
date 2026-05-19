@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Computación 2026 – Guía de Sesiones</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 <style>
 /* ── TOKENS ──────────────────────────────────────────────── */
 :root{
@@ -552,6 +553,21 @@ button{font-family:inherit;cursor:pointer;}
   padding:8px 15px;letter-spacing:.5px;text-transform:uppercase;
   border-top:1px solid var(--border);
 }
+.results-card-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(139,92,246,.12);
+  color:#c4b5fd;
+  border:1px solid rgba(139,92,246,.35);
+  border-radius:10px;
+  padding:.5rem .9rem;
+  font-size:var(--fs-sm);font-weight:600;
+  cursor:pointer;font-family:inherit;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.results-card-btn:hover{background:rgba(139,92,246,.24);border-color:rgba(139,92,246,.6);transform:translateY(-1px);}
+.card.next .results-card-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
+.card.done .results-card-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
+.card.done .results-card-btn:hover{transform:none;}
 </style>
 </head>
 <body>
@@ -1571,6 +1587,8 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
     ? `<a href="${notasUrl}"  target="_blank" class="notes-btn">📋 Notas del profesor</a>` : '';
   const repasoBtn = repasoUrl
     ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
+  const resultsBtn = (repasoUrl && unlocked)
+    ? `<button class="results-card-btn" onclick="openResults()">📊 Resultados</button>` : '';
 
   const expandBtn = isNext ? '' :
     `<button class="expand-btn" onclick="toggleExpand(this)">
@@ -1616,7 +1634,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
       </div>
     </div>
     <div class="card-foot">
-      <div class="foot-actions">${slideBtn}${notasBtn}${repasoBtn}</div>
+      <div class="foot-actions">${slideBtn}${notasBtn}${repasoBtn}${resultsBtn}</div>
       <button class="check-btn ${btnClass}" onclick="toggleDone('${gradeId}',${n})">
         ${btnText}
       </button>
@@ -1757,23 +1775,28 @@ function renderResults(data, session){
   </div>`;
 }
 
-function exportCSV(){
+function exportXLSX(){
   const active = document.querySelector('.results-session-tab.active');
   const session = active ? active.dataset.session : '02';
   const data = _resultsCache[session] || [];
   if(!data.length){ alert('No hay datos para exportar.'); return; }
-  const headers = ['Nombre','Grado','Sesion','Puntaje','Correctas','Total','Nivel','Fecha'];
   const rows = data.map(r=>{
     const level = r.score>=18?'Excelente':r.score>=14?'Bueno':r.score>=10?'En proceso':'Necesita refuerzo';
-    return [r.nombre, r.grado, r.sesion, r.score, r.correctas??r.correct??'', r.total??10, level, r.fecha||'']
-      .map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',');
+    return {
+      'Nombre': r.nombre,
+      'Grado': GRADE_LABELS_MAP[r.grado] || r.grado,
+      'Sesión': r.sesion,
+      'Puntaje': r.score,
+      'Correctas': r.correctas ?? r.correct ?? '',
+      'Total preguntas': r.total ?? 10,
+      'Nivel': level,
+      'Fecha': r.fecha || ''
+    };
   });
-  const csv = '﻿' + [headers.join(','), ...rows].join('\n');
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `resultados-sesion-${session}.csv`; a.click();
-  URL.revokeObjectURL(url);
+  const ws = XLSX.utils.json_to_sheet(rows);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Resultados');
+  XLSX.writeFile(wb, `resultados-sesion-${session}.xlsx`);
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1789,7 +1812,7 @@ render();
     <div class="results-panel-header">
       <h2>📊 Resultados de alumnos</h2>
       <div class="results-header-actions">
-        <button class="results-export-btn" onclick="exportCSV()">⬇ Exportar CSV</button>
+        <button class="results-export-btn" onclick="exportXLSX()">⬇ Exportar Excel</button>
         <button class="results-close-btn" onclick="closeResultsPanel()">✕ Cerrar</button>
       </div>
     </div>

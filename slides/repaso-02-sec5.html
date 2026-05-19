@@ -242,6 +242,20 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .res-detail{font-size:15px;color:var(--muted)}
 
 .already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
+
+/* ── EXAM CTA ── */
+.exam-cta-section{text-align:center;padding:60px 24px 64px;border-top:2px dashed var(--border);margin-top:8px}
+.exam-cta-icon{font-size:3rem;margin-bottom:18px}
+.exam-cta-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.exam-cta-sub{font-size:16px;color:var(--muted);margin-bottom:30px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto}
+.exam-cta-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:14px;padding:18px 52px;font-size:19px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 6px 24px rgba(37,99,235,.3)}
+.exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
+
+/* ── EXAM MODE BAR ── */
+.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
+
+/* ── REVIEW BANNER (post-submit) ── */
+.review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
 </style>
 </head>
 <body>
@@ -257,7 +271,7 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-<div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
+<div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes</div><div id="study-content"><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
   <div class="cb-icon">🏛️</div>
   <div class="cb-body">
     <div class="cb-title">Formal ≠ complicado</div>
@@ -328,7 +342,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 <tr class="tf-row"><td>La IA puede revisar claridad y detectar repeticiones en tu borrador.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 </tbody></table></div>
   </div>
-</details></div><div class="eval-section">
+</details></div></div><div id="exam-cta" class="exam-cta-section">
+  <div class="exam-cta-icon">🎯</div>
+  <div class="exam-cta-title">¿Listo para la evaluación?</div>
+  <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
+  <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
+</div><div class="eval-section" id="eval-section" style="display:none">
   <span id="eval-grade-key" data-grade="sec5" style="display:none"></span>
 
   <div class="eval-banner">
@@ -451,6 +470,17 @@ function toggleModel(btn,id){
   btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
 }
 
+/* ── EXAM MODE ── */
+function enterExamMode(){
+  if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.')) return;
+  document.getElementById('study-content').style.display='none';
+  document.getElementById('exam-cta').style.display='none';
+  const ev=document.getElementById('eval-section');
+  ev.style.display='block';
+  ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 /* ── EVALUATION ── */
 let _name='',_grade='';
 
@@ -534,7 +564,13 @@ function showResult(r){
     <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
     <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
     <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
-  </div>`;
+  </div>
+  <div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;
+  // Reveal study content for review after exam
+  const study=document.getElementById('study-content');
+  const cta=document.getElementById('exam-cta');
+  if(study) study.style.display='block';
+  if(cta) cta.style.display='none';
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -543,6 +579,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   const grade=gk.dataset.grade;
   const saved=localStorage.getItem('eval-'+grade);
   if(!saved)return;
+  // Already submitted: show eval section (no hide study — result shown, review allowed)
+  const ev=document.getElementById('eval-section');
+  const ec=document.getElementById('exam-cta');
+  if(ev){
+    ev.style.display='block';
+    ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">✅ Evaluación ya enviada — revisa el material abajo</div>');
+  }
+  if(ec) ec.style.display='none';
   const r=JSON.parse(saved);
   document.getElementById('eval-gate-wrap').innerHTML=
     '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';

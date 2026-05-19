@@ -139,12 +139,35 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ── SECTION HEADERS ─────────────────────────────────────── */
 .section-label{
-  font-size:var(--fs-xs);font-weight:700;text-transform:uppercase;
-  letter-spacing:.9px;color:var(--blue);
-  margin:1.4rem 0 .7rem;display:flex;align-items:center;gap:.6rem;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:var(--fs-base);font-weight:800;
+  letter-spacing:-.2px;
+  margin:2rem 0 .9rem;
+  display:flex;align-items:center;gap:.7rem;
+  padding-bottom:.55rem;
+  border-bottom:2px solid var(--border);
 }
-.section-label::before{content:'';width:20px;height:2px;background:var(--blue);border-radius:2px;}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.section-label.sl-past{
+  color:var(--text-dim);
+  border-bottom-color:rgba(255,255,255,.06);
+}
+.section-label.sl-next{
+  color:var(--gold);
+  border-bottom-color:rgba(245,158,11,.4);
+  font-size:var(--fs-lg);
+}
+.section-label.sl-future{
+  color:var(--blue);
+  border-bottom-color:rgba(79,142,247,.3);
+}
+.section-label .sl-count{
+  font-size:var(--fs-xs);font-weight:600;
+  padding:2px 9px;border-radius:20px;
+  margin-left:.15rem;
+}
+.sl-past .sl-count{background:rgba(255,255,255,.05);color:var(--text-dim);}
+.sl-next .sl-count{display:none;}
+.sl-future .sl-count{background:rgba(79,142,247,.1);color:#93c5fd;}
 
 /* ── SESSION CARD ────────────────────────────────────────── */
 .card{
@@ -173,8 +196,17 @@ button{font-family:inherit;cursor:pointer;}
 
 /* Done card */
 .card.done{
-  background:rgba(13,23,48,.5);
-  opacity:.6;
+  background:rgba(6,13,31,.7);
+  border-color:rgba(255,255,255,.04);
+  opacity:.45;
+  filter:saturate(.3);
+}
+.card.done:hover{
+  opacity:.7;
+  filter:saturate(.6);
+  transform:none;
+  box-shadow:var(--shadow);
+  border-color:rgba(255,255,255,.08);
 }
 .card.done .card-title,.card.done .card-cover{color:var(--done-text);}
 
@@ -1502,7 +1534,7 @@ function renderPanel(gradeId){
   html += `<div class="calendar-note">🎯 <strong>${g.label}</strong> · ${g.age} · Proyecto: ${g.project}</div>`;
 
   // ── CLASES PASADAS — siempre visibles ──────────────────────
-  html += `<div class="section-label">📦 Clases pasadas (${pastItems.length})</div>`;
+  html += `<div class="section-label sl-past">📦 Clases pasadas <span class="sl-count">${pastItems.length}</span></div>`;
   if(pastItems.length){
     html += `<div class="done-grid">`;
     pastItems.forEach(item=>{
@@ -1519,13 +1551,13 @@ function renderPanel(gradeId){
     html += `<div class="unlock-bar">🔓 Modo profesor activo <button class="results-open-btn" onclick="openResults()">📊 Ver resultados de alumnos</button></div>`;
 
     if(nextItem){
-      html += `<div class="section-label">🎯 Próxima clase</div>`;
+      html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
       html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
     }
 
     const rest = nextItem ? futureItems.slice(1) : futureItems;
     if(rest.length){
-      html += `<div class="section-label">📅 Sesiones futuras (${rest.length})</div>`;
+      html += `<div class="section-label sl-future">📅 Sesiones futuras <span class="sl-count">${rest.length}</span></div>`;
       html += `<div class="future-grid">`;
       rest.forEach(item=>{
         html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, true);

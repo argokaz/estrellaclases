@@ -9,6 +9,7 @@
 
 :root {
   --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
+  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
   --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
   --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
   --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
@@ -17,121 +18,102 @@
   --radius:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Inter',sans-serif;
-  font-size:17px;
-  color:var(--text);
-  background:#fff;
-  line-height:1.8;
-}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
 button{font-family:inherit;cursor:pointer}
 
 /* ── LAYOUT ── */
-.page-wrap{max-width:820px;margin:0 auto;padding:40px 44px}
-@media(max-width:640px){.page-wrap{padding:24px 20px}}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
 
 /* ── HEADER ── */
 .doc-header{
-  border-bottom:3px solid var(--brand);
-  padding-bottom:18px;margin-bottom:28px;
-  display:flex;justify-content:space-between;align-items:flex-end;
-  gap:14px;flex-wrap:wrap;
+  border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;
 }
-.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
-.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:3px}
-.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:1.9}
-.doc-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:28px;font-weight:800;color:var(--brand);margin-bottom:6px;
-}
-.doc-subtitle{
-  font-size:15px;color:var(--muted);
-  margin-bottom:28px;padding-bottom:16px;
-  border-bottom:1px solid var(--border);
-}
-
-/* ── PRACTICE SCORE BAR ── */
-.score-bar{
-  display:flex;align-items:center;gap:12px;
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-radius:var(--radius);padding:11px 18px;margin-bottom:24px;flex-wrap:wrap;
-}
-.score-bar span{font-size:14px;color:var(--muted)}
-.score-num{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
-.prog-track{flex:1;min-width:70px;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s;width:0%}
-.reset-btn{
-  background:transparent;border:1px solid var(--border);color:var(--muted);
-  border-radius:8px;padding:5px 14px;font-size:13px;transition:all .15s;
-}
-.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:0;padding-bottom:0}
 
 /* ── SECTION ── */
-.section{margin-bottom:52px}
+.section{margin-bottom:56px}
 .section-title{
-  font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--brand);
-  margin-bottom:16px;padding-bottom:8px;
-  border-bottom:2px solid var(--accent);
+  font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);
+  margin-bottom:24px;padding-bottom:12px;
+  border-bottom:3px solid var(--accent);
+  display:flex;align-items:center;gap:12px;line-height:1.2;
+}
+
+/* ── CONCEPT BLOCKS (Lo que aprendimos) ── */
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:22px 26px;border-radius:14px;
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-left:5px solid var(--accent);
+}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+
+/* ── GLOSSARY V2 ── */
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:14px;padding:20px 22px;
+}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+
+/* ── PRACTICE ACCORDION ── */
+.practice-details{
+  border:2px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.practice-summary{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 28px;cursor:pointer;
+  background:var(--bg-alt);
+  list-style:none;user-select:none;gap:16px;
+}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:22px;font-weight:800;color:var(--brand);
   display:flex;align-items:center;gap:10px;
 }
-
-/* ── SUMMARY CARDS ── */
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.sum-card{
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-left:4px solid var(--accent);
-  border-radius:var(--radius);padding:20px 22px;
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{
+  display:flex;gap:16px;align-items:flex-start;
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;
+  padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;
 }
-.sum-card strong{
-  display:block;font-size:12px;color:var(--accent);
-  margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;
-}
-.sum-card p{font-size:16px;line-height:1.7}
-@media(max-width:560px){.sum-grid{grid-template-columns:1fr}}
-
-/* ── GLOSSARY ── */
-.gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gloss-i{
-  background:var(--bg-alt);border-radius:10px;
-  padding:14px 18px;font-size:15px;border:1px solid var(--border);
-  line-height:1.6;
-}
-.gloss-i b{color:var(--brand)}
-@media(max-width:560px){.gloss{grid-template-columns:1fr}}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
 
 /* ── INFO BOX ── */
 .info-box{
   background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);
-  padding:16px 20px;font-size:16px;color:#1e40af;margin-bottom:20px;line-height:1.7;
+  padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;
 }
 
-/* ── PRACTICE EXERCISES ── */
-.ex{
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-radius:var(--radius);padding:24px 26px;margin-bottom:20px;
-}
-.ex-num{
-  display:inline-block;background:var(--accent);color:#fff;
-  font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px;
-}
+/* ── EXERCISES ── */
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
 
-/* ── CLASSIFY TABLE ── */
+/* classify */
 .cls-tbl{width:100%;border-collapse:collapse}
-.cls-tbl th{
-  background:var(--brand);color:#fff;
-  padding:10px 13px;font-size:13px;text-align:left;
-}
-.cls-row td{
-  padding:10px 13px;border-bottom:1px solid var(--border);
-  font-size:16px;vertical-align:middle;
-}
-.cls-btns{display:flex;gap:7px;flex-wrap:wrap}
-.cls-btn{
-  border:1.5px solid var(--border);background:#fff;border-radius:8px;
-  padding:6px 15px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s;
-}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
 .cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
 .cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
@@ -140,88 +122,73 @@ button{font-family:inherit;cursor:pointer}
 .cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
 .cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
 
-/* ── TRUE/FALSE TABLE ── */
+/* true/false */
 .tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{
-  background:var(--brand);color:#fff;
-  padding:10px 13px;font-size:13px;text-align:left;
-}
-.tf-row td{
-  padding:10px 13px;border-bottom:1px solid var(--border);
-  font-size:16px;vertical-align:middle;
-}
-.tf-btns{display:flex;gap:7px}
-.tf-btn{
-  border:1.5px solid var(--border);background:#fff;border-radius:8px;
-  padding:6px 18px;font-size:15px;font-weight:700;transition:all .15s;
-}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
 .tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
 .tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
 .tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 
-/* ── OPEN TEXTAREA ── */
-.txt-area{
-  width:100%;border:1.5px solid var(--border);border-radius:10px;
-  padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;
-  min-height:90px;outline:none;color:var(--text);transition:border-color .2s;
-  line-height:1.7;
-}
+/* textarea */
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
-.model-btn{
-  margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);
-  color:var(--hint-t);border-radius:9px;padding:7px 16px;
-  font-size:14px;font-weight:600;transition:all .15s;
-}
+.model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
 .model-btn:hover{background:var(--hint-bg)}
-.model-box{
-  display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);
-  border-radius:10px;padding:14px 18px;font-size:15px;color:var(--hint-t);line-height:1.75;
-}
+.model-box{display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);border-radius:10px;padding:16px 20px;font-size:16px;color:var(--hint-t);line-height:1.75}
 .model-box.open{display:block}
-.model-box strong{
-  display:block;font-size:12px;text-transform:uppercase;
-  letter-spacing:.5px;margin-bottom:6px;
-}
+.model-box strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 
-/* ════════════════════════════════════════════
-   EVALUACIÓN FINAL
-   ════════════════════════════════════════════ */
-.eval-section{
-  border-top:3px solid var(--accent2);
-  padding-top:32px;margin-top:16px;
+/* ════════════════════════════════
+   EVALUACIÓN — BANNER PROMINENTE
+   ════════════════════════════════ */
+.eval-section{margin-top:12px}
+
+.eval-banner{
+  background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);
+  border-radius:18px;padding:32px 36px;margin-bottom:32px;
+  color:#fff;position:relative;overflow:hidden;
 }
-.eval-title{
-  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;
-  color:var(--accent2);margin-bottom:6px;
+.eval-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);
+  pointer-events:none;
 }
-.eval-desc{font-size:16px;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.eval-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fbbf24;color:#1e3a8a;
+  font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;
+  border-radius:7px;padding:5px 14px;margin-bottom:14px;
+}
+.eval-banner-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:32px;font-weight:800;line-height:1.1;margin-bottom:10px;
+}
+.eval-banner-sub{font-size:16px;opacity:.88;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(0,0,0,.22);border-radius:10px;
+  padding:14px 18px;font-size:15px;line-height:1.65;
+}
+.eval-banner-warn strong{font-weight:800}
 
 /* gate */
-.eval-gate-wrap{display:flex;justify-content:center}
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:28px}
 .eval-gate{
   background:var(--bg-quiz);border:2px solid #c7d2fe;
-  border-radius:16px;padding:36px 30px;text-align:center;max-width:460px;width:100%;
+  border-radius:16px;padding:36px 32px;text-align:center;max-width:480px;width:100%;
 }
 .gate-icon{font-size:3rem;margin-bottom:14px}
-.gate-h{
-  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;
-  color:var(--brand);margin-bottom:10px;
-}
-.gate-p{font-size:16px;color:var(--muted);margin-bottom:24px;line-height:1.75}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:16px;color:var(--muted);margin-bottom:26px;line-height:1.75}
 .gate-label{display:block;font-size:14px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left}
-.gate-input{
-  width:100%;border:2px solid var(--border);border-radius:10px;
-  padding:13px 16px;font-size:17px;font-family:inherit;outline:none;
-  margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center;
-}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center}
 .gate-input:focus{border-color:var(--accent)}
 .gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
-.gate-btn{
-  width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;border:none;border-radius:11px;padding:15px;
-  font-size:17px;font-weight:700;transition:opacity .15s;
-}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s}
 .gate-btn:hover{opacity:.88}
 
 /* quiz body */
@@ -229,80 +196,52 @@ button{font-family:inherit;cursor:pointer}
 .eval-top{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
   background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;
-  padding:12px 18px;margin-bottom:20px;
+  padding:13px 18px;margin-bottom:20px;
 }
 .eval-top span{font-size:15px;color:var(--muted)}
 .eval-top strong{color:var(--brand)}
 .eval-answered{font-size:15px;color:var(--muted)}
-
-.eval-q{
-  background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:20px 22px;margin-bottom:14px;transition:border-color .2s;
-}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
 .eval-q.done-ok{border-color:var(--ok-b)}
 .eval-q.done-err{border-color:var(--err-b)}
 .eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-.eval-q-num{
-  background:var(--accent);color:#fff;border-radius:50%;
-  width:30px;height:30px;min-width:30px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;flex-shrink:0;
-}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
 .eval-q-num.ok{background:var(--ok-t)}
 .eval-q-num.err{background:var(--err-t)}
 .eval-q-text{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
-.eval-opts{display:flex;flex-direction:column;gap:7px;padding-left:6px}
-.eval-opt{
-  display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;
-  padding:10px 14px;border-radius:9px;border:1px solid transparent;
-  transition:background .12s;user-select:none;line-height:1.6;
-}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid transparent;transition:background .12s;user-select:none;line-height:1.6}
 .eval-opt:hover{background:var(--bg-alt)}
 .eval-opt input[type=radio]{margin-top:4px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
 .eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
 .eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
 
-/* submit area */
-.eval-submit-wrap{
-  text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);
-}
-.eval-submit-btn{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
-  border:none;border-radius:12px;padding:16px 48px;font-size:18px;font-weight:700;
-  transition:opacity .15s;
-}
+/* submit */
+.eval-submit-wrap{text-align:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:17px 52px;font-size:18px;font-weight:700;transition:opacity .15s}
 .eval-submit-btn:hover:not(:disabled){opacity:.88}
 .eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
 .eval-hint{font-size:14px;color:var(--muted);margin-top:10px}
 
 /* result card */
 .result-wrap{margin-top:28px}
-.result-card{border-radius:16px;padding:32px 24px;text-align:center}
+.result-card{border-radius:16px;padding:36px 28px;text-align:center}
 .result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
 .result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
 .result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
 .result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
-.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:12px}
-.res-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:5px}
-.res-info{font-size:14px;color:var(--muted);margin-bottom:22px}
-.res-score{
-  font-family:'Space Grotesk',sans-serif;font-size:72px;font-weight:800;
-  color:var(--brand);line-height:1;margin-bottom:5px;
-}
-.res-score sub{font-size:24px;font-weight:400;color:var(--muted);vertical-align:super}
-.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 12px}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:24px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:76px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
 .res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
-.res-level{font-size:20px;font-weight:800;margin-bottom:8px}
-.res-level.ok{color:var(--ok-t)} .res-level.good{color:var(--accent)}
-.res-level.warn{color:var(--gold)} .res-level.low{color:var(--err-t)}
+.res-level{font-size:22px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
 .res-detail{font-size:15px;color:var(--muted)}
 
-/* already submitted notice */
-.already-box{
-  background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:11px;
-  padding:16px 20px;font-size:15px;color:var(--ok-t);
-  margin-bottom:20px;text-align:center;line-height:1.7;
-}
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
 </style>
 </head>
 <body>
@@ -318,39 +257,87 @@ button{font-family:inherit;cursor:pointer}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-<div class="doc-subtitle">Mi trabajo escolar bien ordenado: documento académico &nbsp;·&nbsp; Práctica interactiva + Evaluación sobre 20 pts</div>
-<div class="score-bar">
-  <span>Práctica:</span>
-  <div class="score-num">
-    <span id="p-val">0</span>
-    <span style="font-size:13px;font-weight:400;color:#94a3b8">&nbsp;de <span id="p-tot">0</span></span>
+<div class="doc-subtitle">Mi trabajo escolar bien ordenado: documento académico</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
+  <div class="cb-icon">🏗️</div>
+  <div class="cb-body">
+    <div class="cb-title">Estructura del trabajo</div>
+    <div class="cb-text">Todo documento académico tiene: Título · Nombre y grado · Introducción · Desarrollo · Conclusión. El orden no es decorativo: guía al lector.</div>
   </div>
-  <div class="prog-track"><div class="prog-fill" id="p-fill"></div></div>
-  <button class="reset-btn" onclick="resetPractice()">↺ Reiniciar práctica</button>
-</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Un buen documento no solo tiene buen contenido: también necesita <strong>estructura, orden visual y formato claro</strong>.</div><div class="sum-grid"><div class="sum-card"><strong>Partes del trabajo</strong><p>Título · Nombre y grado · Introducción · Desarrollo · Conclusión.</p></div><div class="sum-card"><strong>El título</strong><p>Debe decir de qué trata, verse primero y no ser demasiado largo.</p></div><div class="sum-card"><strong>Párrafos cortos</strong><p>Una idea por párrafo. Dejar espacios entre párrafos ayuda a leer mejor.</p></div><div class="sum-card"><strong>Subtítulos</strong><p>Ordenan el contenido y ayudan a encontrar información rápido.</p></div><div class="sum-card"><strong>Formato básico</strong><p>Letra legible, tamaño adecuado, márgenes y alineación correcta.</p></div><div class="sum-card"><strong>Imágenes con sentido</strong><p>Solo si ayudan a entender. Deben tener título o explicación.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss"><div class="gloss-i"><b>Documento académico:</b> trabajo escolar con estructura clara y formato adecuado</div><div class="gloss-i"><b>Subtítulo:</b> encabezado interno que divide el contenido</div><div class="gloss-i"><b>Párrafo:</b> grupo de oraciones sobre una misma idea</div><div class="gloss-i"><b>Formato:</b> aspecto visual del documento</div><div class="gloss-i"><b>Introducción:</b> presenta el tema y dice qué se hará</div><div class="gloss-i"><b>Conclusión:</b> cierra el trabajo con lo más importante</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios de práctica</div><div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿En qué posición va cada parte del documento?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Inicio</th><th>Cuerpo</th><th>Final</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Título y datos del autor</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Inicio')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Inicio')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Inicio')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Introducción</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Inicio')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Inicio')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Inicio')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
+</div>
+<div class="concept-block" style="border-left-color:var(--accent2)">
+  <div class="cb-icon">🔤</div>
+  <div class="cb-body">
+    <div class="cb-title">El título importa</div>
+    <div class="cb-text">Debe decir exactamente de qué trata el trabajo. No demasiado corto ni demasiado largo. Se ve primero.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--emerald)">
+  <div class="cb-icon">📝</div>
+  <div class="cb-body">
+    <div class="cb-title">Un párrafo = una idea</div>
+    <div class="cb-text">Cada párrafo desarrolla una sola idea. Dejar espacio entre párrafos mejora mucho la lectura.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--amber)">
+  <div class="cb-icon">🗂️</div>
+  <div class="cb-body">
+    <div class="cb-title">Subtítulos como mapa</div>
+    <div class="cb-text">Dividen el contenido y ayudan al lector a encontrar información rápido. Son el esqueleto visible del trabajo.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--teal)">
+  <div class="cb-icon">🖋️</div>
+  <div class="cb-body">
+    <div class="cb-title">Formato adecuado</div>
+    <div class="cb-text">Letra legible, tamaño correcto, márgenes y alineación. El formato no es estética: facilita la lectura.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--rose)">
+  <div class="cb-icon">🖼️</div>
+  <div class="cb-body">
+    <div class="cb-title">Imágenes con propósito</div>
+    <div class="cb-text">Solo si ayudan a entender el contenido. Toda imagen debe tener un título o explicación breve.</div>
+  </div>
+</div>
+</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Documento académico</div><div class="gloss-def">trabajo escolar con estructura clara, orden y formato adecuado</div></div><div class="gloss-card"><div class="gloss-term">Subtítulo</div><div class="gloss-def">encabezado interno que divide y organiza el contenido</div></div><div class="gloss-card"><div class="gloss-term">Párrafo</div><div class="gloss-def">bloque de oraciones que desarrollan una sola idea</div></div><div class="gloss-card"><div class="gloss-term">Formato</div><div class="gloss-def">aspecto visual del documento: fuente, márgenes, alineación</div></div><div class="gloss-card"><div class="gloss-term">Introducción</div><div class="gloss-def">presenta el tema, su importancia y qué se va a tratar</div></div><div class="gloss-card"><div class="gloss-term">Conclusión</div><div class="gloss-def">cierra el trabajo resumiendo lo más importante</div></div></div></div><div class="section"><details class="practice-details">
+  <summary class="practice-summary">
+    <div class="ps-left">
+      <div class="ps-title">✏️ Ejercicios de práctica</div>
+      <div class="ps-hint">Haz clic para practicar antes de la evaluación — sin límite de intentos</div>
+    </div>
+    <span class="ps-arrow">▾</span>
+  </summary>
+  <div class="practice-content">
+    <div class="practice-invite">
+      <div class="practice-invite-icon">💡</div>
+      <div>
+        <strong>Te recomendamos practicar aquí primero.</strong><br>
+        Estos ejercicios tienen feedback inmediato y puedes intentarlos cuantas veces necesites.
+        Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
+      </div>
+    </div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿En qué parte del documento va cada elemento?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Inicio</th><th>Cuerpo</th><th>Final</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Título y nombre del autor</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Inicio')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Inicio')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Inicio')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>Introducción al tema</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Inicio')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Inicio')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Inicio')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
 <tr class="cls-row"><td>Desarrollo con subtítulos</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Cuerpo')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Cuerpo')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Cuerpo')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
 <tr class="cls-row"><td>Conclusión</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Final')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Final')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Final')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Fuentes o referencias</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Final')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Final')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Final')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>Sobre el texto de abajo: ¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:75%'>Afirmación</th><th style='text-align:center;width:12%'>V</th><th style='text-align:center;width:13%'>F</th></tr></thead><tbody><tr class="tf-row"><td>El texto tiene un título claro y específico.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El texto tiene párrafos separados.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El texto tiene subtítulos que organicen el contenido.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El tono es formal y apropiado para un trabajo escolar.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El texto tiene nombre y grado del autor bien presentados.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El texto tiene una conclusión clara.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-</tbody></table></div><div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:16px 20px;font-size:15px;margin-bottom:18px;line-height:1.75"><strong style="font-size:13px;color:#92400e;display:block;margin-bottom:6px">TEXTO DEL EJERCICIO 2:</strong><em>"hola mi nombre es carlos tengo 14 años este es mi trabajo sobre el agua el agua es importante para vivir sin agua no podemos sobrevivir segun los cientificos el agua cubre el 71% de la tierra hay agua dulce y agua salada el agua dulce es la que tomamos el agua salada esta en el mar ya no voy a escribir mas"</em></div><div class="ex"><div class="ex-num">Ejercicio 3</div><h4>¿Cuál es la práctica correcta de formato? Marca V o F</h4><table class="tf-tbl"><thead><tr><th style='width:75%'>Afirmación</th><th style='text-align:center;width:12%'>V</th><th style='text-align:center;width:13%'>F</th></tr></thead><tbody><tr class="tf-row"><td>Un buen título debe decir exactamente de qué trata el trabajo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>Poner todo el texto en mayúsculas ayuda a la lectura.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>Se puede poner cualquier imagen para que el trabajo se vea mejor.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="cls-row"><td>Lista de fuentes</td><td><div class="cls-btns"><button class="cls-btn" data-val="Inicio" onclick="classify(this,'Inicio','Final')">Inicio</button><button class="cls-btn" data-val="Cuerpo" onclick="classify(this,'Cuerpo','Final')">Cuerpo</button><button class="cls-btn" data-val="Final" onclick="classify(this,'Final','Final')">Final</button></div></td><td><span class="cls-res"></span></td></tr>
+</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>Un buen título debe decir exactamente de qué trata el trabajo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Poner todo el texto en mayúsculas mejora la lectura.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 <tr class="tf-row"><td>Cada párrafo debe desarrollar una sola idea principal.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>El nombre del autor es opcional en un trabajo escolar.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>Los subtítulos ayudan al lector a encontrar información.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 4</div><h4>Escribe una introducción breve</h4><p style="margin-bottom:12px">Tema: <em>El uso responsable de las redes sociales</em>. Presenta el tema, explica por qué importa y di qué se verá. Máximo 4 oraciones.</p><textarea class="txt-area" placeholder="Escribe tu respuesta aquí…"></textarea><button class="model-btn" onclick="toggleModel(this,'m4')">▼ Ver respuesta modelo</button><div class="model-box" id="m4"><strong>Respuesta modelo:</strong> Las redes sociales forman parte del día a día de millones de jóvenes. Sin embargo, su uso sin criterio puede afectar la concentración, la privacidad y las relaciones. Por esa razón, es importante conocer hábitos de uso responsable. En este trabajo se analizarán los riesgos más comunes y algunas estrategias para usar estas plataformas de forma segura.</div></div></div><div class="eval-section">
+</tbody></table></div>
+  </div>
+</details></div><div class="eval-section">
   <span id="eval-grade-key" data-grade="sec2" style="display:none"></span>
-  <div class="eval-title">📊 Evaluación Final</div>
-  <div class="eval-desc">
-    10 preguntas &nbsp;·&nbsp; 2 puntos cada una &nbsp;·&nbsp;
-    <strong>Total: 20 puntos</strong> &nbsp;·&nbsp;
-    Solo un intento por dispositivo.
+
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 2.° Secundaria</div>
+    <div class="eval-banner-warn">
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
+      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+    </div>
   </div>
 
   <div id="eval-gate-wrap">
@@ -358,10 +345,7 @@ button{font-family:inherit;cursor:pointer}
       <div class="eval-gate">
         <div class="gate-icon">📝</div>
         <div class="gate-h">Antes de comenzar</div>
-        <p class="gate-p">
-          Esta evaluación tiene <strong>10 preguntas</strong> y vale <strong>20 puntos</strong>.<br>
-          Tendrás <strong>un solo intento</strong>. Lee cada pregunta con calma.
-        </p>
+        <p class="gate-p">Escribe tu nombre completo para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Tu nombre completo</label>
         <input id="gate-input" class="gate-input" type="text"
           placeholder="Escribe tu nombre aquí…" maxlength="80"
@@ -376,61 +360,59 @@ button{font-family:inherit;cursor:pointer}
       <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 2.° Secundaria</span>
       <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué hace que un documento sea académico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Que tenga muchas páginas</span></label>
+    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué hace que un documento sea 'académico'?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Que tenga muchas páginas</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Que tenga estructura clara, orden y formato adecuado</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Que esté escrito en computadora</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Que use palabras difíciles</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Para qué sirven los subtítulos en un trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Para que se vea más largo</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Para qué sirven los subtítulos en un trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Para que el trabajo se vea más largo</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Para ordenar el contenido y ayudar al lector a encontrar ideas</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Para reemplazar el título</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Para poner más colores</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Para reemplazar el título principal</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Para poner más colores y decoración</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuántas ideas deben ir en cada párrafo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Todas las ideas del trabajo</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Ninguna</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuántas ideas principales deben ir en cada párrafo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Todas las ideas del trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Ninguna idea concreta</span></label>
 <label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Una idea principal por párrafo</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Depende del color de la letra</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Depende del tamaño de la letra</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué información debe aparecer además del texto?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Solo el contenido del tema</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Además del contenido, ¿qué información debe aparecer en el trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Solo el contenido del tema</span></label>
 <label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Nombre, grado y fecha del autor</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) El nombre de todos los compañeros</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) El horario de clases</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) El nombre de todos los compañeros de clase</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) El horario de clases completo</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cuándo está bien poner una imagen en un trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Siempre, cuantas más mejor</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Solo si ayuda a entender el contenido</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Nunca</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Solo imágenes animadas</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cuándo es correcto poner una imagen en un trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Siempre, cuantas más mejor para que se vea completo</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Solo si ayuda a entender el contenido tratado</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Nunca, las imágenes no van en trabajos académicos</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Solo imágenes animadas o en color</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué ayuda MÁS a que un documento sea fácil de leer?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Todo en mayúsculas</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Letra muy pequeña</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué elemento ayuda MÁS a que un documento sea fácil de leer?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Escribir todo en mayúsculas</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Usar letra muy pequeña para caber en menos páginas</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Párrafos separados y subtítulos claros</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Muchos colores distintos</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Usar muchos colores distintos</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué función tiene la conclusión?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Repetir todo lo dicho</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué función tiene la conclusión de un trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Repetir todo lo que ya se dijo en el desarrollo</span></label>
 <label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Cerrar con lo más importante sin repetir todo</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Poner imágenes sobrantes</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Escribir el título de nuevo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Poner las imágenes que sobraron</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Escribir el título del trabajo de nuevo</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué pasa si entregas un archivo sin nombre?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Nada, el profesor lo identifica</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué pasa si entregas un archivo sin nombre de alumno?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Nada, el profesor lo identifica fácilmente</span></label>
 <label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Puede confundirse con otro trabajo o perderse</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) El archivo se borra automáticamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Se cuenta como trabajo grupal</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) El archivo se borra automáticamente del sistema</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Se cuenta automáticamente como trabajo grupal</span></label>
 </div></div>
 <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál de estas es una buena introducción?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) 'Hola, en este trabajo hablaré de cosas interesantes.'</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) 'Este trabajo presenta el problema de la contaminación del agua, explica sus causas principales y propone acciones concretas.'</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) 'Conclusión: el agua es importante.'</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) 'Este trabajo analiza el problema de la contaminación del agua, explica sus causas y propone soluciones concretas.'</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) 'Conclusión: el agua es muy importante para todos.'</span></label>
 <label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) 'Trabajo sobre el agua. Nombre: Juan. Grado: 2.°'</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué es el formato de un documento?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) El tema del trabajo</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) El aspecto visual: letra, márgenes y alineación que facilitan la lectura</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) El número de páginas</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) El nombre del autor</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué es el 'formato' de un documento?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) El tema central del trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) El aspecto visual: tipo de letra, márgenes y alineación que facilitan la lectura</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) El número total de páginas escritas</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) El nombre del autor del trabajo</span></label>
 </div></div>
 
     <div id="eval-submit-wrap" class="eval-submit-wrap">
-      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>
-        Enviar evaluación
-      </button>
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
       <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
     </div>
     <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
@@ -439,15 +421,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 
 <script>
-/* ══ PRACTICE EXERCISES ══ */
-let pCorrect=0, pTotal=0;
-function pCount(ok){ pTotal++; if(ok) pCorrect++; refreshPBar(); }
-function refreshPBar(){
-  const v=document.getElementById('p-val'), t=document.getElementById('p-tot'), f=document.getElementById('p-fill');
-  if(!v) return;
-  v.textContent=pCorrect; t.textContent=pTotal;
-  if(pTotal>0) f.style.width=(pCorrect/pTotal*100)+'%';
-}
+/* ── PRACTICE ── */
 function classify(btn,chosen,correct){
   const row=btn.closest('.cls-row');
   if(row.dataset.done) return;
@@ -455,10 +429,9 @@ function classify(btn,chosen,correct){
   row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
   const ok=chosen===correct;
   btn.classList.add(ok?'correct':'wrong');
-  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{ if(b.dataset.val===correct) b.classList.add('reveal'); });
+  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
   const r=row.querySelector('.cls-res');
-  if(r){ r.className='cls-res '+(ok?'ok':'err'); r.textContent=ok?'✓ Correcto':'✗ Incorrecto'; }
-  pCount(ok);
+  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
 }
 function tfPick(btn,chosen,correct){
   const row=btn.closest('.tf-row');
@@ -470,34 +443,29 @@ function tfPick(btn,chosen,correct){
     if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
   });
   btn.classList.add(ok?'correct':'wrong');
-  pCount(ok);
 }
 function toggleModel(btn,id){
   const b=document.getElementById(id);
   const open=b.classList.toggle('open');
   btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
 }
-function resetPractice(){ if(confirm('¿Reiniciar ejercicios de práctica?')) location.reload(); }
 
-/* ══ EVALUATION ══ */
-let _name='', _grade='';
+/* ── EVALUATION ── */
+let _name='',_grade='';
 
 function startEval(grade){
   const inp=document.getElementById('gate-input');
   const name=inp.value.trim();
-  if(name.length < 2){ inp.classList.add('err'); inp.focus(); return; }
+  if(name.length<2){inp.classList.add('err');inp.focus();return;}
   inp.classList.remove('err');
-  _name=name; _grade=grade;
-
+  _name=name;_grade=grade;
   const saved=localStorage.getItem('eval-'+grade);
   if(saved){
     const r=JSON.parse(saved);
     document.getElementById('eval-gate-wrap').innerHTML=
-      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
-    showResult(r);
-    return;
+      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    showResult(r);return;
   }
-
   document.getElementById('eval-gate-wrap').style.display='none';
   const body=document.getElementById('eval-body');
   body.style.display='block';
@@ -508,9 +476,7 @@ function startEval(grade){
 function updateAnswered(){
   const qs=document.querySelectorAll('.eval-q');
   let ans=0;
-  qs.forEach((_,i)=>{
-    if(document.querySelector('input[name="eq'+(i+1)+'"]:checked')) ans++;
-  });
+  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
   document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
   const btn=document.getElementById('eval-submit-btn');
   if(btn) btn.disabled=(ans<qs.length);
@@ -518,50 +484,34 @@ function updateAnswered(){
 
 function submitEval(){
   if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
-
   const qs=document.querySelectorAll('.eval-q');
-  let correct=0;
-  const respuestas=[];
+  let correct=0;const respuestas=[];
   qs.forEach((q,i)=>{
     const cv=q.dataset.correct;
     const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
     const sv=sel?sel.value:null;
     const ok=sv===cv;
-    if(ok) correct++;
+    if(ok)correct++;
     respuestas.push(sv||'—');
-
     q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
     q.querySelectorAll('.eval-opt').forEach(opt=>{
       const v=opt.querySelector('input').value;
-      if(v===cv) opt.classList.add('correct');
-      else if(v===sv&&!ok) opt.classList.add('wrong');
+      if(v===cv)opt.classList.add('correct');
+      else if(v===sv&&!ok)opt.classList.add('wrong');
     });
     const num=q.querySelector('.eval-q-num');
     num.classList.add(ok?'ok':'err');
     q.classList.add(ok?'done-ok':'done-err');
   });
-
   const score=correct*2;
   const fecha=new Date().toISOString();
-  const result={
-    name:_name, grade:_grade, score, correct, total:qs.length,
-    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})
-  };
-
-  // Save locally (primary record)
-  localStorage.setItem('eval-'+_grade, JSON.stringify(result));
-
-  // Send to backend (fire-and-forget)
-  fetch('/.netlify/functions/submit-eval', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      nombre:_name, grado:_grade, sesion:'02',
-      score, correctas:correct, total:qs.length,
-      fecha, respuestas
-    })
-  }).catch(()=>{}); // Silent fail — localStorage es el registro primario
-
+  const result={name:_name,grade:_grade,score,correct,total:qs.length,
+    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
+  localStorage.setItem('eval-'+_grade,JSON.stringify(result));
+  fetch('/.netlify/functions/submit-eval',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'02',score,correctas:correct,total:qs.length,fecha,respuestas})
+  }).catch(()=>{});
   document.getElementById('eval-submit-wrap').style.display='none';
   showResult(result);
 }
@@ -576,26 +526,25 @@ function showResult(r){
   const el=document.getElementById('eval-result-wrap');
   el.style.display='block';
   el.innerHTML=`<div class="result-card ${cls}">
-    <div class="res-label">📊 Resultado de Evaluación · Sesión 02</div>
+    <div class="res-label">📊 Resultado · Sesión 02 · Asunción School</div>
     <div class="res-name">${r.name}</div>
-    <div class="res-info">${r.grade}&nbsp;·&nbsp;${r.date}</div>
+    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
     <div class="res-score">${r.score}<sub> / 20</sub></div>
     <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
     <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
-    <div class="res-detail">${r.correct} de ${r.total} preguntas correctas · 2 puntos c/u</div>
+    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
   </div>`;
 }
 
-// Restore state on load
 document.addEventListener('DOMContentLoaded',()=>{
   const gk=document.getElementById('eval-grade-key');
-  if(!gk) return;
+  if(!gk)return;
   const grade=gk.dataset.grade;
   const saved=localStorage.getItem('eval-'+grade);
-  if(!saved) return;
+  if(!saved)return;
   const r=JSON.parse(saved);
   document.getElementById('eval-gate-wrap').innerHTML=
-    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
   document.getElementById('eval-body').style.display='block';
   document.getElementById('eval-student-name').textContent=r.name;
   document.getElementById('eval-submit-wrap').style.display='none';

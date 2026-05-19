@@ -9,6 +9,7 @@
 
 :root {
   --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
+  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
   --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
   --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
   --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
@@ -17,121 +18,102 @@
   --radius:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Inter',sans-serif;
-  font-size:17px;
-  color:var(--text);
-  background:#fff;
-  line-height:1.8;
-}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
 button{font-family:inherit;cursor:pointer}
 
 /* ── LAYOUT ── */
-.page-wrap{max-width:820px;margin:0 auto;padding:40px 44px}
-@media(max-width:640px){.page-wrap{padding:24px 20px}}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
 
 /* ── HEADER ── */
 .doc-header{
-  border-bottom:3px solid var(--brand);
-  padding-bottom:18px;margin-bottom:28px;
-  display:flex;justify-content:space-between;align-items:flex-end;
-  gap:14px;flex-wrap:wrap;
+  border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;
 }
-.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
-.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:3px}
-.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:1.9}
-.doc-title{
-  font-family:'Space Grotesk',sans-serif;
-  font-size:28px;font-weight:800;color:var(--brand);margin-bottom:6px;
-}
-.doc-subtitle{
-  font-size:15px;color:var(--muted);
-  margin-bottom:28px;padding-bottom:16px;
-  border-bottom:1px solid var(--border);
-}
-
-/* ── PRACTICE SCORE BAR ── */
-.score-bar{
-  display:flex;align-items:center;gap:12px;
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-radius:var(--radius);padding:11px 18px;margin-bottom:24px;flex-wrap:wrap;
-}
-.score-bar span{font-size:14px;color:var(--muted)}
-.score-num{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
-.prog-track{flex:1;min-width:70px;height:7px;background:var(--border);border-radius:4px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s;width:0%}
-.reset-btn{
-  background:transparent;border:1px solid var(--border);color:var(--muted);
-  border-radius:8px;padding:5px 14px;font-size:13px;transition:all .15s;
-}
-.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:0;padding-bottom:0}
 
 /* ── SECTION ── */
-.section{margin-bottom:52px}
+.section{margin-bottom:56px}
 .section-title{
-  font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--brand);
-  margin-bottom:16px;padding-bottom:8px;
-  border-bottom:2px solid var(--accent);
+  font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);
+  margin-bottom:24px;padding-bottom:12px;
+  border-bottom:3px solid var(--accent);
+  display:flex;align-items:center;gap:12px;line-height:1.2;
+}
+
+/* ── CONCEPT BLOCKS (Lo que aprendimos) ── */
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:22px 26px;border-radius:14px;
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-left:5px solid var(--accent);
+}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+
+/* ── GLOSSARY V2 ── */
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:14px;padding:20px 22px;
+}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+
+/* ── PRACTICE ACCORDION ── */
+.practice-details{
+  border:2px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.practice-summary{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 28px;cursor:pointer;
+  background:var(--bg-alt);
+  list-style:none;user-select:none;gap:16px;
+}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:22px;font-weight:800;color:var(--brand);
   display:flex;align-items:center;gap:10px;
 }
-
-/* ── SUMMARY CARDS ── */
-.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.sum-card{
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-left:4px solid var(--accent);
-  border-radius:var(--radius);padding:20px 22px;
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{
+  display:flex;gap:16px;align-items:flex-start;
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;
+  padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;
 }
-.sum-card strong{
-  display:block;font-size:12px;color:var(--accent);
-  margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;
-}
-.sum-card p{font-size:16px;line-height:1.7}
-@media(max-width:560px){.sum-grid{grid-template-columns:1fr}}
-
-/* ── GLOSSARY ── */
-.gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gloss-i{
-  background:var(--bg-alt);border-radius:10px;
-  padding:14px 18px;font-size:15px;border:1px solid var(--border);
-  line-height:1.6;
-}
-.gloss-i b{color:var(--brand)}
-@media(max-width:560px){.gloss{grid-template-columns:1fr}}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
 
 /* ── INFO BOX ── */
 .info-box{
   background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);
-  padding:16px 20px;font-size:16px;color:#1e40af;margin-bottom:20px;line-height:1.7;
+  padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;
 }
 
-/* ── PRACTICE EXERCISES ── */
-.ex{
-  background:var(--bg-alt);border:1px solid var(--border);
-  border-radius:var(--radius);padding:24px 26px;margin-bottom:20px;
-}
-.ex-num{
-  display:inline-block;background:var(--accent);color:#fff;
-  font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px;
-}
+/* ── EXERCISES ── */
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
 
-/* ── CLASSIFY TABLE ── */
+/* classify */
 .cls-tbl{width:100%;border-collapse:collapse}
-.cls-tbl th{
-  background:var(--brand);color:#fff;
-  padding:10px 13px;font-size:13px;text-align:left;
-}
-.cls-row td{
-  padding:10px 13px;border-bottom:1px solid var(--border);
-  font-size:16px;vertical-align:middle;
-}
-.cls-btns{display:flex;gap:7px;flex-wrap:wrap}
-.cls-btn{
-  border:1.5px solid var(--border);background:#fff;border-radius:8px;
-  padding:6px 15px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s;
-}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
 .cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
 .cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
@@ -140,88 +122,73 @@ button{font-family:inherit;cursor:pointer}
 .cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
 .cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
 
-/* ── TRUE/FALSE TABLE ── */
+/* true/false */
 .tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{
-  background:var(--brand);color:#fff;
-  padding:10px 13px;font-size:13px;text-align:left;
-}
-.tf-row td{
-  padding:10px 13px;border-bottom:1px solid var(--border);
-  font-size:16px;vertical-align:middle;
-}
-.tf-btns{display:flex;gap:7px}
-.tf-btn{
-  border:1.5px solid var(--border);background:#fff;border-radius:8px;
-  padding:6px 18px;font-size:15px;font-weight:700;transition:all .15s;
-}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
 .tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
 .tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
 .tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 
-/* ── OPEN TEXTAREA ── */
-.txt-area{
-  width:100%;border:1.5px solid var(--border);border-radius:10px;
-  padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;
-  min-height:90px;outline:none;color:var(--text);transition:border-color .2s;
-  line-height:1.7;
-}
+/* textarea */
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
-.model-btn{
-  margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);
-  color:var(--hint-t);border-radius:9px;padding:7px 16px;
-  font-size:14px;font-weight:600;transition:all .15s;
-}
+.model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
 .model-btn:hover{background:var(--hint-bg)}
-.model-box{
-  display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);
-  border-radius:10px;padding:14px 18px;font-size:15px;color:var(--hint-t);line-height:1.75;
-}
+.model-box{display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);border-radius:10px;padding:16px 20px;font-size:16px;color:var(--hint-t);line-height:1.75}
 .model-box.open{display:block}
-.model-box strong{
-  display:block;font-size:12px;text-transform:uppercase;
-  letter-spacing:.5px;margin-bottom:6px;
-}
+.model-box strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
 
-/* ════════════════════════════════════════════
-   EVALUACIÓN FINAL
-   ════════════════════════════════════════════ */
-.eval-section{
-  border-top:3px solid var(--accent2);
-  padding-top:32px;margin-top:16px;
+/* ════════════════════════════════
+   EVALUACIÓN — BANNER PROMINENTE
+   ════════════════════════════════ */
+.eval-section{margin-top:12px}
+
+.eval-banner{
+  background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);
+  border-radius:18px;padding:32px 36px;margin-bottom:32px;
+  color:#fff;position:relative;overflow:hidden;
 }
-.eval-title{
-  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;
-  color:var(--accent2);margin-bottom:6px;
+.eval-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);
+  pointer-events:none;
 }
-.eval-desc{font-size:16px;color:var(--muted);margin-bottom:28px;line-height:1.7}
+.eval-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fbbf24;color:#1e3a8a;
+  font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;
+  border-radius:7px;padding:5px 14px;margin-bottom:14px;
+}
+.eval-banner-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:32px;font-weight:800;line-height:1.1;margin-bottom:10px;
+}
+.eval-banner-sub{font-size:16px;opacity:.88;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(0,0,0,.22);border-radius:10px;
+  padding:14px 18px;font-size:15px;line-height:1.65;
+}
+.eval-banner-warn strong{font-weight:800}
 
 /* gate */
-.eval-gate-wrap{display:flex;justify-content:center}
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:28px}
 .eval-gate{
   background:var(--bg-quiz);border:2px solid #c7d2fe;
-  border-radius:16px;padding:36px 30px;text-align:center;max-width:460px;width:100%;
+  border-radius:16px;padding:36px 32px;text-align:center;max-width:480px;width:100%;
 }
 .gate-icon{font-size:3rem;margin-bottom:14px}
-.gate-h{
-  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;
-  color:var(--brand);margin-bottom:10px;
-}
-.gate-p{font-size:16px;color:var(--muted);margin-bottom:24px;line-height:1.75}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:16px;color:var(--muted);margin-bottom:26px;line-height:1.75}
 .gate-label{display:block;font-size:14px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left}
-.gate-input{
-  width:100%;border:2px solid var(--border);border-radius:10px;
-  padding:13px 16px;font-size:17px;font-family:inherit;outline:none;
-  margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center;
-}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center}
 .gate-input:focus{border-color:var(--accent)}
 .gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
-.gate-btn{
-  width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#fff;border:none;border-radius:11px;padding:15px;
-  font-size:17px;font-weight:700;transition:opacity .15s;
-}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s}
 .gate-btn:hover{opacity:.88}
 
 /* quiz body */
@@ -229,80 +196,52 @@ button{font-family:inherit;cursor:pointer}
 .eval-top{
   display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
   background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;
-  padding:12px 18px;margin-bottom:20px;
+  padding:13px 18px;margin-bottom:20px;
 }
 .eval-top span{font-size:15px;color:var(--muted)}
 .eval-top strong{color:var(--brand)}
 .eval-answered{font-size:15px;color:var(--muted)}
-
-.eval-q{
-  background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:20px 22px;margin-bottom:14px;transition:border-color .2s;
-}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
 .eval-q.done-ok{border-color:var(--ok-b)}
 .eval-q.done-err{border-color:var(--err-b)}
 .eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-.eval-q-num{
-  background:var(--accent);color:#fff;border-radius:50%;
-  width:30px;height:30px;min-width:30px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;flex-shrink:0;
-}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
 .eval-q-num.ok{background:var(--ok-t)}
 .eval-q-num.err{background:var(--err-t)}
 .eval-q-text{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
-.eval-opts{display:flex;flex-direction:column;gap:7px;padding-left:6px}
-.eval-opt{
-  display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;
-  padding:10px 14px;border-radius:9px;border:1px solid transparent;
-  transition:background .12s;user-select:none;line-height:1.6;
-}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid transparent;transition:background .12s;user-select:none;line-height:1.6}
 .eval-opt:hover{background:var(--bg-alt)}
 .eval-opt input[type=radio]{margin-top:4px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
 .eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
 .eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
 
-/* submit area */
-.eval-submit-wrap{
-  text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border);
-}
-.eval-submit-btn{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
-  border:none;border-radius:12px;padding:16px 48px;font-size:18px;font-weight:700;
-  transition:opacity .15s;
-}
+/* submit */
+.eval-submit-wrap{text-align:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:17px 52px;font-size:18px;font-weight:700;transition:opacity .15s}
 .eval-submit-btn:hover:not(:disabled){opacity:.88}
 .eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
 .eval-hint{font-size:14px;color:var(--muted);margin-top:10px}
 
 /* result card */
 .result-wrap{margin-top:28px}
-.result-card{border-radius:16px;padding:32px 24px;text-align:center}
+.result-card{border-radius:16px;padding:36px 28px;text-align:center}
 .result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
 .result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
 .result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
 .result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
-.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:12px}
-.res-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:5px}
-.res-info{font-size:14px;color:var(--muted);margin-bottom:22px}
-.res-score{
-  font-family:'Space Grotesk',sans-serif;font-size:72px;font-weight:800;
-  color:var(--brand);line-height:1;margin-bottom:5px;
-}
-.res-score sub{font-size:24px;font-weight:400;color:var(--muted);vertical-align:super}
-.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 12px}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:24px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:76px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
 .res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
-.res-level{font-size:20px;font-weight:800;margin-bottom:8px}
-.res-level.ok{color:var(--ok-t)} .res-level.good{color:var(--accent)}
-.res-level.warn{color:var(--gold)} .res-level.low{color:var(--err-t)}
+.res-level{font-size:22px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
 .res-detail{font-size:15px;color:var(--muted)}
 
-/* already submitted notice */
-.already-box{
-  background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:11px;
-  padding:16px 20px;font-size:15px;color:var(--ok-t);
-  margin-bottom:20px;text-align:center;line-height:1.7;
-}
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
 </style>
 </head>
 <body>
@@ -318,37 +257,86 @@ button{font-family:inherit;cursor:pointer}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-<div class="doc-subtitle">APA sin miedo: citar para ser claro y honesto &nbsp;·&nbsp; Práctica interactiva + Evaluación sobre 20 pts</div>
-<div class="score-bar">
-  <span>Práctica:</span>
-  <div class="score-num">
-    <span id="p-val">0</span>
-    <span style="font-size:13px;font-weight:400;color:#94a3b8">&nbsp;de <span id="p-tot">0</span></span>
+<div class="doc-subtitle">APA sin miedo: citar para ser claro y honesto</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
+  <div class="cb-icon">🎯</div>
+  <div class="cb-body">
+    <div class="cb-title">¿Para qué sirve APA?</div>
+    <div class="cb-text">Para ordenar trabajos académicos, reconocer las fuentes usadas y darle confianza al lector. No es un trámite: es honestidad intelectual.</div>
   </div>
-  <div class="prog-track"><div class="prog-fill" id="p-fill"></div></div>
-  <button class="reset-btn" onclick="resetPractice()">↺ Reiniciar práctica</button>
-</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Entendimos el <strong>sentido de las normas APA</strong>: son una forma de ser honesto con la información. Aprendimos a diferenciar la cita en el texto de la referencia al final.</div><div class="sum-grid"><div class="sum-card"><strong>¿Para qué sirve APA?</strong><p>Para ordenar trabajos, reconocer fuentes y dar confianza al lector.</p></div><div class="sum-card"><strong>Dar crédito</strong><p>Si usas una idea ajena (aunque la reescribas), debes indicar de dónde viene.</p></div><div class="sum-card"><strong>Google no es la fuente</strong><p>Google ayuda a buscar. La fuente real es la página, libro o artículo.</p></div><div class="sum-card"><strong>Cita en el texto</strong><p>Va cerca de la idea usada: Según Pérez (2024)… o (Pérez, 2024).</p></div><div class="sum-card"><strong>Referencia al final</strong><p>Lista completa: autor · año · título · lugar o URL.</p></div><div class="sum-card"><strong>Parafrasear ≠ no citar</strong><p>Si la idea vino de una fuente, se cita aunque la escribas diferente.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss"><div class="gloss-i"><b>Citar:</b> indicar de dónde viene una idea o información</div><div class="gloss-i"><b>Referencia:</b> datos completos de una fuente al final del trabajo</div><div class="gloss-i"><b>Fuente:</b> libro, página, artículo o video donde está la información</div><div class="gloss-i"><b>Parafrasear:</b> explicar una idea con tus propias palabras (aún se cita)</div><div class="gloss-i"><b>APA:</b> sistema de normas para citar y ordenar referencias académicas</div><div class="gloss-i"><b>Plagio:</b> usar ideas ajenas sin dar crédito a quien corresponde</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios de práctica</div><div class="ex"><div class="ex-num">Ejercicio 1</div><h4>Identifica cada parte de la referencia</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Autor</th><th>Año</th><th>Título</th><th>URL / Lugar</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Ministerio de Educación del Perú</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Autor')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Autor')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Autor')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Autor')">URL / Lugar</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>(2023)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Año')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Año')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Año')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Año')">URL / Lugar</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Guía de ciudadanía digital para secundaria</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Título')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Título')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Título')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','Título')">URL / Lugar</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>https://www.minedu.gob.pe/guia</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','URL / Lugar')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','URL / Lugar')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','URL / Lugar')">Título</button><button class="cls-btn" data-val="URL / Lugar" onclick="classify(this,'URL / Lugar','URL / Lugar')">URL / Lugar</button></div></td><td><span class="cls-res"></span></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Necesita cita? (V = sí necesita, F = no necesita)</h4><table class="tf-tbl"><thead><tr><th style='width:75%'>Afirmación</th><th style='text-align:center;width:12%'>V</th><th style='text-align:center;width:13%'>F</th></tr></thead><tbody><tr class="tf-row"><td>Escribí con mis palabras una idea que saqué de un artículo de la NASA.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+</div>
+<div class="concept-block" style="border-left-color:var(--accent2)">
+  <div class="cb-icon">🤝</div>
+  <div class="cb-body">
+    <div class="cb-title">Dar crédito siempre</div>
+    <div class="cb-text">Si usas una idea ajena —aunque la reescribas con tus palabras— debes indicar de dónde vino. Eso no es debilidad, es rigor.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--emerald)">
+  <div class="cb-icon">🔍</div>
+  <div class="cb-body">
+    <div class="cb-title">Google no es la fuente</div>
+    <div class="cb-text">Google es el buscador. La fuente real es la página, el libro o el artículo al que Google te llevó.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--amber)">
+  <div class="cb-icon">📌</div>
+  <div class="cb-body">
+    <div class="cb-title">Cita en el texto</div>
+    <div class="cb-text">Va justo al lado de la idea que tomaste: Según Pérez (2024)… o al final del párrafo: (Pérez, 2024).</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--teal)">
+  <div class="cb-icon">📋</div>
+  <div class="cb-body">
+    <div class="cb-title">Referencia al final</div>
+    <div class="cb-text">Lista completa de todas las fuentes usadas: Autor · Año · Título · Lugar o URL. Va al final del trabajo.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--rose)">
+  <div class="cb-icon">⚠️</div>
+  <div class="cb-body">
+    <div class="cb-title">Parafrasear ≠ no citar</div>
+    <div class="cb-text">Si reescribes con tus palabras una idea que vino de otra parte, igual debes citar. La cita protege al autor y te protege a ti.</div>
+  </div>
+</div>
+</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Citar</div><div class="gloss-def">indicar dentro del texto de dónde viene una idea o dato</div></div><div class="gloss-card"><div class="gloss-term">Referencia</div><div class="gloss-def">datos completos de una fuente, listados al final del trabajo</div></div><div class="gloss-card"><div class="gloss-term">Fuente</div><div class="gloss-def">libro, artículo, página o video donde está la información original</div></div><div class="gloss-card"><div class="gloss-term">Parafrasear</div><div class="gloss-def">reescribir una idea con tus propias palabras (aún requiere cita)</div></div><div class="gloss-card"><div class="gloss-term">APA</div><div class="gloss-def">sistema de normas para citar y ordenar referencias académicas</div></div><div class="gloss-card"><div class="gloss-term">Plagio</div><div class="gloss-def">usar ideas ajenas presentándolas como propias, sin dar crédito</div></div></div></div><div class="section"><details class="practice-details">
+  <summary class="practice-summary">
+    <div class="ps-left">
+      <div class="ps-title">✏️ Ejercicios de práctica</div>
+      <div class="ps-hint">Haz clic para practicar antes de la evaluación — sin límite de intentos</div>
+    </div>
+    <span class="ps-arrow">▾</span>
+  </summary>
+  <div class="practice-content">
+    <div class="practice-invite">
+      <div class="practice-invite-icon">💡</div>
+      <div>
+        <strong>Te recomendamos practicar aquí primero.</strong><br>
+        Estos ejercicios tienen feedback inmediato y puedes intentarlos cuantas veces necesites.
+        Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
+      </div>
+    </div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>Identifica cada elemento de esta referencia APA</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Autor</th><th>Año</th><th>Título</th><th>URL</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Ministerio de Educación del Perú</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Autor')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Autor')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Autor')">Título</button><button class="cls-btn" data-val="URL" onclick="classify(this,'URL','Autor')">URL</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>(2023)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Año')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Año')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Año')">Título</button><button class="cls-btn" data-val="URL" onclick="classify(this,'URL','Año')">URL</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>Guía de ciudadanía digital para secundaria</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','Título')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','Título')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','Título')">Título</button><button class="cls-btn" data-val="URL" onclick="classify(this,'URL','Título')">URL</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>https://www.minedu.gob.pe/guia</td><td><div class="cls-btns"><button class="cls-btn" data-val="Autor" onclick="classify(this,'Autor','URL')">Autor</button><button class="cls-btn" data-val="Año" onclick="classify(this,'Año','URL')">Año</button><button class="cls-btn" data-val="Título" onclick="classify(this,'Título','URL')">Título</button><button class="cls-btn" data-val="URL" onclick="classify(this,'URL','URL')">URL</button></div></td><td><span class="cls-res"></span></td></tr>
+</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Esta información necesita cita? (V = Sí / F = No)</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>Escribí con mis palabras una idea que saqué de un artículo de la NASA.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>Escribí mi propia opinión sin consultar ninguna fuente.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>Copié exactamente una frase de un libro.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>Hice un resumen de la información de una página web.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>Usé datos estadísticos de un informe del INEI.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>Describí mi experiencia personal aprendiendo a andar en bicicleta.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 3</div><h4>¿Esta «fuente» está bien o mal registrada?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Bien registrada</th><th>Mal registrada</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>"Lo encontré en Google."</td><td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>"Pérez, J. (2022). El agua y la vida. Editorial Norma."</td><td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Bien registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Bien registrada')">Mal registrada</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>"Wikipedia"</td><td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>"OMS (2021). Informe mundial de salud. https://who.int/informe2021"</td><td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Bien registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Bien registrada')">Mal registrada</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>"Un libro de ciencias"</td><td><div class="cls-btns"><button class="cls-btn" data-val="Bien registrada" onclick="classify(this,'Bien registrada','Mal registrada')">Bien registrada</button><button class="cls-btn" data-val="Mal registrada" onclick="classify(this,'Mal registrada','Mal registrada')">Mal registrada</button></div></td><td><span class="cls-res"></span></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 4</div><h4>Escribe una cita en el texto</h4><p style="margin-bottom:12px">Fuente: <em>Ministerio de Educación del Perú (2023). Guía de ciudadanía digital.</em> Escribe una oración que use esta fuente correctamente.</p><textarea class="txt-area" placeholder="Escribe tu respuesta aquí…"></textarea><button class="model-btn" onclick="toggleModel(this,'m4')">▼ Ver respuesta modelo</button><div class="model-box" id="m4"><strong>Respuesta modelo:</strong> Correcto: «Según el Ministerio de Educación del Perú (2023), el uso responsable de la tecnología es una competencia clave.» También válido: «La competencia digital es fundamental (Ministerio de Educación del Perú, 2023).»</div></div></div><div class="eval-section">
+</tbody></table></div>
+  </div>
+</details></div><div class="eval-section">
   <span id="eval-grade-key" data-grade="sec4" style="display:none"></span>
-  <div class="eval-title">📊 Evaluación Final</div>
-  <div class="eval-desc">
-    10 preguntas &nbsp;·&nbsp; 2 puntos cada una &nbsp;·&nbsp;
-    <strong>Total: 20 puntos</strong> &nbsp;·&nbsp;
-    Solo un intento por dispositivo.
+
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 4.° Secundaria</div>
+    <div class="eval-banner-warn">
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
+      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+    </div>
   </div>
 
   <div id="eval-gate-wrap">
@@ -356,10 +344,7 @@ button{font-family:inherit;cursor:pointer}
       <div class="eval-gate">
         <div class="gate-icon">📝</div>
         <div class="gate-h">Antes de comenzar</div>
-        <p class="gate-p">
-          Esta evaluación tiene <strong>10 preguntas</strong> y vale <strong>20 puntos</strong>.<br>
-          Tendrás <strong>un solo intento</strong>. Lee cada pregunta con calma.
-        </p>
+        <p class="gate-p">Escribe tu nombre completo para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Tu nombre completo</label>
         <input id="gate-input" class="gate-input" type="text"
           placeholder="Escribe tu nombre aquí…" maxlength="80"
@@ -374,61 +359,59 @@ button{font-family:inherit;cursor:pointer}
       <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 4.° Secundaria</span>
       <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Para qué sirven las normas APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Para hacer trabajos más difíciles</span></label>
+    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Para qué sirven principalmente las normas APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Para hacer los trabajos más largos y difíciles</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Para ordenar trabajos, reconocer fuentes y dar confianza al lector</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Para que solo los profesores lean los trabajos</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Para reemplazar el título</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Para que solo los profesores puedan leer los trabajos</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Para reemplazar el título del trabajo</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">Si busco en Google y llego a un artículo de la OMS, ¿cuál es mi fuente?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Google</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">Si busco en Google y llego a un artículo de la OMS, ¿cuál es mi fuente real?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Google</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Internet en general</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) El artículo de la OMS</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Mi computadora</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué debe incluir una referencia al final del trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Solo el link</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué debe incluir una referencia completa al final del trabajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Solo el enlace (link) de la página</span></label>
 <label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Autor, año, título y lugar o URL</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Solo el nombre del libro</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) El número de página</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Solo el nombre del libro o artículo</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Solo el número de página consultada</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Escribí una idea con mis propias palabras, pero vino de un libro. ¿Debo citar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) No, la escribí con mis palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) No, ya la cambié suficiente</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Sí, porque la idea sigue siendo de la fuente original</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Solo si la copié exactamente</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Escribí una idea con mis propias palabras, pero provino de un libro. ¿Debo citar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) No, porque la escribí con mis propias palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) No, porque ya la cambié lo suficiente</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Sí, porque la idea original sigue siendo de esa fuente</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Solo si la copié exactamente palabra por palabra</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Dónde va la cita en el texto?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Solo al final del trabajo</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Cerca de la idea usada, dentro del texto</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Dónde va la cita dentro del texto?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Solo al final del trabajo, en la lista de referencias</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Cerca de la idea usada, dentro del mismo párrafo</span></label>
 <label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) En el título del trabajo</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) No tiene lugar específico</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) No tiene un lugar específico definido</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué problema tiene que la IA invente fuentes o autores?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Ninguno, la IA siempre tiene razón</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Puedo citar algo que no existe, haciendo mi trabajo deshonesto</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) La IA cobra por hacerlo</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Cambia el formato del trabajo</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué problema grave tiene que la IA invente fuentes o autores?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Ninguno, la IA siempre tiene información correcta</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Puedo citar algo que no existe, haciendo mi trabajo deshonesto y verificable como falso</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) La IA cobra dinero extra por inventar fuentes</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Solo cambia el formato visual del trabajo</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué significa parafrasear?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Copiar el texto exactamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Poner la idea al inicio de un párrafo</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Explicar una idea con tus propias palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Resumir todo el libro</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué significa exactamente parafrasear?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Copiar el texto exactamente como aparece en la fuente</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Poner la idea al inicio de cada párrafo sin cambios</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Explicar una idea con tus propias palabras manteniendo el significado</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Resumir todo el libro en una sola oración</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué ejemplo de cita en el texto está bien escrito?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) "Lo encontré en Google (2024)"</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) "Según Wikipedia…"</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Cuál de estos ejemplos de cita en el texto está bien escrito?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) "Lo encontré en Google (2024)"</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) "Según Wikipedia, el agua es importante"</span></label>
 <label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) "Según Pérez (2024), el agua cubre el 71% de la Tierra."</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) "Un autor dijo una vez que…"</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) "Un autor famoso dijo una vez que…"</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál de estas NO es una fuente válida para citar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Artículo de la OMS</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Libro de un autor reconocido</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Lo que me dijo un amigo sin respaldo</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Informe del MINEDU</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál de estas NO es una fuente válida para citar en un trabajo académico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Artículo científico de la OMS</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Libro publicado por un autor reconocido</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Lo que me contó un amigo de forma oral sin respaldo escrito</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Informe oficial del Ministerio de Educación</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Si un trabajo tiene citas en el texto pero no tiene lista de referencias al final, ¿qué problema tiene?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) El lector no puede verificar las fuentes</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Tiene demasiadas citas</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Las citas están mal escritas</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Necesita más imágenes</span></label>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Si un trabajo tiene citas en el texto pero no tiene lista de referencias al final, ¿qué problema tiene?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) El lector no puede verificar ni encontrar las fuentes originales</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Tiene demasiadas citas dentro del texto</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Las citas están automáticamente mal escritas</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Necesita más imágenes para compensar</span></label>
 </div></div>
 
     <div id="eval-submit-wrap" class="eval-submit-wrap">
-      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>
-        Enviar evaluación
-      </button>
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
       <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
     </div>
     <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
@@ -437,15 +420,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 
 <script>
-/* ══ PRACTICE EXERCISES ══ */
-let pCorrect=0, pTotal=0;
-function pCount(ok){ pTotal++; if(ok) pCorrect++; refreshPBar(); }
-function refreshPBar(){
-  const v=document.getElementById('p-val'), t=document.getElementById('p-tot'), f=document.getElementById('p-fill');
-  if(!v) return;
-  v.textContent=pCorrect; t.textContent=pTotal;
-  if(pTotal>0) f.style.width=(pCorrect/pTotal*100)+'%';
-}
+/* ── PRACTICE ── */
 function classify(btn,chosen,correct){
   const row=btn.closest('.cls-row');
   if(row.dataset.done) return;
@@ -453,10 +428,9 @@ function classify(btn,chosen,correct){
   row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
   const ok=chosen===correct;
   btn.classList.add(ok?'correct':'wrong');
-  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{ if(b.dataset.val===correct) b.classList.add('reveal'); });
+  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
   const r=row.querySelector('.cls-res');
-  if(r){ r.className='cls-res '+(ok?'ok':'err'); r.textContent=ok?'✓ Correcto':'✗ Incorrecto'; }
-  pCount(ok);
+  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
 }
 function tfPick(btn,chosen,correct){
   const row=btn.closest('.tf-row');
@@ -468,34 +442,29 @@ function tfPick(btn,chosen,correct){
     if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
   });
   btn.classList.add(ok?'correct':'wrong');
-  pCount(ok);
 }
 function toggleModel(btn,id){
   const b=document.getElementById(id);
   const open=b.classList.toggle('open');
   btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
 }
-function resetPractice(){ if(confirm('¿Reiniciar ejercicios de práctica?')) location.reload(); }
 
-/* ══ EVALUATION ══ */
-let _name='', _grade='';
+/* ── EVALUATION ── */
+let _name='',_grade='';
 
 function startEval(grade){
   const inp=document.getElementById('gate-input');
   const name=inp.value.trim();
-  if(name.length < 2){ inp.classList.add('err'); inp.focus(); return; }
+  if(name.length<2){inp.classList.add('err');inp.focus();return;}
   inp.classList.remove('err');
-  _name=name; _grade=grade;
-
+  _name=name;_grade=grade;
   const saved=localStorage.getItem('eval-'+grade);
   if(saved){
     const r=JSON.parse(saved);
     document.getElementById('eval-gate-wrap').innerHTML=
-      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
-    showResult(r);
-    return;
+      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    showResult(r);return;
   }
-
   document.getElementById('eval-gate-wrap').style.display='none';
   const body=document.getElementById('eval-body');
   body.style.display='block';
@@ -506,9 +475,7 @@ function startEval(grade){
 function updateAnswered(){
   const qs=document.querySelectorAll('.eval-q');
   let ans=0;
-  qs.forEach((_,i)=>{
-    if(document.querySelector('input[name="eq'+(i+1)+'"]:checked')) ans++;
-  });
+  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
   document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
   const btn=document.getElementById('eval-submit-btn');
   if(btn) btn.disabled=(ans<qs.length);
@@ -516,50 +483,34 @@ function updateAnswered(){
 
 function submitEval(){
   if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
-
   const qs=document.querySelectorAll('.eval-q');
-  let correct=0;
-  const respuestas=[];
+  let correct=0;const respuestas=[];
   qs.forEach((q,i)=>{
     const cv=q.dataset.correct;
     const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
     const sv=sel?sel.value:null;
     const ok=sv===cv;
-    if(ok) correct++;
+    if(ok)correct++;
     respuestas.push(sv||'—');
-
     q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
     q.querySelectorAll('.eval-opt').forEach(opt=>{
       const v=opt.querySelector('input').value;
-      if(v===cv) opt.classList.add('correct');
-      else if(v===sv&&!ok) opt.classList.add('wrong');
+      if(v===cv)opt.classList.add('correct');
+      else if(v===sv&&!ok)opt.classList.add('wrong');
     });
     const num=q.querySelector('.eval-q-num');
     num.classList.add(ok?'ok':'err');
     q.classList.add(ok?'done-ok':'done-err');
   });
-
   const score=correct*2;
   const fecha=new Date().toISOString();
-  const result={
-    name:_name, grade:_grade, score, correct, total:qs.length,
-    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})
-  };
-
-  // Save locally (primary record)
-  localStorage.setItem('eval-'+_grade, JSON.stringify(result));
-
-  // Send to backend (fire-and-forget)
-  fetch('/.netlify/functions/submit-eval', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      nombre:_name, grado:_grade, sesion:'02',
-      score, correctas:correct, total:qs.length,
-      fecha, respuestas
-    })
-  }).catch(()=>{}); // Silent fail — localStorage es el registro primario
-
+  const result={name:_name,grade:_grade,score,correct,total:qs.length,
+    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
+  localStorage.setItem('eval-'+_grade,JSON.stringify(result));
+  fetch('/.netlify/functions/submit-eval',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'02',score,correctas:correct,total:qs.length,fecha,respuestas})
+  }).catch(()=>{});
   document.getElementById('eval-submit-wrap').style.display='none';
   showResult(result);
 }
@@ -574,26 +525,25 @@ function showResult(r){
   const el=document.getElementById('eval-result-wrap');
   el.style.display='block';
   el.innerHTML=`<div class="result-card ${cls}">
-    <div class="res-label">📊 Resultado de Evaluación · Sesión 02</div>
+    <div class="res-label">📊 Resultado · Sesión 02 · Asunción School</div>
     <div class="res-name">${r.name}</div>
-    <div class="res-info">${r.grade}&nbsp;·&nbsp;${r.date}</div>
+    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
     <div class="res-score">${r.score}<sub> / 20</sub></div>
     <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
     <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
-    <div class="res-detail">${r.correct} de ${r.total} preguntas correctas · 2 puntos c/u</div>
+    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
   </div>`;
 }
 
-// Restore state on load
 document.addEventListener('DOMContentLoaded',()=>{
   const gk=document.getElementById('eval-grade-key');
-  if(!gk) return;
+  if(!gk)return;
   const grade=gk.dataset.grade;
   const saved=localStorage.getItem('eval-'+grade);
-  if(!saved) return;
+  if(!saved)return;
   const r=JSON.parse(saved);
   document.getElementById('eval-gate-wrap').innerHTML=
-    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
   document.getElementById('eval-body').style.display='block';
   document.getElementById('eval-student-name').textContent=r.name;
   document.getElementById('eval-submit-wrap').style.display='none';

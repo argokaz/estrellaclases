@@ -8,171 +8,191 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 
 :root {
-  --brand:  #1e3a8a; --accent: #2563eb; --accent2: #7c3aed;
-  --gold:   #b45309; --green-ok: #15803d; --red-err: #b91c1c;
-  --text:   #1e293b; --muted:   #64748b; --dim: #94a3b8;
-  --border: #e2e8f0; --bg-alt:  #f8fafc; --bg-quiz: #f0f4ff;
-  --radius: 10px;
-  --ok-bg:  #dcfce7; --ok-border: #86efac; --ok-text: #15803d;
-  --err-bg: #fee2e2; --err-border:#fca5a5; --err-text: #b91c1c;
-  --hint-bg:#fef9c3; --hint-border:#fde047; --hint-text:#713f12;
+  --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
+  --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
+  --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
+  --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
+  --err-bg:#fee2e2; --err-b:#fca5a5; --err-t:#b91c1c;
+  --hint-bg:#fef9c3; --hint-b:#fde047; --hint-t:#713f12;
+  --radius:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;font-size:14px;color:var(--text);background:#fff;line-height:1.6}
 button{font-family:inherit;cursor:pointer}
-a{color:var(--accent);text-decoration:none}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
+@media(max-width:600px){.page-wrap{padding:14px}}
 
 /* ── HEADER ── */
-.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:22px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
 .doc-header .school{font-size:11px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
 .doc-header .teacher{font-size:13px;font-weight:700;color:var(--brand);margin-top:2px}
-.doc-header .doc-meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
+.doc-header .meta{text-align:right;font-size:12px;color:var(--muted);line-height:1.8}
 .doc-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
-.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:24px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.doc-subtitle{font-size:13px;color:var(--muted);margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid var(--border)}
 
-/* ── SCORE BAR ── */
-.score-bar{display:flex;align-items:center;gap:12px;background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin-bottom:20px;flex-wrap:wrap}
+/* ── PRACTICE SCORE BAR ── */
+.score-bar{display:flex;align-items:center;gap:10px;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:var(--radius);padding:9px 14px;margin-bottom:18px;flex-wrap:wrap}
 .score-bar span{font-size:13px;color:var(--muted)}
-.score-display{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand)}
-.score-bar .reset-btn{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:5px 12px;font-size:12px;transition:all .15s}
-.score-bar .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
-.progress-track{flex:1;min-width:80px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s ease;width:0%}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:var(--brand)}
+.prog-track{flex:1;min-width:60px;height:6px;background:var(--border);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .4s;width:0%}
+.reset-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:7px;
+  padding:4px 11px;font-size:12px;transition:all .15s}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent)}
 
-/* ── SECTION HEADERS ── */
+/* ── SECTION ── */
 .section{margin-bottom:26px}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--brand);
+  margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid var(--accent);display:flex;align-items:center;gap:8px}
 
-/* ── SUMMARY CARDS ── */
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.concept-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);padding:10px 13px}
-.concept-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
-.concept-card p{font-size:13px}
+/* ── SUMMARY / GLOSSARY ── */
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sum-card{background:var(--bg-alt);border:1px solid var(--border);border-left:4px solid var(--accent);
+  border-radius:var(--radius);padding:10px 13px}
+.sum-card strong{display:block;font-size:11px;color:var(--accent);margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px}
+.sum-card p{font-size:13px}
+.gloss{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gloss-i{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
+.gloss-i b{color:var(--brand)}
+@media(max-width:520px){.sum-grid,.gloss{grid-template-columns:1fr}}
 
-/* ── GLOSSARY ── */
-.glossary{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.gloss-item{background:var(--bg-alt);border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--border)}
-.gloss-item b{color:var(--brand)}
+/* ── PRACTICE EXERCISES ── */
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;
+  border-radius:5px;padding:2px 8px;margin-bottom:8px}
+.ex h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.ex p,.ex li{font-size:13px}
+.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;
+  font-size:13px;color:#1e40af;margin-bottom:14px}
 
-/* ── EXERCISE WRAPPER ── */
-.exercise{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
-.exercise-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:11px;border-radius:5px;padding:2px 8px;margin-bottom:8px}
-.exercise h4{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px}
-.exercise p,.exercise li{font-size:13px}
-
-/* ── CLASSIFICATION EXERCISE ── */
-.classify-table{width:100%;border-collapse:collapse}
-.classify-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
-.classify-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
-.classify-row.answered-ok td:first-child{color:var(--ok-text);font-weight:600}
-.classify-row.answered-err td:first-child{color:var(--err-text)}
+/* classify */
+.cls-tbl{width:100%;border-collapse:collapse}
+.cls-tbl th{background:var(--brand);color:#fff;padding:6px 10px;font-size:12px;text-align:left}
+.cls-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 .cls-btns{display:flex;gap:6px;flex-wrap:wrap}
-.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--muted);transition:all .15s;cursor:pointer}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 11px;
+  font-size:12px;font-weight:600;color:var(--muted);transition:all .15s}
 .cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
-.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
-.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.75}
-.cls-result{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
-.cls-result.ok{background:var(--ok-bg);color:var(--ok-text);display:inline-block}
-.cls-result.err{background:var(--err-bg);color:var(--err-text);display:inline-block}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-res{font-size:11px;padding:2px 8px;border-radius:5px;font-weight:700;display:none}
+.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
+.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
 
-/* ── TRUE / FALSE ── */
-.tf-table{width:100%;border-collapse:collapse}
-.tf-table th{background:var(--brand);color:#fff;padding:7px 10px;font-size:12px;text-align:left}
-.tf-row td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+/* true/false */
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:6px 10px;font-size:12px;text-align:left}
+.tf-row td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 .tf-btns{display:flex;gap:6px}
-.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 14px;font-size:13px;font-weight:700;transition:all .15s;cursor:pointer}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:7px;padding:4px 13px;
+  font-size:13px;font-weight:700;transition:all .15s}
 .tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text)}
-.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text)}
-.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);opacity:.7}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 
-/* ── ORDERING ── */
-.order-items{display:flex;flex-direction:column;gap:6px}
-.order-item{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;transition:all .15s;user-select:none}
-.order-item:hover:not(.locked){border-color:var(--accent);background:var(--bg-quiz)}
-.order-item.selected{border-color:var(--accent);background:var(--bg-quiz)}
-.order-item.correct{border-color:var(--ok-border);background:var(--ok-bg);color:var(--ok-text);font-weight:600}
-.order-item.wrong{border-color:var(--err-border);background:var(--err-bg);color:var(--err-text)}
-.order-num{width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.order-item.correct .order-num{background:var(--ok-border);color:var(--ok-text)}
-.order-item.wrong .order-num{background:var(--err-border);color:var(--err-text)}
+/* textarea + model */
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px;
+  font-family:inherit;font-size:13px;resize:vertical;min-height:65px;outline:none;color:var(--text);
+  transition:border-color .2s}
+.txt-area:focus{border-color:var(--accent)}
+.model-btn{margin-top:8px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);
+  border-radius:8px;padding:5px 13px;font-size:12px;font-weight:600;transition:all .15s}
+.model-btn:hover{background:var(--hint-bg)}
+.model-box{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-b);
+  border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-t);line-height:1.6}
+.model-box.open{display:block}
+.model-box strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 
-/* ── TEXTAREA + MODEL ── */
-.input-area{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;transition:border-color .2s;color:var(--text)}
-.input-area:focus{border-color:var(--accent)}
-.short-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-family:inherit;font-size:13px;outline:none;transition:border-color .2s;color:var(--text);background:#fff}
-.short-input:focus{border-color:var(--accent)}
-.model-toggle{margin-top:8px;background:transparent;border:1.5px solid var(--hint-border);color:var(--hint-text);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;transition:all .15s}
-.model-toggle:hover{background:var(--hint-bg)}
-.model-answer{display:none;margin-top:8px;background:var(--hint-bg);border:1px solid var(--hint-border);border-radius:8px;padding:10px 13px;font-size:13px;color:var(--hint-text);line-height:1.6}
-.model-answer.visible{display:block}
-.model-answer strong{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+/* ════════════════════════════════════════════
+   EVALUACIÓN FINAL
+   ════════════════════════════════════════════ */
+.eval-section{border-top:3px solid var(--accent2);padding-top:22px;margin-top:10px}
+.eval-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;color:var(--accent2);
+  margin-bottom:4px}
+.eval-desc{font-size:13px;color:var(--muted);margin-bottom:20px}
 
-/* ── VERIFY BUTTON ── */
-.verify-btn{margin-top:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 18px;font-size:13px;font-weight:700;transition:opacity .15s}
-.verify-btn:hover{opacity:.85}
-.verify-btn:disabled{opacity:.45;cursor:default}
+/* gate */
+.eval-gate-wrap{display:flex;justify-content:center}
+.eval-gate{background:var(--bg-quiz);border:2px solid #c7d2fe;border-radius:14px;padding:28px 24px;
+  text-align:center;max-width:420px;width:100%}
+.gate-icon{font-size:2.6rem;margin-bottom:10px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:800;color:var(--brand);margin-bottom:8px}
+.gate-p{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6}
+.gate-label{display:block;font-size:12px;font-weight:700;color:var(--brand);margin-bottom:6px;text-align:left}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:9px;padding:10px 14px;
+  font-size:15px;font-family:inherit;outline:none;margin-bottom:14px;color:var(--text);
+  transition:border-color .2s;text-align:center}
+.gate-input:focus{border-color:var(--accent)}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;transition:opacity .15s}
+.gate-btn:hover{opacity:.88}
 
-/* ── QUIZ ── */
-.quiz-item{margin-bottom:16px;padding:12px 14px;background:var(--bg-quiz);border:1px solid #c7d2fe;border-radius:var(--radius)}
-.quiz-item.answered-ok{background:var(--ok-bg);border-color:var(--ok-border)}
-.quiz-item.answered-err{background:var(--err-bg);border-color:var(--err-border)}
-.q{font-weight:600;font-size:13.5px;margin-bottom:8px}
-.q span{color:var(--accent);margin-right:4px}
-.answered-ok .q span{color:var(--ok-text)}
-.answered-err .q span{color:var(--err-text)}
-.quiz-options{list-style:none;display:flex;flex-direction:column;gap:5px}
-.quiz-options li{font-size:13px;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;cursor:pointer;transition:all .15s}
-.quiz-options li:hover:not(.locked){border-color:var(--accent);background:#eff6ff}
-.quiz-options li.correct{background:var(--ok-bg);border-color:var(--ok-border);color:var(--ok-text);font-weight:600;cursor:default}
-.quiz-options li.wrong{background:var(--err-bg);border-color:var(--err-border);color:var(--err-text);cursor:default}
-.quiz-options li.locked{cursor:default}
-.quiz-options li::before{content:'';display:inline-block;width:15px;height:15px;border:1.5px solid var(--border);border-radius:50%;flex-shrink:0;transition:all .15s}
-.quiz-options li.correct::before{background:var(--ok-text);border-color:var(--ok-text);box-shadow:0 0 0 2px var(--ok-bg) inset, 0 0 0 4px var(--ok-text)}
-.quiz-options li.wrong::before{background:var(--err-text);border-color:var(--err-text)}
-.q-explanation{display:none;margin-top:8px;font-size:12px;color:var(--muted);padding:6px 10px;background:#fff;border-radius:6px;border:1px solid var(--border)}
-.q-explanation.visible{display:block}
+/* quiz body */
+.eval-body{display:none}
+.eval-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:9px 14px;margin-bottom:16px}
+.eval-top span{font-size:13px;color:var(--muted)}
+.eval-top strong{color:var(--brand)}
+.eval-answered{font-size:13px;color:var(--muted)}
 
-/* ── RUBRIC ── */
-.rubric-table{width:100%;border-collapse:collapse;font-size:13px}
-.rubric-table th{background:var(--brand);color:#fff;padding:8px 10px;font-size:12px;text-align:left}
-.rubric-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-.rubric-table tr:nth-child(even) td{background:var(--bg-alt)}
-.rubric-radio{display:flex;gap:6px;justify-content:center}
-.rubric-radio label{display:flex;flex-direction:column;align-items:center;cursor:pointer;gap:2px}
-.rubric-radio label span{font-size:10px;color:var(--muted)}
-.rubric-radio input[type=radio]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
-.score-result{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between}
-.score-result span{font-size:13px;color:var(--muted)}
-.score-result .total{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand)}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:10px;transition:border-color .2s}
+.eval-q.done-ok{border-color:var(--ok-b)}
+.eval-q.done-err{border-color:var(--err-b)}
+.eval-q-head{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:26px;height:26px;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.eval-q-num.ok{background:var(--ok-t)}
+.eval-q-num.err{background:var(--err-t)}
+.eval-q-text{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.4;padding-top:3px}
+.eval-opts{display:flex;flex-direction:column;gap:5px;padding-left:4px}
+.eval-opt{display:flex;align-items:flex-start;gap:8px;font-size:13px;cursor:pointer;
+  padding:7px 10px;border-radius:7px;border:1px solid transparent;transition:background .12s;
+  user-select:none}
+.eval-opt:hover{background:var(--bg-alt)}
+.eval-opt input[type=radio]{margin-top:2px;accent-color:var(--accent);flex-shrink:0}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
 
-/* ── RESULT BANNER ── */
-.result-banner{display:none;text-align:center;border-radius:var(--radius);padding:16px;margin-top:8px;font-size:15px;font-weight:700}
-.result-banner.perfect{background:var(--ok-bg);color:var(--ok-text);border:1.5px solid var(--ok-border)}
-.result-banner.good{background:#eff6ff;color:var(--accent);border:1.5px solid #bfdbfe}
-.result-banner.keep-going{background:var(--hint-bg);color:var(--hint-text);border:1.5px solid var(--hint-border)}
+/* submit area */
+.eval-submit-wrap{text-align:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;
+  border-radius:11px;padding:14px 40px;font-size:16px;font-weight:700;transition:opacity .15s}
+.eval-submit-btn:hover:not(:disabled){opacity:.88}
+.eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.eval-hint{font-size:12px;color:var(--muted);margin-top:8px}
 
-/* ── PAGE WRAP / RESPONSIVE ── */
-.page-wrap{max-width:780px;margin:0 auto;padding:24px 28px}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:14px}
-@media(max-width:600px){
-  .summary-grid,.glossary{grid-template-columns:1fr}
-  .page-wrap{padding:16px}
-  .score-bar{gap:8px}
-  .rubric-table th:nth-child(2),.rubric-table th:nth-child(3),.rubric-table td:nth-child(2),.rubric-table td:nth-child(3){display:none}
-}
-@media print{
-  .score-bar,.verify-btn,.model-toggle,.reset-btn{display:none}
-  .quiz-options li.correct,.cls-btn.correct,.tf-btn.correct{background:#dcfce7!important;color:#15803d!important}
-  @page{margin:18mm 20mm}
-}
+/* result card */
+.result-wrap{margin-top:20px}
+.result-card{border-radius:14px;padding:26px 20px;text-align:center}
+.result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
+.result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
+.result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
+.result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
+.res-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;
+  color:var(--muted);margin-bottom:10px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.res-info{font-size:12px;color:var(--muted);margin-bottom:18px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:58px;font-weight:800;color:var(--brand);
+  line-height:1;margin-bottom:4px}
+.res-score sub{font-size:20px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:10px;background:rgba(0,0,0,.08);border-radius:5px;overflow:hidden;margin:14px 0 10px}
+.res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:5px}
+.res-level{font-size:17px;font-weight:800;margin-bottom:6px}
+.res-level.ok{color:var(--ok-t)} .res-level.good{color:var(--accent)}
+.res-level.warn{color:var(--gold)} .res-level.low{color:var(--err-t)}
+.res-detail{font-size:13px;color:var(--muted)}
 
-/* ── FILL IN BLANK ── */
-.blank-input{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:inherit;font-size:13px;padding:2px 6px;width:160px;color:var(--text);outline:none}
-.blank-input.ok{border-color:var(--ok-text);color:var(--ok-text)}
-.blank-input.err{border-color:var(--err-text);color:var(--err-text)}
-</style>
+/* already submitted notice */
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:10px;
+  padding:12px 16px;font-size:13px;color:var(--ok-t);margin-bottom:16px;text-align:center}
 </style>
 </head>
 <body>
@@ -182,409 +202,264 @@ a{color:var(--accent);text-decoration:none}
     <div class="school">Asunción School · Computación 2026</div>
     <div class="teacher">Prof. Estrella Vizcarra</div>
   </div>
-  <div class="doc-meta"><div>5.° Secundaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
+  <div class="meta"><div>5.° Secundaria</div><div>Sesión 02 · 22 de mayo de 2026</div></div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 02</div>
-<div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes &nbsp;·&nbsp; Material de estudio y práctica interactiva</div>
+<div class="doc-subtitle">Trabajo formal avanzado: orden, claridad y fuentes &nbsp;·&nbsp; Práctica interactiva + Evaluación sobre 20 pts</div>
 <div class="score-bar">
-  <span>Puntaje:</span>
-  <div class="score-display"><span id="score-val">0</span>&nbsp;<span style="font-size:13px;font-weight:400;color:#64748b">de <span id="score-total">0</span> preguntas</span></div>
-  <div class="progress-track"><div class="progress-fill" id="score-prog"></div></div>
-  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar</button>
-</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Revisamos la <strong>estructura completa de un trabajo formal avanzado</strong>: portada, introducción, desarrollo con secciones, conclusión y referencias. También trabajamos tono formal, formato y el uso crítico de la IA como revisora.</div><div class="summary-grid"><div class="concept-card"><strong>Formal ≠ complicado</strong><p>Formal significa orden, claridad, fuentes y revisión. No implica palabras difíciles.</p></div><div class="concept-card"><strong>Partes</strong><p>Portada · Índice (si aplica) · Introducción · Desarrollo (secciones) · Conclusión · Referencias.</p></div><div class="concept-card"><strong>Introducción</strong><p>Presenta el tema, explica por qué importa y dice qué se hará. No revela todo.</p></div><div class="concept-card"><strong>Desarrollo</strong><p>Ideas por secciones con subtítulos. Usa evidencias. No mezcla todo en un bloque.</p></div><div class="concept-card"><strong>Conclusión</strong><p>No repite todo: resume lo más importante. Evitar «me gustó hacer este trabajo».</p></div><div class="concept-card"><strong>IA como revisora</strong><p>Revisa claridad, orden y repeticiones. No inventa contenido ni reemplaza tus ideas.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="glossary"><div class="gloss-item"><b>Trabajo formal:</b> documento con estructura, fuentes y tono adecuado al contexto</div><div class="gloss-item"><b>Tono formal:</b> sin jergas, emojis ni exageraciones. Frases precisas y directas</div><div class="gloss-item"><b>Introducción:</b> ubica al lector en el tema sin revelar todo el contenido</div><div class="gloss-item"><b>Desarrollo:</b> cuerpo organizado en secciones con evidencias</div><div class="gloss-item"><b>Conclusión:</b> cierre que resume lo esencial y propone una idea final</div><div class="gloss-item"><b>Borrador:</b> primera versión del trabajo, abierta a correcciones</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios</div><div class="exercise">
-  <div class="exercise-num">Ejercicio 1</div>
-  <h4>¿Formal o Informal? Clasifica cada frase</h4>
-  <table class="classify-table"><thead><tr><th>Elemento</th><th>Formal</th><th>Informal</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row" id="cls-1-0">
-  <td>El estudio demuestra que el 60% de los adolescentes usa redes más de 4 horas al día.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-1">
-  <td>O sea, las redes sociales son como súper adictivas, bro.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-2">
-  <td>Los resultados permiten concluir que existe una correlación con el rendimiento académico.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-3">
-  <td>La verdad es que esto es lo más importante del trabajo 😊</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-4">
-  <td>Se recomienda implementar estrategias de uso responsable en entornos educativos.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-5">
-  <td>A mi me parece que deberían hacer algo, igual no creo que funcione.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-6">
-  <td>Este análisis busca evaluar el impacto de la tecnología en los hábitos de estudio.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-<tr class="cls-row" id="cls-1-7">
-  <td>La tecnología está en todos lados, eso ya lo sabemos todos.</td>
-  <td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td>
-  <td><span class="cls-result"></span></td>
-</tr>
-</tbody></table>
-</div><div class="exercise">
-  <div class="exercise-num">Ejercicio 2</div>
-  <h4>Verdadero o Falso sobre la estructura del trabajo formal</h4>
-  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
-  <td>La introducción debe revelar todas las conclusiones del trabajo.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>El desarrollo puede ser un solo bloque sin subtítulos si es muy largo.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>La conclusión puede empezar con «En conclusión, me gustó hacer este trabajo».</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Cada sección del desarrollo debe tener una idea central clara.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Las referencias pueden ser solo una lista de links pegados al final.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>La IA puede revisar claridad y detectar repeticiones en tu borrador.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-</tbody></table>
-</div><div class="exercise">
-  <div class="exercise-num">Ejercicio 3</div>
-  <h4>Mejora esta introducción floja</h4>
-  <p style="margin-bottom:8px;font-size:13px;"><strong>Original:</strong> «En este trabajo voy a hablar sobre el cambio climático porque es muy importante y hay que cuidar el planeta.»<br><br>Reescríbela: debe presentar el tema, explicar por qué importa y decir qué se hará, sin revelar toda la conclusión. Tono formal.</p>
-  <textarea class="input-area" placeholder="Escribe tu respuesta aquí…"></textarea>
-  <button class="model-toggle" onclick="toggleModel(this,'model-3')">▼ Ver respuesta modelo</button>
-  <div class="model-answer" id="model-3"><strong>Respuesta modelo:</strong> El cambio climático representa uno de los desafíos más urgentes de la actualidad, con consecuencias que afectan los ecosistemas, la economía y la salud de la población global. Comprender sus causas y efectos resulta fundamental para proponer respuestas efectivas. En este trabajo se analizarán los principales factores que contribuyen al calentamiento global y se examinarán algunas estrategias de mitigación aplicables en el contexto escolar.</div>
-</div><div class="exercise">
-  <div class="exercise-num">Ejercicio 4</div>
-  <h4>Checklist de revisión: ¿cuál de estas prácticas es correcta para un trabajo formal?</h4>
-  <table class="tf-table"><thead><tr><th style='width:75%'>Afirmación</th><th>Verdadero</th><th>Falso</th></tr></thead><tbody><tr class="tf-row">
-  <td>Dividir el desarrollo en secciones con subtítulos descriptivos.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Escribir toda la información del trabajo en un solo párrafo largo.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Verificar que cada fuente citada en el texto aparezca en la lista de referencias.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Usar emojis para hacer el trabajo más dinámico.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Revisar que la conclusión no repita todo el desarrollo, sino lo esencial.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Pedir a la IA que escriba el borrador completo sin revisarlo.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td>
-</tr>
-<tr class="tf-row">
-  <td>Usar tono adecuado al contexto: sin jergas ni exageraciones.</td>
-  <td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td>
-  <td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td>
-</tr>
-</tbody></table>
-</div><div class="exercise">
-  <div class="exercise-num">Ejercicio 5</div>
-  <h4>Planifica el esquema de tu próximo trabajo formal</h4>
-  <p style="margin-bottom:8px;font-size:13px;">Elige un tema de cualquier curso y completa:<br><strong>Tema:</strong> _____ · <strong>¿Por qué importa?</strong> _____ · <strong>Sección 1:</strong> _____ · <strong>Sección 2:</strong> _____ · <strong>Sección 3:</strong> _____ · <strong>Idea de conclusión:</strong> _____ · <strong>Fuente que usarías:</strong> _____</p>
-  <textarea class="input-area" placeholder="Completa el esquema aquí…"></textarea>
-  <button class="model-toggle" onclick="toggleModel(this,'model-5')">▼ Ver respuesta modelo</button>
-  <div class="model-answer" id="model-5"><strong>Respuesta modelo:</strong> Ejemplo: <strong>Tema:</strong> Impacto del uso excesivo de pantallas en el sueño adolescente. <strong>¿Por qué importa?</strong> Afecta la concentración y el rendimiento escolar. <strong>Sección 1:</strong> ¿Qué dice la evidencia científica? <strong>Sección 2:</strong> Efectos en el organismo adolescente. <strong>Sección 3:</strong> Hábitos saludables de uso de pantallas. <strong>Conclusión:</strong> Reducir el tiempo de pantalla antes de dormir mejora la calidad del sueño. <strong>Fuente:</strong> OPS (2022). Guía de salud digital para jóvenes.</div>
-</div></div><div class="section"><div class="section-title">🧪 Quiz — Haz clic en la respuesta correcta</div><div class="quiz-item">
-  <div class="q"><span>1.</span> ¿Qué significa que un trabajo sea «formal»?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Que use palabras muy difíciles</li>
-    <li onclick="quizPick(this)">Que tenga muchas páginas</li>
-    <li data-correct="true" onclick="quizPick(this)">Que tenga orden, claridad, fuentes y tono adecuado</li>
-    <li onclick="quizPick(this)">Que esté escrito a mano</li>
-  </ul>
-  <div class="q-explanation">💡 Formal no significa complicado ni largo. Significa estructura adecuada, claridad y honestidad con las fuentes.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>2.</span> ¿Qué función tiene la introducción?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Resumir toda la conclusión</li>
-    <li data-correct="true" onclick="quizPick(this)">Presentar el tema, su importancia y qué se hará, sin revelar todo</li>
-    <li onclick="quizPick(this)">Listar todas las fuentes</li>
-    <li onclick="quizPick(this)">Repetir el título con otras palabras</li>
-  </ul>
-  <div class="q-explanation">💡 La introducción ubica al lector: le dice de qué va el trabajo y por qué vale la pena leerlo, sin adelantar los resultados.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>3.</span> ¿Qué es más formal para un trabajo académico?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Texto largo sin subtítulos</li>
-    <li onclick="quizPick(this)">Muchas imágenes sin explicación</li>
-    <li data-correct="true" onclick="quizPick(this)">Texto dividido en secciones claras con evidencias</li>
-    <li onclick="quizPick(this)">Muchas fuentes sin revisar</li>
-  </ul>
-  <div class="q-explanation">💡 La formalidad se construye con estructura, evidencias y tono. No con longitud ni cantidad de recursos.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>4.</span> ¿Qué debe evitar una buena conclusión?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Presentar la idea más importante</li>
-    <li data-correct="true" onclick="quizPick(this)">Repetir todo lo dicho en el desarrollo</li>
-    <li onclick="quizPick(this)">Cerrar con una reflexión final</li>
-    <li onclick="quizPick(this)">Ser concisa</li>
-  </ul>
-  <div class="q-explanation">💡 La conclusión no es un resumen completo del desarrollo: sintetiza lo esencial y aporta un cierre con sentido.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>5.</span> ¿Por qué no basta con poner links al final como fuentes?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Porque los links se caen</li>
-    <li onclick="quizPick(this)">Porque el profesor no los abre</li>
-    <li data-correct="true" onclick="quizPick(this)">Porque no incluyen autor, año, título ni editorial</li>
-    <li onclick="quizPick(this)">Porque las páginas web no son fuentes válidas</li>
-  </ul>
-  <div class="q-explanation">💡 Un link sin contexto no permite verificar si la fuente es confiable, actual o de un autor reconocido.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>6.</span> ¿Cuál de estas frases tiene tono formal?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">"O sea, el calentamiento global es una locura."</li>
-    <li data-correct="true" onclick="quizPick(this)">"El aumento de temperatura global representa una amenaza para los ecosistemas."</li>
-    <li onclick="quizPick(this)">"La verdad es que no sé mucho pero igual voy a escribir."</li>
-    <li onclick="quizPick(this)">"El planeta está mal 😢 hay que hacer algo."</li>
-  </ul>
-  <div class="q-explanation">💡 El tono formal es preciso, sin jergas, sin emojis y sin frases de opinión sin sustento.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>7.</span> ¿Para qué sirve usar la IA en el proceso de revisión?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Para que escriba el trabajo completo</li>
-    <li onclick="quizPick(this)">Para inventar datos que faltan</li>
-    <li data-correct="true" onclick="quizPick(this)">Para revisar claridad, orden y detectar repeticiones en tu borrador</li>
-    <li onclick="quizPick(this)">Para cambiar todas tus ideas</li>
-  </ul>
-  <div class="q-explanation">💡 La IA es un revisor, no un autor. Tu idea y tu borrador son la base; la IA ayuda a mejorarlo.</div>
-</div><div class="quiz-item">
-  <div class="q"><span>8.</span> ¿Qué parte del trabajo NO debe faltar nunca?</div>
-  <ul class="quiz-options">
-    <li onclick="quizPick(this)">Índice</li>
-    <li onclick="quizPick(this)">Anexos</li>
-    <li onclick="quizPick(this)">Glosario</li>
-    <li data-correct="true" onclick="quizPick(this)">Referencias / Fuentes</li>
-  </ul>
-  <div class="q-explanation">💡 Las referencias son obligatorias en todo trabajo formal: demuestran que la información tiene respaldo y puede verificarse.</div>
-</div></div><div class="section">
-  <div class="section-title">📊 Rúbrica de autoevaluación</div>
-  <p style="font-size:12px;color:#64748b;margin-bottom:12px">Selecciona el nivel que mejor describe tu desempeño. El puntaje se calcula automáticamente.</p>
-  <table class="rubric-table">
-    <thead><tr>
-      <th>Criterio</th>
-      <th>Lo logré (3)</th>
-      <th>Casi lo logré (2)</th>
-      <th>Necesito practicar (1)</th>
-      <th style="width:80px">Nivel</th>
-    </tr></thead>
-    <tbody><tr>
-  <td><strong>Conozco las partes del trabajo formal</strong></td>
-  <td>Nombré y expliqué todas</td>
-  <td>Nombré la mayoría</td>
-  <td>Confundí o no recordé varias</td>
-  <td style="text-align:center">
-    <div class="rubric-radio">
-      <label><input type="radio" name="rub0" value="3" onchange="calcRubric()"><span>3</span></label>
-      <label><input type="radio" name="rub0" value="2" onchange="calcRubric()"><span>2</span></label>
-      <label><input type="radio" name="rub0" value="1" onchange="calcRubric()"><span>1</span></label>
+  <span>Práctica:</span>
+  <div class="score-num"><span id="p-val">0</span>&nbsp;<span style="font-size:12px;font-weight:400;color:#94a3b8">de <span id="p-tot">0</span></span></div>
+  <div class="prog-track"><div class="prog-fill" id="p-fill"></div></div>
+  <button class="reset-btn" onclick="resetPractice()">↺ Reiniciar práctica</button>
+</div><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="info-box">Revisamos la <strong>estructura completa de un trabajo formal avanzado</strong>: portada, introducción, desarrollo con secciones, conclusión y referencias. También trabajamos tono formal y el uso crítico de la IA.</div><div class="sum-grid"><div class="sum-card"><strong>Formal ≠ complicado</strong><p>Significa orden, claridad, fuentes y revisión. No palabras difíciles.</p></div><div class="sum-card"><strong>Partes</strong><p>Portada · Introducción · Desarrollo (secciones) · Conclusión · Referencias.</p></div><div class="sum-card"><strong>Introducción</strong><p>Presenta el tema, explica por qué importa y dice qué se hará. No revela todo.</p></div><div class="sum-card"><strong>Desarrollo</strong><p>Ideas por secciones con subtítulos. Usa evidencias. No todo en un bloque.</p></div><div class="sum-card"><strong>Conclusión</strong><p>No repite todo: resume lo esencial. Evitar «me gustó hacer este trabajo».</p></div><div class="sum-card"><strong>IA como revisora</strong><p>Revisa claridad y orden. No inventa contenido ni reemplaza tus ideas.</p></div></div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss"><div class="gloss-i"><b>Trabajo formal:</b> documento con estructura, fuentes y tono adecuado al contexto</div><div class="gloss-i"><b>Tono formal:</b> sin jergas, emojis ni exageraciones. Frases precisas</div><div class="gloss-i"><b>Introducción:</b> ubica al lector sin revelar todo el contenido</div><div class="gloss-i"><b>Desarrollo:</b> cuerpo organizado en secciones con evidencias</div><div class="gloss-i"><b>Conclusión:</b> cierre que resume lo esencial y propone una idea final</div><div class="gloss-i"><b>Borrador:</b> primera versión del trabajo, abierta a correcciones</div></div></div><div class="section"><div class="section-title">✏️ Ejercicios de práctica</div><div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Formal o Informal? Clasifica cada frase</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Formal</th><th>Informal</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>El estudio demuestra que el 60% de adolescentes usa redes más de 4 horas al día.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>O sea, las redes son como súper adictivas, bro.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>Los resultados permiten concluir que existe correlación con el rendimiento académico.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>La verdad es que esto es lo más importante del trabajo 😊</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>Se recomienda implementar estrategias de uso responsable en entornos educativos.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>A mi me parece que deberían hacer algo, igual no creo que funcione.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>Este análisis busca evaluar el impacto de la tecnología en los hábitos de estudio.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Formal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Formal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>La tecnología está en todos lados, eso ya lo sabemos todos.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Formal" onclick="classify(this,'Formal','Informal')">Formal</button><button class="cls-btn" data-val="Informal" onclick="classify(this,'Informal','Informal')">Informal</button></div></td><td><span class="cls-res"></span></td></tr>
+</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>Verdadero o Falso sobre la estructura del trabajo formal</h4><table class="tf-tbl"><thead><tr><th style='width:78%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>La introducción debe revelar todas las conclusiones del trabajo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>El desarrollo puede ser un solo bloque sin subtítulos si es muy largo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>La conclusión puede empezar con «me gustó hacer este trabajo».</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Cada sección del desarrollo debe tener una idea central clara.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Las referencias pueden ser solo una lista de links pegados al final.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>La IA puede revisar claridad y detectar repeticiones en tu borrador.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 3</div><h4>Mejora esta introducción floja</h4><p style="margin-bottom:8px;font-size:13px"><strong>Original:</strong> «En este trabajo voy a hablar sobre el cambio climático porque es muy importante y hay que cuidar el planeta.»</p><textarea class="txt-area" placeholder="Escribe tu respuesta aquí…"></textarea><button class="model-btn" onclick="toggleModel(this,'m3')">▼ Ver respuesta modelo</button><div class="model-box" id="m3"><strong>Respuesta modelo:</strong> El cambio climático representa uno de los desafíos más urgentes de la actualidad, con consecuencias que afectan los ecosistemas, la economía y la salud global. Comprender sus causas y efectos resulta fundamental para proponer respuestas efectivas. En este trabajo se analizarán los principales factores del calentamiento global y se examinarán estrategias de mitigación aplicables en el contexto escolar.</div></div><div class="ex"><div class="ex-num">Ejercicio 4</div><h4>Planifica el esquema de tu próximo trabajo formal</h4><p style="margin-bottom:8px;font-size:13px">Elige un tema de cualquier curso y completa: <strong>Tema · ¿Por qué importa? · Sección 1 · Sección 2 · Sección 3 · Conclusión · Fuente que usarías</strong></p><textarea class="txt-area" placeholder="Escribe tu respuesta aquí…"></textarea><button class="model-btn" onclick="toggleModel(this,'m4')">▼ Ver respuesta modelo</button><div class="model-box" id="m4"><strong>Respuesta modelo:</strong> Ejemplo: Tema: Impacto del uso excesivo de pantallas en el sueño adolescente. ¿Por qué importa? Afecta la concentración y el rendimiento. Sección 1: Evidencia científica. Sección 2: Efectos en el organismo. Sección 3: Hábitos saludables. Conclusión: Reducir pantallas antes de dormir mejora el sueño. Fuente: OPS (2022). Guía de salud digital.</div></div></div><div class="eval-section">
+  <span id="eval-grade-key" data-grade="sec5" style="display:none"></span>
+  <div class="eval-title">📊 Evaluación Final</div>
+  <div class="eval-desc">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · Solo un intento por dispositivo.</div>
+
+  <!-- Gate -->
+  <div id="eval-gate-wrap">
+    <div class="eval-gate-wrap">
+      <div class="eval-gate">
+        <div class="gate-icon">📝</div>
+        <div class="gate-h">Antes de comenzar</div>
+        <p class="gate-p">Esta evaluación tiene <strong>10 preguntas</strong> y vale <strong>20 puntos</strong>.<br>Tendrás <strong>un solo intento</strong>. Lee cada pregunta con calma antes de responder.</p>
+        <label class="gate-label">Tu nombre completo</label>
+        <input id="gate-input" class="gate-input" type="text" placeholder="Escribe tu nombre…" maxlength="80"
+          onkeydown="if(event.key==='Enter') startEval('sec5')">
+        <button class="gate-btn" onclick="startEval('sec5')">Comenzar evaluación →</button>
+      </div>
     </div>
-  </td>
-</tr>
-<tr>
-  <td><strong>Distingo tono formal de informal</strong></td>
-  <td>Identifiqué todos los ejemplos</td>
-  <td>Identifiqué la mayoría</td>
-  <td>Confundí formal e informal</td>
-  <td style="text-align:center">
-    <div class="rubric-radio">
-      <label><input type="radio" name="rub1" value="3" onchange="calcRubric()"><span>3</span></label>
-      <label><input type="radio" name="rub1" value="2" onchange="calcRubric()"><span>2</span></label>
-      <label><input type="radio" name="rub1" value="1" onchange="calcRubric()"><span>1</span></label>
+  </div>
+
+  <!-- Quiz body (hidden until name entered) -->
+  <div id="eval-body" class="eval-body">
+    <div class="eval-top">
+      <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 5.° Secundaria</span>
+      <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-  </td>
-</tr>
-<tr>
-  <td><strong>Mejoré la introducción</strong></td>
-  <td>Clara, formal y con las 3 funciones</td>
-  <td>Mejoré pero faltó algo</td>
-  <td>No pude mejorarla</td>
-  <td style="text-align:center">
-    <div class="rubric-radio">
-      <label><input type="radio" name="rub2" value="3" onchange="calcRubric()"><span>3</span></label>
-      <label><input type="radio" name="rub2" value="2" onchange="calcRubric()"><span>2</span></label>
-      <label><input type="radio" name="rub2" value="1" onchange="calcRubric()"><span>1</span></label>
+    <div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué significa que un trabajo sea «formal»?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Que use palabras muy difíciles</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Que tenga muchas páginas</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Que tenga orden, claridad, fuentes y tono adecuado</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Que esté escrito a mano</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué función tiene la introducción?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Resumir toda la conclusión</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Presentar el tema, su importancia y qué se hará, sin revelar todo</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Listar todas las fuentes</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Repetir el título con otras palabras</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué es más formal en un trabajo académico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Texto largo sin subtítulos</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Muchas imágenes sin explicación</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Texto dividido en secciones claras con evidencias</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Muchas fuentes sin revisar</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué debe evitar una buena conclusión?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Presentar la idea más importante</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Repetir todo lo dicho en el desarrollo</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Cerrar con una reflexión final</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Ser concisa</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Por qué no basta con poner links al final como fuentes?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Porque los links se caen</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Porque el profesor no los abre</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Porque no incluyen autor, año, título ni editorial</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Porque las páginas web no son fuentes válidas</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Cuál de estas frases tiene tono formal?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) "O sea, el calentamiento global es una locura."</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) "El aumento de temperatura global representa una amenaza para los ecosistemas."</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) "La verdad es que no sé mucho pero igual voy a escribir."</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) "El planeta está mal 😢 hay que hacer algo."</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Para qué sirve usar la IA en el proceso de revisión?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Para que escriba el trabajo completo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Para inventar datos que faltan</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Para revisar claridad, orden y detectar repeticiones en mi borrador</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Para cambiar todas tus ideas</span></label>
+</div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué parte del trabajo NO debe faltar nunca?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Índice</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Anexos</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Glosario</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Referencias / Fuentes</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál es el propósito principal del índice en un trabajo formal?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Decorar la portada</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Mostrar la estructura y ubicar secciones rápido</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Repetir el desarrollo</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Listar las fuentes</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué significa que el tono de un trabajo sea «adecuado al contexto»?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Que use muchas palabras técnicas</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Que sea apropiado para el tipo de documento y la audiencia</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Que esté escrito en inglés</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Que sea muy largo</span></label>
+</div></div>
+
+    <div id="eval-submit-wrap" class="eval-submit-wrap">
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+      <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
     </div>
-  </td>
-</tr>
-<tr>
-  <td><strong>Planifiqué un esquema de trabajo</strong></td>
-  <td>Completé todas las secciones</td>
-  <td>Completé la mayoría</td>
-  <td>No pude completarlo</td>
-  <td style="text-align:center">
-    <div class="rubric-radio">
-      <label><input type="radio" name="rub3" value="3" onchange="calcRubric()"><span>3</span></label>
-      <label><input type="radio" name="rub3" value="2" onchange="calcRubric()"><span>2</span></label>
-      <label><input type="radio" name="rub3" value="1" onchange="calcRubric()"><span>1</span></label>
-    </div>
-  </td>
-</tr>
-</tbody>
-  </table>
-  <div class="score-result">
-    <span>Mi puntaje total</span>
-    <div class="total" id="rubric-score">— / 12</div>
+    <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
   </div>
 </div>
-<div id="result-banner" class="result-banner" style="display:none"></div>
 </div>
 
 <script>
-let quizTotal = 0, quizCorrect = 0;
-
-/* ── Score tracking ── */
-function countable(isCorrect){
-  quizTotal++;
-  if(isCorrect) quizCorrect++;
-  refreshScore();
+/* ══ PRACTICE EXERCISES ══ */
+let pCorrect=0, pTotal=0;
+function pCount(ok){ pTotal++; if(ok) pCorrect++; refreshPBar(); }
+function refreshPBar(){
+  const v=document.getElementById('p-val'), t=document.getElementById('p-tot'), f=document.getElementById('p-fill');
+  if(!v) return;
+  v.textContent=pCorrect; t.textContent=pTotal;
+  if(pTotal>0) f.style.width=(pCorrect/pTotal*100)+'%';
 }
-function refreshScore(){
-  const el = document.getElementById('score-val');
-  const prog = document.getElementById('score-prog');
-  const total = document.getElementById('score-total');
-  if(!el) return;
-  el.textContent = quizCorrect;
-  total.textContent = quizTotal;
-  if(quizTotal > 0) prog.style.width = (quizCorrect/quizTotal*100)+'%';
-}
-
-/* ── QUIZ ── */
-function quizPick(li){
-  const opts = li.closest('.quiz-options');
-  if(opts.classList.contains('done')) return;
-  opts.classList.add('done');
-  const item = li.closest('.quiz-item');
-  const isCorrect = li.dataset.correct === 'true';
-  opts.querySelectorAll('li').forEach(opt=>{
-    opt.classList.add('locked');
-    if(opt.dataset.correct === 'true') opt.classList.add('correct');
-  });
-  if(isCorrect){ li.classList.add('correct'); item.classList.add('answered-ok'); }
-  else         { li.classList.add('wrong');   item.classList.add('answered-err'); }
-  const exp = item.querySelector('.q-explanation');
-  if(exp) exp.classList.add('visible');
-  countable(isCorrect);
-}
-
-/* ── CLASSIFICATION ── */
-function classify(btn, chosen, correct){
-  const row = btn.closest('.cls-row');
+function classify(btn,chosen,correct){
+  const row=btn.closest('.cls-row');
   if(row.dataset.done) return;
   row.dataset.done='1';
-  row.querySelectorAll('.cls-btn').forEach(b=>{ b.disabled=true; });
-  const isOk = chosen === correct;
-  btn.classList.add(isOk ? 'correct' : 'wrong');
-  if(!isOk){
-    row.querySelectorAll('.cls-btn').forEach(b=>{
-      if(b.dataset.val === correct) b.classList.add('reveal');
-    });
-  }
-  const res = row.querySelector('.cls-result');
-  if(res){ res.classList.add(isOk?'ok':'err'); res.textContent = isOk?'✓ Correcto':'✗ Incorrecto'; }
-  countable(isOk);
+  row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
+  const ok=chosen===correct;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{ if(b.dataset.val===correct) b.classList.add('reveal'); });
+  const r=row.querySelector('.cls-res');
+  if(r){ r.className='cls-res '+(ok?'ok':'err'); r.textContent=ok?'✓ Correcto':'✗ Incorrecto'; }
+  pCount(ok);
 }
-
-/* ── TRUE / FALSE ── */
-function tfPick(btn, chosen, correct){
-  const row = btn.closest('.tf-row');
+function tfPick(btn,chosen,correct){
+  const row=btn.closest('.tf-row');
   if(row.dataset.done) return;
   row.dataset.done='1';
+  const ok=chosen===correct;
   row.querySelectorAll('.tf-btn').forEach(b=>{
     b.disabled=true;
-    if(b.dataset.val===correct) b.classList.add(chosen===correct?'correct':'reveal');
+    if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
   });
-  const isOk = chosen === correct;
-  btn.classList.add(isOk?'correct':'wrong');
-  countable(isOk);
+  btn.classList.add(ok?'correct':'wrong');
+  pCount(ok);
+}
+function toggleModel(btn,id){
+  const b=document.getElementById(id);
+  const open=b.classList.toggle('open');
+  btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
+}
+function resetPractice(){ if(confirm('¿Reiniciar ejercicios de práctica?')) location.reload(); }
+
+/* ══ EVALUATION ══ */
+let _name='', _grade='';
+
+function startEval(grade){
+  const inp=document.getElementById('gate-input');
+  const name=inp.value.trim();
+  if(name.length < 2){ inp.classList.add('err'); inp.focus(); return; }
+  inp.classList.remove('err');
+  _name=name; _grade=grade;
+
+  // Already submitted?
+  const saved=localStorage.getItem('eval-'+grade);
+  if(saved){
+    const r=JSON.parse(saved);
+    document.getElementById('eval-gate-wrap').innerHTML=
+      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>. Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
+    showResult(r);
+    return;
+  }
+
+  document.getElementById('eval-gate-wrap').style.display='none';
+  const body=document.getElementById('eval-body');
+  body.style.display='block';
+  document.getElementById('eval-student-name').textContent=name;
+  updateAnswered();
 }
 
-/* ── MODEL ANSWER TOGGLE ── */
-function toggleModel(btn, id){
-  const box = document.getElementById(id);
-  const open = box.classList.toggle('visible');
-  btn.textContent = open ? '▲ Ocultar respuesta modelo' : '▼ Ver respuesta modelo';
-}
-
-/* ── VERIFY FILL-IN ── */
-function verifyBlank(inputId, answers){
-  const inp = document.getElementById(inputId);
-  if(inp.dataset.done) return;
-  inp.dataset.done='1';
-  const val = inp.value.trim().toLowerCase();
-  const ok = answers.some(a => val.includes(a.toLowerCase()));
-  inp.classList.add(ok?'ok':'err');
-  inp.title = ok ? '✓ Correcto' : 'Respuesta esperada: ' + answers[0];
-  countable(ok);
-}
-
-/* ── RUBRIC SCORE ── */
-function calcRubric(){
-  let total=0, count=0;
-  document.querySelectorAll('.rubric-radio input:checked').forEach(r=>{
-    total += parseInt(r.value); count++;
+function updateAnswered(){
+  const qs=document.querySelectorAll('.eval-q');
+  let ans=0;
+  qs.forEach((_,i)=>{
+    if(document.querySelector('input[name="eq'+(i+1)+'"]:checked')) ans++;
   });
-  document.getElementById('rubric-score').textContent = total + ' / ' + (count*3);
+  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
+  const btn=document.getElementById('eval-submit-btn');
+  if(btn) btn.disabled=(ans<qs.length);
 }
 
-/* ── RESET ── */
-function resetAll(){
-  if(!confirm('¿Reiniciar todos los ejercicios?')) return;
-  location.reload();
+function submitEval(){
+  if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
+
+  const qs=document.querySelectorAll('.eval-q');
+  let correct=0;
+  qs.forEach((q,i)=>{
+    const cv=q.dataset.correct;
+    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
+    const sv=sel?sel.value:null;
+    const ok=sv===cv;
+    if(ok) correct++;
+
+    // Lock radio inputs
+    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
+    // Color options
+    q.querySelectorAll('.eval-opt').forEach(opt=>{
+      const v=opt.querySelector('input').value;
+      if(v===cv) opt.classList.add('correct');
+      else if(v===sv&&!ok) opt.classList.add('wrong');
+    });
+    // Color number badge
+    const num=q.querySelector('.eval-q-num');
+    num.classList.add(ok?'ok':'err');
+    q.classList.add(ok?'done-ok':'done-err');
+  });
+
+  const score=correct*2;
+  const result={name:_name,grade:_grade,score,correct,total:qs.length,
+    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
+  localStorage.setItem('eval-'+_grade,JSON.stringify(result));
+  document.getElementById('eval-submit-wrap').style.display='none';
+  showResult(result);
 }
 
-/* ── FINAL RESULT BANNER ── */
-document.addEventListener('click', ()=>{
-  setTimeout(()=>{
-    const banner = document.getElementById('result-banner');
-    if(!banner) return;
-    if(quizTotal < 8) return;
-    banner.style.display = 'block';
-    const pct = quizCorrect/quizTotal;
-    banner.className = 'result-banner ' + (pct===1?'perfect':pct>=.7?'good':'keep-going');
-    banner.textContent = pct===1
-      ? '🏆 ¡Perfecto! Respondiste todo correctamente.'
-      : pct>=.7
-        ? `👍 Buen trabajo: ${quizCorrect} de ${quizTotal} correctas.`
-        : `📚 Sigue repasando: ${quizCorrect} de ${quizTotal} correctas. ¡Tú puedes!`;
-  }, 100);
+function showResult(r){
+  const pct=Math.round(r.score/20*100);
+  const [emoji,label,cls]=
+    r.score>=18?['🏆','Excelente','ok']:
+    r.score>=14?['⭐','Bueno','good']:
+    r.score>=10?['📈','En proceso','warn']:
+                ['📚','Necesita refuerzo','low'];
+  const el=document.getElementById('eval-result-wrap');
+  el.style.display='block';
+  el.innerHTML=`<div class="result-card ${cls}">
+    <div class="res-label">📊 Resultado de Evaluación · Sesión 02</div>
+    <div class="res-name">${r.name}</div>
+    <div class="res-info">${r.grade}&nbsp;·&nbsp;${r.date}</div>
+    <div class="res-score">${r.score}<sub> / 20</sub></div>
+    <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
+    <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
+    <div class="res-detail">${r.correct} de ${r.total} preguntas correctas · 2 puntos c/u</div>
+  </div>`;
+}
+
+// Check localStorage on load
+document.addEventListener('DOMContentLoaded',()=>{
+  const gk=document.getElementById('eval-grade-key');
+  if(!gk) return;
+  const grade=gk.dataset.grade;
+  const saved=localStorage.getItem('eval-'+grade);
+  if(!saved) return;
+  const r=JSON.parse(saved);
+  document.getElementById('eval-gate-wrap').innerHTML=
+    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>. Puntaje: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
+  document.getElementById('eval-body').style.display='block';
+  document.getElementById('eval-student-name').textContent=r.name;
+  document.getElementById('eval-submit-wrap').style.display='none';
+  // Lock all radios
+  document.querySelectorAll('.eval-q input[type=radio]').forEach(i=>i.disabled=true);
+  showResult(r);
 });
 </script>
 

@@ -7,6 +7,14 @@ const CORS = {
   "Content-Type": "application/json",
 };
 
+function makeStore() {
+  return getStore({
+    name: "evaluaciones",
+    siteID: process.env.SITE_ID,
+    token: process.env.NETLIFY_TOKEN,
+  });
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: CORS, body: "" };
@@ -28,7 +36,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const store = getStore("evaluaciones");
+    const store = makeStore();
     const key = `s${String(sesion).padStart(2,"0")}/${grado}/${Date.now()}`;
 
     await store.setJSON(key, {
@@ -44,7 +52,7 @@ exports.handler = async (event) => {
 
     return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
   } catch (err) {
-    console.error("submit-eval error:", err);
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({error: err.message, stack: err.stack}) };
+    console.error("submit-eval error:", err.message);
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };
   }
 };

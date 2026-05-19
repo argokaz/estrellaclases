@@ -9,6 +9,14 @@ const CORS = {
   "Content-Type": "application/json",
 };
 
+function makeStore() {
+  return getStore({
+    name: "evaluaciones",
+    siteID: process.env.SITE_ID,
+    token: process.env.NETLIFY_TOKEN,
+  });
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: CORS, body: "" };
@@ -24,7 +32,7 @@ exports.handler = async (event) => {
 
   try {
     const sesion = params.session || "";
-    const store = getStore("evaluaciones");
+    const store = makeStore();
     const prefix = sesion ? `s${String(sesion).padStart(2,"0")}/` : "";
 
     const { blobs } = await store.list({ prefix });
@@ -47,11 +55,7 @@ exports.handler = async (event) => {
       body: JSON.stringify(sorted),
     };
   } catch (err) {
-    console.error("get-results error:", err);
-    return {
-      statusCode: 200,
-      headers: CORS,
-      body: "[]",
-    };
+    console.error("get-results error:", err.message);
+    return { statusCode: 200, headers: CORS, body: "[]" };
   }
 };

@@ -1,6 +1,5 @@
 const { getStore } = require("@netlify/blobs");
 
-// Password matches the one hardcoded in the frontend dashboard
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 
 const CORS = {
@@ -23,24 +22,36 @@ exports.handler = async (event) => {
     return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
   }
 
-  const sesion = params.session || "";
-  const store = getStore("evaluaciones");
-  const prefix = sesion ? `s${String(sesion).padStart(2,"0")}/` : "";
+  try {
+    const sesion = params.session || "";
+    const store = getStore("evaluaciones");
+    const prefix = sesion ? `s${String(sesion).padStart(2,"0")}/` : "";
 
-  const { blobs } = await store.list({ prefix });
+    const { blobs } = await store.list({ prefix });
 
-  const results = await Promise.all(
-    blobs.map(({ key }) => store.get(key, { type: "json" }))
-  );
+    if (!blobs || blobs.length === 0) {
+      return { statusCode: 200, headers: CORS, body: "[]" };
+    }
 
-  // Sort by timestamp descending (newest first)
-  const sorted = results
-    .filter(Boolean)
-    .sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    const results = await Promise.all(
+      blobs.map(({ key }) => store.get(key, { type: "json" }).catch(() => null))
+    );
 
-  return {
-    statusCode: 200,
-    headers: CORS,
-    body: JSON.stringify(sorted),
-  };
+    const sorted = results
+      .filter(Boolean)
+      .sort((a, b) => (b.ts || 0) - (a.ts || 0));
+
+    return {
+      statusCode: 200,
+      headers: CORS,
+      body: JSON.stringify(sorted),
+    };
+  } catch (err) {
+    console.error("get-results error:", err);
+    return {
+      statusCode: 200,
+      headers: CORS,
+      body: "[]",
+    };
+  }
 };

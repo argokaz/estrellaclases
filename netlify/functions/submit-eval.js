@@ -27,19 +27,24 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: CORS, body: '{"error":"Missing required fields"}' };
   }
 
-  const store = getStore("evaluaciones");
-  const key = `s${String(sesion).padStart(2,"0")}/${grado}/${Date.now()}`;
+  try {
+    const store = getStore("evaluaciones");
+    const key = `s${String(sesion).padStart(2,"0")}/${grado}/${Date.now()}`;
 
-  await store.setJSON(key, {
-    nombre,
-    grado,
-    sesion: String(sesion).padStart(2, "0"),
-    score,
-    correctas: correctas ?? null,
-    total: total ?? 10,
-    fecha: fecha || new Date().toISOString(),
-    ts: Date.now(),
-  });
+    await store.setJSON(key, {
+      nombre,
+      grado,
+      sesion: String(sesion).padStart(2, "0"),
+      score,
+      correctas: correctas ?? null,
+      total: total ?? 10,
+      fecha: fecha || new Date().toISOString(),
+      ts: Date.now(),
+    });
 
-  return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
+    return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
+  } catch (err) {
+    console.error("submit-eval error:", err);
+    return { statusCode: 500, headers: CORS, body: '{"error":"Storage error"}' };
+  }
 };

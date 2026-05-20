@@ -339,7 +339,7 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
   <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
 </div><div class="eval-section" id="eval-section" style="display:none">
-  <span id="eval-grade-key" data-grade="sec2" style="display:none"></span>
+  <span id="eval-grade-key" data-grade="sec2" data-session="03" style="display:none"></span>
 
   <div class="eval-banner">
     <div class="eval-badge">⚡ OBLIGATORIO</div>
@@ -473,7 +473,7 @@ function enterExamMode(){
 }
 
 /* ── EVALUATION ── */
-let _name='',_grade='';
+let _name='',_grade='',_session='';
 
 function startEval(grade){
   const inp=document.getElementById('gate-input');
@@ -481,7 +481,10 @@ function startEval(grade){
   if(name.length<2){inp.classList.add('err');inp.focus();return;}
   inp.classList.remove('err');
   _name=name;_grade=grade;
-  const saved=localStorage.getItem('eval-'+grade);
+  const gkEl=document.getElementById('eval-grade-key');
+  _session=gkEl?gkEl.dataset.session:'00';
+  const lsKey='eval-'+_session+'-'+grade;
+  const saved=localStorage.getItem(lsKey);
   if(saved){
     const r=JSON.parse(saved);
     document.getElementById('eval-gate-wrap').innerHTML=
@@ -529,7 +532,7 @@ function submitEval(){
   const fecha=new Date().toISOString();
   const result={name:_name,grade:_grade,score,correct,total:qs.length,
     date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
-  localStorage.setItem('eval-'+_grade,JSON.stringify(result));
+  localStorage.setItem('eval-'+_session+'-'+_grade,JSON.stringify(result));
   fetch('/.netlify/functions/submit-eval',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({nombre:_name,grado:_grade,sesion:'03',score,correctas:correct,total:qs.length,fecha,respuestas})
@@ -568,7 +571,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   const gk=document.getElementById('eval-grade-key');
   if(!gk)return;
   const grade=gk.dataset.grade;
-  const saved=localStorage.getItem('eval-'+grade);
+  const session=gk.dataset.session||'00';
+  const lsKey='eval-'+session+'-'+grade;
+  const saved=localStorage.getItem(lsKey);
   if(!saved)return;
   // Already submitted: show eval section (no hide study — result shown, review allowed)
   const ev=document.getElementById('eval-section');

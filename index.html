@@ -1558,7 +1558,7 @@ function renderPanel(gradeId){
   // ── CLASES FUTURAS — requieren contraseña ──────────────────
   if(unlocked){
     // Barra de estado desbloqueado
-    html += `<div class="unlock-bar">🔓 Modo profesor activo <button class="results-open-btn" onclick="openResults()">📊 Ver resultados de alumnos</button></div>`;
+    html += `<div class="unlock-bar">🔓 Modo profesor activo <button class="results-open-btn" onclick="openResults(null, '${gradeId}')">📊 Ver resultados de alumnos</button></div>`;
 
     if(nextItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
@@ -1630,7 +1630,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
   const repasoBtn = repasoUrl
     ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
   const resultsBtn = (repasoUrl && unlocked)
-    ? `<button class="results-card-btn" onclick="openResults()">📊 Resultados</button>` : '';
+    ? `<button class="results-card-btn" onclick="openResults(${n}, '${gradeId}')">📊 Resultados</button>` : '';
 
   const expandBtn = isNext ? '' :
     `<button class="expand-btn" onclick="toggleExpand(this)">
@@ -1711,15 +1711,22 @@ function toggleArchive(){
 // RESULTS PANEL
 // ═══════════════════════════════════════════════════════════
 let _resultsCache = {};
+let _currentResultsGrade = null;
 
 const GRADE_LABELS_MAP = {
   prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
   sec4:'4.° Secundaria', sec5:'5.° Secundaria'
 };
 
-function openResults(){
+function openResults(session, gradeId){
+  _currentResultsGrade = gradeId || null;
+  const titleEl = document.getElementById('results-panel-title');
+  titleEl.textContent = gradeId
+    ? '📊 Resultados — ' + (GRADE_LABELS_MAP[gradeId] || gradeId)
+    : '📊 Resultados de alumnos';
   document.getElementById('results-overlay').classList.add('open');
-  loadResults('02');
+  const ses = session ? String(session).padStart(2,'0') : '02';
+  loadResults(ses);
 }
 function closeResultsPanel(){
   document.getElementById('results-overlay').classList.remove('open');
@@ -1754,30 +1761,39 @@ function renderResults(data, session){
   const content = document.getElementById('results-content');
   const summary = document.getElementById('results-summary');
 
-  if(!data.length){
+  // Filter by grade if panel was opened from a specific grade card
+  const display = _currentResultsGrade
+    ? data.filter(r => r.grado === _currentResultsGrade)
+    : data;
+
+  if(!display.length){
     content.className = 'results-empty';
-    content.innerHTML = '📭 Aún no hay resultados registrados para la sesión ' + session + '.';
+    const who = _currentResultsGrade
+      ? (GRADE_LABELS_MAP[_currentResultsGrade] || _currentResultsGrade)
+      : 'esta sesión';
+    content.innerHTML = '📭 Aún no hay resultados para ' + who + ' · sesión ' + session + '.';
+    summary.style.display = 'none';
     return;
   }
 
-  // Summary stats
-  const scores = data.map(r => r.score);
+  // Summary stats — only for the displayed set
+  const scores = display.map(r => r.score);
   const avg = (scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1);
-  document.getElementById('rs-total').textContent = data.length;
+  document.getElementById('rs-total').textContent = display.length;
   document.getElementById('rs-avg').textContent = avg + '/20';
   document.getElementById('rs-max').textContent = Math.max(...scores) + '/20';
   document.getElementById('rs-min').textContent = Math.min(...scores) + '/20';
   summary.style.display = 'flex';
 
   // Sort by grade then name
-  const sorted = [...data].sort((a,b)=>{
+  const sorted = [...display].sort((a,b)=>{
     const ga = a.grado, gb = b.grado;
     if(ga < gb) return -1; if(ga > gb) return 1;
     return (a.nombre||'').localeCompare(b.nombre||'');
   });
 
-  // Group by grade for display
-  let currentGrade = null;
+  // Grade group headers only when showing all grades at once
+  let curGrp = null;
   const rows = sorted.map(r=>{
     const [emoji, label, cls] =
       r.score>=18?['🏆','Excelente','ok']:
@@ -1791,12 +1807,11 @@ function renderResults(data, session){
     }) + ' ' + rawDate.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}) : '—';
 
     let groupRow = '';
-    if(r.grado !== currentGrade){
-      currentGrade = r.grado;
+    if(!_currentResultsGrade && r.grado !== curGrp){
+      curGrp = r.grado;
       const count = sorted.filter(x=>x.grado===r.grado).length;
       groupRow = `<tr><td colspan="7" class="grade-group-label">📚 ${gl} &nbsp;·&nbsp; ${count} alumno${count===1?'':'s'}</td></tr>`;
     }
-    const keyAttr = r._key ? `data-key="${r._key}"` : '';
     return groupRow + `<tr id="row-${encodeURIComponent(r._key||'')}">
       <td><strong style="color:#fff">${r.nombre}</strong></td>
       <td style="color:var(--text-muted);font-size:13px">${gl}</td>
@@ -1837,7 +1852,7 @@ async function deleteResult(key, nombre){
     const session = active ? active.dataset.session : '02';
     if(_resultsCache[session]){
       _resultsCache[session] = _resultsCache[session].filter(r => r._key !== key);
-      renderResults(_resultsCache[session], session);
+      renderResults(_resultsCache[session], session); // renderResults uses _currentResultsGrade internally
     }
   } catch(err) {
     alert('Error al borrar: ' + err.message);
@@ -1847,7 +1862,8 @@ async function deleteResult(key, nombre){
 function exportXLSX(){
   const active = document.querySelector('.results-session-tab.active');
   const session = active ? active.dataset.session : '02';
-  const data = _resultsCache[session] || [];
+  const all = _resultsCache[session] || [];
+  const data = _currentResultsGrade ? all.filter(r => r.grado === _currentResultsGrade) : all;
   if(!data.length){ alert('No hay datos para exportar.'); return; }
   const rows = data.map(r=>{
     const level = r.score>=18?'Excelente':r.score>=14?'Bueno':r.score>=10?'En proceso':'Necesita refuerzo';
@@ -1879,15 +1895,16 @@ render();
 <div class="results-overlay" id="results-overlay" onclick="closeResultsOnBg(event)">
   <div class="results-panel">
     <div class="results-panel-header">
-      <h2>📊 Resultados de alumnos</h2>
+      <h2 id="results-panel-title">📊 Resultados de alumnos</h2>
       <div class="results-header-actions">
         <button class="results-export-btn" onclick="exportXLSX()">⬇ Exportar Excel</button>
         <button class="results-close-btn" onclick="closeResultsPanel()">✕ Cerrar</button>
       </div>
     </div>
 
-    <div class="results-session-tabs">
+    <div class="results-session-tabs" id="results-session-tabs">
       <button class="results-session-tab active" data-session="02" onclick="loadResults('02')">Sesión 02 — 22 mayo</button>
+      <button class="results-session-tab" data-session="03" onclick="loadResults('03')">Sesión 03 — 29 mayo</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

@@ -356,10 +356,14 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <div class="eval-gate">
         <div class="gate-icon">📝</div>
         <div class="gate-h">Antes de comenzar</div>
-        <p class="gate-p">Escribe tu nombre completo para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
-        <label class="gate-label">Tu nombre completo</label>
-        <input id="gate-input" class="gate-input" type="text"
-          placeholder="Escribe tu nombre aquí…" maxlength="80"
+        <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+        <label class="gate-label">Nombre</label>
+        <input id="gate-nombre" class="gate-input" type="text"
+          placeholder="Tu nombre…" maxlength="60"
+          onkeydown="if(event.key==='Enter') document.getElementById('gate-apellido').focus()">
+        <label class="gate-label">Apellido</label>
+        <input id="gate-apellido" class="gate-input" type="text"
+          placeholder="Tu apellido…" maxlength="60"
           onkeydown="if(event.key==='Enter') startEval('sec5')">
         <button class="gate-btn" onclick="startEval('sec5')">Comenzar evaluación →</button>
       </div>
@@ -476,10 +480,15 @@ function enterExamMode(){
 let _name='',_grade='',_session='';
 
 function startEval(grade){
-  const inp=document.getElementById('gate-input');
-  const name=inp.value.trim();
-  if(name.length<2){inp.classList.add('err');inp.focus();return;}
-  inp.classList.remove('err');
+  const inpN=document.getElementById('gate-nombre');
+  const inpA=document.getElementById('gate-apellido');
+  const nombre=inpN.value.trim();
+  const apellido=inpA.value.trim();
+  let ok=true;
+  if(nombre.length<2){inpN.classList.add('err');inpN.focus();ok=false;}else{inpN.classList.remove('err');}
+  if(apellido.length<2){inpA.classList.add('err');if(ok)inpA.focus();ok=false;}else{inpA.classList.remove('err');}
+  if(!ok)return;
+  const name=nombre+' '+apellido;
   _name=name;_grade=grade;
   const gkEl=document.getElementById('eval-grade-key');
   _session=gkEl?gkEl.dataset.session:'00';

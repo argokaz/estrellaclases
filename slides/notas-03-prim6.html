@@ -239,42 +239,54 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
   <button id="nnext" onclick="ngo(1)">▶</button>
 </div>
 
-<div class="sync-badge" id="sync-badge">📡 ···</div>
-
+<!-- ── Remote sync (notes) ── -->
+<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
+  <div style="font-size:1.5rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
+  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.6">Ingresa el código que aparece en la esquina del proyector</div>
+  <input id="sync-code" type="text" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" placeholder="7KQ4" style="font-size:2.4rem;font-family:monospace;text-align:center;letter-spacing:.35em;text-transform:uppercase;width:170px;background:#1f2937;border:2px solid #374151;color:#f9fafb;border-radius:10px;padding:.5rem .8rem;outline:none">
+  <button onclick="syncConnect()" style="background:#22c55e;color:#000;border:none;border-radius:10px;padding:.85rem 2.6rem;font-size:1.1rem;font-weight:800;cursor:pointer">Conectar</button>
+  <button onclick="syncSkip()" style="background:none;border:none;color:#6b7280;font-size:.9rem;cursor:pointer;padding:.4rem 1rem">Usar sin sync</button>
+</div>
+<div id="sync-badge" style="display:none;position:fixed;top:5px;right:5px;z-index:100;background:rgba(0,0,0,.75);border:1.5px solid #22c55e;border-radius:8px;padding:.2rem .55rem;font-family:monospace;font-size:.8rem;font-weight:800;color:#22c55e;letter-spacing:.12em;backdrop-filter:blur(4px)">📡 <span id="sync-badge-room"></span></div>
 <script>
-const cards=[...document.querySelectorAll('.card')];
-const total=13;
-let cur=0;
-
-function show(n){
-  cards.forEach((c,i)=>{
-    c.classList.toggle('active',i===n);
-    c.classList.toggle('open',i===n);
-    if(i===n)c.scrollIntoView({behavior:'smooth',block:'nearest'});
-  });
-  cur=n;
-  document.getElementById('ncounter').textContent=(n+1)+' / '+total;
-  document.getElementById('nprev').disabled=n===0;
-  document.getElementById('nnext').disabled=n===total-1;
-  push(n);
-}
-function ngo(d){show(Math.max(0,Math.min(total-1,cur+d)));}
-cards.forEach((c,i)=>c.querySelector('.card-header').addEventListener('click',()=>show(i)));
-show(0);
-
 (function(){
   const API='/.netlify/functions/sync';
-  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
-  const ROOM=sessionStorage.getItem('deck-room')||genCode();
-  sessionStorage.setItem('deck-room',ROOM);
-  document.getElementById('room-display').textContent=ROOM;
-  document.getElementById('sync-badge').textContent='📡 '+ROOM;
-
-  async function push(idx){
-    try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:idx})});}catch(e){}
+  const STORE_KEY='sync-room-v2';
+  let room='',connected=false;
+  const overlay=document.getElementById('sync-overlay');
+  const badge=document.getElementById('sync-badge');
+  const badgeRoom=document.getElementById('sync-badge-room');
+  const input=document.getElementById('sync-code');
+  let lastPushed=-2;
+  function pushSlide(){
+    if(!connected||!room)return;
+    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
+    if(!m)return;
+    const idx=parseInt(m[1])-1;
+    if(idx===lastPushed)return;
+    lastPushed=idx;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room,slide:idx})}).catch(function(){});
   }
-  window.push=push;
+  new MutationObserver(function(){clearTimeout(window._pushTimer);window._pushTimer=setTimeout(pushSlide,80);}).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
+  function connect(code){
+    room=code.toUpperCase().trim();
+    if(!room)return;
+    localStorage.setItem(STORE_KEY,room);
+    connected=true;
+    overlay.style.display='none';
+    badge.style.display='block';
+    badgeRoom.textContent=room;
+    document.getElementById('room-display').textContent=room;
+    lastPushed=-2;
+    pushSlide();
+  }
+  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
+  window.syncSkip=function(){overlay.style.display='none';};
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
+  const saved=localStorage.getItem(STORE_KEY);
+  if(saved)input.value=saved;
 })();
 </script>
 </body>
+</html>
 </html>

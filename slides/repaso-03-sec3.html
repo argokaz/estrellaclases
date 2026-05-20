@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S03 — 3.° Secundaria | Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+
+:root {
+  --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
+  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
+  --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
+  --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
+  --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
+  --err-bg:#fee2e2; --err-b:#fca5a5; --err-t:#b91c1c;
+  --hint-bg:#fef9c3; --hint-b:#fde047; --hint-t:#713f12;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+
+/* ── LAYOUT ── */
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+
+/* ── HEADER ── */
+.doc-header{
+  border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;
+}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:0;padding-bottom:0}
+
+/* ── SECTION ── */
+.section{margin-bottom:56px}
+.section-title{
+  font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);
+  margin-bottom:24px;padding-bottom:12px;
+  border-bottom:3px solid var(--accent);
+  display:flex;align-items:center;gap:12px;line-height:1.2;
+}
+
+/* ── CONCEPT BLOCKS (Lo que aprendimos) ── */
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{
+  display:flex;gap:20px;align-items:flex-start;
+  padding:22px 26px;border-radius:14px;
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-left:5px solid var(--accent);
+}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+
+/* ── GLOSSARY V2 ── */
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{
+  background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:14px;padding:20px 22px;
+}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+
+/* ── PRACTICE ACCORDION ── */
+.practice-details{
+  border:2px solid var(--border);border-radius:16px;overflow:hidden;
+}
+.practice-summary{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 28px;cursor:pointer;
+  background:var(--bg-alt);
+  list-style:none;user-select:none;gap:16px;
+}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:22px;font-weight:800;color:var(--brand);
+  display:flex;align-items:center;gap:10px;
+}
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{
+  display:flex;gap:16px;align-items:flex-start;
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;
+  padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;
+}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);
+  padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;
+}
+
+/* ── EXERCISES ── */
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
+.ex p,.ex li{font-size:16px;line-height:1.75}
+
+/* classify */
+.cls-tbl{width:100%;border-collapse:collapse}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
+.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
+.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
+
+/* true/false */
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+
+/* textarea */
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
+.txt-area:focus{border-color:var(--accent)}
+.model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
+.model-btn:hover{background:var(--hint-bg)}
+.model-box{display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);border-radius:10px;padding:16px 20px;font-size:16px;color:var(--hint-t);line-height:1.75}
+.model-box.open{display:block}
+.model-box strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+
+/* ════════════════════════════════
+   EVALUACIÓN — BANNER PROMINENTE
+   ════════════════════════════════ */
+.eval-section{margin-top:12px}
+
+.eval-banner{
+  background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);
+  border-radius:18px;padding:32px 36px;margin-bottom:32px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.eval-banner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);
+  pointer-events:none;
+}
+.eval-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#fbbf24;color:#1e3a8a;
+  font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;
+  border-radius:7px;padding:5px 14px;margin-bottom:14px;
+}
+.eval-banner-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:32px;font-weight:800;line-height:1.1;margin-bottom:10px;
+}
+.eval-banner-sub{font-size:16px;opacity:.88;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(0,0,0,.22);border-radius:10px;
+  padding:14px 18px;font-size:15px;line-height:1.65;
+}
+.eval-banner-warn strong{font-weight:800}
+
+/* gate */
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:28px}
+.eval-gate{
+  background:var(--bg-quiz);border:2px solid #c7d2fe;
+  border-radius:16px;padding:36px 32px;text-align:center;max-width:480px;width:100%;
+}
+.gate-icon{font-size:3rem;margin-bottom:14px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:16px;color:var(--muted);margin-bottom:26px;line-height:1.75}
+.gate-label{display:block;font-size:14px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center}
+.gate-input:focus{border-color:var(--accent)}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s}
+.gate-btn:hover{opacity:.88}
+
+/* quiz body */
+.eval-body{display:none}
+.eval-top{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;
+  padding:13px 18px;margin-bottom:20px;
+}
+.eval-top span{font-size:15px;color:var(--muted)}
+.eval-top strong{color:var(--brand)}
+.eval-answered{font-size:15px;color:var(--muted)}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
+.eval-q.done-ok{border-color:var(--ok-b)}
+.eval-q.done-err{border-color:var(--err-b)}
+.eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.eval-q-num.ok{background:var(--ok-t)}
+.eval-q-num.err{background:var(--err-t)}
+.eval-q-text{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid transparent;transition:background .12s;user-select:none;line-height:1.6}
+.eval-opt:hover{background:var(--bg-alt)}
+.eval-opt input[type=radio]{margin-top:4px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+
+/* submit */
+.eval-submit-wrap{text-align:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:17px 52px;font-size:18px;font-weight:700;transition:opacity .15s}
+.eval-submit-btn:hover:not(:disabled){opacity:.88}
+.eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.eval-hint{font-size:14px;color:var(--muted);margin-top:10px}
+
+/* result card */
+.result-wrap{margin-top:28px}
+.result-card{border-radius:16px;padding:36px 28px;text-align:center}
+.result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
+.result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
+.result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
+.result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:24px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:76px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
+.res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
+.res-level{font-size:22px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
+.res-detail{font-size:15px;color:var(--muted)}
+
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
+
+/* ── EXAM CTA ── */
+.exam-cta-section{text-align:center;padding:60px 24px 64px;border-top:2px dashed var(--border);margin-top:8px}
+.exam-cta-icon{font-size:3rem;margin-bottom:18px}
+.exam-cta-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.exam-cta-sub{font-size:16px;color:var(--muted);margin-bottom:30px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto}
+.exam-cta-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:14px;padding:18px 52px;font-size:19px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 6px 24px rgba(37,99,235,.3)}
+.exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
+
+/* ── EXAM MODE BAR ── */
+.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
+
+/* ── REVIEW BANNER (post-submit) ── */
+.review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>3.° Secundaria</div>
+    <div>Sesión 03 &nbsp;·&nbsp; 29 de mayo de 2026</div>
+  </div>
+</div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 03</div>
+<div class="doc-subtitle">Fórmulas sin miedo: fórmulas básicas en Google Sheets</div><div id="study-content"><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
+  <div class="cb-icon">🟰</div>
+  <div class="cb-body">
+    <div class="cb-title">Toda fórmula empieza con =</div>
+    <div class="cb-text">El signo = le dice a Sheets que calcule. Sin él, solo es texto. Ejemplo: =2+3 da como resultado 5.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--accent2)">
+  <div class="cb-icon">📊</div>
+  <div class="cb-body">
+    <div class="cb-title">Celdas y referencias</div>
+    <div class="cb-text">Cada celda tiene un nombre: letra (columna) + número (fila). Ejemplo: A1, B3, C5. Las fórmulas pueden usar esas referencias.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--emerald)">
+  <div class="cb-icon">➕</div>
+  <div class="cb-body">
+    <div class="cb-title">Operaciones básicas</div>
+    <div class="cb-text">Suma (+), Resta (−), Multiplicación (*), División (/). Ejemplo: =A1*B1 multiplica el valor de A1 por B1.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--amber)">
+  <div class="cb-icon">📈</div>
+  <div class="cb-body">
+    <div class="cb-title">Funciones: SUMA y PROMEDIO</div>
+    <div class="cb-text">=SUMA(A1:A5) suma un rango de celdas. =PROMEDIO(A1:A5) calcula el promedio. Si los datos cambian, el resultado se actualiza solo.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:var(--teal)">
+  <div class="cb-icon">⚠️</div>
+  <div class="cb-body">
+    <div class="cb-title">Errores comunes</div>
+    <div class="cb-text">Olvidar el =, elegir mal las celdas, mezclar texto con números, o borrar una celda usada en una fórmula.</div>
+  </div>
+</div>
+</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Fórmula</div><div class="gloss-def">Instrucción que le das a Sheets para que calcule. Siempre empieza con =.</div></div><div class="gloss-card"><div class="gloss-term">Celda</div><div class="gloss-def">Cada cuadrito de la hoja. Se identifica con letra + número (ej: B3).</div></div><div class="gloss-card"><div class="gloss-term">Rango</div><div class="gloss-def">Un grupo de celdas consecutivas. Ejemplo: A1:A5 incluye A1, A2, A3, A4 y A5.</div></div><div class="gloss-card"><div class="gloss-term">SUMA</div><div class="gloss-def">Función que suma todas las celdas de un rango: =SUMA(A1:A5).</div></div><div class="gloss-card"><div class="gloss-term">PROMEDIO</div><div class="gloss-def">Función que calcula el promedio de un rango: =PROMEDIO(A1:A5).</div></div><div class="gloss-card"><div class="gloss-term">MAX / MIN</div><div class="gloss-def">Funciones que encuentran el valor mayor o menor de un rango.</div></div></div></div><div class="section"><details class="practice-details">
+  <summary class="practice-summary">
+    <div class="ps-left">
+      <div class="ps-title">✏️ Ejercicios de práctica</div>
+      <div class="ps-hint">Haz clic para practicar antes de la evaluación — sin límite de intentos</div>
+    </div>
+    <span class="ps-arrow">▾</span>
+  </summary>
+  <div class="practice-content">
+    <div class="practice-invite">
+      <div class="practice-invite-icon">💡</div>
+      <div>
+        <strong>Te recomendamos practicar aquí primero.</strong><br>
+        Estos ejercicios tienen feedback inmediato y puedes intentarlos cuantas veces necesites.
+        Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
+      </div>
+    </div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Qué hace cada fórmula?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Suma</th><th>Promedio</th><th>Mayor valor</th><th>Menor valor</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>=SUMA(A1:A5)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Suma" onclick="classify(this,'Suma','Suma')">Suma</button><button class="cls-btn" data-val="Promedio" onclick="classify(this,'Promedio','Suma')">Promedio</button><button class="cls-btn" data-val="Mayor valor" onclick="classify(this,'Mayor valor','Suma')">Mayor valor</button><button class="cls-btn" data-val="Menor valor" onclick="classify(this,'Menor valor','Suma')">Menor valor</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>=PROMEDIO(A1:A5)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Suma" onclick="classify(this,'Suma','Promedio')">Suma</button><button class="cls-btn" data-val="Promedio" onclick="classify(this,'Promedio','Promedio')">Promedio</button><button class="cls-btn" data-val="Mayor valor" onclick="classify(this,'Mayor valor','Promedio')">Mayor valor</button><button class="cls-btn" data-val="Menor valor" onclick="classify(this,'Menor valor','Promedio')">Menor valor</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>=MAX(A1:A5)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Suma" onclick="classify(this,'Suma','Mayor valor')">Suma</button><button class="cls-btn" data-val="Promedio" onclick="classify(this,'Promedio','Mayor valor')">Promedio</button><button class="cls-btn" data-val="Mayor valor" onclick="classify(this,'Mayor valor','Mayor valor')">Mayor valor</button><button class="cls-btn" data-val="Menor valor" onclick="classify(this,'Menor valor','Mayor valor')">Menor valor</button></div></td><td><span class="cls-res"></span></td></tr>
+<tr class="cls-row"><td>=MIN(A1:A5)</td><td><div class="cls-btns"><button class="cls-btn" data-val="Suma" onclick="classify(this,'Suma','Menor valor')">Suma</button><button class="cls-btn" data-val="Promedio" onclick="classify(this,'Promedio','Menor valor')">Promedio</button><button class="cls-btn" data-val="Mayor valor" onclick="classify(this,'Mayor valor','Menor valor')">Mayor valor</button><button class="cls-btn" data-val="Menor valor" onclick="classify(this,'Menor valor','Menor valor')">Menor valor</button></div></td><td><span class="cls-res"></span></td></tr>
+</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>Una fórmula en Sheets puede empezar con la letra A sin el signo =.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Si cambias los datos, el resultado de una fórmula se actualiza solo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>=SUMA(A1:A5) suma 5 celdas.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Puedes mezclar texto y números en la misma fórmula sin problema.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+</tbody></table></div>
+  </div>
+</details></div></div><div id="exam-cta" class="exam-cta-section">
+  <div class="exam-cta-icon">🎯</div>
+  <div class="exam-cta-title">¿Listo para la evaluación?</div>
+  <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
+  <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
+</div><div class="eval-section" id="eval-section" style="display:none">
+  <span id="eval-grade-key" data-grade="sec3" style="display:none"></span>
+
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 3.° Secundaria</div>
+    <div class="eval-banner-warn">
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
+      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+    </div>
+  </div>
+
+  <div id="eval-gate-wrap">
+    <div class="eval-gate-wrap">
+      <div class="eval-gate">
+        <div class="gate-icon">📝</div>
+        <div class="gate-h">Antes de comenzar</div>
+        <p class="gate-p">Escribe tu nombre completo para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+        <label class="gate-label">Tu nombre completo</label>
+        <input id="gate-input" class="gate-input" type="text"
+          placeholder="Escribe tu nombre aquí…" maxlength="80"
+          onkeydown="if(event.key==='Enter') startEval('sec3')">
+        <button class="gate-btn" onclick="startEval('sec3')">Comenzar evaluación →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="eval-body" class="eval-body">
+    <div class="eval-top">
+      <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 3.° Secundaria</span>
+      <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
+    </div>
+    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Con qué símbolo debe empezar toda fórmula en Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) +</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) =</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) #</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) @</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué hace la fórmula =SUMA(A1:A5)?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Multiplica 5 celdas</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Calcula el promedio</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Suma el contenido de A1 hasta A5</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Busca el mayor valor</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué referencia tiene la celda en la columna B, fila 3?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) 3B</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) B3</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) B-3</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) 3-B</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál es una fórmula válida en Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) A1+B1</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) suma(A1:A5)</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) =A1+B1</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) = A1 + B1 =</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué pasa si cambias el número en A1 cuando hay una fórmula =A1+B1?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Nada cambia</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) La fórmula se borra</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) El resultado se actualiza automáticamente</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Sheets muestra un error siempre</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué hace =MAX(A1:A5)?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Suma todas las celdas</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Encuentra el valor más grande</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Calcula el promedio</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Borra el valor más pequeño</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Cuál es un error común al escribir fórmulas?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Usar celdas reales</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Empezar con =</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Olvidar el signo =</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Usar rangos</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué significa el rango A1:A5 en una fórmula?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Solo las celdas A1 y A5</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Las celdas de A1 hasta A5</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Toda la columna A</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Las primeras 5 filas de todas las columnas</span></label>
+</div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Para qué sirve =PROMEDIO(A1:A5)?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Suma los valores</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Calcula el valor máximo</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Calcula el promedio de esas celdas</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Ordena los datos</span></label>
+</div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué ocurre si mezclas texto con números en una celda usada en una fórmula?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Funciona perfectamente</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) La fórmula puede dar error o resultado incorrecto</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Sheets lo corrige automáticamente</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Solo pasa en Excel, no en Sheets</span></label>
+</div></div>
+
+    <div id="eval-submit-wrap" class="eval-submit-wrap">
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+      <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
+    </div>
+    <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<script>
+/* ── PRACTICE ── */
+function classify(btn,chosen,correct){
+  const row=btn.closest('.cls-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
+  const ok=chosen===correct;
+  btn.classList.add(ok?'correct':'wrong');
+  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
+  const r=row.querySelector('.cls-res');
+  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
+}
+function tfPick(btn,chosen,correct){
+  const row=btn.closest('.tf-row');
+  if(row.dataset.done) return;
+  row.dataset.done='1';
+  const ok=chosen===correct;
+  row.querySelectorAll('.tf-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
+  });
+  btn.classList.add(ok?'correct':'wrong');
+}
+function toggleModel(btn,id){
+  const b=document.getElementById(id);
+  const open=b.classList.toggle('open');
+  btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
+}
+
+/* ── EXAM MODE ── */
+function enterExamMode(){
+  if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.')) return;
+  document.getElementById('study-content').style.display='none';
+  document.getElementById('exam-cta').style.display='none';
+  const ev=document.getElementById('eval-section');
+  ev.style.display='block';
+  ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── EVALUATION ── */
+let _name='',_grade='';
+
+function startEval(grade){
+  const inp=document.getElementById('gate-input');
+  const name=inp.value.trim();
+  if(name.length<2){inp.classList.add('err');inp.focus();return;}
+  inp.classList.remove('err');
+  _name=name;_grade=grade;
+  const saved=localStorage.getItem('eval-'+grade);
+  if(saved){
+    const r=JSON.parse(saved);
+    document.getElementById('eval-gate-wrap').innerHTML=
+      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    showResult(r);return;
+  }
+  document.getElementById('eval-gate-wrap').style.display='none';
+  const body=document.getElementById('eval-body');
+  body.style.display='block';
+  document.getElementById('eval-student-name').textContent=name;
+  updateAnswered();
+}
+
+function updateAnswered(){
+  const qs=document.querySelectorAll('.eval-q');
+  let ans=0;
+  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
+  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
+  const btn=document.getElementById('eval-submit-btn');
+  if(btn) btn.disabled=(ans<qs.length);
+}
+
+function submitEval(){
+  if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
+  const qs=document.querySelectorAll('.eval-q');
+  let correct=0;const respuestas=[];
+  qs.forEach((q,i)=>{
+    const cv=q.dataset.correct;
+    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
+    const sv=sel?sel.value:null;
+    const ok=sv===cv;
+    if(ok)correct++;
+    respuestas.push(sv||'—');
+    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
+    q.querySelectorAll('.eval-opt').forEach(opt=>{
+      const v=opt.querySelector('input').value;
+      if(v===cv)opt.classList.add('correct');
+      else if(v===sv&&!ok)opt.classList.add('wrong');
+    });
+    const num=q.querySelector('.eval-q-num');
+    num.classList.add(ok?'ok':'err');
+    q.classList.add(ok?'done-ok':'done-err');
+  });
+  const score=correct*2;
+  const fecha=new Date().toISOString();
+  const result={name:_name,grade:_grade,score,correct,total:qs.length,
+    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
+  localStorage.setItem('eval-'+_grade,JSON.stringify(result));
+  fetch('/.netlify/functions/submit-eval',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'03',score,correctas:correct,total:qs.length,fecha,respuestas})
+  }).catch(()=>{});
+  document.getElementById('eval-submit-wrap').style.display='none';
+  showResult(result);
+}
+
+function showResult(r){
+  const pct=Math.round(r.score/20*100);
+  const [emoji,label,cls]=
+    r.score>=18?['🏆','Excelente','ok']:
+    r.score>=14?['⭐','Bueno','good']:
+    r.score>=10?['📈','En proceso','warn']:
+                ['📚','Necesita refuerzo','low'];
+  const el=document.getElementById('eval-result-wrap');
+  el.style.display='block';
+  el.innerHTML=`<div class="result-card ${cls}">
+    <div class="res-label">📊 Resultado · Sesión 03 · Asunción School</div>
+    <div class="res-name">${r.name}</div>
+    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
+    <div class="res-score">${r.score}<sub> / 20</sub></div>
+    <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
+    <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
+    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
+  </div>
+  <div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;
+  // Reveal study content for review after exam
+  const study=document.getElementById('study-content');
+  const cta=document.getElementById('exam-cta');
+  if(study) study.style.display='block';
+  if(cta) cta.style.display='none';
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const gk=document.getElementById('eval-grade-key');
+  if(!gk)return;
+  const grade=gk.dataset.grade;
+  const saved=localStorage.getItem('eval-'+grade);
+  if(!saved)return;
+  // Already submitted: show eval section (no hide study — result shown, review allowed)
+  const ev=document.getElementById('eval-section');
+  const ec=document.getElementById('exam-cta');
+  if(ev){
+    ev.style.display='block';
+    ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">✅ Evaluación ya enviada — revisa el material abajo</div>');
+  }
+  if(ec) ec.style.display='none';
+  const r=JSON.parse(saved);
+  document.getElementById('eval-gate-wrap').innerHTML=
+    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+  document.getElementById('eval-body').style.display='block';
+  document.getElementById('eval-student-name').textContent=r.name;
+  document.getElementById('eval-submit-wrap').style.display='none';
+  document.querySelectorAll('.eval-q input[type=radio]').forEach(i=>i.disabled=true);
+  showResult(r);
+});
+</script>
+
+</body>
+</html>

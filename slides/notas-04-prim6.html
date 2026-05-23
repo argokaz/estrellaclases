@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S4 · 6.° Primaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #22c55e;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#22c55e;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#22c55e;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
+  transition:border-color .2s;}
+.card.active{border-color:#22c55e;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#22c55e;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #22c55e;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#22c55e;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #22c55e;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#22c55e;opacity:.9;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 4 · 6.° Primaria</div>
+    <div class="tema">¡Escribimos en la computadora! Crear y guardar mi primer documento en Google Docs</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+<div class="card" id="card-0">
+  <div class="card-header">
+    <span class="card-num">S4·2</span>
+    <span class="card-title">¿Qué vamos a hacer hoy?</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Presenta las tres metas de la clase: escribir, guardar y compartir. Genera expectativa — hoy crean algo real.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Señala cada tarjeta. Pregunta: ¿alguien usó Google Docs antes?</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header">
+    <span class="card-num">S4·3</span>
+    <span class="card-title">Abrir Google Docs</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Demuestra en pantalla grande. Algunos alumnos pueden no tener cuenta Google — prepara cuentas de práctica.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo: abre docs.new y espera que todos lo logren antes de continuar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header">
+    <span class="card-num">S4·4</span>
+    <span class="card-title">Partes del documento</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Señala físicamente en la pantalla: título arriba, área de texto abajo, cursor parpadeando. Hazlo visual.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide a un voluntario que identifique cada parte. Material M04-A.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header">
+    <span class="card-num">S4·5</span>
+    <span class="card-title">El teclado: tus herramientas</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Haz que presionen cada tecla mientras la explicas. Énfasis en Ctrl+S. Para 6.° es clave el aprendizaje kinestésico.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: dices una acción y ellos encuentran la tecla. Ej. '¿Cómo voy al siguiente renglón?'</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S4·6</span>
+    <span class="card-title">Mini quiz — Backspace</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: borra la letra anterior. Aclara que Delete borra lo que está adelante (opcional a esta edad).</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación con dedos: 1, 2 o 3.</p>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S4·7</span>
+    <span class="card-title">¡Guardar es obligatorio!</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Google Docs guarda automáticamente, pero crear el hábito de Ctrl+S es importante para otras apps. Énfasis en el mensaje 'Guardado en Drive'.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo: escribe algo, presiona Ctrl+S y muestra el mensaje de guardado.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S4·8</span>
+    <span class="card-title">Nombres de archivo</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Retoma la idea de carpetas con nombres claros de S03. Aplicar la misma lógica a documentos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Reto: mejora el nombre 'documento1' o 'aaaa'. Ellos proponen mejores nombres.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S4·9</span>
+    <span class="card-title">El botón mágico ✨ Ctrl+Z</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">¡Este slide genera alivio! Muchos alumnos tienen miedo a equivocarse. Ctrl+Z borra ese miedo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: escribe algo, bórralo accidentalmente, presiona Ctrl+Z. Reacción del grupo.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S4·10</span>
+    <span class="card-title">Errores del principiante</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Normaliza los errores — todos los cometen al principio. El objetivo es que aprendan a recuperarse.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿alguien ha perdido un trabajo por no guardar? Comparte anécdota.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S4·11</span>
+    <span class="card-title">Compartir con la profa</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Demuestra el proceso completo en pantalla. Ten el correo de la profa listo para copiar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: abre un doc de prueba y compártelo. Verificar que todos reciben la notificación.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header">
+    <span class="card-num">S4·12</span>
+    <span class="card-title">IA: pídele ideas</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Tema de conversación breve. La IA puede ayudar a empezar cuando no saben qué escribir — pero ellos deben editar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar un ejemplo: prompt → respuesta IA → cómo editarla con sus propias palabras.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S4·13</span>
+    <span class="card-title">Prompt de hoy</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Leer el prompt en voz alta con los alumnos. Cambiar [tema] juntos como clase.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir a un voluntario que dicte qué poner en lugar de [mi animal favorito].</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header">
+    <span class="card-num">S4·14</span>
+    <span class="card-title">Misión: Mi primera página</span>
+    <span class="card-time">⏱ 10 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Producto de la clase. Circula para ayudar. Priorizar que todos abran el doc y escriban algo — aunque sea pocas líneas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">⏱ 10 min · Individual · Al terminar, comparten con la profa. Material M04-B.</p>
+  </div>
+</div>
+</div>
+
+<div class="nav-bar">
+  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 13</span>
+  <button id="nnext" onclick="ngo(1)">▶</button>
+</div>
+
+<!-- ── Remote sync (notes) ── -->
+<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
+  <div style="font-size:1.5rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
+  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.6">Ingresa el código que aparece en la esquina del proyector</div>
+  <input id="sync-code" type="text" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" placeholder="7KQ4" style="font-size:2.4rem;font-family:monospace;text-align:center;letter-spacing:.35em;text-transform:uppercase;width:170px;background:#1f2937;border:2px solid #374151;color:#f9fafb;border-radius:10px;padding:.5rem .8rem;outline:none">
+  <button onclick="syncConnect()" style="background:#22c55e;color:#000;border:none;border-radius:10px;padding:.85rem 2.6rem;font-size:1.1rem;font-weight:800;cursor:pointer">Conectar</button>
+  <button onclick="syncSkip()" style="background:none;border:none;color:#6b7280;font-size:.9rem;cursor:pointer;padding:.4rem 1rem">Usar sin sync</button>
+</div>
+<div id="sync-badge" style="display:none;position:fixed;top:5px;right:5px;z-index:100;background:rgba(0,0,0,.75);border:1.5px solid #22c55e;border-radius:8px;padding:.2rem .55rem;font-family:monospace;font-size:.8rem;font-weight:800;color:#22c55e;letter-spacing:.12em;backdrop-filter:blur(4px)">📡 <span id="sync-badge-room"></span></div>
+<script>
+(function(){
+  // card accordion
+  const cards=[...document.querySelectorAll('.card')];
+  let cur=0;
+  const total=13;
+  function showCard(n){
+    n=Math.max(0,Math.min(total-1,n));
+    cards.forEach((c,i)=>{
+      c.classList.remove('active','open');
+      if(i===n){c.classList.add('active','open');c.scrollIntoView({behavior:'smooth',block:'nearest'});}
+    });
+    cur=n;
+    document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
+    document.getElementById('nprev').disabled=cur===0;
+    document.getElementById('nnext').disabled=cur===total-1;
+  }
+  cards.forEach((c,i)=>{
+    c.querySelector('.card-header').addEventListener('click',()=>showCard(i));
+  });
+  window.ngo=function(d){showCard(cur+d);};
+  showCard(0);
+
+  // sync
+  const API='/.netlify/functions/sync';
+  const STORE_KEY='sync-room-v2';
+  let room='',connected=false;
+  const overlay=document.getElementById('sync-overlay');
+  const badge=document.getElementById('sync-badge');
+  const badgeRoom=document.getElementById('sync-badge-room');
+  const input=document.getElementById('sync-code');
+  let lastPushed=-2;
+  function pushSlide(){
+    if(!connected||!room)return;
+    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
+    if(!m)return;
+    const idx=parseInt(m[1])-1;
+    if(idx===lastPushed)return;
+    lastPushed=idx;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room,slide:idx})}).catch(function(){});
+  }
+  new MutationObserver(function(){clearTimeout(window._pushTimer);window._pushTimer=setTimeout(pushSlide,80);}).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
+  function connect(code){
+    room=code.toUpperCase().trim();
+    if(!room)return;
+    localStorage.setItem(STORE_KEY,room);
+    connected=true;
+    overlay.style.display='none';
+    badge.style.display='block';
+    badgeRoom.textContent=room;
+    document.getElementById('room-display').textContent=room;
+    lastPushed=-2;
+    pushSlide();
+  }
+  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
+  window.syncSkip=function(){overlay.style.display='none';};
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
+  const saved=localStorage.getItem(STORE_KEY);
+  if(saved)input.value=saved;
+})();
+</script>
+</body>
+</html>

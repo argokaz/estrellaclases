@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Repaso S05 — 6.° Primaria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#22c55e;--accent2:#7c3aed;--brand:#1e3a8a;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--warn-bg:#fef9c3;--warn-b:#fde047;--warn-t:#854d0e;}
+body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;font-size:17px;line-height:1.8;padding:0 0 80px}
+.page-header{background:linear-gradient(135deg,#1e3a8a,#2563eb,#22c55e);color:#fff;padding:32px 24px 28px;text-align:center}
+.page-header .school{font-size:13px;opacity:.8;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+.page-header .teacher{font-size:14px;opacity:.85;margin-bottom:14px}
+.page-header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,5vw,34px);font-weight:800;line-height:1.2}
+.page-header .meta{margin-top:10px;font-size:13px;opacity:.75}
+.page-header .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:8px}
+.container{max-width:780px;margin:0 auto;padding:40px 20px 0}
+.section{margin-bottom:56px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:#1e3a8a;border-bottom:3px solid #2563eb;padding-bottom:10px;margin-bottom:28px}
+.concept-card{background:#fff;border-radius:14px;border-left:5px solid #2563eb;padding:20px 22px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.concept-emoji{font-size:36px;margin-bottom:8px}
+.concept-title{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:6px}
+.concept-desc{font-size:16px;color:#475569}
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:540px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.gloss-term{font-size:20px;font-weight:700;color:#22c55e;margin-bottom:4px}
+.gloss-def{font-size:15px;color:#64748b}
+details{background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:18px}
+details summary{padding:18px 22px;font-size:17px;font-weight:600;color:#1e3a8a;cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px}
+details summary::before{content:'▶';font-size:12px;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+.ex-body{padding:0 22px 22px}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
+th{background:#1e3a8a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid #e2e8f0}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even){background:#f8fafc}
+.tf-row td:last-child{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tf-btn{display:inline-block;padding:5px 16px;border-radius:20px;border:2px solid #cbd5e1;background:#fff;cursor:pointer;font-size:14px;font-weight:600;transition:all .15s}
+.tf-btn:hover{background:#f1f5f9}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+/* exam */
+.exam-cta-wrap{border-top:2px dashed #cbd5e1;margin:56px 0 0;padding:40px 20px;text-align:center}
+.exam-cta-wrap h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:#1e3a8a;margin-bottom:10px}
+.exam-cta-wrap p{color:#64748b;margin-bottom:24px;font-size:16px}
+.exam-start-btn{display:inline-block;background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);color:#fff;border:none;border-radius:14px;padding:16px 36px;font-size:18px;font-weight:800;cursor:pointer;transition:opacity .15s;box-shadow:0 4px 20px rgba(99,102,241,.4)}
+.exam-start-btn:hover{opacity:.88}
+#eval-section{display:none;margin-top:0}
+.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;padding:12px 20px;text-align:center;font-size:14px;font-weight:700;letter-spacing:.04em}
+.eval-hero{background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);color:#fff;padding:36px 24px;text-align:center}
+.eval-badge{display:inline-block;background:#fbbf24;color:#1e3a8a;border-radius:999px;padding:4px 16px;font-size:12px;font-weight:900;letter-spacing:.06em;margin-bottom:14px}
+.eval-hero h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,32px);font-weight:800;margin-bottom:8px}
+.eval-hero p{font-size:15px;opacity:.85}
+.eval-gate-wrap{display:flex;justify-content:center;margin:32px 0}
+.eval-gate{background:#fff;border-radius:20px;padding:32px 28px;max-width:480px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.12);text-align:center}
+.gate-icon{font-size:3rem;margin-bottom:14px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#1e3a8a;margin-bottom:10px}
+.gate-p{font-size:16px;color:#64748b;margin-bottom:26px;line-height:1.75}
+.gate-label{display:block;font-size:14px;font-weight:700;color:#1e3a8a;margin-bottom:8px;text-align:left}
+.gate-input{width:100%;border:2px solid #e2e8f0;border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:#1e293b;transition:border-color .2s}
+.gate-input:focus{border-color:#22c55e}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,#22c55e,#22c55ecc);color:#000;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;transition:opacity .15s}
+.gate-btn:hover{opacity:.88}
+.already-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:14px;padding:20px 24px;color:#1d4ed8;font-size:16px;text-align:center;max-width:500px;margin:0 auto}
+.eval-container{max-width:780px;margin:0 auto;padding:24px 20px 40px}
+.eval-q{background:#fff;border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.eq-text{font-size:17px;font-weight:600;color:#1e293b;margin-bottom:16px}
+.eq-opts{display:flex;flex-direction:column;gap:10px}
+.eval-opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s;font-size:16px}
+.eval-opt:hover{background:#f8fafc;border-color:#94a3b8}
+.eval-opt input{margin-top:3px;accent-color:#22c55e;flex-shrink:0}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.eq-fb{font-size:14px;margin-top:8px;min-height:1em}
+.eval-status-bar{background:#f1f5f9;border-radius:10px;padding:12px 18px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.eval-student-name{font-weight:700;color:#1e3a8a}
+#eval-answered{font-size:14px;color:#64748b}
+.submit-btn{width:100%;background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border:none;border-radius:14px;padding:18px;font-size:18px;font-weight:800;cursor:pointer;margin-top:8px;transition:opacity .15s}
+.submit-btn:hover{opacity:.88}
+.result-box{background:#fff;border-radius:20px;padding:32px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.1);max-width:560px;margin:0 auto}
+.result-emoji{font-size:4rem;margin-bottom:12px}
+.result-score{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:900;color:#1e3a8a;margin-bottom:4px}
+.result-label{font-size:20px;font-weight:700;margin-bottom:8px}
+.result-detail{font-size:16px;color:#64748b;margin-bottom:20px}
+.result-badge{display:inline-block;border-radius:999px;padding:6px 18px;font-weight:800;font-size:14px;margin-bottom:20px}
+.result-badge.ok{background:var(--ok-bg);color:var(--ok-t)}
+.result-badge.good{background:#dbeafe;color:#1d4ed8}
+.result-badge.warn{background:var(--warn-bg);color:var(--warn-t)}
+.result-badge.low{background:var(--err-bg);color:var(--err-t)}
+.post-study{background:#eff6ff;border:2px solid #bfdbfe;border-radius:14px;padding:16px 20px;margin-top:28px;text-align:left}
+.post-study h3{font-size:16px;font-weight:700;color:#1d4ed8;margin-bottom:8px}
+.footer-note{text-align:center;color:#94a3b8;font-size:14px;margin-top:60px;padding-top:20px;border-top:1px solid #e2e8f0}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div class="school">Asunción School · Computación 2026</div>
+  <div class="teacher">Prof. Estrella Vizcarra</div>
+  <h1>📝 Guía de Repaso — Sesión 05</h1>
+  <div class="meta">6.° Primaria · ¡Le ponemos estilo! — Formato de texto</div>
+  <div class="badge">📅 12 de junio de 2026</div>
+</div>
+
+<div id="study-content">
+<div class="container">
+
+<div class="section">
+  <div class="section-title">📖 Lo que aprendimos hoy</div>
+  <div class="concept-card" style="border-left-color:#2563eb">
+    <div class="concept-emoji">🖱️</div>
+    <div class="concept-title">Seleccionar: el paso secreto</div>
+    <div class="concept-desc">Antes de aplicar cualquier formato, tienes que marcar el texto con el mouse. Sin seleccionar, nada funciona. El texto seleccionado se ve azul.</div>
+  </div>
+  <div class="concept-card" style="border-left-color:#7c3aed">
+    <div class="concept-emoji">𝐍</div>
+    <div class="concept-title">Negrita — para lo más importante</div>
+    <div class="concept-desc">Hace el texto más grueso y llamativo. Se usa para títulos y palabras clave. Atajo: Ctrl+B (B = Bold en inglés). Regla: no pongas TODO en negrita.</div>
+  </div>
+  <div class="concept-card" style="border-left-color:#16a34a">
+    <div class="concept-emoji">𝘊</div>
+    <div class="concept-title">Cursiva — para títulos y palabras especiales</div>
+    <div class="concept-desc">Inclina el texto. Se usa para títulos de libros, películas, y palabras en otro idioma. Atajo: Ctrl+I (I = Italic en inglés).</div>
+  </div>
+  <div class="concept-card" style="border-left-color:#d97706">
+    <div class="concept-emoji">S̲</div>
+    <div class="concept-title">Subrayado y color de texto</div>
+    <div class="concept-desc">El subrayado agrega una línea debajo del texto (Ctrl+U). El color de texto cambia el color de las letras. Máximo 2 colores distintos en un mismo texto.</div>
+  </div>
+  <div class="concept-card" style="border-left-color:#0d9488">
+    <div class="concept-emoji">📏</div>
+    <div class="concept-title">Tamaño de fuente</div>
+    <div class="concept-desc">El número en la barra de herramientas. El texto normal va en tamaño 11 o 12. Los títulos van más grandes, como 16 o 18. Muy pequeño es difícil de leer.</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">📚 Palabras clave</div>
+  <div class="gloss-grid">
+  <div class="gloss-item">
+    <div class="gloss-term">Formato</div>
+    <div class="gloss-def">Cambios visuales al texto: grosor, estilo, color y tamaño de letra.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Negrita</div>
+    <div class="gloss-def">Texto más grueso para resaltar. Atajo: Ctrl+B.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Cursiva</div>
+    <div class="gloss-def">Texto inclinado para títulos especiales. Atajo: Ctrl+I.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Subrayado</div>
+    <div class="gloss-def">Línea debajo del texto. Atajo: Ctrl+U.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Seleccionar</div>
+    <div class="gloss-def">Marcar el texto con el mouse antes de darle formato.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Fuente</div>
+    <div class="gloss-def">El tipo y tamaño de letra que usas en el documento.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Ctrl+Z</div>
+    <div class="gloss-def">Deshacer el último cambio. El 'botón mágico' si te equivocas.</div>
+  </div>
+  <div class="gloss-item">
+    <div class="gloss-term">Barra de herramientas</div>
+    <div class="gloss-def">La franja con botones en la parte superior de Google Docs.</div>
+  </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">✏️ Ejercicios de práctica</div>
+  <p style="color:#475569;margin-bottom:20px">Practica antes de la evaluación. Puedes intentarlo las veces que quieras.</p>
+  <details>
+    <summary>⌨️ Ejercicio 1 — ¿Qué hace cada atajo?</summary>
+    <div class="ex-body"><p style="font-size:15px;color:#475569;margin-bottom:10px">¿Qué hace cada atajo de teclado?</p><table>
+<tr><th>Atajo</th><th>¿Qué hace?</th></tr>
+<tr><td><strong>Ctrl+B</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Negrita','Negrita')">Negrita</button><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Negrita')">Cursiva</button><button class="tf-btn" onclick="clsCheck(this,'Guardar','Negrita')">Guardar</button></td></tr>
+<tr><td><strong>Ctrl+I</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Cursiva')">Cursiva</button><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Cursiva')">Subrayado</button><button class="tf-btn" onclick="clsCheck(this,'Negrita','Cursiva')">Negrita</button></td></tr>
+<tr><td><strong>Ctrl+U</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Subrayado')">Subrayado</button><button class="tf-btn" onclick="clsCheck(this,'Color','Subrayado')">Color</button><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Subrayado')">Cursiva</button></td></tr>
+<tr><td><strong>Ctrl+Z</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Deshacer','Deshacer')">Deshacer</button><button class="tf-btn" onclick="clsCheck(this,'Guardar','Deshacer')">Guardar</button><button class="tf-btn" onclick="clsCheck(this,'Negrita','Deshacer')">Negrita</button></td></tr>
+<tr><td><strong>Ctrl+S</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Guardar','Guardar')">Guardar</button><button class="tf-btn" onclick="clsCheck(this,'Deshacer','Guardar')">Deshacer</button><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Guardar')">Subrayado</button></td></tr>
+</table></div>
+  </details>
+  <details>
+    <summary>✅ Ejercicio 2 — ¿Verdadero o Falso?</summary>
+    <div class="ex-body"><table>
+<tr><th>Afirmación</th><th>¿Verdadero o Falso?</th></tr>
+<tr class="tf-row"><td>Puedes aplicar negrita sin seleccionar el texto primero.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
+<tr class="tf-row"><td>Ctrl+B pone el texto en negrita.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
+<tr class="tf-row"><td>Es buena idea poner todo el texto en negrita para que se vea importante.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
+<tr class="tf-row"><td>El tamaño normal para el texto en un documento es 11 o 12.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
+<tr class="tf-row"><td>Ctrl+Z deshace el último cambio.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
+<tr class="tf-row"><td>Puedes usar todos los colores que quieras en un texto.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
+</table></div>
+  </details>
+</div>
+
+</div><!-- /container -->
+</div><!-- /study-content -->
+
+<!-- Botón de transición -->
+<div class="exam-cta-wrap" id="exam-cta">
+  <h2>🎯 ¿Listo para la evaluación?</h2>
+  <p>Al comenzar, el material de estudio se ocultará. Tenés <strong>un solo intento</strong>.</p>
+  <button class="exam-start-btn" onclick="enterExamMode()">✅ Comenzar Evaluación →</button>
+</div>
+
+<!-- Sección de evaluación -->
+<div id="eval-section">
+  <div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>
+  <div class="eval-hero">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <h2>🎯 Evaluación de la Clase</h2>
+    <p>Sesión 05 · 6.° Primaria · 10 preguntas · 20 puntos</p>
+  </div>
+
+  <div class="eval-container">
+    <div id="eval-gate-wrap">
+      <div class="eval-gate-wrap">
+        <div class="eval-gate">
+          <div class="gate-icon">📝</div>
+          <div class="gate-h">Antes de comenzar</div>
+          <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+          <label class="gate-label">Nombre</label>
+          <input id="gate-nombre" class="gate-input" type="text" placeholder="Tu nombre…" maxlength="60"
+            onkeydown="if(event.key==='Enter') document.getElementById('gate-apellido').focus()">
+          <label class="gate-label">Apellido</label>
+          <input id="gate-apellido" class="gate-input" type="text" placeholder="Tu apellido…" maxlength="60"
+            onkeydown="if(event.key==='Enter') startEval('prim6')">
+          <button class="gate-btn" onclick="startEval('prim6')">Comenzar evaluación →</button>
+        </div>
+      </div>
+    </div>
+    <div id="eval-body" style="display:none">
+      <div class="eval-status-bar">
+        <span>Evaluando: <span class="eval-student-name" id="eval-student-name"></span></span>
+        <span id="eval-answered">0 / 10 respondidas</span>
+      </div>
+      <span id="eval-grade-key" data-grade="prim6" data-session="05" style="display:none"></span>
+<div class="eval-q" id="eq1">
+  <p class="eq-text"><strong>1.</strong> ¿Qué debes hacer ANTES de aplicar cualquier formato?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Guardar el documento</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()" data-correct="true"> <span>B) Seleccionar el texto</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Abrir un doc nuevo</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Presionar Ctrl+Z</span></label>
+</div>
+  <p class="eq-fb" id="fb1"></p>
+</div>
+<div class="eval-q" id="eq2">
+  <p class="eq-text"><strong>2.</strong> ¿Qué atajo pone el texto en negrita?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Ctrl+I</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Ctrl+U</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Ctrl+B</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Ctrl+Z</span></label>
+</div>
+  <p class="eq-fb" id="fb2"></p>
+</div>
+<div class="eval-q" id="eq3">
+  <p class="eq-text"><strong>3.</strong> ¿Para qué se usa la cursiva?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Hacer el texto más grande</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Borrar el texto</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Títulos de libros y palabras en otro idioma</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Guardar el archivo</span></label>
+</div>
+  <p class="eq-fb" id="fb3"></p>
+</div>
+<div class="eval-q" id="eq4">
+  <p class="eq-text"><strong>4.</strong> ¿Cuál es el tamaño de fuente recomendado para el texto normal?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Tamaño 6</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()" data-correct="true"> <span>B) Tamaño 11 o 12</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Tamaño 36</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Tamaño 100</span></label>
+</div>
+  <p class="eq-fb" id="fb4"></p>
+</div>
+<div class="eval-q" id="eq5">
+  <p class="eq-text"><strong>5.</strong> ¿Qué significa la 'B' en Ctrl+B?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Borrar</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Buscar</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Bold (negrita en inglés)</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Blanco</span></label>
+</div>
+  <p class="eq-fb" id="fb5"></p>
+</div>
+<div class="eval-q" id="eq6">
+  <p class="eq-text"><strong>6.</strong> ¿Cuántos colores distintos se recomienda usar máximo en un texto?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Los que quieras</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Solo uno</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Dos</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Cinco</span></label>
+</div>
+  <p class="eq-fb" id="fb6"></p>
+</div>
+<div class="eval-q" id="eq7">
+  <p class="eq-text"><strong>7.</strong> ¿Qué hace Ctrl+Z?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Guarda el documento</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Pone el texto en negrita</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Abre un doc nuevo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Deshace el último cambio</span></label>
+</div>
+  <p class="eq-fb" id="fb7"></p>
+</div>
+<div class="eval-q" id="eq8">
+  <p class="eq-text"><strong>8.</strong> ¿Qué cambias para que el título se vea más grande que el texto?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) El color del texto</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) La negrita</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) El tamaño de fuente</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) El subrayado</span></label>
+</div>
+  <p class="eq-fb" id="fb8"></p>
+</div>
+<div class="eval-q" id="eq9">
+  <p class="eq-text"><strong>9.</strong> ¿Qué atajo de teclado subraya el texto?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Ctrl+B</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Ctrl+I</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Ctrl+S</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Ctrl+U</span></label>
+</div>
+  <p class="eq-fb" id="fb9"></p>
+</div>
+<div class="eval-q" id="eq10">
+  <p class="eq-text"><strong>10.</strong> ¿Cuál es un error común de formato?</p>
+  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Poner el título en negrita</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Usar tamaño 12 para el texto</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Usar cursiva para el título de un libro</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Poner TODO el texto en negrita</span></label>
+</div>
+  <p class="eq-fb" id="fb10"></p>
+</div>
+
+      <button class="submit-btn" onclick="submitEval()">📤 Enviar evaluación</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">Guía de Repaso · Asunción School · Computación 2026</div>
+
+<script>
+function tfCheck(btn,val,correct){
+  const row=btn.closest('tr');
+  row.querySelectorAll('.tf-btn').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=true;});
+  btn.classList.add(val===correct?'correct':'wrong');
+  if(val!==correct){row.querySelectorAll('.tf-btn').forEach(b=>{if(b!==btn&&b.textContent.trim()===(correct==='V'?'Verdadero':'Falso'))b.classList.add('correct');});}
+}
+function clsCheck(btn,val,correct){
+  const row=btn.closest('tr');
+  row.querySelectorAll('.tf-btn').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=true;});
+  btn.classList.add(val===correct?'correct':'wrong');
+  if(val!==correct){row.querySelectorAll('.tf-btn').forEach(b=>{if(b!==btn&&b.textContent.trim()===correct)b.classList.add('correct');});}
+}
+function enterExamMode(){
+  if(!confirm('¿Comenzar la evaluación? El material de estudio se ocultará.'))return;
+  document.getElementById('study-content').style.display='none';
+  document.getElementById('exam-cta').style.display='none';
+  document.getElementById('eval-section').style.display='block';
+}
+let _name='',_grade='',_session='';
+function startEval(grade){
+  const inpN=document.getElementById('gate-nombre');
+  const inpA=document.getElementById('gate-apellido');
+  const nombre=inpN.value.trim();
+  const apellido=inpA.value.trim();
+  let ok=true;
+  if(nombre.length<2){inpN.classList.add('err');inpN.focus();ok=false;}else{inpN.classList.remove('err');}
+  if(apellido.length<2){inpA.classList.add('err');if(ok)inpA.focus();ok=false;}else{inpA.classList.remove('err');}
+  if(!ok)return;
+  const name=nombre+' '+apellido;
+  _name=name;_grade=grade;
+  const gkEl=document.getElementById('eval-grade-key');
+  _session=gkEl?gkEl.dataset.session:'00';
+  const lsKey='eval-'+_session+'-'+grade;
+  const saved=localStorage.getItem(lsKey);
+  if(saved){
+    const r=JSON.parse(saved);
+    document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
+    showResult(r);return;
+  }
+  document.getElementById('eval-gate-wrap').style.display='none';
+  document.getElementById('eval-body').style.display='block';
+  document.getElementById('eval-student-name').textContent=name;
+  updateAnswered();
+}
+function updateAnswered(){
+  const qs=document.querySelectorAll('.eval-q');
+  let ans=0;
+  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
+  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
+}
+function submitEval(){
+  const qs=document.querySelectorAll('.eval-q');
+  let score=0,correct=0;
+  const respuestas={};
+  let allAnswered=true;
+  qs.forEach((q,i)=>{
+    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
+    if(!sel){allAnswered=false;return;}
+    const opt=q.querySelectorAll('.eval-opt')[['A','B','C','D'].indexOf(sel.value)];
+    const radio=q.querySelector('input[data-correct="true"]');
+    const isCorrect=radio&&sel.value===radio.value;
+    respuestas['q'+(i+1)]={respuesta:sel.value,correcto:isCorrect};
+    if(isCorrect){score+=2;correct++;opt.classList.add('correct');}
+    else{opt.classList.add('wrong');if(radio){const cidx=['A','B','C','D'].indexOf(radio.value);q.querySelectorAll('.eval-opt')[cidx].classList.add('correct');}};
+    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
+    const fb=document.getElementById('fb'+(i+1));
+    if(fb)fb.textContent=isCorrect?'✅ ¡Correcto!':'❌ Revisa la respuesta correcta arriba.';
+  });
+  if(!allAnswered){alert('Por favor responde todas las preguntas antes de enviar.');return;}
+  document.querySelector('.submit-btn').disabled=true;
+  const fecha=new Date().toLocaleDateString('es-PY',{day:'2-digit',month:'2-digit',year:'numeric'});
+  const result={name:_name,grade:_grade,score,correct,total:qs.length,fecha,respuestas};
+  localStorage.setItem('eval-'+_session+'-'+_grade,JSON.stringify(result));
+  fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'05',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});
+  showResult(result);
+  document.getElementById('study-content').style.display='block';
+  const postStudy=document.createElement('div');
+  postStudy.className='post-study';postStudy.style.margin='0 20px 40px';
+  postStudy.innerHTML='<h3>📖 ¿Qué puedes mejorar?</h3><p style="font-size:15px;color:#1e40af">Revisa los conceptos donde te equivocaste y practica los ejercicios de arriba.</p>';
+  document.getElementById('eval-section').appendChild(postStudy);
+}
+function showResult(r){
+  const levels=[[18,'🏆','Excelente','ok'],[14,'⭐','Bueno','good'],[10,'📈','En proceso','warn'],[0,'📚','Necesita refuerzo','low']];
+  const [,em,label,cls]=levels.find(([min])=>r.score>=min);
+  const html=`<div class="result-box"><div class="result-emoji">${em}</div>
+    <div class="result-score">${r.score}/20</div>
+    <div class="result-label">Sesión 05 — ${r.name}</div>
+    <div class="result-detail">${r.correct} de ${r.total} preguntas correctas</div>
+    <div class="result-badge ${cls}">${label}</div></div>`;
+  const wrap=document.getElementById('eval-body');
+  if(wrap){const rb=document.createElement('div');rb.innerHTML=html;wrap.prepend(rb);}
+}
+document.addEventListener('DOMContentLoaded',function(){
+  const gk=document.getElementById('eval-grade-key');
+  if(!gk)return;
+  const grade=gk.dataset.grade;
+  const session=gk.dataset.session||'00';
+  const lsKey='eval-'+session+'-'+grade;
+  const saved=localStorage.getItem(lsKey);
+  if(!saved)return;
+  const r=JSON.parse(saved);
+  document.getElementById('exam-cta').innerHTML='<div class="already-box" style="margin:0 auto;max-width:560px">✅ Ya completaste esta evaluación como <strong>'+r.name+'</strong>. Puntaje: <strong>'+r.score+'/20</strong>.</div>';
+});
+</script>
+</body>
+</html>

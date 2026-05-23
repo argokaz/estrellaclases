@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S5 · 6.° Primaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #22c55e;padding:.6rem 1rem;
+  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#22c55e;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
+  color:#22c55e;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#22c55e;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
+  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#22c55e;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+/* Highlight apunta cards */
+.card[id="card-6"] .card-header,
+.card[id="card-10"] .card-header{background:rgba(251,191,36,.08);border-left:3px solid #fbbf24;}
+.card[id="card-6"] .card-num,
+.card[id="card-10"] .card-num{color:#fbbf24;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
+  border-top:2px solid #22c55e;display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#22c55e;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
+  border:1px solid #22c55e;border-radius:8px;padding:.25rem .7rem;
+  font-family:monospace;font-size:.85rem;font-weight:700;color:#22c55e;opacity:.9;display:none;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 5 · 6.° Primaria</div>
+    <div class="tema">¡Le ponemos estilo! — Formato de texto en Google Docs</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header" onclick="toggleCard(0)">
+    <span class="card-num">S5·2</span>
+    <span class="card-title">¿Qué cambia el formato?</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Muestra el antes y el después en pantalla. Pregunta: '¿cuál es más fácil de leer?' Sin lectura, solo visual.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Señala cada lado del slide y espera respuestas espontáneas. No expliques todavía.</p>
+  </div>
+</div>
+<div class="card" id="card-1">
+  <div class="card-header" onclick="toggleCard(1)">
+    <span class="card-num">S5·3</span>
+    <span class="card-title">El paso secreto: seleccionar</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Este es el error número uno de los alumnos — aplican formato sin seleccionar. Enfatiza: sin selección, nada funciona.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo: escribe una frase, selecciona con el mouse y muestra el azul de selección. Pide que lo repitan.</p>
+  </div>
+</div>
+<div class="card" id="card-2">
+  <div class="card-header" onclick="toggleCard(2)">
+    <span class="card-num">S5·4</span>
+    <span class="card-title">Las 4 herramientas</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Señala cada tarjeta: negrita, cursiva, subrayado, color. No profundices aún — solo presentar los 4 nombres.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: '¿alguien sabe cuál es el atajo de negrita?' Deja que adivinen antes de avanzar.</p>
+  </div>
+</div>
+<div class="card" id="card-3">
+  <div class="card-header" onclick="toggleCard(3)">
+    <span class="card-num">S5·5</span>
+    <span class="card-title">Negrita — Ctrl+B</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">B = Bold en inglés. Úsala para títulos y palabras clave, NO para todo el texto. Menos es más.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: selecciona una palabra → Ctrl+B. Luego pide que lo hagan ellos en su doc. Verifica que lo logren.</p>
+  </div>
+</div>
+<div class="card" id="card-4">
+  <div class="card-header" onclick="toggleCard(4)">
+    <span class="card-num">S5·6</span>
+    <span class="card-title">Mini quiz — seleccionar primero</span>
+    <span class="card-time">⏱ 2 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: B) Seleccionar el texto primero. Es el repaso del paso secreto.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación con dedos: 1 = A, 2 = B, 3 = C. Celebra los correctos con entusiasmo.</p>
+  </div>
+</div>
+<div class="card" id="card-5">
+  <div class="card-header" onclick="toggleCard(5)">
+    <span class="card-num">S5·7</span>
+    <span class="card-title">Cursiva — Ctrl+I</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">I = Italic. Úsala para títulos de libros/películas y palabras en otro idioma. Menos frecuente que negrita.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejemplo real: '¿Cómo escribirías el título de tu película favorita?' Pide un voluntario.</p>
+  </div>
+</div>
+<div class="card" id="card-6">
+  <div class="card-header" onclick="toggleCard(6)">
+    <span class="card-num">S5·8</span>
+    <span class="card-title">✏️ APUNTA — Las teclas mágicas</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Momento de cuaderno. Espera que TODOS saquen el cuaderno y el lápiz antes de continuar. No avances hasta que estén listos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Dicta lento: Ctrl+B (negrita), Ctrl+I (cursiva), Ctrl+U (subrayado), Ctrl+Z (deshacer), Ctrl+S (guardar). Pausa entre cada uno.</p>
+  </div>
+</div>
+<div class="card" id="card-7">
+  <div class="card-header" onclick="toggleCard(7)">
+    <span class="card-num">S5·9</span>
+    <span class="card-title">Subrayado y color de texto</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Ctrl+U = Underline. El color está en el botón A con rayita de color. Regla clave: máximo 2 colores distintos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo rápida de ambos. Pregunta: '¿dónde está el botón de color de texto en la barra?'</p>
+  </div>
+</div>
+<div class="card" id="card-8">
+  <div class="card-header" onclick="toggleCard(8)">
+    <span class="card-num">S5·10</span>
+    <span class="card-title">Tamaño de fuente</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El número en la barra. Texto normal: 11 o 12. Títulos: 16-18. Mostrar los tres tamaños del slide.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide que cambien el tamaño de su nombre a 18. Verifica visualmente que lo hicieron.</p>
+  </div>
+</div>
+<div class="card" id="card-9">
+  <div class="card-header" onclick="toggleCard(9)">
+    <span class="card-num">S5·11</span>
+    <span class="card-title">Errores comunes de formato</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El error más común: poner TODO en negrita. Pierde su función. También: demasiados colores, texto muy pequeño.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Señala el lado ❌ y pregunta '¿han visto esto antes?' Conexión con experiencia propia.</p>
+  </div>
+</div>
+<div class="card" id="card-10">
+  <div class="card-header" onclick="toggleCard(10)">
+    <span class="card-num">S5·12</span>
+    <span class="card-title">✏️ APUNTA — La regla de la IA</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Segundo momento de cuaderno. La IA sugiere, el alumno decide y aplica. Esta regla vale para toda la clase.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Dicta la regla: 'La IA sugiere — yo decido y aplico'. Espera que todos la escriban.</p>
+  </div>
+</div>
+<div class="card" id="card-11">
+  <div class="card-header" onclick="toggleCard(11)">
+    <span class="card-num">S5·13</span>
+    <span class="card-title">Prompt para formato</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Muestra el prompt en pantalla. El alumno pega su texto, lee la sugerencia y aplica manualmente en Docs.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo si hay tiempo. Si no, es el prompt de tarea para la semana.</p>
+  </div>
+</div>
+<div class="card" id="card-12">
+  <div class="card-header" onclick="toggleCard(12)">
+    <span class="card-num">S5·14</span>
+    <span class="card-title">🎯 Misión: ¡Decoro mi página!</span>
+    <span class="card-time">⏱ 10 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Abren el doc de S04. Aplican: negrita en el nombre, cursiva+tamaño 16 en un título, un color, Ctrl+S al final.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circula por las mesas. Verifica que seleccionen antes de aplicar. Ayuda a quien está atascado.</p>
+  </div>
+</div>
+<div class="card" id="card-13">
+  <div class="card-header" onclick="toggleCard(13)">
+    <span class="card-num">S5·15</span>
+    <span class="card-title">🚀 Para recordar + ticket</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Tres mensajes: 1) Selecciona primero. 2) Aplica formato. 3) Menos es más. Luego el ticket en el cuaderno.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Lee el ticket en voz alta. Espera 90 segundos para que lo escriban. Recoge si usas papel.</p>
+  </div>
+</div>
+</div>
+
+<div class="nav-bar">
+  <button id="btn-prev" onclick="show(cur-1)" disabled>◀</button>
+  <span id="ncounter">1 / 14</span>
+  <button id="btn-next" onclick="show(cur+1)">▶</button>
+</div>
+<div class="sync-badge" id="sync-badge">📡 <span id="sync-badge-room"></span></div>
+
+<script>
+let cur=0;
+const cards=Array.from(document.querySelectorAll('.card'));
+const total=14;
+function show(n){
+  if(n<0||n>=total)return;
+  cards[cur].classList.remove('active');
+  cur=n;
+  cards[cur].classList.add('active','open');
+  cards[cur].scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=cur===0;
+  document.getElementById('btn-next').disabled=cur===total-1;
+}
+function toggleCard(n){document.getElementById('card-'+n).classList.toggle('open');}
+show(0);
+</script>
+
+<!-- Remote sync (notas) -->
+<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.96);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;">
+  <div style="font-size:1.3rem;font-weight:800;color:#22c55e">📡 Remote Sync</div>
+  <div style="color:#ccc;text-align:center;font-size:.95rem">Ingresa el código que aparece en la esquina del proyector</div>
+  <input id="sync-code" type="text" maxlength="4" autocapitalize="characters"
+    style="font-size:2rem;text-align:center;width:8rem;padding:.5rem;
+      border:2px solid #22c55e;border-radius:8px;background:#111;color:#22c55e;
+      font-weight:900;letter-spacing:.2em;font-family:monospace;">
+  <button onclick="syncConnect()"
+    style="background:#22c55e;color:#000;border:none;border-radius:8px;padding:.6rem 2rem;font-size:1.1rem;font-weight:800;cursor:pointer;">Conectar</button>
+  <button onclick="syncSkip()"
+    style="background:transparent;color:#666;border:1px solid #444;border-radius:8px;padding:.4rem 1.5rem;font-size:.9rem;cursor:pointer;">Usar sin sync</button>
+</div>
+<script>
+(function(){
+  const API='/.netlify/functions/sync';
+  const STORE_KEY='sync-room-v2';
+  let room='',connected=false,lastPushed=-2;
+  const overlay=document.getElementById('sync-overlay');
+  const badge=document.getElementById('sync-badge');
+  const badgeRoom=document.getElementById('sync-badge-room');
+  const input=document.getElementById('sync-code');
+  function pushSlide(){
+    if(!connected||!room)return;
+    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
+    if(!m)return;
+    const idx=parseInt(m[1])-1;
+    if(idx===lastPushed)return;
+    lastPushed=idx;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({room,slide:idx})}).catch(function(){});
+  }
+  new MutationObserver(function(){
+    clearTimeout(window._pushTimer);
+    window._pushTimer=setTimeout(pushSlide,80);
+  }).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
+  function connect(code){
+    room=code.toUpperCase().trim();
+    localStorage.setItem(STORE_KEY,room);
+    connected=true;
+    overlay.style.display='none';
+    badge.style.display='block';
+    badgeRoom.textContent=room;
+    document.getElementById('room-display').textContent=room;
+    lastPushed=-2;pushSlide();
+  }
+  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
+  window.syncSkip=function(){overlay.style.display='none';};
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
+  const saved=localStorage.getItem(STORE_KEY);
+  if(saved)input.value=saved;
+})();
+</script>
+</body>
+</html>

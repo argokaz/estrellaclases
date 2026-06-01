@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>📊 Mi Progreso · Asunción School</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060d1f;
+  --card:#0d1a35;
+  --border:rgba(255,255,255,.1);
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --accent:#4f8ef7;
+  --fs-base:1rem;
+  --fs-sm:.875rem;
+  --radius:14px;
+}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding:0 0 3rem;}
+
+/* Header */
+.site-header{background:linear-gradient(135deg,#0d1a35,#1a2a50);padding:1.4rem 1.2rem 1rem;text-align:center;border-bottom:1px solid var(--border);}
+.site-header h1{font-size:1.4rem;font-weight:900;color:#f59e0b;margin-bottom:.25rem;}
+.site-header p{font-size:.85rem;color:var(--muted);}
+.back-link{display:inline-block;margin:.7rem 0 0;font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .15s;}
+.back-link:hover{color:var(--accent);}
+
+/* Main container */
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem;}
+
+/* Search card */
+.search-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;}
+.search-card h2{font-size:1.05rem;font-weight:800;margin-bottom:1.1rem;color:var(--text);}
+.form-group{margin-bottom:.85rem;}
+.form-group label{display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.38rem;}
+.form-group input,
+.form-group select{
+  width:100%;
+  background:#1a2240;
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--text);
+  padding:.55rem .75rem;
+  border-radius:10px;
+  font-size:.93rem;
+  font-family:inherit;
+  transition:border-color .15s;
+  outline:none;
+}
+.form-group input:focus,
+.form-group select:focus{border-color:var(--accent);}
+.form-row{display:flex;gap:.7rem;}
+.form-row .form-group{flex:1;}
+.search-btn{
+  width:100%;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:.65rem;
+  font-size:.97rem;
+  font-weight:800;
+  cursor:pointer;
+  font-family:inherit;
+  margin-top:.4rem;
+  transition:background .15s,transform .1s;
+}
+.search-btn:hover{background:#3a7de0;transform:translateY(-1px);}
+.search-btn:active{transform:translateY(0);}
+.search-error{font-size:.82rem;color:#f87171;margin-top:.5rem;min-height:1.1em;}
+
+/* Profile */
+#perfil{display:none;}
+.profile-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;}
+.profile-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
+.profile-name{font-size:1.2rem;font-weight:900;color:var(--text);line-height:1.2;}
+.profile-grade{font-size:.82rem;color:var(--muted);margin-top:.2rem;}
+.rank-badge{
+  background:linear-gradient(135deg,#312e81,#1d4ed8);
+  border-radius:12px;
+  padding:.55rem .9rem;
+  text-align:center;
+  flex-shrink:0;
+}
+.rank-num{font-size:1.4rem;font-weight:900;color:#f59e0b;line-height:1;}
+.rank-label{font-size:.65rem;color:#94a3b8;margin-top:.15rem;}
+.rank-of{font-size:.72rem;color:#94a3b8;margin-top:.1rem;}
+
+.encourage-msg{
+  border-radius:10px;
+  padding:.75rem 1rem;
+  font-size:.92rem;
+  font-weight:700;
+  margin-top:.9rem;
+}
+.encourage-msg.top3{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3);}
+.encourage-msg.good{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.25);}
+.encourage-msg.keep{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.25);}
+
+.stats-row{display:flex;gap:.7rem;margin-top:1rem;}
+.stat-box{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center;}
+.stat-val{font-size:1.3rem;font-weight:900;color:var(--accent);}
+.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:.15rem;}
+
+/* Section */
+.section-title{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:1.2rem 0 .6rem;}
+.data-table{width:100%;border-collapse:collapse;font-size:.85rem;}
+.data-table th{text-align:left;padding:.45rem .6rem;color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
+.data-table td{padding:.55rem .6rem;border-bottom:1px solid rgba(255,255,255,.04);}
+.data-table tr:last-child td{border:none;}
+.data-table .score-cell{font-weight:800;}
+.score-ok{color:#22c55e;}
+.score-fail{color:#f87171;}
+.status-ok{color:#22c55e;}
+.status-fail{color:#f87171;}
+
+.bonus-row-pos{color:#22c55e;}
+.bonus-row-neg{color:#f87171;}
+
+.total-pts-box{
+  background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);
+  border-radius:12px;
+  padding:1rem 1.2rem;
+  text-align:center;
+  margin-top:.5rem;
+}
+.total-pts-val{font-size:2rem;font-weight:900;color:#fff;}
+.total-pts-lbl{font-size:.78rem;color:rgba(255,255,255,.7);margin-top:.2rem;}
+
+.no-data{color:var(--muted);font-size:.88rem;font-style:italic;padding:.5rem 0;}
+
+.btn-back-search{
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  color:var(--text);
+  border-radius:10px;
+  padding:.6rem;
+  font-size:.9rem;
+  font-weight:700;
+  cursor:pointer;
+  font-family:inherit;
+  margin-top:1rem;
+  transition:background .15s;
+}
+.btn-back-search:hover{background:rgba(255,255,255,.1);}
+
+.loading-msg{text-align:center;color:var(--muted);padding:2rem;font-size:.92rem;}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <h1>📊 Mi Progreso · Asunción School</h1>
+  <p>Computación 2026 · Prof. Estrella Vizcarra</p>
+  <a href="/" class="back-link">← Volver al inicio</a>
+</div>
+
+<div class="container">
+
+  <!-- BUSCADOR -->
+  <div id="buscador">
+    <div class="search-card">
+      <h2>🔍 Buscar mi progreso</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="inp-nombre">Nombre</label>
+          <input id="inp-nombre" type="text" placeholder="Ej: María" autocomplete="given-name"
+            onkeydown="if(event.key==='Enter')document.getElementById('inp-apellido').focus()">
+        </div>
+        <div class="form-group">
+          <label for="inp-apellido">Apellido</label>
+          <input id="inp-apellido" type="text" placeholder="Ej: García" autocomplete="family-name"
+            onkeydown="if(event.key==='Enter')buscar()">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="sel-grado">Grado</label>
+        <select id="sel-grado" onchange="updateAccent()">
+          <option value="prim6">6.° Primaria</option>
+          <option value="sec2">2.° Secundaria</option>
+          <option value="sec3">3.° Secundaria</option>
+          <option value="sec4">4.° Secundaria</option>
+          <option value="sec5">5.° Secundaria</option>
+        </select>
+      </div>
+      <button class="search-btn" onclick="buscar()">Ver mi progreso</button>
+      <div class="search-error" id="search-error"></div>
+    </div>
+  </div>
+
+  <!-- PERFIL -->
+  <div id="perfil">
+    <div id="perfil-content"></div>
+    <button class="btn-back-search" onclick="volverBuscador()">🔍 Buscar otro alumno</button>
+  </div>
+
+</div>
+
+<script>
+const GRADE_ACCENTS = {
+  prim6: '#22c55e',
+  sec2:  '#60a5fa',
+  sec3:  '#fb923c',
+  sec4:  '#c084fc',
+  sec5:  '#f87171',
+};
+
+const GRADE_LABELS = {
+  prim6: '6.° Primaria',
+  sec2:  '2.° Secundaria',
+  sec3:  '3.° Secundaria',
+  sec4:  '4.° Secundaria',
+  sec5:  '5.° Secundaria',
+};
+
+function updateAccent(){
+  const grado = document.getElementById('sel-grado').value;
+  const color = GRADE_ACCENTS[grado] || '#4f8ef7';
+  document.querySelector('.search-btn').style.background = color;
+}
+
+function volverBuscador(){
+  document.getElementById('perfil').style.display = 'none';
+  document.getElementById('buscador').style.display = '';
+}
+
+async function buscar(){
+  const nombre = (document.getElementById('inp-nombre').value || '').trim();
+  const apellido = (document.getElementById('inp-apellido').value || '').trim();
+  const grado = document.getElementById('sel-grado').value;
+  const errEl = document.getElementById('search-error');
+
+  if(nombre.length < 2){
+    errEl.textContent = '⚠️ Ingresa tu nombre (mínimo 2 caracteres).';
+    document.getElementById('inp-nombre').focus();
+    return;
+  }
+  if(apellido.length < 2){
+    errEl.textContent = '⚠️ Ingresa tu apellido (mínimo 2 caracteres).';
+    document.getElementById('inp-apellido').focus();
+    return;
+  }
+  errEl.textContent = '';
+
+  const nombreCompleto = nombre + ' ' + apellido;
+
+  document.getElementById('buscador').style.display = 'none';
+  document.getElementById('perfil').style.display = '';
+  document.getElementById('perfil-content').innerHTML = '<div class="loading-msg">⏳ Buscando tu progreso…</div>';
+
+  try {
+    const url = `/.netlify/functions/get-progress?nombre=${encodeURIComponent(nombreCompleto)}&grado=${encodeURIComponent(grado)}`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    if(!data.found){
+      document.getElementById('perfil-content').innerHTML = `
+        <div class="profile-card" style="text-align:center;">
+          <div style="font-size:2rem;margin-bottom:.7rem;">😕</div>
+          <div style="font-weight:700;margin-bottom:.4rem;">No encontramos tu registro</div>
+          <div style="color:#64748b;font-size:.88rem;">Verifica que tu nombre y grado sean correctos, o que hayas completado al menos una evaluación.</div>
+        </div>`;
+      return;
+    }
+
+    renderPerfil(data, grado);
+  } catch(e){
+    document.getElementById('perfil-content').innerHTML = `
+      <div class="profile-card" style="text-align:center;color:#f87171;">
+        ⚠️ Error al conectar. Intenta de nuevo más tarde.
+      </div>`;
+  }
+}
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+function getEncourageMsg(rank, totalStudents){
+  if(!rank) return {cls:'keep', msg:'💪 ¡Sigue adelante! Completa más evaluaciones.'};
+  if(rank <= 3) return {cls:'top3', msg:'🔥 ¡Estás entre los mejores! ¡Sigue así!'};
+  if(rank <= Math.ceil(totalStudents / 2)) return {cls:'good', msg:'👍 ¡Buen trabajo! Estás en la primera mitad del ranking.'};
+  return {cls:'keep', msg:'💪 ¡Sigue adelante! Cada evaluación suma puntos.'};
+}
+
+function renderPerfil(data, grado){
+  const accent = GRADE_ACCENTS[grado] || '#4f8ef7';
+  const gradeLabel = GRADE_LABELS[grado] || grado;
+
+  // Calc totals
+  const evals = data.evals || [];
+  const bonuses = data.bonuses || [];
+  const avgEval = evals.length > 0
+    ? Math.round((evals.reduce((a,b)=>a+b.score,0)/evals.length)*10)/10
+    : 0;
+  const sesiones = new Set(evals.map(e=>e.sesion)).size;
+  const bonusTotal = bonuses.reduce((a,b)=>a+b.puntos,0);
+  const totalPts = Math.round((avgEval*10 + sesiones*10 + bonusTotal)*10)/10;
+
+  // Rank badge
+  let rankHtml = '';
+  if(data.rank){
+    rankHtml = `
+    <div class="rank-badge" style="background:linear-gradient(135deg,#312e81,#1d4ed8)">
+      <div class="rank-num" style="color:${accent}">#${data.rank}</div>
+      <div class="rank-label">Ranking</div>
+      <div class="rank-of">de ${data.totalStudents}</div>
+    </div>`;
+  }
+
+  // Encourage
+  const enc = getEncourageMsg(data.rank, data.totalStudents);
+
+  // Evals table
+  let evalsHtml = '';
+  if(evals.length === 0){
+    evalsHtml = '<div class="no-data">Sin evaluaciones registradas.</div>';
+  } else {
+    const rows = evals.map(ev => {
+      const passed = ev.score >= 6;
+      return `<tr>
+        <td>Sesión ${ev.sesion}</td>
+        <td>${fmtDate(ev.fecha)}</td>
+        <td class="score-cell ${passed?'score-ok':'score-fail'}">${ev.score}/10</td>
+        <td class="${passed?'status-ok':'status-fail'}">${passed?'✅':'❌'}</td>
+      </tr>`;
+    }).join('');
+    evalsHtml = `<table class="data-table">
+      <thead><tr><th>Sesión</th><th>Fecha</th><th>Nota</th><th>Estado</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+  }
+
+  // Bonus table
+  let bonusHtml = '';
+  if(bonuses.length > 0){
+    const rows = bonuses.map(b => {
+      const cls = b.puntos > 0 ? 'bonus-row-pos' : 'bonus-row-neg';
+      const sign = b.puntos > 0 ? '+' : '';
+      return `<tr>
+        <td>${fmtDate(b.fecha)}</td>
+        <td class="${cls}">${sign}${b.puntos} pts</td>
+        <td>${b.razon || '—'}</td>
+      </tr>`;
+    }).join('');
+    bonusHtml = `
+      <div class="section-title">⭐ Historial de puntos extra</div>
+      <div class="profile-card">
+        <table class="data-table">
+          <thead><tr><th>Fecha</th><th>Puntos</th><th>Razón</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  // Month info
+  const [year, month] = (data.mes||'').split('-');
+  const MONTH_NAMES = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const mesLabel = month ? `${MONTH_NAMES[parseInt(month)]} ${year}` : data.mes;
+
+  document.getElementById('perfil-content').innerHTML = `
+    <div class="profile-card">
+      <div class="profile-header">
+        <div>
+          <div class="profile-name">${data.nombre}</div>
+          <div class="profile-grade">${gradeLabel} · ${mesLabel}</div>
+        </div>
+        ${rankHtml}
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" style="color:${accent}">${sesiones}</div>
+          <div class="stat-lbl">Evaluaciones</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:${accent}">${avgEval > 0 ? avgEval+'/10' : '—'}</div>
+          <div class="stat-lbl">Promedio</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:${bonusTotal>0?'#22c55e':bonusTotal<0?'#f87171':accent}">${bonusTotal > 0 ? '+'+bonusTotal : bonusTotal || '—'}</div>
+          <div class="stat-lbl">Bonus</div>
+        </div>
+      </div>
+
+      <div class="encourage-msg ${enc.cls}">${enc.msg}</div>
+    </div>
+
+    <div class="section-title">📝 Evaluaciones por sesión</div>
+    <div class="profile-card">${evalsHtml}</div>
+
+    ${bonusHtml}
+
+    <div class="section-title">🏆 Total de puntos del mes</div>
+    <div class="total-pts-box">
+      <div class="total-pts-val">${totalPts}</div>
+      <div class="total-pts-lbl">promedio×10 + sesiones×10 + bonus</div>
+    </div>
+  `;
+}
+
+// Auto-fill from querystring
+(function(){
+  const sp = new URLSearchParams(location.search);
+  const qNombre = sp.get('nombre');
+  const qGrado = sp.get('grado');
+  if(qNombre){
+    const parts = qNombre.trim().split(' ');
+    document.getElementById('inp-nombre').value = parts[0] || '';
+    document.getElementById('inp-apellido').value = parts.slice(1).join(' ') || '';
+  }
+  if(qGrado && document.querySelector(`#sel-grado option[value="${qGrado}"]`)){
+    document.getElementById('sel-grado').value = qGrado;
+  }
+  updateAccent();
+  if(qNombre && qGrado) buscar();
+})();
+</script>
+
+</body>
+</html>

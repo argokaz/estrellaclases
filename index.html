@@ -610,6 +610,41 @@ button{font-family:inherit;cursor:pointer;}
 .card.next .results-card-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
 .card.done .results-card-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
 .card.done .results-card-btn:hover{transform:none;}
+
+/* ── RANKING ─────────────────────────────────────────────── */
+.ranking-wrap{margin:0 0 1.8rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;}
+.ranking-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.08);}
+.ranking-hdr h3{margin:0;font-size:1rem;font-weight:800;color:#f59e0b;}
+.ranking-mes-sel{background:#1a2240;border:1px solid rgba(255,255,255,.2);color:#e2e8f0;padding:.28rem .6rem;border-radius:8px;font-size:.82rem;cursor:pointer;}
+.ranking-loading{padding:2rem;text-align:center;color:#64748b;font-size:.9rem;}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:1rem;padding:1.2rem 1rem 0;}
+.podium-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
+.podium-crown{font-size:1.5rem;}
+.podium-name{font-size:.78rem;font-weight:700;text-align:center;max-width:85px;line-height:1.2;color:#e2e8f0;}
+.podium-pts{font-size:.72rem;color:#94a3b8;}
+.podium-bar{display:flex;align-items:center;justify-content:center;border-radius:8px 8px 0 0;font-size:1.3rem;font-weight:900;color:#fff;width:70px;}
+.podium-bar.p1{height:86px;background:linear-gradient(135deg,#f59e0b,#d97706);}
+.podium-bar.p2{height:62px;background:linear-gradient(135deg,#94a3b8,#64748b);}
+.podium-bar.p3{height:46px;background:linear-gradient(135deg,#b45309,#92400e);}
+.ranking-table-wrap{padding:.4rem 1rem .8rem;}
+.rtable{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:.4rem;}
+.rtable th{text-align:left;padding:.45rem .55rem;color:#64748b;font-weight:600;font-size:.73rem;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.08);}
+.rtable td{padding:.5rem .55rem;border-bottom:1px solid rgba(255,255,255,.04);}
+.rtable tr:last-child td{border:none;}
+.rtable .rk-num{font-weight:900;color:#f59e0b;width:34px;}
+.rtable .rk-nombre{font-weight:600;}
+.rtable .rk-pts{text-align:right;font-weight:700;color:#22c55e;}
+.empty-rank{padding:1.5rem;text-align:center;color:#64748b;font-size:.88rem;}
+.bonus-form-wrap{border-top:1px solid rgba(255,255,255,.1);padding:.9rem 1.2rem;background:rgba(251,191,36,.04);}
+.bonus-form-title{font-size:.75rem;font-weight:700;color:#fbbf24;text-transform:uppercase;margin-bottom:.7rem;letter-spacing:.05em;}
+.bonus-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:flex-end;}
+.bonus-inp{background:#1a2240;border:1px solid rgba(255,255,255,.2);color:#e2e8f0;padding:.38rem .65rem;border-radius:8px;font-size:.83rem;flex:1;min-width:110px;}
+.bonus-pts-inp{width:72px;flex:none;}
+.bonus-save-btn{background:#f59e0b;color:#000;border:none;border-radius:8px;padding:.38rem .9rem;font-size:.83rem;font-weight:800;cursor:pointer;white-space:nowrap;}
+.bonus-save-btn:hover{background:#d97706;}
+.bonus-status{font-size:.78rem;margin-top:.4rem;min-height:1.1em;color:#94a3b8;}
+.ranking-footer-link{display:block;text-align:center;padding:.6rem;font-size:.78rem;color:#64748b;text-decoration:none;border-top:1px solid rgba(255,255,255,.06);}
+.ranking-footer-link:hover{color:#f59e0b;}
 </style>
 </head>
 <body>
@@ -1511,6 +1546,7 @@ function switchGrade(gradeId){
     t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
   });
   renderPanel(gradeId);
+  loadRanking(gradeId);
 }
 
 function renderPanel(gradeId){
@@ -1542,6 +1578,9 @@ function renderPanel(gradeId){
 
   let html = `<div class="panel active" id="panel-${gradeId}">`;
   html += `<div class="calendar-note">🎯 <strong>${g.label}</strong> · ${g.age} · Proyecto: ${g.project}</div>`;
+
+  // ── RANKING MENSUAL ────────────────────────────────────────
+  html += buildRankingPlaceholder(gradeId, unlocked);
 
   // ── CLASES PASADAS — siempre visibles ──────────────────────
   html += `<div class="section-label sl-past">📦 Clases pasadas <span class="sl-count">${pastItems.length}</span></div>`;
@@ -1693,6 +1732,7 @@ function toggleDone(gradeId, sessionNum){
   else done.add(sessionNum);
   saveDone(gradeId, done);
   renderPanel(gradeId);
+  loadRanking(gradeId);
 }
 
 function toggleExpand(btn){
@@ -1889,6 +1929,141 @@ function exportXLSX(){
 // ═══════════════════════════════════════════════════════════
 updateLogoutBtn();
 render();
+
+// ═══════════════════════════════════════════════════════════
+// RANKING MENSUAL
+// ═══════════════════════════════════════════════════════════
+const MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function getAvailableMonths(){
+  const months=[];
+  const start=new Date(2026,4,1);
+  const now=new Date();
+  let d=new Date(now.getFullYear(),now.getMonth(),1);
+  while(d>=start){
+    const y=d.getFullYear(); const m=d.getMonth();
+    months.push({ value:`${y}-${String(m+1).padStart(2,'0')}`, label:`${MONTH_NAMES[m]} ${y}` });
+    d.setMonth(d.getMonth()-1);
+  }
+  return months;
+}
+
+function buildRankingPlaceholder(gradeId, unlocked){
+  const curMes=new Date().toISOString().slice(0,7);
+  const opts=getAvailableMonths().map(m=>`<option value="${m.value}"${m.value===curMes?' selected':''}>${m.label}</option>`).join('');
+  const bonusForm = unlocked ? `
+  <div class="bonus-form-wrap" id="bonus-wrap-${gradeId}">
+    <div class="bonus-form-title">⭐ Agregar / Quitar puntos</div>
+    <div class="bonus-row">
+      <input class="bonus-inp" id="bonus-nombre-${gradeId}" type="text" placeholder="Nombre completo del alumno" autocomplete="off">
+      <input class="bonus-inp bonus-pts-inp" id="bonus-pts-${gradeId}" type="number" placeholder="Pts" min="-99" max="99">
+      <input class="bonus-inp" id="bonus-razon-${gradeId}" type="text" placeholder="Razón (ej: participación)">
+      <button class="bonus-save-btn" onclick="submitBonus('${gradeId}')">Guardar</button>
+    </div>
+    <div class="bonus-status" id="bonus-status-${gradeId}"></div>
+  </div>` : '';
+  return `
+<div class="ranking-wrap" id="ranking-wrap-${gradeId}">
+  <div class="ranking-hdr">
+    <h3>🏆 Ranking Mensual</h3>
+    <select class="ranking-mes-sel" id="ranking-sel-${gradeId}" onchange="loadRanking('${gradeId}')">
+      ${opts}
+    </select>
+  </div>
+  <div id="ranking-body-${gradeId}" class="ranking-loading">⏳ Cargando ranking…</div>
+  ${bonusForm}
+  <a href="/progreso.html" class="ranking-footer-link" target="_blank">🔍 Ver mi progreso personal →</a>
+</div>`;
+}
+
+async function loadRanking(gradeId){
+  const selEl=document.getElementById(`ranking-sel-${gradeId}`);
+  const bodyEl=document.getElementById(`ranking-body-${gradeId}`);
+  if(!bodyEl) return;
+  const mes=selEl?selEl.value:new Date().toISOString().slice(0,7);
+  bodyEl.innerHTML='<div class="ranking-loading">⏳ Cargando ranking…</div>';
+  try{
+    const r=await fetch(`/.netlify/functions/get-ranking?grado=${gradeId}&mes=${mes}`);
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    bodyEl.innerHTML=renderRankingBody(d.ranking||[]);
+  } catch(e){
+    bodyEl.innerHTML=`<div class="ranking-loading">⚠️ Error al cargar. <button onclick="loadRanking('${gradeId}')" style="background:none;border:none;color:#f59e0b;cursor:pointer;text-decoration:underline;font-size:inherit">Reintentar</button></div>`;
+  }
+}
+
+function renderRankingBody(ranking){
+  if(!ranking||ranking.length===0) return '<div class="empty-rank">📭 Sin evaluaciones registradas este mes.</div>';
+  const crowns=['🥇','🥈','🥉'];
+  // Podium visual: 2.° izq, 1.° centro, 3.° der
+  const podVisual=[ranking[1],ranking[0],ranking[2]];
+  const podClass=['p2','p1','p3'];
+  const podRank=[2,1,3];
+  let pod='<div class="podium">';
+  podVisual.forEach((s,i)=>{
+    if(!s) return;
+    pod+=`<div class="podium-item">
+      <div class="podium-crown">${crowns[podRank[i]-1]}</div>
+      <div class="podium-name">${s.nombre.split(' ')[0]}</div>
+      <div class="podium-pts">${s.total} pts</div>
+      <div class="podium-bar ${podClass[i]}">${podRank[i]}</div>
+    </div>`;
+  });
+  pod+='</div>';
+  let tbl=`<div class="ranking-table-wrap"><table class="rtable">
+  <thead><tr>
+    <th>#</th><th>Nombre</th>
+    <th style="text-align:center">✅</th>
+    <th style="text-align:right">Promedio</th>
+    <th style="text-align:right">Bonus</th>
+    <th style="text-align:right">Total</th>
+  </tr></thead><tbody>`;
+  ranking.forEach((s,i)=>{
+    const medal=i<3?crowns[i]+' ':'';
+    const bcolor=s.bonus>0?'color:#22c55e':s.bonus<0?'color:#f87171':'';
+    const bTxt=s.bonus>0?'+'+s.bonus:s.bonus<0?String(s.bonus):'—';
+    tbl+=`<tr>
+      <td class="rk-num">${medal}${i+1}</td>
+      <td class="rk-nombre">${s.nombre}</td>
+      <td style="text-align:center;font-size:.78rem">${s.sesiones>0?s.sesiones+' ✅':'—'}</td>
+      <td style="text-align:right">${s.avgEval>0?s.avgEval+'/10':'—'}</td>
+      <td style="text-align:right;${bcolor}">${bTxt}</td>
+      <td class="rk-pts">${s.total}</td>
+    </tr>`;
+  });
+  tbl+='</tbody></table></div>';
+  return pod+tbl;
+}
+
+async function submitBonus(gradeId){
+  const nEl=document.getElementById(`bonus-nombre-${gradeId}`);
+  const pEl=document.getElementById(`bonus-pts-${gradeId}`);
+  const rEl=document.getElementById(`bonus-razon-${gradeId}`);
+  const sEl=document.getElementById(`bonus-status-${gradeId}`);
+  const nombre=(nEl?.value||'').trim();
+  const puntos=parseInt(pEl?.value||'');
+  const razon=(rEl?.value||'').trim();
+  if(!nombre){if(nEl)nEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa el nombre del alumno.';return;}
+  if(!puntos||isNaN(puntos)){if(pEl)pEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa los puntos.';return;}
+  if(sEl) sEl.textContent='⏳ Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon})
+    });
+    const d=await res.json();
+    if(d.ok){
+      if(sEl) sEl.textContent=`✅ Puntos guardados para ${nombre}.`;
+      if(nEl) nEl.value=''; if(pEl) pEl.value=''; if(rEl) rEl.value='';
+      setTimeout(()=>loadRanking(gradeId),600);
+    } else {
+      if(sEl) sEl.textContent='⚠️ Error: '+(d.error||'desconocido');
+    }
+  } catch(e){
+    if(sEl) sEl.textContent='⚠️ Error de conexión.';
+  }
+}
 </script>
 
 <!-- ── RESULTS OVERLAY ────────────────────────────────────── -->

@@ -15,6 +15,21 @@ function makeStore(name) {
   });
 }
 
+// Normaliza el score a 0-100.
+// El repaso guarda: score (pts brutos, ej 18 de 20), correctas (nro correcto, ej 9),
+// total (nro de preguntas, ej 10). Cada pregunta vale 2 pts → score_max = total * 2.
+// Usamos correctas/total cuando están disponibles; fallback a score/(total*2).
+function normalizeScore(ev) {
+  if (ev.correctas != null && ev.total) {
+    return (ev.correctas / ev.total) * 100;
+  }
+  if (ev.score != null && ev.total) {
+    return (ev.score / (ev.total * 2)) * 100;
+  }
+  // último recurso: asumir score es 0-10
+  return (ev.score || 0) * 10;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: CORS, body: "" };
@@ -36,92 +51,80 @@ exports.handler = async (event) => {
     const evalStore = makeStore("evaluaciones");
     const bonusStore = makeStore("bonuses");
 
-    // List all evals (no prefix to get all) and bonuses for this grade
     const [evalList, bonusList] = await Promise.all([
       evalStore.list({}),
-      bonusStore.list({ prefix: grado + "/" }),
+      bonusStore.list({ prefix: grado + "/" }).catch(() => ({ blobs: [] })),
     ]);
 
-    // Fetch all eval blobs in parallel
     const evalBlobs = evalList.blobs || [];
     const bonusBlobs = bonusList.blobs || [];
 
     const [evalDatas, bonusDatas] = await Promise.all([
-      Promise.all(
-        evalBlobs.map(({ key }) =>
-          evalStore.get(key, { type: "json" }).catch(() => null)
-        )
-      ),
-      Promise.all(
-        bonusBlobs.map(({ key }) =>
-          bonusStore.get(key, { type: "json" }).catch(() => null)
-        )
-      ),
+      Promise.all(evalBlobs.map(({ key }) => evalStore.get(key, { type: "json" }).catch(() => null))),
+      Promise.all(bonusBlobs.map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
     ]);
 
-    // Filter evals: correct grade and target month
+    // Solo evaluaciones del grado y mes correcto
     const filteredEvals = evalDatas.filter(
       (d) => d && d.grado === grado && d.fecha && d.fecha.slice(0, 7) === targetMes
     );
 
-    // Filter bonuses: target month
-    const filteredBonuses = bonusDatas.filter(
-      (d) => d && d.mes === targetMes
-    );
+    // Solo bonus del mes correcto
+    const filteredBonuses = bonusDatas.filter((d) => d && d.mes === targetMes);
 
-    // Group by normalized name
+    // Construir mapa de estudiantes — SOLO se crean entradas a partir de evals.
+    // Los bonus se añaden encima, pero no crean entradas nuevas.
     const studentMap = new Map();
 
-    function getOrCreate(nombre) {
-      const key = nombre.toLowerCase().trim();
+    for (const ev of filteredEvals) {
+      const key = ev.nombre.toLowerCase().trim();
       if (!studentMap.has(key)) {
         studentMap.set(key, {
-          displayName: nombre.trim(),
-          evals: [],
+          displayName: ev.nombre.trim(),
+          scores: [],    // scores normalizados 0-100
           sesiones: new Set(),
-          bonuses: [],
+          bonusTotal: 0,
         });
       }
-      return studentMap.get(key);
+      const s = studentMap.get(key);
+      s.scores.push(normalizeScore(ev));
+      if (ev.sesion) s.sesiones.add(ev.sesion);
     }
 
-    for (const ev of filteredEvals) {
-      const student = getOrCreate(ev.nombre);
-      student.evals.push(ev.score);
-      if (ev.sesion) student.sesiones.add(ev.sesion);
-    }
-
+    // Aplicar bonus solo a estudiantes que ya tienen evals
     for (const bonus of filteredBonuses) {
-      const student = getOrCreate(bonus.nombre);
-      student.bonuses.push(bonus.puntos);
+      const key = bonus.nombre.toLowerCase().trim();
+      if (studentMap.has(key)) {
+        studentMap.get(key).bonusTotal += Number(bonus.puntos) || 0;
+      }
     }
 
-    // Build ranking array
+    // Calcular ranking
+    // Fórmula: promedio (0-100) + sesiones × 5 + bonus
+    // Máximo realista con 2 sesiones: 100 + 10 + bonus
     const ranking = [];
-    for (const [, student] of studentMap) {
-      const avgEval =
-        student.evals.length > 0
-          ? Math.round(
-              (student.evals.reduce((a, b) => a + b, 0) / student.evals.length) * 10
-            ) / 10
+    for (const [, s] of studentMap) {
+      const avgPct =
+        s.scores.length > 0
+          ? Math.round((s.scores.reduce((a, b) => a + b, 0) / s.scores.length) * 10) / 10
           : 0;
-      const sesiones = student.sesiones.size;
-      const bonus = student.bonuses.reduce((a, b) => a + b, 0);
-      const total = Math.round((avgEval * 10 + sesiones * 10 + bonus) * 10) / 10;
+      const sesiones = s.sesiones.size;
+      const bonus = s.bonusTotal;
+      const total = Math.round((avgPct + sesiones * 5 + bonus) * 10) / 10;
 
       ranking.push({
-        nombre: student.displayName,
+        nombre: s.displayName,
         sesiones,
-        avgEval,
+        avgPct,   // 0-100, porcentaje de aciertos
         bonus,
         total,
       });
     }
 
-    // Sort: total desc, then avgEval desc, then sesiones desc
+    // Orden: total desc → avgPct desc → sesiones desc
     ranking.sort((a, b) => {
       if (b.total !== a.total) return b.total - a.total;
-      if (b.avgEval !== a.avgEval) return b.avgEval - a.avgEval;
+      if (b.avgPct !== a.avgPct) return b.avgPct - a.avgPct;
       return b.sesiones - a.sesiones;
     });
 

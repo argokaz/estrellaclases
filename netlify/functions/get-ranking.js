@@ -1,4 +1,11 @@
 const { getStore } = require("@netlify/blobs");
+const {
+  normalize,
+  areSamePerson,
+  bestDisplayName,
+  clusterKeys,
+  normalizeScore,
+} = require("./_nameUtils");
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -15,40 +22,19 @@ function makeStore(name) {
   });
 }
 
-// Normaliza el score a 0-100.
-// El repaso guarda: score (pts brutos, ej 18 de 20), correctas (nro correcto, ej 9),
-// total (nro de preguntas, ej 10). Cada pregunta vale 2 pts → score_max = total * 2.
-// Usamos correctas/total cuando están disponibles; fallback a score/(total*2).
-function normalizeScore(ev) {
-  if (ev.correctas != null && ev.total) {
-    return (ev.correctas / ev.total) * 100;
-  }
-  if (ev.score != null && ev.total) {
-    return (ev.score / (ev.total * 2)) * 100;
-  }
-  // último recurso: asumir score es 0-10
-  return (ev.score || 0) * 10;
-}
-
 exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: CORS, body: "" };
-  }
-  if (event.httpMethod !== "GET") {
-    return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
-  }
+  if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
+  if (event.httpMethod !== "GET")     return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
 
   const params = event.queryStringParameters || {};
-  const grado = params.grado;
-  if (!grado) {
-    return { statusCode: 400, headers: CORS, body: '{"error":"grado is required"}' };
-  }
+  const grado  = params.grado;
+  if (!grado) return { statusCode: 400, headers: CORS, body: '{"error":"grado is required"}' };
 
   const now = new Date();
   const targetMes = params.mes || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   try {
-    const evalStore = makeStore("evaluaciones");
+    const evalStore  = makeStore("evaluaciones");
     const bonusStore = makeStore("bonuses");
 
     const [evalList, bonusList] = await Promise.all([
@@ -56,77 +42,86 @@ exports.handler = async (event) => {
       bonusStore.list({ prefix: grado + "/" }).catch(() => ({ blobs: [] })),
     ]);
 
-    const evalBlobs = evalList.blobs || [];
-    const bonusBlobs = bonusList.blobs || [];
-
     const [evalDatas, bonusDatas] = await Promise.all([
-      Promise.all(evalBlobs.map(({ key }) => evalStore.get(key, { type: "json" }).catch(() => null))),
-      Promise.all(bonusBlobs.map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
+      Promise.all((evalList.blobs  || []).map(({ key }) => evalStore.get(key,  { type: "json" }).catch(() => null))),
+      Promise.all((bonusList.blobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
     ]);
 
-    // Solo evaluaciones del grado y mes correcto
-    const filteredEvals = evalDatas.filter(
-      (d) => d && d.grado === grado && d.fecha && d.fecha.slice(0, 7) === targetMes
-    );
+    const filteredEvals   = evalDatas.filter(d  => d && d.grado === grado && d.fecha && d.fecha.slice(0, 7) === targetMes);
+    const filteredBonuses = bonusDatas.filter(d => d && d.mes === targetMes);
 
-    // Solo bonus del mes correcto
-    const filteredBonuses = bonusDatas.filter((d) => d && d.mes === targetMes);
-
-    // Construir mapa de estudiantes — SOLO se crean entradas a partir de evals.
-    // Los bonus se añaden encima, pero no crean entradas nuevas.
-    const studentMap = new Map();
+    // ── 1. Construir rawMap desde evaluaciones ──────────────────
+    // Clave: nombre normalizado. Valor: datos acumulados.
+    // Los bonuses NO crean entradas nuevas — solo suman a quienes ya tienen eval.
+    const rawMap = new Map();
 
     for (const ev of filteredEvals) {
-      const key = ev.nombre.toLowerCase().trim();
-      if (!studentMap.has(key)) {
-        studentMap.set(key, {
-          displayName: ev.nombre.trim(),
-          scores: [],    // scores normalizados 0-100
-          sesiones: new Set(),
-          bonusTotal: 0,
-        });
+      const key = normalize(ev.nombre);
+      if (!rawMap.has(key)) {
+        rawMap.set(key, { displayNames: [], scores: [], sesiones: new Set(), bonusTotal: 0 });
       }
-      const s = studentMap.get(key);
+      const s = rawMap.get(key);
+      const display = (ev.nombre || "").trim();
+      if (!s.displayNames.includes(display)) s.displayNames.push(display);
       s.scores.push(normalizeScore(ev));
       if (ev.sesion) s.sesiones.add(ev.sesion);
     }
 
-    // Aplicar bonus solo a estudiantes que ya tienen evals
+    // ── 2. Aplicar bonus ────────────────────────────────────────
     for (const bonus of filteredBonuses) {
-      const key = bonus.nombre.toLowerCase().trim();
-      if (studentMap.has(key)) {
-        studentMap.get(key).bonusTotal += Number(bonus.puntos) || 0;
+      const key = normalize(bonus.nombre);
+      const pts = Number(bonus.puntos) || 0;
+
+      if (rawMap.has(key)) {
+        rawMap.get(key).bonusTotal += pts;
+        continue;
       }
+      // Fallback fuzzy: buscar la clave más parecida
+      let bestKey = null, bestSim = 0;
+      for (const k of rawMap.keys()) {
+        const sim = require("./_nameUtils").nameSimilarity(key, k);
+        if (sim > bestSim) { bestSim = sim; bestKey = k; }
+      }
+      if (bestKey && bestSim >= require("./_nameUtils").SAME_THRESHOLD) {
+        rawMap.get(bestKey).bonusTotal += pts;
+      }
+      // Si no hay match → bonus de alguien sin eval en este mes → ignorar
     }
 
-    // Calcular ranking
-    // Fórmula: promedio (0-100) + sesiones × 5 + bonus
-    // Máximo realista con 2 sesiones: 100 + 10 + bonus
-    const ranking = [];
-    for (const [, s] of studentMap) {
-      const avgPct =
-        s.scores.length > 0
-          ? Math.round((s.scores.reduce((a, b) => a + b, 0) / s.scores.length) * 10) / 10
-          : 0;
-      const sesiones = s.sesiones.size;
-      const bonus = s.bonusTotal;
-      const total = Math.round((avgPct + sesiones * 5 + bonus) * 10) / 10;
+    // ── 3. Clusterizar claves similares (fuzzy dedup) ───────────
+    const allKeys = [...rawMap.keys()];
+    const clusters = clusterKeys(allKeys);
 
-      ranking.push({
-        nombre: s.displayName,
-        sesiones,
-        avgPct,   // 0-100, porcentaje de aciertos
-        bonus,
-        total,
-      });
+    // ── 4. Fusionar clusters y construir ranking ────────────────
+    const ranking = [];
+    for (const [, groupKeys] of clusters) {
+      const allDisplayNames = [];
+      const allScores       = [];
+      const allSesiones     = new Set();
+      let   totalBonus      = 0;
+
+      for (const k of groupKeys) {
+        const s = rawMap.get(k);
+        allDisplayNames.push(...s.displayNames);
+        allScores.push(...s.scores);
+        s.sesiones.forEach(ses => allSesiones.add(ses));
+        totalBonus += s.bonusTotal;
+      }
+
+      const nombre  = bestDisplayName(allDisplayNames);
+      const avgPct  = allScores.length > 0
+        ? Math.round((allScores.reduce((a, b) => a + b, 0) / allScores.length) * 10) / 10
+        : 0;
+      const sesiones = allSesiones.size;
+      const total    = Math.round((avgPct + sesiones * 5 + totalBonus) * 10) / 10;
+
+      ranking.push({ nombre, sesiones, avgPct, bonus: totalBonus, total });
     }
 
     // Orden: total desc → avgPct desc → sesiones desc
-    ranking.sort((a, b) => {
-      if (b.total !== a.total) return b.total - a.total;
-      if (b.avgPct !== a.avgPct) return b.avgPct - a.avgPct;
-      return b.sesiones - a.sesiones;
-    });
+    ranking.sort((a, b) =>
+      b.total - a.total || b.avgPct - a.avgPct || b.sesiones - a.sesiones
+    );
 
     return {
       statusCode: 200,

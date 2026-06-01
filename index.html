@@ -611,13 +611,25 @@ button{font-family:inherit;cursor:pointer;}
 .card.done .results-card-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
 .card.done .results-card-btn:hover{transform:none;}
 
-/* ── RANKING ─────────────────────────────────────────────── */
-.ranking-wrap{margin:0 0 1.8rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;}
-.ranking-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.08);}
-.ranking-hdr h3{margin:0;font-size:1rem;font-weight:800;color:#f59e0b;}
+/* ── RANKING BUTTON ───────────────────────────────────────── */
+.ranking-btn-row{margin:0 0 1.6rem;display:flex;align-items:center;gap:.75rem;}
+.ranking-open-btn{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,rgba(245,158,11,.18),rgba(217,119,6,.10));border:1px solid rgba(245,158,11,.45);color:#f59e0b;border-radius:12px;padding:.55rem 1.1rem;font-size:.9rem;font-weight:800;cursor:pointer;transition:background .18s,border-color .18s;}
+.ranking-open-btn:hover{background:linear-gradient(135deg,rgba(245,158,11,.30),rgba(217,119,6,.18));border-color:rgba(245,158,11,.7);}
+.ranking-progreso-link{font-size:.8rem;color:#64748b;text-decoration:none;}
+.ranking-progreso-link:hover{color:#f59e0b;}
+/* ── RANKING MODAL ─────────────────────────────────────────── */
+.ranking-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
+.ranking-overlay.open{display:flex;}
+.ranking-panel{background:#0f1a30;border:1px solid rgba(255,255,255,.12);border-radius:20px;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.ranking-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;}
+.ranking-panel-hdr h2{margin:0;font-size:1rem;font-weight:800;color:#f59e0b;}
+.ranking-panel-hdr-right{display:flex;align-items:center;gap:.7rem;}
 .ranking-mes-sel{background:#1a2240;border:1px solid rgba(255,255,255,.2);color:#e2e8f0;padding:.28rem .6rem;border-radius:8px;font-size:.82rem;cursor:pointer;}
-.ranking-loading{padding:2rem;text-align:center;color:#64748b;font-size:.9rem;}
-.podium{display:flex;align-items:flex-end;justify-content:center;gap:1rem;padding:1.2rem 1rem 0;}
+.ranking-close-btn{background:rgba(255,255,255,.08);border:none;color:#e2e8f0;border-radius:8px;padding:.3rem .7rem;cursor:pointer;font-size:.9rem;}
+.ranking-close-btn:hover{background:rgba(255,255,255,.15);}
+.ranking-scroll{overflow-y:auto;flex:1;}
+.ranking-loading{padding:3rem;text-align:center;color:#64748b;font-size:.9rem;}
+.podium{display:flex;align-items:flex-end;justify-content:center;gap:1rem;padding:1.4rem 1rem 0;}
 .podium-item{display:flex;flex-direction:column;align-items:center;gap:.25rem;}
 .podium-crown{font-size:1.5rem;}
 .podium-name{font-size:.78rem;font-weight:700;text-align:center;max-width:85px;line-height:1.2;color:#e2e8f0;}
@@ -643,8 +655,9 @@ button{font-family:inherit;cursor:pointer;}
 .bonus-save-btn{background:#f59e0b;color:#000;border:none;border-radius:8px;padding:.38rem .9rem;font-size:.83rem;font-weight:800;cursor:pointer;white-space:nowrap;}
 .bonus-save-btn:hover{background:#d97706;}
 .bonus-status{font-size:.78rem;margin-top:.4rem;min-height:1.1em;color:#94a3b8;}
-.ranking-footer-link{display:block;text-align:center;padding:.6rem;font-size:.78rem;color:#64748b;text-decoration:none;border-top:1px solid rgba(255,255,255,.06);}
-.ranking-footer-link:hover{color:#f59e0b;}
+.ranking-panel-footer{border-top:1px solid rgba(255,255,255,.06);padding:.6rem;text-align:center;flex-shrink:0;}
+.ranking-panel-footer a{font-size:.78rem;color:#64748b;text-decoration:none;}
+.ranking-panel-footer a:hover{color:#f59e0b;}
 </style>
 </head>
 <body>
@@ -1546,7 +1559,6 @@ function switchGrade(gradeId){
     t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
   });
   renderPanel(gradeId);
-  loadRanking(gradeId);
 }
 
 function renderPanel(gradeId){
@@ -1732,7 +1744,6 @@ function toggleDone(gradeId, sessionNum){
   else done.add(sessionNum);
   saveDone(gradeId, done);
   renderPanel(gradeId);
-  loadRanking(gradeId);
 }
 
 function toggleExpand(btn){
@@ -1943,38 +1954,49 @@ function getAvailableMonths(){
 }
 
 function buildRankingPlaceholder(gradeId, unlocked){
-  const curMes=new Date().toISOString().slice(0,7);
-  const opts=getAvailableMonths().map(m=>`<option value="${m.value}"${m.value===curMes?' selected':''}>${m.label}</option>`).join('');
-  const bonusForm = unlocked ? `
-  <div class="bonus-form-wrap" id="bonus-wrap-${gradeId}">
-    <div class="bonus-form-title">⭐ Agregar / Quitar puntos</div>
-    <div class="bonus-row">
-      <input class="bonus-inp" id="bonus-nombre-${gradeId}" type="text" placeholder="Nombre completo del alumno" autocomplete="off">
-      <input class="bonus-inp bonus-pts-inp" id="bonus-pts-${gradeId}" type="number" placeholder="Pts" min="-99" max="99">
-      <input class="bonus-inp" id="bonus-razon-${gradeId}" type="text" placeholder="Razón (ej: participación)">
-      <button class="bonus-save-btn" onclick="submitBonus('${gradeId}')">Guardar</button>
-    </div>
-    <div class="bonus-status" id="bonus-status-${gradeId}"></div>
-  </div>` : '';
   return `
-<div class="ranking-wrap" id="ranking-wrap-${gradeId}">
-  <div class="ranking-hdr">
-    <h3>🏆 Ranking Mensual</h3>
-    <select class="ranking-mes-sel" id="ranking-sel-${gradeId}" onchange="loadRanking('${gradeId}')">
-      ${opts}
-    </select>
-  </div>
-  <div id="ranking-body-${gradeId}" class="ranking-loading">⏳ Cargando ranking…</div>
-  ${bonusForm}
-  <a href="/progreso.html" class="ranking-footer-link" target="_blank">🔍 Ver mi progreso personal →</a>
+<div class="ranking-btn-row">
+  <button class="ranking-open-btn" onclick="openRankingModal('${gradeId}')">🏆 Ranking Mensual</button>
+  <a href="/progreso.html" class="ranking-progreso-link" target="_blank">🔍 Ver mi progreso →</a>
 </div>`;
 }
 
-async function loadRanking(gradeId){
-  const selEl=document.getElementById(`ranking-sel-${gradeId}`);
-  const bodyEl=document.getElementById(`ranking-body-${gradeId}`);
-  if(!bodyEl) return;
-  const mes=selEl?selEl.value:new Date().toISOString().slice(0,7);
+function openRankingModal(gradeId){
+  const overlay=document.getElementById('ranking-overlay');
+  const unlocked=isUnlocked();
+  const curMes=new Date().toISOString().slice(0,7);
+  const opts=getAvailableMonths().map(m=>`<option value="${m.value}"${m.value===curMes?' selected':''}>${m.label}</option>`).join('');
+  const bonusHtml=unlocked?`
+  <div class="bonus-form-wrap">
+    <div class="bonus-form-title">⭐ Agregar / Quitar puntos</div>
+    <div class="bonus-row">
+      <input class="bonus-inp" id="bonus-nombre-m" type="text" placeholder="Nombre completo del alumno" autocomplete="off">
+      <input class="bonus-inp bonus-pts-inp" id="bonus-pts-m" type="number" placeholder="Pts" min="-99" max="99">
+      <input class="bonus-inp" id="bonus-razon-m" type="text" placeholder="Razón (ej: participación)">
+      <button class="bonus-save-btn" onclick="submitBonusModal()">Guardar</button>
+    </div>
+    <div class="bonus-status" id="bonus-status-m"></div>
+  </div>`:'';
+  const g=GRADES[gradeId];
+  document.getElementById('ranking-modal-title').textContent=`🏆 Ranking ${g.label}`;
+  document.getElementById('ranking-modal-sel').innerHTML=opts;
+  document.getElementById('ranking-modal-bonus').innerHTML=bonusHtml;
+  overlay.dataset.grade=gradeId;
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  loadRankingModal();
+}
+
+function closeRankingModal(){
+  document.getElementById('ranking-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+async function loadRankingModal(){
+  const overlay=document.getElementById('ranking-overlay');
+  const gradeId=overlay.dataset.grade;
+  const mes=document.getElementById('ranking-modal-sel').value;
+  const bodyEl=document.getElementById('ranking-modal-body');
   bodyEl.innerHTML='<div class="ranking-loading">⏳ Cargando ranking…</div>';
   try{
     const r=await fetch(`/.netlify/functions/get-ranking?grado=${gradeId}&mes=${mes}`);
@@ -1982,7 +2004,38 @@ async function loadRanking(gradeId){
     const d=await r.json();
     bodyEl.innerHTML=renderRankingBody(d.ranking||[]);
   } catch(e){
-    bodyEl.innerHTML=`<div class="ranking-loading">⚠️ Error al cargar. <button onclick="loadRanking('${gradeId}')" style="background:none;border:none;color:#f59e0b;cursor:pointer;text-decoration:underline;font-size:inherit">Reintentar</button></div>`;
+    bodyEl.innerHTML=`<div class="ranking-loading">⚠️ Error al cargar. <button onclick="loadRankingModal()" style="background:none;border:none;color:#f59e0b;cursor:pointer;text-decoration:underline;font-size:inherit">Reintentar</button></div>`;
+  }
+}
+
+async function submitBonusModal(){
+  const overlay=document.getElementById('ranking-overlay');
+  const gradeId=overlay.dataset.grade;
+  const nEl=document.getElementById('bonus-nombre-m');
+  const pEl=document.getElementById('bonus-pts-m');
+  const rEl=document.getElementById('bonus-razon-m');
+  const sEl=document.getElementById('bonus-status-m');
+  const nombre=(nEl?.value||'').trim();
+  const puntos=parseInt(pEl?.value||'');
+  const razon=(rEl?.value||'').trim();
+  if(!nombre){if(nEl)nEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa el nombre del alumno.';return;}
+  if(!puntos||isNaN(puntos)){if(pEl)pEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa los puntos.';return;}
+  if(sEl) sEl.textContent='⏳ Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon})
+    });
+    const d=await res.json();
+    if(d.ok){
+      if(sEl) sEl.textContent=`✅ Puntos guardados para ${nombre}.`;
+      if(nEl) nEl.value=''; if(pEl) pEl.value=''; if(rEl) rEl.value='';
+      setTimeout(()=>loadRankingModal(),600);
+    } else {
+      if(sEl) sEl.textContent='⚠️ Error: '+(d.error||'desconocido');
+    }
+  } catch(e){
+    if(sEl) sEl.textContent='⚠️ Error de conexión.';
   }
 }
 
@@ -2029,35 +2082,6 @@ function renderRankingBody(ranking){
   return pod+tbl;
 }
 
-async function submitBonus(gradeId){
-  const nEl=document.getElementById(`bonus-nombre-${gradeId}`);
-  const pEl=document.getElementById(`bonus-pts-${gradeId}`);
-  const rEl=document.getElementById(`bonus-razon-${gradeId}`);
-  const sEl=document.getElementById(`bonus-status-${gradeId}`);
-  const nombre=(nEl?.value||'').trim();
-  const puntos=parseInt(pEl?.value||'');
-  const razon=(rEl?.value||'').trim();
-  if(!nombre){if(nEl)nEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa el nombre del alumno.';return;}
-  if(!puntos||isNaN(puntos)){if(pEl)pEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa los puntos.';return;}
-  if(sEl) sEl.textContent='⏳ Guardando…';
-  try{
-    const res=await fetch('/.netlify/functions/add-bonus',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon})
-    });
-    const d=await res.json();
-    if(d.ok){
-      if(sEl) sEl.textContent=`✅ Puntos guardados para ${nombre}.`;
-      if(nEl) nEl.value=''; if(pEl) pEl.value=''; if(rEl) rEl.value='';
-      setTimeout(()=>loadRanking(gradeId),600);
-    } else {
-      if(sEl) sEl.textContent='⚠️ Error: '+(d.error||'desconocido');
-    }
-  } catch(e){
-    if(sEl) sEl.textContent='⚠️ Error de conexión.';
-  }
-}
 
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
@@ -2065,6 +2089,26 @@ async function submitBonus(gradeId){
 updateLogoutBtn();
 render();
 </script>
+
+<!-- ── RANKING MODAL ──────────────────────────────────────── -->
+<div class="ranking-overlay" id="ranking-overlay" onclick="if(event.target===this)closeRankingModal()">
+  <div class="ranking-panel">
+    <div class="ranking-panel-hdr">
+      <h2 id="ranking-modal-title">🏆 Ranking Mensual</h2>
+      <div class="ranking-panel-hdr-right">
+        <select class="ranking-mes-sel" id="ranking-modal-sel" onchange="loadRankingModal()"></select>
+        <button class="ranking-close-btn" onclick="closeRankingModal()">✕</button>
+      </div>
+    </div>
+    <div class="ranking-scroll">
+      <div id="ranking-modal-body" class="ranking-loading">⏳ Cargando ranking…</div>
+      <div id="ranking-modal-bonus"></div>
+    </div>
+    <div class="ranking-panel-footer">
+      <a href="/progreso.html" target="_blank">🔍 Ver mi progreso personal →</a>
+    </div>
+  </div>
+</div>
 
 <!-- ── RESULTS OVERLAY ────────────────────────────────────── -->
 <div class="results-overlay" id="results-overlay" onclick="closeResultsOnBg(event)">

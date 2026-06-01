@@ -478,7 +478,10 @@ let _name='',_grade='',_session='';
 
 function startEval(grade){
   const inpN=document.getElementById('gate-nombre');
-  const name=inpN.value.trim();
+  // Normalizar a Title Case (primera letra de cada palabra en mayúscula)
+  const _rawName=inpN.value.trim();
+  const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
+  inpN.value=name;
   if(name.split(/\s+/).filter(s=>s).length<2){
     inpN.classList.add('err');
     inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');

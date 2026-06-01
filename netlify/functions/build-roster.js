@@ -7,14 +7,13 @@
  * Escanea TODAS las evaluaciones, clusteriza nombres similares con fuzzy matching,
  * y guarda un roster canónico en Blobs "rosters" con clave = {grado}.
  *
- * El roster contiene la lista de alumnos únicos del salón (nombre canónico)
- * y se usa como fuente estable para el autocomplete el resto del año.
+ * El roster contiene la lista de alumnos únicos del salón, sus estadísticas
+ * y el historial completo de notas por sesión.
  */
 
 const { getStore } = require("@netlify/blobs");
 const {
   normalize,
-  areSamePerson,
   bestDisplayName,
   clusterKeys,
 } = require("./_nameUtils");
@@ -42,7 +41,7 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body || "{}"); } catch {}
   if (body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
 
-  const targetGrade = body.grado || null; // null = todos los grados
+  const targetGrade  = body.grado || null; // null = todos los grados
   const gradesToBuild = targetGrade ? [targetGrade] : GRADES;
 
   try {
@@ -66,20 +65,26 @@ exports.handler = async (event) => {
         continue;
       }
 
-      // Recopilar todos los nombres presentados para este grado
-      // nameMap: normKey → { displayNames[], sesiones Set, rawScores[] }
+      // nameMap: normKey → { displayNames[], sessionScores: Map<sesion, {score, fecha}> }
+      // sessionScores deduplica: si un alumno envió la misma sesión desde dos dispositivos,
+      // conservamos solo el score más alto.
       const nameMap = new Map();
 
       for (const ev of gradeEvals) {
         const key = normalize(ev.nombre);
         if (!nameMap.has(key)) {
-          nameMap.set(key, { displayNames: [], sesiones: new Set(), rawScores: [] });
+          nameMap.set(key, { displayNames: [], sessionScores: new Map() });
         }
         const s = nameMap.get(key);
         const display = (ev.nombre || "").trim();
         if (!s.displayNames.includes(display)) s.displayNames.push(display);
-        if (ev.sesion) s.sesiones.add(ev.sesion);
-        s.rawScores.push(Number(ev.score) || 0);
+
+        const sesId = String(ev.sesion || `noses_${ev.ts || Date.now()}`);
+        const prev  = s.sessionScores.get(sesId);
+        const score = Number(ev.score) || 0;
+        if (!prev || score > prev.score) {
+          s.sessionScores.set(sesId, { score, fecha: ev.fecha || "" });
+        }
       }
 
       // Clusterizar nombres similares
@@ -89,32 +94,42 @@ exports.handler = async (event) => {
       // Construir lista canónica
       const alumnos = [];
       for (const [, groupKeys] of clusters) {
-        const allDisplayNames = [];
-        const allSesiones     = new Set();
-        const allScores       = [];
+        const allDisplayNames  = [];
+        const mergedSesScores  = new Map(); // sesion → {score, fecha}
 
         for (const k of groupKeys) {
           const s = nameMap.get(k);
           allDisplayNames.push(...s.displayNames);
-          s.sesiones.forEach(ses => allSesiones.add(ses));
-          allScores.push(...s.rawScores);
+          s.sessionScores.forEach((data, sesId) => {
+            const prev = mergedSesScores.get(sesId);
+            if (!prev || data.score > prev.score) {
+              mergedSesScores.set(sesId, data);
+            }
+          });
         }
 
-        const scoreSum = allScores.reduce((a, b) => a + b, 0);
-        const sesiones = allSesiones.size;
-        const avg = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
+        const sesiones  = mergedSesScores.size;
+        const scoreSum  = [...mergedSesScores.values()].reduce((a, b) => a + b.score, 0);
+        const avg       = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
 
+        // Historial ordenado por sesión
+        const historial = [...mergedSesScores.entries()]
+          .map(([sesion, data]) => ({ sesion, score: data.score, fecha: data.fecha }))
+          .sort((a, b) => a.sesion.localeCompare(b.sesion));
+
+        const nombre = bestDisplayName(allDisplayNames);
         alumnos.push({
-          nombre:    bestDisplayName(allDisplayNames),
-          variantes: [...new Set(allDisplayNames)].filter(v => v !== bestDisplayName(allDisplayNames)),
+          nombre,
+          variantes: [...new Set(allDisplayNames)].filter(v => v !== nombre),
           sesiones,
           avg,
           total: scoreSum,
+          historial,
         });
       }
 
       // Ordenar alfabéticamente
-      alumnos.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+      alumnos.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
 
       // Guardar en Blobs
       await rosterStore.setJSON(grado, {

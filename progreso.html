@@ -49,8 +49,6 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 }
 .form-group input:focus,
 .form-group select:focus{border-color:var(--accent);}
-.form-row{display:flex;gap:.7rem;}
-.form-row .form-group{flex:1;}
 .search-btn{
   width:100%;
   background:var(--accent);
@@ -85,6 +83,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .rank-num{font-size:1.4rem;font-weight:900;color:#f59e0b;line-height:1;}
 .rank-label{font-size:.65rem;color:#94a3b8;margin-top:.15rem;}
 .rank-of{font-size:.72rem;color:#94a3b8;margin-top:.1rem;}
+.rank-note{font-size:.68rem;color:#64748b;margin-top:.15rem;}
 
 .encourage-msg{
   border-radius:10px;
@@ -110,6 +109,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .data-table tr:last-child td{border:none;}
 .data-table .score-cell{font-weight:800;}
 .score-ok{color:#22c55e;}
+.score-mid{color:#f59e0b;}
 .score-fail{color:#f87171;}
 .status-ok{color:#22c55e;}
 .status-fail{color:#f87171;}
@@ -146,6 +146,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .btn-back-search:hover{background:rgba(255,255,255,.1);}
 
 .loading-msg{text-align:center;color:var(--muted);padding:2rem;font-size:.92rem;}
+
+/* Score bar */
+.score-bar-wrap{display:flex;align-items:center;gap:.5rem;}
+.score-bar-bg{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.score-bar-fill{height:100%;border-radius:3px;transition:width .4s;}
 </style>
 </head>
 <body>
@@ -165,7 +170,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <datalist id="alumnos-dl"></datalist>
       <div class="form-group">
         <label for="inp-nombre">Nombre y apellido completo</label>
-        <input id="inp-nombre" type="text" list="alumnos-dl" placeholder="Ej: María García"
+        <input id="inp-nombre" type="text" list="alumnos-dl"
+          placeholder="Ej: María García Pérez"
           autocomplete="off" style="width:100%"
           onkeydown="if(event.key==='Enter')buscar()">
       </div>
@@ -209,12 +215,13 @@ const GRADE_LABELS = {
   sec5:  '5.° Secundaria',
 };
 
-let _alumnoNames = []; // nombres cargados del ranking para autocomplete
+const MONTH_NAMES = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+let _alumnoNames = [];
 
 function updateAccent(){
   const grado = document.getElementById('sel-grado').value;
-  const color = GRADE_ACCENTS[grado] || '#4f8ef7';
-  document.querySelector('.search-btn').style.background = color;
+  document.querySelector('.search-btn').style.background = GRADE_ACCENTS[grado] || '#4f8ef7';
 }
 
 async function loadAlumnos(){
@@ -289,77 +296,127 @@ async function buscar(){
   } catch(e){
     document.getElementById('perfil-content').innerHTML = `
       <div class="profile-card" style="text-align:center;color:#f87171;">
-        ⚠️ Error al conectar. Intenta de nuevo más tarde.
+        ⚠️ Error al conectar. Intenta de nuevo más tarde.<br>
+        <small style="color:#64748b">${e.message}</small>
       </div>`;
   }
 }
 
 function fmtDate(iso){
   if(!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'});
+  try{
+    const d = new Date(iso);
+    return d.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'});
+  } catch { return iso; }
+}
+
+function scoreColor(score, max){
+  const pct = score / max;
+  if(pct >= 0.9) return '#22c55e';
+  if(pct >= 0.6) return '#f59e0b';
+  return '#f87171';
+}
+
+function scoreClass(score, max){
+  const pct = score / max;
+  if(pct >= 0.9) return 'score-ok';
+  if(pct >= 0.6) return 'score-mid';
+  return 'score-fail';
 }
 
 function getEncourageMsg(rank, totalStudents){
-  if(!rank) return {cls:'keep', msg:'💪 ¡Sigue adelante! Completa más evaluaciones.'};
-  if(rank <= 3) return {cls:'top3', msg:'🔥 ¡Estás entre los mejores! ¡Sigue así!'};
+  if(!rank) return {cls:'keep', msg:'💪 ¡Sigue completando evaluaciones para aparecer en el ranking!'};
+  if(rank === 1) return {cls:'top3', msg:'🥇 ¡Primer lugar! ¡Increíble!'};
+  if(rank <= 3) return {cls:'top3', msg:'🔥 ¡Estás en el Top 3! ¡Sigue así!'};
   if(rank <= Math.ceil(totalStudents / 2)) return {cls:'good', msg:'👍 ¡Buen trabajo! Estás en la primera mitad del ranking.'};
-  return {cls:'keep', msg:'💪 ¡Sigue adelante! Cada evaluación suma puntos.'};
+  return {cls:'keep', msg:'💪 ¡Cada evaluación suma puntos! Tú puedes.'};
 }
 
 function renderPerfil(data, grado){
-  const accent = GRADE_ACCENTS[grado] || '#4f8ef7';
-  const gradeLabel = GRADE_LABELS[grado] || grado;
+  const accent     = GRADE_ACCENTS[grado] || '#4f8ef7';
+  const gradeLabel = GRADE_LABELS[grado]  || grado;
 
-  // Calc totals
-  const evals = data.evals || [];
-  const bonuses = data.bonuses || [];
-  const avgEval = evals.length > 0
-    ? Math.round((evals.reduce((a,b)=>a+b.score,0)/evals.length)*10)/10
-    : 0;
-  const sesiones = new Set(evals.map(e=>e.sesion)).size;
-  const bonusTotal = bonuses.reduce((a,b)=>a+b.puntos,0);
-  const totalPts = Math.round((avgEval*10 + sesiones*10 + bonusTotal)*10)/10;
+  // Usar historial deduplicado (un entry por sesión, score más alto)
+  // Si el backend aún no devuelve historial (roster no construido), hacer fallback a evals
+  const historial = data.historial && data.historial.length > 0
+    ? data.historial
+    : (() => {
+        // Deduplicar evals por sesión en el cliente
+        const sesMap = new Map();
+        for(const ev of (data.evals || [])){
+          const id = ev.sesion || String(ev.ts);
+          if(!sesMap.has(id) || ev.score > sesMap.get(id).score) sesMap.set(id, ev);
+        }
+        return [...sesMap.values()].sort((a,b)=>(a.sesion||'').localeCompare(b.sesion||''));
+      })();
+
+  const sesiones   = historial.length;
+  const scoreSum   = historial.reduce((a,h) => a + (h.score||0), 0);
+  const avgScore   = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
+  const bonuses    = data.bonuses || [];
+  const bonusTotal = bonuses.reduce((a,b) => a + (Number(b.puntos)||0), 0);
+  const totalPts   = Math.round((scoreSum + bonusTotal) * 10) / 10;
+
+  // Mes del ranking (puede ser null si no hay actividad este mes)
+  const [year, month] = (data.mes||'').split('-');
+  const mesLabel = month ? `${MONTH_NAMES[parseInt(month)]} ${year}` : data.mes;
 
   // Rank badge
   let rankHtml = '';
   if(data.rank){
     rankHtml = `
-    <div class="rank-badge" style="background:linear-gradient(135deg,#312e81,#1d4ed8)">
+    <div class="rank-badge">
       <div class="rank-num" style="color:${accent}">#${data.rank}</div>
       <div class="rank-label">Ranking</div>
       <div class="rank-of">de ${data.totalStudents}</div>
+      <div class="rank-note">${mesLabel}</div>
+    </div>`;
+  } else {
+    rankHtml = `
+    <div class="rank-badge" style="opacity:.55">
+      <div class="rank-num" style="color:#64748b">—</div>
+      <div class="rank-label">Sin rank</div>
+      <div class="rank-note">${mesLabel}</div>
     </div>`;
   }
 
-  // Encourage
   const enc = getEncourageMsg(data.rank, data.totalStudents);
 
-  // Evals table
+  // Historial de evaluaciones (tabla)
   let evalsHtml = '';
-  if(evals.length === 0){
+  if(historial.length === 0){
     evalsHtml = '<div class="no-data">Sin evaluaciones registradas.</div>';
   } else {
-    const rows = evals.map(ev => {
-      const passed = ev.score >= 6;
+    const rows = historial.map(h => {
+      const score = h.score || 0;
+      const sClass = scoreClass(score, 20);
+      const status = score >= 10 ? '✅' : '❌';
+      const statusCls = score >= 10 ? 'status-ok' : 'status-fail';
+      const barPct   = Math.round(score / 20 * 100);
+      const barColor = scoreColor(score, 20);
       return `<tr>
-        <td>Sesión ${ev.sesion}</td>
-        <td>${fmtDate(ev.fecha)}</td>
-        <td class="score-cell ${passed?'score-ok':'score-fail'}">${ev.score}/10</td>
-        <td class="${passed?'status-ok':'status-fail'}">${passed?'✅':'❌'}</td>
+        <td>Sesión ${parseInt(h.sesion||0,10)}</td>
+        <td>${fmtDate(h.fecha)}</td>
+        <td class="score-cell ${sClass}">
+          <div class="score-bar-wrap">
+            <span>${score}<sub>/20</sub></span>
+            <div class="score-bar-bg"><div class="score-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
+          </div>
+        </td>
+        <td class="${statusCls}">${status}</td>
       </tr>`;
     }).join('');
     evalsHtml = `<table class="data-table">
-      <thead><tr><th>Sesión</th><th>Fecha</th><th>Nota</th><th>Estado</th></tr></thead>
+      <thead><tr><th>Sesión</th><th>Fecha</th><th>Nota</th><th></th></tr></thead>
       <tbody>${rows}</tbody>
     </table>`;
   }
 
-  // Bonus table
+  // Historial de bonus
   let bonusHtml = '';
   if(bonuses.length > 0){
     const rows = bonuses.map(b => {
-      const cls = b.puntos > 0 ? 'bonus-row-pos' : 'bonus-row-neg';
+      const cls  = b.puntos > 0 ? 'bonus-row-pos' : 'bonus-row-neg';
       const sign = b.puntos > 0 ? '+' : '';
       return `<tr>
         <td>${fmtDate(b.fecha)}</td>
@@ -368,7 +425,7 @@ function renderPerfil(data, grado){
       </tr>`;
     }).join('');
     bonusHtml = `
-      <div class="section-title">⭐ Historial de puntos extra</div>
+      <div class="section-title">⭐ Puntos extra de la profesora</div>
       <div class="profile-card">
         <table class="data-table">
           <thead><tr><th>Fecha</th><th>Puntos</th><th>Razón</th></tr></thead>
@@ -377,17 +434,12 @@ function renderPerfil(data, grado){
       </div>`;
   }
 
-  // Month info
-  const [year, month] = (data.mes||'').split('-');
-  const MONTH_NAMES = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const mesLabel = month ? `${MONTH_NAMES[parseInt(month)]} ${year}` : data.mes;
-
   document.getElementById('perfil-content').innerHTML = `
     <div class="profile-card">
       <div class="profile-header">
         <div>
           <div class="profile-name">${data.nombre}</div>
-          <div class="profile-grade">${gradeLabel} · ${mesLabel}</div>
+          <div class="profile-grade">${gradeLabel}</div>
         </div>
         ${rankHtml}
       </div>
@@ -398,12 +450,12 @@ function renderPerfil(data, grado){
           <div class="stat-lbl">Evaluaciones</div>
         </div>
         <div class="stat-box">
-          <div class="stat-val" style="color:${accent}">${avgEval > 0 ? avgEval+'/10' : '—'}</div>
+          <div class="stat-val" style="color:${accent}">${sesiones > 0 ? avgScore+'/20' : '—'}</div>
           <div class="stat-lbl">Promedio</div>
         </div>
         <div class="stat-box">
-          <div class="stat-val" style="color:${bonusTotal>0?'#22c55e':bonusTotal<0?'#f87171':accent}">${bonusTotal > 0 ? '+'+bonusTotal : bonusTotal || '—'}</div>
-          <div class="stat-lbl">Bonus</div>
+          <div class="stat-val" style="color:${bonusTotal>0?'#22c55e':bonusTotal<0?'#f87171':accent}">${bonusTotal > 0 ? '+'+bonusTotal : (bonusTotal < 0 ? bonusTotal : '—')}</div>
+          <div class="stat-lbl">Puntos extra</div>
         </div>
       </div>
 
@@ -415,27 +467,25 @@ function renderPerfil(data, grado){
 
     ${bonusHtml}
 
-    <div class="section-title">🏆 Total de puntos del mes</div>
+    <div class="section-title">🏆 Puntos totales</div>
     <div class="total-pts-box">
       <div class="total-pts-val">${totalPts}</div>
-      <div class="total-pts-lbl">promedio% + sesiones×5 + bonus</div>
+      <div class="total-pts-lbl">suma de notas${bonusTotal !== 0 ? ' + puntos extra' : ''} · máx ${sesiones * 20} pts con ${sesiones} sesión${sesiones !== 1 ? 'es' : ''}</div>
     </div>
   `;
 }
 
-// Auto-fill from querystring
+// Auto-fill desde querystring (e.g. /progreso.html?nombre=Ana&grado=sec2)
 (function(){
   const sp = new URLSearchParams(location.search);
   const qNombre = sp.get('nombre');
-  const qGrado = sp.get('grado');
-  if(qNombre){
-    document.getElementById('inp-nombre').value = qNombre.trim();
-  }
+  const qGrado  = sp.get('grado');
+  if(qNombre) document.getElementById('inp-nombre').value = qNombre.trim();
   if(qGrado && document.querySelector(`#sel-grado option[value="${qGrado}"]`)){
     document.getElementById('sel-grado').value = qGrado;
   }
   updateAccent();
-  loadAlumnos(); // carga nombres del mes actual para autocomplete
+  loadAlumnos();
   if(qNombre && qGrado) buscar();
 })();
 </script>

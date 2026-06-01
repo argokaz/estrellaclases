@@ -3,9 +3,10 @@
  *
  * GET /.netlify/functions/get-progress?nombre=Ana+Garcia&grado=sec2
  *
- * Busca todas las evaluaciones y bonuses de un alumno usando fuzzy matching,
- * y calcula su posición en el ranking del mes actual con la misma fórmula
- * que get-ranking.js: total = scoreSum + bonus.
+ * Lee el registro canónico del alumno desde el roster (registro único por alumno).
+ * Fallback: si el roster no existe o no encuentra al alumno, escanea raw evals.
+ *
+ * Devuelve historial completo de todas las sesiones + posición en ranking del mes.
  */
 
 const { getStore } = require("@netlify/blobs");
@@ -36,7 +37,7 @@ exports.handler = async (event) => {
   if (event.httpMethod !== "GET")     return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
 
   const params = event.queryStringParameters || {};
-  const nombre = params.nombre;
+  const nombre = (params.nombre || "").trim();
   const grado  = params.grado;
   if (!nombre || !grado) return { statusCode: 400, headers: CORS, body: '{"error":"nombre and grado are required"}' };
 
@@ -45,130 +46,110 @@ exports.handler = async (event) => {
   const currentMes = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   try {
-    const evalStore  = makeStore("evaluaciones");
-    const bonusStore = makeStore("bonuses");
+    const rosterStore = makeStore("rosters");
+    const bonusStore  = makeStore("bonuses");
 
-    const [evalList, bonusList] = await Promise.all([
-      evalStore.list({}),
-      bonusStore.list({ prefix: grado + "/" }).catch(() => ({ blobs: [] })),
-    ]);
+    // ── 1. Buscar en el roster (registro único por alumno) ────────────────────
+    const roster  = await rosterStore.get(grado, { type: "json" }).catch(() => null);
+    let   student = null;
 
-    const [evalDatas, bonusDatas] = await Promise.all([
-      Promise.all((evalList.blobs  || []).map(({ key }) => evalStore.get(key,  { type: "json" }).catch(() => null))),
-      Promise.all((bonusList.blobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
-    ]);
-
-    const gradeEvals   = evalDatas.filter(d  => d && d.grado === grado);
-    const gradeBonuses = bonusDatas.filter(d => d);
-
-    // ── Buscar evals y bonuses del alumno con fuzzy matching ────────────────
-    const studentEvals   = gradeEvals.filter(d   => areSamePerson(normSearch, normalize(d.nombre)));
-    const studentBonuses = gradeBonuses.filter(d => areSamePerson(normSearch, normalize(d.nombre)));
-
-    if (studentEvals.length === 0 && studentBonuses.length === 0) {
-      return { statusCode: 200, headers: CORS, body: JSON.stringify({ found: false }) };
+    if (roster && Array.isArray(roster.alumnos)) {
+      student = roster.alumnos.find(a =>
+        areSamePerson(normSearch, normalize(a.nombre))
+      ) || null;
     }
 
-    // Ordenar: evals por sesión asc
-    studentEvals.sort((a, b)   => (a.sesion || "").localeCompare(b.sesion || ""));
-    studentBonuses.sort((a, b) => (b.fecha  || "").localeCompare(a.fecha  || ""));
+    // ── 2. Fallback: escanear raw evals si no hay roster o no encontró ────────
+    if (!student) {
+      const evalStore = makeStore("evaluaciones");
+      const { blobs }  = await evalStore.list({});
+      const evalDatas  = await Promise.all(
+        (blobs || []).map(({ key }) => evalStore.get(key, { type: "json" }).catch(() => null))
+      );
+      const gradeEvals = evalDatas.filter(d => d && d.grado === grado);
+      const matching   = gradeEvals.filter(d => areSamePerson(normSearch, normalize(d.nombre)));
 
-    // ── Calcular rank del mes actual con la misma lógica que get-ranking.js ──
-    const thisMonthEvals   = gradeEvals.filter(d   => d.fecha && d.fecha.slice(0, 7) === currentMes);
-    const thisMonthBonuses = gradeBonuses.filter(d => d.mes === currentMes);
-
-    // rawMap: normKey → { displayNames[], sessionScores: Map<sesion, maxScore>, bonusTotal }
-    const rawMap = new Map();
-    for (const ev of thisMonthEvals) {
-      const key = normalize(ev.nombre);
-      if (!rawMap.has(key)) rawMap.set(key, { displayNames: [], sessionScores: new Map(), bonusTotal: 0 });
-      const s = rawMap.get(key);
-      const display = (ev.nombre || "").trim();
-      if (!s.displayNames.includes(display)) s.displayNames.push(display);
-      const sesId = String(ev.sesion || `noses_${ev.ts || Date.now()}`);
-      const prev  = s.sessionScores.get(sesId) || 0;
-      s.sessionScores.set(sesId, Math.max(prev, Number(ev.score) || 0));
-    }
-
-    // Aplicar bonus del mes
-    for (const bonus of thisMonthBonuses) {
-      const key = normalize(bonus.nombre);
-      const pts = Number(bonus.puntos) || 0;
-      if (rawMap.has(key)) { rawMap.get(key).bonusTotal += pts; continue; }
-      let bestKey = null, bestSim = 0;
-      for (const k of rawMap.keys()) {
-        const sim = nameSimilarity(key, k);
-        if (sim > bestSim) { bestSim = sim; bestKey = k; }
-      }
-      if (bestKey && bestSim >= SAME_THRESHOLD) rawMap.get(bestKey).bonusTotal += pts;
-    }
-
-    // Clusterizar y calcular ranking completo
-    const allKeys  = [...rawMap.keys()];
-    const clusters = clusterKeys(allKeys);
-
-    const rankingArr      = [];
-    let   studentClusterRoot = null;
-
-    for (const [root, groupKeys] of clusters) {
-      const mergedSesScores = new Map();
-      let   totalBonus      = 0;
-
-      for (const k of groupKeys) {
-        const s = rawMap.get(k);
-        s.sessionScores.forEach((score, sesId) => {
-          const prev = mergedSesScores.get(sesId) || 0;
-          mergedSesScores.set(sesId, Math.max(prev, score));
-        });
-        totalBonus += s.bonusTotal;
-        if (areSamePerson(normSearch, k)) studentClusterRoot = root;
+      if (matching.length === 0) {
+        return { statusCode: 200, headers: CORS, body: JSON.stringify({ found: false }) };
       }
 
-      const sesiones = mergedSesScores.size;
-      const scoreSum = [...mergedSesScores.values()].reduce((a, b) => a + b, 0);
-      const avgScore = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
-      const total    = Math.round((scoreSum + totalBonus) * 10) / 10;
-
-      rankingArr.push({ root, sesiones, avgScore, scoreSum, total });
-    }
-
-    rankingArr.sort((a, b) => b.total - a.total || b.avgScore - a.avgScore || b.sesiones - a.sesiones);
-
-    const rankPos       = studentClusterRoot !== null
-      ? rankingArr.findIndex(r => r.root === studentClusterRoot)
-      : -1;
-    const rank          = rankPos >= 0 ? rankPos + 1 : null;
-    const totalStudents = rankingArr.length;
-
-    // Nombre canónico: el más "bien escrito" de todas las variantes
-    const allDisplayVariants = studentEvals.map(e => (e.nombre || "").trim()).filter(Boolean);
-    const displayName = titleCase(allDisplayVariants.length > 0 ? bestDisplayName(allDisplayVariants) : nombre);
-
-    // Historial completo del alumno (deduplicado por sesión, score más alto)
-    const sesionScoreMap = new Map();
-    for (const ev of studentEvals) {
-      const sesId = String(ev.sesion || `noses_${ev.ts || Date.now()}`);
-      const prev  = sesionScoreMap.get(sesId);
-      if (!prev || Number(ev.score) > prev.score) {
-        sesionScoreMap.set(sesId, { score: Number(ev.score) || 0, fecha: ev.fecha || "", sesion: ev.sesion });
+      // Construir registro sintético desde raw evals
+      const sesMap = new Map();
+      for (const ev of matching) {
+        const sesId = String(ev.sesion || "??").padStart(2, "0");
+        const prev  = sesMap.get(sesId);
+        if (!prev || ev.score > prev.score) {
+          sesMap.set(sesId, { sesion: sesId, score: Number(ev.score) || 0, fecha: ev.fecha || "" });
+        }
       }
+      const historial  = [...sesMap.values()].sort((a, b) => a.sesion.localeCompare(b.sesion));
+      const scoreSum   = historial.reduce((a, h) => a + h.score, 0);
+      const sesiones   = historial.length;
+      const allNames   = matching.map(e => (e.nombre || "").trim()).filter(Boolean);
+      student = {
+        nombre:   titleCase(bestDisplayName(allNames)),
+        historial,
+        sesiones,
+        total:    scoreSum,
+        avg:      sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0,
+      };
     }
-    const historial = [...sesionScoreMap.values()]
-      .sort((a, b) => (a.sesion || "").localeCompare(b.sesion || ""));
+
+    // ── 3. Bonuses del alumno ─────────────────────────────────────────────────
+    const bonusList = await bonusStore.list({ prefix: grado + "/" }).catch(() => ({ blobs: [] }));
+    const bonusDatas = await Promise.all(
+      (bonusList.blobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))
+    );
+    const bonuses = bonusDatas.filter(d => d && areSamePerson(normSearch, normalize(d.nombre || "")));
+    bonuses.sort((a, b) => (b.fecha || "").localeCompare(a.fecha || ""));
+    const bonusTotal = bonuses.reduce((a, b) => a + (Number(b.puntos) || 0), 0);
+
+    // ── 4. Ranking del mes actual (desde roster completo del grado) ───────────
+    let rank = null, totalStudents = 0;
+    if (roster && Array.isArray(roster.alumnos)) {
+      const rankingArr = roster.alumnos.map(a => {
+        const monthHist = (a.historial || []).filter(h => h.fecha && h.fecha.slice(0, 7) === currentMes);
+        if (monthHist.length === 0) return null;
+        const sc = monthHist.reduce((s, h) => s + h.score, 0);
+        return { nombre: a.nombre, scoreSum: sc, sesiones: monthHist.length };
+      }).filter(Boolean);
+
+      // Agregar bonus del mes a cada entrada
+      const bonusListAll = await bonusStore.list({ prefix: grado + "/" }).catch(() => ({ blobs: [] }));
+      const bonusAllData = await Promise.all(
+        (bonusListAll.blobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))
+      );
+      const monthBonuses = bonusAllData.filter(d => d && d.mes === currentMes);
+
+      for (const b of monthBonuses) {
+        const normB = normalize(b.nombre || "");
+        const entry = rankingArr.find(r => areSamePerson(normB, normalize(r.nombre)));
+        if (entry) entry.scoreSum += Number(b.puntos) || 0;
+      }
+
+      rankingArr.sort((a, b) => b.scoreSum - a.scoreSum || b.sesiones - a.sesiones);
+      totalStudents = rankingArr.length;
+      const pos = rankingArr.findIndex(r => areSamePerson(normSearch, normalize(r.nombre)));
+      rank = pos >= 0 ? pos + 1 : null;
+    }
 
     return {
       statusCode: 200,
       headers: CORS,
       body: JSON.stringify({
-        found: true,
-        nombre: displayName,
+        found:         true,
+        nombre:        student.nombre,
         grado,
-        evals:   studentEvals,
-        historial,
-        bonuses: studentBonuses,
+        historial:     student.historial || [],
+        sesiones:      student.sesiones  || 0,
+        avg:           student.avg       || 0,
+        total:         (student.total || 0) + bonusTotal,
+        scoreSum:      student.total    || 0,
+        bonusTotal,
+        bonuses,
         rank,
         totalStudents,
-        mes: currentMes,
+        mes:           currentMes,
       }),
     };
   } catch (err) {

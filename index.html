@@ -2086,12 +2086,12 @@ function renderRankingBody(ranking){
     const medal=i<3?crowns[i]+' ':'';
     const bcolor=s.bonus>0?'color:#22c55e':s.bonus<0?'color:#f87171':'';
     const bTxt=s.bonus>0?'+'+s.bonus:s.bonus<0?String(s.bonus):'—';
-    const pct=s.avgPct!=null?s.avgPct:s.avgEval; // compatibilidad
+    const avg=s.avgScore!=null?s.avgScore:(s.avgPct!=null?Math.round(s.avgPct/5*10)/10:null);
     tbl+=`<tr>
       <td class="rk-num">${medal}${i+1}</td>
       <td class="rk-nombre">${s.nombre}</td>
       <td style="text-align:center">${s.sesiones>0?s.sesiones+' ✅':'—'}</td>
-      <td style="text-align:right">${pct>0?Math.round(pct)+'%':'—'}</td>
+      <td style="text-align:right">${avg!=null&&avg>0?avg+'/20':'—'}</td>
       <td style="text-align:right;${bcolor}">${bTxt}</td>
       <td class="rk-pts">${s.total}</td>
     </tr>`;

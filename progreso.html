@@ -163,18 +163,11 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="search-card">
       <h2>🔍 Buscar mi progreso</h2>
       <datalist id="alumnos-dl"></datalist>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="inp-nombre">Nombre</label>
-          <input id="inp-nombre" type="text" list="alumnos-dl" placeholder="Ej: María" autocomplete="off"
-            onkeydown="if(event.key==='Enter')document.getElementById('inp-apellido').focus()"
-            oninput="onNombreInput()">
-        </div>
-        <div class="form-group">
-          <label for="inp-apellido">Apellido</label>
-          <input id="inp-apellido" type="text" placeholder="Ej: García" autocomplete="family-name"
-            onkeydown="if(event.key==='Enter')buscar()">
-        </div>
+      <div class="form-group">
+        <label for="inp-nombre">Nombre y apellido completo</label>
+        <input id="inp-nombre" type="text" list="alumnos-dl" placeholder="Ej: María García"
+          autocomplete="off" style="width:100%"
+          onkeydown="if(event.key==='Enter')buscar()">
       </div>
       <div class="form-group">
         <label for="sel-grado">Grado</label>
@@ -236,25 +229,10 @@ async function loadAlumnos(){
   } catch(e) { /* silencioso */ }
 }
 
-function rebuildDatalist(filter){
+function rebuildDatalist(){
   const dl = document.getElementById('alumnos-dl');
   if(!dl) return;
-  const names = filter
-    ? _alumnoNames.filter(n => n.toLowerCase().includes(filter.toLowerCase()))
-    : _alumnoNames;
-  dl.innerHTML = names.map(n => `<option value="${n}">`).join('');
-}
-
-function onNombreInput(){
-  const val = document.getElementById('inp-nombre').value;
-  // Si seleccionó un nombre completo del datalist (tiene espacio), auto-split
-  const parts = val.split(' ');
-  if(parts.length >= 2 && _alumnoNames.includes(val)){
-    document.getElementById('inp-nombre').value = parts[0];
-    document.getElementById('inp-apellido').value = parts.slice(1).join(' ');
-  } else {
-    rebuildDatalist(val);
-  }
+  dl.innerHTML = _alumnoNames.map(n => `<option value="${n}">`).join('');
 }
 
 function volverBuscador(){
@@ -263,24 +241,17 @@ function volverBuscador(){
 }
 
 async function buscar(){
-  const nombre = (document.getElementById('inp-nombre').value || '').trim();
-  const apellido = (document.getElementById('inp-apellido').value || '').trim();
+  const inp = document.getElementById('inp-nombre');
+  const nombreCompleto = (inp.value || '').trim();
   const grado = document.getElementById('sel-grado').value;
   const errEl = document.getElementById('search-error');
 
-  if(nombre.length < 2){
-    errEl.textContent = '⚠️ Ingresa tu nombre (mínimo 2 caracteres).';
-    document.getElementById('inp-nombre').focus();
-    return;
-  }
-  if(apellido.length < 2){
-    errEl.textContent = '⚠️ Ingresa tu apellido (mínimo 2 caracteres).';
-    document.getElementById('inp-apellido').focus();
+  if(nombreCompleto.split(/\s+/).filter(s=>s).length < 2){
+    errEl.textContent = '⚠️ Escribe tu nombre y apellido completo.';
+    inp.focus();
     return;
   }
   errEl.textContent = '';
-
-  const nombreCompleto = nombre + ' ' + apellido;
 
   document.getElementById('buscador').style.display = 'none';
   document.getElementById('perfil').style.display = '';
@@ -446,9 +417,7 @@ function renderPerfil(data, grado){
   const qNombre = sp.get('nombre');
   const qGrado = sp.get('grado');
   if(qNombre){
-    const parts = qNombre.trim().split(' ');
-    document.getElementById('inp-nombre').value = parts[0] || '';
-    document.getElementById('inp-apellido').value = parts.slice(1).join(' ') || '';
+    document.getElementById('inp-nombre').value = qNombre.trim();
   }
   if(qGrado && document.querySelector(`#sel-grado option[value="${qGrado}"]`)){
     document.getElementById('sel-grado').value = qGrado;

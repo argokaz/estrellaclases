@@ -262,13 +262,9 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <div class="gate-h">Antes de comenzar</div>
         <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Nombre</label>
-        <input id="gate-nombre" class="gate-input" type="text"
-          placeholder="Tu nombre…" maxlength="60"
-          onkeydown="if(event.key==='Enter') document.getElementById('gate-apellido').focus()">
+        <datalist id="alumnos-gate-dl"></datalist>
+          <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
         <label class="gate-label">Apellido</label>
-        <input id="gate-apellido" class="gate-input" type="text"
-          placeholder="Tu apellido…" maxlength="60"
-          onkeydown="if(event.key==='Enter') startEval('sec4')">
         <button class="gate-btn" onclick="startEval('sec4')">Comenzar evaluación →</button>
       </div>
     </div>
@@ -380,14 +376,13 @@ function enterExamMode(){
 let _name='',_grade='',_session='';
 function startEval(grade){
   const inpN=document.getElementById('gate-nombre');
-  const inpA=document.getElementById('gate-apellido');
-  const nombre=inpN.value.trim();
-  const apellido=inpA.value.trim();
-  let ok=true;
-  if(nombre.length<2){inpN.classList.add('err');inpN.focus();ok=false;}else{inpN.classList.remove('err');}
-  if(apellido.length<2){inpA.classList.add('err');if(ok)inpA.focus();ok=false;}else{inpA.classList.remove('err');}
-  if(!ok)return;
-  const name=nombre+' '+apellido;
+  const name=inpN.value.trim();
+  if(name.split(/\s+/).filter(s=>s).length<2){
+    inpN.classList.add('err');
+    inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');
+    inpN.focus();return;
+  }
+  inpN.classList.remove('err');
   _name=name;_grade=grade;
   const gkEl=document.getElementById('eval-grade-key');
   _session=gkEl?gkEl.dataset.session:'00';
@@ -492,6 +487,21 @@ document.addEventListener('DOMContentLoaded',()=>{
   showResult(r);
 });
 
+
+// ── Autocomplete: nombres del salón ───────────────────────────────────────
+(function(){
+  const gkEl=document.getElementById('eval-grade-key');
+  if(!gkEl) return;
+  const grade=gkEl.dataset.grade;
+  const mes=new Date().toISOString().slice(0,7);
+  fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{
+      if(!d||!d.ranking) return;
+      const dl=document.getElementById('alumnos-gate-dl');
+      if(dl) dl.innerHTML=d.ranking.map(s=>'<option value="'+s.nombre+'">').join('');
+    }).catch(()=>{});
+})();
 </script>
 
 </body>

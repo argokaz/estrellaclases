@@ -2318,17 +2318,28 @@ function mergeSelected(){
   })[0];
   const chosen = prompt(`Nombre canónico para la fusión:\n(sugerido: "${canonical}")`, canonical);
   if(!chosen||!chosen.trim()) return;
-  // Sumar sesiones (sin duplicar) y promediar avg
-  const mergedSesiones = Math.max(...indices.map(i => _rosterData[i].sesiones||0));
-  const scores = indices.flatMap(i => {
-    const d = _rosterData[i];
-    return d.avg && d.sesiones ? Array(d.sesiones).fill(d.avg) : [];
-  });
-  const mergedAvg = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length*10)/10 : 0;
-  const mergedTotal = indices.reduce((s,i)=>s+((_rosterData[i].total)||0),0);
+  // Fusionar historials: mejor score por sesión
+  const allHist = indices.flatMap(i => _rosterData[i]?.historial || []);
+  const sesMap  = new Map();
+  for(const h of allHist){
+    const prev = sesMap.get(h.sesion);
+    if(!prev || h.score > prev.score) sesMap.set(h.sesion, h);
+  }
+  const mergedHistorial = [...sesMap.values()].sort((a,b)=>a.sesion.localeCompare(b.sesion));
+  const mergedTotal     = mergedHistorial.reduce((s,h)=>s+h.score, 0);
+  const mergedSesiones  = mergedHistorial.length;
+  const mergedAvg       = mergedSesiones ? Math.round(mergedTotal/mergedSesiones*10)/10 : 0;
+
   // Reemplazar el primer índice con el fusionado, eliminar los demás
   const sortedIdx = indices.slice().sort((a,b)=>a-b);
-  _rosterData[sortedIdx[0]] = {nombre:titleCase(chosen), sesiones:mergedSesiones, avg:mergedAvg, total:mergedTotal};
+  _rosterData[sortedIdx[0]] = {
+    nombre:    titleCase(chosen),
+    sesiones:  mergedSesiones,
+    avg:       mergedAvg,
+    total:     mergedTotal,
+    historial: mergedHistorial,
+    variantes: [],
+  };
   for(let k = sortedIdx.length-1; k >= 1; k--) _rosterData.splice(sortedIdx[k],1);
   renderRosterList();
   markDirty();
@@ -2336,12 +2347,14 @@ function mergeSelected(){
 }
 
 async function saveRoster(){
-  // Recoger valores actuales de los inputs
+  // Recoger valores actuales de los inputs — preservar historial y variantes
   const alumnos = [...document.querySelectorAll('.roster-inp')].map((inp,i)=>({
-    nombre: inp.value.trim(),
-    sesiones: _rosterData[i]?.sesiones||0,
-    avg:      _rosterData[i]?.avg||0,
-    total:    _rosterData[i]?.total||0,
+    nombre:    inp.value.trim(),
+    sesiones:  _rosterData[i]?.sesiones  || 0,
+    avg:       _rosterData[i]?.avg       || 0,
+    total:     _rosterData[i]?.total     || 0,
+    historial: _rosterData[i]?.historial || [],
+    variantes: _rosterData[i]?.variantes || [],
   })).filter(a=>a.nombre.length>=2);
 
   const statusEl = document.getElementById('roster-status');

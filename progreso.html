@@ -162,11 +162,13 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div id="buscador">
     <div class="search-card">
       <h2>🔍 Buscar mi progreso</h2>
+      <datalist id="alumnos-dl"></datalist>
       <div class="form-row">
         <div class="form-group">
           <label for="inp-nombre">Nombre</label>
-          <input id="inp-nombre" type="text" placeholder="Ej: María" autocomplete="given-name"
-            onkeydown="if(event.key==='Enter')document.getElementById('inp-apellido').focus()">
+          <input id="inp-nombre" type="text" list="alumnos-dl" placeholder="Ej: María" autocomplete="off"
+            onkeydown="if(event.key==='Enter')document.getElementById('inp-apellido').focus()"
+            oninput="onNombreInput()">
         </div>
         <div class="form-group">
           <label for="inp-apellido">Apellido</label>
@@ -176,7 +178,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       </div>
       <div class="form-group">
         <label for="sel-grado">Grado</label>
-        <select id="sel-grado" onchange="updateAccent()">
+        <select id="sel-grado" onchange="updateAccent(); loadAlumnos()">
           <option value="prim6">6.° Primaria</option>
           <option value="sec2">2.° Secundaria</option>
           <option value="sec3">3.° Secundaria</option>
@@ -214,10 +216,45 @@ const GRADE_LABELS = {
   sec5:  '5.° Secundaria',
 };
 
+let _alumnoNames = []; // nombres cargados del ranking para autocomplete
+
 function updateAccent(){
   const grado = document.getElementById('sel-grado').value;
   const color = GRADE_ACCENTS[grado] || '#4f8ef7';
   document.querySelector('.search-btn').style.background = color;
+}
+
+async function loadAlumnos(){
+  const grado = document.getElementById('sel-grado').value;
+  const mes = new Date().toISOString().slice(0, 7);
+  try {
+    const r = await fetch(`/.netlify/functions/get-ranking?grado=${grado}&mes=${mes}`);
+    if(!r.ok) return;
+    const d = await r.json();
+    _alumnoNames = (d.ranking || []).map(s => s.nombre);
+    rebuildDatalist();
+  } catch(e) { /* silencioso */ }
+}
+
+function rebuildDatalist(filter){
+  const dl = document.getElementById('alumnos-dl');
+  if(!dl) return;
+  const names = filter
+    ? _alumnoNames.filter(n => n.toLowerCase().includes(filter.toLowerCase()))
+    : _alumnoNames;
+  dl.innerHTML = names.map(n => `<option value="${n}">`).join('');
+}
+
+function onNombreInput(){
+  const val = document.getElementById('inp-nombre').value;
+  // Si seleccionó un nombre completo del datalist (tiene espacio), auto-split
+  const parts = val.split(' ');
+  if(parts.length >= 2 && _alumnoNames.includes(val)){
+    document.getElementById('inp-nombre').value = parts[0];
+    document.getElementById('inp-apellido').value = parts.slice(1).join(' ');
+  } else {
+    rebuildDatalist(val);
+  }
 }
 
 function volverBuscador(){
@@ -398,7 +435,7 @@ function renderPerfil(data, grado){
     <div class="section-title">🏆 Total de puntos del mes</div>
     <div class="total-pts-box">
       <div class="total-pts-val">${totalPts}</div>
-      <div class="total-pts-lbl">promedio×10 + sesiones×10 + bonus</div>
+      <div class="total-pts-lbl">promedio% + sesiones×5 + bonus</div>
     </div>
   `;
 }
@@ -417,6 +454,7 @@ function renderPerfil(data, grado){
     document.getElementById('sel-grado').value = qGrado;
   }
   updateAccent();
+  loadAlumnos(); // carga nombres del mes actual para autocomplete
   if(qNombre && qGrado) buscar();
 })();
 </script>

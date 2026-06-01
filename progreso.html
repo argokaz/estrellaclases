@@ -219,13 +219,25 @@ function updateAccent(){
 
 async function loadAlumnos(){
   const grado = document.getElementById('sel-grado').value;
-  const mes = new Date().toISOString().slice(0, 7);
   try {
-    const r = await fetch(`/.netlify/functions/get-ranking?grado=${grado}&mes=${mes}`);
-    if(!r.ok) return;
-    const d = await r.json();
-    _alumnoNames = (d.ranking || []).map(s => s.nombre);
-    rebuildDatalist();
+    // Primero intenta el roster anual estable
+    const r = await fetch(`/.netlify/functions/get-roster?grado=${grado}`);
+    if(r.ok){
+      const d = await r.json();
+      if(d.found && d.alumnos && d.alumnos.length){
+        _alumnoNames = d.alumnos.map(a => a.nombre);
+        rebuildDatalist();
+        return;
+      }
+    }
+    // Fallback: ranking del mes actual
+    const mes = new Date().toISOString().slice(0, 7);
+    const r2 = await fetch(`/.netlify/functions/get-ranking?grado=${grado}&mes=${mes}`);
+    if(r2.ok){
+      const d2 = await r2.json();
+      _alumnoNames = (d2.ranking || []).map(s => s.nombre);
+      rebuildDatalist();
+    }
   } catch(e) { /* silencioso */ }
 }
 

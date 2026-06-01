@@ -1609,7 +1609,7 @@ function renderPanel(gradeId){
   // ── CLASES FUTURAS — requieren contraseña ──────────────────
   if(unlocked){
     // Barra de estado desbloqueado
-    html += `<div class="unlock-bar">🔓 Modo profesor activo <button class="results-open-btn" onclick="openResults(null, '${gradeId}')">📊 Ver resultados de alumnos</button></div>`;
+    html += `<div class="unlock-bar">🔓 Modo profesor activo <button class="results-open-btn" onclick="openResults(null, '${gradeId}')">📊 Ver resultados de alumnos</button> <button class="results-open-btn" style="background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4);color:#22c55e" onclick="buildRoster('${gradeId}')">🔄 Actualizar lista de alumnos</button></div>`;
 
     if(nextItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
@@ -1991,6 +1991,7 @@ function openRankingModal(gradeId){
   overlay.classList.add('open');
   document.body.style.overflow='hidden';
   loadRankingModal();
+  if(unlocked) loadRosterForModal(gradeId);
 }
 
 function closeRankingModal(){
@@ -2023,7 +2024,22 @@ async function loadRankingModal(){
 function updateBonusAutocomplete(){
   const dl=document.getElementById('bonus-names-dl');
   if(!dl) return;
-  dl.innerHTML=_rankingStudentNames.map(n=>`<option value="${n}">`).join('');
+  // Usar nombres del roster si están cargados, si no los del ranking
+  const names = _rosterNames.length ? _rosterNames : _rankingStudentNames;
+  dl.innerHTML=names.map(n=>`<option value="${n}">`).join('');
+}
+
+let _rosterNames=[];
+
+async function loadRosterForModal(gradeId){
+  try{
+    const r=await fetch(`/.netlify/functions/get-roster?grado=${gradeId}`);
+    if(!r.ok) return;
+    const d=await r.json();
+    if(d.found&&d.alumnos) _rosterNames=d.alumnos.map(a=>a.nombre);
+    else _rosterNames=[];
+  } catch(e){ _rosterNames=[]; }
+  updateBonusAutocomplete();
 }
 
 async function submitBonusModal(){
@@ -2100,6 +2116,36 @@ function renderRankingBody(ranking){
   return pod+tbl;
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// ROSTER — construcción y autocomplete del bonus form
+// ═══════════════════════════════════════════════════════════
+async function buildRoster(gradeId){
+  const btn = event.currentTarget;
+  const origText = btn.textContent;
+  btn.textContent = '⏳ Actualizando…';
+  btn.disabled = true;
+  try{
+    const res = await fetch('/.netlify/functions/build-roster',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({pw: CORRECT_PW, grado: gradeId})
+    });
+    const d = await res.json();
+    if(d.ok){
+      const r = d.results[gradeId];
+      btn.textContent = `✅ ${r.alumnos} alumnos guardados`;
+      // Refrescar el autocomplete del bonus form si está abierto
+      const overlay = document.getElementById('ranking-overlay');
+      if(overlay && overlay.dataset.grade === gradeId) updateBonusAutocomplete();
+    } else {
+      btn.textContent = '⚠️ Error';
+    }
+  } catch(e){
+    btn.textContent = '⚠️ Sin conexión';
+  }
+  setTimeout(()=>{ btn.textContent = origText; btn.disabled = false; }, 3000);
+}
 
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos

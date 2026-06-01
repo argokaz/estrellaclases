@@ -5,8 +5,9 @@ const {
   bestDisplayName,
   clusterKeys,
   nameSimilarity,
-  SAME_THRESHOLD,
 } = require("./_nameUtils");
+
+const SAME_THRESHOLD = 0.6;
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",

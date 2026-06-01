@@ -597,18 +597,27 @@ document.addEventListener('DOMContentLoaded',()=>{
   showResult(r);
 });
 
-// ── Autocomplete: nombres del salón ───────────────────────────────────────
+// ── Autocomplete: roster del salón (lista estable anual) ──────────────────
 (function(){
   const gkEl=document.getElementById('eval-grade-key');
   if(!gkEl) return;
   const grade=gkEl.dataset.grade;
-  const mes=new Date().toISOString().slice(0,7);
-  fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
+  function fillDl(names){
+    const dl=document.getElementById('alumnos-gate-dl');
+    if(dl&&names.length) dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');
+  }
+  // Intentar roster primero; fallback a ranking del mes si no existe
+  fetch('/.netlify/functions/get-roster?grado='+grade)
     .then(r=>r.ok?r.json():null)
     .then(d=>{
-      if(!d||!d.ranking) return;
-      const dl=document.getElementById('alumnos-gate-dl');
-      if(dl) dl.innerHTML=d.ranking.map(s=>'<option value="'+s.nombre+'">').join('');
+      if(d&&d.found&&d.alumnos&&d.alumnos.length){
+        fillDl(d.alumnos.map(a=>a.nombre));
+      } else {
+        const mes=new Date().toISOString().slice(0,7);
+        return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
+          .then(r=>r.ok?r.json():null)
+          .then(r=>{ if(r&&r.ranking) fillDl(r.ranking.map(s=>s.nombre)); });
+      }
     }).catch(()=>{});
 })();
 </script>

@@ -14,6 +14,7 @@
 const { getStore } = require("@netlify/blobs");
 const {
   normalize,
+  titleCase,
   bestDisplayName,
   clusterKeys,
 } = require("./_nameUtils");
@@ -117,7 +118,7 @@ exports.handler = async (event) => {
           .map(([sesion, data]) => ({ sesion, score: data.score, fecha: data.fecha }))
           .sort((a, b) => a.sesion.localeCompare(b.sesion));
 
-        const nombre = bestDisplayName(allDisplayNames);
+        const nombre = titleCase(bestDisplayName(allDisplayNames));
         alumnos.push({
           nombre,
           variantes: [...new Set(allDisplayNames)].filter(v => v !== nombre),

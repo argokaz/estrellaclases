@@ -1,6 +1,7 @@
 const { getStore } = require("@netlify/blobs");
 const {
   normalize,
+  titleCase,
   bestDisplayName,
   clusterKeys,
   nameSimilarity,
@@ -102,7 +103,7 @@ exports.handler = async (event) => {
         totalBonus += s.bonusTotal;
       }
 
-      const nombre    = bestDisplayName(allDisplayNames);
+      const nombre    = titleCase(bestDisplayName(allDisplayNames));
       const sesiones  = mergedSesScores.size;
       const scoreSum  = [...mergedSesScores.values()].reduce((a, b) => a + b, 0);
 

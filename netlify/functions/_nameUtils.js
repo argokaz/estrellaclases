@@ -203,8 +203,29 @@ function clusterKeys(keys) {
   return clusters;
 }
 
+// ── Title Case ─────────────────────────────────────────────────────────────
+// Primera letra de cada palabra en mayúscula; partículas en minúscula excepto
+// cuando son la primera palabra.
+
+const MINORS = new Set([
+  "de", "del", "de la", "de las", "de los",
+  "y", "e", "o", "el", "la", "los", "las",
+]);
+
+function titleCase(str) {
+  return (str || "").trim()
+    .split(/\s+/)
+    .map((word, i) => {
+      const low = word.toLowerCase();
+      if (i > 0 && MINORS.has(low)) return low;
+      return low.charAt(0).toUpperCase() + low.slice(1);
+    })
+    .join(" ");
+}
+
 module.exports = {
   normalize,
+  titleCase,
   nameSimilarity,
   areSamePerson,
   bestDisplayName,

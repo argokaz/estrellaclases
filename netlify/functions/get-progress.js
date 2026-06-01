@@ -11,6 +11,7 @@
 const { getStore } = require("@netlify/blobs");
 const {
   normalize,
+  titleCase,
   areSamePerson,
   bestDisplayName,
   clusterKeys,
@@ -141,7 +142,7 @@ exports.handler = async (event) => {
 
     // Nombre canónico: el más "bien escrito" de todas las variantes
     const allDisplayVariants = studentEvals.map(e => (e.nombre || "").trim()).filter(Boolean);
-    const displayName = allDisplayVariants.length > 0 ? bestDisplayName(allDisplayVariants) : nombre;
+    const displayName = titleCase(allDisplayVariants.length > 0 ? bestDisplayName(allDisplayVariants) : nombre);
 
     // Historial completo del alumno (deduplicado por sesión, score más alto)
     const sesionScoreMap = new Map();

@@ -2114,13 +2114,15 @@ async function submitBonusModal(){
   const nombre=(nEl?.value||'').trim();
   const puntos=parseInt(pEl?.value||'');
   const razon=(rEl?.value||'').trim();
+  // Mes que se está viendo en el ranking (puede ser mayo aunque hoy sea junio)
+  const mes=document.getElementById('ranking-modal-sel')?.value || new Date().toISOString().slice(0,7);
   if(!nombre){if(nEl)nEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa el nombre del alumno.';return;}
   if(!puntos||isNaN(puntos)){if(pEl)pEl.focus();if(sEl)sEl.textContent='⚠️ Ingresa los puntos.';return;}
   if(sEl) sEl.textContent='⏳ Guardando…';
   try{
     const res=await fetch('/.netlify/functions/add-bonus',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon})
+      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon,mes})
     });
     const d=await res.json();
     if(d.ok){

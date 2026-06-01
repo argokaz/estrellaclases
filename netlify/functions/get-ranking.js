@@ -66,11 +66,6 @@ exports.handler = async (event) => {
         const monthHist = (student.historial || []).filter(
           h => h.fecha && h.fecha.slice(0, 7) === targetMes
         );
-        if (monthHist.length === 0) continue; // no participó este mes
-
-        const scoreSum = monthHist.reduce((a, h) => a + (h.score || 0), 0);
-        const sesiones = monthHist.length;
-        const avgScore = Math.round((scoreSum / sesiones) * 10) / 10;
 
         // Bonus del mes para este alumno
         const normNombre = normalize(student.nombre);
@@ -81,8 +76,15 @@ exports.handler = async (event) => {
           }
         }
 
+        // Incluir si tiene evaluaciones O bonus en el mes
+        if (monthHist.length === 0 && bonus === 0) continue;
+
+        const scoreSum = monthHist.reduce((a, h) => a + (h.score || 0), 0);
+        const sesiones = monthHist.length;
+        const avgScore = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
+
         ranking.push({
-          nombre:   student.nombre, // ya está normalizado (Title Case)
+          nombre:   student.nombre,
           sesiones,
           avgScore,
           scoreSum,

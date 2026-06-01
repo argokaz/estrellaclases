@@ -32,7 +32,7 @@ exports.handler = async (event) => {
     return { statusCode: 400, headers: CORS, body: '{"error":"Bad JSON"}' };
   }
 
-  const { pw, nombre, grado, puntos, razon } = data;
+  const { pw, nombre, grado, puntos, razon, mes: mesParam } = data;
 
   if (pw !== TEACHER_PW) {
     return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
@@ -49,9 +49,11 @@ exports.handler = async (event) => {
 
   try {
     const store = makeStore("bonuses");
-    const ts = Date.now();
+    const ts  = Date.now();
     const now = new Date();
-    const mes = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    // Usar el mes enviado por el frontend (el que el profesor está viendo en el ranking)
+    // Fallback: mes actual del calendario
+    const mes = mesParam || `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
     const key = `${grado}/${ts}`;
 
     await store.setJSON(key, {

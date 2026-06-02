@@ -364,6 +364,7 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   const ROOM=sessionStorage.getItem('deck-room')||genCode();
   sessionStorage.setItem('deck-room',ROOM);
   document.getElementById('room-code-display').textContent=ROOM;
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec5',session:'05'})}).catch(()=>{});
   let last=-999,busy=false,lastBonusTs=0;
   async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}
   setInterval(poll,1500);poll();
@@ -419,6 +420,7 @@ function spawnConfetti(){
 }
 
 const DECK_GRADE='sec5';
+const DECK_SESSION='05';
 let lastBonusId=null;
 (async function pollBonus(){
   try{

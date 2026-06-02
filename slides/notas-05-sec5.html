@@ -467,6 +467,20 @@ async function darBonus(){
   }catch(e){msg.textContent='❌ Sin conexión';}
   setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
 }
+
+// ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────
+(function(){
+  const _r=new URLSearchParams(window.location.search).get('room');
+  if(!_r||_r.length<4)return;
+  const _code=_r.slice(0,6).toUpperCase();
+  syncRoom=_code;syncActive=true;
+  if(typeof postSlide==='function')setTimeout(()=>postSlide(typeof cur!=='undefined'?cur:0),400);
+  const _t=document.createElement('div');
+  _t.textContent='📡 Sync conectado automáticamente';
+  _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:.55rem 1.1rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;';
+  document.body.appendChild(_t);
+  setTimeout(()=>_t.remove(),3000);
+})();
 </script>
 </body>
 </html>

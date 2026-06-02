@@ -585,6 +585,31 @@ button{font-family:inherit;cursor:pointer;}
 .teacher-btn:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.3);}
 .teacher-btn.green{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.4);color:#4ade80;}
 .teacher-btn.green:hover{background:rgba(34,197,94,.28);}
+.teacher-btn.blue{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:#93c5fd;}
+.teacher-btn.blue:hover{background:rgba(96,165,250,.28);}
+/* ── Sync-connect modal ──────────────────────────────────── */
+#sync-connect-modal{display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;padding:1.5rem;}
+#sync-connect-modal.open{display:flex;}
+.scm-box{background:#0f172a;border:1.5px solid rgba(96,165,250,.35);border-radius:20px;
+  padding:2rem 1.8rem;width:100%;max-width:360px;text-align:center;}
+.scm-title{font-size:1.15rem;font-weight:800;color:#93c5fd;margin-bottom:.3rem;}
+.scm-sub{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:1.4rem;line-height:1.5;}
+.scm-input{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(96,165,250,.4);
+  border-radius:12px;color:#fff;font-size:2.4rem;font-weight:900;text-align:center;
+  letter-spacing:.35em;padding:.55rem .5rem;font-family:monospace;
+  text-transform:uppercase;outline:none;margin-bottom:1.1rem;}
+.scm-input:focus{border-color:#60a5fa;}
+.scm-btn{width:100%;background:#60a5fa;color:#000;border:none;border-radius:12px;
+  padding:.75rem;font-size:1rem;font-weight:800;cursor:pointer;margin-bottom:.6rem;
+  font-family:inherit;transition:background .15s;}
+.scm-btn:hover{background:#93c5fd;}
+.scm-btn:disabled{opacity:.4;cursor:default;}
+.scm-cancel{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.5);
+  width:100%;border-radius:10px;padding:.55rem;font-size:.88rem;cursor:pointer;
+  font-family:inherit;}
+.scm-msg{font-size:.85rem;margin-top:.75rem;min-height:1.3em;font-weight:600;}
 /* ── UNLOCK BAR legacy ───────────────────────────────────── */
 .unlock-bar{display:none;}
 
@@ -1798,6 +1823,7 @@ function renderPanel(gradeId){
         <span class="teacher-grade">${g.label}</span>
       </div>
       <div class="teacher-bar-actions">
+        <button class="teacher-btn blue" onclick="openSyncConnect()">📡 Conectar</button>
         <button class="teacher-btn green" onclick="openRosterEditor('${gradeId}')">📋 Alumnos</button>
         <button class="teacher-btn" onclick="openResults(null, '${gradeId}')">📊 Resultados</button>
       </div>
@@ -2055,6 +2081,52 @@ const GRADE_LABELS_MAP = {
   prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
   sec4:'4.° Secundaria', sec5:'5.° Secundaria'
 };
+
+// ── Sync-connect modal ────────────────────────────────────────────────────────
+const GRADE_LABELS = {
+  prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
+  sec4:'4.° Secundaria', sec5:'5.° Secundaria'
+};
+function openSyncConnect(){
+  document.getElementById('scm-input').value = '';
+  document.getElementById('scm-msg').textContent = '';
+  document.getElementById('scm-btn').disabled = false;
+  document.getElementById('sync-connect-modal').classList.add('open');
+  setTimeout(()=>document.getElementById('scm-input').focus(), 80);
+}
+function closeSyncConnect(){
+  document.getElementById('sync-connect-modal').classList.remove('open');
+}
+async function submitSyncConnect(){
+  const code = document.getElementById('scm-input').value.trim().toUpperCase();
+  const msg  = document.getElementById('scm-msg');
+  const btn  = document.getElementById('scm-btn');
+  if(code.length !== 4){ msg.style.color='#f87171'; msg.textContent='Ingresa exactamente 4 caracteres'; return; }
+  btn.disabled = true;
+  msg.style.color = 'rgba(255,255,255,.6)';
+  msg.textContent = 'Buscando sala…';
+  try {
+    const r = await fetch(`/.netlify/functions/sync?room=${code}&_=${Date.now()}`);
+    const d = await r.json();
+    if(!d.grade || !d.session){
+      msg.style.color='#f87171';
+      msg.textContent='❌ Sala no encontrada. ¿Está la presentación abierta?';
+      btn.disabled = false;
+      return;
+    }
+    const label = GRADE_LABELS[d.grade] || d.grade;
+    msg.style.color='#4ade80';
+    msg.textContent=`✅ Sesión ${d.session} · ${label}`;
+    setTimeout(()=>{
+      closeSyncConnect();
+      window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;
+    }, 900);
+  } catch(e){
+    msg.style.color='#f87171';
+    msg.textContent='❌ Error de conexión';
+    btn.disabled = false;
+  }
+}
 
 function openResults(session, gradeId){
   _currentResultsGrade = gradeId || null;
@@ -2812,6 +2884,20 @@ render();
     </div>
 
     <div id="results-content" class="results-loading">Cargando…</div>
+  </div>
+</div>
+
+<!-- ── Sync-connect modal ── -->
+<div id="sync-connect-modal" onclick="if(event.target===this)closeSyncConnect()">
+  <div class="scm-box">
+    <p class="scm-title">📡 Conectar a la presentación</p>
+    <p class="scm-sub">Ingresa el código de 4 letras que aparece en la esquina de la pantalla grande</p>
+    <input id="scm-input" class="scm-input" maxlength="4" placeholder="····"
+           oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"
+           onkeydown="if(event.key==='Enter')submitSyncConnect()">
+    <button class="scm-btn" id="scm-btn" onclick="submitSyncConnect()">Conectar →</button>
+    <button class="scm-cancel" onclick="closeSyncConnect()">Cancelar</button>
+    <p class="scm-msg" id="scm-msg"></p>
   </div>
 </div>
 

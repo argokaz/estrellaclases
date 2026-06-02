@@ -347,6 +347,7 @@ initialized=true;
   const ROOM = sessionStorage.getItem('deck-room') || genCode();
   sessionStorage.setItem('deck-room', ROOM);
   document.getElementById('room-code-display').textContent = ROOM;
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec4',session:'04'})}).catch(()=>{});
   let last = -999, busy = false, lastBonusTs = 0;
   async function poll() {
     if (busy) return;
@@ -395,6 +396,7 @@ function spawnConfetti(){
 }
 
 const DECK_GRADE='sec4';
+const DECK_SESSION='04';
 let lastBonusId=null;
 (async function pollBonus(){
   try{

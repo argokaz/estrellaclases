@@ -5,7 +5,7 @@
  * POST /.netlify/functions/sync             ← {room, slide?, grade?, session?, bonus?}
  *
  * Usa Netlify Blobs ("sync-rooms") para persistencia entre instancias Lambda.
- * Las salas son pequeñas y se sobrescriben en cada clase — no necesitan TTL.
+ * Credenciales explícitas: SITE_ID + NETLIFY_TOKEN (ya configurados en Netlify).
  */
 
 const { getStore } = require("@netlify/blobs");

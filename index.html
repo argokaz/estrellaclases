@@ -194,21 +194,36 @@ button{font-family:inherit;cursor:pointer;}
 }
 .card.next:hover{border-color:rgba(245,158,11,.65);}
 
-/* Done card */
+/* Done card — sin gris, solo indicador visual sutil */
 .card.done{
-  background:rgba(6,13,31,.7);
-  border-color:rgba(255,255,255,.04);
-  opacity:.45;
-  filter:saturate(.3);
+  background:rgba(6,13,31,.6);
+  border-color:rgba(16,185,129,.18);
+  border-left:3px solid rgba(16,185,129,.4);
 }
 .card.done:hover{
-  opacity:.7;
-  filter:saturate(.6);
-  transform:none;
-  box-shadow:var(--shadow);
-  border-color:rgba(255,255,255,.08);
+  border-color:rgba(16,185,129,.38);
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(0,0,0,.45);
 }
-.card.done .card-title,.card.done .card-cover{color:var(--done-text);}
+
+/* Today's class — featured like "next" but different accent */
+.card.today{
+  background:rgba(79,142,247,.08);
+  border-color:rgba(79,142,247,.45);
+  box-shadow:0 8px 32px rgba(79,142,247,.2);
+}
+.card.today:hover{border-color:rgba(79,142,247,.7);}
+.card.today .snum{color:var(--blue);}
+.card.today .card-title{color:#93c5fd;}
+.card.today .card-date{color:#93c5fd;font-weight:600;}
+.card.today .slide-btn,.card.today .notes-btn,.card.today .repaso-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
+.card.today .check-btn.mark{
+  background:rgba(79,142,247,.18);color:var(--blue);
+  border:1px solid rgba(79,142,247,.45);
+  font-size:var(--fs-base);padding:.65rem 1.2rem;
+}
+.card.today .check-btn.mark:hover{background:rgba(79,142,247,.32);}
+.card.today .results-card-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
 
 /* Management (non-lectivo) */
 .card.mgmt{
@@ -229,7 +244,7 @@ button{font-family:inherit;cursor:pointer;}
   line-height:1;min-width:2rem;
 }
 .card.next .snum{color:var(--gold);}
-.card.done .snum{color:#334155;}
+.card.done .snum{color:var(--text-dim);}
 
 .badge{
   display:inline-block;border-radius:100px;
@@ -263,7 +278,6 @@ button{font-family:inherit;cursor:pointer;}
   margin-bottom:.5rem;color:var(--text);
 }
 .card.next .card-title{font-size:var(--fs-xl);color:var(--gold);}
-.card.done .card-title{color:var(--done-text);}
 
 .expand-btn{
   background:none;border:none;color:var(--text-dim);
@@ -275,7 +289,7 @@ button{font-family:inherit;cursor:pointer;}
 .card.expanded .expand-btn .arrow{transform:rotate(180deg);}
 
 .card-details{display:none;}
-.card.expanded .card-details,.card.next .card-details{display:block;}
+.card.expanded .card-details,.card.next .card-details,.card.today .card-details{display:block;}
 
 .detail-row{
   display:grid;grid-template-columns:auto 1fr;gap:.25rem .6rem;
@@ -283,14 +297,14 @@ button{font-family:inherit;cursor:pointer;}
 }
 .detail-label{font-weight:700;color:var(--text-muted);white-space:nowrap;}
 .detail-val{color:var(--text);line-height:1.5;opacity:.85;}
-.card.done .detail-label,.card.done .detail-val{color:var(--done-text);}
+/* .card.done detail labels — sin griseado */
 
 .ai-box{
   background:rgba(244,114,182,.08);border:1px solid rgba(244,114,182,.25);
   border-radius:10px;padding:.5rem .75rem;margin:.5rem 0;
   font-size:var(--fs-sm);color:#f9a8d4;line-height:1.5;
 }
-.card.done .ai-box{filter:grayscale(.8);opacity:.4;}
+/* .card.done .ai-box — sin griseado */
 
 .materials{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.35rem;}
 .mat-chip{
@@ -343,10 +357,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .repaso-btn:hover{background:rgba(245,158,11,.24);border-color:rgba(245,158,11,.6);transform:translateY(-1px);}
 .card.next .slide-btn,.card.next .notes-btn,.card.next .repaso-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
-.card.done .slide-btn{background:rgba(100,116,139,.5);box-shadow:none;}
-.card.done .notes-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
-.card.done .repaso-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
-.card.done .slide-btn:hover,.card.done .notes-btn:hover,.card.done .repaso-btn:hover{transform:none;}
+/* Done cards: botones visibles, no grises */
 
 .check-btn{
   display:flex;align-items:center;gap:.5rem;
@@ -365,6 +376,56 @@ button{font-family:inherit;cursor:pointer;}
   font-size:var(--fs-base);padding:.65rem 1.2rem;
 }
 .card.next .check-btn.mark:hover{background:rgba(245,158,11,.3);}
+
+/* ── REALIZADA BADGE ─────────────────────────────────────── */
+.realizada-badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  background:rgba(16,185,129,.15);
+  border:1px solid rgba(16,185,129,.35);
+  color:#6ee7b7;
+  border-radius:100px;
+  padding:2px 10px;
+  font-size:var(--fs-xs);font-weight:700;
+  margin-bottom:.35rem;
+}
+
+/* ── PAST SECTION (collapsible) ──────────────────────────── */
+.past-section{
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin:1rem 0 .75rem;
+  overflow:hidden;
+}
+.past-section-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  padding:.8rem 1rem;
+  background:var(--bg2);
+  cursor:pointer;
+  list-style:none;
+  user-select:none;
+  font-size:var(--fs-sm);font-weight:700;color:var(--text-muted);
+  transition:background .15s;
+}
+.past-section-toggle::-webkit-details-marker{display:none;}
+.past-section-toggle:hover{background:rgba(79,142,247,.07);color:var(--text);}
+.past-section-left{display:flex;align-items:center;gap:.55rem;}
+.past-section-count{
+  background:rgba(255,255,255,.07);border-radius:100px;
+  padding:1px 8px;font-size:var(--fs-xs);font-weight:600;color:var(--text-dim);
+}
+.past-section-arrow{
+  font-size:.9rem;color:var(--text-dim);
+  transition:transform .22s;flex-shrink:0;
+}
+.past-section[open] .past-section-arrow{transform:rotate(180deg);}
+.past-section-body{padding:.75rem;}
+
+/* Section label for today */
+.section-label.sl-today{
+  color:var(--blue);
+  border-bottom-color:rgba(79,142,247,.4);
+  font-size:var(--fs-lg);
+}
 
 /* ── MANAGEMENT CARD ─────────────────────────────────────── */
 .mgmt-card{
@@ -633,8 +694,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .results-card-btn:hover{background:rgba(139,92,246,.24);border-color:rgba(139,92,246,.6);transform:translateY(-1px);}
 .card.next .results-card-btn{font-size:var(--fs-base);padding:.65rem 1.2rem;}
-.card.done .results-card-btn{background:rgba(100,116,139,.15);border-color:rgba(100,116,139,.3);color:#64748b;}
-.card.done .results-card-btn:hover{transform:none;}
+/* .card.done results-card-btn — sin griseado */
 
 /* ── RANKING BUTTON ───────────────────────────────────────── */
 .ranking-btn-row{margin:0 0 1rem;display:flex;align-items:stretch;justify-content:center;gap:.7rem;}
@@ -1616,8 +1676,19 @@ function updateLogoutBtn(){
 }
 
 function todayStr(){
-  const d=new Date(); const z=n=>String(n).padStart(2,'0');
-  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}`;
+  // Lima, Perú = UTC-5 (sin horario de verano)
+  // La sesión del día se desbloquea a las 0:00 hora Lima
+  const now  = new Date();
+  const lima = new Date(now.getTime() - 5 * 60 * 60 * 1000);
+  const z    = n => String(n).padStart(2,'0');
+  return `${lima.getUTCFullYear()}-${z(lima.getUTCMonth()+1)}-${z(lima.getUTCDate())}`;
+}
+
+function daysSince(dateStr){
+  // Días transcurridos desde dateStr hasta hoy (Lima)
+  const t = new Date(todayStr()+'T00:00:00').getTime();
+  const s = new Date(dateStr+'T00:00:00').getTime();
+  return Math.max(0, Math.floor((t - s) / 86400000));
 }
 
 function render(){
@@ -1644,17 +1715,24 @@ function renderPanel(gradeId){
   const today   = todayStr();
   const unlocked = isUnlocked();
 
-  // date <= today  →  past (includes today's session, already happened)
+  // Clasificación por fecha Lima:
+  //   isPast  = date < today  (clases pasadas, van al acordeón)
+  //   isToday = date === today (clase del día, destacada)
+  //   isFuture= date > today  (requiere contraseña)
   const allItems = g.sessions.map(sdata=>{
-    const calEntry = CALENDAR.find(c=>c.session===sdata.n);
-    const isPast   = calEntry && calEntry.date <= today;
-    const isDone   = done.has(sdata.n);
-    const isOver   = isPast || isDone;
-    return {sdata, cal:calEntry, isPast, isDone, isOver};
+    const calEntry     = CALENDAR.find(c=>c.session===sdata.n);
+    const d            = calEntry ? calEntry.date : '';
+    const isPast       = d && d < today;
+    const isToday      = d && d === today;
+    const isDone       = done.has(sdata.n);
+    const daysAgo      = isPast ? daysSince(d) : 0;
+    const isAutoCompleted = isPast && daysAgo >= 5;
+    return {sdata, cal:calEntry, isPast, isToday, isDone, daysAgo, isAutoCompleted};
   });
 
-  const pastItems   = allItems.filter(i=> i.isOver);
-  const futureItems = allItems.filter(i=>!i.isOver);
+  const pastItems   = allItems.filter(i=> i.isPast);
+  const todayItem   = allItems.find(i=> i.isToday) || null;
+  const futureItems = allItems.filter(i=>!i.isPast && !i.isToday);
   const nextItem    = futureItems[0] || null;
 
   // Progress bar
@@ -1693,22 +1771,40 @@ function renderPanel(gradeId){
     </div>
   </div>`;
 
-  // ── CLASES PASADAS — siempre visibles ──────────────────────
-  html += `<div class="section-label sl-past">📦 Clases pasadas <span class="sl-count">${pastItems.length}</span></div>`;
+  // ── CLASE DE HOY ────────────────────────────────────────────
+  if(todayItem){
+    html += `<div class="section-label sl-today">🗓️ Clase de hoy</div>`;
+    html += buildCard(todayItem.sdata, SESSION_DATE[todayItem.sdata.n], done, gradeId, false, unlocked, false, false, true);
+  }
+
+  // ── CLASES PASADAS — acordeón colapsado por defecto ─────────
   if(pastItems.length){
-    html += `<div class="done-grid">`;
+    const realizadas = pastItems.filter(i=> i.isAutoCompleted || i.isDone).length;
+    html += `<details class="past-section">
+      <summary class="past-section-toggle">
+        <span class="past-section-left">
+          <span>📦 Clases pasadas</span>
+          <span class="past-section-count">${pastItems.length} sesiones · ${realizadas} realizadas</span>
+        </span>
+        <span class="past-section-arrow">▾</span>
+      </summary>
+      <div class="past-section-body">
+        <div class="done-grid">`;
     pastItems.forEach(item=>{
-      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked);
+      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked, true, item.isAutoCompleted);
     });
-    html += `</div>`;
-  } else {
+    html += `</div></div></details>`;
+  } else if(!todayItem){
     html += `<div class="empty-state">Aún no hay clases pasadas para este grado.</div>`;
   }
 
   // ── CLASES FUTURAS — requieren contraseña ──────────────────
   if(unlocked){
 
-    if(nextItem){
+    if(nextItem && !todayItem){
+      html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
+      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
+    } else if(nextItem && todayItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
       html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
     }
@@ -1723,7 +1819,7 @@ function renderPanel(gradeId){
       html += `</div>`;
     }
 
-    if(!futureItems.length){
+    if(!futureItems.length && !todayItem){
       html += `<div class="empty-state">🎉 ¡Todas las sesiones están completadas!</div>`;
     }
 
@@ -1745,7 +1841,7 @@ function renderPanel(gradeId){
   document.getElementById('main').innerHTML = html;
 }
 
-function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
+function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPastCard=false, isAutoCompleted=false, isToday=false){
   const {n, title, cover, act, evidence, tools, mat, ai} = sdata;
   const {block, dateLabel, note} = cal_info;
   const isDone = done.has(n);
@@ -1754,11 +1850,13 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
   const focus = CROSS_FOCUS[n] || '';
 
   let cls = 'card';
-  if(isNext) cls += ' next';
+  if(isToday) cls += ' today';
+  else if(isNext) cls += ' next';
   else if(isDone) cls += ' done';
 
   const tags = [];
-  if(isNext) tags.push(`<span class="tag tag-next">🎯 Próxima</span>`);
+  if(isToday) tags.push(`<span class="tag" style="background:rgba(79,142,247,.15);color:#93c5fd;border:1px solid rgba(79,142,247,.35);">🗓️ Hoy</span>`);
+  else if(isNext) tags.push(`<span class="tag tag-next">🎯 Próxima</span>`);
   if(isAI)   tags.push(`<span class="tag tag-ai">🤖 IA</span>`);
   if(isSec)  tags.push(`<span class="tag tag-sec">🔒 Seguridad</span>`);
 
@@ -1780,7 +1878,12 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
   const resultsBtn = (repasoUrl && unlocked)
     ? `<button class="results-card-btn" onclick="openResults(${n}, '${gradeId}')">📊 Resultados</button>` : '';
 
-  const expandBtn = isNext ? '' :
+  // Badge "Realizada" — aparece automáticamente si 5+ días pasaron o si está marcada manualmente
+  const realizadaHtml = (isPastCard && (isAutoCompleted || isDone))
+    ? `<div class="realizada-badge">✅ Realizada</div>` : '';
+
+  // "Ver detalles" no aparece en clase de hoy ni en "próxima" (ya están expandidas)
+  const expandBtn = (isNext || isToday) ? '' :
     `<button class="expand-btn" onclick="toggleExpand(this)">
       Ver detalles <span class="arrow">▾</span>
     </button>`;
@@ -1795,6 +1898,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false){
       <span class="card-date">${dateLabel}</span>
     </div>
     <div class="card-body">
+      ${realizadaHtml}
       ${noteHtml}
       <div class="card-focus">${focus}</div>
       <div class="card-title">${title}</div>

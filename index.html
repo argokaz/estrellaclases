@@ -397,33 +397,35 @@ button{font-family:inherit;cursor:pointer;}
   overflow:hidden;
 }
 .past-section-toggle{
-  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-  padding:.85rem 1rem;
-  background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(79,142,247,.04));
+  display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  padding:1.1rem 1.2rem;
+  background:linear-gradient(135deg,rgba(79,142,247,.10),rgba(79,142,247,.05));
   cursor:pointer;
   list-style:none;
   user-select:none;
-  font-size:var(--fs-sm);font-weight:700;color:var(--text);
+  font-size:var(--fs-base);font-weight:800;color:var(--text);
   transition:background .15s;
 }
 .past-section-toggle::-webkit-details-marker{display:none;}
-.past-section-toggle:hover{background:linear-gradient(135deg,rgba(79,142,247,.16),rgba(79,142,247,.08));}
-.past-section-left{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;}
+.past-section-toggle:hover{background:linear-gradient(135deg,rgba(79,142,247,.18),rgba(79,142,247,.10));}
+.past-section-left{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;}
+.past-section-title{font-family:'Space Grotesk',sans-serif;font-size:var(--fs-lg);font-weight:800;letter-spacing:-.2px;}
 .past-section-count{
   background:rgba(255,255,255,.07);border-radius:100px;
-  padding:1px 8px;font-size:var(--fs-xs);font-weight:600;color:var(--text-dim);
+  padding:2px 10px;font-size:var(--fs-sm);font-weight:600;color:var(--text-muted);
 }
 .past-section-hint{
-  font-size:var(--fs-xs);font-weight:400;color:var(--text-dim);font-style:italic;
+  font-size:var(--fs-sm);font-weight:400;color:var(--text-dim);font-style:italic;
 }
 .past-section[open] .past-section-hint{display:none;}
 .past-section-arrow{
-  font-size:1.1rem;color:var(--blue);
+  font-size:1.2rem;color:var(--blue);
   transition:transform .22s;flex-shrink:0;
-  background:rgba(79,142,247,.12);border-radius:6px;padding:2px 6px;
+  background:rgba(79,142,247,.15);border-radius:8px;padding:4px 9px;
+  font-weight:700;
 }
 .past-section[open] .past-section-arrow{transform:rotate(180deg);}
-.past-section-body{padding:.75rem;}
+.past-section-body{padding:.85rem;}
 
 /* ── MONTH SUB-SECTIONS ──────────────────────────────────── */
 .month-section{
@@ -1840,7 +1842,7 @@ function renderPanel(gradeId){
     html += `<details class="past-section">
       <summary class="past-section-toggle">
         <span class="past-section-left">
-          <span>📦 Clases pasadas</span>
+          <span class="past-section-title">📦 Clases pasadas</span>
           <span class="past-section-count">${pastItems.length} sesiones · ${realizadas} realizadas</span>
           <span class="past-section-hint">· toca para ver</span>
         </span>

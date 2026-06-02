@@ -256,6 +256,20 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 
 /* ── REVIEW BANNER (post-submit) ── */
 .review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
+
+/* ── Confirmación de identidad ───────────────────────────────── */
+.name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
+.confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
+.confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
+.confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
+.gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
+.gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
+/* ── Banner de nombre durante el examen ──────────────────────── */
+.exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
+.exam-who-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.01em;}
+.exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
+.exam-who-change{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;}
+.exam-who-change:hover{border-color:var(--accent);color:var(--accent);}
 </style>
 </head>
 <body>
@@ -368,7 +382,6 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <label class="gate-label">Nombre</label>
         <datalist id="alumnos-gate-dl"></datalist>
           <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
-        <label class="gate-label">Apellido</label>
         <button class="gate-btn" onclick="startEval('sec2')">Comenzar evaluación →</button>
       </div>
     </div>
@@ -485,31 +498,49 @@ let _name='',_grade='',_session='';
 
 function startEval(grade){
   const inpN=document.getElementById('gate-nombre');
-  // Normalizar a Title Case (primera letra de cada palabra en mayúscula)
-  const _rawName=inpN.value.trim();
+  const _rawName=(inpN?inpN.value:'').trim();
   const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
-  inpN.value=name;
+  if(inpN) inpN.value=name;
   if(name.split(/\s+/).filter(s=>s).length<2){
-    inpN.classList.add('err');
-    inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');
-    inpN.focus();return;
+    if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;
   }
-  inpN.classList.remove('err');
+  if(inpN) inpN.classList.remove('err');
   _name=name;_grade=grade;
   const gkEl=document.getElementById('eval-grade-key');
   _session=gkEl?gkEl.dataset.session:'00';
-  const lsKey='eval-'+_session+'-'+grade;
+  // Mostrar pantalla de confirmación de identidad
+  const gw=document.getElementById('eval-gate-wrap');
+  gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card">
+    <div class="confirm-emoji">👤</div>
+    <div class="confirm-question">¿Eres tú quien va a rendir el examen?</div>
+    <div class="confirm-name-big">${name}</div>
+    <button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button>
+    <button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button>
+  </div></div>`;
+}
+function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function confirmarIdentidad(){
+  const nk=_nameKey(_name);
+  const lsKey='eval-'+_session+'-'+_grade+'-'+nk;
   const saved=localStorage.getItem(lsKey);
   if(saved){
-    const r=JSON.parse(saved);
-    document.getElementById('eval-gate-wrap').innerHTML=
-      '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
-    showResult(r);return;
+    try{
+      const r=JSON.parse(saved);
+      document.getElementById('eval-gate-wrap').innerHTML=
+        '<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
+      showResult(r);
+    }catch(e){}
+    return;
   }
   document.getElementById('eval-gate-wrap').style.display='none';
   const body=document.getElementById('eval-body');
-  body.style.display='block';
-  document.getElementById('eval-student-name').textContent=name;
+  if(body) body.style.display='block';
+  // Banner de nombre prominente
+  const banner=document.getElementById('exam-who-bar');
+  if(banner){
+    document.getElementById('exam-who-name').textContent=_name;
+  }
+  document.getElementById('eval-student-name').textContent=_name;
   updateAnswered();
 }
 
@@ -547,7 +578,7 @@ function submitEval(){
   const fecha=new Date().toISOString();
   const result={name:_name,grade:_grade,score,correct,total:qs.length,
     date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
-  localStorage.setItem('eval-'+_session+'-'+_grade,JSON.stringify(result));
+  const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));
   fetch('/.netlify/functions/submit-eval',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({nombre:_name,grado:_grade,sesion:'02',score,correctas:correct,total:qs.length,fecha,respuestas})
@@ -582,31 +613,7 @@ function showResult(r){
   if(cta) cta.style.display='none';
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
-  const gk=document.getElementById('eval-grade-key');
-  if(!gk)return;
-  const grade=gk.dataset.grade;
-  const session=gk.dataset.session||'00';
-  const lsKey='eval-'+session+'-'+grade;
-  const saved=localStorage.getItem(lsKey);
-  if(!saved)return;
-  // Already submitted: show eval section (no hide study — result shown, review allowed)
-  const ev=document.getElementById('eval-section');
-  const ec=document.getElementById('exam-cta');
-  if(ev){
-    ev.style.display='block';
-    ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">✅ Evaluación ya enviada — revisa el material abajo</div>');
-  }
-  if(ec) ec.style.display='none';
-  const r=JSON.parse(saved);
-  document.getElementById('eval-gate-wrap').innerHTML=
-    '<div class="already-box">✅ Ya enviaste esta evaluación como <strong>'+r.name+'</strong>.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento por dispositivo.</div>';
-  document.getElementById('eval-body').style.display='block';
-  document.getElementById('eval-student-name').textContent=r.name;
-  document.getElementById('eval-submit-wrap').style.display='none';
-  document.querySelectorAll('.eval-q input[type=radio]').forEach(i=>i.disabled=true);
-  showResult(r);
-});
+// DOMContentLoaded: resultado previo ahora se verifica por nombre en confirmarIdentidad()
 
 // ── Autocomplete: roster del salón (lista estable anual) ──────────────────
 (function(){

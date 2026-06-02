@@ -350,7 +350,11 @@ async function darBonus(){
     const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
     const d=await res.json();
-    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';}
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';
+    if(typeof syncRoom!=='undefined'&&syncRoom){
+      fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});
+    }}
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}

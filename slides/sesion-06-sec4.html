@@ -73,7 +73,24 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;ju
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
-@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}</style></head>
+@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+/* ── Celebration splash ── */
+#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);
+  backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
+#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
+.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
+.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
+.cn{font-size:clamp(32px,6.2vw,96px);font-weight:900;color:#fbbf24;
+  animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;
+  text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
+.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
+.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
+@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
+</style></head>
 <body>
 <div class="deck-wrap" id="deck"><div class="slide active">
 <div class="brand">Asunción School</div><div class="snum">6 · 1</div><p class="t-sm accent">Viernes 19 de junio · 4.° Secundaria</p><div class="line"></div>
@@ -247,7 +264,7 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;ju
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #c084fc;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#c084fc;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;let last=-999,busy=false,lastBonusTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=17;let cur=0;
 const dots=document.getElementById('dots');
@@ -266,5 +283,41 @@ function quizPick(el){
   if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
   else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
 }
-goTo(0);initialized=true;</script>
+goTo(0);initialized=true;
+function showCeleb(nombre){
+  document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';
+  spawnConfetti();
+  const el=document.getElementById('celeb');
+  el.style.display='block';
+  ['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});
+  clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);
+}
+function closeCeleb(){
+  const el=document.getElementById('celeb');
+  el.style.transition='opacity .4s';el.style.opacity='0';
+  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);
+}
+function spawnConfetti(){
+  const w=document.getElementById('celeb-wrap');w.innerHTML='';
+  const cols=['#fbbf24','#f97316','#22c55e','#60a5fa','#a78bfa','#f472b6','#fff','#fb7185'];
+  for(let i=0;i<72;i++){
+    const d=document.createElement('div');
+    const c=cols[i%cols.length];const sz=6+Math.random()*11;
+    const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';
+    d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';
+    w.appendChild(d);
+  }
+}
+</script>
+
+<div id="celeb" onclick="closeCeleb()">
+  <div id="celeb-wrap"></div>
+  <div id="celeb-body">
+    <div class="ca">🎉</div>
+    <p class="cs">¡Felicitaciones!</p>
+    <p class="cn" id="celeb-name"></p>
+    <p class="cp">⭐ +1 punto de participación</p>
+    <p class="ct">Toca para continuar</p>
+  </div>
+</div>
 </body></html>

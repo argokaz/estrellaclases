@@ -27,9 +27,15 @@ exports.handler = async (event) => {
   if (event.httpMethod === "POST") {
     let body;
     try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
-    const { room, slide } = body;
-    if (!room || room.length > 8 || typeof slide !== "number") return res(400, { error: "bad params" });
-    rooms.set(room, { slide });
+    const { room, slide, bonus } = body;
+    if (!room || room.length > 8) return res(400, { error: "bad params" });
+    if (typeof slide !== "number" && !bonus) return res(400, { error: "bad params" });
+
+    // Merge into existing room state so slide and bonus are independent
+    const current = rooms.get(room) || {};
+    if (typeof slide === "number") current.slide = slide;
+    if (bonus && bonus.nombre) current.bonus = { nombre: bonus.nombre, ts: bonus.ts || Date.now() };
+    rooms.set(room, current);
     return res(200, { ok: true });
   }
 

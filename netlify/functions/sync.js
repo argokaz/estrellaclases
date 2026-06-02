@@ -26,7 +26,7 @@ exports.handler = async (event) => {
     return { statusCode: 204, headers: CORS, body: "" };
   }
 
-  const store = getStore("sync-rooms");
+  const store = getStore({ name: "sync-rooms", siteID: process.env.SITE_ID, token: process.env.NETLIFY_TOKEN });
 
   // ── GET: el proyector poll + el dashboard de redirect ─────────────────────
   if (event.httpMethod === "GET") {

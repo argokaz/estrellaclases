@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 05 · 2.° Secundaria · Viernes 12 jun 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:4% 6%;text-align:center;background:linear-gradient(135deg,#0f172a,#1e3a5f);}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
+  color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#60a5fa;}
+.pill{display:inline-block;background:#60a5fa;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#60a5fa;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;
+  font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#60a5fa;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #60a5fa;border-radius:clamp(8px,1.2vw,18px);
+  padding:3% 4%;max-width:85%;margin-top:2%;}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #60a5fa;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#60a5fa;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#60a5fa;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#60a5fa;}
+.slide::before{content:'';position:absolute;width:55%;height:55%;
+  background:radial-gradient(circle,#60a5fa2e 0%,transparent 68%);
+  border-radius:50%;top:-20%;right:-12%;
+  animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;
+  background:radial-gradient(circle,#60a5fa1e 0%,transparent 70%);
+  border-radius:50%;bottom:-15%;left:-8%;
+  animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both;}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-body{animation:fUp .45s .2s ease both;}
+.slide.active .t-sm{animation:fUp .4s .24s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+<div class="slide active">
+  <div class="brand">Asunción School</div><div class="snum">5 · 1</div>
+  <p class="t-sm accent">Viernes 12 de junio · 2.° Secundaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">Diseño y <span class='accent'>narrativa</span><br>de exposición</h1>
+  <p class="t-body" style="margin-top:2%">Cómo estructurar y presentar con impacto</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 2</div>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🏗️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Estructura</p><p class="t-sm" style="opacity:.8">Inicio, desarrollo y cierre</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">El gancho</p><p class="t-sm" style="opacity:.8">Capturar atención al inicio</p></div>
+    <div class="c3"><div class="big-em">🎨</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Apoyo visual</p><p class="t-sm" style="opacity:.8">Imágenes y poco texto</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 3</div>
+  <h2 class="t-h1">Toda exposición tiene 3 partes</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🚀</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Inicio</p><p class="t-sm" style="opacity:.8">Gancho · pregunta · dato sorprendente</p></div>
+    <div class="c3"><div class="big-em">📚</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Desarrollo</p><p class="t-sm" style="opacity:.8">Ideas ordenadas · ejemplos · evidencia</p></div>
+    <div class="c3"><div class="big-em">🏁</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cierre</p><p class="t-sm" style="opacity:.8">Resumen · mensaje final · llamado</p></div>
+  </div>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Regla de oro: si alguien llega tarde, debe poder entender el tema solo con el cierre.</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 4</div>
+  <h2 class="t-h1">El gancho: los primeros 30 segundos</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Pregunta</p><p class="t-sm" style="opacity:.8">"¿Cuántas horas al día miran la pantalla?"</p></div>
+    <div class="c4"><div class="big-em">😲</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Dato</p><p class="t-sm" style="opacity:.8">"El 65% de los trabajos del futuro aún no existen."</p></div>
+    <div class="c4"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Historia</p><p class="t-sm" style="opacity:.8">Una anécdota breve y relevante</p></div>
+    <div class="c4"><div class="big-em">🎭</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Provocación</p><p class="t-sm" style="opacity:.8">"Les voy a decir algo que va a sorprender."</p></div>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Inventa un gancho para una presentación sobre IA. La profa elige el mejor.</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 5</div>
+  <h2 class="t-h1">El desarrollo: 1 idea por bloque</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Bien</p>
+      <ul class="list"><li>Una idea principal por slide</li><li>Máx. 3 bullets breves</li><li>Imagen que refuerza la idea</li><li>Transición lógica entre slides</li></ul>
+    </div>
+    <div class="box">
+      <p class="t-sm" style="font-weight:800;margin-bottom:.5em;color:#f87171">❌ Evitar</p>
+      <ul class="list"><li>5 ideas distintas en un slide</li><li>Párrafos completos copiados</li><li>Imagen sin relación al tema</li><li>Saltar de tema sin conexión</li></ul>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 6</div>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál es el PRINCIPAL propósito del "gancho" al inicio de una exposición?</p>
+  <div class="quiz-opts" style="margin-top:3%">
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Dar todos los datos desde el inicio</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Capturar la atención de la audiencia</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Resumir las conclusiones</div>
+  </div>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si explicas con un ejemplo</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 7</div>
+  <h2 class="t-h1">El cierre que se recuerda</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>Resume en <span class="accent">1-2 frases</span> el mensaje central</li>
+    <li>Da un <span class="accent">llamado a la acción</span>: "la próxima vez que…"</li>
+    <li>Cierra con algo <span class="accent">memorable</span>: pregunta, cita o imagen</li>
+    <li>Nunca termines con <span style="color:#f87171">"Eso es todo"</span> o <span style="color:#f87171">"Se acabó"</span></li>
+  </ul>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">El inicio y el cierre son lo que más recuerda la audiencia. ¡Cuídalos!</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 8</div>
+  <h2 class="t-h1">El slide apoya, no reemplaza</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🖼️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Imagen relevante</p><p class="t-sm" style="opacity:.8">Una imagen vale más que 10 bullets</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Poco texto</p><p class="t-sm" style="opacity:.8">Máx. 6-8 palabras por línea</p></div>
+    <div class="c3"><div class="big-em">🎨</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Contraste</p><p class="t-sm" style="opacity:.8">Texto oscuro en fondo claro y viceversa</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.75">Si tu slide tiene más de 40 palabras, divide en dos slides.</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 9</div>
+  <h2 class="t-h1">⭐ Vota: ¿cuál apertura engancha más?</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box" style="border:2px solid #60a5fa">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Opción A</p>
+      <p class="t-body">"Hoy les voy a hablar sobre el cambio climático y sus causas principales."</p>
+    </div>
+    <div class="box" style="border:2px solid rgba(255,255,255,.3)">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Opción B</p>
+      <p class="t-body">"¿Cuántos de ustedes cambiará de ciudad por el agua antes de los 30 años?"</p>
+    </div>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por votar · <strong>+2 extra</strong> al que justifique su voto con lo aprendido hoy</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 10</div>
+  <h2 class="t-h1">Ritmo: el secreto de quien habla bien</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">⏸️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Pausas</p><p class="t-sm" style="opacity:.8">2 segundos de silencio = énfasis</p></div>
+    <div class="c4"><div class="big-em">🎵</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Variación</p><p class="t-sm" style="opacity:.8">Cambia velocidad y volumen</p></div>
+    <div class="c4"><div class="big-em">👁️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Contacto</p><p class="t-sm" style="opacity:.8">Mira al aula, no al proyector</p></div>
+    <div class="c4"><div class="big-em">🧍</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Postura</p><p class="t-sm" style="opacity:.8">De pie, erguido, manos naturales</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 11</div>
+  <h2 class="t-h1">❌ Los 5 errores más comunes</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:3%">
+    <li><span class="accent">Leer</span> el slide palabra por palabra</li>
+    <li>Poner <span class="accent">demasiado texto</span> en cada slide</li>
+    <li>Usar <span class="accent">transiciones</span> y animaciones excesivas</li>
+    <li>No mirar a la <span class="accent">audiencia</span></li>
+    <li>Terminar sin un <span class="accent">cierre claro</span></li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 12</div>
+  <h2 class="t-h1">Google Slides vs Canva</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">📊 Google Slides</p>
+      <ul class="list"><li>Trabajo colaborativo en tiempo real</li><li>Guarda automático en Drive</li><li>Integración con Docs y Sheets</li><li>Ideal para trabajo escolar en equipo</li></ul>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🎨 Canva</p>
+      <ul class="list"><li>Plantillas visuales más atractivas</li><li>Herramienta de diseño más potente</li><li>Ideal para presentaciones de impacto</li><li>Versión gratuita con muchos recursos</li></ul>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 13</div>
+  <h2 class="t-h1">⭐ Reto: ¿Qué mejorarías?</h2>
+  <div class="line"></div>
+  <div class="highlight" style="max-width:80%;text-align:left;margin:2% auto">
+    <p class="t-sm" style="color:rgba(255,255,255,.5);font-size:clamp(11px,1.4vw,22px);margin-bottom:.5em">Slide real que vimos en una clase:</p>
+    <p class="t-body" style="font-weight:700">📋 TEMA: Contaminación del agua<br>• El agua es un recurso vital para todos los seres vivos del planeta<br>• Hay muchos tipos de contaminación del agua<br>• Las causas incluyen industria, agricultura y desechos domésticos<br>• El impacto es enorme y afecta a millones de personas</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al primero que diga 2 cambios concretos con vocabulario de la clase de hoy</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 14</div>
+  <h2 class="t-h1">🎯 Actividad: Mini exposición</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">El reto</p><p class="t-sm" style="opacity:.8">3 slides sobre un tema que te guste</p></div>
+    <div class="c3"><div class="big-em">🏗️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Estructura</p><p class="t-sm" style="opacity:.8">Slide 1: gancho · Slide 2: 2-3 ideas · Slide 3: cierre</p></div>
+    <div class="c3"><div class="big-em">🔗</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Entrega</p><p class="t-sm" style="opacity:.8">Comparte el enlace con la profa</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos. Usa Slides o Canva. ¡Aplica todo lo de hoy!</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 15</div>
+  <h2 class="t-h1">✅ Checklist antes de exponer</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>¿Cada slide tiene <span class="accent">1 idea principal</span>?</li>
+    <li>¿El texto es <span class="accent">legible</span> desde atrás del salón?</li>
+    <li>¿El inicio tiene un <span class="accent">gancho</span>?</li>
+    <li>¿El cierre es <span class="accent">memorable</span>?</li>
+    <li>¿Practicaste <span class="accent">en voz alta</span> al menos una vez?</li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 16</div>
+  <h2 class="t-h1">💡 Tip del experto</h2>
+  <div class="line"></div>
+  <div class="highlight">
+    <p class="t-body" style="font-weight:700;font-style:italic">"Nunca improvises tu inicio ni tu cierre. Apréndetelos de memoria.<br>El resto puede fluir naturalmente."</p>
+  </div>
+  <ul class="list" style="margin-top:3%">
+    <li>Ensaya frente al espejo o grabándote</li>
+    <li>Cronometra tu presentación: ¿cuánto dura?</li>
+    <li>Pide a alguien que escuche y te dé retroalimentación</li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 17</div>
+  <h2 class="t-h1">🚀 Lo que llevas hoy</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🏗️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Estructura</p><p class="t-sm" style="opacity:.8">Inicio · Desarrollo · Cierre</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Gancho</p><p class="t-sm" style="opacity:.8">Captura atención en los primeros 30 segundos</p></div>
+    <div class="c3"><div class="big-em">🖼️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Visual</p><p class="t-sm" style="opacity:.8">1 idea / slide · menos texto · contraste</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: animaciones y transiciones con criterio · Viernes 19 de junio</p>
+</div>
+
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<!-- ── Remote sync (deck) ── -->
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;
+  background:rgba(0,0,0,.82);border:2px solid #60a5fa;border-radius:12px;padding:.4rem 1rem;
+  font-family:monospace;font-size:1.2rem;font-weight:900;color:#60a5fa;letter-spacing:.22em;
+  backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+(function(){
+  const API='/.netlify/functions/sync';const OFFSET=1;
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-code-display').textContent=ROOM;
+  let last=-999,busy=false;
+  async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}
+  setInterval(poll,1500);poll();
+})();
+</script>
+<script>
+
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);
+initialized=true;
+
+</script>
+</body>
+</html>

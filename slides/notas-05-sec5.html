@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas 05 · 5.° Secundaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#f87171;--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:rgba(255,255,255,.08);
+  --text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px;}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50;}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);}
+.top-bar-meta{font-size:.75rem;color:var(--muted);}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:.6rem;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none;}
+.card-header:hover{background:rgba(255,255,255,.03);}
+.ch-left{display:flex;align-items:center;gap:.6rem;}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;
+  border-radius:5px;padding:2px 7px;flex-shrink:0;}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text);}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0;}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0;}
+.card.open .card-arrow{transform:rotate(180deg);}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border);}
+.card.open .card-body{display:block;}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--accent);margin-bottom:.3rem;margin-top:.65rem;}
+.section-lbl:first-child{margin-top:0;}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99;}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;
+  padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav-btn:disabled{opacity:.25;cursor:default;}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="top-bar-title">Sesión 05 · 5.° Secundaria</div>
+    <div class="top-bar-meta">Sheets para análisis de datos · Viernes 12 de junio 2026</div>
+  </div>
+  <button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">
+    📡 Sync
+  </button>
+</div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">2</span>
+      <span class="card-title">¿Qué haremos hoy?</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Conecta con S04 (argumentación y criterio). Hoy aplican criterio en datos: limpiar, calcular con honestidad, visualizar. Pregunta: ¿alguna vez vieron un gráfico que les pareció engañoso? ¿Por qué?</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Señala las 3 metas. Genera motivación: estas habilidades son las más pedidas en trabajos de análisis, ciencias y negocios.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">3</span>
+      <span class="card-title">El flujo del análisis de datos</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El flujo de 4 pasos es la estructura de cualquier proyecto de datos real. El punto crítico: 'datos sucios → análisis basura'. Gastar tiempo en limpiar es invertir, no perder.
+
+Ejemplo real: una empresa de logística descubrió que el 30% de sus registros tenían espacios extra en el campo 'ciudad' — sus reportes geográficos eran incorrectos.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Señala cada etapa en pantalla. Pregunta: '¿Cuál creen que se omite más frecuentemente?' (Respuesta: la limpieza).</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">4</span>
+      <span class="card-title">🧹 Funciones de limpieza</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">TRIM y PROPER son las más usadas en datos de personas (nombres de alumnos, empleados, clientes). Demostrar en Sheets en tiempo real.
+
+⭐ Bonus: ¿Qué función combinarías con TRIM para limpiar un nombre mal escrito? Respuesta esperada: TRIM(PROPER(celda)). +1 punto.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo en Sheets: celda con '  ana TORRES  '. Aplicar TRIM: 'ana TORRES'. Aplicar PROPER: 'Ana Torres'. Combinar: TRIM(PROPER(A1)).</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">5</span>
+      <span class="card-title">📐 Fórmulas de análisis</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Las 4 fórmulas esenciales. Énfasis en la diferencia AVERAGE vs MEDIAN — es la que más confunde y la más importante para pensamiento crítico estadístico.
+
+Ejemplo: el 'salario promedio' de Perú es mayor al 'salario mediano' porque los extremos altos distorsionan el promedio.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: 6 valores con un outlier. Calcula AVERAGE y MEDIAN en Sheets. ¿Por qué difieren? ¿Cuál representa mejor al grupo?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">6</span>
+      <span class="card-title">🧩 Mini quiz</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Respuesta correcta: B — MEDIAN. Con el dato atípico (20), el promedio sube artificialmente. La mediana no se distorsiona.
+
+⭐ Bonus: +1 por respuesta, +1 extra si calculan mentalmente o en papel ambos valores (promedio ≈ 13.7, mediana = 12.5).</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Votación. Para los que eligieron A: muestra el cálculo. El 20 sube el promedio a 13.7 aunque 5 de 6 alumnos tengan notas entre 11-14.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">7</span>
+      <span class="card-title">Porcentajes y referencias absolutas</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Este es el error técnico más común al construir tablas de porcentajes. El $ no es opcional — sin él, al copiar la fórmula hacia abajo el denominador cambia y todos los porcentajes son incorrectos.
+
+Demo obligatorio: copiar fórmula sin $ vs con $. Ver el error en tiempo real.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo en Sheets: crea columna de valores. Escribe =B2/SUMA(B2:B10)*100 y copia. Muestra el error. Luego agrega $ y vuelve a copiar. El antes/después es muy efectivo.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">8</span>
+      <span class="card-title">Filtros y orden: analizar sin perder datos</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La distinción filtrar-vs-ordenar sigue siendo confusa para muchos. Refuerzo desde S04. Nueva incorporación: vista de filtro para trabajo colaborativo — muy útil para proyectos en equipo.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo rápido de vista de filtro. Crea una vista, nómbrala 'Aprobados'. Muestra que el compañero no ve el filtro activo.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">9</span>
+      <span class="card-title">⭐ ¿Qué función usarías?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">3 casos prácticos con contexto real.
+- Caso 1: nombres sucios → TRIM(PROPER())
+- Caso 2: contar ≥14 → COUNTIF(rango,">=14")
+- Caso 3: #DIV/0! → IFERROR(fórmula,"Sin datos")
+
+⭐ Bonus: +1 por caso correcto, +1 extra por escribir la fórmula completa.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Recoge respuestas de la clase en orden. Para el caso 3, el que mencione IFERROR merece un punto extra inmediato — es avanzado.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">10</span>
+      <span class="card-title">IFERROR: manejo de errores</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">IFERROR es la diferencia entre una hoja que parece profesional y una llena de #DIV/0! y #VALUE!. En análisis reales siempre hay divisiones por 0 o datos faltantes — anticiparlos con IFERROR es buena práctica.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: =B2/C2 donde C2=0 → #DIV/0!. Luego =IFERROR(B2/C2,"Sin datos") → limpio. Muy visual y convincente.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">11</span>
+      <span class="card-title">Tabla dinámica (Pivot Table)</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La tabla dinámica es la herramienta más poderosa de Sheets para análisis. Para 5.° Sec. pueden aprender la básica: promedio por grupo, conteo por categoría.
+
+Ejemplo: promediar notas por sección de 60 alumnos en segundos, sin una sola fórmula manual.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo completo en Sheets: seleccionar datos → Insertar → Tabla dinámica. Agregar filas (sección), valores (promedio de nota). Mostrar el resultado.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">12</span>
+      <span class="card-title">De tabla limpia a gráfico útil</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El flujo cierra: datos limpios → análisis → gráfico → conclusión. El último paso siempre es la conclusión escrita — sin ella el análisis queda incompleto.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: seleccionar rango con encabezados → Insertar gráfico. Editar título. Escribir conclusión en celda debajo.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">13</span>
+      <span class="card-title">⭐ Encuentra el error en estas fórmulas</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">4 fórmulas con errores comunes. El más sutil es la B (falta $) — para alumnos avanzados.
+A: =AVERAGE(B2:B10 → cierra paréntesis
+B: =B2/SUMA(B2:B10)*100 → agregar $
+C: =COUNTIF(A2:A20,">14") → correcto ✅
+D: =TRIM(PROPER(C2) → un paréntesis de cierre faltante
+
+⭐ Bonus: +1 por error identificado y corregido correctamente. Máx. 3.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Da 2 minutos para revisar. Recoge respuestas. Para C: el que diga 'correcto' también merece punto.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">14</span>
+      <span class="card-title">🎯 Actividad: Analiza el dataset</span>
+    </div>
+    <span class="card-time">12 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Actividad principal. Dataset escolar (notas ficticias de 20 alumnos con algunas celdas sucias).
+- Limpiar nombres: TRIM + PROPER
+- Calcular: AVERAGE, MEDIAN, COUNTIF(≥14)
+- Gráfico de barras con título informativo
+- 2 oraciones de conclusión
+
+Compartir enlace con la profa.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Circula. Verificar: ¿TRIM aplicado? ¿Referencias absolutas en porcentajes? ¿IFERROR en divisiones? ¿Conclusión escrita?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">15</span>
+      <span class="card-title">✅ Buenas prácticas en Sheets</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La separación en 3 hojas es lo que hacen los analistas profesionales. Protege los datos originales y hace el proceso reproducible. Mencionarlo como 'así trabajan en empresas reales' hace que lo adopten.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Cuál de estas prácticas van a adoptar en sus próximos trabajos?' Mano alzada.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">16</span>
+      <span class="card-title">📋 Checklist del analista</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El checklist cierra el ciclo. Cada punto corresponde a algo aprendido hoy. Revisarlo antes de entregar cualquier análisis de datos.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pide que abran su actividad y la revisen punto por punto con el checklist.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">17</span>
+      <span class="card-title">🚀 Lo que llevas hoy</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Cierre. Ticket de salida: '¿Qué función usarías para que una fórmula muestre 0 en lugar de #DIV/0!?'
+
+Conexión con S6: próxima clase — gráficos y dashboard completo.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta a 3-4 alumnos. Espera que mencionen IFERROR(fórmula, 0).</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Remote sync overlay -->
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;
+    width:100%;max-width:320px;padding:1.5rem;text-align:center;">
+    <p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p>
+    <input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false"
+      style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;
+      background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;
+      color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" />
+    <p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p>
+    <button onclick="startSync()" style="background:#f87171;color:#000;border:none;border-radius:8px;
+      padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button>
+    <button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;
+      border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;
+      padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button>
+  </div>
+</div>
+<nav class="nav-bar">
+  <button class="nav-btn" id="btn-prev" disabled>← Ant</button>
+  <span id="ncounter">1 / 16</span>
+  <button class="nav-btn" id="btn-next">Sig →</button>
+</nav>
+<script>
+
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+function openCard(n){
+  cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;
+  document.getElementById('btn-prev').disabled=n===0;
+  document.getElementById('btn-next').disabled=n===cards.length-1;
+  cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>{
+    openCard(c.classList.contains('open')&&cur===i?i:i);
+  });
+});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+
+// Remote sync (notas)
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){
+  const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();
+  if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}
+  syncRoom=code;syncActive=true;
+  document.getElementById('sync-status').textContent='Conectando…';
+  postSlide(cur);
+  setTimeout(closeSyncOverlay,800);
+}
+async function postSlide(idx){
+  if(!syncActive||syncBusy)return;
+  syncBusy=true;
+  try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
+  catch(e){}finally{syncBusy=false;}
+}
+const _origOpen=openCard;
+function openCard(n){_origOpen(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+const mo=new MutationObserver(()=>{const m=document.getElementById('ncounter').textContent.match(/(\d+)/);if(m){const idx=parseInt(m[1])-1;if(syncActive&&idx!==lastPosted){lastPosted=idx;postSlide(idx);}}});
+mo.observe(document.getElementById('ncounter'),{childList:true,characterData:true,subtree:true});
+
+</script>
+</body>
+</html>

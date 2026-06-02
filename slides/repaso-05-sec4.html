@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso Sesión 05 · 4.° Secundaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:0;padding-bottom:0}
+.section{margin-bottom:56px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:12px;line-height:1.2;}
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{display:flex;gap:20px;align-items:flex-start;padding:22px 26px;border-radius:14px;background:var(--bg-alt);border:1px solid var(--border);border-left:5px solid var(--accent);}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:20px 22px;}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+.practice-details{border:2px solid var(--border);border-radius:16px;overflow:hidden;}
+.practice-summary{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;cursor:pointer;background:var(--bg-alt);list-style:none;user-select:none;gap:16px;}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);display:flex;align-items:center;gap:10px;}
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
+.ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-tbl{width:100%;border-collapse:collapse}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
+.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
+.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
+.txt-area:focus{border-color:var(--accent)}
+.model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
+.model-btn:hover{background:var(--hint-bg)}
+.model-box{display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);border-radius:10px;padding:16px 20px;font-size:16px;color:var(--hint-t);line-height:1.75}
+.model-box.open{display:block}
+.model-box strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.eval-section{margin-top:12px}
+.eval-banner{background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden;}
+.eval-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);pointer-events:none;}
+.eval-badge{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#1e3a8a;font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:5px 14px;margin-bottom:14px;}
+.eval-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;margin-bottom:10px;}
+.eval-subtitle{font-size:16px;opacity:.88;margin-bottom:0;}
+.gate-box{background:#fff;border:2px solid var(--border);border-radius:16px;padding:32px;margin-bottom:28px;max-width:520px;}
+.gate-label{font-size:15px;font-weight:700;color:var(--brand);margin-bottom:8px;display:block;}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:17px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s;}
+.gate-input:focus{border-color:var(--accent);}
+.gate-btn{display:block;margin-top:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:14px 32px;font-size:17px;font-weight:800;cursor:pointer;transition:opacity .15s;}
+.gate-btn:hover{opacity:.88;}
+.confirm-box{background:#fff;border:2px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px;max-width:520px;display:none;}
+.confirm-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin:10px 0 6px;}
+.confirm-sub{font-size:15px;color:var(--muted);margin-bottom:20px;}
+.confirm-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.confirm-yes{background:linear-gradient(135deg,var(--emerald),var(--teal));color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:16px;font-weight:800;cursor:pointer;}
+.confirm-no{background:#fff;border:2px solid var(--border);color:var(--muted);border-radius:10px;padding:12px 22px;font-size:16px;font-weight:600;cursor:pointer;}
+.confirm-no:hover{border-color:var(--rose);color:var(--rose);}
+.exam-who-bar{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8);border-radius:12px;padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.exam-who-bar.visible{display:flex;}
+.ewb-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#fff;}
+.ewb-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:7px 16px;font-size:14px;font-weight:700;cursor:pointer;}
+.ewb-btn:hover{background:rgba(255,255,255,.25);}
+.q-block{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:16px;}
+.q-num{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.q-text{font-size:17px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.55;}
+.q-opts{display:flex;flex-direction:column;gap:10px;}
+.q-opt{display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;font-size:16px;transition:border-color .15s,background .15s;}
+.q-opt:hover{border-color:var(--accent);background:#eff6ff;}
+.q-opt input{margin-top:3px;accent-color:var(--accent);width:18px;height:18px;flex-shrink:0;}
+.q-opt.selected{border-color:var(--accent);background:#eff6ff;}
+.q-opt.correct{border-color:var(--ok-b)!important;background:var(--ok-bg)!important;}
+.q-opt.wrong{border-color:var(--err-b)!important;background:var(--err-bg)!important;}
+.submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px 40px;font-size:18px;font-weight:800;cursor:pointer;display:block;margin:32px auto 0;transition:opacity .15s;}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;}
+.submit-btn:not(:disabled):hover{opacity:.9;}
+.score-box{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8);border-radius:16px;padding:32px;text-align:center;margin:28px 0;color:#fff;}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:900;line-height:1;}
+.score-denom{font-size:24px;opacity:.7;}
+.score-msg{font-size:18px;margin-top:10px;opacity:.9;}
+.material-reveal{display:none;margin-top:32px;}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- Header -->
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="doc-title">Referencias y fuentes confiables</div>
+    <div class="doc-subtitle">4.° Secundaria · Sesión 05 · Viernes 12 de junio 2026</div>
+    <div class="teacher" style="margin-top:6px">Profa. Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>Sesión 05</div>
+    <div>12 jun 2026</div>
+    <div>60 min</div>
+  </div>
+</div>
+
+<!-- Lo que aprendimos -->
+<div class="section">
+  <div class="section-title">📖 Lo que aprendimos</div>
+  <div class="concept-list"><div class="concept-block">
+  <div class="cb-icon">🎓</div>
+  <div><div class="cb-title">¿Por qué citar?</div><div class="cb-text">Dar crédito al autor, permitir verificar la información y fortalecer la credibilidad de tu argumento. Sin cita = opinión. Con cita = argumento sustentado.</div></div>
+</div><div class="concept-block">
+  <div class="cb-icon">🏛️</div>
+  <div><div class="cb-title">Tipos de fuentes</div><div class="cb-text">Oficial (.gov, .org), académica (artículos revisados), periodística (diarios confiables con autor y fecha) y blog/foro (solo para contexto, no como fuente principal).</div></div>
+</div><div class="concept-block">
+  <div class="cb-icon">🧪</div>
+  <div><div class="cb-title">Método CRAAP</div><div class="cb-text">Currency (vigencia), Relevance (relevancia), Authority (autoridad del autor), Accuracy (exactitud verificable) y Purpose (propósito: informar, vender o convencer).</div></div>
+</div><div class="concept-block">
+  <div class="cb-icon">📚</div>
+  <div><div class="cb-title">Formato APA</div><div class="cb-text">Apellido, N. (Año). Título en cursiva. Editorial o URL. Para web: agregar fecha de acceso. El título va en cursiva con solo la primera letra en mayúscula.</div></div>
+</div><div class="concept-block">
+  <div class="cb-icon">🥇</div>
+  <div><div class="cb-title">Fuente primaria vs secundaria</div><div class="cb-text">Primaria: la fuente original (estudio, ley, datos oficiales). Secundaria: analiza o resume una primaria. Siempre preferir primarias si están disponibles.</div></div>
+</div><div class="concept-block">
+  <div class="cb-icon">💡</div>
+  <div><div class="cb-title">La regla de oro</div><div class="cb-text">Si usas la idea de alguien más — aunque la reescribas con tus palabras — debes citarla. Reescribir sin citar sigue siendo plagio.</div></div>
+</div></div>
+</div>
+
+<!-- Palabras clave -->
+<div class="section">
+  <div class="section-title">📚 Palabras clave</div>
+  <div class="gloss-v2"><div class="gloss-card">
+  <div class="gloss-term">APA</div>
+  <div class="gloss-def">American Psychological Association. Sistema de citas usado en ciencias sociales.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Bibliografía</div>
+  <div class="gloss-def">Lista completa de fuentes al final del trabajo, en orden alfabético.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Cita en texto</div>
+  <div class="gloss-def">Referencia breve dentro del párrafo: (Apellido, Año) o (Apellido, Año, p. N).</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">CRAAP</div>
+  <div class="gloss-def">Método para evaluar fuentes: Currency, Relevance, Authority, Accuracy, Purpose.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Fuente primaria</div>
+  <div class="gloss-def">Documento original: estudio científico, ley, entrevista directa, datos oficiales.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Fuente secundaria</div>
+  <div class="gloss-def">Análisis o resumen de una fuente primaria: artículo de divulgación, libro de texto.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Plagio</div>
+  <div class="gloss-def">Usar las ideas o palabras de alguien sin darle crédito, aunque se reescriban.</div>
+</div><div class="gloss-card">
+  <div class="gloss-term">Paráfrasis</div>
+  <div class="gloss-def">Reescribir con palabras propias la idea de alguien más, siempre citando al autor.</div>
+</div></div>
+</div>
+
+<!-- Ejercicios de práctica -->
+<div class="section">
+  <details class="practice-details">
+    <summary class="practice-summary">
+      <div class="ps-left">
+        <div class="ps-title">✏️ Ejercicios de práctica</div>
+        <div class="ps-hint">3 ejercicios · toca para abrir</div>
+      </div>
+      <span class="ps-arrow">▾</span>
+    </summary>
+    <div class="practice-content">
+      <div class="practice-invite">
+        <span class="practice-invite-icon">💡</span>
+        <span>Estos ejercicios son para repasar. No se envían a la profesora — son solo para ti.</span>
+      </div>
+      <div class="ex">
+  <span class="ex-num">Ejercicio 1</span>
+  <h4>Construye la referencia APA</h4>
+  <p>Organiza estos datos en formato APA para una página web:
+• Autor: Sofía Paredes
+• Año: 2023
+• Título: La inteligencia artificial en la educación peruana
+• Organización: MINEDU
+• URL: minedu.gob.pe/ia-educacion</p>
+  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
+  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+  <div class="model-box"><strong>Respuesta modelo</strong>Paredes, S. (2023). La inteligencia artificial en la educación peruana. MINEDU. minedu.gob.pe/ia-educacion</div>
+</div><div class="ex">
+  <span class="ex-num">Ejercicio 2</span>
+  <h4>Aplica CRAAP</h4>
+  <p>Evalúa esta fuente con el método CRAAP:
+Nombre: Anónimo (s.f.) — 'Los 10 remedios para curar el cáncer' — saludblog123.com
+¿Pasa el test? ¿Por qué?</p>
+  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
+  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+  <div class="model-box"><strong>Respuesta modelo</strong>No pasa: Currency ✗ (sin fecha), Relevance depende, Authority ✗ (anónimo), Accuracy ✗ (afirmaciones sin respaldo), Purpose ✗ (sensacionalista). Es una fuente no confiable.</div>
+</div><div class="ex">
+  <span class="ex-num">Ejercicio 3</span>
+  <h4>Cita textual vs paráfrasis</h4>
+  <p>El texto original dice: 'El 78% de los jóvenes peruanos usa redes sociales más de 4 horas al día.' (INEI, 2023, p. 45)
+Escribe: a) una cita textual correcta y b) una paráfrasis correcta.</p>
+  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
+  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+  <div class="model-box"><strong>Respuesta modelo</strong>a) Textual: 'El 78% de los jóvenes peruanos usa redes sociales más de 4 horas al día' (INEI, 2023, p. 45).
+b) Paráfrasis: Según el INEI (2023), casi ocho de cada diez jóvenes en el Perú dedican más de cuatro horas diarias a las redes sociales.</div>
+</div>
+    </div>
+  </details>
+</div>
+
+<!-- Evaluación -->
+<div class="section eval-section">
+  <span id="eval-grade-key" data-grade="sec4" data-session="05" style="display:none"></span>
+
+  <div class="eval-banner">
+    <div class="eval-badge">🎯 Evaluación</div>
+    <div class="eval-title">Evaluación de la Clase</div>
+    <div class="eval-subtitle">10 preguntas · 2 pts cada una · Total 20 / 20 · Un solo intento</div>
+  </div>
+
+  
+<div id="gate-box" class="gate-box">
+  <span class="gate-label">Tu nombre completo</span>
+  <input id="gate-nombre" class="gate-input" type="text"
+    placeholder="Escribe tu nombre y apellido…"
+    list="alumnos-gate-dl" autocomplete="off" autocorrect="off" />
+  <datalist id="alumnos-gate-dl"></datalist>
+  <button class="gate-btn" onclick="startEval()">Iniciar evaluación →</button>
+</div>
+<div id="confirm-box" class="confirm-box">
+  <p style="font-size:15px;color:var(--muted);">¿Eres tú?</p>
+  <div class="confirm-name" id="confirm-name-display"></div>
+  <p class="confirm-sub">Confirma tu identidad antes de iniciar.</p>
+  <div class="confirm-btns">
+    <button class="confirm-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+    <button class="confirm-no" onclick="resetGate()">✏️ No soy yo</button>
+  </div>
+</div>
+
+
+  <div class="exam-who-bar" id="exam-who-bar">
+    <span class="ewb-name" id="exam-who-name"></span>
+    <button class="ewb-btn" onclick="resetGate()">✏️ No soy yo</button>
+  </div>
+
+  <div id="eval-form" style="display:none">
+    <div class="q-block">
+  <div class="q-num">Pregunta 1 de 10</div>
+  <div class="q-text">¿Qué significa la 'A' de Authority en el método CRAAP?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q1" value="La fuente tiene muchos seguidores" data-correct="false" />
+    La fuente tiene muchos seguidores
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="El autor tiene credenciales verificables en el tema" data-correct="true" />
+    El autor tiene credenciales verificables en el tema
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="El artículo tiene muchas citas" data-correct="false" />
+    El artículo tiene muchas citas
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="La fuente es antigua" data-correct="false" />
+    La fuente es antigua
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 2 de 10</div>
+  <div class="q-text">¿Cuál es el orden correcto en una referencia APA?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q2" value="Título, Autor, Año, URL" data-correct="false" />
+    Título, Autor, Año, URL
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="URL, Año, Autor, Título" data-correct="false" />
+    URL, Año, Autor, Título
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="Apellido, N. (Año). Título. Fuente." data-correct="true" />
+    Apellido, N. (Año). Título. Fuente.
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="Autor, Título, Fuente, Año" data-correct="false" />
+    Autor, Título, Fuente, Año
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 3 de 10</div>
+  <div class="q-text">¿Por qué no se cita directamente Wikipedia en trabajos académicos?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q3" value="Porque es en inglés" data-correct="false" />
+    Porque es en inglés
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="Porque cualquiera puede editarla y no tiene autor verificable" data-correct="true" />
+    Porque cualquiera puede editarla y no tiene autor verificable
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="Porque no tiene imágenes" data-correct="false" />
+    Porque no tiene imágenes
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="Porque es demasiado técnica" data-correct="false" />
+    Porque es demasiado técnica
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 4 de 10</div>
+  <div class="q-text">¿Qué es una fuente primaria?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q4" value="Un artículo de periódico que resume un estudio" data-correct="false" />
+    Un artículo de periódico que resume un estudio
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="Un libro de texto universitario" data-correct="false" />
+    Un libro de texto universitario
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="El documento original: estudio, ley o datos oficiales" data-correct="true" />
+    El documento original: estudio, ley o datos oficiales
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="Una enciclopedia en línea" data-correct="false" />
+    Una enciclopedia en línea
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 5 de 10</div>
+  <div class="q-text">¿Cuándo debes citar una fuente?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q5" value="Solo cuando copias texto textualmente" data-correct="false" />
+    Solo cuando copias texto textualmente
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Solo en la bibliografía, no en el texto" data-correct="false" />
+    Solo en la bibliografía, no en el texto
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Cada vez que uses la idea de alguien, aunque la reescribas" data-correct="true" />
+    Cada vez que uses la idea de alguien, aunque la reescribas
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Solo si el profesor lo pide explícitamente" data-correct="false" />
+    Solo si el profesor lo pide explícitamente
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 6 de 10</div>
+  <div class="q-text">¿Cuál de estas fuentes pasa mejor el método CRAAP?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q6" value="Blog anónimo sin fecha" data-correct="false" />
+    Blog anónimo sin fecha
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Post de Instagram de una persona famosa" data-correct="false" />
+    Post de Instagram de una persona famosa
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Informe oficial de la OMS publicado en 2024" data-correct="true" />
+    Informe oficial de la OMS publicado en 2024
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Video de YouTube sin descripción" data-correct="false" />
+    Video de YouTube sin descripción
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 7 de 10</div>
+  <div class="q-text">¿Qué diferencia hay entre cita en texto y bibliografía?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q7" value="Son lo mismo — solo aparecen en lugares diferentes" data-correct="false" />
+    Son lo mismo — solo aparecen en lugares diferentes
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="La cita en texto va dentro del párrafo; la bibliografía es la lista completa al final" data-correct="true" />
+    La cita en texto va dentro del párrafo; la bibliografía es la lista completa al final
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="La bibliografía va dentro del texto y la cita al final" data-correct="false" />
+    La bibliografía va dentro del texto y la cita al final
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="No hay diferencia práctica" data-correct="false" />
+    No hay diferencia práctica
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 8 de 10</div>
+  <div class="q-text">Si copias un párrafo con comillas y pones la fuente, ¿cómo se llama?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q8" value="Paráfrasis" data-correct="false" />
+    Paráfrasis
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Plagio técnico" data-correct="false" />
+    Plagio técnico
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Cita textual" data-correct="true" />
+    Cita textual
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Resumen" data-correct="false" />
+    Resumen
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 9 de 10</div>
+  <div class="q-text">¿Qué información va en cursiva en una referencia APA?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q9" value="El nombre del autor" data-correct="false" />
+    El nombre del autor
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="El año de publicación" data-correct="false" />
+    El año de publicación
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="El título de la obra" data-correct="true" />
+    El título de la obra
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="La URL" data-correct="false" />
+    La URL
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 10 de 10</div>
+  <div class="q-text">¿Cuál es el propósito de la 'C' (Currency) en CRAAP?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q10" value="Saber si la fuente cuesta dinero" data-correct="false" />
+    Saber si la fuente cuesta dinero
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="Verificar si la información sigue siendo vigente" data-correct="true" />
+    Verificar si la información sigue siendo vigente
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="Contar cuántas citas tiene el artículo" data-correct="false" />
+    Contar cuántas citas tiene el artículo
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="Evaluar la credibilidad del autor" data-correct="false" />
+    Evaluar la credibilidad del autor
+  </label></div>
+</div>
+
+    <div class="score-box" id="score-box">
+      <div class="score-num" id="score-num">0</div>
+      <div class="score-denom">/ 20</div>
+      <div class="score-msg" id="score-msg"></div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitEval()">
+      Enviar evaluación →
+    </button>
+
+    <div class="material-reveal" id="material-reveal">
+      <p style="text-align:center;color:var(--muted);font-size:15px;margin-top:16px">
+        ✅ Evaluación enviada. Puedes revisar el material de arriba para reforzar los temas.
+      </p>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page-wrap -->
+<script>
+
+const GRADE = document.getElementById('eval-grade-key').dataset.grade;
+const SESSION = document.getElementById('eval-grade-key').dataset.session;
+const ROSTER_URL = '/.netlify/functions/get-roster?grado=' + GRADE;
+const SUBMIT_URL = '/.netlify/functions/submit-eval';
+
+let evalNombre = '';
+let evalStarted = false;
+
+// Cargar roster
+fetch(ROSTER_URL).then(r=>r.json()).then(data=>{
+  const dl = document.getElementById('alumnos-gate-dl');
+  const alumnos = data.alumnos || data || [];
+  alumnos.forEach(a=>{
+    const opt = document.createElement('option');
+    opt.value = typeof a === 'string' ? a : a.nombre;
+    dl.appendChild(opt);
+  });
+}).catch(()=>{});
+
+function titleCase(s){return s.toLowerCase().replace(/(?:^|\s|-)\S/g,c=>c.toUpperCase());}
+function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
+
+function startEval(){
+  const raw = document.getElementById('gate-nombre').value.trim();
+  if(raw.length < 3){ alert('Por favor ingresa tu nombre completo.'); return; }
+  evalNombre = titleCase(raw);
+  const nk = nameKey(evalNombre);
+  const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
+  const prev = localStorage.getItem(lsKey);
+  if(prev){
+    const d = JSON.parse(prev);
+    alert('Ya completaste esta evaluación con ' + d.score + '/20. Solo se permite un intento.');
+    return;
+  }
+  document.getElementById('confirm-name-display').textContent = evalNombre;
+  document.getElementById('gate-box').style.display = 'none';
+  document.getElementById('confirm-box').style.display = 'block';
+}
+
+function resetGate(){
+  document.getElementById('confirm-box').style.display = 'none';
+  document.getElementById('gate-box').style.display = 'block';
+  document.getElementById('gate-nombre').value = '';
+  evalNombre = '';
+}
+
+function confirmarIdentidad(){
+  document.getElementById('confirm-box').style.display = 'none';
+  document.getElementById('exam-who-bar').classList.add('visible');
+  document.getElementById('exam-who-name').textContent = '👤 ' + evalNombre;
+  document.getElementById('eval-form').style.display = 'block';
+  evalStarted = true;
+}
+
+document.getElementById('gate-nombre') && document.getElementById('gate-nombre').addEventListener('keydown', e=>{
+  if(e.key==='Enter') startEval();
+});
+
+// Options selection
+document.querySelectorAll('.q-opt').forEach(opt=>{
+  opt.addEventListener('click',()=>{
+    if(opt.querySelector('input').disabled) return;
+    const block = opt.closest('.q-block');
+    block.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');
+    opt.querySelector('input').checked = true;
+  });
+});
+
+async function submitEval(){
+  if(!evalStarted) return;
+  const questions = document.querySelectorAll('.q-block');
+  let answered = 0;
+  questions.forEach(q=>{
+    if(q.querySelector('input:checked')) answered++;
+  });
+  if(answered < questions.length){
+    alert('Por favor responde todas las preguntas antes de enviar.');
+    return;
+  }
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  let correctas = 0;
+  const respuestas = {};
+  questions.forEach((q,i)=>{
+    const sel = q.querySelector('input:checked');
+    const correct = sel && sel.dataset.correct === 'true';
+    if(correct) correctas++;
+    respuestas['q'+(i+1)] = sel ? sel.value : '';
+    // Color feedback
+    q.querySelectorAll('.q-opt').forEach(o=>{
+      o.querySelector('input').disabled = true;
+      if(o.querySelector('input').dataset.correct==='true') o.classList.add('correct');
+      else if(o.querySelector('input').checked) o.classList.add('wrong');
+    });
+  });
+
+  const score = correctas * 2;
+  const nk = nameKey(evalNombre);
+  const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
+  localStorage.setItem(lsKey, JSON.stringify({score, correctas, fecha: new Date().toISOString()}));
+
+  // Show score
+  const sb = document.getElementById('score-box');
+  sb.style.display = 'block';
+  document.getElementById('score-num').textContent = score;
+  const msgs = score>=18?'🏆 ¡Excelente!':score>=14?'✅ ¡Bien hecho!':score>=10?'📚 Puedes mejorar':'💪 ¡Sigue practicando!';
+  document.getElementById('score-msg').textContent = msgs;
+  btn.style.display = 'none';
+  document.getElementById('material-reveal').style.display = 'block';
+
+  // POST to backend
+  try {
+    await fetch(SUBMIT_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        nombre: evalNombre, grado: GRADE, sesion: SESSION,
+        score, correctas, total: questions.length,
+        fecha: new Date().toISOString(), respuestas
+      })
+    });
+  } catch(e) {}
+}
+
+</script>
+</body>
+</html>

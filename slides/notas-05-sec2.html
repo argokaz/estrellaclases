@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas 05 · 2.° Secundaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#60a5fa;--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:rgba(255,255,255,.08);
+  --text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px;}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50;}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);}
+.top-bar-meta{font-size:.75rem;color:var(--muted);}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:.6rem;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none;}
+.card-header:hover{background:rgba(255,255,255,.03);}
+.ch-left{display:flex;align-items:center;gap:.6rem;}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;
+  border-radius:5px;padding:2px 7px;flex-shrink:0;}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text);}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0;}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0;}
+.card.open .card-arrow{transform:rotate(180deg);}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border);}
+.card.open .card-body{display:block;}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--accent);margin-bottom:.3rem;margin-top:.65rem;}
+.section-lbl:first-child{margin-top:0;}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99;}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;
+  padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav-btn:disabled{opacity:.25;cursor:default;}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="top-bar-title">Sesión 05 · 2.° Secundaria</div>
+    <div class="top-bar-meta">Diseño y narrativa de exposición · Viernes 12 de junio 2026</div>
+  </div>
+  <button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">
+    📡 Sync
+  </button>
+</div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">2</span>
+      <span class="card-title">¿Qué haremos hoy?</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Conecta con la clase anterior de formato de texto (S04). Hoy dan el salto de 'documento ordenado' a 'presentación con impacto'. Pregunta: ¿alguien expuso ante un grupo este año? ¿Cómo fue la experiencia?</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Señala las 3 metas en pantalla. Genera expectativa: hoy aprenden por qué algunas presentaciones aburren y cómo evitarlo.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">3</span>
+      <span class="card-title">Toda exposición tiene 3 partes</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La estructura inicio-desarrollo-cierre es universal: aplica a presentaciones, discursos, ensayos y videos de YouTube. Insiste en que no es solo teoría — es la diferencia entre una presentación que se entiende y una que confunde.
+
+Menciona la regla: 'Si alguien llega tarde, debe poder entender el tema solo con el cierre.'</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra las 3 cards en pantalla. Pregunta: '¿Cuál parte creen que es más descuidada por los estudiantes?' (Respuesta: casi siempre el cierre).</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">4</span>
+      <span class="card-title">El gancho: los primeros 30 segundos</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Los primeros 30 segundos determinan si la audiencia prestará atención. Los 4 tipos de gancho funcionan para edades distintas y temas distintos. Pon ejemplos concretos de cada uno.
+
+⭐ Bonus: Inventa un gancho para una presentación sobre IA. +1 punto al mejor.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pide 2-3 voluntarios que digan un gancho de cualquier tipo. Comenta cuál sería más efectivo y por qué.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">5</span>
+      <span class="card-title">El desarrollo: 1 idea por bloque</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La regla 1-idea-por-slide es la más poderosa y la más ignorada. Muestra la comparación visual de un slide recargado vs. uno limpio. Pregunta qué preferirían ver si estuvieran en el público.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra las dos columnas (Bien / Evitar). Pide que identifiquen en una presentación que hayan hecho alguna vez cuántos errores del lado derecho cometieron.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">6</span>
+      <span class="card-title">🧩 Mini quiz</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Respuesta correcta: B. El gancho captura atención — no es para dar datos, ni para resumir conclusiones (eso es el cierre).
+
+⭐ Bonus: +1 por respuesta correcta, +1 extra si da un ejemplo de gancho propio.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Votación levantando la mano o con dedos: A, B o C. Después explica por qué A y C no son correctas.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">7</span>
+      <span class="card-title">El cierre que se recuerda</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El cierre es lo que queda. La mayoría de los estudiantes termina con 'Eso es todo' o 'Gracias' — y la audiencia olvida el mensaje. El cierre debe conectar todo lo dicho en 1-2 frases poderosas.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: muestra dos cierres del mismo tema. Uno débil ('Eso es todo, gracias') y uno fuerte ('La próxima vez que abran Canva...'). ¿Cuál recuerdan mejor?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">8</span>
+      <span class="card-title">El slide apoya, no reemplaza</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El error más común: poner todo el guion en el slide y leerlo. El slide es solo el apoyo visual — el expositor lleva el contenido. Regla práctica: si tiene más de 40 palabras, divide en dos slides.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra un slide con párrafo completo. Pregunta cuántos bullets en los que quedaría si lo redujeran. Hacerlo en pantalla en vivo si es posible.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">9</span>
+      <span class="card-title">⭐ Vota: ¿cuál apertura engancha más?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Interacción directa. Opción A ('Hoy les voy a hablar sobre el cambio climático') vs Opción B ('¿Cuántos de ustedes cambiará de ciudad por el agua antes de los 30 años?').
+
+La mayoría debería votar B. Refuerza: no es truco, es empatía con la audiencia.
+
+⭐ Bonus: +1 por votar, +2 extra por justificar con vocabulario de la clase.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Da 30 segundos para decidir. Recoge manos. Pide a 2-3 que justifiquen. Anota palabras clave que usen en la pizarra.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">10</span>
+      <span class="card-title">Ritmo: el secreto de quien habla bien</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El ritmo diferencia a un expositor aburrido de uno memorable. Los 4 elementos son prácticos y mejoran con práctica. Énfasis en las pausas — muchos estudiantes temen el silencio y hablan demasiado rápido.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo breve: di una oración dos veces — una seguida y rápida, otra con pausa estratégica. Pregunta cuál fue más efectiva.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">11</span>
+      <span class="card-title">❌ Los 5 errores más comunes</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Lista de errores que todos han visto (y probablemente cometido). Normalizar el error pero dar herramientas para corregirlos. El más crítico: leer el slide — destruye la credibilidad del expositor.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Cuál de estos errores vieron en una presentación de un profesor o compañero esta semana?' Genera conciencia sin señalar a nadie específicamente.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">12</span>
+      <span class="card-title">Google Slides vs Canva</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">No hay un ganador absoluto — depende del contexto. Para trabajo colaborativo y entrega en Drive: Slides. Para presentaciones más visuales y de impacto: Canva. Para esta sesión ambas son válidas.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra brevemente la interfaz de cada una. Pregunta cuál han usado más y para qué.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">13</span>
+      <span class="card-title">⭐ Reto: ¿Qué mejorarías?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Muestra el slide del slide malo (contaminación del agua con 4 bullets largos). Pide 2 cambios concretos usando vocabulario de la clase.
+
+⭐ Bonus: +2 puntos al primero que nombre 2 cambios con términos como '1 idea por slide', 'menos texto', 'gancho', etc.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Espera que varios alumnos propongan cambios. Anótalos en la pizarra. Ejecuta los mejores en pantalla en tiempo real si tienes Slides/Canva abierto.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">14</span>
+      <span class="card-title">🎯 Actividad: Mini exposición</span>
+    </div>
+    <span class="card-time">12 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Actividad principal. 3 slides sobre cualquier tema que el alumno elija. Criterios:
+- Slide 1: gancho claro
+- Slide 2: 2-3 ideas con imagen
+- Slide 3: cierre memorable
+
+Compartir enlace con la profa al finalizar. Revisión rápida al final de la clase.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Circula por el salón. Verifica: ¿el slide 1 tiene un gancho? ¿el slide 2 tiene máx. 3 bullets? ¿el slide 3 tiene mensaje final? Corrige en el momento.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">15</span>
+      <span class="card-title">✅ Checklist antes de exponer</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El checklist es la herramienta práctica que se llevan de la clase. No es para memorizar — es para revisar antes de cualquier presentación futura. Léelo con la clase punto por punto.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pide que abran su presentación del ejercicio y revisen cada punto del checklist en tiempo real.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">16</span>
+      <span class="card-title">💡 Tip del experto</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La frase de la clase: 'Nunca improvises tu inicio ni tu cierre. Apréndetelos de memoria.' Esto es lo que diferencia a quien presenta con seguridad de quien improvisa y se traba.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: ¿cuántos de ustedes ensayaron en voz alta antes de la última vez que expusieron? Reflexión breve.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">17</span>
+      <span class="card-title">🚀 Lo que llevas hoy</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Cierre de la clase. Ticket de salida oral: '¿Qué tipo de gancho usarías para presentar un proyecto sobre el futuro del trabajo?'
+
+Conexión con S6: la próxima clase aprenderán a aplicar animaciones y transiciones con criterio.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta a 3-4 alumnos al azar el ticket de salida antes de que salgan.</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Remote sync overlay -->
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;
+    width:100%;max-width:320px;padding:1.5rem;text-align:center;">
+    <p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p>
+    <input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false"
+      style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;
+      background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;
+      color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" />
+    <p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p>
+    <button onclick="startSync()" style="background:#60a5fa;color:#000;border:none;border-radius:8px;
+      padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button>
+    <button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;
+      border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;
+      padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button>
+  </div>
+</div>
+<nav class="nav-bar">
+  <button class="nav-btn" id="btn-prev" disabled>← Ant</button>
+  <span id="ncounter">1 / 16</span>
+  <button class="nav-btn" id="btn-next">Sig →</button>
+</nav>
+<script>
+
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+function openCard(n){
+  cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;
+  document.getElementById('btn-prev').disabled=n===0;
+  document.getElementById('btn-next').disabled=n===cards.length-1;
+  cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>{
+    openCard(c.classList.contains('open')&&cur===i?i:i);
+  });
+});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+
+// Remote sync (notas)
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){
+  const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();
+  if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}
+  syncRoom=code;syncActive=true;
+  document.getElementById('sync-status').textContent='Conectando…';
+  postSlide(cur);
+  setTimeout(closeSyncOverlay,800);
+}
+async function postSlide(idx){
+  if(!syncActive||syncBusy)return;
+  syncBusy=true;
+  try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
+  catch(e){}finally{syncBusy=false;}
+}
+const _origOpen=openCard;
+function openCard(n){_origOpen(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+const mo=new MutationObserver(()=>{const m=document.getElementById('ncounter').textContent.match(/(\d+)/);if(m){const idx=parseInt(m[1])-1;if(syncActive&&idx!==lastPosted){lastPosted=idx;postSlide(idx);}}});
+mo.observe(document.getElementById('ncounter'),{childList:true,characterData:true,subtree:true});
+
+</script>
+</body>
+</html>

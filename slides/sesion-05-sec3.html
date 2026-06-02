@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 05 · 3.° Secundaria · Viernes 12 jun 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12);}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
+  font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
+  color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#fb923c;}
+.pill{display:inline-block;background:#fb923c;color:#000;border-radius:999px;
+  padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#fb923c;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;
+  font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#fb923c;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #fb923c;border-radius:clamp(8px,1.2vw,18px);
+  padding:3% 4%;max-width:85%;margin-top:2%;}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #fb923c;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
+  text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#fb923c;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
+  display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
+  z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#fb923c;color:#000;border:none;border-radius:8px;
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#fb923c;}
+.slide::before{content:'';position:absolute;width:55%;height:55%;
+  background:radial-gradient(circle,#fb923c2e 0%,transparent 68%);
+  border-radius:50%;top:-20%;right:-12%;
+  animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;
+  background:radial-gradient(circle,#fb923c1e 0%,transparent 70%);
+  border-radius:50%;bottom:-15%;left:-8%;
+  animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both;}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-body{animation:fUp .45s .2s ease both;}
+.slide.active .t-sm{animation:fUp .4s .24s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+<div class="slide active">
+  <div class="brand">Asunción School</div><div class="snum">5 · 1</div>
+  <p class="t-sm accent">Viernes 12 de junio · 3.° Secundaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">Gráficos con <span class='accent'>criterio</span></h1>
+  <p class="t-body" style="margin-top:2%">Elegir el gráfico correcto y comunicar datos con claridad</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 2</div>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Tipos de gráficos</p><p class="t-sm" style="opacity:.8">Barras, líneas y circular</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cuándo usar cada uno</p><p class="t-sm" style="opacity:.8">El gráfico correcto para cada dato</p></div>
+    <div class="c3"><div class="big-em">📝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Dashboard en Sheets</p><p class="t-sm" style="opacity:.8">Crear y titular correctamente</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 3</div>
+  <h2 class="t-h1">Los datos sin forma son difíciles de entender</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm" style="color:rgba(255,255,255,.6);margin-bottom:.6em">📋 Tabla de datos</p>
+      <p class="t-sm" style="opacity:.8">Alumno A: 14 · Alumno B: 11 · Alumno C: 17 · Alumno D: 9 · Alumno E: 16 · Alumno F: 12 · Alumno G: 15</p>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:700;margin-bottom:.6em">📊 Gráfico de barras</p>
+      <p class="t-sm">De un vistazo: el alumno C tiene la nota más alta, D la más baja. ¿Quién está en riesgo?</p>
+    </div>
+  </div>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Un buen gráfico comunica en 3 segundos lo que una tabla tarda 30 en revelar.</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 4</div>
+  <h2 class="t-h1">📊 Gráfico de barras</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🆚</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">¿Para qué?</p><p class="t-sm" style="opacity:.8">Comparar categorías distintas entre sí</p></div>
+    <div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ejemplos</p><p class="t-sm" style="opacity:.8">Notas por alumno · ventas por producto · votos por candidato</p></div>
+    <div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Error frecuente</p><p class="t-sm" style="opacity:.8">El eje Y que no empieza en 0 exagera las diferencias</p></div>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Da un ejemplo real de tu vida donde usarías un gráfico de barras.</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 5</div>
+  <h2 class="t-h1">📈 Gráfico de líneas</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">⏰</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">¿Para qué?</p><p class="t-sm" style="opacity:.8">Mostrar tendencia o evolución en el tiempo</p></div>
+    <div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ejemplos</p><p class="t-sm" style="opacity:.8">Temperatura semanal · progreso de notas · usuarios por mes</p></div>
+    <div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Error frecuente</p><p class="t-sm" style="opacity:.8">Conectar puntos que no tienen orden temporal</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 6</div>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Quieres mostrar cómo cambiaron las notas de un alumno durante 5 meses. ¿Qué gráfico usas?</p>
+  <div class="quiz-opts" style="margin-top:3%">
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Gráfico circular — muestra las partes</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Gráfico de líneas — muestra tendencia en el tiempo</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Gráfico de barras — compara categorías</div>
+  </div>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si explicas por qué los otros no aplican</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 7</div>
+  <h2 class="t-h1">🥧 Gráfico circular (torta)</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🍕</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">¿Para qué?</p><p class="t-sm" style="opacity:.8">Mostrar cómo se divide un todo en partes (100%)</p></div>
+    <div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ejemplos</p><p class="t-sm" style="opacity:.8">Distribución de votos · presupuesto por categoría</p></div>
+    <div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Límite</p><p class="t-sm" style="opacity:.8">Máx. 5-6 categorías. Con más se vuelve ilegible.</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.75">Regla: si los porcentajes no suman 100%, no uses circular.</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 8</div>
+  <h2 class="t-h1">Anatomía de un buen gráfico</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Título</p><p class="t-sm" style="opacity:.8">Qué se mide · de quién · cuándo</p></div>
+    <div class="c4"><div class="big-em">↔️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Eje X</p><p class="t-sm" style="opacity:.8">Categorías o tiempo (horizontal)</p></div>
+    <div class="c4"><div class="big-em">↕️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Eje Y</p><p class="t-sm" style="opacity:.8">Valores numéricos (vertical)</p></div>
+    <div class="c4"><div class="big-em">🔑</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Leyenda</p><p class="t-sm" style="opacity:.8">Qué representa cada color o serie</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 9</div>
+  <h2 class="t-h1">⭐ ¿Qué está mal en este gráfico?</h2>
+  <div class="line"></div>
+  <div class="highlight" style="max-width:80%;text-align:left">
+    <p class="t-sm" style="font-weight:700;margin-bottom:.8em">Gráfico "Notas del trimestre":</p>
+    <ul class="list">
+      <li>Eje Y empieza en 8, no en 0</li>
+      <li>No tiene título completo (¿de quién? ¿qué trimestre?)</li>
+      <li>Usa gráfico circular con 9 categorías</li>
+      <li>Los colores de las barras no tienen leyenda</li>
+    </ul>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto por cada error identificado</strong> con explicación · máx. 3 puntos</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 10</div>
+  <h2 class="t-h1">El eje Y: la trampa más común</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">⚠️ Eje Y desde 95</p>
+      <p class="t-sm" style="opacity:.8">Las diferencias parecen enormes aunque sean mínimas. Manipula la percepción del lector.</p>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Eje Y desde 0</p>
+      <p class="t-sm" style="opacity:.8">Muestra las diferencias reales. Permite comparar honestamente.</p>
+    </div>
+  </div>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Un gráfico honesto siempre empieza su eje Y en 0 (salvo excepciones científicas justificadas).</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 11</div>
+  <h2 class="t-h1">Cómo titular un gráfico</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.5em">❌ Título vago</p>
+      <p class="t-body" style="font-weight:700">"Gráfico 1"</p>
+      <p class="t-body" style="font-weight:700">"Notas"</p>
+      <p class="t-body" style="font-weight:700">"Resultados del análisis"</p>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Título informativo</p>
+      <p class="t-sm">"Notas promedio de 3.° Sec por alumno — Junio 2026"</p>
+      <p class="t-sm" style="margin-top:.5em">"Evolución de temperatura semanal — Lima, mayo 2026"</p>
+    </div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 12</div>
+  <h2 class="t-h1">El gráfico solo muestra — tú concluyes</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>El gráfico es <span class="accent">visual</span> — la conclusión es <span class="accent">intelectual</span></li>
+    <li>Escribe siempre <span class="accent">1-2 oraciones</span> debajo de cada gráfico</li>
+    <li>Usa verbos: <span class="accent">aumentó, disminuyó, supera, representa</span></li>
+    <li>Conecta el dato con una <span class="accent">decisión o implicación</span></li>
+  </ul>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Ejemplo: "El alumno D tiene la nota más baja (9). Requiere atención prioritaria antes del examen."</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 13</div>
+  <h2 class="t-h1">⭐ Elige el gráfico correcto</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso 1</p>
+      <p class="t-sm" style="opacity:.85">Distribución del tiempo libre semanal: deportes, redes, tareas, lectura, juegos</p>
+    </div>
+    <div class="c3">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso 2</p>
+      <p class="t-sm" style="opacity:.85">Seguidores de una cuenta de Instagram durante 6 meses</p>
+    </div>
+    <div class="c3">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso 3</p>
+      <p class="t-sm" style="opacity:.85">Cantidad de alumnos que prefieren cada asignatura</p>
+    </div>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto por caso</strong> respondido con justificación · +1 extra si nadie más lo respondió igual</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 14</div>
+  <h2 class="t-h1">🎯 Actividad: Dashboard en Sheets</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Datos</p><p class="t-sm" style="opacity:.8">Tabla de notas o encuesta del aula</p></div>
+    <div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Gráfico</p><p class="t-sm" style="opacity:.8">Crea barras + líneas en el mismo Sheet</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Conclusión</p><p class="t-sm" style="opacity:.8">Escribe 2 oraciones debajo de cada gráfico</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos. Comparte el enlace con la profa al finalizar.</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 15</div>
+  <h2 class="t-h1">❌ Errores que arruinan un gráfico</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>Eje Y que <span class="accent">no empieza en 0</span></li>
+    <li>Gráfico <span class="accent">circular con 8+ categorías</span></li>
+    <li>Sin <span class="accent">título informativo</span></li>
+    <li>Sin <span class="accent">etiquetas en los ejes</span></li>
+    <li>Usar el <span class="accent">gráfico equivocado</span> para el tipo de dato</li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 16</div>
+  <h2 class="t-h1">💡 El gráfico sirve al dato, no al revés</h2>
+  <div class="line"></div>
+  <div class="highlight">
+    <p class="t-body" style="font-weight:700;font-style:italic">"No elijas el gráfico que te parece más bonito.<br>Elige el que mejor comunica lo que el dato dice."</p>
+  </div>
+  <ul class="list" style="margin-top:3%">
+    <li>¿Comparo categorías? → <span class="accent">Barras</span></li>
+    <li>¿Muestro tendencia? → <span class="accent">Líneas</span></li>
+    <li>¿Muestro partes de un todo? → <span class="accent">Circular</span></li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 17</div>
+  <h2 class="t-h1">🚀 Lo que llevas hoy</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Tipos</p><p class="t-sm" style="opacity:.8">Barras · Líneas · Circular — cada uno tiene su uso</p></div>
+    <div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Anatomía</p><p class="t-sm" style="opacity:.8">Título · Ejes · Leyenda · Fuente</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Conclusión</p><p class="t-sm" style="opacity:.8">El gráfico muestra — tú interpretas</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: datos para tomar decisiones · Viernes 19 de junio</p>
+</div>
+
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<!-- ── Remote sync (deck) ── -->
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;
+  background:rgba(0,0,0,.82);border:2px solid #fb923c;border-radius:12px;padding:.4rem 1rem;
+  font-family:monospace;font-size:1.2rem;font-weight:900;color:#fb923c;letter-spacing:.22em;
+  backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+(function(){
+  const API='/.netlify/functions/sync';const OFFSET=1;
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-code-display').textContent=ROOM;
+  let last=-999,busy=false;
+  async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}
+  setInterval(poll,1500);poll();
+})();
+</script>
+<script>
+
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);
+initialized=true;
+
+</script>
+</body>
+</html>

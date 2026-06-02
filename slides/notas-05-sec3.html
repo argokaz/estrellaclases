@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas 05 · 3.° Secundaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#fb923c;--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:rgba(255,255,255,.08);
+  --text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px;}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50;}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);}
+.top-bar-meta{font-size:.75rem;color:var(--muted);}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:.6rem;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;
+  padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none;}
+.card-header:hover{background:rgba(255,255,255,.03);}
+.ch-left{display:flex;align-items:center;gap:.6rem;}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;
+  border-radius:5px;padding:2px 7px;flex-shrink:0;}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text);}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0;}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0;}
+.card.open .card-arrow{transform:rotate(180deg);}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border);}
+.card.open .card-body{display:block;}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--accent);margin-bottom:.3rem;margin-top:.65rem;}
+.section-lbl:first-child{margin-top:0;}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99;}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;
+  padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer;transition:opacity .15s;}
+.nav-btn:disabled{opacity:.25;cursor:default;}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center;}
+</style>
+</head>
+<body>
+<div class="top-bar">
+  <div>
+    <div class="top-bar-title">Sesión 05 · 3.° Secundaria</div>
+    <div class="top-bar-meta">Gráficos con criterio · Viernes 12 de junio 2026</div>
+  </div>
+  <button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">
+    📡 Sync
+  </button>
+</div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">2</span>
+      <span class="card-title">¿Qué haremos hoy?</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Conecta con S4 (ordenar y filtrar Sheets). Hoy van un paso más allá: visualizar lo que ya analizaron. Pregunta: ¿han visto gráficos en noticias que les parecieron confusos o engañosos?</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Señala las 3 metas. Genera expectativa: hoy aprenden a leer y crear gráficos que comuniquen honestamente.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">3</span>
+      <span class="card-title">Los datos sin forma son difíciles de entender</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El contraste tabla vs gráfico es el mejor gancho de la clase. Muestra la tabla de notas desordenadas — pide que encuentren al alumno con la nota más alta sin ordenar. Luego muestra el gráfico: inmediato.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo en vivo: muestra tabla, luego gráfico de barras del mismo dato. Toma el tiempo de cuánto tardan en responder en cada caso.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">4</span>
+      <span class="card-title">📊 Gráfico de barras</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El gráfico más usado. Clave: comparar categorías distintas entre sí. Error frecuente: el eje Y que no empieza en 0 puede hacer que una diferencia pequeña parezca enorme — esto se usa para manipular.
+
+⭐ Bonus: Da un ejemplo real de tu vida donde usarías barras. +1 punto.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra un gráfico de barras con eje Y desde 95 vs uno desde 0. ¿Cuál parece que hay más diferencia?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">5</span>
+      <span class="card-title">📈 Gráfico de líneas</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Para tendencias en el tiempo. La palabra clave es 'evolución'. Si los datos no tienen orden temporal, las líneas no tienen sentido.
+
+Error frecuente: conectar puntos de categorías distintas que no tienen continuidad temporal.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: muestra un gráfico de líneas correcto (temperatura semanal) y uno incorrecto (conectando 5 colores de ropa). Pregunta: ¿cuál tiene sentido?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">6</span>
+      <span class="card-title">🧩 Mini quiz</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Respuesta correcta: B — gráfico de líneas muestra tendencia en el tiempo. Barras compara categorías distintas; circular muestra partes de un todo.
+
+⭐ Bonus: +1 por respuesta, +1 extra si explica por qué A y C no son los mejores.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Votación levantando la mano. Aprovecha para preguntar a alguien que votó A o C por qué lo eligió — sin juzgar, solo para explorar el razonamiento.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">7</span>
+      <span class="card-title">🥧 Gráfico circular (torta)</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Para partes de un todo. La regla del 100%: si los datos no suman 100%, no uses circular. La regla de las 5-6 categorías: con más categorías el gráfico se vuelve ilegible.
+
+Errores más frecuentes: demasiadas categorías, colores sin leyenda.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra un circular con 3 categorías (limpio) vs uno con 9 categorías (caótico). Pregunta cuál comunica mejor.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">8</span>
+      <span class="card-title">Anatomía de un buen gráfico</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Los 4 elementos son obligatorios. Sin título informativo = el lector no sabe qué está viendo. Sin etiquetas en ejes = no se sabe la escala. Sin leyenda = los colores no tienen significado.
+
+Dato curioso: la mayoría de gráficos que vemos en redes sociales no tienen fuente.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra un gráfico bien construido y señala cada elemento. Luego muestra uno incompleto y pide que identifiquen qué falta.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">9</span>
+      <span class="card-title">⭐ ¿Qué está mal en este gráfico?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Lista de 4 errores en un gráfico ficticio de 'Notas del trimestre'. Los alumnos deben identificar tantos como puedan.
+
+⭐ Bonus: +1 punto por error identificado con explicación. Máx. 3 puntos.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Lee cada error de la lista. Da 1-2 minutos para que los identifiquen antes de revelarlos. Recoge respuestas y añade puntos en el ranking.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">10</span>
+      <span class="card-title">El eje Y: la trampa más común</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Este slide puede cambiar cómo los alumnos leen gráficos para siempre. El eje Y que no empieza en 0 es la técnica más usada para exagerar diferencias en medios y política.
+
+Ejemplo famoso: gráficos de Fox News que distorsionaban resultados electorales.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: busca o muestra un ejemplo real de un gráfico con eje Y manipulado. Analicen juntos cómo cambiaría si empezara en 0.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">11</span>
+      <span class="card-title">Cómo titular un gráfico</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El título de un gráfico debe responder: ¿qué se mide? ¿de quién o qué? ¿cuándo?
+
+Comparar títulos vagos vs informativo es muy efectivo — los estudiantes ven inmediatamente la diferencia.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra los ejemplos del slide. Pide que propongan un título informativo para algún gráfico que hayan hecho antes.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">12</span>
+      <span class="card-title">El gráfico solo muestra — tú concluyes</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Esta distinción es clave para el pensamiento crítico. El gráfico es descriptivo — la conclusión es analítica. Dar la fórmula: 'Usar verbo de comparación + dato específico + implicación'.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: muestra un gráfico y escribe una conclusión débil ('Los resultados varían') vs una fuerte ('El alumno D requiere atención prioritaria con nota 9 — 5 puntos por debajo del promedio'). ¿Cuál es más útil?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">13</span>
+      <span class="card-title">⭐ Elige el gráfico correcto</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">3 casos con contexto real que los alumnos conocen. El objetivo es que apliquen los criterios aprendidos, no que memoricen.
+
+⭐ Bonus: +1 punto por caso con justificación, +1 extra si nadie más respondió igual.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Recoge respuestas en orden. Discute brevemente el caso más interesante o polémico.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">14</span>
+      <span class="card-title">🎯 Actividad: Dashboard en Sheets</span>
+    </div>
+    <span class="card-time">12 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Actividad principal. Datos de notas o encuesta del aula.
+- Crear gráfico de barras
+- Crear gráfico de líneas (si aplica)
+- Escribir 2 oraciones de conclusión debajo de cada gráfico
+- Título informativo en cada gráfico
+
+Compartir enlace con la profa.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Circula. Verifica que el título de cada gráfico sea informativo. Que el eje Y empiece en 0. Que haya conclusión escrita.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">15</span>
+      <span class="card-title">❌ Errores que arruinan un gráfico</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Lista rápida de los 5 errores más frecuentes. Muchos alumnos han cometido varios de estos. Normalizar el error y dar la corrección.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Cuál de estos errores cometiste más veces antes de hoy?' Encuesta rápida a mano alzada.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">16</span>
+      <span class="card-title">💡 El gráfico sirve al dato</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La frase de la clase: 'No elijas el gráfico que te parece más bonito. Elige el que mejor comunica lo que el dato dice.' Esta mentalidad cambia cómo diseñan dashboards.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Repaso rápido del mapa de decisión: ¿comparo? → barras. ¿Tendencia? → líneas. ¿Partes de un todo? → circular.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">17</span>
+      <span class="card-title">🚀 Lo que llevas hoy</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Cierre. Ticket de salida: 'Tienes los resultados de una encuesta sobre hábitos de lectura durante 6 meses. ¿Qué gráfico usas?'
+
+Conexión con S6: próxima clase — datos para tomar decisiones.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta a 3-4 alumnos antes de que salgan. Confirma que la respuesta sea 'líneas' con justificación.</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Remote sync overlay -->
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;
+    width:100%;max-width:320px;padding:1.5rem;text-align:center;">
+    <p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p>
+    <input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false"
+      style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;
+      background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;
+      color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" />
+    <p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p>
+    <button onclick="startSync()" style="background:#fb923c;color:#000;border:none;border-radius:8px;
+      padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button>
+    <button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;
+      border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;
+      padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button>
+  </div>
+</div>
+<nav class="nav-bar">
+  <button class="nav-btn" id="btn-prev" disabled>← Ant</button>
+  <span id="ncounter">1 / 16</span>
+  <button class="nav-btn" id="btn-next">Sig →</button>
+</nav>
+<script>
+
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+function openCard(n){
+  cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
+  cur=n;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;
+  document.getElementById('btn-prev').disabled=n===0;
+  document.getElementById('btn-next').disabled=n===cards.length-1;
+  cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>{
+    openCard(c.classList.contains('open')&&cur===i?i:i);
+  });
+});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+
+// Remote sync (notas)
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){
+  const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();
+  if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}
+  syncRoom=code;syncActive=true;
+  document.getElementById('sync-status').textContent='Conectando…';
+  postSlide(cur);
+  setTimeout(closeSyncOverlay,800);
+}
+async function postSlide(idx){
+  if(!syncActive||syncBusy)return;
+  syncBusy=true;
+  try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
+  catch(e){}finally{syncBusy=false;}
+}
+const _origOpen=openCard;
+function openCard(n){_origOpen(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+const mo=new MutationObserver(()=>{const m=document.getElementById('ncounter').textContent.match(/(\d+)/);if(m){const idx=parseInt(m[1])-1;if(syncActive&&idx!==lastPosted){lastPosted=idx;postSlide(idx);}}});
+mo.observe(document.getElementById('ncounter'),{childList:true,characterData:true,subtree:true});
+
+</script>
+</body>
+</html>

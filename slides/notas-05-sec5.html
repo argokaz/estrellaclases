@@ -42,7 +42,9 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 
 .bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
 .bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
-.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text);font-size:.85em;outline:none;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
 .bw-inp:focus{border-color:var(--accent);}
 .bw-inp::placeholder{color:var(--muted);}
 .bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
@@ -151,8 +153,9 @@ Ejemplo: el 'salario promedio' de Perú es mayor al 'salario mediano' porque los
 <div class="bw">
   <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
   <div class="bw-row">
-    <input id="bw-nombre" type="text" list="bw-dl" autocomplete="off" placeholder="Nombre del alumno…" class="bw-inp">
-    <datalist id="bw-dl"></datalist>
+    <select id="bw-nombre" class="bw-inp bw-sel">
+      <option value="">— Selecciona alumno —</option>
+    </select>
     <button onclick="darBonus()" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg" class="bw-msg"> </p>
@@ -437,8 +440,8 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const dl=document.getElementById('bw-dl');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;dl.appendChild(o);});
+      const sel=document.getElementById('bw-nombre');
+      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
     }
   }catch(e){}
 })();

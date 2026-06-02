@@ -12,7 +12,7 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
 .top-bar .grade{font-weight:900;font-size:1.1rem;color:#c084fc;}
 .top-bar .tema{font-size:.85rem;opacity:.7;}
 .room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
-  color:#c084fc;letter-spacing:.15em;}
+  color:#c084fc;letter-spacing:.15em;cursor:pointer;}
 .cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
 .card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
   transition:border-color .2s;}
@@ -33,279 +33,324 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
   padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
 .nav-bar button:disabled{opacity:.25;cursor:default;}
 .nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
-.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
-  border:1px solid #c084fc;border-radius:8px;padding:.25rem .7rem;
-  font-family:monospace;font-size:.85rem;font-weight:700;color:#c084fc;opacity:.9;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #c084fc;color:#c084fc;
+  border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
 </style>
 </head>
 <body>
+
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #c084fc;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#c084fc;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X"
+      style="width:100%;background:#111;border:2px solid #c084fc;color:#fff;
+      font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;
+      border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#c084fc;color:#000;
+      border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;
+      cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);
+      color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+
 <div class="top-bar">
   <div>
     <div class="grade">Sesión 4 · 4.° Secundaria</div>
-    <div class="tema">El cuerpo del trabajo. Introducción, desarrollo y conclusión con APA</div>
+    <div class="tema">Citas y Paráfrasis</div>
   </div>
   <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
 </div>
 
 <div class="cards-list" id="cards-list">
 <div class="card" id="card-0">
   <div class="card-header">
     <span class="card-num">S4·2</span>
-    <span class="card-title">La estructura clásica</span>
+    <span class="card-title">¿Qué haremos hoy?</span>
     <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">La triada intro-desarrollo-conclusión es universal en académico, periodismo, presentaciones. Invertir en esto = mejor escritura toda la vida.</p>
+    <p class="note-text">Conecta con S3 (formato APA). Hoy aplican APA en el nivel de los párrafos: citas y paráfrasis. Pregunta: ¿han copiado texto de internet alguna vez? ¿Pusieron la fuente?</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pregunta: ¿alguien ha leído un artículo con intro, desarrollo y conclusión y no lo sabía? Ejemplos concretos.</p>
+    <p class="note-text">Señala las 3 metas. Genera conciencia: saber citar correctamente diferencia un buen trabajo de uno mediocre.</p>
   </div>
 </div>
-
 <div class="card" id="card-1">
   <div class="card-header">
     <span class="card-num">S4·3</span>
-    <span class="card-title">La introducción</span>
-    <span class="card-time">⏱ 5 min</span>
+    <span class="card-title">¿Por qué citar?</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Error frecuente: arrancar directamente con datos sin contexto. La intro es el 'por qué leer esto'. Contexto → problema → tesis.</p>
+    <p class="note-text">Tres razones: dar crédito, sustentar con evidencia, permitir verificar. Conecta con la idea de integridad académica.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Analiza una introducción modelo: identificar las tres partes en vivo. ¿Dónde está la tesis?</p>
+    <p class="note-text">Pregunta: si escribes un artículo y alguien usa tus ideas sin mencionar tu nombre, ¿cómo te sentirías?</p>
   </div>
 </div>
-
 <div class="card" id="card-2">
   <div class="card-header">
     <span class="card-num">S4·4</span>
-    <span class="card-title">El desarrollo</span>
+    <span class="card-title">Cita textual</span>
     <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Cada párrafo = una idea principal + evidencia + análisis. Sin análisis propio no hay desarrollo académico, solo copia.</p>
+    <p class="note-text">Cuándo usar: cuando las palabras exactas importan (definición legal, afirmación clave, datos precisos). No para parafrasear.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Muestra un párrafo de desarrollo bien estructurado. Identificar: idea principal, cita, análisis del alumno.</p>
+    <p class="note-text">Demo en Docs: escribe una cita textual correcta con comillas y (Apellido, año, p. N).</p>
   </div>
 </div>
-
 <div class="card" id="card-3">
   <div class="card-header">
     <span class="card-num">S4·5</span>
-    <span class="card-title">Citas APA (en texto)</span>
+    <span class="card-title">Paráfrasis</span>
     <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Paráfrasis es lo más común. Cita directa solo cuando las palabras exactas importan. Enseña la diferencia con ejemplos.</p>
+    <p class="note-text">La más usada. Reescribir con propias palabras + (Apellido, año). El error más común: cambiar solo 2-3 palabras.<br><br>⭐ Bonus: +1 punto por parafrasear en voz alta la oración dada.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Ejercicio: da un fragmento y pide que lo parafraseen y le pongan cita APA correcta.</p>
+    <p class="note-text">Demo: muestra el original y la paráfrasis. Pide a un voluntario que parafrase otra oración.</p>
   </div>
 </div>
-
 <div class="card" id="card-4">
   <div class="card-header">
     <span class="card-num">S4·6</span>
-    <span class="card-title">Mini quiz — Formato APA paráfrasis</span>
-    <span class="card-time">⏱ 2 min</span>
+    <span class="card-title">🧩 Mini quiz</span>
+    <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Respuesta: (Apellido, año). Sin corchetes, sin llaves. El punto va fuera del paréntesis al final de la oración.</p>
+    <p class="note-text">Respuesta correcta: B — falta año, número de página y las comillas mal integradas. Aprovechar para reescribir la cita correctamente.<br><br>⭐ Bonus: +1 por respuesta, +1 extra si corrige la cita completa.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Votación rápida. Refuerza con el ejemplo correcto en pizarra.</p>
+    <p class="note-text">Vota por show of hands. Pide a uno que corrija la cita en voz alta.</p>
   </div>
 </div>
-
 <div class="card" id="card-5">
   <div class="card-header">
     <span class="card-num">S4·7</span>
-    <span class="card-title">La conclusión</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">El plagio</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">El error más común: introducir una idea nueva en la conclusión. Eso desestabiliza la estructura. La conclusión cierra, no abre.</p>
+    <p class="note-text">Cuatro formas de plagio — incluyendo pedir a la IA que escriba. Esto es relevante y actual. Énfasis: el plagio no es solo copiar textualmente.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Lee una conclusión que tiene una idea nueva. La clase identifica el problema y propone cómo corregirlo.</p>
+    <p class="note-text">Pregunta: ¿cambiar 3 palabras de un párrafo es plagio? Espera respuestas antes de revelar que sí.</p>
   </div>
 </div>
-
 <div class="card" id="card-6">
   <div class="card-header">
     <span class="card-num">S4·8</span>
-    <span class="card-title">Formato APA en Docs</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">Formato APA para citas en texto</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Configurar el formato en Docs toma 5 minutos pero marca la diferencia en la evaluación. Hazlo una vez y sirve para todo el año.</p>
+    <p class="note-text">Tres casos: cita corta (<40 palabras), cita en bloque (≥40 palabras), paráfrasis. Demo de los tres en Docs.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: configura fuente, interlineado doble y márgenes en Docs. Que repliquen en sus computadoras.</p>
+    <p class="note-text">Demo visual: escribe los 3 tipos en pantalla. Alumnos los copian en su propio documento.</p>
   </div>
 </div>
-
 <div class="card" id="card-7">
   <div class="card-header">
     <span class="card-num">S4·9</span>
-    <span class="card-title">Lista de referencias APA</span>
+    <span class="card-title">⭐ Detecta el error</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cita con múltiples errores: falta coma entre apellido y año, 'pag' en lugar de 'p.', sin número de página en cita textual.<br>⭐ Bonus: +1 por error identificado (máx. 3).</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra la cita en pantalla. Da 1 minuto para que identifiquen errores. Recoge respuestas.</p>
+  </div>
+</div>
+<div class="card" id="card-8">
+  <div class="card-header">
+    <span class="card-num">S4·10</span>
+    <span class="card-title">Cita corta vs. bloque</span>
     <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">La sangría francesa (hanging indent) es lo que más confunde. Formato → Párrafo → Sangría especial: primera línea negativa.</p>
+    <p class="note-text">El límite es 40 palabras. Cita corta: en el párrafo con comillas. Bloque: nueva línea, sangría, sin comillas. Demo de ambas en Docs.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: crea una referencia APA en Docs con sangría francesa. Que la repliquen.</p>
+    <p class="note-text">Demo en vivo: escribe una cita de 20 palabras y una de 50. Aplica el formato correcto a cada una.</p>
   </div>
 </div>
-
-<div class="card" id="card-8">
-  <div class="card-header">
-    <span class="card-num">S4·10</span>
-    <span class="card-title">Errores comunes</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El plagio con IA es el error más serio actualmente. Habla de consecuencias reales — no solo nota 0, sino formación de integridad.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pregunta ética: ¿por qué citar es importante más allá del colegio? Escucha respuestas.</p>
-  </div>
-</div>
-
 <div class="card" id="card-9">
   <div class="card-header">
     <span class="card-num">S4·11</span>
-    <span class="card-title">Párrafos de transición</span>
-    <span class="card-time">⏱ 3 min</span>
+    <span class="card-title">Integrar la cita en el párrafo</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Los conectores hacen que el trabajo fluya. Sin ellos parece una lista de ideas sueltas. Es lo que distingue escritura avanzada.</p>
+    <p class="note-text">Estructura: presentar → citar → analizar. La cita no habla por sí sola — siempre debe ir seguida de tu análisis.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Da 3 oraciones sin conectores y pide que las unan con frases de transición. Comparten en voz alta.</p>
+    <p class="note-text">Demo: escribe el párrafo completo con la cita integrada. Resalta la parte de análisis post-cita.</p>
   </div>
 </div>
-
 <div class="card" id="card-10">
   <div class="card-header">
     <span class="card-num">S4·12</span>
-    <span class="card-title">IA como borrador inicial</span>
+    <span class="card-title">Parafrasear sin plagiar</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Técnica de los 3 pasos: leer → cerrar → escribir. Este proceso fuerza la comprensión real.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejercicio práctico: la profa da un párrafo. Los alumnos lo leen, cierran el texto y escriben la paráfrasis.</p>
+  </div>
+</div>
+<div class="card" id="card-11">
+  <div class="card-header">
+    <span class="card-num">S4·13</span>
+    <span class="card-title">Errores al citar</span>
     <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Postura clara: la IA puede ayudar a organizar ideas, no a escribir el trabajo. Tu voz y tu análisis son irreemplazables.</p>
+    <p class="note-text">Lista de 4 errores frecuentes. El más grave: olvidar comentar la cita (dejarla suelta).</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Ejemplo: prompt de introducción → respuesta IA → comparar con la que ellos escribirían.</p>
+    <p class="note-text">Muestra ejemplos de cada error en pantalla.</p>
   </div>
 </div>
-
-<div class="card" id="card-11">
-  <div class="card-header">
-    <span class="card-num">S4·13</span>
-    <span class="card-title">Prompt de hoy</span>
-    <span class="card-time">⏱ 2 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El prompt incluye 'formato APA 7' — eso condiciona a la IA para dar formato correcto. Mostrar la diferencia.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Voluntario dicta el tema. La clase evalúa si el esquema generado tiene la estructura intro correcta.</p>
-  </div>
-</div>
-
 <div class="card" id="card-12">
   <div class="card-header">
     <span class="card-num">S4·14</span>
-    <span class="card-title">Actividad: trabajo completo</span>
+    <span class="card-title">⭐ Reto: ¿Es plagio o no?</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Caso de María: paráfrasis incorrecta sin citar.<br>⭐ Bonus: +2 por respuesta fundamentada, +1 extra si propone cómo hacerlo correctamente.<br><br>El caso es deliberadamente ambiguo para generar discusión.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Deja que debatan. Recoge 2-3 opiniones antes de confirmar que sí es plagio.</p>
+  </div>
+</div>
+<div class="card" id="card-13">
+  <div class="card-header">
+    <span class="card-num">S4·15</span>
+    <span class="card-title">🎯 Actividad: Cita y parafrasea</span>
     <span class="card-time">⏱ 12 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Producto de la clase: intro + desarrollo (con cita) + conclusión. Evalúa en tiempo real mientras circula.</p>
+    <p class="note-text">Actividad principal: cita textual + paráfrasis del mismo párrafo + análisis breve.<br><br>Producto: compartir doc con la profa.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">⏱ 12 min · Interlineado doble · Comparte al terminar con la profa.</p>
+    <p class="note-text">Circula. Verifica: comillas en cita, sin comillas en paráfrasis, (Apellido, año) en ambas.</p>
   </div>
 </div>
+<div class="card" id="card-14">
+  <div class="card-header">
+    <span class="card-num">S4·16</span>
+    <span class="card-title">IA y citas: el riesgo real</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La IA inventa fuentes — esto es conocido. Demostrar si es posible en clase. Prompt seguro para usar IA sin riesgos de citas falsas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Si hay tiempo, prueba en vivo pidiéndole a una IA una cita específica y busca si existe realmente.</p>
+  </div>
+</div>
+<div class="card" id="card-15">
+  <div class="card-header">
+    <span class="card-num">S4·17</span>
+    <span class="card-title">🚀 Para recordar</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre: 3 puntos clave. Ticket de salida: ¿cuándo cita textual y cuándo paráfrasis?<br><br>Conexión con S5: referencias y fuentes confiables.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: pregunta a 3-4 alumnos al azar.</p>
+  </div>
+</div>
+
 </div>
 
 <div class="nav-bar">
-  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
-  <span id="ncounter">1 / 13</span>
-  <button id="nnext" onclick="ngo(1)">▶</button>
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
 </div>
 
-<!-- ── Remote sync (notes) ── -->
-<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
-  <div style="font-size:1.5rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
-  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.6">Ingresa el código que aparece en la esquina del proyector</div>
-  <input id="sync-code" type="text" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" placeholder="7KQ4" style="font-size:2.4rem;font-family:monospace;text-align:center;letter-spacing:.35em;text-transform:uppercase;width:170px;background:#1f2937;border:2px solid #374151;color:#f9fafb;border-radius:10px;padding:.5rem .8rem;outline:none">
-  <button onclick="syncConnect()" style="background:#c084fc;color:#000;border:none;border-radius:10px;padding:.85rem 2.6rem;font-size:1.1rem;font-weight:800;cursor:pointer">Conectar</button>
-  <button onclick="syncSkip()" style="background:none;border:none;color:#6b7280;font-size:.9rem;cursor:pointer;padding:.4rem 1rem">Usar sin sync</button>
-</div>
-<div id="sync-badge" style="display:none;position:fixed;top:5px;right:5px;z-index:100;background:rgba(0,0,0,.75);border:1.5px solid #c084fc;border-radius:8px;padding:.2rem .55rem;font-family:monospace;font-size:.8rem;font-weight:800;color:#c084fc;letter-spacing:.12em;backdrop-filter:blur(4px)">📡 <span id="sync-badge-room"></span></div>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+const total=16;
+
+function openCard(i){
+  cards.forEach((c,j)=>{
+    c.classList.remove('active','open');
+    if(j===i){c.classList.add('active','open');}
+  });
+  cur=i;
+  document.getElementById('ncounter').textContent=(i+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=i===0;
+  document.getElementById('btn-next').disabled=i===total-1;
+  cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>openCard(i));
+});
+
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+
+openCard(0);
+</script>
+
 <script>
 (function(){
-  // card accordion
-  const cards=[...document.querySelectorAll('.card')];
-  let cur=0;
-  const total=13;
-  function showCard(n){
-    n=Math.max(0,Math.min(total-1,n));
-    cards.forEach((c,i)=>{
-      c.classList.remove('active','open');
-      if(i===n){c.classList.add('active','open');c.scrollIntoView({behavior:'smooth',block:'nearest'});}
-    });
-    cur=n;
-    document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
-    document.getElementById('nprev').disabled=cur===0;
-    document.getElementById('nnext').disabled=cur===total-1;
-  }
-  cards.forEach((c,i)=>{
-    c.querySelector('.card-header').addEventListener('click',()=>showCard(i));
-  });
-  window.ngo=function(d){showCard(cur+d);};
-  showCard(0);
+  const API = '/.netlify/functions/sync';
+  let _room = null;
 
-  // sync
-  const API='/.netlify/functions/sync';
-  const STORE_KEY='sync-room-v2';
-  let room='',connected=false;
-  const overlay=document.getElementById('sync-overlay');
-  const badge=document.getElementById('sync-badge');
-  const badgeRoom=document.getElementById('sync-badge-room');
-  const input=document.getElementById('sync-code');
-  let lastPushed=-2;
-  function pushSlide(){
-    if(!connected||!room)return;
-    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
-    if(!m)return;
-    const idx=parseInt(m[1])-1;
-    if(idx===lastPushed)return;
-    lastPushed=idx;
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room,slide:idx})}).catch(function(){});
+  function showOverlay(){
+    const ov = document.getElementById('sync-overlay');
+    if(ov){ ov.style.display='flex'; document.getElementById('sync-code-inp').focus(); }
   }
-  new MutationObserver(function(){clearTimeout(window._pushTimer);window._pushTimer=setTimeout(pushSlide,80);}).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
-  function connect(code){
-    room=code.toUpperCase().trim();
-    if(!room)return;
-    localStorage.setItem(STORE_KEY,room);
-    connected=true;
-    overlay.style.display='none';
-    badge.style.display='block';
-    badgeRoom.textContent=room;
-    document.getElementById('room-display').textContent=room;
-    lastPushed=-2;
-    pushSlide();
+  function hideOverlay(){ const ov=document.getElementById('sync-overlay'); if(ov)ov.style.display='none'; }
+
+  document.getElementById('sync-overlay-btn').addEventListener('click', showOverlay);
+  document.getElementById('sync-cancel-btn').addEventListener('click', hideOverlay);
+  document.getElementById('sync-connect-btn').addEventListener('click', function(){
+    const val = document.getElementById('sync-code-inp').value.trim().toUpperCase();
+    if(val.length < 3){ return; }
+    _room = val;
+    document.getElementById('room-display').textContent = _room;
+    hideOverlay();
+    startObserver();
+  });
+
+  function startObserver(){
+    let lastSent = -1;
+    const counter = document.getElementById('ncounter');
+    const obs = new MutationObserver(()=>{
+      const txt = counter.textContent||'';
+      const m = txt.match(/(\d+)/);
+      if(!m) return;
+      const idx = parseInt(m[1]) - 1;
+      if(idx === lastSent || !_room) return;
+      lastSent = idx;
+      fetch(API, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ room: _room, slide: idx })
+      }).catch(()=>{});
+    });
+    obs.observe(counter, {childList:true, subtree:true, characterData:true});
   }
-  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
-  window.syncSkip=function(){overlay.style.display='none';};
-  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
-  const saved=localStorage.getItem(STORE_KEY);
-  if(saved)input.value=saved;
 })();
 </script>
+
 </body>
 </html>

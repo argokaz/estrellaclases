@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sesión 4 · 4.° Secundaria</title>
+<title>Sesión 4 · 4.° Secundaria — Citas y Paráfrasis</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
-.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;
-  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#2e1065,#4a1d96);}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:4% 6%;text-align:center;background:linear-gradient(135deg,#2e1065,#4a1d96);}
 .slide.active{opacity:1;pointer-events:auto;z-index:2;}
 .brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
   font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
@@ -29,6 +30,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
 .c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
 .big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
 .line{width:55%;height:3px;background:#c084fc;border-radius:2px;margin:2% auto;opacity:.65;}
 .list{text-align:left;width:100%;max-width:82%;}
@@ -39,7 +42,10 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
 .highlight{background:rgba(255,255,255,.07);border:2px solid #c084fc;border-radius:clamp(8px,1.2vw,18px);
   padding:3% 4%;max-width:85%;margin-top:2%;}
-/* quiz */
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #c084fc;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
 .quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
 .qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
   padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
@@ -49,7 +55,6 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
 .qletter{font-weight:900;color:#c084fc;min-width:1.6em;}
 .qopt.wrong .qletter{color:#f87171;}
-/* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
   z-index:99;backdrop-filter:blur(6px);}
@@ -61,13 +66,12 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
   background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
 .dot.active{background:#c084fc;}
-/* Animaciones */
 .slide::before{content:'';position:absolute;width:55%;height:55%;
-  background:radial-gradient(circle,rgba(192,132,252,.18) 0%,transparent 68%);
+  background:radial-gradient(circle,#c084fc2e 0%,transparent 68%);
   border-radius:50%;top:-20%;right:-12%;
   animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
 .slide::after{content:'';position:absolute;width:40%;height:40%;
-  background:radial-gradient(circle,rgba(192,132,252,.12) 0%,transparent 70%);
+  background:radial-gradient(circle,#c084fc1e 0%,transparent 70%);
   border-radius:50%;bottom:-15%;left:-8%;
   animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
@@ -82,21 +86,21 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .t-body{animation:fUp .45s .2s ease both;}
 .slide.active .t-sm{animation:fUp .4s .24s ease both;}
 .slide.active .line{animation:lGrow .42s .1s ease both;}
-.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1){animation:pIn .4s .16s ease both;}
-.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2){animation:pIn .4s .26s ease both;}
-.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3){animation:pIn .4s .36s ease both;}
-.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
 .slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
 .slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
-.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
 .slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -108,142 +112,177 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">4 · 1</div>
   <p class="t-sm accent">Viernes 5 de junio · 4.° Secundaria</p>
   <div class="line"></div>
-  <h1 class="t-super">El cuerpo del<br><span class='accent'>trabajo</span></h1>
-  <p class="t-body" style="margin-top:2%">Introducción, desarrollo y conclusión con APA</p>
+  <h1 class="t-super">Citas y<br><span class='accent'>paráfrasis</span></h1>
+  <p class="t-body" style="margin-top:2%">Usar ideas ajenas sin plagiar · Google Docs · APA</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 2</div>
-  <h2 class="t-h1">La estructura clásica</h2>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">🚪</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Introducción</p><p class="t-sm" style="opacity:.8">Presenta el tema y el propósito del trabajo</p></div>
-    <div class="c3"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Desarrollo</p><p class="t-sm" style="opacity:.8">Argumenta, explica y presenta evidencias</p></div>
-    <div class="c3"><div class="big-em">🏁</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Conclusión</p><p class="t-sm" style="opacity:.8">Resume, responde la pregunta inicial</p></div>
+    <div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cita textual</p><p class="t-sm" style="opacity:.8">Cuándo y cómo copiar exactamente</p></div>
+    <div class="c3"><div class="big-em">🔄</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paráfrasis</p><p class="t-sm" style="opacity:.8">Reescribir sin copiar</p></div>
+    <div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Plagio</p><p class="t-sm" style="opacity:.8">Qué es y cómo evitarlo</p></div>
   </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 3</div>
-  <h2 class="t-h1">La introducción</h2>
+  <h2 class="t-h1">¿Por qué citar? 🤔</h2>
   <div class="line"></div>
-  <ul class="list"><li><strong>Contexto:</strong> sitúa el tema para el lector.</li><li><strong>Problema / pregunta central:</strong> ¿qué vas a responder?</li><li><strong>Tesis o propósito:</strong> tu postura o enfoque.</li><li>Extensión: 1–2 párrafos (para un trabajo escolar).</li></ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">La intro no presenta conclusiones; solo sienta el terreno</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🏆</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Dar crédito</p><p class="t-sm" style="opacity:.8">El autor original merece reconocimiento</p></div>
+    <div class="c3"><div class="big-em">📚</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Sustentar</p><p class="t-sm" style="opacity:.8">Tus ideas se apoyan en evidencia</p></div>
+    <div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Verificar</p><p class="t-sm" style="opacity:.8">El lector puede consultar la fuente original</p></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 4</div>
-  <h2 class="t-h1">El desarrollo</h2>
+  <h2 class="t-h1">Cita textual 📌</h2>
   <div class="line"></div>
-  <ul class="list"><li>Cada idea central → un párrafo o sección.</li><li>Usa subtítulos con estilo <strong>Encabezado 2</strong> en Docs.</li><li>Incluye citas APA cuando uses información de fuentes.</li><li>Conecta las ideas con frases de transición.</li></ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Ejemplo de transición: "Por otro lado…", "Además…", "En consecuencia…"</p>
+  <ul class="list"><li>Copias las palabras <strong>exactas</strong> del autor.</li><li>Obligatorio usar <strong>comillas</strong>: "así".</li><li>Debes incluir: <strong>(Apellido, año, p. N)</strong> en APA.</li><li>Solo cuando las palabras exactas importan — definición, afirmación clave.</li></ul>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-sm" style="opacity:.8">Ejemplo: "La tecnología no define al ser humano, sino al revés" (García, 2021, p. 45).</p>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 5</div>
-  <h2 class="t-h1">Citas APA (en texto)</h2>
+  <h2 class="t-h1">Paráfrasis 🔄</h2>
   <div class="line"></div>
-  <ul class="list"><li>Paráfrasis: <strong>(Apellido, año)</strong> — ej. (García, 2021)</li><li>Cita directa breve: <strong>"texto" (Apellido, año, p. N)</strong></li><li>Cita directa larga (&gt;40 palabras): párrafo aparte, sangría.</li></ul>
-  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.7">Ejemplo: "La tecnología transforma la educación" (López, 2020, p. 45).</p>
+  <ul class="list"><li>Reescribes la idea <strong>con tus propias palabras</strong>.</li><li>Sin comillas — pero sí con (Apellido, año).</li><li>Cambias estructura Y vocabulario, no solo algunas palabras.</li><li>Es la forma más usada en trabajos académicos.</li></ul>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-sm" style="opacity:.8">Original: "La tecnología no define al ser humano, sino al revés" (García, 2021).<br>Paráfrasis: Según García (2021), son las personas quienes dan forma a la tecnología y no al contrario.</p>
   </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Parafrasea esta oración en voz alta: 'Leer activa zonas del cerebro asociadas al lenguaje y la imaginación.' (López, 2020)</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 6</div>
   <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál es el formato APA correcto para citar una paráfrasis?</p>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Escribes: <em>"La tecnología no define al ser humano" García dijo esto.</em><br>¿Qué tiene de malo?</p>
   <div class="quiz-opts" style="margin-top:3%">
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>[Apellido (año)]</div>
-    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>(Apellido, año)</div>
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>{Apellido: año}</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Nada, está bien así</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Falta año, número de página y las comillas están mal integradas — es una cita incompleta</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>No debería usarse una cita textual aquí</div>
   </div>
   <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si corriges la cita completa</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 7</div>
-  <h2 class="t-h1">La conclusión</h2>
+  <h2 class="t-h1">El plagio ⚠️</h2>
   <div class="line"></div>
-  <ul class="list"><li>Retoma la tesis de la introducción.</li><li>Sintetiza los puntos clave del desarrollo.</li><li>No introduce ideas nuevas.</li><li>Puede sugerir implicaciones o próximos pasos.</li></ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Una buena conclusión responde: ¿qué aprendimos?</p>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Plagio es...</p>
+      <ul class="list"><li>Copiar sin citar</li><li>Cambiar solo una o dos palabras</li><li>Usar ideas ajenas sin mencionar la fuente</li><li>Pedir a la IA que escriba y presentarlo como propio</li></ul></div>
+    <div class="box" style="border-color:rgba(192,132,252,.4)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ No es plagio...</p>
+      <ul class="list"><li>Citar textualmente con comillas y fuente</li><li>Parafrasear con (Apellido, año)</li><li>Referenciar en la bibliografía</li></ul></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 8</div>
-  <h2 class="t-h1">Formato APA en Docs</h2>
+  <h2 class="t-h1">Formato APA para citas en texto</h2>
   <div class="line"></div>
-  <ul class="list"><li>Fuente: <strong>Times New Roman 12</strong> (o Calibri 11).</li><li>Interlineado: <strong>doble</strong>.</li><li>Márgenes: <strong>2.5 cm</strong> por todos lados.</li><li>Sangría en primera línea de cada párrafo.</li></ul>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Formato → Párrafo → Interlineado → Doble</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📏</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cita corta<br>(&lt; 40 palabras)</p><p class="t-sm" style="opacity:.8">"Texto exacto" (Apellido, año, p. N)</p></div>
+    <div class="c3"><div class="big-em">📦</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cita en bloque<br>(≥ 40 palabras)</p><p class="t-sm" style="opacity:.8">Sin comillas. Sangría izquierda. (Apellido, año, pp. N-M)</p></div>
+    <div class="c3"><div class="big-em">🔄</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paráfrasis</p><p class="t-sm" style="opacity:.8">Sin comillas. (Apellido, año) al final o al inicio.</p></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 9</div>
-  <h2 class="t-h1">Lista de referencias APA</h2>
+  <h2 class="t-h1">⭐ Detecta el error</h2>
   <div class="line"></div>
-  <ul class="list"><li>Al final del trabajo, separada con el título <strong>"Referencias"</strong>.</li><li>Orden alfabético por apellido del autor.</li><li>Sangría francesa (segunda línea indentada).</li></ul>
   <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.7">García, M. (2021). <em>Tecnología educativa</em>. Editorial Norma.</p>
+    <p class="t-sm" style="opacity:.7;margin-bottom:.8em">📌 Cita tal como está escrita:</p>
+    <p class="t-body"><em>La inteligencia artificial puede ser beneficiosa según (Ramírez 2022 pag 15)</em></p>
   </div>
+  <p class="t-body" style="margin-top:2%;font-weight:700">¿Cuántos errores encuentras?</p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por error identificado (máx. 3). Pista: hay por lo menos 3 errores.</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 10</div>
-  <h2 class="t-h1">❌ Errores comunes</h2>
+  <h2 class="t-h1">Integrar la cita en el párrafo</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal</p>
-      <ul class="list"><li>Copiar sin citar</li><li>Conclusión con ideas nuevas</li><li>Sin interlineado doble</li></ul></div>
-    <div class="box" style="border-color:rgba(192,132,252,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Bien</p>
-      <ul class="list"><li>Citar toda fuente usada</li><li>Conclusión que sintetiza</li><li>Formato APA completo</li></ul></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Presenta la idea: "Según García (2021)..."</p></div>
+    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em">Incluye la cita o paráfrasis</p></div>
+    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Conecta con tu argumento</p></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">La cita apoya tu idea, no la reemplaza. Siempre comenta lo que citaste. ✍️</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 11</div>
-  <h2 class="t-h1">Párrafos de transición</h2>
+  <h2 class="t-h1">Parafrasear sin plagiar</h2>
   <div class="line"></div>
-  <ul class="list"><li>Conectan las secciones del desarrollo.</li><li>Ejemplos: "Como se mencionó…", "A pesar de lo anterior…", "En síntesis…"</li><li>Evitan que el texto se sienta fragmentado.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Un trabajo bien conectado es más fácil de leer y evaluar</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 1</p><p class="t-sm" style="opacity:.8">Lee el texto original y entiéndelo</p></div>
+    <div class="c3"><div class="big-em">📕</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 2</p><p class="t-sm" style="opacity:.8">Cierra o voltea el texto — no lo mires</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 3</p><p class="t-sm" style="opacity:.8">Escribe la idea con tus propias palabras + (Apellido, año)</p></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 12</div>
-  <h2 class="t-h1">IA como borrador inicial</h2>
+  <h2 class="t-h1">Demo en Google Docs 💻</h2>
   <div class="line"></div>
-  <ul class="list"><li>La IA puede darte un esquema de introducción.</li><li>Nunca entregues texto de IA sin editar y citar fuentes reales.</li><li>Usa la IA para <strong>ideas</strong>, no para el trabajo final.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">El pensamiento crítico sigue siendo tuyo 🧠</p>
+  <ul class="list"><li>Abrir Docs con un párrafo de ejemplo.</li><li>Escribir una cita textual corta con formato APA correcto.</li><li>Parafrasear el mismo párrafo debajo.</li><li>Comparar: misma idea, diferente forma.</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Demo en pantalla — sigan los pasos con su propio documento 📝</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 13</div>
-  <h2 class="t-h1">Prompt de hoy</h2>
+  <h2 class="t-h1">Errores al citar ⚠️</h2>
   <div class="line"></div>
-  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Pruébalo</p>
-    <ul class="list"><li>Dame un esquema de introducción académica de 2 párrafos sobre [tema], con una tesis clara y en formato APA 7.</li></ul>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Reemplaza [tema] y edita el resultado con tus propias fuentes</p>
+  <ul class="list"><li>Olvidar el año: (García) → incompleto.</li><li>Mezclar cita y paráfrasis: "La tecnología es importante (García, 2020)" — si cambias las palabras, no va entre comillas.</li><li>Página sin número: obligatorio en cita textual.</li><li>No comentar la cita — dejarla suelta sin análisis.</li></ul>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 14</div>
-  <h2 class="t-h1">✏️ Actividad</h2>
+  <h2 class="t-h1">⭐ Reto: ¿Es plagio o no?</h2>
   <div class="line"></div>
-  <ul class="list"><li>Escribe en Google Docs la <strong>introducción</strong> de tu trabajo (tema libre).</li><li>Agrega al menos un párrafo de <strong>desarrollo</strong> con cita APA.</li><li>Escribe una <strong>conclusión</strong> breve.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 12 min · Interlineado doble · Comparte con la profa</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
+    <p class="t-sm" style="opacity:.7;margin-bottom:.8em">📌 Situación:</p>
+    <p class="t-body">María encontró un artículo y reescribió cada oración cambiando 2-3 palabras. No puso ninguna referencia porque "ya no son las mismas palabras."</p>
+  </div>
+  <p class="t-body" style="margin-top:2%;font-weight:700">¿Es plagio? Explica tu respuesta.</p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> por respuesta fundamentada · <strong>+1 extra</strong> si propones cómo hacerlo correctamente</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 15</div>
+  <h2 class="t-h1">🎯 Actividad: Cita y parafrasea</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Abre <strong>Google Docs</strong></li><li>La profa comparte un párrafo de texto</li><li>Escribe una <strong>cita textual</strong> con formato APA completo</li><li>Escribe una <strong>paráfrasis</strong> del mismo párrafo</li><li>Agrega un comentario breve de cada uno (1-2 frases)</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 10 min · Comparte el doc con la profa al terminar</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 16</div>
+  <h2 class="t-h1">IA y citas: el riesgo real 🤖</h2>
+  <div class="line"></div>
+  <ul class="list"><li>La IA puede <strong>inventar fuentes</strong> que no existen (García, 2021 que nadie escribió).</li><li>Nunca copies una cita de la IA sin <strong>verificarla</strong> en Google Académico.</li><li>La IA sí sirve para: reformular, mejorar redacción, explicar un concepto.</li><li>Prompt seguro: <em>"Explícame esta idea con tus palabras, sin citar fuentes."</em></li></ul>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 17</div>
   <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:3%">
-    <div class="c3"><p class="t-sm">🚪 Intro: contexto y tesis</p></div>
-    <div class="c3"><p class="t-sm">📖 Desarrollo: argumento + citas APA</p></div>
-    <div class="c3"><p class="t-sm">🏁 Conclusión: síntesis, sin ideas nuevas</p></div>
+    <div class="c3"><p class="t-sm"><strong>📌</strong> Cita textual: comillas + (Apellido, año, p. N)</p></div>
+    <div class="c3"><p class="t-sm"><strong>🔄</strong> Paráfrasis: tus palabras + (Apellido, año)</p></div>
+    <div class="c3"><p class="t-sm"><strong>⚠️</strong> Plagio = usar ideas ajenas sin citar, aunque cambies palabras</p></div>
   </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: ¿en qué parte del trabajo va la lista de referencias?</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket de salida: ¿Cuándo usas cita textual y cuándo paráfrasis? 🎟️</p>
   <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
+
+
 </div>
 <div class="nav">
   <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
   <div class="dots" id="dots"></div>
-  <span id="counter">1 / 15</span>
+  <span id="counter">1 / 17</span>
   <button id="btn-next" onclick="go(1)">▶</button>
 </div>
 <script>
+
 const slides=[...document.querySelectorAll('.slide')];let initialized=false;
-const total=15;let cur=0;
+const total=17;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
@@ -262,6 +301,7 @@ function quizPick(el){
 }
 goTo(0);
 initialized=true;
+
 </script>
 
 <!-- ── Remote sync (deck) ── -->
@@ -281,20 +321,16 @@ initialized=true;
 (function(){
   const API    = '/.netlify/functions/sync';
   const OFFSET = 1;
-
   function genCode() {
     const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
     let s = '';
     for (let i = 0; i < 4; i++) s += c[Math.floor(Math.random() * c.length)];
     return s;
   }
-
   const ROOM = sessionStorage.getItem('deck-room') || genCode();
   sessionStorage.setItem('deck-room', ROOM);
   document.getElementById('room-code-display').textContent = ROOM;
-
   let last = -999, busy = false;
-
   async function poll() {
     if (busy) return;
     busy = true;
@@ -308,10 +344,10 @@ initialized=true;
       }
     } catch(e) {} finally { busy = false; }
   }
-
   setInterval(poll, 1500);
   poll();
 })();
 </script>
+
 </body>
 </html>

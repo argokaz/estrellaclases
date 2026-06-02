@@ -12,7 +12,7 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
 .top-bar .grade{font-weight:900;font-size:1.1rem;color:#60a5fa;}
 .top-bar .tema{font-size:.85rem;opacity:.7;}
 .room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
-  color:#60a5fa;letter-spacing:.15em;}
+  color:#60a5fa;letter-spacing:.15em;cursor:pointer;}
 .cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
 .card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
   transition:border-color .2s;}
@@ -33,279 +33,324 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
   padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
 .nav-bar button:disabled{opacity:.25;cursor:default;}
 .nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
-.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
-  border:1px solid #60a5fa;border-radius:8px;padding:.25rem .7rem;
-  font-family:monospace;font-size:.85rem;font-weight:700;color:#60a5fa;opacity:.9;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #60a5fa;color:#60a5fa;
+  border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
 </style>
 </head>
 <body>
+
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #60a5fa;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#60a5fa;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X"
+      style="width:100%;background:#111;border:2px solid #60a5fa;color:#fff;
+      font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;
+      border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#60a5fa;color:#000;
+      border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;
+      cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);
+      color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+
 <div class="top-bar">
   <div>
     <div class="grade">Sesión 4 · 2.° Secundaria</div>
-    <div class="tema">Documentos con imagen y tabla. Insertar imágenes, ajuste de texto y tablas en Google Docs</div>
+    <div class="tema">Presentaciones Efectivas</div>
   </div>
   <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
 </div>
 
 <div class="cards-list" id="cards-list">
 <div class="card" id="card-0">
   <div class="card-header">
     <span class="card-num">S4·2</span>
-    <span class="card-title">¿Por qué agregar imágenes?</span>
+    <span class="card-title">¿Qué haremos hoy?</span>
     <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Conecta con lo que saben: ¿cuándo un artículo o trabajo se ve más profesional? Una imagen bien elegida suma mucho.</p>
+    <p class="note-text">Conecta con la clase anterior de formato de texto. Hoy dan el salto a la comunicación visual. Pregunta: ¿alguien ha presentado ante un grupo antes? ¿Cómo fue?</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Muestra dos versiones del mismo documento: sin imagen y con imagen. ¿Cuál prefieren?</p>
+    <p class="note-text">Señala las 3 metas. Genera motivación: hoy aprenden a no aburrir a su audiencia.</p>
   </div>
 </div>
-
 <div class="card" id="card-1">
   <div class="card-header">
     <span class="card-num">S4·3</span>
-    <span class="card-title">Insertar una imagen</span>
-    <span class="card-time">⏱ 5 min</span>
+    <span class="card-title">La regla de 1 idea por slide</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Demuestra las tres vías: desde computadora, desde URL y desde Drive. La más común para ellos será desde computadora.</p>
+    <p class="note-text">Esta es la regla más poderosa. Si solo retienen una cosa de la clase, que sea esta. Da ejemplos de slides sobrecargadas que todos han visto.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo en vivo: inserta una imagen desde un archivo. Pide que lo repitan en sus computadoras.</p>
+    <p class="note-text">Muestra 2 versiones del mismo slide: recargado vs. limpio. Pregunta cuál prefieren y por qué.</p>
   </div>
 </div>
-
 <div class="card" id="card-2">
   <div class="card-header">
     <span class="card-num">S4·4</span>
-    <span class="card-title">Ajuste de texto (Wrap)</span>
+    <span class="card-title">Texto: menos es más</span>
     <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">El ajuste más útil para trabajos es 'envolvente'. 'Rompiendo' también es válido si la imagen es central al contenido.</p>
+    <p class="note-text">La tendencia más común de los estudiantes es poner todo el texto en el slide. Explica que el slide es un apoyo visual, no un guion escrito.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: muestra las tres opciones en el mismo documento. Que identifiquen cuándo usar cada una.</p>
+    <p class="note-text">Ejercicio rápido: muestra un slide con 8 bullets. ¿Cómo lo reducirían a 3?</p>
   </div>
 </div>
-
 <div class="card" id="card-3">
   <div class="card-header">
     <span class="card-num">S4·5</span>
-    <span class="card-title">Crear una tabla</span>
+    <span class="card-title">Tipografía: lo que funciona</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Máx. 2 fuentes, tamaño legible desde atrás del salón. Tip: si alguien al fondo no lo lee, la fuente es pequeña.<br><br>⭐ Bonus: Nombra una fuente que NO deberías usar en una presentación escolar. +1 punto.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra ejemplos de fuentes buenas y malas. Deja que comenten cuáles usarían ellos.</p>
+  </div>
+</div>
+<div class="card" id="card-4">
+  <div class="card-header">
+    <span class="card-num">S4·6</span>
+    <span class="card-title">🧩 Mini quiz</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: B — demasiado texto y demasiados colores. Aclara que las imágenes ayudan pero no son la prioridad sobre la claridad.<br><br>⭐ Bonus: +1 por respuesta, +1 extra si propone cómo arreglarlo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación levantando la mano: A, B o C.</p>
+  </div>
+</div>
+<div class="card" id="card-5">
+  <div class="card-header">
+    <span class="card-num">S4·7</span>
+    <span class="card-title">Colores y contraste</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El error más común: texto amarillo en fondo blanco. Contraste alto = legibilidad. Paleta de 3 colores máximo. Conecta con el tema de diseño de identidad.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: muestra 2 versiones del mismo slide con diferente contraste. El aula vota cuál es mejor.</p>
+  </div>
+</div>
+<div class="card" id="card-6">
+  <div class="card-header">
+    <span class="card-num">S4·8</span>
+    <span class="card-title">Imágenes que ayudan</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Imágenes relevantes apoyan la idea. Imágenes decorativas distraen. Menciona el aspecto de derechos de autor — usar imágenes libres o con crédito.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra un slide con imagen fuera de contexto vs. uno con imagen que refuerza la idea.</p>
+  </div>
+</div>
+<div class="card" id="card-7">
+  <div class="card-header">
+    <span class="card-num">S4·9</span>
+    <span class="card-title">⭐ Vota: ¿Cuál slide es mejor?</span>
     <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Haz la demostración paso a paso. El truco visual del selector de celdas en el menú suele sorprenderlos.</p>
+    <p class="note-text">Interacción directa: muestra Slide A (mal diseñado) vs Slide B (bien diseñado).<br>⭐ Bonus: +1 por votar, +2 extra por justificar con lo aprendido.<br><br>Refuerza los conceptos aplicados en contexto real.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: crea una tabla 3×4. Pide que creen una en su documento.</p>
+    <p class="note-text">Muestra las 2 slides en pantalla. Da 1 minuto para decidir. Luego recoge respuestas.</p>
   </div>
 </div>
-
-<div class="card" id="card-4">
-  <div class="card-header">
-    <span class="card-num">S4·6</span>
-    <span class="card-title">Mini quiz — Ajuste envolvente</span>
-    <span class="card-time">⏱ 2 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Respuesta: Envolvente. Aclarar que 'en línea' trata la imagen como texto y no permite posicionamiento libre.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Votación rápida A/B/C. Explica por qué las otras son incorrectas.</p>
-  </div>
-</div>
-
-<div class="card" id="card-5">
-  <div class="card-header">
-    <span class="card-num">S4·7</span>
-    <span class="card-title">Dar formato a la tabla</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El formato de tabla marca la diferencia entre un trabajo amateur y uno pulido. Mostrar el contraste.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: tabla sin formato vs tabla con encabezado coloreado y bordes. ¿Cuál se lee mejor?</p>
-  </div>
-</div>
-
-<div class="card" id="card-6">
-  <div class="card-header">
-    <span class="card-num">S4·8</span>
-    <span class="card-title">Agregar y eliminar filas/columnas</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Habilidad práctica esencial. Muchos se quedan cortos de filas y no saben cómo añadir más.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Práctica guiada: pide que inserten una fila al final de su tabla y luego la eliminen.</p>
-  </div>
-</div>
-
-<div class="card" id="card-7">
-  <div class="card-header">
-    <span class="card-num">S4·9</span>
-    <span class="card-title">Imágenes con derechos de autor</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Importante para su formación ética digital. No es solo una regla del colegio, es la ley.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Busca en Google Imágenes una imagen, filtra por 'Licencias Creative Commons'. Demo en vivo.</p>
-  </div>
-</div>
-
 <div class="card" id="card-8">
   <div class="card-header">
     <span class="card-num">S4·10</span>
-    <span class="card-title">Errores comunes</span>
-    <span class="card-time">⏱ 3 min</span>
+    <span class="card-title">Estructura de la presentación</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">El más frecuente: imagen gigante sin ajuste de texto que empuja todo el contenido. Muestra el efecto.</p>
+    <p class="note-text">Intro (1-2 slides) → Desarrollo (5-8) → Cierre (1-2). Explica que esta estructura también aplica a discursos, ensayos y videos.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Corrección en vivo: toma un documento mal formateado y corrígelo mientras explicas.</p>
+    <p class="note-text">Pregunta: si tienen 8 slides de desarrollo, ¿cuántas slides tiene la presentación completa?</p>
   </div>
 </div>
-
 <div class="card" id="card-9">
   <div class="card-header">
     <span class="card-num">S4·11</span>
-    <span class="card-title">Combinar imagen y tabla</span>
-    <span class="card-time">⏱ 3 min</span>
+    <span class="card-title">Google Slides vs Canva</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Producto final de la actividad. Una imagen que ilustra + una tabla que organiza = documento completo.</p>
+    <p class="note-text">Slides para trabajo colaborativo y Drive. Canva para diseño más visual e impactante. Para el trabajo de hoy pueden usar cualquiera.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Muestra un ejemplo terminado para que tengan referencia visual del objetivo.</p>
+    <p class="note-text">Muestra brevemente la interfaz de ambas. Pregunta cuál usaron antes y para qué.</p>
   </div>
 </div>
-
 <div class="card" id="card-10">
   <div class="card-header">
     <span class="card-num">S4·12</span>
-    <span class="card-title">IA para buscar imágenes libres</span>
+    <span class="card-title">El tiempo por slide</span>
     <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Menciona Unsplash, Pixabay y Pexels. Son gratuitas y libres. La IA puede sugerir dónde buscar.</p>
+    <p class="note-text">1-2 minutos por slide es el promedio. Si tardas más de 3 min en una, tiene demasiado contenido. Esto también aplica a exposiciones.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo rápido: abre unsplash.com y busca una imagen. Muestra cómo descargarla.</p>
+    <p class="note-text">Ejercicio mental: si una presentación de 10 slides dura 20 min, ¿cuánto promedio por slide?</p>
   </div>
 </div>
-
 <div class="card" id="card-11">
   <div class="card-header">
     <span class="card-num">S4·13</span>
-    <span class="card-title">Prompt de hoy</span>
-    <span class="card-time">⏱ 2 min</span>
+    <span class="card-title">Errores que arruinan todo</span>
+    <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Leer el prompt. El objetivo es que la IA les dé una estructura de tabla antes de crearla — planifican primero.</p>
+    <p class="note-text">Lista de 5 errores. El más grave: leer el slide palabra por palabra. Menciona que el slide es el apoyo, no el guion.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Un voluntario dicta el tema. Leen la respuesta de la IA y evalúan si la estructura tiene sentido.</p>
+    <p class="note-text">Pregunta: ¿cuál de estos errores han visto en presentaciones de profesores o compañeros?</p>
   </div>
 </div>
-
 <div class="card" id="card-12">
   <div class="card-header">
     <span class="card-num">S4·14</span>
-    <span class="card-title">Actividad: imagen + tabla</span>
+    <span class="card-title">⭐ Reto rápido: Mejora este slide</span>
+    <span class="card-time">⏱ 5 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Interacción: muestra el slide malo en pantalla. Pide 2 cambios concretos.<br>⭐ Bonus: +2 puntos al primero que explica 2 cambios concretos.<br><br>Esto aplica inmediatamente lo aprendido.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Espera respuestas de varios alumnos. Anota los cambios sugeridos en la pizarra.</p>
+  </div>
+</div>
+<div class="card" id="card-13">
+  <div class="card-header">
+    <span class="card-num">S4·15</span>
+    <span class="card-title">🎯 Actividad: Mi slide modelo</span>
     <span class="card-time">⏱ 12 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Producto de la clase. Circula verificando: imagen insertada con ajuste, tabla con encabezado, nombre de archivo claro.</p>
+    <p class="note-text">Actividad principal: 3 slides sobre un tema que les guste. Slide 1: título + nombre. Slide 2: 2-3 bullets. Slide 3: conclusión + imagen.<br><br>Producto: compartir enlace con la profa.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">⏱ 12 min · Individual · Comparte con la profa al terminar.</p>
+    <p class="note-text">Circula por el salón. Verifica que apliquen: 1 idea/slide, contraste, fuente legible.</p>
   </div>
 </div>
+<div class="card" id="card-14">
+  <div class="card-header">
+    <span class="card-num">S4·16</span>
+    <span class="card-title">Checklist de una buena presentación</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Da el checklist como herramienta que usarán para revisar sus propios trabajos. No es teórico — es su guía práctica.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide que abran su presentación del ejercicio y revisen cada punto del checklist.</p>
+  </div>
+</div>
+<div class="card" id="card-15">
+  <div class="card-header">
+    <span class="card-num">S4·17</span>
+    <span class="card-title">🚀 Para recordar</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre: 1 idea/slide, contraste, estructura. Ticket de salida: ¿cuál es el error más común en presentaciones?<br><br>Conexión con S5: la próxima clase profundizarán en diseño y narrativa.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: pregunta a 3-4 alumnos antes de que salgan.</p>
+  </div>
+</div>
+
 </div>
 
 <div class="nav-bar">
-  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
-  <span id="ncounter">1 / 13</span>
-  <button id="nnext" onclick="ngo(1)">▶</button>
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
 </div>
 
-<!-- ── Remote sync (notes) ── -->
-<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
-  <div style="font-size:1.5rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
-  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.6">Ingresa el código que aparece en la esquina del proyector</div>
-  <input id="sync-code" type="text" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" placeholder="7KQ4" style="font-size:2.4rem;font-family:monospace;text-align:center;letter-spacing:.35em;text-transform:uppercase;width:170px;background:#1f2937;border:2px solid #374151;color:#f9fafb;border-radius:10px;padding:.5rem .8rem;outline:none">
-  <button onclick="syncConnect()" style="background:#60a5fa;color:#000;border:none;border-radius:10px;padding:.85rem 2.6rem;font-size:1.1rem;font-weight:800;cursor:pointer">Conectar</button>
-  <button onclick="syncSkip()" style="background:none;border:none;color:#6b7280;font-size:.9rem;cursor:pointer;padding:.4rem 1rem">Usar sin sync</button>
-</div>
-<div id="sync-badge" style="display:none;position:fixed;top:5px;right:5px;z-index:100;background:rgba(0,0,0,.75);border:1.5px solid #60a5fa;border-radius:8px;padding:.2rem .55rem;font-family:monospace;font-size:.8rem;font-weight:800;color:#60a5fa;letter-spacing:.12em;backdrop-filter:blur(4px)">📡 <span id="sync-badge-room"></span></div>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+const total=16;
+
+function openCard(i){
+  cards.forEach((c,j)=>{
+    c.classList.remove('active','open');
+    if(j===i){c.classList.add('active','open');}
+  });
+  cur=i;
+  document.getElementById('ncounter').textContent=(i+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=i===0;
+  document.getElementById('btn-next').disabled=i===total-1;
+  cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>openCard(i));
+});
+
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+
+openCard(0);
+</script>
+
 <script>
 (function(){
-  // card accordion
-  const cards=[...document.querySelectorAll('.card')];
-  let cur=0;
-  const total=13;
-  function showCard(n){
-    n=Math.max(0,Math.min(total-1,n));
-    cards.forEach((c,i)=>{
-      c.classList.remove('active','open');
-      if(i===n){c.classList.add('active','open');c.scrollIntoView({behavior:'smooth',block:'nearest'});}
-    });
-    cur=n;
-    document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
-    document.getElementById('nprev').disabled=cur===0;
-    document.getElementById('nnext').disabled=cur===total-1;
-  }
-  cards.forEach((c,i)=>{
-    c.querySelector('.card-header').addEventListener('click',()=>showCard(i));
-  });
-  window.ngo=function(d){showCard(cur+d);};
-  showCard(0);
+  const API = '/.netlify/functions/sync';
+  let _room = null;
 
-  // sync
-  const API='/.netlify/functions/sync';
-  const STORE_KEY='sync-room-v2';
-  let room='',connected=false;
-  const overlay=document.getElementById('sync-overlay');
-  const badge=document.getElementById('sync-badge');
-  const badgeRoom=document.getElementById('sync-badge-room');
-  const input=document.getElementById('sync-code');
-  let lastPushed=-2;
-  function pushSlide(){
-    if(!connected||!room)return;
-    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
-    if(!m)return;
-    const idx=parseInt(m[1])-1;
-    if(idx===lastPushed)return;
-    lastPushed=idx;
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room,slide:idx})}).catch(function(){});
+  function showOverlay(){
+    const ov = document.getElementById('sync-overlay');
+    if(ov){ ov.style.display='flex'; document.getElementById('sync-code-inp').focus(); }
   }
-  new MutationObserver(function(){clearTimeout(window._pushTimer);window._pushTimer=setTimeout(pushSlide,80);}).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
-  function connect(code){
-    room=code.toUpperCase().trim();
-    if(!room)return;
-    localStorage.setItem(STORE_KEY,room);
-    connected=true;
-    overlay.style.display='none';
-    badge.style.display='block';
-    badgeRoom.textContent=room;
-    document.getElementById('room-display').textContent=room;
-    lastPushed=-2;
-    pushSlide();
+  function hideOverlay(){ const ov=document.getElementById('sync-overlay'); if(ov)ov.style.display='none'; }
+
+  document.getElementById('sync-overlay-btn').addEventListener('click', showOverlay);
+  document.getElementById('sync-cancel-btn').addEventListener('click', hideOverlay);
+  document.getElementById('sync-connect-btn').addEventListener('click', function(){
+    const val = document.getElementById('sync-code-inp').value.trim().toUpperCase();
+    if(val.length < 3){ return; }
+    _room = val;
+    document.getElementById('room-display').textContent = _room;
+    hideOverlay();
+    startObserver();
+  });
+
+  function startObserver(){
+    let lastSent = -1;
+    const counter = document.getElementById('ncounter');
+    const obs = new MutationObserver(()=>{
+      const txt = counter.textContent||'';
+      const m = txt.match(/(\d+)/);
+      if(!m) return;
+      const idx = parseInt(m[1]) - 1;
+      if(idx === lastSent || !_room) return;
+      lastSent = idx;
+      fetch(API, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ room: _room, slide: idx })
+      }).catch(()=>{});
+    });
+    obs.observe(counter, {childList:true, subtree:true, characterData:true});
   }
-  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
-  window.syncSkip=function(){overlay.style.display='none';};
-  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
-  const saved=localStorage.getItem(STORE_KEY);
-  if(saved)input.value=saved;
 })();
 </script>
+
 </body>
 </html>

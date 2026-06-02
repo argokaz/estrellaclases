@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sesión 4 · 6.° Primaria</title>
+<title>Sesión 4 · 6.° Primaria — ¡El teclado y los atajos mágicos!</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
-.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;
-  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#052e16,#14532d);}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:4% 6%;text-align:center;background:linear-gradient(135deg,#052e16,#14532d);}
 .slide.active{opacity:1;pointer-events:auto;z-index:2;}
 .brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
   font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
@@ -29,6 +30,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
 .c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
 .big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
 .line{width:55%;height:3px;background:#22c55e;border-radius:2px;margin:2% auto;opacity:.65;}
 .list{text-align:left;width:100%;max-width:82%;}
@@ -39,7 +42,10 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
 .highlight{background:rgba(255,255,255,.07);border:2px solid #22c55e;border-radius:clamp(8px,1.2vw,18px);
   padding:3% 4%;max-width:85%;margin-top:2%;}
-/* quiz */
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #22c55e;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
 .quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
 .qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
   padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
@@ -49,7 +55,6 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
 .qletter{font-weight:900;color:#22c55e;min-width:1.6em;}
 .qopt.wrong .qletter{color:#f87171;}
-/* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
   z-index:99;backdrop-filter:blur(6px);}
@@ -61,13 +66,12 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
   background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
 .dot.active{background:#22c55e;}
-/* Animaciones */
 .slide::before{content:'';position:absolute;width:55%;height:55%;
-  background:radial-gradient(circle,rgba(34,197,94,.18) 0%,transparent 68%);
+  background:radial-gradient(circle,#22c55e2e 0%,transparent 68%);
   border-radius:50%;top:-20%;right:-12%;
   animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
 .slide::after{content:'';position:absolute;width:40%;height:40%;
-  background:radial-gradient(circle,rgba(34,197,94,.12) 0%,transparent 70%);
+  background:radial-gradient(circle,#22c55e1e 0%,transparent 70%);
   border-radius:50%;bottom:-15%;left:-8%;
   animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
@@ -82,21 +86,21 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .t-body{animation:fUp .45s .2s ease both;}
 .slide.active .t-sm{animation:fUp .4s .24s ease both;}
 .slide.active .line{animation:lGrow .42s .1s ease both;}
-.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1){animation:pIn .4s .16s ease both;}
-.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2){animation:pIn .4s .26s ease both;}
-.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3){animation:pIn .4s .36s ease both;}
-.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
 .slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
 .slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
-.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
 .slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -108,159 +112,197 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">4 · 1</div>
   <p class="t-sm accent">Viernes 5 de junio · 6.° Primaria</p>
   <div class="line"></div>
-  <h1 class="t-super">¡Escribimos en la<br><span class='accent'>computadora!</span></h1>
-  <p class="t-body" style="margin-top:2%">Crear y guardar mi primer documento en Google Docs</p>
+  <h1 class="t-super">¡El teclado y los<br><span class='accent'>atajos mágicos!</span></h1>
+  <p class="t-body" style="margin-top:2%">Teclado, atajos y escritura básica · Google Docs</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 2</div>
-  <h2 class="t-h1">¿Qué vamos a hacer hoy?</h2>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Escribir</p><p class="t-sm" style="opacity:.8">Nuestro primer texto en Google Docs</p></div>
-    <div class="c3"><div class="big-em">💾</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Guardar</p><p class="t-sm" style="opacity:.8">Para no perder nuestro trabajo</p></div>
-    <div class="c3"><div class="big-em">🎉</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Compartir</p><p class="t-sm" style="opacity:.8">Con la profa desde Google Docs</p></div>
+    <div class="c3"><div class="big-em">⌨️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Conocer el teclado</p><p class="t-sm" style="opacity:.8">Zonas y teclas especiales</p></div>
+    <div class="c3"><div class="big-em">✨</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Atajos mágicos</p><p class="t-sm" style="opacity:.8">Ctrl+S, Ctrl+Z, Ctrl+C, Ctrl+V</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Escribir en Docs</p><p class="t-sm" style="opacity:.8">Mi primer texto real</p></div>
   </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 3</div>
-  <h2 class="t-h1">Abrir Google Docs</h2>
+  <h2 class="t-h1">El teclado tiene zonas 🗺️</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Abre <strong>Chrome</strong> (el círculo de colores)</p></div>
-    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em">Escribe <strong>docs.new</strong> en la barra</p></div>
-    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Presiona <strong>Enter</strong> y ¡listo!</p></div>
+    <div class="c3"><div class="big-em">🔤</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Letras</p><p class="t-sm" style="opacity:.8">La parte más grande — para escribir texto</p></div>
+    <div class="c3"><div class="big-em">🔢</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Números</p><p class="t-sm" style="opacity:.8">Arriba de las letras y a la derecha (teclado numérico)</p></div>
+    <div class="c3"><div class="big-em">🎛️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Especiales</p><p class="t-sm" style="opacity:.8">Enter, Shift, Ctrl, Alt, Backspace, Espacio</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Si no tienes cuenta Google, la profa te ayuda 😊</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">¡Localiza cada zona en tu teclado ahora mismo! 👇</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 4</div>
-  <h2 class="t-h1">Partes del documento</h2>
+  <h2 class="t-h1">Teclas que debes conocer</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Título</p><p class="t-sm" style="opacity:.8">Arriba de todo. ¡Ponle tu nombre!</p></div>
-    <div class="c3"><div class="big-em">📝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Área de texto</p><p class="t-sm" style="opacity:.8">La hoja blanca donde escribes</p></div>
-    <div class="c3"><div class="big-em">⎸</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cursor</p><p class="t-sm" style="opacity:.8">La rayita que parpadea — ahí escribes</p></div>
+    <div class="c4"><div class="big-em">⏎</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Enter</p><p class="t-sm" style="opacity:.8">Salta a la siguiente línea</p></div>
+    <div class="c4"><div class="big-em">⌫</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Backspace</p><p class="t-sm" style="opacity:.8">Borra la letra anterior</p></div>
+    <div class="c4"><div class="big-em">⬆️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Shift</p><p class="t-sm" style="opacity:.8">Mayúscula solo por una letra</p></div>
+    <div class="c4"><div class="big-em">🔒</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Caps Lock</p><p class="t-sm" style="opacity:.8">Todas en mayúsculas</p></div>
   </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 5</div>
-  <h2 class="t-h1">El teclado: tus herramientas 🛠️</h2>
+  <h2 class="t-h1">Los atajos mágicos ✨</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c"><div class="big-em">⎵</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Espacio</p><p class="t-sm" style="opacity:.8">Separa las palabras</p></div>
-    <div class="c"><div class="big-em">⏎</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Enter</p><p class="t-sm" style="opacity:.8">Salta a la siguiente línea</p></div>
-    <div class="c"><div class="big-em">⌫</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Backspace</p><p class="t-sm" style="opacity:.8">Borra la letra anterior</p></div>
-    <div class="c"><div class="big-em">💾</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ctrl+S</p><p class="t-sm" style="opacity:.8">¡Guarda tu trabajo!</p></div>
+    <div class="c4"><div class="big-em">💾</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Ctrl+S</p><p class="t-sm" style="opacity:.8">Guardar el documento</p></div>
+    <div class="c4"><div class="big-em">↩️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Ctrl+Z</p><p class="t-sm" style="opacity:.8">Deshacer el último cambio</p></div>
+    <div class="c4"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Ctrl+C</p><p class="t-sm" style="opacity:.8">Copiar lo seleccionado</p></div>
+    <div class="c4"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Ctrl+V</p><p class="t-sm" style="opacity:.8">Pegar lo copiado</p></div>
   </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> ¿Puedes decir qué hace Ctrl+Z sin mirar? La profa pregunta al azar.</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 6</div>
   <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué hace la tecla Backspace?</p>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Cometiste un error al escribir.<br>¿Qué atajo usas para deshacerlo?</p>
   <div class="quiz-opts" style="margin-top:3%">
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Salta a la siguiente línea</div>
-    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Borra la letra que está antes del cursor</div>
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Guarda el documento</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Ctrl+S — guardar</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Ctrl+Z — deshacer</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Backspace — borrar una letra</div>
   </div>
   <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si explicas el porqué</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 7</div>
-  <h2 class="t-h1">💾 ¡Guardar es obligatorio!</h2>
+  <h2 class="t-h1">Abrir Google Docs 📄</h2>
   <div class="line"></div>
-  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
-    <p class="t-h2" style="color:#22c55e;font-weight:900">Ctrl + S</p>
-    <p class="t-body" style="margin-top:1%">Presiona estas dos teclas juntas para guardar</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Abre <strong>Chrome</strong> (el círculo de colores)</p></div>
+    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em">Escribe <strong>docs.new</strong> en la barra de dirección</p></div>
+    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Presiona <strong>Enter</strong> y ¡ya tienes un documento!</p></div>
   </div>
-  <ul class="list" style="margin-top:3%"><li>Google Docs guarda <strong>automáticamente</strong> en la nube ☁️</li><li>Pero es buena costumbre hacerlo seguido.</li><li>Verás el mensaje "Guardado en Drive" arriba.</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Google Docs guarda solo en la nube ☁️ — ¡no necesitas un disco!</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 8</div>
-  <h2 class="t-h1">Nombres de archivo</h2>
+  <h2 class="t-h1">Partes del documento</h2>
   <div class="line"></div>
   <div class="two" style="margin-top:2%">
-    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal</p>
-      <ul class="list"><li>Sin título</li><li>documento1</li><li>aaaa</li></ul></div>
-    <div class="box" style="border-color:rgba(34,197,94,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Mejor</p>
-      <ul class="list"><li>Trabajo_Computacion_04</li><li>MiTexto_Maria</li><li>Clase4_Ana</li></ul></div>
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">🖥️ Pantalla</p>
+      <ul class="list"><li><strong>Barra de menú:</strong> Archivo, Insertar…</li><li><strong>Nombre del doc:</strong> arriba en el medio</li><li><strong>Área blanca:</strong> donde escribes</li></ul></div>
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">⌨️ Acciones</p>
+      <ul class="list"><li><strong>Cursor:</strong> la rayita parpadeante</li><li>Clic donde quieras para mover el cursor</li><li>Escribe, el texto aparece ahí</li></ul></div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Un buen nombre te ayuda a encontrarlo después</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 9</div>
-  <h2 class="t-h1">El botón mágico ✨ Ctrl+Z</h2>
+  <h2 class="t-h1">⭐ ¡Reto del teclado!</h2>
   <div class="line"></div>
   <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
-    <p class="t-h2" style="color:#22c55e;font-weight:900">¿Cometiste un error?</p>
-    <p class="t-body" style="margin-top:1%">¡No hay problema! Presiona <strong>Ctrl+Z</strong> para deshacer.</p>
+    <p class="t-h2" style="color:#22c55e">La profa dice una acción — tú señalas la tecla</p>
+    <ul class="list" style="margin-top:3%;max-width:90%;margin-left:auto;margin-right:auto">
+      <li>"¿Dónde guardas?" → señala <strong>Ctrl+S</strong></li>
+      <li>"¿Cómo borras un error?" → señala <strong>Ctrl+Z</strong></li>
+      <li>"¿Cómo copias?" → señala <strong>Ctrl+C</strong></li>
+    </ul>
   </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Puedes presionarlo varias veces para ir hacia atrás ⬅️</p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por cada tecla correcta · <strong>+2 extra</strong> si eres el primero en responder todas</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 10</div>
-  <h2 class="t-h1">❌ Errores del principiante</h2>
+  <h2 class="t-h1">Ponle buen nombre 📝</h2>
   <div class="line"></div>
-  <ul class="list"><li>Cerrar el navegador sin guardar.</li><li>Ponerle nombre feo al archivo.</li><li>Borrar texto accidentalmente y no usar Ctrl+Z.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">¡Recuerda: Ctrl+Z es tu mejor amigo si algo sale mal!</p>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal</p>
+      <ul class="list"><li>Sin título</li><li>documento1</li><li>aaaaaaa</li></ul></div>
+    <div class="box" style="border-color:rgba(34,197,94,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Mejor</p>
+      <ul class="list"><li>Computacion_04_Ana</li><li>MiTexto_Maria</li><li>Clase4_Luis</li></ul></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Un buen nombre te ayuda a encontrar el archivo después 🔍</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 11</div>
-  <h2 class="t-h1">Compartir con la profa</h2>
+  <h2 class="t-h1">Mayúsculas: Shift y Caps Lock</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Clic en <strong>Compartir</strong> (botón azul arriba a la derecha)</p></div>
-    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em">Escribe el correo de la profa Estrella</p></div>
-    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Clic en <strong>Enviar</strong> ✅</p></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">⬆️ Shift</p>
+      <ul class="list"><li>Mantén presionado + tecla de letra</li><li>Solo esa letra sale en mayúscula</li><li>Suelta y vuelve a minúsculas</li></ul></div>
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">🔒 Caps Lock</p>
+      <ul class="list"><li>Presiona una vez para activar</li><li>Todo sale en MAYÚSCULAS</li><li>Presiona de nuevo para desactivar</li></ul></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Tip: ¿Se quedó en mayúsculas sin querer? Presiona Caps Lock 😅</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 12</div>
-  <h2 class="t-h1">IA: pídele ideas ✨</h2>
+  <h2 class="t-h1">💾 Guardar y deshacer</h2>
   <div class="line"></div>
-  <ul class="list"><li>La IA puede ayudarte a <strong>empezar a escribir</strong>.</li><li>Úsala para pedir ideas, no para copiar.</li><li>Siempre edita lo que genera con tus propias palabras.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">La IA es un asistente, ¡tú eres el autor! 🖊️</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-h2" style="color:#22c55e;font-weight:900">Ctrl+S → Guardar&nbsp;&nbsp;&nbsp;Ctrl+Z → Deshacer</p>
+    <p class="t-body" style="margin-top:1.5%">Presiona las teclas juntas — primero Ctrl, luego la letra.</p>
+  </div>
+  <ul class="list" style="margin-top:3%"><li>Google Docs guarda <strong>automáticamente</strong> ☁️</li><li>Pero <strong>Ctrl+S</strong> lo fuerza de inmediato.</li><li><strong>Ctrl+Z</strong>: si algo sale mal, ¡úsalo!</li></ul>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 13</div>
-  <h2 class="t-h1">Prompt de hoy</h2>
+  <h2 class="t-h1">❌ Errores del principiante</h2>
   <div class="line"></div>
-  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Cópialo y pruébalo</p>
-    <ul class="list"><li>Ayúdame a escribir 3 oraciones sobre [mi animal favorito].</li></ul>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Cambia [mi animal favorito] por el tuyo 🐶🐱🦜</p>
+  <ul class="list"><li>Cerrar el navegador <strong>sin guardar</strong>.</li><li>Ponerle nombre feo al archivo (ej: "aaaa").</li><li>Borrar texto sin querer y <strong>no usar Ctrl+Z</strong>.</li><li>Escribir todo en MAYÚSCULAS sin querer (Caps Lock).</li><li>Pegar texto con formato raro — usar <strong>Ctrl+Shift+V</strong> para pegar sin formato.</li></ul>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 14</div>
-  <h2 class="t-h1">🎯 Misión: Mi primera página</h2>
+  <h2 class="t-h1">🎯 Misión: Mi primer texto</h2>
   <div class="line"></div>
-  <ul class="list"><li>Escribe tu <strong>nombre completo</strong>.</li><li>Escribe <strong>3 cosas sobre ti</strong> (un hobby, tu color favorito, tu comida favorita).</li><li>Escribe cuál es tu <strong>animal favorito</strong> y por qué.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 10 min · Guarda con Ctrl+S y comparte con la profa</p>
+  <ul class="list"><li>Abre Google Docs con <strong>docs.new</strong></li><li>Escribe tu nombre completo como título</li><li>Escribe <strong>3 cosas sobre ti</strong>: un hobby, tu color favorito, tu animal favorito</li><li>Usa <strong>Shift</strong> para escribir tu nombre con mayúscula</li><li>Guarda con <strong>Ctrl+S</strong> y comparte con la profa</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 10 min · Usa los atajos que aprendiste hoy</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 15</div>
+  <h2 class="t-h1">⭐ Reto: Copia y pega</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-h2" style="color:#22c55e">¡Practica copiar y pegar!</p>
+    <ul class="list" style="margin-top:3%;max-width:85%;margin-left:auto;margin-right:auto">
+      <li>Selecciona una oración de tu texto</li>
+      <li>Cópiala con <strong>Ctrl+C</strong></li>
+      <li>Baja una línea con <strong>Enter</strong></li>
+      <li>Pégala con <strong>Ctrl+V</strong></li>
+    </ul>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> para quienes demuestren a la profa que lo hicieron correctamente</p></div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 16</div>
+  <h2 class="t-h1">IA: tu asistente de escritura ✨</h2>
+  <div class="line"></div>
+  <ul class="list"><li>La IA puede <strong>darte ideas</strong> cuando no sabes qué escribir.</li><li>Dile: <em>"Ayúdame a escribir 3 oraciones sobre mi animal favorito."</em></li><li>Edita siempre lo que genera — con tus propias palabras.</li><li>Nunca copies sin leer. <strong>Tú eres el autor.</strong> ✍️</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">La IA ayuda, pero no piensa por ti 🧠</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 17</div>
   <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:3%">
-    <div class="c3"><p class="t-sm">📂 Abrir Google Docs con <strong>docs.new</strong></p></div>
-    <div class="c3"><p class="t-sm">💾 Guardar con <strong>Ctrl+S</strong></p></div>
-    <div class="c3"><p class="t-sm">✨ Deshacer con <strong>Ctrl+Z</strong></p></div>
+    <div class="c3"><p class="t-sm"><strong>⌨️</strong> El teclado tiene zonas: letras, números y especiales</p></div>
+    <div class="c3"><p class="t-sm"><strong>✨</strong> Ctrl+S guarda · Ctrl+Z deshace · Ctrl+C copia · Ctrl+V pega</p></div>
+    <div class="c3"><p class="t-sm"><strong>📄</strong> docs.new abre Google Docs en segundos</p></div>
   </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: ¿qué tecla guardas el documento?</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket de salida: ¿Cuál atajo usarías si cometes un error? 🎟️</p>
   <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
+
+
 </div>
 <div class="nav">
   <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
   <div class="dots" id="dots"></div>
-  <span id="counter">1 / 15</span>
+  <span id="counter">1 / 17</span>
   <button id="btn-next" onclick="go(1)">▶</button>
 </div>
 <script>
+
 const slides=[...document.querySelectorAll('.slide')];let initialized=false;
-const total=15;let cur=0;
+const total=17;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
@@ -279,6 +321,7 @@ function quizPick(el){
 }
 goTo(0);
 initialized=true;
+
 </script>
 
 <!-- ── Remote sync (deck) ── -->
@@ -298,20 +341,16 @@ initialized=true;
 (function(){
   const API    = '/.netlify/functions/sync';
   const OFFSET = 1;
-
   function genCode() {
     const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
     let s = '';
     for (let i = 0; i < 4; i++) s += c[Math.floor(Math.random() * c.length)];
     return s;
   }
-
   const ROOM = sessionStorage.getItem('deck-room') || genCode();
   sessionStorage.setItem('deck-room', ROOM);
   document.getElementById('room-code-display').textContent = ROOM;
-
   let last = -999, busy = false;
-
   async function poll() {
     if (busy) return;
     busy = true;
@@ -325,10 +364,10 @@ initialized=true;
       }
     } catch(e) {} finally { busy = false; }
   }
-
   setInterval(poll, 1500);
   poll();
 })();
 </script>
+
 </body>
 </html>

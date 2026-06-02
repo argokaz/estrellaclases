@@ -12,7 +12,7 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
 .top-bar .grade{font-weight:900;font-size:1.1rem;color:#f87171;}
 .top-bar .tema{font-size:.85rem;opacity:.7;}
 .room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
-  color:#f87171;letter-spacing:.15em;}
+  color:#f87171;letter-spacing:.15em;cursor:pointer;}
 .cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
 .card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;
   transition:border-color .2s;}
@@ -33,279 +33,324 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
   padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
 .nav-bar button:disabled{opacity:.25;cursor:default;}
 .nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
-.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
-  border:1px solid #f87171;border-radius:8px;padding:.25rem .7rem;
-  font-family:monospace;font-size:.85rem;font-weight:700;color:#f87171;opacity:.9;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #f87171;color:#f87171;
+  border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
 </style>
 </head>
 <body>
+
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #f87171;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#f87171;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X"
+      style="width:100%;background:#111;border:2px solid #f87171;color:#fff;
+      font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;
+      border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#f87171;color:#000;
+      border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;
+      cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);
+      color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+
 <div class="top-bar">
   <div>
     <div class="grade">Sesión 4 · 5.° Secundaria</div>
-    <div class="tema">IA con criterio: flujo de investigación. Alucinaciones, verificación de fuentes, prompts estructurados</div>
+    <div class="tema">Argumentación y Criterio</div>
   </div>
   <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
 </div>
 
 <div class="cards-list" id="cards-list">
 <div class="card" id="card-0">
   <div class="card-header">
     <span class="card-num">S4·2</span>
-    <span class="card-title">El problema: alucinaciones de IA</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">¿Qué haremos hoy?</span>
+    <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">El caso de los abogados sancionados (2023, EE.UU.) es un ejemplo real de consecuencias serias. Búscalo si quieres mostrarlo.</p>
+    <p class="note-text">Conecta con S3 (APA avanzado). Hoy usan esa capacidad de citar para construir argumentos sólidos. Pregunta: ¿alguien tuvo que defender una posición en un debate o ensayo?</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pregunta: ¿alguien recibió información falsa de una IA? ¿Cómo lo descubrieron? Escucha experiencias.</p>
+    <p class="note-text">Señala las 3 metas. Genera motivación: argumentar bien es una habilidad para la universidad, el trabajo y la vida.</p>
   </div>
 </div>
-
 <div class="card" id="card-1">
   <div class="card-header">
     <span class="card-num">S4·3</span>
-    <span class="card-title">¿Por qué ocurren las alucinaciones?</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">Opinión vs argumento</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">La explicación técnica sencilla: los LLMs predicen la próxima palabra probable, no la verdadera. Sin acceso a hechos verificados.</p>
+    <p class="note-text">La diferencia clave: una opinión dice cómo te sientes. Un argumento puede ser debatido, refutado y sustentado. No toda opinión es un argumento.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Analogía: como alguien que completa una oración sin saber el final real — suena bien pero puede ser incorrecto.</p>
+    <p class="note-text">Ejercicio rápido: la profa dice una afirmación. Los alumnos votan: ¿opinión o argumento?</p>
   </div>
 </div>
-
 <div class="card" id="card-2">
   <div class="card-header">
     <span class="card-num">S4·4</span>
-    <span class="card-title">Flujo de investigación con IA</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">Estructura: P + R + E</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Este flujo es la clave de la clase: IA para esquema → fuentes reales → redacción propia. No saltear pasos.</p>
+    <p class="note-text">El modelo más simple y poderoso: Postura + Razón + Evidencia. Dar el ejemplo del estudio de la OCDE. Conectar con citas de S3.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Dibuja el flujo en pizarra: IA → verificar → citar → redactar. Que lo copien en su cuaderno.</p>
+    <p class="note-text">Demo en Docs: escribe un argumento completo con P+R+E sobre un tema del colegio.</p>
   </div>
 </div>
-
 <div class="card" id="card-3">
   <div class="card-header">
     <span class="card-num">S4·5</span>
-    <span class="card-title">Verificar fuentes — CRAAP Test</span>
-    <span class="card-time">⏱ 5 min</span>
+    <span class="card-title">Tipos de evidencia</span>
+    <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">El CRAAP Test es una herramienta usada en universidades. Enseñarlo ahora los prepara para la educación superior.</p>
+    <p class="note-text">Los 4 tipos: datos estadísticos, citas de expertos, ejemplos concretos, analogías. Datos y citas son los más sólidos académicamente.<br><br>⭐ Bonus: +1 punto por explicar qué tipo de evidencia es más fuerte y por qué.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Ejercicio: aplica el CRAAP Test a un artículo de Wikipedia vs uno de JSTOR. ¿Qué diferencias hay?</p>
+    <p class="note-text">Pide ejemplos de cada tipo a los alumnos. Anótalos en pizarra.</p>
   </div>
 </div>
-
 <div class="card" id="card-4">
   <div class="card-header">
     <span class="card-num">S4·6</span>
-    <span class="card-title">Mini quiz — Alucinación de IA</span>
-    <span class="card-time">⏱ 2 min</span>
+    <span class="card-title">🧩 Mini quiz</span>
+    <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Respuesta B: genera información falsa con aparente confianza. Lo que hace peligroso a la alucinación es esa confianza.</p>
+    <p class="note-text">Respuesta correcta: B — no tiene razón ni evidencia. Aprovechar para que alguien reescriba la afirmación como argumento real.<br><br>⭐ Bonus: +1 por respuesta, +2 extra por reescribir como argumento.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Debate: ¿por qué la opción C (imágenes distorsionadas) no es a lo que nos referimos aquí?</p>
+    <p class="note-text">Pide voluntarios para reescribir. Evalúa si tiene P+R+E.</p>
   </div>
 </div>
-
 <div class="card" id="card-5">
   <div class="card-header">
     <span class="card-num">S4·7</span>
-    <span class="card-title">Prompts estructurados</span>
+    <span class="card-title">Falacias: trampas del argumento</span>
     <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">La estructura Rol + Tarea + Restricción reduce dramáticamente las alucinaciones. Más contexto = respuesta más controlada.</p>
+    <p class="note-text">Los 4 más comunes: ad populum, ad hominem, pendiente resbaladiza, hombre de paja. Dar ejemplos cotidianos de cada una.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo en vivo: prompt sin estructura vs prompt estructurado. Muestra las respuestas. ¿Cuál es más útil?</p>
+    <p class="note-text">Muestra un tweet o noticia con una falacia. Pide que la identifiquen.</p>
   </div>
 </div>
-
 <div class="card" id="card-6">
   <div class="card-header">
     <span class="card-num">S4·8</span>
-    <span class="card-title">Pedir a la IA que admita incertidumbre</span>
+    <span class="card-title">Contraargumento</span>
     <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Técnica poderosa: pedirle explícitamente que diga cuando no sabe. Algunos modelos lo hacen bien, otros no.</p>
+    <p class="note-text">Anticipar objeciones fortalece el argumento. La estructura: 'Aunque algunos afirman X, esto es incorrecto porque Y'.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Prueba en vivo: '¿Cuál fue el GDP per cápita de Perú en 1987?' — sin pedirle incertidumbre vs pidiéndola.</p>
+    <p class="note-text">Demo: escribe un argumento y luego agrega la respuesta al contraargumento.</p>
   </div>
 </div>
-
 <div class="card" id="card-7">
   <div class="card-header">
     <span class="card-num">S4·9</span>
-    <span class="card-title">Herramientas con búsqueda en vivo</span>
-    <span class="card-time">⏱ 4 min</span>
+    <span class="card-title">⭐ Detecta la falacia</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Perplexity AI cita fuentes en tiempo real — es el más transparente para investigación académica inicial.</p>
+    <p class="note-text">El ejemplo de los plásticos en el colegio es una pendiente resbaladiza clásica.<br>⭐ Bonus: +2 puntos por identificar la falacia y explicar por qué falla.<br><br>Refuerza que el razonamiento crítico es una habilidad cotidiana.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: misma pregunta en Perplexity vs ChatGPT sin búsqueda. Comparar calidad y transparencia de fuentes.</p>
+    <p class="note-text">Deja 1 minuto para que piensen individualmente. Luego recoge respuestas.</p>
   </div>
 </div>
-
 <div class="card" id="card-8">
   <div class="card-header">
     <span class="card-num">S4·10</span>
-    <span class="card-title">Errores comunes</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El más grave: citar una fuente que la IA inventó. Puede ser detectado fácilmente por el profesor — y la consecuencia es seria.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pregunta: ¿la escuela tiene política sobre uso de IA? ¿Saben cuál es? Conversación breve.</p>
-  </div>
-</div>
-
-<div class="card" id="card-9">
-  <div class="card-header">
-    <span class="card-num">S4·11</span>
-    <span class="card-title">Ética de la IA en trabajos académicos</span>
+    <span class="card-title">Estructura PEEL</span>
     <span class="card-time">⏱ 4 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Las universidades ya usan Turnitin con detección de IA. Quienes entren en 2-3 años enfrentarán esto. Mejor prepararse ahora.</p>
+    <p class="note-text">PEEL: Point, Evidence, Explain, Link. Más sofisticado que P+R+E — añade la conexión explícita con la tesis o pregunta.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Discusión: ¿cuándo es ético usar IA y cuándo no? ¿Qué tipos de uso son aceptables en clase?</p>
+    <p class="note-text">Demo: escribe un párrafo PEEL completo en Docs. Resalta cada parte con colores distintos.</p>
   </div>
 </div>
-
+<div class="card" id="card-9">
+  <div class="card-header">
+    <span class="card-num">S4·11</span>
+    <span class="card-title">IA y argumentación</span>
+    <span class="card-time">⏱ 4 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Dualidad: la IA puede ayudar a fortalecer argumentos (buscar contraejemplos, mejorar redacción) pero no debe reemplazar el razonamiento propio.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: si le pides a la IA que argumente por ti y lo presentas como tuyo, ¿qué problemas puede generar?</p>
+  </div>
+</div>
 <div class="card" id="card-10">
   <div class="card-header">
     <span class="card-num">S4·12</span>
-    <span class="card-title">IA en el flujo real</span>
+    <span class="card-title">Evaluar un argumento</span>
     <span class="card-time">⏱ 3 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Consolida el flujo de 4 pasos: pregunta de investigación (tú) → esquema IA → fuentes reales → redacción propia.</p>
+    <p class="note-text">El checklist de 5 preguntas para evaluar argumentos propios y ajenos. Útil para leer noticias, evaluar publicidad, revisar trabajos.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pide que repitan el flujo de memoria en parejas. ¿Todos los pasos quedan claros?</p>
+    <p class="note-text">Aplica el checklist a un argumento que hayan visto antes en clase.</p>
   </div>
 </div>
-
 <div class="card" id="card-11">
   <div class="card-header">
     <span class="card-num">S4·13</span>
-    <span class="card-title">Prompt de hoy</span>
-    <span class="card-time">⏱ 2 min</span>
+    <span class="card-title">Demo: construir un argumento</span>
+    <span class="card-time">⏱ 5 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">La clave del prompt: 'No inventes citas. Si no sabes la fuente exacta, indícalo.' — esa restricción es poderosa.</p>
+    <p class="note-text">Construcción en vivo en Docs sobre el tema del celular en el aula. Mostrar P+R+E + contraargumento anticipado.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Voluntario lee el prompt. La clase propone un tema. Evalúan la respuesta de la IA.</p>
+    <p class="note-text">Construir con input del salón: preguntar a los alumnos qué razones y evidencias agregarían.</p>
   </div>
 </div>
-
 <div class="card" id="card-12">
   <div class="card-header">
     <span class="card-num">S4·14</span>
-    <span class="card-title">Actividad: esquema verificado</span>
-    <span class="card-time">⏱ 12 min</span>
+    <span class="card-title">⭐ Debate rápido — 1 minuto</span>
+    <span class="card-time">⏱ 7 min</span>
   </div>
   <div class="card-body">
     <p class="note-label">📋 Notas</p>
-    <p class="note-text">Producto: esquema generado por IA + 2 afirmaciones verificadas con fuente real en APA. Evaluación de pensamiento crítico.</p>
+    <p class="note-text">Divide el salón en 2 grupos: Grupo A (IA mejora el aprendizaje) y Grupo B (IA lo perjudica).<br>⭐ Bonus: +3 puntos al grupo con argumento más sólido según estructura PEEL.<br><br>Evalúa: ¿tienen postura clara? ¿razones? ¿evidencia?</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">⏱ 12 min · Google Scholar para las fuentes · Entrega en Docs compartido con la profa.</p>
+    <p class="note-text">Da 1 minuto de preparación. Luego 1 minuto por grupo para presentar. Luego contraargumento (30 seg cada uno).</p>
   </div>
 </div>
+<div class="card" id="card-13">
+  <div class="card-header">
+    <span class="card-num">S4·15</span>
+    <span class="card-title">🎯 Actividad: Tu argumento</span>
+    <span class="card-time">⏱ 10 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal: 1 párrafo argumentativo PEEL sobre tema propio + 1 dato verificable + 1 contraargumento respondido.<br><br>Producto: compartir doc con la profa.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circula. Verifica estructura PEEL. Pregunta: ¿cómo responderías si alguien objeta tu argumento?</p>
+  </div>
+</div>
+<div class="card" id="card-14">
+  <div class="card-header">
+    <span class="card-num">S4·16</span>
+    <span class="card-title">Checklist del argumento sólido</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Da el checklist de 6 puntos como herramienta permanente. Lo usarán en el ensayo de graduación y en la universidad.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide que evalúen el argumento que escribieron con el checklist.</p>
+  </div>
+</div>
+<div class="card" id="card-15">
+  <div class="card-header">
+    <span class="card-num">S4·17</span>
+    <span class="card-title">🚀 Para recordar</span>
+    <span class="card-time">⏱ 3 min</span>
+  </div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre: los 3 conceptos clave. Ticket de salida: ¿diferencia entre opinión y argumento?<br><br>Conexión con S5: Sheets para análisis de datos que sustenten argumentos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: pregunta a 3-4 alumnos al azar.</p>
+  </div>
+</div>
+
 </div>
 
 <div class="nav-bar">
-  <button id="nprev" onclick="ngo(-1)" disabled>◀</button>
-  <span id="ncounter">1 / 13</span>
-  <button id="nnext" onclick="ngo(1)">▶</button>
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
 </div>
 
-<!-- ── Remote sync (notes) ── -->
-<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem">
-  <div style="font-size:1.5rem;font-weight:900;color:#f9fafb">📡 Remote Sync</div>
-  <div style="font-size:.95rem;color:#9ca3af;text-align:center;max-width:280px;line-height:1.6">Ingresa el código que aparece en la esquina del proyector</div>
-  <input id="sync-code" type="text" maxlength="4" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" placeholder="7KQ4" style="font-size:2.4rem;font-family:monospace;text-align:center;letter-spacing:.35em;text-transform:uppercase;width:170px;background:#1f2937;border:2px solid #374151;color:#f9fafb;border-radius:10px;padding:.5rem .8rem;outline:none">
-  <button onclick="syncConnect()" style="background:#f87171;color:#000;border:none;border-radius:10px;padding:.85rem 2.6rem;font-size:1.1rem;font-weight:800;cursor:pointer">Conectar</button>
-  <button onclick="syncSkip()" style="background:none;border:none;color:#6b7280;font-size:.9rem;cursor:pointer;padding:.4rem 1rem">Usar sin sync</button>
-</div>
-<div id="sync-badge" style="display:none;position:fixed;top:5px;right:5px;z-index:100;background:rgba(0,0,0,.75);border:1.5px solid #f87171;border-radius:8px;padding:.2rem .55rem;font-family:monospace;font-size:.8rem;font-weight:800;color:#f87171;letter-spacing:.12em;backdrop-filter:blur(4px)">📡 <span id="sync-badge-room"></span></div>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;
+const total=16;
+
+function openCard(i){
+  cards.forEach((c,j)=>{
+    c.classList.remove('active','open');
+    if(j===i){c.classList.add('active','open');}
+  });
+  cur=i;
+  document.getElementById('ncounter').textContent=(i+1)+' / '+total;
+  document.getElementById('btn-prev').disabled=i===0;
+  document.getElementById('btn-next').disabled=i===total-1;
+  cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+cards.forEach((c,i)=>{
+  c.querySelector('.card-header').addEventListener('click',()=>openCard(i));
+});
+
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+
+openCard(0);
+</script>
+
 <script>
 (function(){
-  // card accordion
-  const cards=[...document.querySelectorAll('.card')];
-  let cur=0;
-  const total=13;
-  function showCard(n){
-    n=Math.max(0,Math.min(total-1,n));
-    cards.forEach((c,i)=>{
-      c.classList.remove('active','open');
-      if(i===n){c.classList.add('active','open');c.scrollIntoView({behavior:'smooth',block:'nearest'});}
-    });
-    cur=n;
-    document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
-    document.getElementById('nprev').disabled=cur===0;
-    document.getElementById('nnext').disabled=cur===total-1;
-  }
-  cards.forEach((c,i)=>{
-    c.querySelector('.card-header').addEventListener('click',()=>showCard(i));
-  });
-  window.ngo=function(d){showCard(cur+d);};
-  showCard(0);
+  const API = '/.netlify/functions/sync';
+  let _room = null;
 
-  // sync
-  const API='/.netlify/functions/sync';
-  const STORE_KEY='sync-room-v2';
-  let room='',connected=false;
-  const overlay=document.getElementById('sync-overlay');
-  const badge=document.getElementById('sync-badge');
-  const badgeRoom=document.getElementById('sync-badge-room');
-  const input=document.getElementById('sync-code');
-  let lastPushed=-2;
-  function pushSlide(){
-    if(!connected||!room)return;
-    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
-    if(!m)return;
-    const idx=parseInt(m[1])-1;
-    if(idx===lastPushed)return;
-    lastPushed=idx;
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room,slide:idx})}).catch(function(){});
+  function showOverlay(){
+    const ov = document.getElementById('sync-overlay');
+    if(ov){ ov.style.display='flex'; document.getElementById('sync-code-inp').focus(); }
   }
-  new MutationObserver(function(){clearTimeout(window._pushTimer);window._pushTimer=setTimeout(pushSlide,80);}).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
-  function connect(code){
-    room=code.toUpperCase().trim();
-    if(!room)return;
-    localStorage.setItem(STORE_KEY,room);
-    connected=true;
-    overlay.style.display='none';
-    badge.style.display='block';
-    badgeRoom.textContent=room;
-    document.getElementById('room-display').textContent=room;
-    lastPushed=-2;
-    pushSlide();
+  function hideOverlay(){ const ov=document.getElementById('sync-overlay'); if(ov)ov.style.display='none'; }
+
+  document.getElementById('sync-overlay-btn').addEventListener('click', showOverlay);
+  document.getElementById('sync-cancel-btn').addEventListener('click', hideOverlay);
+  document.getElementById('sync-connect-btn').addEventListener('click', function(){
+    const val = document.getElementById('sync-code-inp').value.trim().toUpperCase();
+    if(val.length < 3){ return; }
+    _room = val;
+    document.getElementById('room-display').textContent = _room;
+    hideOverlay();
+    startObserver();
+  });
+
+  function startObserver(){
+    let lastSent = -1;
+    const counter = document.getElementById('ncounter');
+    const obs = new MutationObserver(()=>{
+      const txt = counter.textContent||'';
+      const m = txt.match(/(\d+)/);
+      if(!m) return;
+      const idx = parseInt(m[1]) - 1;
+      if(idx === lastSent || !_room) return;
+      lastSent = idx;
+      fetch(API, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ room: _room, slide: idx })
+      }).catch(()=>{});
+    });
+    obs.observe(counter, {childList:true, subtree:true, characterData:true});
   }
-  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
-  window.syncSkip=function(){overlay.style.display='none';};
-  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
-  const saved=localStorage.getItem(STORE_KEY);
-  if(saved)input.value=saved;
 })();
 </script>
+
 </body>
 </html>

@@ -3,14 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sesión 4 · 3.° Secundaria</title>
+<title>Sesión 4 · 3.° Secundaria — Ordenar y Filtrar en Sheets</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
-.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;
-  align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12);}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
+  flex-direction:column;justify-content:center;align-items:center;
+  padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12);}
 .slide.active{opacity:1;pointer-events:auto;z-index:2;}
 .brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);
   font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
@@ -29,6 +30,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
 .c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
 .big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
 .line{width:55%;height:3px;background:#fb923c;border-radius:2px;margin:2% auto;opacity:.65;}
 .list{text-align:left;width:100%;max-width:82%;}
@@ -39,7 +42,10 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
 .highlight{background:rgba(255,255,255,.07);border:2px solid #fb923c;border-radius:clamp(8px,1.2vw,18px);
   padding:3% 4%;max-width:85%;margin-top:2%;}
-/* quiz */
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #fb923c;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
 .quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
 .qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
   padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
@@ -49,7 +55,6 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
 .qletter{font-weight:900;color:#fb923c;min-width:1.6em;}
 .qopt.wrong .qletter{color:#f87171;}
-/* nav */
 .nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
   z-index:99;backdrop-filter:blur(6px);}
@@ -61,13 +66,12 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
   background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
 .dot.active{background:#fb923c;}
-/* Animaciones */
 .slide::before{content:'';position:absolute;width:55%;height:55%;
-  background:radial-gradient(circle,rgba(251,146,60,.18) 0%,transparent 68%);
+  background:radial-gradient(circle,#fb923c2e 0%,transparent 68%);
   border-radius:50%;top:-20%;right:-12%;
   animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
 .slide::after{content:'';position:absolute;width:40%;height:40%;
-  background:radial-gradient(circle,rgba(251,146,60,.12) 0%,transparent 70%);
+  background:radial-gradient(circle,#fb923c1e 0%,transparent 70%);
   border-radius:50%;bottom:-15%;left:-8%;
   animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
@@ -82,21 +86,21 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 .slide.active .t-body{animation:fUp .45s .2s ease both;}
 .slide.active .t-sm{animation:fUp .4s .24s ease both;}
 .slide.active .line{animation:lGrow .42s .1s ease both;}
-.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1){animation:pIn .4s .16s ease both;}
-.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2){animation:pIn .4s .26s ease both;}
-.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3){animation:pIn .4s .36s ease both;}
-.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4){animation:pIn .4s .46s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c:nth-child(4),.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
 .slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
 .slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
-.slide.active .list li:nth-child(6){animation:fUp .38s .68s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
 .slide.active .big-em{animation:pIn .5s .04s ease both;}
 .slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
 @keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
 @keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
 @keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
@@ -108,138 +112,182 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 <div class="slide active"><div class="brand">Asunción School</div><div class="snum">4 · 1</div>
   <p class="t-sm accent">Viernes 5 de junio · 3.° Secundaria</p>
   <div class="line"></div>
-  <h1 class="t-super">Ver datos:<br><span class='accent'>gráficos en Sheets</span></h1>
-  <p class="t-body" style="margin-top:2%">Crear y personalizar gráficos de barras, líneas y torta</p>
+  <h1 class="t-super">Ordenar y filtrar<br><span class='accent'>en Sheets</span></h1>
+  <p class="t-body" style="margin-top:2%">Del caos al orden — domina los datos · Google Sheets</p>
   <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 2</div>
-  <h2 class="t-h1">¿Por qué usar gráficos?</h2>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
   <div class="line"></div>
-  <ul class="list"><li>Un gráfico comunica datos de un vistazo.</li><li>Facilita comparar valores.</li><li>Es más efectivo que una tabla cuando hay muchos datos.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">El cerebro procesa imágenes 60,000 veces más rápido que texto</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🔢</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ordenar datos</p><p class="t-sm" style="opacity:.8">A→Z, Z→A y por varios criterios</p></div>
+    <div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Filtrar</p><p class="t-sm" style="opacity:.8">Ver solo lo que necesitas</p></div>
+    <div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Caso práctico</p><p class="t-sm" style="opacity:.8">Tabla de notas del salón</p></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 3</div>
-  <h2 class="t-h1">Tipos de gráficos</h2>
+  <h2 class="t-h1">Datos sin orden = caos 🌀</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Barras</p><p class="t-sm" style="opacity:.8">Comparar categorías entre sí</p></div>
-    <div class="c3"><div class="big-em">📈</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Líneas</p><p class="t-sm" style="opacity:.8">Ver cambios a lo largo del tiempo</p></div>
-    <div class="c3"><div class="big-em">🥧</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Torta</p><p class="t-sm" style="opacity:.8">Mostrar partes de un todo (porcentajes)</p></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">😩 Sin ordenar</p>
+      <ul class="list"><li>No sabes quién tiene la nota más alta</li><li>Difícil encontrar un nombre</li><li>Errores pasan desapercibidos</li></ul></div>
+    <div class="box" style="border-color:rgba(251,146,60,.4)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">😎 Con orden</p>
+      <ul class="list"><li>Ranking de notas de un vistazo</li><li>Buscar nombres en segundos</li><li>Detectas datos fuera de rango</li></ul></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Ordenar no es decorar — ordenas para tomar mejores decisiones 📈</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 4</div>
-  <h2 class="t-h1">Crear un gráfico en Sheets</h2>
+  <h2 class="t-h1">Ordenar por columna</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Selecciona los datos (incluye encabezados)</p></div>
-    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em">Menú <strong>Insertar → Gráfico</strong></p></div>
-    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Elige el tipo en el panel derecho</p></div>
+    <div class="c3"><div class="big-em">🖱️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 1</p><p class="t-sm" style="opacity:.8">Clic en la letra de la columna para seleccionarla</p></div>
+    <div class="c3"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 2</p><p class="t-sm" style="opacity:.8">Menú <strong>Datos → Ordenar rango</strong></p></div>
+    <div class="c3"><div class="big-em">⚙️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Paso 3</p><p class="t-sm" style="opacity:.8">Elige A→Z (ascendente) o Z→A (descendente)</p></div>
   </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⚠️ Siempre marca "Los datos tienen fila de encabezado" si tienes títulos.</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 5</div>
-  <h2 class="t-h1">Personalizar el gráfico</h2>
+  <h2 class="t-h1">Ordenar por múltiples criterios</h2>
   <div class="line"></div>
-  <ul class="list"><li><strong>Título</strong> del gráfico: describe qué muestra.</li><li><strong>Colores</strong>: pestaña "Personalizar" en el editor de gráfico.</li><li><strong>Leyenda</strong>: identifica cada serie de datos.</li><li><strong>Etiquetas de datos</strong>: muestran el valor exacto en cada barra.</li></ul>
+  <ul class="list"><li>Ejemplo: primero ordena por <strong>apellido</strong> (A→Z)</li><li>Si dos tienen el mismo apellido, ordena por <strong>nota</strong> (mayor a menor)</li><li>En <strong>Datos → Ordenar rango → Opciones avanzadas</strong></li><li>Agrega una segunda columna de orden</li></ul>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-body">Útil para: listas de clase, calificaciones, inventarios</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> ¿En qué situación real necesitarías ordenar por 2 criterios? Menciona un ejemplo.</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 6</div>
   <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué tipo de gráfico usarías para ver cómo cambia la temperatura a lo largo de un mes?</p>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Tienes una tabla con notas de 30 alumnos.<br>¿Cuál es la forma más rápida de ver quién tiene la nota más alta?</p>
   <div class="quiz-opts" style="margin-top:3%">
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Torta</div>
-    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Líneas</div>
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Barras horizontales</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Leer todos los números uno a uno</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Ordenar la columna de notas de mayor a menor</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Usar la función PROMEDIO</div>
   </div>
   <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si explicas por qué las otras opciones no son las mejores</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 7</div>
-  <h2 class="t-h1">Datos bien organizados</h2>
+  <h2 class="t-h1">Filtros: ver solo lo importante 🔍</h2>
   <div class="line"></div>
-  <ul class="list"><li>Los datos deben estar en <strong>filas y columnas</strong> con encabezado.</li><li>No mezclar texto y números en la misma columna.</li><li>Cada columna = una categoría; cada fila = un registro.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Sheets no puede graficar bien datos mal organizados</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">¿Qué hacen?</p><p class="t-sm" style="opacity:.8">Ocultan temporalmente las filas que no cumplen un criterio</p></div>
+    <div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">No borran</p><p class="t-sm" style="opacity:.8">Los datos siguen ahí, solo están ocultos</p></div>
+    <div class="c3"><div class="big-em">♾️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Reversible</p><p class="t-sm" style="opacity:.8">Quitas el filtro y todo vuelve a aparecer</p></div>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 8</div>
-  <h2 class="t-h1">Gráfico de barras: cuándo usarlo</h2>
+  <h2 class="t-h1">Activar filtro básico</h2>
   <div class="line"></div>
-  <ul class="list"><li>Para comparar valores de diferentes categorías.</li><li>Ejemplo: notas de diferentes materias, ventas por mes.</li><li>Puede ser vertical (columnas) u horizontal (barras).</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Vertical = comparar; Horizontal = muchas categorías</p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">1️⃣</div><p class="t-sm" style="margin-top:.5em">Selecciona cualquier celda dentro de tu tabla</p></div>
+    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm" style="margin-top:.5em"><strong>Datos → Crear un filtro</strong></p></div>
+    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm" style="margin-top:.5em">Aparecen los ▼ en los encabezados — clic para filtrar</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Demo en vivo: activa el filtro en la tabla de notas 📊</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 9</div>
-  <h2 class="t-h1">Gráfico de torta: cuándo usarlo</h2>
+  <h2 class="t-h1">⭐ ¿Qué filtrarías?</h2>
   <div class="line"></div>
-  <ul class="list"><li>Para mostrar porcentajes de un total.</li><li>Solo funciona bien con pocas categorías (máx. 6–7).</li><li>Ejemplo: distribución de presupuesto, respuestas de encuesta.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Si tienes más de 7 porciones, mejor usa barras</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-body">Imagina que tienes una lista de 50 productos con precio, categoría y stock.</p>
+    <p class="t-h2" style="margin-top:2%;color:#fb923c">¿Qué filtrarías y por qué?</p>
+    <p class="t-body" style="margin-top:2%;opacity:.8">Ejemplo: "Solo los productos con stock menor a 5"</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta · <strong>+2 extra</strong> si tu filtro revela algo útil para tomar una decisión</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 10</div>
-  <h2 class="t-h1">❌ Errores comunes</h2>
+  <h2 class="t-h1">Filtrar por condición</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">❌ Mal</p>
-      <ul class="list"><li>Torta con 15 porciones</li><li>Gráfico sin título</li><li>Colores que no se distinguen</li></ul></div>
-    <div class="box" style="border-color:rgba(251,146,60,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Bien</p>
-      <ul class="list"><li>Máximo 6 categorías en torta</li><li>Título claro y descriptivo</li><li>Colores contrastantes</li></ul></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">🟰</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Igual a</p><p class="t-sm" style="opacity:.8">Solo filas donde grado = "sec3"</p></div>
+    <div class="c4"><div class="big-em">↗️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Mayor que</p><p class="t-sm" style="opacity:.8">Notas > 15</p></div>
+    <div class="c4"><div class="big-em">↙️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Menor que</p><p class="t-sm" style="opacity:.8">Precios < 50</p></div>
+    <div class="c4"><div class="big-em">🔤</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Contiene</p><p class="t-sm" style="opacity:.8">Nombres que contienen "Mar"</p></div>
   </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 11</div>
-  <h2 class="t-h1">Copiar gráfico a Docs</h2>
+  <h2 class="t-h1">Congelar fila de encabezado 🧊</h2>
   <div class="line"></div>
-  <ul class="list"><li>Haz clic en el gráfico en Sheets → <strong>tres puntos → Copiar gráfico</strong>.</li><li>En Docs: <strong>Ctrl+V</strong> para pegar.</li><li>Elige si quieres que se actualice automáticamente al cambiar los datos.</li></ul>
+  <ul class="list"><li>Al desplazarte hacia abajo, los títulos desaparecen.</li><li><strong>Solución:</strong> congelar la primera fila.</li><li>Menú <strong>Ver → Inmovilizar → 1 fila</strong></li><li>Ahora el encabezado siempre es visible mientras navegas.</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Útil para cualquier tabla con muchos datos ✅</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 12</div>
-  <h2 class="t-h1">IA para generar datos de ejemplo</h2>
+  <h2 class="t-h1">Vista de filtro: sin afectar a otros</h2>
   <div class="line"></div>
-  <ul class="list"><li>Puedes pedirle a la IA una tabla de datos para practicar.</li><li>Verifica que los datos tengan sentido antes de graficarlos.</li><li>La IA puede inventar números incorrectos (¡alucinaciones!).</li></ul>
+  <ul class="list"><li>Si compartes la hoja, el filtro afecta a todos.</li><li><strong>Vista de filtro</strong> = tu propio filtro personal.</li><li><strong>Datos → Vistas de filtro → Crear nueva vista</strong></li><li>Puedes tener múltiples vistas guardadas por nombre.</li></ul>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-body">Ideal cuando trabajas en un documento compartido 👥</p>
+  </div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 13</div>
-  <h2 class="t-h1">Prompt de hoy</h2>
+  <h2 class="t-h1">Caso práctico: tabla de notas 📊</h2>
   <div class="line"></div>
-  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:1em">💬 Pruébalo</p>
-    <ul class="list"><li>Dame una tabla con datos de temperatura promedio por mes en Lima durante 2024 para practicar gráficos en Sheets.</li></ul>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Luego copia los datos a Sheets y crea un gráfico de líneas</p>
+  <ul class="list"><li>Ordena por nota de mayor a menor → ves el ranking al instante.</li><li>Filtra por nombre que contiene "M" → ves solo alumnos con M.</li><li>Filtra notas ≥ 15 → alumnos con buen desempeño.</li><li>Filtra notas < 11 → alumnos que necesitan apoyo.</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Los datos sin análisis son solo números. ¡Ordenar y filtrar los convierte en información!</p>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 14</div>
-  <h2 class="t-h1">✏️ Actividad</h2>
+  <h2 class="t-h1">⭐ Reto: Filtra correctamente</h2>
   <div class="line"></div>
-  <ul class="list"><li>Abre Google Sheets e ingresa datos de 5 países con su población (en millones).</li><li>Crea un <strong>gráfico de barras</strong> y personalízalo con título y colores.</li><li>Crea también un gráfico de <strong>torta</strong> con los mismos datos.</li></ul>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">⏱ 12 min · Comparte el archivo con la profa</p>
+  <div class="highlight" style="margin-top:2%;max-width:88%;text-align:center">
+    <p class="t-body">La profa tiene una tabla de notas en pantalla.</p>
+    <p class="t-h2" style="margin-top:2%;color:#fb923c">¿Cómo filtras solo los alumnos con nota mayor a 15?</p>
+    <ul class="list" style="margin-top:3%;max-width:85%;margin-left:auto;margin-right:auto"><li>¿Qué menú usas?</li><li>¿Qué condición eliges?</li></ul>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al equipo que lo demuestre primero en su computadora</p></div>
 </div>
 
 <div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 15</div>
+  <h2 class="t-h1">🎯 Actividad: Ordena y filtra</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Abre la tabla de la actividad en Google Sheets</li><li>Ordena por la columna <strong>Nota</strong> de mayor a menor</li><li>Congela la fila 1 (encabezado)</li><li>Crea un filtro: mostrar solo notas ≥ 14</li><li>Guarda una <strong>vista de filtro</strong> con nombre "Aprobados"</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 10 min · Comparte el enlace con la profa al terminar</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 16</div>
+  <h2 class="t-h1">Errores comunes ⚠️</h2>
+  <div class="line"></div>
+  <ul class="list"><li>Ordenar sin marcar "tiene encabezado" — el título se mezcla con los datos.</li><li>Olvidar desactivar el filtro — crees que borraste datos pero solo están ocultos.</li><li>Ordenar solo una columna cuando los datos tienen varias — rompes las relaciones.</li></ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">💡 Siempre selecciona TODA la tabla antes de ordenar para que las filas no se rompan.</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">4 · 17</div>
   <h2 class="t-h1">🚀 Para recordar</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:3%">
-    <div class="c3"><p class="t-sm">📊 <strong>Barras</strong>: comparar categorías</p></div>
-    <div class="c3"><p class="t-sm">📈 <strong>Líneas</strong>: cambios en el tiempo</p></div>
-    <div class="c3"><p class="t-sm">🥧 <strong>Torta</strong>: partes de un todo</p></div>
+    <div class="c3"><p class="t-sm"><strong>🔢</strong> Ordenar: Datos → Ordenar rango. No olvides el encabezado.</p></div>
+    <div class="c3"><p class="t-sm"><strong>🔍</strong> Filtrar: Datos → Crear filtro. Los datos no se borran.</p></div>
+    <div class="c3"><p class="t-sm"><strong>🧊</strong> Congelar encabezado: Ver → Inmovilizar → 1 fila.</p></div>
   </div>
-  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket: ¿qué tipo de gráfico usarías para mostrar el porcentaje de cada tipo de transporte en Lima?</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket de salida: ¿Diferencia entre ordenar y filtrar? 🎟️</p>
   <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
 </div>
+
+
 </div>
 <div class="nav">
   <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
   <div class="dots" id="dots"></div>
-  <span id="counter">1 / 15</span>
+  <span id="counter">1 / 17</span>
   <button id="btn-next" onclick="go(1)">▶</button>
 </div>
 <script>
+
 const slides=[...document.querySelectorAll('.slide')];let initialized=false;
-const total=15;let cur=0;
+const total=17;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
@@ -258,6 +306,7 @@ function quizPick(el){
 }
 goTo(0);
 initialized=true;
+
 </script>
 
 <!-- ── Remote sync (deck) ── -->
@@ -277,20 +326,16 @@ initialized=true;
 (function(){
   const API    = '/.netlify/functions/sync';
   const OFFSET = 1;
-
   function genCode() {
     const c = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
     let s = '';
     for (let i = 0; i < 4; i++) s += c[Math.floor(Math.random() * c.length)];
     return s;
   }
-
   const ROOM = sessionStorage.getItem('deck-room') || genCode();
   sessionStorage.setItem('deck-room', ROOM);
   document.getElementById('room-code-display').textContent = ROOM;
-
   let last = -999, busy = false;
-
   async function poll() {
     if (busy) return;
     busy = true;
@@ -304,10 +349,10 @@ initialized=true;
       }
     } catch(e) {} finally { busy = false; }
   }
-
   setInterval(poll, 1500);
   poll();
 })();
 </script>
+
 </body>
 </html>

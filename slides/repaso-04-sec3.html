@@ -6,17 +6,7 @@
 <title>Repaso S04 — 3.° Secundaria | Asunción School</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
-
-:root {
-  --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
-  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
-  --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
-  --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
-  --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
-  --err-bg:#fee2e2; --err-b:#fca5a5; --err-t:#b91c1c;
-  --hint-bg:#fef9c3; --hint-b:#fde047; --hint-t:#713f12;
-  --radius:12px;
-}
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
 button{font-family:inherit;cursor:pointer}
@@ -52,11 +42,19 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .practice-content{padding:28px;border-top:2px solid var(--border)}
 .practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
 .practice-invite-icon{font-size:1.8rem;flex-shrink:0}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;}
 .ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
 .ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .cls-tbl{width:100%;border-collapse:collapse}
 .cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
 .cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
@@ -69,15 +67,6 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
 .cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
 .cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
-.tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
-.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
-.tf-btns{display:flex;gap:8px}
-.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
-.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
 .model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
@@ -153,15 +142,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
 .exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
 .review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
-
-/* ── Confirmación de identidad ───────────────────────────────── */
 .name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
 .confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
 .confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
 .confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
 .gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
 .gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
-/* ── Banner de nombre durante el examen ──────────────────────── */
 .exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
 .exam-who-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.01em;}
 .exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
@@ -182,50 +168,54 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 04</div>
-<div class="doc-subtitle">Ver datos: gráficos en Sheets: Crear y personalizar gráficos de barras, líneas y torta</div><div id="study-content"><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
+<div class="doc-subtitle">Ordenar y filtrar datos · Google Sheets</div>
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:#2563eb">
+  <div class="cb-icon">🔢</div>
+  <div class="cb-body">
+    <div class="cb-title">Ordenar por columna</div>
+    <div class="cb-text">Para ordenar: selecciona cualquier celda de la tabla → <strong>Datos → Ordenar rango</strong> → elige columna y dirección (A→Z o Z→A). <strong>Importante:</strong> marca 'Los datos tienen fila de encabezado' si tienes títulos.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#7c3aed">
   <div class="cb-icon">📊</div>
   <div class="cb-body">
-    <div class="cb-title">Gráfico de barras</div>
-    <div class="cb-text">Para <strong>comparar categorías</strong>. Puede ser vertical (columnas) u horizontal. Ideal cuando tienes pocas o muchas categorías con valores distintos.</div>
+    <div class="cb-title">Ordenar por múltiples criterios</div>
+    <div class="cb-text">En <strong>Datos → Ordenar rango → Opciones avanzadas</strong> puedes agregar una segunda columna de orden. Útil cuando dos filas tienen el mismo valor en la primera columna.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--accent2)">
-  <div class="cb-icon">📈</div>
+<div class="concept-block" style="border-left-color:#059669">
+  <div class="cb-icon">🔍</div>
   <div class="cb-body">
-    <div class="cb-title">Gráfico de líneas</div>
-    <div class="cb-text">Para mostrar <strong>cambios a lo largo del tiempo</strong>. Cada punto en la línea es un momento en el tiempo.</div>
+    <div class="cb-title">Filtros básicos</div>
+    <div class="cb-text">Un filtro <strong>oculta temporalmente</strong> las filas que no cumplen el criterio — no las borra. Se activa en <strong>Datos → Crear un filtro</strong>. Aparecen los ▼ en los encabezados.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--emerald)">
-  <div class="cb-icon">🥧</div>
+<div class="concept-block" style="border-left-color:#d97706">
+  <div class="cb-icon">⚙️</div>
   <div class="cb-body">
-    <div class="cb-title">Gráfico de torta</div>
-    <div class="cb-text">Para mostrar <strong>partes de un todo</strong> (porcentajes). Solo funciona bien con pocas categorías (máx. 6-7).</div>
+    <div class="cb-title">Filtrar por condición</div>
+    <div class="cb-text">Puedes filtrar con condiciones como: igual a, mayor que, menor que, contiene. Ideal para analizar subconjuntos de datos (ej: notas > 15, nombres que contienen 'M').</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--amber)">
-  <div class="cb-icon">🔧</div>
+<div class="concept-block" style="border-left-color:#0d9488">
+  <div class="cb-icon">🧊</div>
   <div class="cb-body">
-    <div class="cb-title">Personalizar un gráfico</div>
-    <div class="cb-text">En el editor de gráfico: cambia el <strong>título</strong>, los <strong>colores</strong>, activa <strong>etiquetas de datos</strong> y ajusta la <strong>leyenda</strong>.</div>
+    <div class="cb-title">Congelar encabezado y vista de filtro</div>
+    <div class="cb-text"><strong>Congelar encabezado:</strong> Ver → Inmovilizar → 1 fila. <strong>Vista de filtro:</strong> Datos → Vistas de filtro → Crear nueva vista — aplica tu filtro sin afectar a otros usuarios.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--teal)">
-  <div class="cb-icon">📋</div>
-  <div class="cb-body">
-    <div class="cb-title">Datos bien organizados</div>
-    <div class="cb-text">Los datos deben tener <strong>encabezados</strong> en la primera fila. Cada columna = una categoría; cada fila = un registro.</div>
-  </div>
-</div>
-</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Gráfico</div><div class="gloss-def">Representación visual de datos numéricos.</div></div>
-<div class="gloss-card"><div class="gloss-term">Serie de datos</div><div class="gloss-def">Conjunto de valores que se grafican juntos.</div></div>
-<div class="gloss-card"><div class="gloss-term">Eje X</div><div class="gloss-def">El eje horizontal del gráfico (categorías).</div></div>
-<div class="gloss-card"><div class="gloss-term">Eje Y</div><div class="gloss-def">El eje vertical del gráfico (valores numéricos).</div></div>
-<div class="gloss-card"><div class="gloss-term">Leyenda</div><div class="gloss-def">Cuadro que identifica qué color o símbolo representa cada serie.</div></div>
-<div class="gloss-card"><div class="gloss-term">Etiqueta de datos</div><div class="gloss-def">Número que aparece encima o dentro de cada barra o punto.</div></div>
-<div class="gloss-card"><div class="gloss-term">Editor de gráfico</div><div class="gloss-def">Panel derecho en Sheets para configurar y personalizar el gráfico.</div></div>
-<div class="gloss-card"><div class="gloss-term">Rango de datos</div><div class="gloss-def">Las celdas seleccionadas que se usan para crear el gráfico.</div></div>
-</div></div><div class="section"><details class="practice-details">
+</div></div>
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Ordenar rango</div><div class="gloss-def">Función de Sheets para reorganizar los datos de una tabla por columna.</div></div>
+<div class="gloss-card"><div class="gloss-term">Ascendente / Descendente</div><div class="gloss-def">A→Z o menor a mayor (ascendente). Z→A o mayor a menor (descendente).</div></div>
+<div class="gloss-card"><div class="gloss-term">Filtro</div><div class="gloss-def">Herramienta que oculta temporalmente las filas que no cumplen un criterio.</div></div>
+<div class="gloss-card"><div class="gloss-term">Condición de filtro</div><div class="gloss-def">Regla para filtrar: igual a, mayor que, menor que, contiene.</div></div>
+<div class="gloss-card"><div class="gloss-term">Encabezado</div><div class="gloss-def">La fila de títulos de columna (ej: Nombre, Nota, Fecha).</div></div>
+<div class="gloss-card"><div class="gloss-term">Congelar fila</div><div class="gloss-def">Fijar la fila de encabezado para que siempre sea visible al hacer scroll.</div></div>
+<div class="gloss-card"><div class="gloss-term">Vista de filtro</div><div class="gloss-def">Filtro personal que no afecta a otros usuarios del mismo archivo.</div></div>
+<div class="gloss-card"><div class="gloss-term">Análisis de datos</div><div class="gloss-def">Proceso de examinar datos para encontrar patrones o tomar decisiones.</div></div>
+</div></div>
+<div class="section"><details class="practice-details">
   <summary class="practice-summary">
     <div class="ps-left">
       <div class="ps-title">✏️ Ejercicios de práctica</div>
@@ -242,21 +232,28 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
       </div>
     </div>
-    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Qué tipo de gráfico usarías?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Barras</th><th>Líneas</th><th>Torta</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Temperatura promedio por mes durante un año.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Barras" onclick="classify(this,'Barras','Líneas')">Barras</button><button class="cls-btn" data-val="Líneas" onclick="classify(this,'Líneas','Líneas')">Líneas</button><button class="cls-btn" data-val="Torta" onclick="classify(this,'Torta','Líneas')">Torta</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Porcentaje de estudiantes por tipo de transporte.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Barras" onclick="classify(this,'Barras','Torta')">Barras</button><button class="cls-btn" data-val="Líneas" onclick="classify(this,'Líneas','Torta')">Líneas</button><button class="cls-btn" data-val="Torta" onclick="classify(this,'Torta','Torta')">Torta</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Población de 5 países en 2024.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Barras" onclick="classify(this,'Barras','Barras')">Barras</button><button class="cls-btn" data-val="Líneas" onclick="classify(this,'Líneas','Barras')">Líneas</button><button class="cls-btn" data-val="Torta" onclick="classify(this,'Torta','Barras')">Torta</button></div></td><td><span class="cls-res"></span></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>La torta funciona mejor con más de 10 categorías.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>Los datos deben tener encabezados para graficar bien.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>El gráfico de líneas es ideal para mostrar cambios en el tiempo.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>El título del gráfico es opcional y no afecta su comprensión.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody>
+<tr class="tf-row"><td>Un filtro elimina permanentemente las filas que no cumplen el criterio.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Para ver el alumno con la nota más alta, puedo ordenar la columna de notas de mayor a menor.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>La Vista de filtro afecta a todos los usuarios del archivo compartido.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>'Los datos tienen fila de encabezado' debe marcarse para que el título no se mezcle con los datos.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 </tbody></table></div>
+<div class="ex"><div class="ex-num">Ejercicio 2</div><h4>Paso a paso: ¿Cómo filtras?</h4>
+<p style="margin-bottom:12px">Describe los pasos para filtrar en una tabla de notas solo los alumnos con nota mayor a 14:</p>
+<textarea class="txt-area" placeholder="Escribe los pasos aquí..."></textarea>
+<button class="model-btn" onclick="toggleModel(this,'model-ex2-sec3')">▼ Ver respuesta modelo</button>
+<div class="model-box" id="model-ex2-sec3"><strong>Respuesta modelo</strong>1. Haz clic en cualquier celda dentro de la tabla. 2. Menú Datos → Crear un filtro. 3. Clic en el ▼ de la columna "Nota". 4. Selecciona "Filtrar por condición" → "Mayor que" → escribe 14. 5. Confirma y verás solo los alumnos con nota > 14.</div>
+</div>
   </div>
-</details></div></div><div id="exam-cta" class="exam-cta-section">
+</details></div>
+</div>
+<div id="exam-cta" class="exam-cta-section">
   <div class="exam-cta-icon">🎯</div>
   <div class="exam-cta-title">¿Listo para la evaluación?</div>
   <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
   <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
-</div><div class="eval-section" id="eval-section" style="display:none">
+</div>
+<div class="eval-section" id="eval-section" style="display:none">
   <span id="eval-grade-key" data-grade="sec3" data-session="04" style="display:none"></span>
 
   <div class="eval-banner">
@@ -264,8 +261,8 @@ details[open] .ps-arrow{transform:rotate(180deg)}
     <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
     <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 3.° Secundaria</div>
     <div class="eval-banner-warn">
-      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
-      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno.
+      Lee cada pregunta con calma antes de responder.
     </div>
   </div>
 
@@ -277,66 +274,73 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Nombre</label>
         <datalist id="alumnos-gate-dl"></datalist>
-          <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
+        <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
         <button class="gate-btn" onclick="startEval('sec3')">Comenzar evaluación →</button>
       </div>
     </div>
   </div>
 
   <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div>
+        <div class="exam-who-name" id="exam-who-name"></div>
+        <div class="exam-who-grade">3.° Secundaria · Sesión 04</div>
+      </div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
+    </div>
     <div class="eval-top">
       <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 3.° Secundaria</span>
       <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Para qué tipo de datos es más adecuado el gráfico de barras?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Mostrar porcentajes de un total</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Comparar valores de diferentes categorías</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Ver tendencias a lo largo del tiempo</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Mostrar relaciones entre variables</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué hace un filtro en Google Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Borra las filas que no cumplen el criterio</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Colorea las filas que no cumplen el criterio</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Oculta temporalmente las filas que no cumplen el criterio</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Ordena los datos automáticamente</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué gráfico usarías para mostrar cómo cambió el precio del petróleo de 2010 a 2024?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Torta</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Barras horizontales</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Líneas</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Dispersión</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué menú se usa para ordenar un rango en Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Insertar</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Datos</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Herramientas</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Formato</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuántas categorías máximo se recomienda para un gráfico de torta?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) 15</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) 6 o 7</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Sin límite</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) 3</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Al ordenar, ¿qué significa 'A→Z'?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Orden descendente (mayor a menor)</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Orden ascendente (de la A a la Z o de menor a mayor)</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Orden aleatorio</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Solo funciona para texto, no para números</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál es el primer paso para crear un gráfico en Google Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Seleccionar los datos incluyendo encabezados</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Ir a Formato → Gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Abrir Google Docs primero</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Escribir los datos sin encabezados</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Por qué es importante marcar 'Los datos tienen fila de encabezado' al ordenar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Para que el ordenamiento sea más rápido</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Para que los títulos de columna no se mezclen con los datos al ordenar</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Para agregar una fila nueva automáticamente</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) No es importante — solo es opcional</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué opción del menú de Sheets se usa para insertar un gráfico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Formato → Gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Ver → Gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Insertar → Gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Herramientas → Gráfico</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué hace 'Congelar fila' en Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Evita que se puedan editar los datos de esa fila</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Colorea la fila de un color fijo</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Mantiene la fila visible mientras te desplazas hacia abajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Oculta la fila del encabezado</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué es la leyenda de un gráfico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) El título del gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) El cuadro que identifica qué color representa cada serie</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Los números del eje Y</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Las etiquetas de datos sobre las barras</span></label>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">Si quieres ver solo los alumnos con nota mayor a 15, ¿qué condición de filtro usas?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Igual a 15</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Contiene 15</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Menor que 15</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Mayor que 15</span></label>
 </div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué pestaña del editor de gráfico usas para cambiar los colores?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Datos</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Tipo de gráfico</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Series</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Personalizar</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Cuál es la ventaja de 'Vista de filtro' frente a un filtro normal?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Es más rápida de activar</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) No afecta la vista de otros usuarios del archivo compartido</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Permite ordenar y filtrar al mismo tiempo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Elimina los datos filtrados permanentemente</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué problema tiene un gráfico de torta con 15 porciones?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Es difícil distinguir entre tantas porciones</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) No se puede crear en Sheets</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Solo muestra valores positivos</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Requiere más de una hoja</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Tienes una tabla de 50 productos. ¿Cómo encontrarías más rápido cuál tiene el precio más bajo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Revisando todos los precios manualmente</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Usando la función SUMA</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Ordenando la columna de precio de menor a mayor</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Filtrando por nombre del producto</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cómo se copia un gráfico de Sheets a Google Docs?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Clic derecho → Descargar → Cargar en Docs</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Copiar la celda y pegar en Docs</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Tres puntos del gráfico → Copiar gráfico → Ctrl+V en Docs</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) No es posible pasar gráficos de Sheets a Docs</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál de estos es un error común al ordenar en Sheets?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Seleccionar toda la tabla antes de ordenar</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Ordenar solo una columna cuando la tabla tiene varias — las filas se rompen</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Usar Datos → Ordenar rango</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Elegir orden descendente para notas</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué ocurre si mezclas texto y números en la misma columna de datos?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Sheets los ignora automáticamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) El gráfico puede mostrar errores o no generarse correctamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Los datos se ordenan automáticamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Se crea una leyenda especial para texto</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Tienes una tabla con nombre, grado y nota. Primero ordenas por grado (A→Z) y luego por nota (mayor a menor). ¿Qué resultado obtienes?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Tabla ordenada solo por nota</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Tabla ordenada solo por grado</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Tabla ordenada por grado y, dentro de cada grado, por nota de mayor a menor</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Un error — no se puede ordenar por dos criterios</span></label>
 </div></div>
 
     <div id="eval-submit-wrap" class="eval-submit-wrap">
@@ -349,182 +353,18 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 </div>
 
 <script>
-
-function classify(btn,chosen,correct){
-  const row=btn.closest('.cls-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
-  const ok=chosen===correct;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
-  const r=row.querySelector('.cls-res');
-  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
-}
-function tfPick(btn,chosen,correct){
-  const row=btn.closest('.tf-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  const ok=chosen===correct;
-  row.querySelectorAll('.tf-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
-  });
-  btn.classList.add(ok?'correct':'wrong');
-}
-function toggleModel(btn,id){
-  const b=document.getElementById(id);
-  const open=b.classList.toggle('open');
-  btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
-}
-function enterExamMode(){
-  if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.')) return;
-  document.getElementById('study-content').style.display='none';
-  document.getElementById('exam-cta').style.display='none';
-  const ev=document.getElementById('eval-section');
-  ev.style.display='block';
-  ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function classify(btn,chosen,correct){const row=btn.closest('.cls-row');if(row.dataset.done)return;row.dataset.done='1';row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok)row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});const r=row.querySelector('.cls-res');if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}}
+function tfPick(btn,chosen,correct){const row=btn.closest('.tf-row');if(row.dataset.done)return;row.dataset.done='1';const ok=chosen===correct;row.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add(ok?'correct':'reveal');});btn.classList.add(ok?'correct':'wrong');}
+function toggleModel(btn,id){const b=document.getElementById(id);const open=b.classList.toggle('open');btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
 let _name='',_grade='',_session='';
-function startEval(grade){
-  const inpN=document.getElementById('gate-nombre');
-  const _rawName=(inpN?inpN.value:'').trim();
-  const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
-  if(inpN) inpN.value=name;
-  if(name.split(/\s+/).filter(s=>s).length<2){
-    if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;
-  }
-  if(inpN) inpN.classList.remove('err');
-  _name=name;_grade=grade;
-  const gkEl=document.getElementById('eval-grade-key');
-  _session=gkEl?gkEl.dataset.session:'00';
-  // Mostrar pantalla de confirmación de identidad
-  const gw=document.getElementById('eval-gate-wrap');
-  gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card">
-    <div class="confirm-emoji">👤</div>
-    <div class="confirm-question">¿Eres tú quien va a rendir el examen?</div>
-    <div class="confirm-name-big">${name}</div>
-    <button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button>
-    <button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button>
-  </div></div>`;
-}
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
 function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function confirmarIdentidad(){
-  const nk=_nameKey(_name);
-  const lsKey='eval-'+_session+'-'+_grade+'-'+nk;
-  const saved=localStorage.getItem(lsKey);
-  if(saved){
-    try{
-      const r=JSON.parse(saved);
-      document.getElementById('eval-gate-wrap').innerHTML=
-        '<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
-      showResult(r);
-    }catch(e){}
-    return;
-  }
-  document.getElementById('eval-gate-wrap').style.display='none';
-  const body=document.getElementById('eval-body');
-  if(body) body.style.display='block';
-  // Banner de nombre prominente
-  const banner=document.getElementById('exam-who-bar');
-  if(banner){
-    document.getElementById('exam-who-name').textContent=_name;
-  }
-  document.getElementById('eval-student-name').textContent=_name;
-  updateAnswered();
-}
-function updateAnswered(){
-  const qs=document.querySelectorAll('.eval-q');
-  let ans=0;
-  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
-  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
-  const btn=document.getElementById('eval-submit-btn');
-  if(btn) btn.disabled=(ans<qs.length);
-}
-function submitEval(){
-  if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
-  const qs=document.querySelectorAll('.eval-q');
-  let correct=0;const respuestas=[];
-  qs.forEach((q,i)=>{
-    const cv=q.dataset.correct;
-    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
-    const sv=sel?sel.value:null;
-    const ok=sv===cv;
-    if(ok)correct++;
-    respuestas.push(sv||'—');
-    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
-    q.querySelectorAll('.eval-opt').forEach(opt=>{
-      const v=opt.querySelector('input').value;
-      if(v===cv)opt.classList.add('correct');
-      else if(v===sv&&!ok)opt.classList.add('wrong');
-    });
-    const num=q.querySelector('.eval-q-num');
-    num.classList.add(ok?'ok':'err');
-    q.classList.add(ok?'done-ok':'done-err');
-  });
-  const score=correct*2;
-  const fecha=new Date().toISOString();
-  const result={name:_name,grade:_grade,score,correct,total:qs.length,
-    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
-  const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));
-  fetch('/.netlify/functions/submit-eval',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})
-  }).catch(()=>{});
-  document.getElementById('eval-submit-wrap').style.display='none';
-  showResult(result);
-}
-function showResult(r){
-  const pct=Math.round(r.score/20*100);
-  const [emoji,label,cls]=
-    r.score>=18?['🏆','Excelente','ok']:
-    r.score>=14?['⭐','Bueno','good']:
-    r.score>=10?['📈','En proceso','warn']:
-                ['📚','Necesita refuerzo','low'];
-  const el=document.getElementById('eval-result-wrap');
-  el.style.display='block';
-  el.innerHTML=`<div class="result-card ${cls}">
-    <div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div>
-    <div class="res-name">${r.name}</div>
-    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
-    <div class="res-score">${r.score}<sub> / 20</sub></div>
-    <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
-    <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
-    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
-  </div>
-  <div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;
-  const study=document.getElementById('study-content');
-  const cta=document.getElementById('exam-cta');
-  if(study) study.style.display='block';
-  if(cta) cta.style.display='none';
-}
-// DOMContentLoaded: resultado previo ahora se verifica por nombre en confirmarIdentidad()
-
-
-// ── Autocomplete: roster del salón (lista estable anual) ──────────────────
-(function(){
-  const gkEl=document.getElementById('eval-grade-key');
-  if(!gkEl) return;
-  const grade=gkEl.dataset.grade;
-  function fillDl(names){
-    const dl=document.getElementById('alumnos-gate-dl');
-    if(dl&&names.length) dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');
-  }
-  // Intentar roster primero; fallback a ranking del mes si no existe
-  fetch('/.netlify/functions/get-roster?grado='+grade)
-    .then(r=>r.ok?r.json():null)
-    .then(d=>{
-      if(d&&d.found&&d.alumnos&&d.alumnos.length){
-        fillDl(d.alumnos.map(a=>a.nombre));
-      } else {
-        const mes=new Date().toISOString().slice(0,7);
-        return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
-          .then(r=>r.ok?r.json():null)
-          .then(r=>{ if(r&&r.ranking) fillDl(r.ranking.map(s=>s.nombre)); });
-      }
-    }).catch(()=>{});
-})();
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-'+_session+'-'+_grade+'-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){document.getElementById('exam-who-name').textContent=_name;}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}else{const mes=new Date().toISOString().slice(0,7);return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes).then(r=>r.ok?r.json():null).then(r=>{if(r&&r.ranking)fillDl(r.ranking.map(s=>s.nombre));});}}).catch(()=>{});})();
 </script>
 
 </body>

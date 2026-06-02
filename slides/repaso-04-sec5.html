@@ -6,17 +6,7 @@
 <title>Repaso S04 — 5.° Secundaria | Asunción School</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
-
-:root {
-  --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
-  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
-  --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
-  --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
-  --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
-  --err-bg:#fee2e2; --err-b:#fca5a5; --err-t:#b91c1c;
-  --hint-bg:#fef9c3; --hint-b:#fde047; --hint-t:#713f12;
-  --radius:12px;
-}
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
 button{font-family:inherit;cursor:pointer}
@@ -52,11 +42,19 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .practice-content{padding:28px;border-top:2px solid var(--border)}
 .practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
 .practice-invite-icon{font-size:1.8rem;flex-shrink:0}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;}
 .ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
 .ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .cls-tbl{width:100%;border-collapse:collapse}
 .cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
 .cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
@@ -69,15 +67,6 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
 .cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
 .cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
-.tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
-.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
-.tf-btns{display:flex;gap:8px}
-.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
-.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
 .model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
@@ -153,15 +142,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
 .exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
 .review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
-
-/* ── Confirmación de identidad ───────────────────────────────── */
 .name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
 .confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
 .confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
 .confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
 .gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
 .gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
-/* ── Banner de nombre durante el examen ──────────────────────── */
 .exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
 .exam-who-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.01em;}
 .exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
@@ -182,50 +168,54 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 04</div>
-<div class="doc-subtitle">IA con criterio: flujo de investigación: Alucinaciones de IA, verificación de fuentes, prompts estructurados</div><div id="study-content"><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
-  <div class="cb-icon">🌀</div>
+<div class="doc-subtitle">Argumentación y criterio · Google Docs</div>
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:#2563eb">
+  <div class="cb-icon">🧠</div>
   <div class="cb-body">
-    <div class="cb-title">Alucinaciones de IA</div>
-    <div class="cb-text">Los modelos de IA generan texto con aparente confianza aunque sea incorrecto. Inventan citas, datos, fechas. No mienten intencionalmente — predicen texto plausible.</div>
+    <div class="cb-title">Opinión vs argumento</div>
+    <div class="cb-text">Una <strong>opinión</strong> expresa cómo te sientes: 'Creo que X es malo.' Un <strong>argumento</strong> tiene postura, razón y evidencia — puede ser debatido y verificado.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--accent2)">
-  <div class="cb-icon">🔍</div>
+<div class="concept-block" style="border-left-color:#7c3aed">
+  <div class="cb-icon">🏗️</div>
   <div class="cb-body">
-    <div class="cb-title">CRAAP Test</div>
-    <div class="cb-text"><strong>C</strong>urrency, <strong>R</strong>elevance, <strong>A</strong>uthority, <strong>A</strong>ccuracy, <strong>P</strong>urpose. Cinco criterios para evaluar si una fuente es confiable.</div>
+    <div class="cb-title">Estructura P+R+E</div>
+    <div class="cb-text">Todo argumento tiene tres partes: <strong>Postura</strong> (qué defiendes), <strong>Razón</strong> (por qué es verdad) y <strong>Evidencia</strong> (dato, ejemplo o cita que lo prueba).</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--emerald)">
-  <div class="cb-icon">🧩</div>
+<div class="concept-block" style="border-left-color:#059669">
+  <div class="cb-icon">🏛️</div>
   <div class="cb-body">
-    <div class="cb-title">Prompts estructurados</div>
-    <div class="cb-text">Estructura: <strong>Rol</strong> + <strong>Tarea</strong> + <strong>Restricción</strong>. Ejemplo: 'Actúa como investigador. Dame un esquema sobre X. No inventes citas.'</div>
+    <div class="cb-title">Estructura PEEL</div>
+    <div class="cb-text"><strong>Point</strong> (postura), <strong>Evidence</strong> (evidencia), <strong>Explain</strong> (explica la conexión) y <strong>Link</strong> (conecta con la pregunta o tesis). Es la estructura académica más usada.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--amber)">
-  <div class="cb-icon">🔄</div>
+<div class="concept-block" style="border-left-color:#d97706">
+  <div class="cb-icon">🪤</div>
   <div class="cb-body">
-    <div class="cb-title">Flujo de investigación con IA</div>
-    <div class="cb-text">1) IA genera esquema. 2) Buscas fuentes reales. 3) Redactas con tus palabras y citas verificadas. Nunca saltar el paso 2.</div>
+    <div class="cb-title">Falacias comunes</div>
+    <div class="cb-text">Errores del razonamiento: <strong>Ad populum</strong> (todos lo hacen), <strong>Ad hominem</strong> (atacar a la persona), <strong>Pendiente resbaladiza</strong> (si X ocurre todo se derrumba), <strong>Hombre de paja</strong> (distorsionar el argumento).</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--teal)">
-  <div class="cb-icon">⚖️</div>
+<div class="concept-block" style="border-left-color:#0d9488">
+  <div class="cb-icon">🤖</div>
   <div class="cb-body">
-    <div class="cb-title">Ética del uso de IA</div>
-    <div class="cb-text">La IA puede ayudar a organizar ideas pero no puede reemplazar tu análisis. Declarar el uso de IA cuando la política escolar lo exige. El plagio con IA tiene las mismas consecuencias que el plagio tradicional.</div>
+    <div class="cb-title">IA y argumentación</div>
+    <div class="cb-text">La IA puede ayudar a encontrar contraargumentos y mejorar la redacción, pero <strong>no debe argumentar por ti</strong>. El razonamiento propio es el producto académico — la IA es el andamio.</div>
   </div>
 </div>
-</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Alucinación (IA)</div><div class="gloss-def">Cuando un modelo de IA genera información falsa con aparente confianza.</div></div>
-<div class="gloss-card"><div class="gloss-term">LLM</div><div class="gloss-def">Large Language Model — modelo de lenguaje de gran escala como GPT, Claude o Gemini.</div></div>
-<div class="gloss-card"><div class="gloss-term">CRAAP Test</div><div class="gloss-def">Herramienta de evaluación de fuentes: Actualidad, Relevancia, Autoridad, Exactitud, Propósito.</div></div>
-<div class="gloss-card"><div class="gloss-term">Prompt estructurado</div><div class="gloss-def">Instrucción a la IA que incluye rol, tarea y restricciones específicas.</div></div>
-<div class="gloss-card"><div class="gloss-term">Fuente primaria</div><div class="gloss-def">Documento original: artículo con DOI, libro del autor, datos oficiales.</div></div>
-<div class="gloss-card"><div class="gloss-term">Perplexity AI</div><div class="gloss-def">Herramienta de IA que cita fuentes reales en sus respuestas.</div></div>
-<div class="gloss-card"><div class="gloss-term">Creative Commons</div><div class="gloss-def">Sistema de licencias que permite compartir obras bajo ciertas condiciones.</div></div>
-<div class="gloss-card"><div class="gloss-term">Integridad académica</div><div class="gloss-def">Principio de honestidad intelectual que incluye citar correctamente y no plagiar.</div></div>
-</div></div><div class="section"><details class="practice-details">
+</div></div>
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Argumento</div><div class="gloss-def">Afirmación con postura, razón y evidencia que puede ser debatida.</div></div>
+<div class="gloss-card"><div class="gloss-term">Postura</div><div class="gloss-def">La afirmación principal que defiendes en un argumento.</div></div>
+<div class="gloss-card"><div class="gloss-term">Evidencia</div><div class="gloss-def">Datos, citas o ejemplos que respaldan la razón del argumento.</div></div>
+<div class="gloss-card"><div class="gloss-term">Paráfrasis</div><div class="gloss-def">Reescribir una idea con palabras propias — parte de la evidencia citada.</div></div>
+<div class="gloss-card"><div class="gloss-term">Falacia</div><div class="gloss-def">Error de razonamiento que parece válido pero no lo es.</div></div>
+<div class="gloss-card"><div class="gloss-term">Contraargumento</div><div class="gloss-def">Objeción anticipada al propio argumento, para responderla y fortalecerlo.</div></div>
+<div class="gloss-card"><div class="gloss-term">PEEL</div><div class="gloss-def">Estructura: Point, Evidence, Explain, Link — para párrafos argumentativos.</div></div>
+<div class="gloss-card"><div class="gloss-term">Pensamiento crítico</div><div class="gloss-def">Capacidad de evaluar argumentos y detectar falacias o sesgos.</div></div>
+</div></div>
+<div class="section"><details class="practice-details">
   <summary class="practice-summary">
     <div class="ps-left">
       <div class="ps-title">✏️ Ejercicios de práctica</div>
@@ -242,21 +232,29 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
       </div>
     </div>
-    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>Una alucinación de IA ocurre cuando el modelo inventa información con aparente confianza.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>Wikipedia es una fuente primaria válida para trabajos académicos.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>Un prompt estructurado incluye rol, tarea y restricciones.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>Si la IA cita una fuente, esa fuente siempre existe y es correcta.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Es fuente confiable para investigación académica?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Confiable</th><th>No confiable como fuente primaria</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Artículo con DOI en revista científica.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Confiable" onclick="classify(this,'Confiable','Confiable')">Confiable</button><button class="cls-btn" data-val="No confiable como fuente primaria" onclick="classify(this,'No confiable como fuente primaria','Confiable')">No confiable como fuente primaria</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Publicación de Wikipedia.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Confiable" onclick="classify(this,'Confiable','No confiable como fuente primaria')">Confiable</button><button class="cls-btn" data-val="No confiable como fuente primaria" onclick="classify(this,'No confiable como fuente primaria','No confiable como fuente primaria')">No confiable como fuente primaria</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Dato estadístico de un organismo oficial (INEI, OMS).</td><td><div class="cls-btns"><button class="cls-btn" data-val="Confiable" onclick="classify(this,'Confiable','Confiable')">Confiable</button><button class="cls-btn" data-val="No confiable como fuente primaria" onclick="classify(this,'No confiable como fuente primaria','Confiable')">No confiable como fuente primaria</button></div></td><td><span class="cls-res"></span></td></tr>
-</tbody></table></div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Opinión o argumento?</h4><p style="margin-bottom:12px">Clasifica cada afirmación:</p>
+<table class="tf-tbl"><thead><tr><th style='width:70%'>Afirmación</th><th style='text-align:center'>Opinión</th><th style='text-align:center'>Argumento</th></tr></thead><tbody>
+<tr class="tf-row"><td>"El uso excesivo de redes sociales reduce el promedio académico un 12% (OCDE, 2023)."</td><td style="text-align:center"><button class="tf-btn" data-val="O" onclick="tfPick(this,'O','A')">Opinión</button></td><td style="text-align:center"><button class="tf-btn" data-val="A" onclick="tfPick(this,'A','A')">Argumento</button></td></tr>
+<tr class="tf-row"><td>"A mí me parece que los exámenes son injustos."</td><td style="text-align:center"><button class="tf-btn" data-val="O" onclick="tfPick(this,'O','O')">Opinión</button></td><td style="text-align:center"><button class="tf-btn" data-val="A" onclick="tfPick(this,'A','O')">Argumento</button></td></tr>
+<tr class="tf-row"><td>"Las evaluaciones orales desarrollan habilidades comunicativas que los exámenes escritos no miden (García, 2021)."</td><td style="text-align:center"><button class="tf-btn" data-val="O" onclick="tfPick(this,'O','A')">Opinión</button></td><td style="text-align:center"><button class="tf-btn" data-val="A" onclick="tfPick(this,'A','A')">Argumento</button></td></tr>
+</tbody></table>
+</div>
+<div class="ex"><div class="ex-num">Ejercicio 2</div><h4>Construye el argumento</h4>
+<p style="margin-bottom:12px">Escribe un argumento con estructura PEEL sobre el siguiente tema: <strong>"¿Debería permitirse el uso del celular en clases?"</strong></p>
+<textarea class="txt-area" placeholder="Escribe tu argumento PEEL aquí (Point, Evidence, Explain, Link)..."></textarea>
+<button class="model-btn" onclick="toggleModel(this,'model-ex2-sec5')">▼ Ver respuesta modelo</button>
+<div class="model-box" id="model-ex2-sec5"><strong>Respuesta modelo (versión 'en contra')</strong>P: El celular debe restringirse en clases porque reduce la atención y el aprendizaje. E: Un estudio de la Universidad de Chicago (2017) mostró que los estudiantes que guardaron el celular obtuvieron notas significativamente más altas. E (Explain): Esta evidencia demuestra que la presencia del celular — aunque no se use activamente — actúa como distractor cognitivo. L: Por lo tanto, una política de restricción del celular en el aula contribuiría directamente a mejorar el rendimiento académico.</div>
+</div>
   </div>
-</details></div></div><div id="exam-cta" class="exam-cta-section">
+</details></div>
+</div>
+<div id="exam-cta" class="exam-cta-section">
   <div class="exam-cta-icon">🎯</div>
   <div class="exam-cta-title">¿Listo para la evaluación?</div>
   <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
   <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
-</div><div class="eval-section" id="eval-section" style="display:none">
+</div>
+<div class="eval-section" id="eval-section" style="display:none">
   <span id="eval-grade-key" data-grade="sec5" data-session="04" style="display:none"></span>
 
   <div class="eval-banner">
@@ -264,8 +262,8 @@ details[open] .ps-arrow{transform:rotate(180deg)}
     <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
     <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 5.° Secundaria</div>
     <div class="eval-banner-warn">
-      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
-      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno.
+      Lee cada pregunta con calma antes de responder.
     </div>
   </div>
 
@@ -277,66 +275,73 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Nombre</label>
         <datalist id="alumnos-gate-dl"></datalist>
-          <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
+        <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
         <button class="gate-btn" onclick="startEval('sec5')">Comenzar evaluación →</button>
       </div>
     </div>
   </div>
 
   <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div>
+        <div class="exam-who-name" id="exam-who-name"></div>
+        <div class="exam-who-grade">5.° Secundaria · Sesión 04</div>
+      </div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
+    </div>
     <div class="eval-top">
       <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 5.° Secundaria</span>
       <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-    <div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué es una alucinación en el contexto de la IA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Un error de conexión a internet del modelo</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Cuando la IA genera información falsa con aparente confianza</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Cuando el modelo se niega a responder</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Cuando la IA produce imágenes distorsionadas</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál es la diferencia principal entre una opinión y un argumento?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) La opinión usa datos y el argumento no</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) La opinión expresa sentimientos; el argumento tiene postura, razón y evidencia verificable</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) El argumento es siempre más corto que la opinión</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Solo los argumentos pueden debatirse; las opiniones son privadas</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Por qué ocurren las alucinaciones en los LLMs?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Porque los modelos acceden a sitios poco confiables</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Porque los modelos son malintencionados</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Porque los modelos optimizan para texto plausible, no para verdad verificada</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Porque los modelos solo funcionan en inglés</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">En la estructura P+R+E, ¿qué representa la 'E' de Evidencia?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) La emoción que acompaña al argumento</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) El ejemplo final que cierra el párrafo</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) El dato, cita o caso concreto que prueba la razón</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) La explicación del tema general</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué significa la 'A' de Authority en el CRAAP Test?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Actualidad de la información</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Autoridad o credencial del autor/institución</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Accesibilidad del documento</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Aplicabilidad al tema</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuál de estas afirmaciones es un ARGUMENTO (no solo una opinión)?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) 'Creo que la IA es peligrosa.'</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) 'A mí me gusta usar tecnología.'</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) 'La IA generativa puede perpetuar sesgos de género; estudios del MIT (2021) documentaron sesgos en 78% de los modelos analizados.'</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) 'La tecnología avanza muy rápido hoy en día.'</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál es la estructura correcta de un prompt estructurado?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Rol + Tarea + Restricción</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Pregunta + Respuesta + Ejemplo</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Contexto + Resumen + Conclusión</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Tema + Datos + Fuentes</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué es una falacia ad hominem?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Atacar el argumento del adversario en lugar de a la persona</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Atacar a la persona en lugar de debatir su argumento</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Usar estadísticas falsas en un debate</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Cambiar de tema cuando no tienes respuesta</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cuál es el paso 2 del flujo de investigación con IA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Redactar con tus palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Pedir a la IA el esquema</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Buscar fuentes reales para cada afirmación</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Enviar el trabajo a la profa</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué es la falacia de 'pendiente resbaladiza'?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Atacar a quien formula el argumento</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Argumentar que si permite algo menor, inevitablemente todo se derrumbará — sin evidencia</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Distorsionar el argumento del otro para rebatirlo más fácilmente</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Apelar a la mayoría como prueba de verdad</span></label>
 </div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué herramienta de IA cita fuentes reales en tiempo real?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) ChatGPT sin búsqueda</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Google Translate</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Bing Copilot sin búsqueda</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Perplexity AI</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">En la estructura PEEL, ¿qué función cumple el 'Link'?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Introducir la evidencia</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Resumir el argumento anterior</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Conectar el párrafo con la tesis o pregunta principal</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Citar la fuente de la evidencia</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué restricción debes añadir a tu prompt para reducir alucinaciones?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) 'Responde siempre en español'</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) 'Si no estás seguro de un dato, indícalo explícitamente'</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) 'Usa solo fuentes de Wikipedia'</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) 'Dame una respuesta corta'</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Por qué es importante anticipar contraargumentos en un texto argumentativo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Para demostrar que el tema es difícil</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Para llenar espacio en el trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Para fortalecer el argumento propio respondiendo objeciones antes de que las planteen</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Es obligatorio en APA pero no en argumentación</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué bases de datos académicas son confiables para investigación?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Google Scholar, Scielo, JSTOR</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Reddit, Quora, Yahoo Answers</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Pinterest, Instagram, TikTok</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Wikipedia, Blogspot, WordPress</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Cuál es el uso CORRECTO de la IA en la argumentación?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Pedir a la IA que escriba el argumento completo</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Usar las citas que genera la IA sin verificarlas</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Pedir a la IA que identifique contraargumentos para fortalecerlos</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Copiar el argumento de la IA y presentarlo como propio</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué consecuencia ética tiene entregar texto de IA sin editarlo como si fuera propio?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Es aceptable si la IA generó algo correcto</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Solo es problema si el profesor usa detector de IA</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Es plagio académico con las mismas consecuencias que copiar de otro alumno</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) No tiene consecuencias mientras se use bien el formato APA</span></label>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">Lee este argumento: 'Si permitimos que los estudiantes usen celulares, después no habrá disciplina, luego vendrán las peleas, y finalmente el colegio cerrará.' ¿Qué falacia contiene?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Ad hominem</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Ad populum</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Hombre de paja</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Pendiente resbaladiza</span></label>
 </div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Cuándo es ético declarar el uso de IA en un trabajo escolar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Solo si la IA escribió más del 50% del texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Nunca, porque la IA es solo una herramienta</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Solo si el profesor lo pregunta directamente</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Cuando la política escolar lo exige o cuando la IA ayudó significativamente en el contenido</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Cuál de estos tipos de evidencia es generalmente más sólido en un texto argumentativo académico?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Una anécdota personal</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) La opinión de un compañero de clase</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Un estudio publicado en revista académica revisada por pares</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Un meme viral sobre el tema</span></label>
 </div></div>
 
     <div id="eval-submit-wrap" class="eval-submit-wrap">
@@ -349,182 +354,18 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 </div>
 
 <script>
-
-function classify(btn,chosen,correct){
-  const row=btn.closest('.cls-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
-  const ok=chosen===correct;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
-  const r=row.querySelector('.cls-res');
-  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
-}
-function tfPick(btn,chosen,correct){
-  const row=btn.closest('.tf-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  const ok=chosen===correct;
-  row.querySelectorAll('.tf-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
-  });
-  btn.classList.add(ok?'correct':'wrong');
-}
-function toggleModel(btn,id){
-  const b=document.getElementById(id);
-  const open=b.classList.toggle('open');
-  btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
-}
-function enterExamMode(){
-  if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.')) return;
-  document.getElementById('study-content').style.display='none';
-  document.getElementById('exam-cta').style.display='none';
-  const ev=document.getElementById('eval-section');
-  ev.style.display='block';
-  ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function classify(btn,chosen,correct){const row=btn.closest('.cls-row');if(row.dataset.done)return;row.dataset.done='1';row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok)row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});const r=row.querySelector('.cls-res');if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}}
+function tfPick(btn,chosen,correct){const row=btn.closest('.tf-row');if(row.dataset.done)return;row.dataset.done='1';const ok=chosen===correct;row.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add(ok?'correct':'reveal');});btn.classList.add(ok?'correct':'wrong');}
+function toggleModel(btn,id){const b=document.getElementById(id);const open=b.classList.toggle('open');btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
 let _name='',_grade='',_session='';
-function startEval(grade){
-  const inpN=document.getElementById('gate-nombre');
-  const _rawName=(inpN?inpN.value:'').trim();
-  const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
-  if(inpN) inpN.value=name;
-  if(name.split(/\s+/).filter(s=>s).length<2){
-    if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;
-  }
-  if(inpN) inpN.classList.remove('err');
-  _name=name;_grade=grade;
-  const gkEl=document.getElementById('eval-grade-key');
-  _session=gkEl?gkEl.dataset.session:'00';
-  // Mostrar pantalla de confirmación de identidad
-  const gw=document.getElementById('eval-gate-wrap');
-  gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card">
-    <div class="confirm-emoji">👤</div>
-    <div class="confirm-question">¿Eres tú quien va a rendir el examen?</div>
-    <div class="confirm-name-big">${name}</div>
-    <button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button>
-    <button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button>
-  </div></div>`;
-}
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
 function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function confirmarIdentidad(){
-  const nk=_nameKey(_name);
-  const lsKey='eval-'+_session+'-'+_grade+'-'+nk;
-  const saved=localStorage.getItem(lsKey);
-  if(saved){
-    try{
-      const r=JSON.parse(saved);
-      document.getElementById('eval-gate-wrap').innerHTML=
-        '<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
-      showResult(r);
-    }catch(e){}
-    return;
-  }
-  document.getElementById('eval-gate-wrap').style.display='none';
-  const body=document.getElementById('eval-body');
-  if(body) body.style.display='block';
-  // Banner de nombre prominente
-  const banner=document.getElementById('exam-who-bar');
-  if(banner){
-    document.getElementById('exam-who-name').textContent=_name;
-  }
-  document.getElementById('eval-student-name').textContent=_name;
-  updateAnswered();
-}
-function updateAnswered(){
-  const qs=document.querySelectorAll('.eval-q');
-  let ans=0;
-  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
-  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
-  const btn=document.getElementById('eval-submit-btn');
-  if(btn) btn.disabled=(ans<qs.length);
-}
-function submitEval(){
-  if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
-  const qs=document.querySelectorAll('.eval-q');
-  let correct=0;const respuestas=[];
-  qs.forEach((q,i)=>{
-    const cv=q.dataset.correct;
-    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
-    const sv=sel?sel.value:null;
-    const ok=sv===cv;
-    if(ok)correct++;
-    respuestas.push(sv||'—');
-    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
-    q.querySelectorAll('.eval-opt').forEach(opt=>{
-      const v=opt.querySelector('input').value;
-      if(v===cv)opt.classList.add('correct');
-      else if(v===sv&&!ok)opt.classList.add('wrong');
-    });
-    const num=q.querySelector('.eval-q-num');
-    num.classList.add(ok?'ok':'err');
-    q.classList.add(ok?'done-ok':'done-err');
-  });
-  const score=correct*2;
-  const fecha=new Date().toISOString();
-  const result={name:_name,grade:_grade,score,correct,total:qs.length,
-    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
-  const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));
-  fetch('/.netlify/functions/submit-eval',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})
-  }).catch(()=>{});
-  document.getElementById('eval-submit-wrap').style.display='none';
-  showResult(result);
-}
-function showResult(r){
-  const pct=Math.round(r.score/20*100);
-  const [emoji,label,cls]=
-    r.score>=18?['🏆','Excelente','ok']:
-    r.score>=14?['⭐','Bueno','good']:
-    r.score>=10?['📈','En proceso','warn']:
-                ['📚','Necesita refuerzo','low'];
-  const el=document.getElementById('eval-result-wrap');
-  el.style.display='block';
-  el.innerHTML=`<div class="result-card ${cls}">
-    <div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div>
-    <div class="res-name">${r.name}</div>
-    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
-    <div class="res-score">${r.score}<sub> / 20</sub></div>
-    <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
-    <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
-    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
-  </div>
-  <div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;
-  const study=document.getElementById('study-content');
-  const cta=document.getElementById('exam-cta');
-  if(study) study.style.display='block';
-  if(cta) cta.style.display='none';
-}
-// DOMContentLoaded: resultado previo ahora se verifica por nombre en confirmarIdentidad()
-
-
-// ── Autocomplete: roster del salón (lista estable anual) ──────────────────
-(function(){
-  const gkEl=document.getElementById('eval-grade-key');
-  if(!gkEl) return;
-  const grade=gkEl.dataset.grade;
-  function fillDl(names){
-    const dl=document.getElementById('alumnos-gate-dl');
-    if(dl&&names.length) dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');
-  }
-  // Intentar roster primero; fallback a ranking del mes si no existe
-  fetch('/.netlify/functions/get-roster?grado='+grade)
-    .then(r=>r.ok?r.json():null)
-    .then(d=>{
-      if(d&&d.found&&d.alumnos&&d.alumnos.length){
-        fillDl(d.alumnos.map(a=>a.nombre));
-      } else {
-        const mes=new Date().toISOString().slice(0,7);
-        return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
-          .then(r=>r.ok?r.json():null)
-          .then(r=>{ if(r&&r.ranking) fillDl(r.ranking.map(s=>s.nombre)); });
-      }
-    }).catch(()=>{});
-})();
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-'+_session+'-'+_grade+'-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){document.getElementById('exam-who-name').textContent=_name;}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}else{const mes=new Date().toISOString().slice(0,7);return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes).then(r=>r.ok?r.json():null).then(r=>{if(r&&r.ranking)fillDl(r.ranking.map(s=>s.nombre));});}}).catch(()=>{});})();
 </script>
 
 </body>

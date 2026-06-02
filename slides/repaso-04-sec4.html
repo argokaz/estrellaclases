@@ -6,17 +6,7 @@
 <title>Repaso S04 — 4.° Secundaria | Asunción School</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
-
-:root {
-  --brand:#1e3a8a; --accent:#2563eb; --accent2:#7c3aed;
-  --teal:#0d9488; --emerald:#059669; --amber:#d97706; --rose:#e11d48;
-  --gold:#b45309; --text:#1e293b; --muted:#64748b; --dim:#94a3b8;
-  --border:#e2e8f0; --bg-alt:#f8fafc; --bg-quiz:#f0f4ff;
-  --ok-bg:#dcfce7; --ok-b:#86efac; --ok-t:#15803d;
-  --err-bg:#fee2e2; --err-b:#fca5a5; --err-t:#b91c1c;
-  --hint-bg:#fef9c3; --hint-b:#fde047; --hint-t:#713f12;
-  --radius:12px;
-}
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
 button{font-family:inherit;cursor:pointer}
@@ -52,11 +42,19 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .practice-content{padding:28px;border-top:2px solid var(--border)}
 .practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
 .practice-invite-icon{font-size:1.8rem;flex-shrink:0}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:var(--radius);padding:18px 22px;font-size:16px;color:#1e40af;margin-bottom:22px;line-height:1.75;}
 .ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
 .ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .cls-tbl{width:100%;border-collapse:collapse}
 .cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
 .cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
@@ -69,15 +67,6 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
 .cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
 .cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
-.tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
-.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
-.tf-btns{display:flex;gap:8px}
-.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
-.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
 .txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
 .model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
@@ -153,15 +142,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
 .exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
 .review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
-
-/* ── Confirmación de identidad ───────────────────────────────── */
 .name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
 .confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
 .confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
 .confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
 .gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
 .gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
-/* ── Banner de nombre durante el examen ──────────────────────── */
 .exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
 .exam-who-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.01em;}
 .exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
@@ -182,50 +168,54 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   </div>
 </div>
 <div class="doc-title">📝 Guía de Repaso — Sesión 04</div>
-<div class="doc-subtitle">El cuerpo del trabajo: Introducción, desarrollo y conclusión con APA</div><div id="study-content"><div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:var(--accent)">
-  <div class="cb-icon">🚪</div>
+<div class="doc-subtitle">Citas y paráfrasis · Google Docs · APA</div>
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list"><div class="concept-block" style="border-left-color:#2563eb">
+  <div class="cb-icon">📌</div>
   <div class="cb-body">
-    <div class="cb-title">La introducción</div>
-    <div class="cb-text">Presenta el <strong>contexto</strong> del tema, el <strong>problema o pregunta central</strong> y la <strong>tesis</strong> o propósito del trabajo. No incluye conclusiones.</div>
+    <div class="cb-title">Cita textual</div>
+    <div class="cb-text">Copias las palabras <strong>exactas</strong> del autor. Obligatorio usar comillas y la referencia: <strong>(Apellido, año, p. N)</strong>. Úsala cuando las palabras exactas importan — definiciones clave, afirmaciones precisas.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--accent2)">
-  <div class="cb-icon">📖</div>
+<div class="concept-block" style="border-left-color:#7c3aed">
+  <div class="cb-icon">🔄</div>
   <div class="cb-body">
-    <div class="cb-title">El desarrollo</div>
-    <div class="cb-text">Cada idea central ocupa un párrafo o sección con <strong>subtítulo</strong>. Incluye argumentos, evidencias y <strong>citas APA</strong>. Usa párrafos de transición.</div>
+    <div class="cb-title">Paráfrasis</div>
+    <div class="cb-text">Reescribes la idea del autor con <strong>tus propias palabras</strong>. Sin comillas, pero sí con <strong>(Apellido, año)</strong>. Debes cambiar la estructura y el vocabulario, no solo 2-3 palabras.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--emerald)">
-  <div class="cb-icon">🏁</div>
+<div class="concept-block" style="border-left-color:#e11d48">
+  <div class="cb-icon">⚠️</div>
   <div class="cb-body">
-    <div class="cb-title">La conclusión</div>
-    <div class="cb-text">Retoma la tesis, sintetiza los puntos clave del desarrollo y <strong>no introduce ideas nuevas</strong>. Puede sugerir implicaciones.</div>
+    <div class="cb-title">El plagio</div>
+    <div class="cb-text">Usar ideas ajenas sin citar es plagio, aunque cambies las palabras. También es plagio pedir a la IA que escriba y presentarlo como propio. El plagio tiene consecuencias académicas.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--amber)">
-  <div class="cb-icon">📝</div>
+<div class="concept-block" style="border-left-color:#d97706">
+  <div class="cb-icon">📏</div>
   <div class="cb-body">
-    <div class="cb-title">Citas APA en texto</div>
-    <div class="cb-text">Paráfrasis: <strong>(Apellido, año)</strong>. Cita directa: <strong>"texto" (Apellido, año, p. N)</strong>. El punto va fuera del paréntesis.</div>
+    <div class="cb-title">Cita corta vs. bloque</div>
+    <div class="cb-text"><strong>Cita corta</strong> (menos de 40 palabras): dentro del párrafo con comillas. <strong>Cita en bloque</strong> (40 o más palabras): nueva línea, sangría izquierda, sin comillas.</div>
   </div>
 </div>
-<div class="concept-block" style="border-left-color:var(--teal)">
-  <div class="cb-icon">📋</div>
+<div class="concept-block" style="border-left-color:#0d9488">
+  <div class="cb-icon">🤖</div>
   <div class="cb-body">
-    <div class="cb-title">Formato APA en Docs</div>
-    <div class="cb-text">Times New Roman 12 o Calibri 11. <strong>Interlineado doble</strong>. Márgenes 2.5 cm. Sangría en primera línea de cada párrafo.</div>
+    <div class="cb-title">IA y citas: riesgo real</div>
+    <div class="cb-text">La IA puede <strong>inventar fuentes</strong> que no existen. Nunca copies una cita generada por IA sin verificarla en Google Académico o la fuente original.</div>
   </div>
 </div>
-</div></div><div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Tesis</div><div class="gloss-def">La idea o postura central que el trabajo busca sostener o demostrar.</div></div>
-<div class="gloss-card"><div class="gloss-term">Paráfrasis</div><div class="gloss-def">Expresar la idea de otro autor con tus propias palabras, citando la fuente.</div></div>
-<div class="gloss-card"><div class="gloss-term">Cita directa</div><div class="gloss-def">Reproducir las palabras exactas de un autor entre comillas.</div></div>
-<div class="gloss-card"><div class="gloss-term">Sangría francesa</div><div class="gloss-def">La segunda línea de una referencia va indentada respecto a la primera.</div></div>
-<div class="gloss-card"><div class="gloss-term">Interlineado doble</div><div class="gloss-def">Espacio de dos líneas entre cada línea de texto (formato APA).</div></div>
-<div class="gloss-card"><div class="gloss-term">Párrafo de transición</div><div class="gloss-def">Oración o párrafo que conecta una sección con la siguiente.</div></div>
-<div class="gloss-card"><div class="gloss-term">Lista de referencias</div><div class="gloss-def">Sección final del trabajo con todas las fuentes citadas en formato APA.</div></div>
-<div class="gloss-card"><div class="gloss-term">Subtítulo</div><div class="gloss-def">Encabezado que divide el desarrollo en secciones temáticas.</div></div>
-</div></div><div class="section"><details class="practice-details">
+</div></div>
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2"><div class="gloss-card"><div class="gloss-term">Cita textual</div><div class="gloss-def">Reproducción exacta de las palabras del autor, entre comillas y con referencia.</div></div>
+<div class="gloss-card"><div class="gloss-term">Paráfrasis</div><div class="gloss-def">Reescritura de una idea ajena con palabras propias, más referencia.</div></div>
+<div class="gloss-card"><div class="gloss-term">Plagio</div><div class="gloss-def">Usar ideas o texto de otro sin darle crédito, aunque se cambien palabras.</div></div>
+<div class="gloss-card"><div class="gloss-term">(Apellido, año, p. N)</div><div class="gloss-def">Formato APA para citas textuales en el texto.</div></div>
+<div class="gloss-card"><div class="gloss-term">Cita en bloque</div><div class="gloss-def">Cita de 40+ palabras: sangría izquierda, sin comillas, referencia al final.</div></div>
+<div class="gloss-card"><div class="gloss-term">Referencia</div><div class="gloss-def">Datos del autor, año, título y editorial de la fuente citada.</div></div>
+<div class="gloss-card"><div class="gloss-term">Integridad académica</div><div class="gloss-def">Principio de honestidad en el trabajo académico — dar crédito siempre.</div></div>
+<div class="gloss-card"><div class="gloss-term">Google Académico</div><div class="gloss-def">Buscador especializado en artículos y publicaciones académicas verificadas.</div></div>
+</div></div>
+<div class="section"><details class="practice-details">
   <summary class="practice-summary">
     <div class="ps-left">
       <div class="ps-title">✏️ Ejercicios de práctica</div>
@@ -242,21 +232,29 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         Cuando te sientas listo, pasa a la <strong>Evaluación de la Clase</strong> más abajo.
       </div>
     </div>
-    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody><tr class="tf-row"><td>La conclusión puede introducir ideas completamente nuevas.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>El formato APA usa interlineado doble.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>La cita de paráfrasis incluye el número de página.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
-<tr class="tf-row"><td>La lista de referencias va al final del trabajo en orden alfabético.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-</tbody></table></div><div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿A qué sección del trabajo pertenece?</h4><table class="cls-tbl"><thead><tr><th>Elemento</th><th>Introducción</th><th>Desarrollo</th><th>Conclusión</th><th>¿Correcto?</th></tr></thead><tbody><tr class="cls-row"><td>Presenta el contexto y la tesis del trabajo.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Introducción" onclick="classify(this,'Introducción','Introducción')">Introducción</button><button class="cls-btn" data-val="Desarrollo" onclick="classify(this,'Desarrollo','Introducción')">Desarrollo</button><button class="cls-btn" data-val="Conclusión" onclick="classify(this,'Conclusión','Introducción')">Conclusión</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Incluye argumentos con citas APA.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Introducción" onclick="classify(this,'Introducción','Desarrollo')">Introducción</button><button class="cls-btn" data-val="Desarrollo" onclick="classify(this,'Desarrollo','Desarrollo')">Desarrollo</button><button class="cls-btn" data-val="Conclusión" onclick="classify(this,'Conclusión','Desarrollo')">Conclusión</button></div></td><td><span class="cls-res"></span></td></tr>
-<tr class="cls-row"><td>Sintetiza lo aprendido sin agregar ideas nuevas.</td><td><div class="cls-btns"><button class="cls-btn" data-val="Introducción" onclick="classify(this,'Introducción','Conclusión')">Introducción</button><button class="cls-btn" data-val="Desarrollo" onclick="classify(this,'Desarrollo','Conclusión')">Desarrollo</button><button class="cls-btn" data-val="Conclusión" onclick="classify(this,'Conclusión','Conclusión')">Conclusión</button></div></td><td><span class="cls-res"></span></td></tr>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody>
+<tr class="tf-row"><td>Si cambias 3 palabras de un párrafo ajeno y no pones la fuente, es plagio.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>La paráfrasis siempre lleva comillas porque usas palabras del autor.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Una cita de 50 palabras debe ir como 'cita en bloque' en formato APA.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Puedes confiar en las citas que genera la IA sin verificarlas.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 </tbody></table></div>
+<div class="ex"><div class="ex-num">Ejercicio 2</div><h4>Corrige la cita</h4>
+<p style="margin-bottom:12px">Esta cita tiene errores. Identifícalos y escribe la versión correcta:</p>
+<p style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:12px;font-size:15px"><em>La tecnología no define al ser humano sino al revés Garcia dijo esto en 2021 pag 45</em></p>
+<textarea class="txt-area" placeholder="Escribe la cita corregida con formato APA completo..."></textarea>
+<button class="model-btn" onclick="toggleModel(this,'model-ex2-sec4')">▼ Ver respuesta modelo</button>
+<div class="model-box" id="model-ex2-sec4"><strong>Respuesta modelo</strong>Versión correcta: "La tecnología no define al ser humano, sino al revés" (García, 2021, p. 45). Errores corregidos: (1) Comillas alrededor del texto exacto, (2) punto y coma entre Apellido y año, (3) "p." en lugar de "pag", (4) tilde en García.</div>
+</div>
   </div>
-</details></div></div><div id="exam-cta" class="exam-cta-section">
+</details></div>
+</div>
+<div id="exam-cta" class="exam-cta-section">
   <div class="exam-cta-icon">🎯</div>
   <div class="exam-cta-title">¿Listo para la evaluación?</div>
   <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
   <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
-</div><div class="eval-section" id="eval-section" style="display:none">
+</div>
+<div class="eval-section" id="eval-section" style="display:none">
   <span id="eval-grade-key" data-grade="sec4" data-session="04" style="display:none"></span>
 
   <div class="eval-banner">
@@ -264,8 +262,8 @@ details[open] .ps-arrow{transform:rotate(180deg)}
     <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
     <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 4.° Secundaria</div>
     <div class="eval-banner-warn">
-      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por dispositivo.
-      Lee cada pregunta con calma antes de responder. No podrás cambiar tus respuestas después de enviar.
+      ⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno.
+      Lee cada pregunta con calma antes de responder.
     </div>
   </div>
 
@@ -277,66 +275,73 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
         <label class="gate-label">Nombre</label>
         <datalist id="alumnos-gate-dl"></datalist>
-          <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
+        <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
         <button class="gate-btn" onclick="startEval('sec4')">Comenzar evaluación →</button>
       </div>
     </div>
   </div>
 
   <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div>
+        <div class="exam-who-name" id="exam-who-name"></div>
+        <div class="exam-who-grade">4.° Secundaria · Sesión 04</div>
+      </div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
+    </div>
     <div class="eval-top">
       <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 4.° Secundaria</span>
       <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
     </div>
-    <div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál de los siguientes elementos NO pertenece a la introducción?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Contexto del tema</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Pregunta central</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Tesis del trabajo</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Síntesis de los argumentos del desarrollo</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuándo debes usar una cita textual?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Siempre que mencionas a un autor</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Cuando las palabras exactas del autor son importantes — definición, afirmación clave</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Cuando tienes más de 3 fuentes en tu trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Solo en trabajos de más de 5 páginas</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál es el formato correcto de una cita APA en paráfrasis?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) [García, 2021]</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) (García, 2021)</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) {García: 2021}</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) García (2021)</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál es el formato correcto de una cita textual corta en APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) "Texto exacto" Apellido (año, pag N)</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) "Texto exacto" [Apellido, año, p. N]</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) "Texto exacto" (Apellido, año, p. N)</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Texto exacto, según Apellido (año)</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué debe ir en la conclusión?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Ideas nuevas que no se mencionaron antes</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Más citas y datos de apoyo</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Síntesis de los puntos clave y respuesta a la tesis</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Una nueva pregunta de investigación</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuál es la diferencia principal entre cita textual y paráfrasis?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) La cita textual es más larga que la paráfrasis</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) La cita textual copia las palabras exactas con comillas; la paráfrasis reescribe con propias palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) La paráfrasis no necesita referencia del autor</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Solo la cita textual es válida en APA</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál es el interlineado requerido en formato APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Doble</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Simple</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) 1.5</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Triple</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">María reescribió un párrafo cambiando 3 palabras y no puso ninguna referencia. ¿Qué hizo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Una paráfrasis correcta</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Una cita textual</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Plagio</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Una síntesis</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué tamaño de fuente usa APA con Times New Roman?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) 11</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) 12</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) 14</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) 10</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿En qué se diferencia una cita en bloque de una cita corta?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) La cita en bloque va entre comillas dobles</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) La cita en bloque tiene 40 o más palabras, va en nueva línea con sangría y sin comillas</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) La cita en bloque no necesita referencia</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Son exactamente iguales en formato</span></label>
 </div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Dónde va la lista de referencias en un trabajo APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Al inicio, antes de la introducción</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) En el desarrollo, entre párrafos</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) En una nota al pie de cada página</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Al final del trabajo, en página aparte</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Por qué no debes copiar una cita generada por IA sin verificarla?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Porque la IA escribe en inglés</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Porque la IA puede inventar fuentes que no existen</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Porque el formato APA de la IA es incorrecto</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Porque es más largo que una cita normal</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué es la sangría francesa en una lista de referencias APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) La primera línea de cada referencia va indentada</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Todas las líneas tienen el mismo margen</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) La segunda línea (y siguientes) va indentada respecto a la primera</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) El título 'Referencias' va centrado con sangría</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Cuál de estas opciones es una paráfrasis correcta de 'La IA mejora la productividad (López, 2022)'?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) 'La IA mejora la productividad' (López, 2022)</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Según López (2022), las herramientas de inteligencia artificial contribuyen a hacer el trabajo de manera más eficiente.</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) La IA es muy buena para trabajar.</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) López dijo que la IA sirve mucho.</span></label>
 </div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué función tienen los párrafos de transición?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Introducir nuevas ideas en la conclusión</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Conectar secciones del desarrollo para dar fluidez al texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Reemplazar las citas APA</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Resumir el trabajo al final</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Al integrar una cita en un párrafo, ¿qué debes hacer DESPUÉS de la cita?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Nada — la cita habla por sí sola</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Agregar otra cita</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Comentar cómo la cita apoya tu argumento</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Escribir la referencia bibliográfica completa</span></label>
 </div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuándo se usa la cita directa en lugar de la paráfrasis?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Cuando las palabras exactas del autor son importantes</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Siempre que citas una fuente</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Cuando la oración es muy larga</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Solo para fuentes en inglés</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuál de estos ejemplos contiene un error de cita en APA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) "El cambio es inevitable" (Torres, 2020, p. 12)</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Según Torres (2020), el cambio es inevitable.</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) "El cambio es inevitable" Torres, 2020, pag 12</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Torres (2020) afirma que el cambio es inevitable.</span></label>
 </div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué error ético grave se comete al usar texto de IA sin editarlo ni citarlo?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Usar un formato incorrecto</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Citar mal una fuente</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Plagio académico</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Tener sangría incorrecta</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Cuál de estas afirmaciones sobre el plagio es CORRECTA?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Cambiar el orden de las palabras de un párrafo elimina el plagio</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Solo es plagio si copias más de un párrafo completo</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Parafrasear sin citar la fuente también es plagio</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) La IA no puede cometer plagio porque no es humana</span></label>
 </div></div>
 
     <div id="eval-submit-wrap" class="eval-submit-wrap">
@@ -349,182 +354,18 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 </div>
 
 <script>
-
-function classify(btn,chosen,correct){
-  const row=btn.closest('.cls-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);
-  const ok=chosen===correct;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok) row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});
-  const r=row.querySelector('.cls-res');
-  if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}
-}
-function tfPick(btn,chosen,correct){
-  const row=btn.closest('.tf-row');
-  if(row.dataset.done) return;
-  row.dataset.done='1';
-  const ok=chosen===correct;
-  row.querySelectorAll('.tf-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.dataset.val===correct) b.classList.add(ok?'correct':'reveal');
-  });
-  btn.classList.add(ok?'correct':'wrong');
-}
-function toggleModel(btn,id){
-  const b=document.getElementById(id);
-  const open=b.classList.toggle('open');
-  btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';
-}
-function enterExamMode(){
-  if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.')) return;
-  document.getElementById('study-content').style.display='none';
-  document.getElementById('exam-cta').style.display='none';
-  const ev=document.getElementById('eval-section');
-  ev.style.display='block';
-  ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+function classify(btn,chosen,correct){const row=btn.closest('.cls-row');if(row.dataset.done)return;row.dataset.done='1';row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok)row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});const r=row.querySelector('.cls-res');if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}}
+function tfPick(btn,chosen,correct){const row=btn.closest('.tf-row');if(row.dataset.done)return;row.dataset.done='1';const ok=chosen===correct;row.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add(ok?'correct':'reveal');});btn.classList.add(ok?'correct':'wrong');}
+function toggleModel(btn,id){const b=document.getElementById(id);const open=b.classList.toggle('open');btn.textContent=open?'▲ Ocultar respuesta modelo':'▼ Ver respuesta modelo';}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
 let _name='',_grade='',_session='';
-function startEval(grade){
-  const inpN=document.getElementById('gate-nombre');
-  const _rawName=(inpN?inpN.value:'').trim();
-  const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
-  if(inpN) inpN.value=name;
-  if(name.split(/\s+/).filter(s=>s).length<2){
-    if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;
-  }
-  if(inpN) inpN.classList.remove('err');
-  _name=name;_grade=grade;
-  const gkEl=document.getElementById('eval-grade-key');
-  _session=gkEl?gkEl.dataset.session:'00';
-  // Mostrar pantalla de confirmación de identidad
-  const gw=document.getElementById('eval-gate-wrap');
-  gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card">
-    <div class="confirm-emoji">👤</div>
-    <div class="confirm-question">¿Eres tú quien va a rendir el examen?</div>
-    <div class="confirm-name-big">${name}</div>
-    <button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button>
-    <button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button>
-  </div></div>`;
-}
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
 function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function confirmarIdentidad(){
-  const nk=_nameKey(_name);
-  const lsKey='eval-'+_session+'-'+_grade+'-'+nk;
-  const saved=localStorage.getItem(lsKey);
-  if(saved){
-    try{
-      const r=JSON.parse(saved);
-      document.getElementById('eval-gate-wrap').innerHTML=
-        '<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
-      showResult(r);
-    }catch(e){}
-    return;
-  }
-  document.getElementById('eval-gate-wrap').style.display='none';
-  const body=document.getElementById('eval-body');
-  if(body) body.style.display='block';
-  // Banner de nombre prominente
-  const banner=document.getElementById('exam-who-bar');
-  if(banner){
-    document.getElementById('exam-who-name').textContent=_name;
-  }
-  document.getElementById('eval-student-name').textContent=_name;
-  updateAnswered();
-}
-function updateAnswered(){
-  const qs=document.querySelectorAll('.eval-q');
-  let ans=0;
-  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
-  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
-  const btn=document.getElementById('eval-submit-btn');
-  if(btn) btn.disabled=(ans<qs.length);
-}
-function submitEval(){
-  if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.')) return;
-  const qs=document.querySelectorAll('.eval-q');
-  let correct=0;const respuestas=[];
-  qs.forEach((q,i)=>{
-    const cv=q.dataset.correct;
-    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
-    const sv=sel?sel.value:null;
-    const ok=sv===cv;
-    if(ok)correct++;
-    respuestas.push(sv||'—');
-    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
-    q.querySelectorAll('.eval-opt').forEach(opt=>{
-      const v=opt.querySelector('input').value;
-      if(v===cv)opt.classList.add('correct');
-      else if(v===sv&&!ok)opt.classList.add('wrong');
-    });
-    const num=q.querySelector('.eval-q-num');
-    num.classList.add(ok?'ok':'err');
-    q.classList.add(ok?'done-ok':'done-err');
-  });
-  const score=correct*2;
-  const fecha=new Date().toISOString();
-  const result={name:_name,grade:_grade,score,correct,total:qs.length,
-    date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};
-  const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));
-  fetch('/.netlify/functions/submit-eval',{
-    method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})
-  }).catch(()=>{});
-  document.getElementById('eval-submit-wrap').style.display='none';
-  showResult(result);
-}
-function showResult(r){
-  const pct=Math.round(r.score/20*100);
-  const [emoji,label,cls]=
-    r.score>=18?['🏆','Excelente','ok']:
-    r.score>=14?['⭐','Bueno','good']:
-    r.score>=10?['📈','En proceso','warn']:
-                ['📚','Necesita refuerzo','low'];
-  const el=document.getElementById('eval-result-wrap');
-  el.style.display='block';
-  el.innerHTML=`<div class="result-card ${cls}">
-    <div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div>
-    <div class="res-name">${r.name}</div>
-    <div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div>
-    <div class="res-score">${r.score}<sub> / 20</sub></div>
-    <div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div>
-    <div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div>
-    <div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div>
-  </div>
-  <div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;
-  const study=document.getElementById('study-content');
-  const cta=document.getElementById('exam-cta');
-  if(study) study.style.display='block';
-  if(cta) cta.style.display='none';
-}
-// DOMContentLoaded: resultado previo ahora se verifica por nombre en confirmarIdentidad()
-
-
-// ── Autocomplete: roster del salón (lista estable anual) ──────────────────
-(function(){
-  const gkEl=document.getElementById('eval-grade-key');
-  if(!gkEl) return;
-  const grade=gkEl.dataset.grade;
-  function fillDl(names){
-    const dl=document.getElementById('alumnos-gate-dl');
-    if(dl&&names.length) dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');
-  }
-  // Intentar roster primero; fallback a ranking del mes si no existe
-  fetch('/.netlify/functions/get-roster?grado='+grade)
-    .then(r=>r.ok?r.json():null)
-    .then(d=>{
-      if(d&&d.found&&d.alumnos&&d.alumnos.length){
-        fillDl(d.alumnos.map(a=>a.nombre));
-      } else {
-        const mes=new Date().toISOString().slice(0,7);
-        return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
-          .then(r=>r.ok?r.json():null)
-          .then(r=>{ if(r&&r.ranking) fillDl(r.ranking.map(s=>s.nombre)); });
-      }
-    }).catch(()=>{});
-})();
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-'+_session+'-'+_grade+'-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){document.getElementById('exam-who-name').textContent=_name;}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'04',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 04 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}else{const mes=new Date().toISOString().slice(0,7);return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes).then(r=>r.ok?r.json():null).then(r=>{if(r&&r.ranking)fillDl(r.ranking.map(s=>s.nombre));});}}).catch(()=>{});})();
 </script>
 
 </body>

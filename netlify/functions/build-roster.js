@@ -1,22 +1,26 @@
 /**
- * build-roster.js  →  ahora es la función de MIGRACIÓN Blobs → Supabase
+ * build-roster.js  — Migración Blobs → Supabase
  *
  * POST /.netlify/functions/build-roster
  * Body: { pw, grado? }
  *
- * Lee todos los blobs de evaluaciones y bonuses (Netlify Blobs),
- * clusteriza nombres con fuzzy matching, e inserta en Supabase:
- *   - alumnos (uno por persona por grado)
- *   - evaluaciones (mejor score por alumno por sesión)
- *   - bonuses
+ * Lee todos los blobs de evaluaciones (Netlify Blobs), clusteriza nombres
+ * con fuzzy matching, e inserta en Supabase en batch para ser rápido.
  *
- * Seguro para ejecutar varias veces: usa INSERT … ON CONFLICT DO NOTHING
- * para alumnos, y UPDATE si el score nuevo es mayor.
+ * Estrategia sin upsert de expresión:
+ *   1. Leer blobs en paralelo
+ *   2. Clusterizar en memoria
+ *   3. Insertar alumnos en batch (ignorar duplicados via ON CONFLICT DO NOTHING)
+ *   4. Re-leer alumnos para obtener IDs
+ *   5. Insertar evaluaciones en batch
+ *   6. Migrar bonuses
  */
 
 const { getStore }    = require("@netlify/blobs");
 const { supabase }    = require("./_supabase");
-const { normalize, titleCase, areSamePerson, bestDisplayName, clusterKeys } = require("./_nameUtils");
+const {
+  normalize, titleCase, areSamePerson, bestDisplayName, clusterKeys,
+} = require("./_nameUtils");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 const GRADES     = ["prim6", "sec2", "sec3", "sec4", "sec5"];
@@ -48,116 +52,125 @@ exports.handler = async (event) => {
     const bonusStore = makeStore("bonuses");
     const db         = supabase();
 
-    // ── Leer todos los blobs ──────────────────────────────────────────────────
-    const { blobs: evalBlobs }  = await evalStore.list({});
-    const { blobs: bonusBlobs } = await bonusStore.list({}).catch(() => ({ blobs: [] }));
+    // ── 1. Leer TODOS los blobs en paralelo ───────────────────────────────────
+    const [{ blobs: evalBlobs }, { blobs: bonusBlobs }] = await Promise.all([
+      evalStore.list({}),
+      bonusStore.list({}).catch(() => ({ blobs: [] })),
+    ]);
 
-    const allEvals = (await Promise.all(
-      (evalBlobs || []).map(({ key }) => evalStore.get(key, { type: "json" }).catch(() => null))
-    )).filter(Boolean);
+    const [allEvals, allBonuses] = await Promise.all([
+      Promise.all((evalBlobs  || []).map(({ key }) => evalStore.get(key,  { type: "json" }).catch(() => null))),
+      Promise.all((bonusBlobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
+    ]);
 
-    const allBonuses = (await Promise.all(
-      (bonusBlobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))
-    )).filter(Boolean);
+    const evals   = allEvals.filter(Boolean);
+    const bonuses = allBonuses.filter(Boolean);
 
     const results = {};
 
     for (const grado of gradesToBuild) {
-      const gradeEvals = allEvals.filter(d => d.grado === grado);
-      if (gradeEvals.length === 0) { results[grado] = { alumnos: 0, evals: 0 }; continue; }
+      const gradeEvals = evals.filter(d => d.grado === grado);
+      if (gradeEvals.length === 0) {
+        results[grado] = { alumnos: 0, evals: 0, msg: "Sin evaluaciones en blobs para este grado" };
+        continue;
+      }
 
-      // Clusterizar nombres (un cluster = un alumno real)
+      // ── 2. Clusterizar nombres ──────────────────────────────────────────────
       const nameMap = new Map();
       for (const ev of gradeEvals) {
         const key = normalize(ev.nombre);
         if (!nameMap.has(key)) nameMap.set(key, { displayNames: [], sessionScores: new Map() });
-        const s = nameMap.get(key);
-        const display = (ev.nombre || "").trim();
-        if (!s.displayNames.includes(display)) s.displayNames.push(display);
+        const s     = nameMap.get(key);
+        const disp  = (ev.nombre || "").trim();
+        if (!s.displayNames.includes(disp)) s.displayNames.push(disp);
         const sesId = String(ev.sesion || "??").padStart(2, "0");
-        const prev  = s.sessionScores.get(sesId);
         const score = Number(ev.score) || 0;
+        const prev  = s.sessionScores.get(sesId);
         if (!prev || score > prev.score) {
           s.sessionScores.set(sesId, { score, fecha: ev.fecha || new Date().toISOString() });
         }
       }
 
-      const allKeys  = [...nameMap.keys()];
-      const clusters = clusterKeys(allKeys);
+      const clusters = clusterKeys([...nameMap.keys()]);
 
-      let alumnosCount = 0, evalsCount = 0;
-
+      // ── 3. Preparar arrays para insert en batch ─────────────────────────────
+      // clusterData: [{nombre, evals: [{sesion, score, fecha}]}]
+      const clusterData = [];
       for (const [, groupKeys] of clusters) {
-        const allDisplayNames = [];
-        const mergedScores    = new Map();
-
+        const allNames = [];
+        const merged   = new Map();
         for (const k of groupKeys) {
           const s = nameMap.get(k);
-          allDisplayNames.push(...s.displayNames);
+          allNames.push(...s.displayNames);
           s.sessionScores.forEach((data, sesId) => {
-            const prev = mergedScores.get(sesId);
-            if (!prev || data.score > prev.score) mergedScores.set(sesId, data);
+            const prev = merged.get(sesId);
+            if (!prev || data.score > prev.score) merged.set(sesId, data);
           });
         }
+        clusterData.push({
+          nombre: titleCase(bestDisplayName(allNames)),
+          evals:  [...merged.entries()].map(([sesion, d]) => ({ sesion, score: d.score, fecha: d.fecha })),
+        });
+      }
 
-        const nombre = titleCase(bestDisplayName(allDisplayNames));
+      // ── 4. Insertar alumnos en batch (ignorar si ya existen) ───────────────
+      const alumnosPayload = clusterData.map(c => ({ nombre: c.nombre, grado }));
+      await db.from("alumnos").insert(alumnosPayload).then(() => null).catch(() => null);
+      // Nota: algunos pueden fallar por duplicado — no pasa nada, el siguiente SELECT los recoge
 
-        // Insertar alumno (ignorar si ya existe por unicidad nombre+grado)
-        const { data: alumnoRow, error: aErr } = await db
+      // Insertar uno a uno los que fallaron por conflicto
+      for (const c of clusterData) {
+        const { count } = await db
           .from("alumnos")
-          .upsert(
-            { nombre, grado },
-            { onConflict: "lower(nombre),grado", ignoreDuplicates: false }
-          )
-          .select("id")
-          .single();
-
-        // Si upsert falla (conflicto de índice funcional), buscar el existente
-        let alumnoId = alumnoRow?.id;
-        if (!alumnoId) {
-          const { data: found } = await db
-            .from("alumnos")
-            .select("id")
-            .eq("grado", grado)
-            .ilike("nombre", nombre)
-            .single();
-          alumnoId = found?.id;
-        }
-        if (!alumnoId) continue;
-        alumnosCount++;
-
-        // Insertar/actualizar evaluaciones
-        for (const [sesion, { score, fecha }] of mergedScores) {
-          const { data: existing } = await db
-            .from("evaluaciones")
-            .select("id, score")
-            .eq("alumno_id", alumnoId)
-            .eq("sesion", sesion)
-            .single();
-
-          if (!existing) {
-            await db.from("evaluaciones").insert({
-              alumno_id: alumnoId, grado, sesion, score, fecha, nombre_raw: nombre,
-            });
-            evalsCount++;
-          } else if (score > existing.score) {
-            await db.from("evaluaciones")
-              .update({ score, fecha })
-              .eq("id", existing.id);
-            evalsCount++;
-          }
+          .select("id", { count: "exact", head: true })
+          .eq("grado", grado)
+          .ilike("nombre", c.nombre);
+        if (!count) {
+          await db.from("alumnos").insert({ nombre: c.nombre, grado }).catch(() => null);
         }
       }
 
-      // ── Migrar bonuses del grado ──────────────────────────────────────────
-      const gradeBonuses = allBonuses.filter(b => b.grado === grado);
+      // ── 5. Leer alumnos creados para obtener IDs ───────────────────────────
+      const { data: alumnosDB } = await db
+        .from("alumnos")
+        .select("id, nombre")
+        .eq("grado", grado);
+
+      // Mapear nombre → id (fuzzy para cubrir diferencias menores de mayúsculas)
+      const idMap = new Map(); // nombre (lower) → id
+      for (const a of (alumnosDB || [])) idMap.set(a.nombre.toLowerCase(), a.id);
+
+      // ── 6. Insertar evaluaciones en batch ──────────────────────────────────
+      const evalsPayload = [];
+      for (const c of clusterData) {
+        const alumnoId = idMap.get(c.nombre.toLowerCase());
+        if (!alumnoId) continue;
+        for (const ev of c.evals) {
+          evalsPayload.push({
+            alumno_id:  alumnoId,
+            grado,
+            sesion:     ev.sesion,
+            score:      ev.score,
+            fecha:      ev.fecha,
+            nombre_raw: c.nombre,
+            total:      10,
+          });
+        }
+      }
+
+      // Batch insert evaluaciones. UNIQUE(alumno_id, sesion) → ignorar duplicados
+      // (en migración limpia no hay duplicados; si se re-ejecuta, conserva el dato existente)
+      if (evalsPayload.length > 0) {
+        await db.from("evaluaciones")
+          .upsert(evalsPayload, { onConflict: "alumno_id,sesion", ignoreDuplicates: true })
+          .catch(err => console.warn("evals upsert warning:", err.message));
+      }
+
+      // ── 7. Migrar bonuses ──────────────────────────────────────────────────
+      const gradeBonuses = bonuses.filter(b => b.grado === grado);
       for (const b of gradeBonuses) {
-        const normB   = normalize(b.nombre || "");
-        const { data: gradeAlumnos } = await db
-          .from("alumnos").select("id, nombre").eq("grado", grado);
-        const alumno = (gradeAlumnos || []).find(a =>
-          areSamePerson(normB, normalize(a.nombre))
-        );
+        const normB  = normalize(b.nombre || "");
+        const alumno = (alumnosDB || []).find(a => areSamePerson(normB, normalize(a.nombre)));
         if (!alumno) continue;
         await db.from("bonuses").insert({
           alumno_id: alumno.id,
@@ -166,15 +179,23 @@ exports.handler = async (event) => {
           razon:     b.razon || "",
           mes:       b.mes   || "",
           fecha:     b.fecha || new Date().toISOString(),
-        }).catch(() => {}); // ignorar duplicados
+        }).catch(() => null);
       }
 
-      results[grado] = { alumnos: alumnosCount, evals: evalsCount };
+      results[grado] = {
+        alumnos: clusterData.length,
+        evals:   evalsPayload.length,
+        bonuses: gradeBonuses.length,
+      };
     }
 
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, results }) };
+    return {
+      statusCode: 200,
+      headers: CORS,
+      body: JSON.stringify({ ok: true, results }),
+    };
   } catch (err) {
-    console.error("build-roster (migrate) error:", err.message);
+    console.error("build-roster error:", err.message, err.stack);
     return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };
   }
 };

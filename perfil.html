@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>📊 Mi Perfil · Asunción School</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --accent:#4f8ef7;
+  --radius:14px;
+}
+body{
+  background:#060d1f;
+  color:#e2e8f0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  min-height:100vh;
+  padding:0 0 3rem;
+}
+
+.site-header{
+  background:linear-gradient(135deg,#0d1a35,#1a2a50);
+  padding:1.2rem 1.2rem .9rem;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.site-header h1{font-size:1.3rem;font-weight:900;color:#f59e0b;margin-bottom:.2rem;}
+.site-header p{font-size:.82rem;color:#64748b;}
+.back-link{display:inline-block;margin:.6rem 0 0;font-size:.82rem;color:#64748b;text-decoration:none;}
+.back-link:hover{color:#f59e0b;}
+
+.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem;}
+
+/* Loading */
+.loading-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:4rem 1rem;gap:1rem;
+}
+.loading-wrap .spinner{font-size:2.5rem;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-wrap p{color:#94a3b8;font-size:.95rem;}
+
+/* Cards */
+.card{
+  background:#1e2d50;
+  border:1.5px solid rgba(255,255,255,.15);
+  border-radius:var(--radius);
+  padding:1.4rem;
+  margin-bottom:1rem;
+  box-shadow:0 2px 12px rgba(0,0,0,.3);
+}
+
+/* Profile header */
+.profile-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.2rem;}
+.profile-name{font-size:1.3rem;font-weight:900;color:#fff;line-height:1.2;}
+.profile-grade{font-size:.84rem;color:#94a3b8;margin-top:.25rem;}
+.rank-badge{
+  background:linear-gradient(135deg,#312e81,#1d4ed8);
+  border-radius:12px;padding:.6rem 1rem;text-align:center;flex-shrink:0;
+  min-width:72px;
+}
+.rank-num{font-size:1.5rem;font-weight:900;color:#f59e0b;line-height:1;}
+.rank-label{font-size:.62rem;color:#94a3b8;margin-top:.12rem;text-transform:uppercase;}
+.rank-of{font-size:.7rem;color:#94a3b8;margin-top:.1rem;}
+.rank-note{font-size:.65rem;color:#64748b;margin-top:.1rem;}
+
+/* Stats */
+.stats-row{display:flex;gap:.7rem;margin-top:1rem;}
+.stat-box{
+  flex:1;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:10px;padding:.75rem;text-align:center;
+}
+.stat-val{font-size:1.35rem;font-weight:900;}
+.stat-lbl{font-size:.68rem;color:#94a3b8;margin-top:.15rem;}
+
+/* Encourage */
+.encourage{
+  border-radius:10px;padding:.75rem 1rem;
+  font-size:.9rem;font-weight:700;margin-top:1rem;
+}
+.top3{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3);}
+.good{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.25);}
+.keep{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.25);}
+
+/* Section titles */
+.section-title{
+  font-size:.75rem;font-weight:800;color:#64748b;
+  text-transform:uppercase;letter-spacing:.06em;
+  margin:1.3rem 0 .6rem;
+}
+
+/* Table */
+.data-table{width:100%;border-collapse:collapse;font-size:.88rem;}
+.data-table th{
+  text-align:left;padding:.45rem .6rem;color:#64748b;
+  font-weight:600;font-size:.72rem;text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.data-table td{padding:.6rem .6rem;border-bottom:1px solid rgba(255,255,255,.05);}
+.data-table tr:last-child td{border:none;}
+.score-cell{font-weight:800;}
+.ok{color:#22c55e;} .mid{color:#f59e0b;} .fail{color:#f87171;}
+.muted{color:#475569;font-style:italic;}
+
+/* Score bar */
+.bar-wrap{display:flex;align-items:center;gap:.5rem;}
+.bar-bg{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;transition:width .4s;}
+
+/* Total pts */
+.total-box{
+  background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);
+  border-radius:14px;padding:1.2rem;text-align:center;margin-top:.5rem;
+}
+.total-val{font-size:2.2rem;font-weight:900;color:#fff;}
+.total-lbl{font-size:.8rem;color:rgba(255,255,255,.7);margin-top:.25rem;}
+
+/* No data */
+.no-data{color:#475569;font-size:.9rem;font-style:italic;padding:.5rem 0;}
+
+/* Error */
+.error-card{
+  text-align:center;padding:2.5rem 1.5rem;
+  background:#1e2d50;border:1.5px solid rgba(248,113,113,.3);
+  border-radius:var(--radius);margin-top:1rem;
+}
+.error-card .emoji{font-size:2.5rem;margin-bottom:.8rem;}
+.error-card h3{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:.6rem;}
+.error-card p{font-size:.88rem;color:#94a3b8;line-height:1.6;margin-bottom:.8rem;}
+.error-hint{
+  background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);
+  border-radius:10px;padding:.7rem 1rem;font-size:.82rem;color:#93c5fd;
+}
+
+/* Buttons */
+.btn-back{
+  display:block;width:100%;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);color:#e2e8f0;
+  border-radius:10px;padding:.65rem;font-size:.92rem;
+  font-weight:700;cursor:pointer;font-family:inherit;
+  margin-top:1rem;text-align:center;text-decoration:none;
+  transition:background .15s;
+}
+.btn-back:hover{background:rgba(255,255,255,.1);}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <h1>📊 Mi Perfil · Asunción School</h1>
+  <p>Computación 2026 · Prof. Estrella Vizcarra</p>
+  <a href="/progreso.html" class="back-link">← Buscar otro alumno</a>
+</div>
+
+<div class="container" id="main">
+  <div class="loading-wrap">
+    <div class="spinner">⏳</div>
+    <p>Cargando tu progreso…</p>
+  </div>
+</div>
+
+<script>
+const ACCENTS = {
+  prim6:'#22c55e', sec2:'#60a5fa', sec3:'#fb923c', sec4:'#c084fc', sec5:'#f87171'
+};
+const LABELS = {
+  prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
+  sec4:'4.° Secundaria', sec5:'5.° Secundaria'
+};
+const MONTHS = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  try{
+    const d = new Date(iso);
+    return d.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'});
+  }catch{return '—';}
+}
+function scoreColor(s){
+  const p = s/20;
+  return p>=.9?'#22c55e':p>=.6?'#f59e0b':'#f87171';
+}
+function scoreClass(s){
+  const p = s/20;
+  return p>=.9?'ok':p>=.6?'mid':'fail';
+}
+
+function showError(nombre, grado){
+  const el = document.getElementById('main');
+  el.innerHTML = `
+    <div class="error-card">
+      <div class="emoji">😕</div>
+      <h3>No encontramos tu registro</h3>
+      <p>
+        No hay evaluaciones para <strong style="color:#fff">${nombre}</strong>
+        en <strong style="color:#fff">${LABELS[grado]||grado}</strong>.
+        <br>Verifica que tu nombre y grado sean correctos.
+      </p>
+      <div class="error-hint">
+        💡 Si nunca completaste una guía de repaso con examen, aún no tienes registro.
+      </div>
+    </div>
+    <a href="/progreso.html" class="btn-back">← Buscar otro alumno</a>`;
+}
+
+function render(data, grado){
+  const accent = ACCENTS[grado] || '#4f8ef7';
+  const label  = LABELS[grado]  || grado;
+
+  // Historial de evaluaciones
+  const historial = (data.historial && data.historial.length > 0)
+    ? data.historial : [];
+
+  const sesionesGrado = data.sesionesGrado || [];
+  const todasSes = [...new Set([
+    ...sesionesGrado,
+    ...historial.map(h => h.sesion)
+  ])].sort();
+
+  const sesiones   = historial.length;
+  const scoreSum   = historial.reduce((a,h) => a+(h.score||0), 0);
+  const avgScore   = sesiones>0 ? Math.round(scoreSum/sesiones*10)/10 : 0;
+  const bonuses    = data.bonuses || [];
+  const bonusTotal = bonuses.reduce((a,b) => a+(Number(b.puntos)||0), 0);
+  const totalPts   = Math.round((scoreSum+bonusTotal)*10)/10;
+
+  const [yr, mo] = (data.mes||'').split('-');
+  const mesLabel = mo ? `${MONTHS[parseInt(mo)]} ${yr}` : data.mes;
+
+  // Rank badge
+  let rankHtml = '';
+  if(data.rank){
+    rankHtml = `
+      <div class="rank-badge">
+        <div class="rank-num" style="color:${accent}">#${data.rank}</div>
+        <div class="rank-label">Ranking</div>
+        <div class="rank-of">de ${data.totalStudents}</div>
+        <div class="rank-note">${mesLabel}</div>
+      </div>`;
+  } else {
+    rankHtml = `
+      <div class="rank-badge" style="opacity:.5">
+        <div class="rank-num" style="color:#64748b">—</div>
+        <div class="rank-label">Sin rank</div>
+        <div class="rank-note">${mesLabel}</div>
+      </div>`;
+  }
+
+  // Mensaje de ánimo
+  function encourage(rank, total){
+    if(!rank) return {c:'keep',m:'💪 ¡Sigue completando evaluaciones para aparecer en el ranking!'};
+    if(rank===1)  return {c:'top3',m:'🥇 ¡Primer lugar! ¡Increíble!'};
+    if(rank<=3)   return {c:'top3',m:'🔥 ¡Estás en el Top 3! ¡Sigue así!'};
+    if(rank<=Math.ceil(total/2)) return {c:'good',m:'👍 ¡Buen trabajo! Estás en la primera mitad.'};
+    return {c:'keep',m:'💪 ¡Cada evaluación suma puntos!'};
+  }
+  const enc = encourage(data.rank, data.totalStudents);
+
+  // Tabla de sesiones
+  const histMap = new Map(historial.map(h=>[h.sesion,h]));
+  let filas = '';
+  if(todasSes.length === 0){
+    filas = `<tr><td colspan="4" class="no-data">Sin evaluaciones disponibles aún.</td></tr>`;
+  } else {
+    filas = todasSes.map(ses => {
+      const h = histMap.get(ses);
+      if(!h) return `<tr>
+        <td><strong>S${parseInt(ses)}</strong></td>
+        <td class="muted">—</td>
+        <td class="muted">No evaluado</td>
+        <td>—</td>
+      </tr>`;
+      const sc = h.score||0;
+      const pct = Math.round(sc/20*100);
+      return `<tr>
+        <td><strong>S${parseInt(h.sesion)}</strong></td>
+        <td style="color:#94a3b8;font-size:.82rem">${fmtDate(h.fecha)}</td>
+        <td class="score-cell ${scoreClass(sc)}">
+          <div class="bar-wrap">
+            <span>${sc}<sub style="font-size:.65em;opacity:.7">/20</sub></span>
+            <div class="bar-bg">
+              <div class="bar-fill" style="width:${pct}%;background:${scoreColor(sc)}"></div>
+            </div>
+          </div>
+        </td>
+        <td>${sc>=10?'✅':'❌'}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Bonuses
+  let bonusHtml = '';
+  if(bonuses.length>0){
+    const rows = bonuses.map(b=>{
+      const cls = b.puntos>0?'ok':b.puntos<0?'fail':'';
+      const sign= b.puntos>0?'+':'';
+      return `<tr>
+        <td style="color:#94a3b8;font-size:.82rem">${fmtDate(b.fecha)}</td>
+        <td class="${cls} score-cell">${sign}${b.puntos} pts</td>
+        <td style="color:#94a3b8">${b.razon||'—'}</td>
+      </tr>`;
+    }).join('');
+    bonusHtml = `
+      <div class="section-title">⭐ Puntos extra de la profesora</div>
+      <div class="card">
+        <table class="data-table">
+          <thead><tr><th>Fecha</th><th>Puntos</th><th>Razón</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }
+
+  document.getElementById('main').innerHTML = `
+    <div class="card">
+      <div class="profile-top">
+        <div>
+          <div class="profile-name">${data.nombre}</div>
+          <div class="profile-grade">${label}</div>
+        </div>
+        ${rankHtml}
+      </div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-val" style="color:${accent}">${sesiones}</div>
+          <div class="stat-lbl">Evaluaciones</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:${accent}">${sesiones>0?avgScore+'/20':'—'}</div>
+          <div class="stat-lbl">Promedio</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" style="color:${bonusTotal>0?'#22c55e':bonusTotal<0?'#f87171':accent}">${bonusTotal>0?'+'+bonusTotal:(bonusTotal<0?bonusTotal:'—')}</div>
+          <div class="stat-lbl">Puntos extra</div>
+        </div>
+      </div>
+      <div class="encourage ${enc.c}">${enc.m}</div>
+    </div>
+
+    <div class="section-title">📝 Historial de sesiones</div>
+    <div class="card">
+      <table class="data-table">
+        <thead><tr><th>Sesión</th><th>Fecha</th><th>Nota</th><th></th></tr></thead>
+        <tbody>${filas}</tbody>
+      </table>
+    </div>
+
+    ${bonusHtml}
+
+    <div class="section-title">🏆 Puntos totales</div>
+    <div class="total-box">
+      <div class="total-val">${totalPts}</div>
+      <div class="total-lbl">suma de notas${bonusTotal!==0?' + puntos extra':''} · máx ${sesiones*20} pts (${sesiones} sesión${sesiones!==1?'es':''})</div>
+    </div>
+
+    <a href="/progreso.html" class="btn-back">← Buscar otro alumno</a>
+  `;
+
+  // Actualizar título de la pestaña
+  document.title = `📊 ${data.nombre} · Asunción School`;
+  // Actualizar color de acento en header
+  document.querySelector('.site-header h1').style.color = accent;
+}
+
+// ── Inicialización ──────────────────────────────────────────────────────────
+(async function(){
+  const sp    = new URLSearchParams(location.search);
+  const nombre= (sp.get('nombre')||'').trim();
+  const grado = (sp.get('grado') ||'').trim();
+
+  if(!nombre || !grado){
+    // Sin parámetros → redirigir al buscador
+    location.href = '/progreso.html';
+    return;
+  }
+
+  // Actualizar header back-link con el grado
+  document.querySelector('.back-link').href = `/progreso.html?grado=${encodeURIComponent(grado)}`;
+
+  try {
+    const ctrl = new AbortController();
+    const tId  = setTimeout(() => ctrl.abort(), 15000);
+    const res  = await fetch(
+      `/.netlify/functions/get-progress?nombre=${encodeURIComponent(nombre)}&grado=${encodeURIComponent(grado)}`,
+      { signal: ctrl.signal }
+    );
+    clearTimeout(tId);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+
+    if(!data.found){ showError(nombre, grado); return; }
+    render(data, grado);
+  } catch(e){
+    const el = document.getElementById('main');
+    el.innerHTML = `
+      <div class="error-card">
+        <div class="emoji">⚠️</div>
+        <h3>Error de conexión</h3>
+        <p style="color:#f87171">${e.message}</p>
+        <p>Intenta recargar la página.</p>
+      </div>
+      <a href="/progreso.html" class="btn-back">← Volver al buscador</a>`;
+  }
+})();
+</script>
+</body>
+</html>

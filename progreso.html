@@ -6,164 +6,101 @@
 <title>📊 Mi Progreso · Asunción School</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#060d1f;
-  --card:#0d1a35;
-  --border:rgba(255,255,255,.1);
-  --text:#e2e8f0;
-  --muted:#64748b;
-  --accent:#4f8ef7;
-  --fs-base:1rem;
-  --fs-sm:.875rem;
-  --radius:14px;
+body{
+  background:#060d1f;
+  color:#e2e8f0;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
 }
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;padding:0 0 3rem;}
 
-/* Header */
-.site-header{background:linear-gradient(135deg,#0d1a35,#1a2a50);padding:1.4rem 1.2rem 1rem;text-align:center;border-bottom:1px solid var(--border);}
+.site-header{
+  background:linear-gradient(135deg,#0d1a35,#1a2a50);
+  padding:1.4rem 1.2rem 1rem;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
 .site-header h1{font-size:1.4rem;font-weight:900;color:#f59e0b;margin-bottom:.25rem;}
-.site-header p{font-size:.85rem;color:var(--muted);}
-.back-link{display:inline-block;margin:.7rem 0 0;font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .15s;}
-.back-link:hover{color:var(--accent);}
+.site-header p{font-size:.85rem;color:#64748b;}
+.back-link{display:inline-block;margin:.7rem 0 0;font-size:.82rem;color:#64748b;text-decoration:none;}
+.back-link:hover{color:#f59e0b;}
 
-/* Main container */
-.container{max-width:640px;margin:0 auto;padding:1.5rem 1rem;}
+.container{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2rem 1rem;
+}
 
-/* Search card — fondo claro para alto contraste sobre el fondo oscuro del body */
 .search-card{
   background:#1e2d50;
-  border:2px solid rgba(255,255,255,.25);
-  border-radius:var(--radius);
-  padding:1.6rem 1.4rem;
-  box-shadow:0 4px 24px rgba(0,0,0,.4);
+  border:2px solid rgba(255,255,255,.2);
+  border-radius:16px;
+  padding:2rem 1.6rem;
+  width:100%;
+  max-width:480px;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
 }
-.search-card h2{font-size:1.15rem;font-weight:800;margin-bottom:.4rem;color:#ffffff;}
-.search-card>p{font-size:.88rem;color:#94a3b8;margin-bottom:1.3rem;line-height:1.6;}
-.form-group{margin-bottom:1rem;}
+.search-card h2{
+  font-size:1.2rem;font-weight:900;color:#fff;
+  margin-bottom:.35rem;
+}
+.search-card p{
+  font-size:.88rem;color:#94a3b8;
+  margin-bottom:1.5rem;line-height:1.6;
+}
+
+.form-group{margin-bottom:1.1rem;}
 .form-group label{
-  display:block;font-size:.82rem;font-weight:700;color:#cbd5e1;
-  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.45rem;
+  display:block;font-size:.8rem;font-weight:700;
+  color:#cbd5e1;text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:.45rem;
 }
-.form-group input,
-.form-group select{
+.form-group select,
+.form-group input{
   width:100%;
   background:#0f1e3a;
-  border:1.5px solid rgba(255,255,255,.3);
-  color:#ffffff;
-  padding:.65rem .85rem;
+  border:1.5px solid rgba(255,255,255,.25);
+  color:#fff;
+  padding:.7rem .9rem;
   border-radius:10px;
   font-size:1rem;
   font-family:inherit;
-  transition:border-color .15s;
+  transition:border-color .15s,box-shadow .15s;
   outline:none;
+  -webkit-appearance:none;
 }
-.form-group input::placeholder{color:#64748b;}
-.form-group input:focus,
-.form-group select:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.2);}
-.form-group select option{background:#0f1e3a;color:#fff;}
+.form-group input::placeholder{color:#475569;}
+.form-group select:focus,
+.form-group input:focus{
+  border-color:#60a5fa;
+  box-shadow:0 0 0 3px rgba(96,165,250,.2);
+}
+.form-group select option{background:#0f1e3a;}
+
 .search-btn{
   width:100%;
-  background:#4f8ef7;
+  background:linear-gradient(135deg,#4f8ef7,#3a7de0);
   color:#fff;
   border:none;
   border-radius:12px;
-  padding:.8rem;
+  padding:.85rem;
   font-size:1.05rem;
   font-weight:800;
   cursor:pointer;
   font-family:inherit;
-  margin-top:.5rem;
-  transition:background .15s,transform .1s;
+  margin-top:.4rem;
+  transition:opacity .15s,transform .1s;
   letter-spacing:.02em;
 }
-.search-btn:hover{background:#3a7de0;transform:translateY(-1px);}
+.search-btn:hover{opacity:.9;transform:translateY(-1px);}
 .search-btn:active{transform:translateY(0);}
-.search-error{font-size:.85rem;color:#f87171;margin-top:.6rem;min-height:1.2em;font-weight:600;}
-
-/* Profile */
-#perfil{display:none;}
-.profile-card{background:#1e2d50;border:1.5px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.3);}
-.profile-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
-.profile-name{font-size:1.2rem;font-weight:900;color:#ffffff;line-height:1.2;}
-.profile-grade{font-size:.82rem;color:#94a3b8;margin-top:.2rem;}
-.rank-badge{
-  background:linear-gradient(135deg,#312e81,#1d4ed8);
-  border-radius:12px;
-  padding:.55rem .9rem;
-  text-align:center;
-  flex-shrink:0;
+.search-error{
+  font-size:.85rem;color:#f87171;
+  margin-top:.6rem;min-height:1.2em;font-weight:600;
 }
-.rank-num{font-size:1.4rem;font-weight:900;color:#f59e0b;line-height:1;}
-.rank-label{font-size:.65rem;color:#94a3b8;margin-top:.15rem;}
-.rank-of{font-size:.72rem;color:#94a3b8;margin-top:.1rem;}
-.rank-note{font-size:.68rem;color:#64748b;margin-top:.15rem;}
-
-.encourage-msg{
-  border-radius:10px;
-  padding:.75rem 1rem;
-  font-size:.92rem;
-  font-weight:700;
-  margin-top:.9rem;
-}
-.encourage-msg.top3{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3);}
-.encourage-msg.good{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.25);}
-.encourage-msg.keep{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.25);}
-
-.stats-row{display:flex;gap:.7rem;margin-top:1rem;}
-.stat-box{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:.7rem;text-align:center;}
-.stat-val{font-size:1.3rem;font-weight:900;color:#60a5fa;}
-.stat-lbl{font-size:.68rem;color:#94a3b8;margin-top:.15rem;}
-
-/* Section */
-.section-title{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:1.2rem 0 .6rem;}
-.data-table{width:100%;border-collapse:collapse;font-size:.85rem;}
-.data-table th{text-align:left;padding:.45rem .6rem;color:var(--muted);font-weight:600;font-size:.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);}
-.data-table td{padding:.55rem .6rem;border-bottom:1px solid rgba(255,255,255,.04);}
-.data-table tr:last-child td{border:none;}
-.data-table .score-cell{font-weight:800;}
-.score-ok{color:#22c55e;}
-.score-mid{color:#f59e0b;}
-.score-fail{color:#f87171;}
-.status-ok{color:#22c55e;}
-.status-fail{color:#f87171;}
-
-.bonus-row-pos{color:#22c55e;}
-.bonus-row-neg{color:#f87171;}
-
-.total-pts-box{
-  background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);
-  border-radius:12px;
-  padding:1rem 1.2rem;
-  text-align:center;
-  margin-top:.5rem;
-}
-.total-pts-val{font-size:2rem;font-weight:900;color:#fff;}
-.total-pts-lbl{font-size:.78rem;color:rgba(255,255,255,.7);margin-top:.2rem;}
-
-.no-data{color:var(--muted);font-size:.88rem;font-style:italic;padding:.5rem 0;}
-
-.btn-back-search{
-  width:100%;
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--border);
-  color:var(--text);
-  border-radius:10px;
-  padding:.6rem;
-  font-size:.9rem;
-  font-weight:700;
-  cursor:pointer;
-  font-family:inherit;
-  margin-top:1rem;
-  transition:background .15s;
-}
-.btn-back-search:hover{background:rgba(255,255,255,.1);}
-
-.loading-msg{text-align:center;color:var(--muted);padding:2rem;font-size:.92rem;}
-
-/* Score bar */
-.score-bar-wrap{display:flex;align-items:center;gap:.5rem;}
-.score-bar-bg{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;}
-.score-bar-fill{height:100%;border-radius:3px;transition:width .4s;}
 </style>
 </head>
 <body>
@@ -175,391 +112,119 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </div>
 
 <div class="container">
+  <div class="search-card">
+    <h2>Busca tu progreso</h2>
+    <p>Elige tu grado, escribe tu nombre y ve tus notas de todas las sesiones.</p>
 
-  <!-- BUSCADOR -->
-  <div id="buscador">
-    <div class="search-card">
-      <h2>📊 Ver mi progreso</h2>
-      <p style="font-size:.88rem;color:#94a3b8;margin-bottom:1.2rem;line-height:1.6;">
-        Elige tu grado y selecciona tu nombre para ver tus notas.
-      </p>
-      <datalist id="alumnos-dl"></datalist>
-      <div class="form-group">
-        <label for="sel-grado">1. Selecciona tu grado</label>
-        <select id="sel-grado" onchange="updateAccent(); loadAlumnos(); document.getElementById('inp-nombre').value=''; document.getElementById('search-error').textContent='';">
-          <option value="prim6">6.° Primaria</option>
-          <option value="sec2">2.° Secundaria</option>
-          <option value="sec3">3.° Secundaria</option>
-          <option value="sec4">4.° Secundaria</option>
-          <option value="sec5">5.° Secundaria</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="inp-nombre">2. Escribe o selecciona tu nombre</label>
-        <input id="inp-nombre" type="text" list="alumnos-dl"
-          placeholder="Ej: María García"
-          autocomplete="off" style="width:100%"
-          oninput="onNombreInput()"
-          onkeydown="if(event.key==='Enter'){event.preventDefault();buscar();}">
-      </div>
-      <button class="search-btn" id="buscar-btn" onclick="buscar()">🔍 Ver mis notas</button>
-      <div class="search-error" id="search-error"></div>
+    <datalist id="alumnos-dl"></datalist>
+
+    <div class="form-group">
+      <label for="sel-grado">1. Tu grado</label>
+      <select id="sel-grado" onchange="onGradoChange()">
+        <option value="prim6">6.° Primaria</option>
+        <option value="sec2">2.° Secundaria</option>
+        <option value="sec3">3.° Secundaria</option>
+        <option value="sec4">4.° Secundaria</option>
+        <option value="sec5">5.° Secundaria</option>
+      </select>
     </div>
-  </div>
 
-  <!-- PERFIL -->
-  <div id="perfil">
-    <div id="perfil-content"></div>
-    <button class="btn-back-search" onclick="volverBuscador()">🔍 Buscar otro alumno</button>
-  </div>
+    <div class="form-group">
+      <label for="inp-nombre">2. Tu nombre completo</label>
+      <input id="inp-nombre" type="text" list="alumnos-dl"
+        placeholder="Escribe o selecciona tu nombre…"
+        autocomplete="off"
+        oninput="onNombreInput()"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();ir();}">
+    </div>
 
+    <button class="search-btn" onclick="ir()">🔍 Ver mis notas</button>
+    <div class="search-error" id="search-error"></div>
+  </div>
 </div>
 
 <script>
 const GRADE_ACCENTS = {
-  prim6: '#22c55e',
-  sec2:  '#60a5fa',
-  sec3:  '#fb923c',
-  sec4:  '#c084fc',
-  sec5:  '#f87171',
+  prim6:'#22c55e', sec2:'#60a5fa', sec3:'#fb923c', sec4:'#c084fc', sec5:'#f87171'
 };
 
-const GRADE_LABELS = {
-  prim6: '6.° Primaria',
-  sec2:  '2.° Secundaria',
-  sec3:  '3.° Secundaria',
-  sec4:  '4.° Secundaria',
-  sec5:  '5.° Secundaria',
-};
+let _nombres = [];
+let _timer   = null;
 
-const MONTH_NAMES = ['','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-
-let _alumnoNames = [];
-let _buscarTimer  = null;
-
-// Auto-busca cuando el valor escrito coincide exactamente con uno del listado
-function onNombreInput(){
-  const val = (document.getElementById('inp-nombre').value || '').trim();
-  clearTimeout(_buscarTimer);
-  if(_alumnoNames.map(n=>n.toLowerCase()).includes(val.toLowerCase()) && val.split(/\s+/).length >= 2){
-    // Pequeño delay para que el navegador termine de rellenar el campo
-    _buscarTimer = setTimeout(() => buscar(), 120);
-  }
+function onGradoChange(){
+  document.getElementById('inp-nombre').value = '';
+  document.getElementById('search-error').textContent = '';
+  cargarNombres();
+  const grado = document.getElementById('sel-grado').value;
+  document.querySelector('.search-btn').style.background =
+    `linear-gradient(135deg,${GRADE_ACCENTS[grado]},${GRADE_ACCENTS[grado]}cc)`;
 }
 
-function updateAccent(){
+async function cargarNombres(){
   const grado = document.getElementById('sel-grado').value;
-  document.querySelector('.search-btn').style.background = GRADE_ACCENTS[grado] || '#4f8ef7';
-}
-
-async function loadAlumnos(){
-  const grado = document.getElementById('sel-grado').value;
+  _nombres = [];
   try {
-    // Primero intenta el roster anual estable
     const r = await fetch(`/.netlify/functions/get-roster?grado=${grado}`);
     if(r.ok){
       const d = await r.json();
-      if(d.found && d.alumnos && d.alumnos.length){
-        _alumnoNames = d.alumnos.map(a => a.nombre);
-        rebuildDatalist();
+      if(d.alumnos && d.alumnos.length){
+        _nombres = d.alumnos.map(a => a.nombre);
+        actualizarDatalist();
         return;
       }
     }
-    // Fallback: ranking del mes actual
-    const mes = new Date().toISOString().slice(0, 7);
+    // Fallback: ranking
+    const mes = new Date().toISOString().slice(0,7);
     const r2 = await fetch(`/.netlify/functions/get-ranking?grado=${grado}&mes=${mes}`);
     if(r2.ok){
       const d2 = await r2.json();
-      _alumnoNames = (d2.ranking || []).map(s => s.nombre);
-      rebuildDatalist();
+      _nombres = (d2.ranking||[]).map(s => s.nombre);
+      actualizarDatalist();
     }
-  } catch(e) { /* silencioso */ }
+  } catch(e){ /* silencioso */ }
 }
 
-function rebuildDatalist(){
+function actualizarDatalist(){
   const dl = document.getElementById('alumnos-dl');
-  if(!dl) return;
-  dl.innerHTML = _alumnoNames.map(n => `<option value="${n}">`).join('');
+  if(dl) dl.innerHTML = _nombres.map(n => `<option value="${n}">`).join('');
 }
 
-function volverBuscador(){
-  document.getElementById('perfil').style.display = 'none';
-  document.getElementById('buscador').style.display = '';
+function onNombreInput(){
+  const val = (document.getElementById('inp-nombre').value || '').trim();
+  clearTimeout(_timer);
+  const match = _nombres.find(n => n.toLowerCase() === val.toLowerCase());
+  if(match && val.split(/\s+/).filter(Boolean).length >= 2){
+    _timer = setTimeout(() => ir(), 150);
+  }
 }
 
-async function buscar(){
-  const inp = document.getElementById('inp-nombre');
-  const nombreCompleto = (inp.value || '').trim();
-  const grado = document.getElementById('sel-grado').value;
-  const errEl = document.getElementById('search-error');
-
-  if(nombreCompleto.split(/\s+/).filter(s=>s).length < 2){
+function ir(){
+  const nombre = (document.getElementById('inp-nombre').value || '').trim();
+  const grado  = document.getElementById('sel-grado').value;
+  const errEl  = document.getElementById('search-error');
+  if(nombre.split(/\s+/).filter(Boolean).length < 2){
     errEl.textContent = '⚠️ Escribe tu nombre y apellido completo.';
-    inp.focus();
     return;
   }
   errEl.textContent = '';
-
-  document.getElementById('buscador').style.display = 'none';
-  document.getElementById('perfil').style.display = '';
-  document.getElementById('perfil-content').innerHTML = `
-    <div style="text-align:center;padding:3rem 1rem;">
-      <div style="font-size:2rem;margin-bottom:.8rem;">⏳</div>
-      <div style="color:#e2e8f0;font-size:1rem;font-weight:700;">Buscando ${nombreCompleto}…</div>
-      <div style="color:#64748b;font-size:.82rem;margin-top:.4rem;">Puede tomar unos segundos</div>
-    </div>`;
-
-  try {
-    const url = `/.netlify/functions/get-progress?nombre=${encodeURIComponent(nombreCompleto)}&grado=${encodeURIComponent(grado)}`;
-    const ctrl = new AbortController();
-    const tId  = setTimeout(() => ctrl.abort(), 15000); // 15s timeout
-    const res  = await fetch(url, { signal: ctrl.signal });
-    clearTimeout(tId);
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-
-    if(!data.found){
-      document.getElementById('perfil-content').innerHTML = `
-        <div class="profile-card" style="text-align:center;padding:2rem 1.4rem;">
-          <div style="font-size:2.5rem;margin-bottom:.8rem;">😕</div>
-          <div style="font-weight:800;font-size:1.05rem;margin-bottom:.6rem;">No encontramos tu registro</div>
-          <div style="color:#94a3b8;font-size:.88rem;line-height:1.6;margin-bottom:1rem;">
-            Asegúrate de escribir tu <strong style="color:#e2e8f0">nombre y apellido completo</strong>
-            tal como lo registraste en el examen, y de seleccionar el <strong style="color:#e2e8f0">grado correcto</strong>.
-          </div>
-          <div style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:.75rem 1rem;font-size:.82rem;color:#93c5fd;">
-            💡 Si nunca completaste una evaluación de repaso, aún no tienes registro.
-          </div>
-        </div>`;
-      return;
-    }
-
-    renderPerfil(data, grado);
-  } catch(e){
-    document.getElementById('perfil-content').innerHTML = `
-      <div class="profile-card" style="text-align:center;color:#f87171;">
-        ⚠️ Error al conectar. Intenta de nuevo más tarde.<br>
-        <small style="color:#64748b">${e.message}</small>
-      </div>`;
-  }
+  // Navegar a la página de perfil individual
+  location.href = `/perfil.html?nombre=${encodeURIComponent(nombre)}&grado=${encodeURIComponent(grado)}`;
 }
 
-function fmtDate(iso){
-  if(!iso) return '—';
-  try{
-    const d = new Date(iso);
-    return d.toLocaleDateString('es-PE',{day:'2-digit',month:'short',year:'numeric'});
-  } catch { return iso; }
-}
+// Inicializar
+onGradoChange();
 
-function scoreColor(score, max){
-  const pct = score / max;
-  if(pct >= 0.9) return '#22c55e';
-  if(pct >= 0.6) return '#f59e0b';
-  return '#f87171';
-}
-
-function scoreClass(score, max){
-  const pct = score / max;
-  if(pct >= 0.9) return 'score-ok';
-  if(pct >= 0.6) return 'score-mid';
-  return 'score-fail';
-}
-
-function getEncourageMsg(rank, totalStudents){
-  if(!rank) return {cls:'keep', msg:'💪 ¡Sigue completando evaluaciones para aparecer en el ranking!'};
-  if(rank === 1) return {cls:'top3', msg:'🥇 ¡Primer lugar! ¡Increíble!'};
-  if(rank <= 3) return {cls:'top3', msg:'🔥 ¡Estás en el Top 3! ¡Sigue así!'};
-  if(rank <= Math.ceil(totalStudents / 2)) return {cls:'good', msg:'👍 ¡Buen trabajo! Estás en la primera mitad del ranking.'};
-  return {cls:'keep', msg:'💪 ¡Cada evaluación suma puntos! Tú puedes.'};
-}
-
-function renderPerfil(data, grado){
-  const accent     = GRADE_ACCENTS[grado] || '#4f8ef7';
-  const gradeLabel = GRADE_LABELS[grado]  || grado;
-
-  // Usar historial deduplicado (un entry por sesión, score más alto)
-  // Si el backend aún no devuelve historial (roster no construido), hacer fallback a evals
-  const historial = data.historial && data.historial.length > 0
-    ? data.historial
-    : (() => {
-        // Deduplicar evals por sesión en el cliente
-        const sesMap = new Map();
-        for(const ev of (data.evals || [])){
-          const id = ev.sesion || String(ev.ts);
-          if(!sesMap.has(id) || ev.score > sesMap.get(id).score) sesMap.set(id, ev);
-        }
-        return [...sesMap.values()].sort((a,b)=>(a.sesion||'').localeCompare(b.sesion||''));
-      })();
-
-  const sesiones   = historial.length;
-  const scoreSum   = historial.reduce((a,h) => a + (h.score||0), 0);
-  const avgScore   = sesiones > 0 ? Math.round((scoreSum / sesiones) * 10) / 10 : 0;
-  const bonuses    = data.bonuses || [];
-  const bonusTotal = bonuses.reduce((a,b) => a + (Number(b.puntos)||0), 0);
-  const totalPts   = Math.round((scoreSum + bonusTotal) * 10) / 10;
-
-  // Mes del ranking (puede ser null si no hay actividad este mes)
-  const [year, month] = (data.mes||'').split('-');
-  const mesLabel = month ? `${MONTH_NAMES[parseInt(month)]} ${year}` : data.mes;
-
-  // Rank badge
-  let rankHtml = '';
-  if(data.rank){
-    rankHtml = `
-    <div class="rank-badge">
-      <div class="rank-num" style="color:${accent}">#${data.rank}</div>
-      <div class="rank-label">Ranking</div>
-      <div class="rank-of">de ${data.totalStudents}</div>
-      <div class="rank-note">${mesLabel}</div>
-    </div>`;
-  } else {
-    rankHtml = `
-    <div class="rank-badge" style="opacity:.55">
-      <div class="rank-num" style="color:#64748b">—</div>
-      <div class="rank-label">Sin rank</div>
-      <div class="rank-note">${mesLabel}</div>
-    </div>`;
-  }
-
-  const enc = getEncourageMsg(data.rank, data.totalStudents);
-
-  // Historial de evaluaciones — mostrar TODAS las sesiones del grado
-  const sesionesGrado = data.sesionesGrado || [];
-  // Merge: sesiones del grado + sesiones del alumno (por si hay extra)
-  const todasSesiones = [...new Set([
-    ...sesionesGrado,
-    ...historial.map(h => h.sesion)
-  ])].sort();
-
-  let evalsHtml = '';
-  if(todasSesiones.length === 0){
-    evalsHtml = '<div class="no-data">Aún no hay evaluaciones disponibles para este grado.</div>';
-  } else {
-    const histMap = new Map(historial.map(h => [h.sesion, h]));
-    const rows = todasSesiones.map(ses => {
-      const h = histMap.get(ses);
-      if(!h){
-        // Sesión no rendida
-        return `<tr>
-          <td>Sesión ${parseInt(ses||0,10)}</td>
-          <td style="color:#64748b">—</td>
-          <td style="color:#64748b;font-style:italic">No evaluado</td>
-          <td>—</td>
-        </tr>`;
-      }
-      const score = h.score || 0;
-      const sClass = scoreClass(score, 20);
-      const status = score >= 10 ? '✅' : '❌';
-      const statusCls = score >= 10 ? 'status-ok' : 'status-fail';
-      const barPct   = Math.round(score / 20 * 100);
-      const barColor = scoreColor(score, 20);
-      return `<tr>
-        <td>Sesión ${parseInt(h.sesion||0,10)}</td>
-        <td>${fmtDate(h.fecha)}</td>
-        <td class="score-cell ${sClass}">
-          <div class="score-bar-wrap">
-            <span>${score}<sub>/20</sub></span>
-            <div class="score-bar-bg"><div class="score-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
-          </div>
-        </td>
-        <td class="${statusCls}">${status}</td>
-      </tr>`;
-    }).join('');
-    evalsHtml = `<table class="data-table">
-      <thead><tr><th>Sesión</th><th>Fecha</th><th>Nota</th><th></th></tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
-  }
-
-  // Historial de bonus
-  let bonusHtml = '';
-  if(bonuses.length > 0){
-    const rows = bonuses.map(b => {
-      const cls  = b.puntos > 0 ? 'bonus-row-pos' : 'bonus-row-neg';
-      const sign = b.puntos > 0 ? '+' : '';
-      return `<tr>
-        <td>${fmtDate(b.fecha)}</td>
-        <td class="${cls}">${sign}${b.puntos} pts</td>
-        <td>${b.razon || '—'}</td>
-      </tr>`;
-    }).join('');
-    bonusHtml = `
-      <div class="section-title">⭐ Puntos extra de la profesora</div>
-      <div class="profile-card">
-        <table class="data-table">
-          <thead><tr><th>Fecha</th><th>Puntos</th><th>Razón</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-  }
-
-  document.getElementById('perfil-content').innerHTML = `
-    <div class="profile-card">
-      <div class="profile-header">
-        <div>
-          <div class="profile-name">${data.nombre}</div>
-          <div class="profile-grade">${gradeLabel}</div>
-        </div>
-        ${rankHtml}
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-val" style="color:${accent}">${sesiones}</div>
-          <div class="stat-lbl">Evaluaciones</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" style="color:${accent}">${sesiones > 0 ? avgScore+'/20' : '—'}</div>
-          <div class="stat-lbl">Promedio</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" style="color:${bonusTotal>0?'#22c55e':bonusTotal<0?'#f87171':accent}">${bonusTotal > 0 ? '+'+bonusTotal : (bonusTotal < 0 ? bonusTotal : '—')}</div>
-          <div class="stat-lbl">Puntos extra</div>
-        </div>
-      </div>
-
-      <div class="encourage-msg ${enc.cls}">${enc.msg}</div>
-    </div>
-
-    <div class="section-title">📝 Evaluaciones por sesión</div>
-    <div class="profile-card">${evalsHtml}</div>
-
-    ${bonusHtml}
-
-    <div class="section-title">🏆 Puntos totales</div>
-    <div class="total-pts-box">
-      <div class="total-pts-val">${totalPts}</div>
-      <div class="total-pts-lbl">suma de notas${bonusTotal !== 0 ? ' + puntos extra' : ''} · máx ${sesiones * 20} pts con ${sesiones} sesión${sesiones !== 1 ? 'es' : ''}</div>
-    </div>
-  `;
-}
-
-// Capturar errores JS globales y mostrarlos en pantalla (diagnóstico)
-window.onerror = function(msg, src, line, col, err){
-  const el = document.getElementById('perfil-content');
-  if(el && el.innerHTML.includes('Buscando')){
-    el.innerHTML = `<div class="profile-card" style="color:#f87171;padding:1.5rem;text-align:center;">
-      ⚠️ Error inesperado: ${msg}<br>
-      <small style="color:#64748b">Línea ${line} · Recarga la página e intenta de nuevo.</small>
-    </div>`;
-  }
-};
-
-// Auto-fill desde querystring (e.g. /progreso.html?nombre=Ana&grado=sec2)
+// Auto-fill desde querystring
 (function(){
   const sp = new URLSearchParams(location.search);
+  const qGrado = sp.get('grado');
   const qNombre = sp.get('nombre');
-  const qGrado  = sp.get('grado');
-  if(qNombre) document.getElementById('inp-nombre').value = qNombre.trim();
   if(qGrado && document.querySelector(`#sel-grado option[value="${qGrado}"]`)){
     document.getElementById('sel-grado').value = qGrado;
   }
-  updateAccent();
-  loadAlumnos();
-  if(qNombre && qGrado) buscar();
+  if(qNombre) document.getElementById('inp-nombre').value = qNombre;
+  onGradoChange();
 })();
 </script>
-
 </body>
 </html>

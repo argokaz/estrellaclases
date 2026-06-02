@@ -166,7 +166,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <!-- BUSCADOR -->
   <div id="buscador">
     <div class="search-card">
-      <h2>🔍 Buscar mi progreso</h2>
+      <h2>📊 Ver mi progreso</h2>
+      <p style="font-size:.85rem;color:#64748b;margin-bottom:1.1rem;line-height:1.5;">
+        Selecciona tu grado, escribe tu nombre completo y ve tu historial de notas.
+      </p>
       <datalist id="alumnos-dl"></datalist>
       <div class="form-group">
         <label for="sel-grado">Grado</label>
@@ -284,10 +287,16 @@ async function buscar(){
 
     if(!data.found){
       document.getElementById('perfil-content').innerHTML = `
-        <div class="profile-card" style="text-align:center;">
-          <div style="font-size:2rem;margin-bottom:.7rem;">😕</div>
-          <div style="font-weight:700;margin-bottom:.4rem;">No encontramos tu registro</div>
-          <div style="color:#64748b;font-size:.88rem;">Verifica que tu nombre y grado sean correctos, o que hayas completado al menos una evaluación.</div>
+        <div class="profile-card" style="text-align:center;padding:2rem 1.4rem;">
+          <div style="font-size:2.5rem;margin-bottom:.8rem;">😕</div>
+          <div style="font-weight:800;font-size:1.05rem;margin-bottom:.6rem;">No encontramos tu registro</div>
+          <div style="color:#94a3b8;font-size:.88rem;line-height:1.6;margin-bottom:1rem;">
+            Asegúrate de escribir tu <strong style="color:#e2e8f0">nombre y apellido completo</strong>
+            tal como lo registraste en el examen, y de seleccionar el <strong style="color:#e2e8f0">grado correcto</strong>.
+          </div>
+          <div style="background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);border-radius:10px;padding:.75rem 1rem;font-size:.82rem;color:#93c5fd;">
+            💡 Si nunca completaste una evaluación de repaso, aún no tienes registro.
+          </div>
         </div>`;
       return;
     }
@@ -382,12 +391,30 @@ function renderPerfil(data, grado){
 
   const enc = getEncourageMsg(data.rank, data.totalStudents);
 
-  // Historial de evaluaciones (tabla)
+  // Historial de evaluaciones — mostrar TODAS las sesiones del grado
+  const sesionesGrado = data.sesionesGrado || [];
+  // Merge: sesiones del grado + sesiones del alumno (por si hay extra)
+  const todasSesiones = [...new Set([
+    ...sesionesGrado,
+    ...historial.map(h => h.sesion)
+  ])].sort();
+
   let evalsHtml = '';
-  if(historial.length === 0){
-    evalsHtml = '<div class="no-data">Sin evaluaciones registradas.</div>';
+  if(todasSesiones.length === 0){
+    evalsHtml = '<div class="no-data">Aún no hay evaluaciones disponibles para este grado.</div>';
   } else {
-    const rows = historial.map(h => {
+    const histMap = new Map(historial.map(h => [h.sesion, h]));
+    const rows = todasSesiones.map(ses => {
+      const h = histMap.get(ses);
+      if(!h){
+        // Sesión no rendida
+        return `<tr>
+          <td>Sesión ${parseInt(ses||0,10)}</td>
+          <td style="color:#64748b">—</td>
+          <td style="color:#64748b;font-style:italic">No evaluado</td>
+          <td>—</td>
+        </tr>`;
+      }
       const score = h.score || 0;
       const sClass = scoreClass(score, 20);
       const status = score >= 10 ? '✅' : '❌';

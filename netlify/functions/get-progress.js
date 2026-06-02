@@ -54,18 +54,26 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers: CORS, body: JSON.stringify({ found: false }) };
     }
 
-    // ── 2. Historial completo del alumno (todas las sesiones) ─────────────────
-    const { data: evals } = await db
-      .from("evaluaciones")
-      .select("sesion, score, correctas, total, fecha")
-      .eq("alumno_id", alumno.id)
-      .order("sesion");
+    // ── 2. Historial completo del alumno + todas las sesiones del grado ────────
+    const [{ data: evals }, { data: allSesiones }] = await Promise.all([
+      db.from("evaluaciones")
+        .select("sesion, score, correctas, total, fecha")
+        .eq("alumno_id", alumno.id)
+        .order("sesion"),
+      // Todas las sesiones que EXISTEN para este grado (cualquier alumno)
+      db.from("evaluaciones")
+        .select("sesion")
+        .eq("grado", grado),
+    ]);
 
-    const historial  = (evals || []).map(e => ({
+    const historial = (evals || []).map(e => ({
       sesion: e.sesion,
       score:  e.score,
       fecha:  e.fecha,
     }));
+
+    // Lista ordenada de sesiones únicas disponibles para el grado
+    const sesionesGrado = [...new Set((allSesiones || []).map(e => e.sesion))].sort();
     const sesiones   = historial.length;
     const scoreSum   = historial.reduce((s, h) => s + h.score, 0);
     const avg        = sesiones > 0 ? Math.round(scoreSum / sesiones * 10) / 10 : 0;
@@ -109,18 +117,19 @@ exports.handler = async (event) => {
       headers: CORS,
       body: JSON.stringify({
         found: true,
-        nombre:       alumno.nombre,
+        nombre:        alumno.nombre,
         grado,
         historial,
+        sesionesGrado, // todas las sesiones con eval en el grado
         sesiones,
         avg,
         scoreSum,
         bonusTotal,
-        total:        scoreSum + bonusTotal,
-        bonuses:      bonuses || [],
+        total:         scoreSum + bonusTotal,
+        bonuses:       bonuses || [],
         rank,
         totalStudents,
-        mes:          currentMes,
+        mes:           currentMes,
       }),
     };
   } catch (err) {

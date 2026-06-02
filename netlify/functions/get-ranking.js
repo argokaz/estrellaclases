@@ -6,6 +6,9 @@
 
 const { supabase } = require("./_supabase");
 
+// Nombres excluidos del ranking (profesora, etc.)
+const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
+
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -65,8 +68,12 @@ exports.handler = async (event) => {
       .eq("mes", targetMes);
     if (bErr) throw bErr;
 
-    // Agregar por alumno en JS
-    const alumnoMap = new Map(alumnos.map(a => [a.id, { nombre: a.nombre, evals: [], bonus: 0 }]));
+    // Agregar por alumno en JS (excluir nombres de profesora)
+    const alumnoMap = new Map(
+      alumnos
+        .filter(a => !EXCLUDED_NAMES.has(a.nombre.toLowerCase()))
+        .map(a => [a.id, { nombre: a.nombre, evals: [], bonus: 0 }])
+    );
 
     for (const ev of evals  || []) alumnoMap.get(ev.alumno_id)?.evals?.push(ev.score);
     for (const b  of bonuses || []) {

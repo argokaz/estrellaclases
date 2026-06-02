@@ -705,6 +705,8 @@ button{font-family:inherit;cursor:pointer;}
 .hist-chip{display:inline-block;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:#93c5fd;border-radius:5px;padding:.1rem .45rem;font-size:.7rem;font-weight:700;white-space:nowrap;cursor:default;}
 .roster-del{background:none;border:none;color:#64748b;cursor:pointer;font-size:1rem;padding:.2rem .3rem;border-radius:5px;flex-shrink:0;}
 .roster-del:hover{color:#f87171;background:rgba(248,113,113,.1);}
+.roster-perfil-btn{background:none;border:none;font-size:.95rem;cursor:pointer;padding:.2rem .3rem;border-radius:5px;flex-shrink:0;text-decoration:none;opacity:.5;transition:opacity .15s;}
+.roster-perfil-btn:hover{opacity:1;}
 .roster-footer{border-top:1px solid rgba(255,255,255,.08);padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;flex-shrink:0;}
 .roster-merge-btn{background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.35);color:#60a5fa;border-radius:8px;padding:.35rem .9rem;font-size:.82rem;font-weight:700;cursor:pointer;}
 .roster-merge-btn:hover{background:rgba(96,165,250,.28);}
@@ -2346,12 +2348,16 @@ function renderRosterList(){
     const histChips = historial.length
       ? historial.map(h=>`<span class="hist-chip" title="Sesión ${h.sesion} · ${h.fecha||''}">S${parseInt(h.sesion,10)}: ${h.score}</span>`).join('')
       : `<span style="color:#475569;font-size:.72rem">Sin historial</span>`;
+    const perfilUrl = a.nombre
+      ? `/perfil.html?nombre=${encodeURIComponent(a.nombre)}&grado=${encodeURIComponent(_rosterGrade)}`
+      : '#';
     return `<div class="roster-row" id="rrow-${i}">
       <input type="checkbox" class="roster-cb" onchange="updateMergeCount()" id="rcb-${i}">
       <span class="roster-num">${i+1}</span>
       <input class="roster-inp" id="rinp-${i}" value="${escHtml(a.nombre)}"
         onchange="markDirty()" oninput="markDirty()">
       <div class="roster-hist">${histChips}</div>
+      ${a.nombre ? `<a class="roster-perfil-btn" href="${perfilUrl}" target="_blank" title="Ver perfil de ${escHtml(a.nombre)}">🔗</a>` : ''}
       <button class="roster-del" title="Eliminar" onclick="deleteRosterRow(${i})">✕</button>
     </div>`;
   }).join('');

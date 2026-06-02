@@ -391,34 +391,78 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ── PAST SECTION (collapsible) ──────────────────────────── */
 .past-section{
-  border:1px solid var(--border);
+  border:1px solid rgba(79,142,247,.22);
   border-radius:var(--radius);
   margin:1rem 0 .75rem;
   overflow:hidden;
 }
 .past-section-toggle{
   display:flex;align-items:center;justify-content:space-between;gap:.6rem;
-  padding:.8rem 1rem;
-  background:var(--bg2);
+  padding:.85rem 1rem;
+  background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(79,142,247,.04));
   cursor:pointer;
   list-style:none;
   user-select:none;
-  font-size:var(--fs-sm);font-weight:700;color:var(--text-muted);
+  font-size:var(--fs-sm);font-weight:700;color:var(--text);
   transition:background .15s;
 }
 .past-section-toggle::-webkit-details-marker{display:none;}
-.past-section-toggle:hover{background:rgba(79,142,247,.07);color:var(--text);}
-.past-section-left{display:flex;align-items:center;gap:.55rem;}
+.past-section-toggle:hover{background:linear-gradient(135deg,rgba(79,142,247,.16),rgba(79,142,247,.08));}
+.past-section-left{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;}
 .past-section-count{
   background:rgba(255,255,255,.07);border-radius:100px;
   padding:1px 8px;font-size:var(--fs-xs);font-weight:600;color:var(--text-dim);
 }
+.past-section-hint{
+  font-size:var(--fs-xs);font-weight:400;color:var(--text-dim);font-style:italic;
+}
+.past-section[open] .past-section-hint{display:none;}
 .past-section-arrow{
-  font-size:.9rem;color:var(--text-dim);
+  font-size:1.1rem;color:var(--blue);
   transition:transform .22s;flex-shrink:0;
+  background:rgba(79,142,247,.12);border-radius:6px;padding:2px 6px;
 }
 .past-section[open] .past-section-arrow{transform:rotate(180deg);}
 .past-section-body{padding:.75rem;}
+
+/* ── MONTH SUB-SECTIONS ──────────────────────────────────── */
+.month-section{
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;
+  margin-bottom:.6rem;
+  overflow:hidden;
+}
+.month-section:last-child{margin-bottom:0;}
+.month-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  padding:.6rem .9rem;
+  background:rgba(255,255,255,.025);
+  cursor:pointer;list-style:none;
+  user-select:none;
+  transition:background .15s;
+}
+.month-toggle::-webkit-details-marker{display:none;}
+.month-toggle:hover{background:rgba(79,142,247,.07);}
+.month-toggle-left{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.month-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:var(--fs-sm);font-weight:700;color:var(--text);
+  text-transform:capitalize;
+}
+.month-count{
+  background:rgba(255,255,255,.06);border-radius:100px;
+  padding:1px 8px;font-size:var(--fs-xs);font-weight:600;color:var(--text-dim);
+}
+.month-realizadas{
+  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);border-radius:100px;
+  padding:1px 8px;font-size:var(--fs-xs);font-weight:600;color:#6ee7b7;
+}
+.month-arrow{
+  font-size:.8rem;color:var(--text-dim);
+  transition:transform .2s;flex-shrink:0;
+}
+.month-section[open] .month-arrow{transform:rotate(180deg);}
+.month-body{padding:.6rem .5rem .4rem;}
 
 /* Section label for today */
 .section-label.sl-today{
@@ -1777,23 +1821,63 @@ function renderPanel(gradeId){
     html += buildCard(todayItem.sdata, SESSION_DATE[todayItem.sdata.n], done, gradeId, false, unlocked, false, false, true);
   }
 
-  // ── CLASES PASADAS — acordeón colapsado por defecto ─────────
+  // ── CLASES PASADAS — acordeón colapsado, sub-menús por mes ──
   if(pastItems.length){
     const realizadas = pastItems.filter(i=> i.isAutoCompleted || i.isDone).length;
+
+    // Agrupar por mes (clave "YYYY-MM")
+    const MONTH_NAMES = ['enero','febrero','marzo','abril','mayo','junio',
+                         'julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    const monthMap = {};
+    pastItems.forEach(item=>{
+      const cal = CALENDAR.find(c=>c.session===item.sdata.n);
+      const key = cal ? cal.date.slice(0,7) : 'unknown';
+      if(!monthMap[key]) monthMap[key]=[];
+      monthMap[key].push(item);
+    });
+    const monthKeys = Object.keys(monthMap).sort();
+
     html += `<details class="past-section">
       <summary class="past-section-toggle">
         <span class="past-section-left">
           <span>📦 Clases pasadas</span>
           <span class="past-section-count">${pastItems.length} sesiones · ${realizadas} realizadas</span>
+          <span class="past-section-hint">· toca para ver</span>
         </span>
         <span class="past-section-arrow">▾</span>
       </summary>
-      <div class="past-section-body">
-        <div class="done-grid">`;
-    pastItems.forEach(item=>{
-      html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked, true, item.isAutoCompleted);
+      <div class="past-section-body">`;
+
+    monthKeys.forEach(key=>{
+      const items = monthMap[key];
+      const [yr, mo] = key.split('-');
+      const monthLabel = key === 'unknown' ? 'Sin fecha'
+        : `${MONTH_NAMES[parseInt(mo)-1]} ${yr}`;
+      const mRealizadas = items.filter(i=> i.isAutoCompleted || i.isDone).length;
+      const mRealizadasHtml = mRealizadas
+        ? `<span class="month-realizadas">✅ ${mRealizadas} realizada${mRealizadas>1?'s':''}</span>` : '';
+
+      html += `<details class="month-section" open>
+        <summary class="month-toggle">
+          <span class="month-toggle-left">
+            <span class="month-name">📅 ${monthLabel}</span>
+            <span class="month-count">${items.length} ${items.length===1?'sesión':'sesiones'}</span>
+            ${mRealizadasHtml}
+          </span>
+          <span class="month-arrow">▾</span>
+        </summary>
+        <div class="month-body">
+          <div class="done-grid">`;
+
+      items.forEach(item=>{
+        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked, true, item.isAutoCompleted);
+      });
+
+      html += `</div></div></details>`;
     });
-    html += `</div></div></details>`;
+
+    html += `</div></details>`;
+
   } else if(!todayItem){
     html += `<div class="empty-state">Aún no hay clases pasadas para este grado.</div>`;
   }

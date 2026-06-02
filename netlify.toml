@@ -5,3 +5,8 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# ── Keep-alive: evita que Supabase pause por inactividad ──
+# Corre lunes y jueves a las 8am UTC (2x/semana, suficiente para el límite de 7 días)
+[functions."keep-alive"]
+  schedule = "0 8 * * 1,4"

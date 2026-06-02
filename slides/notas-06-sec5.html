@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 06 · 5.° Secundaria · 19 jun 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#f87171;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 06 · 5.° Secundaria</div><div class="top-bar-meta">Gráficos y dashboard simple · Viernes 19 de junio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap"><div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S05 (análisis de datos en Sheets). Hoy llevan ese análisis al siguiente nivel: visualización organizada para tomar decisiones. Pregunta: ¿alguno vio un dashboard real en una empresa o en las noticias?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. Genera motivación: los analistas de datos más buscados en el mercado laboral son los que saben hacer dashboards accionables.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">¿Qué es un KPI?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">KPI = Key Performance Indicator. El concepto es simple pero la elección correcta es difícil. No todo lo que se puede medir debe medirse — solo lo que indica si se está cumpliendo el objetivo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Ejemplos del contexto escolar: % aprobados (sí, mide resultado directo), color favorito (no, no indica rendimiento). Pide que propongan 2 KPIs para un colegio.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">¿Qué es un dashboard?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La definición operativa es la más importante: cada gráfico responde una pregunta. Si un gráfico no responde ninguna pregunta clara → sobra.
+
+Análogía: el tablero de un avión. Cada indicador le dice al piloto algo que necesita saber para volar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Muestra un dashboard real (captura de Sheets o Google Data Studio) en pantalla. Señala qué pregunta responde cada gráfico.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">⭐ ¿Qué KPI falta?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Dashboard con 3 gráficos para el director. La pregunta del director: '¿Quiénes necesitan apoyo urgente?' — ninguno de los 3 gráficos la responde directamente.
+
+KPI que falta: identificación de alumnos con nota < 11 (o umbral de riesgo) + sus secciones.
+
+⭐ Bonus: +1 por proponer el KPI con justificación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas. Válidas: ranking de notas, alumnos bajo umbral por sección, tabla de alumnos en riesgo. Cualquier propuesta que responda la pregunta del director.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B. El circular muestra partes de un todo que suman 100% — aprobados + reprobados = 100% del salón.
+
+⭐ Bonus: +1 por respuesta, +1 extra si describe el gráfico para comparar rendimiento entre secciones (barras agrupadas).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Para A: las líneas son para evolución temporal, no distribución. Para C: las barras comparan categorías distintas, pero aquí tenemos 2 partes de un todo.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">Segmentación: comparar para entender</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La diferencia entre 'el promedio es 13' y el insight segmentado es enorme. Para 5.° Sec: conectar con análisis de datos real — empresas toman decisiones de inversión basadas en segmentación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: muestra un Sheet con datos de 2 secciones mezclados. Sin segmentar: un promedio. Con segmentación: dos promedios distintos y una brecha clara. ¿Cuál permite actuar?</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">Segmentar en Sheets</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 métodos de segmentación de más simple a más potente: filtro manual, AVERAGEIF, tabla dinámica, barras agrupadas. Para el dashboard de hoy: AVERAGEIF es suficiente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo de AVERAGEIF: =AVERAGEIF(B2:B50,'3A',C2:C50). Explica cada argumento. Pide que lo repliquen con sus datos.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">⭐ Diseña tu dashboard</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Escenario abierto: 120 alumnos, datos de notas, asistencia y extracurriculares. Los alumnos proponen KPIs, gráficos y segmentación.
+
+Respuesta modelo:
+- KPI 1: % aprobados por sección → circular por sección
+- KPI 2: promedio mensual → líneas por sección
+- KPI 3: participación extracurricular vs rendimiento → dispersión o barras
+
+⭐ Bonus: +2 al diseño más completo y justificado.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas de 3-4 grupos o individuos. Compara los diseños. El más completo (KPI + gráfico + segmento) gana los puntos.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Formatear un dashboard profesional</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 elementos de formato son los que diferencian un dashboard de análisis de una colección de gráficos. El más importante: los títulos informativos — sin ellos nadie sabe qué ver.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: muestra el mismo dashboard con y sin formato (títulos, colores coherentes, alineación). La diferencia es inmediata y visual.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">Del gráfico al insight</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La diferencia entre descripción e insight es el salto del analista junior al senior. Un insight incluye: qué muestra el dato + qué implica + qué debería hacerse.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que transformen la descripción del slide en un insight completo en voz alta. El ejercicio de verbalización es muy efectivo.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">AVERAGEIF: promedio por segmento</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Función clave para segmentación sin tabla dinámica. Los 3 argumentos: rango de criterios, criterio, rango de valores.
+
+Demo completo en Sheets con datos reales del aula si están disponibles.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en Sheets: crear columnas sección + nota. Aplicar AVERAGEIF para cada sección. Mostrar los resultados. Graficar con barras.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">⭐ Construye el insight</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Datos de 3 secciones con 3 variables (aprobación, asistencia, extracurricular). El insight debe conectar las 3 variables:
+
+'Las secciones con mayor asistencia (3.°A: 95%) y participación extracurricular (62%) tienen el mayor % de aprobación (91%). La correlación sugiere que la implicación escolar impacta el rendimiento. Recomendación: estrategias para aumentar asistencia y actividades en 3.°C.'
+
+⭐ Bonus: +2 al insight más completo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 2 minutos para pensar. Recoge 2-3 respuestas. El mejor insight conecta las 3 variables y da una recomendación concreta.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Dashboard de encuesta propia</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal. Definir 3 KPIs claros primero. Crear 3 gráficos en Sheets con sus datos. Al menos 1 con AVERAGEIF o tabla dinámica. Títulos informativos y 1 conclusión por gráfico.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. Verificar: ¿los KPIs están definidos por escrito? ¿Cada gráfico responde una pregunta? ¿Hay al menos 1 segmentación con AVERAGEIF? ¿Las conclusiones son insights, no solo descripciones?</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">❌ Errores comunes en dashboards</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">5 errores concretos. El más frecuente para 5.° Sec.: demasiados gráficos sin hilo conductor. El más dañino: sin conclusiones — el dashboard se queda en descriptivo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: '¿Cuál de estos errores van a evitar activamente en su actividad de hoy?' Mano alzada.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">16</span><span class="card-title">💡 El dashboard responde preguntas</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El proceso de 3 pasos para diseñar cualquier dashboard: preguntas primero → gráficos que las respondan → eliminar los que no responden ninguna.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que revisen su dashboard de la actividad con este criterio: ¿cada gráfico responde una de las 3 preguntas que definieron?</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">17</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: 'Da un ejemplo de KPI para un colegio y el gráfico que usarías para visualizarlo.'
+
+Conexión con S07: IA, empleo y estudios superiores.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3-4 alumnos. Refuerza la estructura: KPI → pregunta → gráfico → insight → decisión.</p></div>
+</div>
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#f87171;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 16</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}</script></body></html>

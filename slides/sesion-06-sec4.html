@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 06 · 4.° Secundaria · 19 jun 2026</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#2e1065,#4a1d96)}
+.slide.active{opacity:1;pointer-events:auto;z-index:2}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92)}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8)}
+.accent{color:#c084fc}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
+.line{width:55%;height:3px;background:#c084fc;border-radius:2px;margin:2% auto;opacity:.65}
+.list{text-align:left;width:100%;max-width:82%}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4}
+.list li::before{content:'▸';position:absolute;left:0;color:#c084fc}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #c084fc;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #c084fc;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px)}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95)}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;text-align:left;display:flex;align-items:center;gap:.6em}
+.qopt:hover{background:rgba(255,255,255,.18)}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171}
+.qletter{font-weight:900;color:#c084fc;min-width:1.6em}
+.qopt.wrong .qletter{color:#f87171}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px)}
+.nav button{background:#c084fc;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s}
+.dot.active{background:#c084fc}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,#c084fc2e 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,#c084fc1e 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.09)}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97)}to{opacity:1;transform:none}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97)}to{opacity:1;transform:none}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both}
+.slide.active .t-body{animation:fUp .45s .2s ease both}
+.slide.active .t-sm{animation:fUp .4s .24s ease both}
+.slide.active .line{animation:lGrow .42s .1s ease both}
+.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both}
+.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both}
+.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both}
+.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
+.slide.active .highlight{animation:pIn .45s .28s ease both}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both}
+.slide.active .big-em{animation:pIn .5s .04s ease both}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
+@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}</style></head>
+<body>
+<div class="deck-wrap" id="deck"><div class="slide active">
+<div class="brand">Asunción School</div><div class="snum">6 · 1</div><p class="t-sm accent">Viernes 19 de junio · 4.° Secundaria</p><div class="line"></div>
+<h1 class="t-super">IA para <span class="accent">investigación</span><br>escolar</h1>
+<p class="t-body" style="margin-top:2%">Qué puede hacer, qué no puede y cómo usarla con criterio</p>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 2</div><h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🤖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">IA puede</p><p class="t-sm" style="opacity:.8">Preguntas, esquemas, explicaciones</p></div>
+<div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">IA no puede</p><p class="t-sm" style="opacity:.8">Alucinaciones, corte de datos</p></div>
+<div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Auditar</p><p class="t-sm" style="opacity:.8">Verificar cada respuesta con fuente real</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 3</div><h2 class="t-h1">¿Para qué SÍ sirve la IA en investigación?</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">🗺️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Esquema inicial</p><p class="t-sm" style="opacity:.8">Estructurar el plan de investigación</p></div>
+<div class="c4"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Preguntas</p><p class="t-sm" style="opacity:.8">Generar preguntas que no habías pensado</p></div>
+<div class="c4"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Explicación</p><p class="t-sm" style="opacity:.8">Entender un concepto difícil en simple</p></div>
+<div class="c4"><div class="big-em">🔄</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Contraargumento</p><p class="t-sm" style="opacity:.8">Ver la otra posición del debate</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 4</div><h2 class="t-h1">¿Qué es una "alucinación" de IA? 👻</h2><div class="line"></div>
+<div class="highlight" style="margin-bottom:2%">
+<p class="t-body" style="font-weight:700">La IA inventa información que suena real pero es falsa.</p>
+</div>
+<ul class="list" style="margin-top:2%">
+<li>Cita libros con <span class="accent">títulos que no existen</span></li>
+<li>Inventa <span class="accent">fechas, estadísticas o estudios</span></li>
+<li>Mezcla datos de distintas fuentes y <span class="accent">crea uno nuevo incorrecto</span></li>
+<li>Lo hace con <span class="accent">total confianza</span> — suena verdadero</li>
+</ul>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> ¿Alguien usó IA para un trabajo y encontró un error? Comparte sin miedo.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 5</div><h2 class="t-h1">⭐ ¿Hay una alucinación aquí?</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:88%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.6em">Respuesta de IA sobre cambio climático:</p>
+<p class="t-sm">"Según el informe IPCC 2023, la temperatura global aumentó 1.8°C desde 1850. El estudio de García y Ríos (2021) publicado en Nature Climate Change confirma que el 94% de este aumento ocurrió después de 1990. El Premio Nobel de Física 2022 fue otorgado por investigación sobre modelos climáticos."</p>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al que identifique qué dato debe verificarse primero y por qué · No todo es falso</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">La IA te da una cita de un libro con autor y página. ¿Qué debes hacer SIEMPRE antes de usar esa cita en tu trabajo?</p>
+<div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Usarla directamente — la IA es confiable</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Cambiarla un poco con tus palabras</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Verificar que el libro exista y que la cita sea real</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta · <strong>+1 extra</strong> si explicas cómo verificarías la cita</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 7</div><h2 class="t-h1">El corte de conocimiento</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">📅 ¿Qué es?</p>
+<p class="t-sm" style="opacity:.85">La IA solo conoce información hasta una fecha determinada. Lo que ocurrió después, no lo sabe.</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">⚠️ ¿Qué implica?</p>
+<p class="t-sm" style="opacity:.85">Si preguntas por eventos recientes, puede inventar o decir que no tiene información. Para temas actuales, siempre usa fuentes directas.</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.75">💡 Pregunta siempre: "¿Hasta qué fecha tienes información?" al iniciar.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 8</div><h2 class="t-h1">Cómo pedir bien: prompt para investigar</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:88%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.5em">❌ Prompt débil:</p>
+<p class="t-sm" style="margin-bottom:1em">"Háblame del cambio climático"</p>
+<p class="t-sm accent" style="font-weight:700;margin-bottom:.5em">✅ Prompt de investigación:</p>
+<p class="t-sm">"Actúa como tutor de ciencias. Explícame en 200 palabras las causas principales del cambio climático para un trabajo de 4.° de secundaria. Incluye 3 ejemplos concretos y señala qué partes debo verificar con fuentes oficiales."</p>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 9</div><h2 class="t-h1">⭐ Mejora este prompt</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:85%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.5em">Prompt original de un alumno:</p>
+<p class="t-body" style="font-weight:700">"Dame información sobre la contaminación del océano para mi trabajo"</p>
+</div>
+<ul class="list" style="margin-top:2%">
+<li>¿Qué le falta? <span class="accent">Rol, formato, longitud, nivel</span></li>
+<li>¿Qué debe agregar para investigación escolar?</li>
+</ul>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al mejor prompt reescrito que incluya rol + tarea + formato + nivel escolar</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 10</div><h2 class="t-h1">Lo que la IA NO puede hacer por ti</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li><span class="accent">Opinar</span> de manera auténtica — no tiene experiencia</li>
+<li><span class="accent">Citar fuentes</span> confiables automáticamente — inventa</li>
+<li><span class="accent">Conocer el contexto</span> de tu colegio o tu clase</li>
+<li><span class="accent">Garantizar</span> que lo que dice es verdadero</li>
+<li><span class="accent">Pensar críticamente</span> — eso siempre es tu trabajo</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 11</div><h2 class="t-h1">El flujo ético: IA como borrador</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">🤖</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">IA genera</p><p class="t-sm" style="opacity:.8">Esquema o explicación inicial</p></div>
+<div class="c4"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Tú verificas</p><p class="t-sm" style="opacity:.8">Con fuentes reales y confiables</p></div>
+<div class="c4"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Tú escribes</p><p class="t-sm" style="opacity:.8">Con tus palabras y argumento propio</p></div>
+<div class="c4"><div class="big-em">📚</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Citas</p><p class="t-sm" style="opacity:.8">Las fuentes reales, no la IA</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 12</div><h2 class="t-h1">Auditar una respuesta de IA</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>¿Los datos tienen <span class="accent">cifras específicas</span>? → Verificar en fuente original</li>
+<li>¿Cita <span class="accent">estudios o autores</span>? → Buscar que existan</li>
+<li>¿El tema es <span class="accent">reciente</span> (último año)? → No confiar en la IA</li>
+<li>¿La respuesta es <span class="accent">muy larga y segura</span>? → Más riesgo de alucinación</li>
+<li>¿Puedo encontrar esto en <span class="accent">2 fuentes confiables</span>? → Si no → dudar</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 13</div><h2 class="t-h1">⭐ Auditoría en tiempo real</h2><div class="line"></div>
+<p class="t-body" style="font-weight:700;margin-bottom:2%">La profa pregunta a una IA algo sobre el tema de la semana y mostramos la respuesta.</p>
+<ul class="list" style="margin-top:1%">
+<li>Identifica <span class="accent">2 datos que deberías verificar</span></li>
+<li>Di <span class="accent">cómo los verificarías</span> (qué fuente usarías)</li>
+<li>¿Hay algo que <span class="accent">claramente suena inventado</span>?</li>
+</ul>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por dato identificado con fuente de verificación · +1 extra por detectar posible alucinación</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 14</div><h2 class="t-h1">🎯 Actividad: Audita una respuesta de IA</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🤖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Pide</p><p class="t-sm" style="opacity:.8">Pregunta a una IA sobre un tema que estés investigando</p></div>
+<div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Audita</p><p class="t-sm" style="opacity:.8">Verifica 2 datos con fuentes reales</p></div>
+<div class="c3"><div class="big-em">📝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Documenta</p><p class="t-sm" style="opacity:.8">En un Doc: qué verificaste y qué encontraste</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos · Comparte el Doc con la profa al finalizar</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 15</div><h2 class="t-h1">✅ Checklist de uso ético de IA</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>¿Usé la IA como <span class="accent">punto de partida</span>, no como producto final?</li>
+<li>¿Verifiqué los datos con <span class="accent">fuentes reales</span>?</li>
+<li>¿El texto final está <span class="accent">escrito con mis palabras</span>?</li>
+<li>¿Cité las <span class="accent">fuentes reales</span>, no la IA?</li>
+<li>¿Declaré el uso de IA si el trabajo lo requiere?</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 16</div><h2 class="t-h1">💡 La IA es un asistente, no el autor</h2><div class="line"></div>
+<div class="highlight">
+<p class="t-body" style="font-weight:700;font-style:italic">"La IA te ahorra tiempo para buscar y organizar.<br>El pensamiento crítico sigue siendo insustituiblemente tuyo."</p>
+</div>
+<ul class="list" style="margin-top:3%">
+<li>Un buen trabajo de investigación tiene tu criterio, no el de la IA</li>
+<li>Verificar es una habilidad que la IA nunca hará por ti</li>
+<li>Quien sabe auditar la IA tiene ventaja real</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 17</div><h2 class="t-h1">🚀 Lo que llevas hoy</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">👻</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Alucinaciones</p><p class="t-sm" style="opacity:.8">La IA inventa con total confianza — siempre verificar</p></div>
+<div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Auditar</p><p class="t-sm" style="opacity:.8">Verificar datos clave con fuente real antes de citar</p></div>
+<div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Flujo ético</p><p class="t-sm" style="opacity:.8">IA → verificar → escribir con tus palabras → citar fuentes reales</p></div>
+</div>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: IA para investigación — profundización · Viernes 26 de junio</p>
+</div>
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #c084fc;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#c084fc;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);initialized=true;</script>
+</body></html>

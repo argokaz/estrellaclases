@@ -1,0 +1,131 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 06 · 2.° Secundaria · 19 jun 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#60a5fa;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 06 · 2.° Secundaria</div><div class="top-bar-meta">Animaciones y transiciones con criterio · Viernes 19 de junio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap"><div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S05 (diseño y narrativa). Hoy añaden la capa de animaciones — la más común fuente de presentaciones que parecen amateur. Pregunta: ¿alguien vio una presentación con demasiadas animaciones? ¿Cómo se sintió?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. Genera motivación: hoy aprenden por qué menos es más en animaciones.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">Animación ≠ Transición</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Esta distinción es fundamental y muchos la confunden. Animación = dentro del slide. Transición = entre slides. El error más frecuente es usar los dos a la vez y sobrecargar visualmente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en vivo: muestra una animación (elemento que entra) vs una transición (slide que cambia). Señala la diferencia explícitamente.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">¿Para qué SÍ sirve una animación?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 usos válidos son concretos y verificables. El más poderoso: revelar una lista elemento por elemento para que el público no se adelante mientras el expositor habla.
+
+⭐ Bonus: +1 por ejemplo real de cuándo revelar element por elemento ayuda.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en Slides: lista con animación 'Aparecer' elemento por elemento. Pregunta: ¿hay diferencia con mostrar todo de una vez mientras se habla?</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">❌ Animaciones que destruyen</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 efectos que deben evitar siempre. El 'Flying In' es el más tentador para los alumnos de 13-14 años porque 'se ve dinámico'. La clave: llama atención al efecto, no a la idea.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: muestra texto con Flying In vs Aparecer. ¿A qué le prestan más atención?</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: A. La animación tiene propósito cuando el expositor explica cada paso oralmente y no quiere que lean el siguiente antes.
+
+⭐ Bonus: +1 por respuesta, +1 extra si da un caso donde NO animaría la lista.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Para B: 'profesional' no es razón — muchas presentaciones profesionales no tienen animaciones. Para C: 'siempre' es la respuesta más errónea.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">Las 2 animaciones que siempre funcionan</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Aparecer y Fade son los únicos que recomiendan los diseñadores de presentaciones. La razón: no roban atención al efecto. Son invisibles — el foco va a la idea.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo lado a lado: Bounce vs Fade para el mismo elemento. Pregunta cuál es menos distractora.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">Transiciones: menos es más</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La regla de una sola transición para toda la presentación es la más ignorada. El Cubo, la Ruleta y el Origami deben desaparecer para siempre.
+
+Morph es la excepción porque crea continuidad visual real — no es decorativa.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo de Morph si tienen PowerPoint disponible. Si no, describe: es como si el mismo elemento 'viajara' entre slides.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">⭐ ¿Esta animación ayuda o distrae?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tres casos:
+- A: Flying In para lista explicada → ayudar si se hace elemento por elemento, pero el efecto distrae
+- B: Spin de 2 seg + texto rebotando → distrae completamente
+- C: Fade para gráfico al momento de mencionarlo → ayuda
+
+⭐ Bonus: +1 por caso con justificación, +1 extra por vocabulario de la clase.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para A: señala que aunque el concepto de revelar es correcto, Flying In no es el efecto adecuado.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Cuándo NO debes animar</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Lista de 5 situaciones concretas donde quitar la animación es la decisión correcta. La más relevante para 2.° Sec: el archivo pesado — las animaciones pueden hacer que la presentación se congele.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: '¿Alguna vez la computadora se quedó lenta en plena exposición?' Generalmente todos tienen una historia.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">La regla de oro de las animaciones</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La frase más importante de la clase. Pide que la escriban: 'Cada animación debe tener un propósito claro. Si no puedes explicar por qué está, quítala.'</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta en voz alta: 'El título entra con Spin porque...' Espera respuestas. Si nadie puede completar la frase con razón válida → quitar el Spin.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">Velocidad: el detalle que importa</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El timing de 0.3-0.5 segundos es concreto y aplicable inmediatamente. Los alumnos pueden ir a sus Slides y cambiarlo ahora mismo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: misma animación a velocidad Lenta vs Rápida. La diferencia es enorme y muy visual.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">⭐ Auditoría: arregla esta presentación</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">4 problemas específicos para identificar y corregir:
+1. 8 transiciones distintas → usar solo una (Fade recomendado)
+2. Spin de 3 seg en título → cambiar a Aparecer rápido
+3. Bounce en listas → cambiar a Aparecer o Fade
+4. Flying In en imágenes decorativas → eliminar animación
+
+⭐ Bonus: +1 por corrección con explicación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para cada problema: pregunta cuál sería la alternativa correcta.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Aplica con criterio</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Abren la presentación de S05 y aplican la auditoría:
+1. Eliminar animaciones sin propósito
+2. Cambiar las restantes a Aparecer o Fade
+3. Una sola transición para toda la presentación (Fade recomendado)
+4. Velocidad: rápida (0.3-0.5 seg)</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. Verifica que nadie deje Bounce o Spin. Que la transición sea uniforme. Que las imágenes decorativas no tengan animación.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">✅ Checklist de animaciones</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El checklist es la herramienta práctica. Pide que lo revisen con su presentación del ejercicio punto por punto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: '¿Cuántos de ustedes tenían más animaciones de las que debían?' Mano alzada — sin juzgar.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">16</span><span class="card-title">💡 El test de los 3 segundos</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Steve Jobs usaba solo Fade. Citar esto siempre genera impacto. Las presentaciones más memorables tienen pocas o ninguna animación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: '¿Cuál presentación recuerdan mejor: una con muchas animaciones o una con diseño limpio?' La respuesta generalmente sorprende.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">17</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: '¿Cuáles son las 2 animaciones que siempre funcionan?' Espera: Aparecer y Fade.
+
+Conexión con S07: IA para estudiar sin copiar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3-4 alumnos. Refuerza la regla de oro antes de cerrar.</p></div>
+</div>
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 16</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}</script></body></html>

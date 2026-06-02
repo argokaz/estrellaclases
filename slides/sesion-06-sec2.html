@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 06 · 2.° Secundaria · 19 jun 2026</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#0f172a,#1e3a5f)}
+.slide.active{opacity:1;pointer-events:auto;z-index:2}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92)}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8)}
+.accent{color:#60a5fa}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
+.line{width:55%;height:3px;background:#60a5fa;border-radius:2px;margin:2% auto;opacity:.65}
+.list{text-align:left;width:100%;max-width:82%}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4}
+.list li::before{content:'▸';position:absolute;left:0;color:#60a5fa}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #60a5fa;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #60a5fa;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px)}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95)}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;text-align:left;display:flex;align-items:center;gap:.6em}
+.qopt:hover{background:rgba(255,255,255,.18)}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171}
+.qletter{font-weight:900;color:#60a5fa;min-width:1.6em}
+.qopt.wrong .qletter{color:#f87171}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px)}
+.nav button{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s}
+.dot.active{background:#60a5fa}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,#60a5fa2e 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,#60a5fa1e 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.09)}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97)}to{opacity:1;transform:none}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97)}to{opacity:1;transform:none}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both}
+.slide.active .t-body{animation:fUp .45s .2s ease both}
+.slide.active .t-sm{animation:fUp .4s .24s ease both}
+.slide.active .line{animation:lGrow .42s .1s ease both}
+.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both}
+.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both}
+.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both}
+.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
+.slide.active .highlight{animation:pIn .45s .28s ease both}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both}
+.slide.active .big-em{animation:pIn .5s .04s ease both}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
+@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}</style></head>
+<body>
+<div class="deck-wrap" id="deck"><div class="slide active">
+<div class="brand">Asunción School</div><div class="snum">6 · 1</div><p class="t-sm accent">Viernes 19 de junio · 2.° Secundaria</p><div class="line"></div>
+<h1 class="t-super">Animaciones y <span class="accent">transiciones</span><br>con criterio</h1>
+<p class="t-body" style="margin-top:2%">Cuándo animar ayuda y cuándo destruye tu presentación</p>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 2</div><h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Para qué sirven</p><p class="t-sm" style="opacity:.8">Guiar atención y revelar info</p></div>
+<div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Para qué NO sirven</p><p class="t-sm" style="opacity:.8">No son decoración</p></div>
+<div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Regla de oro</p><p class="t-sm" style="opacity:.8">Si no tiene propósito, no va</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 3</div><h2 class="t-h1">Animación ≠ Transición</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🎬 Animación</p>
+<p class="t-sm" style="opacity:.85">Mueve un elemento <strong>dentro del slide</strong>.</p>
+<p class="t-sm" style="margin-top:.5em">Un bullet que aparece · Una imagen que entra · Un texto que se revela</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">↔️ Transición</p>
+<p class="t-sm" style="opacity:.85">El efecto al <strong>cambiar de slide</strong>.</p>
+<p class="t-sm" style="margin-top:.5em">Deslizar · Desvanecer · Morph · Empujar</p></div>
+</div>
+<div class="highlight"><p class="t-sm" style="font-weight:700">Error común: confundir ambas y sobrecargar con los dos a la vez.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 4</div><h2 class="t-h1">¿Para qué SÍ sirve una animación?</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">👁️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Guiar atención</p><p class="t-sm" style="opacity:.8">Revelar una idea a la vez para que el público no se adelante</p></div>
+<div class="c3"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Revelar progresivamente</p><p class="t-sm" style="opacity:.8">Lista que aparece bullet a bullet mientras explicas</p></div>
+<div class="c3"><div class="big-em">🔗</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Mostrar relación</p><p class="t-sm" style="opacity:.8">Una flecha que conecta dos elementos al momento justo</p></div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Da un ejemplo real de cuándo revelar una lista elemento por elemento ayuda a la audiencia.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 5</div><h2 class="t-h1">❌ Animaciones que destruyen</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">🌀</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Spin / Giro</p><p class="t-sm" style="opacity:.8">Mareo garantizado</p></div>
+<div class="c4"><div class="big-em">💥</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Bounce / Rebote</p><p class="t-sm" style="opacity:.8">Parece juguete, no presentación</p></div>
+<div class="c4"><div class="big-em">✈️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Flying In</p><p class="t-sm" style="opacity:.8">Llama atención al efecto, no a la idea</p></div>
+<div class="c4"><div class="big-em">🔡</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Typewriter</p><p class="t-sm" style="opacity:.8">Solo funciona si el texto ES el punto</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">Tienes una lista de 5 pasos de un proceso. ¿Cuándo es útil animarlos para que aparezcan uno por uno?</p>
+<div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Cuando explicas cada paso oralmente y no quieres que lean el siguiente antes</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Para que la presentación se vea más profesional</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Siempre — las listas siempre deben animarse</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta · <strong>+1 extra</strong> si da un ejemplo donde NO animarías la lista</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 7</div><h2 class="t-h1">Las 2 animaciones que siempre funcionan</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box" style="border:2px solid #60a5fa"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Aparecer (Appear)</p>
+<p class="t-sm" style="opacity:.85">El elemento aparece instantáneamente. Simple, sin distracción. El foco va a la idea, no al efecto.</p></div>
+<div class="box" style="border:2px solid #60a5fa"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Desvanecer (Fade)</p>
+<p class="t-sm" style="opacity:.85">El elemento aparece suavemente. Elegante y profesional. No distrae de la idea principal.</p></div>
+</div>
+<div class="highlight"><p class="t-sm" style="font-weight:700">Regla: si dudas entre dos animaciones, elige siempre la más simple.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 8</div><h2 class="t-h1">Transiciones: menos es más</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Desvanecer / Fade</p><p class="t-sm" style="opacity:.8">La más profesional. Funciona en cualquier presentación.</p></div>
+<div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Morph (PowerPoint)</p><p class="t-sm" style="opacity:.8">Crea la ilusión de movimiento entre slides con el mismo elemento.</p></div>
+<div class="c3"><div class="big-em">❌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cubo / Ruleta / Origami</p><p class="t-sm" style="opacity:.8">Llaman más atención que el contenido. Evitar siempre.</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.75">💡 Regla: una sola transición para toda la presentación.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 9</div><h2 class="t-h1">⭐ ¿Esta animación ayuda o distrae?</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso A</p><p class="t-sm" style="opacity:.85">Lista de 4 causas del cambio climático. Cada causa aparece con "Flying In desde abajo" mientras el expositor explica una por una.</p></div>
+<div class="c3"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso B</p><p class="t-sm" style="opacity:.85">Imagen de portada del slide aparece girando con efecto "Spin" de 2 segundos antes de que el texto entre rebotando.</p></div>
+<div class="c3"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Caso C</p><p class="t-sm" style="opacity:.85">Un gráfico de barras aparece con "Fade" mientras el expositor dice "Como pueden ver..."</p></div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto por caso</strong> clasificado correctamente como ayuda o distrae · +1 extra por justificar con vocabulario de hoy</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 10</div><h2 class="t-h1">Cuándo NO debes animar</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>Cuando la lista <span class="accent">no se explica elemento por elemento</span></li>
+<li>Cuando la imagen es <span class="accent">solo decorativa</span></li>
+<li>Cuando el tiempo de presentación es <span class="accent">corto</span> — las animaciones lo alargan</li>
+<li>Cuando el archivo <span class="accent">pesa demasiado</span> — las animaciones añaden peso</li>
+<li>Cuando el proyector o la computadora <span class="accent">es lenta</span></li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 11</div><h2 class="t-h1">La regla de oro de las animaciones</h2><div class="line"></div>
+<div class="highlight">
+<p class="t-body" style="font-weight:700;font-style:italic">"Cada animación debe tener un propósito claro.<br>Si no puedes explicar por qué está ahí, quítala."</p>
+</div>
+<ul class="list" style="margin-top:3%">
+<li>Pregúntate: <span class="accent">¿esta animación ayuda a entender la idea?</span></li>
+<li>Si la respuesta es "se ve bonito" → quitarla</li>
+<li>Si la respuesta es "revela la info en el momento correcto" → quedarse</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 12</div><h2 class="t-h1">Velocidad: el detalle que importa</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.4em">❌ Muy lento</p>
+<p class="t-sm" style="opacity:.85">2+ segundos por elemento. El público espera y pierde el hilo de lo que dices.</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:.4em">✅ Rápido</p>
+<p class="t-sm" style="opacity:.85">0.3 – 0.5 segundos. Aparece casi de inmediato. No rompe el ritmo del expositor.</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.75">En Google Slides: "Lento" = mal · "Rápido" o "Automático" = bien.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 13</div><h2 class="t-h1">⭐ Auditoría: arregla esta presentación</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:85%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.6em">Presentación de 8 slides con estos problemas:</p>
+<ul class="list">
+<li>Cada slide tiene transición diferente (8 distintas)</li>
+<li>El título de cada slide entra con "Spin" de 3 segundos</li>
+<li>Las listas aparecen todas de golpe con "Bounce"</li>
+<li>Imágenes decorativas con "Flying In desde la izquierda"</li>
+</ul>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto por problema corregido</strong> con explicación · máx. 3 puntos</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 14</div><h2 class="t-h1">🎯 Actividad: Aplica con criterio</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">📂</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Abre</p><p class="t-sm" style="opacity:.8">La presentación del taller de S05</p></div>
+<div class="c3"><div class="big-em">✂️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Audita</p><p class="t-sm" style="opacity:.8">Elimina animaciones sin propósito</p></div>
+<div class="c3"><div class="big-em">➕</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Agrega</p><p class="t-sm" style="opacity:.8">Solo Aparecer o Fade donde tenga sentido</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos · Una transición uniforme para toda la presentación</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 15</div><h2 class="t-h1">✅ Checklist de animaciones</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>¿Cada animación tiene un <span class="accent">propósito claro</span>?</li>
+<li>¿Usé solo <span class="accent">Aparecer o Fade</span> (no Spin ni Bounce)?</li>
+<li>¿La velocidad es <span class="accent">rápida</span> (0.3-0.5 seg)?</li>
+<li>¿Solo <span class="accent">una transición</span> para toda la presentación?</li>
+<li>¿Las imágenes decorativas <span class="accent">no tienen animación</span>?</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 16</div><h2 class="t-h1">💡 El test de los 3 segundos</h2><div class="line"></div>
+<div class="highlight">
+<p class="t-body" style="font-weight:700;font-style:italic">"Si tu animación tarda más de 3 segundos en total,<br>ya perdiste la atención de la audiencia."</p>
+</div>
+<ul class="list" style="margin-top:3%">
+<li>Las presentaciones más memorables tienen <span class="accent">pocas o ninguna</span> animación</li>
+<li>El mejor efecto visual es el <span class="accent">contenido bien diseñado</span></li>
+<li>Steve Jobs usaba solo Fade en sus keynotes</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 17</div><h2 class="t-h1">🚀 Lo que llevas hoy</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Propósito</p><p class="t-sm" style="opacity:.8">Si no puedes explicar por qué está, quítala</p></div>
+<div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Solo Aparecer y Fade</p><p class="t-sm" style="opacity:.8">Las únicas que siempre funcionan</p></div>
+<div class="c3"><div class="big-em">1️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Una transición</p><p class="t-sm" style="opacity:.8">Misma en toda la presentación</p></div>
+</div>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: IA para estudiar sin copiar · Viernes 26 de junio</p>
+</div>
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #60a5fa;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#60a5fa;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);initialized=true;</script>
+</body></html>

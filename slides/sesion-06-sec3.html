@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 06 · 3.° Secundaria · 19 jun 2026</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12)}
+.slide.active{opacity:1;pointer-events:auto;z-index:2}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92)}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8)}
+.accent{color:#fb923c}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
+.line{width:55%;height:3px;background:#fb923c;border-radius:2px;margin:2% auto;opacity:.65}
+.list{text-align:left;width:100%;max-width:82%}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4}
+.list li::before{content:'▸';position:absolute;left:0;color:#fb923c}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #fb923c;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #fb923c;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px)}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95)}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;text-align:left;display:flex;align-items:center;gap:.6em}
+.qopt:hover{background:rgba(255,255,255,.18)}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171}
+.qletter{font-weight:900;color:#fb923c;min-width:1.6em}
+.qopt.wrong .qletter{color:#f87171}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px)}
+.nav button{background:#fb923c;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s}
+.dot.active{background:#fb923c}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,#fb923c2e 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,#fb923c1e 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.09)}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97)}to{opacity:1;transform:none}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97)}to{opacity:1;transform:none}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both}
+.slide.active .t-body{animation:fUp .45s .2s ease both}
+.slide.active .t-sm{animation:fUp .4s .24s ease both}
+.slide.active .line{animation:lGrow .42s .1s ease both}
+.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both}
+.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both}
+.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both}
+.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
+.slide.active .highlight{animation:pIn .45s .28s ease both}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both}
+.slide.active .big-em{animation:pIn .5s .04s ease both}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
+@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}</style></head>
+<body>
+<div class="deck-wrap" id="deck"><div class="slide active">
+<div class="brand">Asunción School</div><div class="snum">6 · 1</div><p class="t-sm accent">Viernes 19 de junio · 3.° Secundaria</p><div class="line"></div>
+<h1 class="t-super">Datos para <span class="accent">tomar</span><br>decisiones</h1>
+<p class="t-body" style="margin-top:2%">Del dato a la conclusión: el ciclo completo</p>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 2</div><h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Pregunta</p><p class="t-sm" style="opacity:.8">Formular bien antes de recoger</p></div>
+<div class="c3"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Recoger datos</p><p class="t-sm" style="opacity:.8">Forms + encuesta bien diseñada</p></div>
+<div class="c3"><div class="big-em">💡</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Decidir</p><p class="t-sm" style="opacity:.8">Conclusión basada en evidencia</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 3</div><h2 class="t-h1">El ciclo del dato</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Pregunta</p><p class="t-sm" style="opacity:.8">¿Qué quiero saber?</p></div>
+<div class="c4"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Datos</p><p class="t-sm" style="opacity:.8">Recoger con Forms o tabla</p></div>
+<div class="c4"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Análisis</p><p class="t-sm" style="opacity:.8">Ordenar, filtrar, calcular</p></div>
+<div class="c4"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Decisión</p><p class="t-sm" style="opacity:.8">Actuar con base en evidencia</p></div>
+</div>
+<div class="highlight"><p class="t-sm" style="font-weight:700">Sin pregunta clara → datos sin sentido → decisión sin fundamento.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 4</div><h2 class="t-h1">¿Cómo formular una buena pregunta?</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.5em">❌ Pregunta vaga</p>
+<p class="t-sm" style="opacity:.85">"¿Les gusta el colegio?"</p>
+<p class="t-sm" style="margin-top:.4em;opacity:.6">No se puede medir ni comparar.</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Pregunta específica</p>
+<p class="t-sm">"¿Cuántas horas semanales dedican al estudio fuera del colegio?"</p>
+<p class="t-sm" style="margin-top:.4em;opacity:.7">Medible, específica, comparble.</p></div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Formula una pregunta de investigación sobre hábitos digitales del aula. Debe ser medible.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 5</div><h2 class="t-h1">Cuantitativo vs cualitativo</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🔢 Cuantitativo</p>
+<p class="t-sm" style="opacity:.85">Datos que se miden con números.</p>
+<ul class="list" style="margin-top:.5em"><li>Edad, horas, puntaje, porcentaje</li><li>Se puede calcular promedio o gráficar</li></ul></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">💬 Cualitativo</p>
+<p class="t-sm" style="opacity:.85">Datos que describen con palabras.</p>
+<ul class="list" style="margin-top:.5em"><li>Opiniones, preferencias, razones</li><li>Se agrupa en categorías o temas</li></ul></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál es el PRIMER paso antes de recoger datos para una investigación?</p>
+<div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Crear el formulario en Google Forms</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Hacer un gráfico con los datos</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Formular una pregunta de investigación clara y medible</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta · <strong>+1 extra</strong> si escribes una buena pregunta de investigación para el aula</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 7</div><h2 class="t-h1">Diseñar una encuesta que funciona</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Preguntas cerradas</p><p class="t-sm" style="opacity:.8">Opción múltiple o escala 1-5. Fácil de analizar.</p></div>
+<div class="c3"><div class="big-em">💬</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Máx. 1 abierta</p><p class="t-sm" style="opacity:.8">Solo si necesitas la razón. Más difícil de analizar.</p></div>
+<div class="c3"><div class="big-em">✂️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">5-8 preguntas</p><p class="t-sm" style="opacity:.8">Más de 10 → la gente deja de responder.</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 8</div><h2 class="t-h1">Del Forms al Sheets: analizar</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>Cada respuesta queda en una <span class="accent">fila</span> en Sheets automáticamente</li>
+<li><span class="accent">Ordenar</span> para ver tendencias (columna de notas de mayor a menor)</li>
+<li><span class="accent">Filtrar</span> para comparar grupos (solo alumnos de 3.° A)</li>
+<li><span class="accent">COUNTIF</span> para contar cuántos eligieron cada opción</li>
+<li><span class="accent">AVERAGE</span> para el valor típico · <span class="accent">MEDIAN</span> si hay extremos</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 9</div><h2 class="t-h1">⭐ ¿Este dato apoya la decisión?</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:85%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.6em">Situación: el colegio quiere saber si ampliar el recreo de 20 a 30 minutos.</p>
+<p class="t-sm accent" style="font-weight:700;margin-bottom:.4em">Datos disponibles:</p>
+<ul class="list">
+<li>El 82% de alumnos prefiere más tiempo de recreo</li>
+<li>El promedio de rendimiento baja 0.3 pts después del recreo actual</li>
+<li>En colegios con 30 min, el promedio sube 0.8 pts en matemáticas</li>
+</ul>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al que argumente con los 3 datos si se debe o no ampliar el recreo</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 10</div><h2 class="t-h1">Escribir conclusiones honestas</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.4em">❌ Conclusión de opinión</p>
+<p class="t-sm" style="opacity:.85">"Creo que los alumnos duermen poco porque son irresponsables."</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:.4em">✅ Conclusión basada en datos</p>
+<p class="t-sm">"El 68% de los encuestados duerme menos de 7 horas. Esto supera el límite recomendado para adolescentes."</p></div>
+</div>
+<div class="highlight"><p class="t-sm" style="font-weight:700">Una conclusión honesta cita el dato, no la opinión.</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 11</div><h2 class="t-h1">Correlación ≠ Causalidad</h2><div class="line"></div>
+<div class="highlight" style="margin-bottom:2%">
+<p class="t-sm" style="font-weight:700">Las ciudades con más heladerías tienen más ahogamientos en el mar. ¿Las heladerías causan ahogamientos?</p>
+</div>
+<ul class="list" style="margin-top:2%">
+<li><span class="accent">Correlación:</span> dos cosas ocurren juntas</li>
+<li><span class="accent">Causalidad:</span> una cosa provoca la otra</li>
+<li>El calor del verano explica ambas cosas — no hay relación directa entre ellas</li>
+<li>Siempre pregunta: <span class="accent">¿hay una tercera variable que explica las dos?</span></li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 12</div><h2 class="t-h1">Del dato a la decisión: ejemplo real</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Pregunta</p><p class="t-sm" style="opacity:.8">"¿Qué deporte prefieren los alumnos para el día deportivo?"</p></div>
+<div class="c4"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Datos</p><p class="t-sm" style="opacity:.8">Encuesta de 45 alumnos · 5 opciones</p></div>
+<div class="c4"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Análisis</p><p class="t-sm" style="opacity:.8">Vóley 38% · Fútbol 31% · Básquet 18%</p></div>
+<div class="c4"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Decisión</p><p class="t-sm" style="opacity:.8">Vóley como deporte principal del evento</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 13</div><h2 class="t-h1">⭐ Mini investigación del aula</h2><div class="line"></div>
+<p class="t-body" style="font-weight:700;margin-bottom:2%">Pregunta de investigación: ¿Cuántos días a la semana estudian los alumnos fuera del colegio?</p>
+<ul class="list" style="margin-top:1%">
+<li>Levanta la mano si estudias <span class="accent">0 días</span> fuera del colegio</li>
+<li>Levanta si estudias <span class="accent">1-2 días</span></li>
+<li>Levanta si estudias <span class="accent">3-4 días</span></li>
+<li>Levanta si estudias <span class="accent">5+ días</span></li>
+</ul>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+2 puntos</strong> al que proponga una conclusión y una decisión basadas en los datos del aula ahora mismo</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 14</div><h2 class="t-h1">🎯 Actividad: Mini investigación</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Formula</p><p class="t-sm" style="opacity:.8">Una pregunta de investigación sobre el aula</p></div>
+<div class="c3"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Crea en Forms</p><p class="t-sm" style="opacity:.8">5 preguntas cerradas máximo</p></div>
+<div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Analiza + concluye</p><p class="t-sm" style="opacity:.8">Gráfico + 2 oraciones de conclusión</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos · Comparte el Forms y el Sheet con la profa</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 15</div><h2 class="t-h1">❌ Errores al investigar con datos</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>Recoger datos <span class="accent">sin una pregunta clara</span> primero</li>
+<li>Usar <span class="accent">preguntas ambiguas</span> en la encuesta</li>
+<li>Concluir con <span class="accent">opinión</span>, no con los datos</li>
+<li>Confundir <span class="accent">correlación con causalidad</span></li>
+<li>Encuesta de <span class="accent">más de 10 preguntas</span> — poca gente responde</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 16</div><h2 class="t-h1">💡 Datos ≠ Verdad absoluta</h2><div class="line"></div>
+<div class="highlight">
+<p class="t-body" style="font-weight:700;font-style:italic">"Los datos son evidencia, no profecía.<br>Apoyan una decisión — no garantizan que sea correcta."</p>
+</div>
+<ul class="list" style="margin-top:3%">
+<li>La muestra importa: ¿encuestaste a suficientes personas?</li>
+<li>El sesgo importa: ¿las preguntas guiaban una respuesta?</li>
+<li>El contexto importa: ¿cuándo y cómo se recogieron?</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">6 · 17</div><h2 class="t-h1">🚀 Lo que llevas hoy</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">❓</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Pregunta primero</p><p class="t-sm" style="opacity:.8">Específica, medible, clara</p></div>
+<div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Analiza honestamente</p><p class="t-sm" style="opacity:.8">Datos, no opiniones</p></div>
+<div class="c3"><div class="big-em">✅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Decide con evidencia</p><p class="t-sm" style="opacity:.8">El dato apoya — tú argumentas</p></div>
+</div>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: presentar datos sin aburrir · Viernes 26 de junio</p>
+</div>
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #fb923c;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#fb923c;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);initialized=true;</script>
+</body></html>

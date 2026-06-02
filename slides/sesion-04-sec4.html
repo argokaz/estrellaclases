@@ -393,6 +393,16 @@ function spawnConfetti(){
     w.appendChild(d);
   }
 }
+
+const DECK_GRADE='sec4';
+let lastBonusId=null;
+(async function pollBonus(){
+  try{
+    const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());
+    if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}
+  }catch(e){}
+  setTimeout(pollBonus,2000);
+})();
 </script>
 
 

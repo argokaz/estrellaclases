@@ -1,63 +1,62 @@
-const { getStore } = require("@netlify/blobs");
+/**
+ * get-results.js
+ *
+ * GET /.netlify/functions/get-results?pw=...&session=02&grado=sec2
+ *
+ * Vista del profesor: todas las evaluaciones de una sesión (y grado opcional).
+ * Retorna array compatible con el panel de resultados del dashboard.
+ */
+
+const { supabase } = require("./_supabase");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 
 const CORS = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Content-Type": "application/json",
 };
 
-function makeStore() {
-  return getStore({
-    name: "evaluaciones",
-    siteID: process.env.SITE_ID,
-    token: process.env.NETLIFY_TOKEN,
-  });
-}
-
 exports.handler = async (event) => {
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: CORS, body: "" };
-  }
-  if (event.httpMethod !== "GET") {
-    return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
-  }
+  if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
+  if (event.httpMethod !== "GET")     return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
 
   const params = event.queryStringParameters || {};
-  if (params.pw !== TEACHER_PW) {
-    return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
-  }
+  if (params.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+
+  const session = params.session ? String(params.session).padStart(2, "0") : null;
+  const grado   = params.grado || null;
 
   try {
-    const sesion = params.session || "";
-    const store = makeStore();
-    const prefix = sesion ? `s${String(sesion).padStart(2,"0")}/` : "";
+    const db = supabase();
 
-    const { blobs } = await store.list({ prefix });
+    // Join evaluaciones → alumnos para obtener nombre y grado
+    let query = db
+      .from("evaluaciones")
+      .select("id, sesion, score, correctas, total, fecha, nombre_raw, alumno_id, alumnos(nombre, grado)")
+      .order("fecha", { ascending: false });
 
-    if (!blobs || blobs.length === 0) {
-      return { statusCode: 200, headers: CORS, body: "[]" };
-    }
+    if (session) query = query.eq("sesion", session);
+    if (grado)   query = query.eq("grado", grado);
 
-    const results = await Promise.all(
-      blobs.map(async ({ key }) => {
-        const data = await store.get(key, { type: "json" }).catch(() => null);
-        if (data) data._key = key;
-        return data;
-      })
-    );
+    const { data, error } = await query;
+    if (error) throw error;
 
-    const sorted = results
-      .filter(Boolean)
-      .sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    // Formatear para que sea compatible con el panel de resultados existente
+    const results = (data || []).map(ev => ({
+      _key:      ev.id,           // UUID para borrar
+      nombre:    ev.alumnos?.nombre || ev.nombre_raw || "—",
+      grado:     ev.alumnos?.grado  || ev.grado || "—",
+      sesion:    ev.sesion,
+      score:     ev.score,
+      correctas: ev.correctas,
+      total:     ev.total ?? 10,
+      fecha:     ev.fecha,
+      ts:        new Date(ev.fecha).getTime(),
+    }));
 
-    return {
-      statusCode: 200,
-      headers: CORS,
-      body: JSON.stringify(sorted),
-    };
+    return { statusCode: 200, headers: CORS, body: JSON.stringify(results) };
   } catch (err) {
     console.error("get-results error:", err.message);
     return { statusCode: 200, headers: CORS, body: "[]" };

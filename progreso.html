@@ -29,50 +29,63 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 /* Main container */
 .container{max-width:640px;margin:0 auto;padding:1.5rem 1rem;}
 
-/* Search card */
-.search-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;}
-.search-card h2{font-size:1.05rem;font-weight:800;margin-bottom:1.1rem;color:var(--text);}
-.form-group{margin-bottom:.85rem;}
-.form-group label{display:block;font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.38rem;}
+/* Search card — fondo claro para alto contraste sobre el fondo oscuro del body */
+.search-card{
+  background:#1e2d50;
+  border:2px solid rgba(255,255,255,.25);
+  border-radius:var(--radius);
+  padding:1.6rem 1.4rem;
+  box-shadow:0 4px 24px rgba(0,0,0,.4);
+}
+.search-card h2{font-size:1.15rem;font-weight:800;margin-bottom:.4rem;color:#ffffff;}
+.search-card>p{font-size:.88rem;color:#94a3b8;margin-bottom:1.3rem;line-height:1.6;}
+.form-group{margin-bottom:1rem;}
+.form-group label{
+  display:block;font-size:.82rem;font-weight:700;color:#cbd5e1;
+  text-transform:uppercase;letter-spacing:.05em;margin-bottom:.45rem;
+}
 .form-group input,
 .form-group select{
   width:100%;
-  background:#1a2240;
-  border:1px solid rgba(255,255,255,.18);
-  color:var(--text);
-  padding:.55rem .75rem;
+  background:#0f1e3a;
+  border:1.5px solid rgba(255,255,255,.3);
+  color:#ffffff;
+  padding:.65rem .85rem;
   border-radius:10px;
-  font-size:.93rem;
+  font-size:1rem;
   font-family:inherit;
   transition:border-color .15s;
   outline:none;
 }
+.form-group input::placeholder{color:#64748b;}
 .form-group input:focus,
-.form-group select:focus{border-color:var(--accent);}
+.form-group select:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.2);}
+.form-group select option{background:#0f1e3a;color:#fff;}
 .search-btn{
   width:100%;
-  background:var(--accent);
+  background:#4f8ef7;
   color:#fff;
   border:none;
-  border-radius:10px;
-  padding:.65rem;
-  font-size:.97rem;
+  border-radius:12px;
+  padding:.8rem;
+  font-size:1.05rem;
   font-weight:800;
   cursor:pointer;
   font-family:inherit;
-  margin-top:.4rem;
+  margin-top:.5rem;
   transition:background .15s,transform .1s;
+  letter-spacing:.02em;
 }
 .search-btn:hover{background:#3a7de0;transform:translateY(-1px);}
 .search-btn:active{transform:translateY(0);}
-.search-error{font-size:.82rem;color:#f87171;margin-top:.5rem;min-height:1.1em;}
+.search-error{font-size:.85rem;color:#f87171;margin-top:.6rem;min-height:1.2em;font-weight:600;}
 
 /* Profile */
 #perfil{display:none;}
-.profile-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;}
+.profile-card{background:#1e2d50;border:1.5px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:1.4rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(0,0,0,.3);}
 .profile-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;}
-.profile-name{font-size:1.2rem;font-weight:900;color:var(--text);line-height:1.2;}
-.profile-grade{font-size:.82rem;color:var(--muted);margin-top:.2rem;}
+.profile-name{font-size:1.2rem;font-weight:900;color:#ffffff;line-height:1.2;}
+.profile-grade{font-size:.82rem;color:#94a3b8;margin-top:.2rem;}
 .rank-badge{
   background:linear-gradient(135deg,#312e81,#1d4ed8);
   border-radius:12px;
@@ -97,9 +110,9 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .encourage-msg.keep{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.25);}
 
 .stats-row{display:flex;gap:.7rem;margin-top:1rem;}
-.stat-box{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.7rem;text-align:center;}
-.stat-val{font-size:1.3rem;font-weight:900;color:var(--accent);}
-.stat-lbl{font-size:.68rem;color:var(--muted);margin-top:.15rem;}
+.stat-box{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:.7rem;text-align:center;}
+.stat-val{font-size:1.3rem;font-weight:900;color:#60a5fa;}
+.stat-lbl{font-size:.68rem;color:#94a3b8;margin-top:.15rem;}
 
 /* Section */
 .section-title{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:1.2rem 0 .6rem;}

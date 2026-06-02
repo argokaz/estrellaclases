@@ -420,13 +420,25 @@ async function darBonus(){
   const _r=new URLSearchParams(window.location.search).get('room');
   if(!_r||_r.length<4)return;
   const _code=_r.slice(0,6).toUpperCase();
+
+  // 1. Conectar sync
   syncRoom=_code;syncActive=true;
+
+  // 2. Actualizar indicadores visuales (formato S04 y S05/S06)
+  const _rd=document.getElementById('room-display');
+  if(_rd)_rd.textContent=_code;
+  const _sb=document.getElementById('sync-overlay-btn')||document.querySelector('button[onclick*="openSyncOverlay"]');
+  if(_sb){_sb.innerHTML='📡 '+_code;_sb.style.cssText+=';border-color:#22c55e;color:#22c55e;';}
+
+  // 3. Enviar posición actual al proyector
   if(typeof postSlide==='function')setTimeout(()=>postSlide(typeof cur!=='undefined'?cur:0),400);
+
+  // 4. Toast de confirmación
   const _t=document.createElement('div');
-  _t.textContent='📡 Sync conectado automáticamente';
-  _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:.55rem 1.1rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;';
+  _t.textContent='📡 Sync conectado · '+_code;
+  _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;';
   document.body.appendChild(_t);
-  setTimeout(()=>_t.remove(),3000);
+  setTimeout(()=>_t.remove(),4500);
 })();
 </script>
 

@@ -2117,6 +2117,8 @@ async function submitSyncConnect(){
     const label = GRADE_LABELS[d.grade] || d.grade;
     msg.style.color='#4ade80';
     msg.textContent=`✅ Sesión ${d.session} · ${label}`;
+    // Pre-cargar el PW del bonus en sessionStorage — notas lo lee al cargar
+    sessionStorage.setItem('nota_pw', CORRECT_PW);
     setTimeout(()=>{
       closeSyncConnect();
       window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;

@@ -113,20 +113,14 @@ exports.handler = async (event) => {
         });
       }
 
-      // ── 4. Insertar alumnos en batch (ignorar si ya existen) ───────────────
-      const alumnosPayload = clusterData.map(c => ({ nombre: c.nombre, grado }));
-      await db.from("alumnos").insert(alumnosPayload).then(() => null).catch(() => null);
-      // Nota: algunos pueden fallar por duplicado — no pasa nada, el siguiente SELECT los recoge
-
-      // Insertar uno a uno los que fallaron por conflicto
+      // ── 4. Insertar alumnos (uno a uno para manejar conflictos con índice funcional) ──
       for (const c of clusterData) {
-        const { count } = await db
+        // Intentar insertar; si hay conflicto (mismo nombre normalizado) ignorar
+        const { error: insErr } = await db
           .from("alumnos")
-          .select("id", { count: "exact", head: true })
-          .eq("grado", grado)
-          .ilike("nombre", c.nombre);
-        if (!count) {
-          await db.from("alumnos").insert({ nombre: c.nombre, grado }).catch(() => null);
+          .insert({ nombre: c.nombre, grado });
+        if (insErr && !insErr.message.includes("duplicate") && !insErr.code === "23505") {
+          console.warn("alumno insert warning:", insErr.message, c.nombre);
         }
       }
 
@@ -158,12 +152,12 @@ exports.handler = async (event) => {
         }
       }
 
-      // Batch insert evaluaciones. UNIQUE(alumno_id, sesion) → ignorar duplicados
-      // (en migración limpia no hay duplicados; si se re-ejecuta, conserva el dato existente)
+      // Batch insert evaluaciones — UNIQUE(alumno_id, sesion), ignorar duplicados
       if (evalsPayload.length > 0) {
-        await db.from("evaluaciones")
-          .upsert(evalsPayload, { onConflict: "alumno_id,sesion", ignoreDuplicates: true })
-          .catch(err => console.warn("evals upsert warning:", err.message));
+        const { error: evErr } = await db
+          .from("evaluaciones")
+          .upsert(evalsPayload, { onConflict: "alumno_id,sesion", ignoreDuplicates: true });
+        if (evErr) console.warn("evals upsert warning:", evErr.message);
       }
 
       // ── 7. Migrar bonuses ──────────────────────────────────────────────────
@@ -179,7 +173,7 @@ exports.handler = async (event) => {
           razon:     b.razon || "",
           mes:       b.mes   || "",
           fecha:     b.fecha || new Date().toISOString(),
-        }).catch(() => null);
+        });
       }
 
       results[grado] = {

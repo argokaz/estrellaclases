@@ -3,318 +3,387 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Notas S5 · 6.° Primaria</title>
-<style>
+<title>Notas 05 · 6.° Primaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#22c55e;--bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:rgba(255,255,255,.08);
+  --text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
-.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #22c55e;padding:.6rem 1rem;
-  display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
-.top-bar .grade{font-weight:900;font-size:1.1rem;color:#22c55e;}
-.top-bar .tema{font-size:.85rem;opacity:.7;}
-.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;
-  color:#22c55e;letter-spacing:.15em;}
-.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
-.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
-.card.active{border-color:#22c55e;}
-.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;
-  display:flex;align-items:center;gap:.8rem;cursor:pointer;}
-.card-num{font-weight:900;font-size:.9rem;color:#22c55e;min-width:2.5em;}
-.card-title{font-weight:700;font-size:.95rem;flex:1;}
-.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
-.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px;}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50;}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);}
+.top-bar-meta{font-size:.75rem;color:var(--muted);}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden;}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none;}
+.card-header:hover{background:rgba(255,255,255,.03);}
+.ch-left{display:flex;align-items:center;gap:.6rem;}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0;}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text);}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0;}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0;}
+.card.open .card-arrow{transform:rotate(180deg);}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border);}
 .card.open .card-body{display:block;}
-.note-label{font-size:.75rem;font-weight:700;color:#22c55e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
-.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
-/* Highlight apunta cards */
-.card[id="card-6"] .card-header,
-.card[id="card-10"] .card-header{background:rgba(251,191,36,.08);border-left:3px solid #fbbf24;}
-.card[id="card-6"] .card-num,
-.card[id="card-10"] .card-num{color:#fbbf24;}
-.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);
-  border-top:2px solid #22c55e;display:flex;align-items:center;justify-content:center;gap:1rem;
-  padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
-.nav-bar button{background:#22c55e;color:#000;border:none;border-radius:8px;
-  padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
-.nav-bar button:disabled{opacity:.25;cursor:default;}
-.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
-.sync-badge{position:fixed;top:.6rem;right:.7rem;z-index:200;background:rgba(0,0,0,.8);
-  border:1px solid #22c55e;border-radius:8px;padding:.25rem .7rem;
-  font-family:monospace;font-size:.85rem;font-weight:700;color:#22c55e;opacity:.9;display:none;}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem;}
+.section-lbl:first-child{margin-top:0;}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap;}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99;}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer;}
+.nav-btn:disabled{opacity:.25;cursor:default;}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center;}
 </style>
 </head>
 <body>
 <div class="top-bar">
   <div>
-    <div class="grade">Sesión 5 · 6.° Primaria</div>
-    <div class="tema">¡Le ponemos estilo! — Formato de texto en Google Docs</div>
+    <div class="top-bar-title">Sesión 05 · 6.° Primaria</div>
+    <div class="top-bar-meta">Búsqueda segura en internet · Viernes 12 de junio 2026</div>
   </div>
-  <div class="room-info" id="room-display">···</div>
+  <button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">
+    📡 Sync
+  </button>
+</div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">2</span>
+      <span class="card-title">¿Qué haremos hoy?</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Conecta con la clase anterior (S04 — teclado y atajos). Hoy usamos la computadora para buscar información de verdad. Pregunta: ¿alguien buscó algo en Google esta semana? ¿Qué buscaron?</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Señala las 3 metas. Genera expectativa: hoy aprenden a buscar mejor que la mayoría de adultos.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">3</span>
+      <span class="card-title">¿Qué es internet?</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La analogía de la biblioteca es poderosa para 6.° Primaria. Enfatizar: cualquiera puede publicar — por eso hay información incorrecta. Esto no asusta, sino que empodera al alumno para ser crítico.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Alguien sabe cuántas páginas web existen?' (Más de 1,900 millones). Deja que adivinen primero.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">4</span>
+      <span class="card-title">🖥️ Navegador ≠ Buscador</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Esta confusión es muy común. Algunos alumnos creen que 'Google' y 'Chrome' son lo mismo. La analogía puerta/empleado funciona perfectamente para esta edad.
+
+⭐ Bonus: Di el nombre de un navegador que no sea Chrome. +1 punto.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Abre el navegador en pantalla. Señala la barra de direcciones vs el buscador. Demo visual: escribe en la barra una URL vs una búsqueda.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">5</span>
+      <span class="card-title">🔑 El truco de las palabras clave</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Comparar búsqueda larga vs palabras clave en pantalla es muy efectivo. Los alumnos ven inmediatamente la diferencia en los resultados.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo en vivo: escribe la búsqueda larga en Google, muestra los resultados. Luego escribe las palabras clave. Compara cuál da mejores resultados.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">6</span>
+      <span class="card-title">🧩 Mini quiz</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Respuesta correcta: B. Google es un buscador — te ayuda a encontrar cosas DENTRO de internet. Chrome es el navegador.
+
+⭐ Bonus: +1 por respuesta, +1 extra por explicar la diferencia con sus propias palabras.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Votación a mano alzada. Aprovecha para preguntar a alguien que haya votado A: '¿Entonces qué es Chrome para ti?'</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">7</span>
+      <span class="card-title">¿Qué aparece en los resultados?</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Mostrar una búsqueda real en pantalla y señalar cada tipo de resultado. Énfasis especial en los anuncios — muchos alumnos no saben distinguirlos de los resultados orgánicos.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Busca algo en pantalla. Señala: '¿ven este que dice Patrocinado? Eso es publicidad. El buscador lo pone primero pero no es el más confiable.'</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">8</span>
+      <span class="card-title">🛡️ ¿Cómo saber si es confiable?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Los 4 criterios son concretos y verificables — perfectos para 11-12 años. El candado es el más fácil de identificar. La extensión del dominio (.gov, .edu, .org) es el más poderoso.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Demo: abre 2 páginas sobre el mismo tema — una confiable y una cuestionable. Señala el candado, el autor y la fecha en cada una.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">9</span>
+      <span class="card-title">⭐ ¿Esta página es confiable?</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Tres páginas con distintos niveles de confiabilidad.
+- A: Ministerio de Salud → muy confiable
+- B: remediosmagicos123.com → no confiable
+- C: Wikipedia → útil pero con limitaciones
+
+⭐ Bonus: +1 punto por cada página calificada correctamente con razón.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra cada descripción. Da 30 segundos por página. Recoge respuestas. Para C: explica que Wikipedia es punto de partida, no fuente final.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">10</span>
+      <span class="card-title">📢 La publicidad en internet</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Los alumnos de 11-12 años son muy susceptibles a la publicidad engañosa. El concepto de '¡Ganaste!' como trampa es fundamental para su seguridad digital.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra un ejemplo de anuncio 'Patrocinado' en Google. Luego muestra un ejemplo de '¡Ganaste un iPhone!' (captura). Pregunta: ¿alguien recibió algo así alguna vez?</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">11</span>
+      <span class="card-title">🚨 Señales de peligro</span>
+    </div>
+    <span class="card-time">4 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La lista de 4 señales es práctica y memorable. Énfasis especial: NUNCA poner datos personales en páginas desconocidas — nombre, email, dirección, contraseña.
+
+Conexión con la clase de contraseñas (S15).</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Alguna vez vieron una página que decía Ganaste un premio? ¿Qué hicieron?' Sin juzgar — la idea es identificar que todos estamos expuestos.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">12</span>
+      <span class="card-title">🔐 Buscadores seguros para la escuela</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">SafeSearch, DuckDuckGo y Kiddle son opciones prácticas. Recomendación: pedir a los padres que activen SafeSearch en casa.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Muestra brevemente Kiddle.co en pantalla. Haz una búsqueda y muestra los resultados adaptados para niños.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">13</span>
+      <span class="card-title">⭐ ¡Misión Detective! 🕵️</span>
+    </div>
+    <span class="card-time">5 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Interacción directa. Los alumnos buscan '¿De qué color es la sangre de los pulpos?' y comparan dos páginas.
+
+⭐ Bonus: +1 por 2 fuentes encontradas, +1 extra por explicar cuál es mejor.
+
+Respuesta: azul — por la hemocianina.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Da 3 minutos para buscar. Circula para ver quién encontró páginas confiables. Recoge respuestas y añade puntos.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">14</span>
+      <span class="card-title">🎯 ¡Misión: Mini ficha de fuentes!</span>
+    </div>
+    <span class="card-time">12 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Actividad principal. Elegir un tema libre (animal, planta, lugar del Perú). Buscar 3 datos de 3 páginas distintas. Anotar cada fuente.
+
+Producto: Doc compartido con la profa.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Circula. Verifica: ¿las páginas tienen candado? ¿hay autor? ¿usaron palabras clave? Corrige en el momento.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">15</span>
+      <span class="card-title">✅ Checklist del buscador inteligente</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">El checklist es la herramienta que se llevan. Léelo punto por punto con la clase. Pide que abran su Doc y revisen cada criterio.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pide que cada alumno señale qué puntos del checklist cumplió en su actividad.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">16</span>
+      <span class="card-title">💡 El truco del detective digital</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">La regla de las 2 fuentes es la más importante de la clase. Los periodistas, los científicos y los detectives usan exactamente este método.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta: '¿Si Google te dice una cosa y Wikipedia otra, qué harías?' Espera respuestas antes de revelar la regla.</p>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <div class="ch-left">
+      <span class="card-num">17</span>
+      <span class="card-title">🚀 Lo que llevas hoy</span>
+    </div>
+    <span class="card-time">3 min</span>
+    <span class="card-arrow">▾</span>
+  </div>
+  <div class="card-body">
+    <p class="section-lbl">📋 Notas</p>
+    <p class="notes-text">Cierre. Ticket de salida: '¿Cuál es la diferencia entre un navegador y un buscador?'
+
+Conexión con S6: próxima clase — respeto y comunicación en línea.</p>
+    <p class="section-lbl">⚙️ Mecánica</p>
+    <p class="mech-text">Pregunta a 3-4 alumnos al azar. Espera que digan la analogía de la puerta y el mapa/empleado.</p>
+  </div>
 </div>
 
-<div class="cards-list" id="cards-list">
-
-<div class="card" id="card-0">
-  <div class="card-header" onclick="toggleCard(0)">
-    <span class="card-num">S5·2</span>
-    <span class="card-title">¿Qué cambia el formato?</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Muestra el antes y el después en pantalla. Pregunta: '¿cuál es más fácil de leer?' Sin lectura, solo visual.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Señala cada lado del slide y espera respuestas espontáneas. No expliques todavía.</p>
-  </div>
-</div>
-<div class="card" id="card-1">
-  <div class="card-header" onclick="toggleCard(1)">
-    <span class="card-num">S5·3</span>
-    <span class="card-title">El paso secreto: seleccionar</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Este es el error número uno de los alumnos — aplican formato sin seleccionar. Enfatiza: sin selección, nada funciona.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo en vivo: escribe una frase, selecciona con el mouse y muestra el azul de selección. Pide que lo repitan.</p>
-  </div>
-</div>
-<div class="card" id="card-2">
-  <div class="card-header" onclick="toggleCard(2)">
-    <span class="card-num">S5·4</span>
-    <span class="card-title">Las 4 herramientas</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Señala cada tarjeta: negrita, cursiva, subrayado, color. No profundices aún — solo presentar los 4 nombres.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pregunta: '¿alguien sabe cuál es el atajo de negrita?' Deja que adivinen antes de avanzar.</p>
-  </div>
-</div>
-<div class="card" id="card-3">
-  <div class="card-header" onclick="toggleCard(3)">
-    <span class="card-num">S5·5</span>
-    <span class="card-title">Negrita — Ctrl+B</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">B = Bold en inglés. Úsala para títulos y palabras clave, NO para todo el texto. Menos es más.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo: selecciona una palabra → Ctrl+B. Luego pide que lo hagan ellos en su doc. Verifica que lo logren.</p>
-  </div>
-</div>
-<div class="card" id="card-4">
-  <div class="card-header" onclick="toggleCard(4)">
-    <span class="card-num">S5·6</span>
-    <span class="card-title">Mini quiz — seleccionar primero</span>
-    <span class="card-time">⏱ 2 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Respuesta correcta: B) Seleccionar el texto primero. Es el repaso del paso secreto.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Votación con dedos: 1 = A, 2 = B, 3 = C. Celebra los correctos con entusiasmo.</p>
-  </div>
-</div>
-<div class="card" id="card-5">
-  <div class="card-header" onclick="toggleCard(5)">
-    <span class="card-num">S5·7</span>
-    <span class="card-title">Cursiva — Ctrl+I</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">I = Italic. Úsala para títulos de libros/películas y palabras en otro idioma. Menos frecuente que negrita.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Ejemplo real: '¿Cómo escribirías el título de tu película favorita?' Pide un voluntario.</p>
-  </div>
-</div>
-<div class="card" id="card-6">
-  <div class="card-header" onclick="toggleCard(6)">
-    <span class="card-num">S5·8</span>
-    <span class="card-title">✏️ APUNTA — Las teclas mágicas</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Momento de cuaderno. Espera que TODOS saquen el cuaderno y el lápiz antes de continuar. No avances hasta que estén listos.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Dicta lento: Ctrl+B (negrita), Ctrl+I (cursiva), Ctrl+U (subrayado), Ctrl+Z (deshacer), Ctrl+S (guardar). Pausa entre cada uno.</p>
-  </div>
-</div>
-<div class="card" id="card-7">
-  <div class="card-header" onclick="toggleCard(7)">
-    <span class="card-num">S5·9</span>
-    <span class="card-title">Subrayado y color de texto</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Ctrl+U = Underline. El color está en el botón A con rayita de color. Regla clave: máximo 2 colores distintos.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo rápida de ambos. Pregunta: '¿dónde está el botón de color de texto en la barra?'</p>
-  </div>
-</div>
-<div class="card" id="card-8">
-  <div class="card-header" onclick="toggleCard(8)">
-    <span class="card-num">S5·10</span>
-    <span class="card-title">Tamaño de fuente</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El número en la barra. Texto normal: 11 o 12. Títulos: 16-18. Mostrar los tres tamaños del slide.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Pide que cambien el tamaño de su nombre a 18. Verifica visualmente que lo hicieron.</p>
-  </div>
-</div>
-<div class="card" id="card-9">
-  <div class="card-header" onclick="toggleCard(9)">
-    <span class="card-num">S5·11</span>
-    <span class="card-title">Errores comunes de formato</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">El error más común: poner TODO en negrita. Pierde su función. También: demasiados colores, texto muy pequeño.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Señala el lado ❌ y pregunta '¿han visto esto antes?' Conexión con experiencia propia.</p>
-  </div>
-</div>
-<div class="card" id="card-10">
-  <div class="card-header" onclick="toggleCard(10)">
-    <span class="card-num">S5·12</span>
-    <span class="card-title">✏️ APUNTA — La regla de la IA</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Segundo momento de cuaderno. La IA sugiere, el alumno decide y aplica. Esta regla vale para toda la clase.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Dicta la regla: 'La IA sugiere — yo decido y aplico'. Espera que todos la escriban.</p>
-  </div>
-</div>
-<div class="card" id="card-11">
-  <div class="card-header" onclick="toggleCard(11)">
-    <span class="card-num">S5·13</span>
-    <span class="card-title">Prompt para formato</span>
-    <span class="card-time">⏱ 3 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Muestra el prompt en pantalla. El alumno pega su texto, lee la sugerencia y aplica manualmente en Docs.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Demo en vivo si hay tiempo. Si no, es el prompt de tarea para la semana.</p>
-  </div>
-</div>
-<div class="card" id="card-12">
-  <div class="card-header" onclick="toggleCard(12)">
-    <span class="card-num">S5·14</span>
-    <span class="card-title">🎯 Misión: ¡Decoro mi página!</span>
-    <span class="card-time">⏱ 10 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Abren el doc de S04. Aplican: negrita en el nombre, cursiva+tamaño 16 en un título, un color, Ctrl+S al final.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Circula por las mesas. Verifica que seleccionen antes de aplicar. Ayuda a quien está atascado.</p>
-  </div>
-</div>
-<div class="card" id="card-13">
-  <div class="card-header" onclick="toggleCard(13)">
-    <span class="card-num">S5·15</span>
-    <span class="card-title">🚀 Para recordar + ticket</span>
-    <span class="card-time">⏱ 4 min</span>
-  </div>
-  <div class="card-body">
-    <p class="note-label">📋 Notas</p>
-    <p class="note-text">Tres mensajes: 1) Selecciona primero. 2) Aplica formato. 3) Menos es más. Luego el ticket en el cuaderno.</p>
-    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
-    <p class="note-text">Lee el ticket en voz alta. Espera 90 segundos para que lo escriban. Recoge si usas papel.</p>
-  </div>
-</div>
 </div>
 
-<div class="nav-bar">
-  <button id="btn-prev" onclick="show(cur-1)" disabled>◀</button>
-  <span id="ncounter">1 / 14</span>
-  <button id="btn-next" onclick="show(cur+1)">▶</button>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);
+  backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;
+    width:100%;max-width:320px;padding:1.5rem;text-align:center;">
+    <p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p>
+    <input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false"
+      style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;
+      background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;
+      color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" />
+    <p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p>
+    <button onclick="startSync()" style="background:#22c55e;color:#000;border:none;border-radius:8px;
+      padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button>
+    <button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;
+      border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;
+      padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button>
+  </div>
 </div>
-<div class="sync-badge" id="sync-badge">📡 <span id="sync-badge-room"></span></div>
-
+<nav class="nav-bar">
+  <button class="nav-btn" id="btn-prev" disabled>← Ant</button>
+  <span id="ncounter">1 / 16</span>
+  <button class="nav-btn" id="btn-next">Sig →</button>
+</nav>
 <script>
+
+const cards=[...document.querySelectorAll('.card')];
 let cur=0;
-const cards=Array.from(document.querySelectorAll('.card'));
-const total=14;
-function show(n){
-  if(n<0||n>=total)return;
-  cards[cur].classList.remove('active');
+function openCard(n){
+  cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
   cur=n;
-  cards[cur].classList.add('active','open');
-  cards[cur].scrollIntoView({behavior:'smooth',block:'nearest'});
-  document.getElementById('ncounter').textContent=(cur+1)+' / '+total;
-  document.getElementById('btn-prev').disabled=cur===0;
-  document.getElementById('btn-next').disabled=cur===total-1;
+  document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;
+  document.getElementById('btn-prev').disabled=n===0;
+  document.getElementById('btn-next').disabled=n===cards.length-1;
+  cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-function toggleCard(n){document.getElementById('card-'+n).classList.toggle('open');}
-show(0);
-</script>
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
 
-<!-- Remote sync (notas) -->
-<div id="sync-overlay" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.96);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;">
-  <div style="font-size:1.3rem;font-weight:800;color:#22c55e">📡 Remote Sync</div>
-  <div style="color:#ccc;text-align:center;font-size:.95rem">Ingresa el código que aparece en la esquina del proyector</div>
-  <input id="sync-code" type="text" maxlength="4" autocapitalize="characters"
-    style="font-size:2rem;text-align:center;width:8rem;padding:.5rem;
-      border:2px solid #22c55e;border-radius:8px;background:#111;color:#22c55e;
-      font-weight:900;letter-spacing:.2em;font-family:monospace;">
-  <button onclick="syncConnect()"
-    style="background:#22c55e;color:#000;border:none;border-radius:8px;padding:.6rem 2rem;font-size:1.1rem;font-weight:800;cursor:pointer;">Conectar</button>
-  <button onclick="syncSkip()"
-    style="background:transparent;color:#666;border:1px solid #444;border-radius:8px;padding:.4rem 1.5rem;font-size:.9rem;cursor:pointer;">Usar sin sync</button>
-</div>
-<script>
-(function(){
-  const API='/.netlify/functions/sync';
-  const STORE_KEY='sync-room-v2';
-  let room='',connected=false,lastPushed=-2;
-  const overlay=document.getElementById('sync-overlay');
-  const badge=document.getElementById('sync-badge');
-  const badgeRoom=document.getElementById('sync-badge-room');
-  const input=document.getElementById('sync-code');
-  function pushSlide(){
-    if(!connected||!room)return;
-    const m=document.getElementById('ncounter').textContent.match(/^(\d+)/);
-    if(!m)return;
-    const idx=parseInt(m[1])-1;
-    if(idx===lastPushed)return;
-    lastPushed=idx;
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({room,slide:idx})}).catch(function(){});
-  }
-  new MutationObserver(function(){
-    clearTimeout(window._pushTimer);
-    window._pushTimer=setTimeout(pushSlide,80);
-  }).observe(document.getElementById('ncounter'),{childList:true,subtree:true,characterData:true});
-  function connect(code){
-    room=code.toUpperCase().trim();
-    localStorage.setItem(STORE_KEY,room);
-    connected=true;
-    overlay.style.display='none';
-    badge.style.display='block';
-    badgeRoom.textContent=room;
-    document.getElementById('room-display').textContent=room;
-    lastPushed=-2;pushSlide();
-  }
-  window.syncConnect=function(){const code=input.value.toUpperCase().trim();if(!code){input.focus();return;}connect(code);};
-  window.syncSkip=function(){overlay.style.display='none';};
-  input.addEventListener('keydown',function(e){if(e.key==='Enter')window.syncConnect();});
-  const saved=localStorage.getItem(STORE_KEY);
-  if(saved)input.value=saved;
-})();
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){
+  const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();
+  if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}
+  syncRoom=code;syncActive=true;
+  document.getElementById('sync-status').textContent='Conectando…';
+  postSlide(cur);setTimeout(closeSyncOverlay,800);
+}
+async function postSlide(idx){
+  if(!syncActive||syncBusy)return;syncBusy=true;
+  try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
+  catch(e){}finally{syncBusy=false;}
+}
+const _orig=openCard;
+function openCard(n){_orig(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+
 </script>
 </body>
 </html>

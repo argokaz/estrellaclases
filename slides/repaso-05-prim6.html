@@ -2,510 +2,537 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Guía de Repaso S05 — 6.° Primaria</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso 05 · 6.° Primaria · Búsqueda segura en internet</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--accent:#22c55e;--accent2:#7c3aed;--brand:#1e3a8a;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--warn-bg:#fef9c3;--warn-b:#fde047;--warn-t:#854d0e;}
-body{font-family:'Inter',sans-serif;background:#f8fafc;color:#1e293b;font-size:17px;line-height:1.8;padding:0 0 80px}
-.page-header{background:linear-gradient(135deg,#1e3a8a,#2563eb,#22c55e);color:#fff;padding:32px 24px 28px;text-align:center}
-.page-header .school{font-size:13px;opacity:.8;letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
-.page-header .teacher{font-size:14px;opacity:.85;margin-bottom:14px}
-.page-header h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,5vw,34px);font-weight:800;line-height:1.2}
-.page-header .meta{margin-top:10px;font-size:13px;opacity:.75}
-.page-header .badge{display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 14px;font-size:12px;margin-top:8px}
-.container{max-width:780px;margin:0 auto;padding:40px 20px 0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted)}
 .section{margin-bottom:56px}
-.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:#1e3a8a;border-bottom:3px solid #2563eb;padding-bottom:10px;margin-bottom:28px}
-.concept-card{background:#fff;border-radius:14px;border-left:5px solid #2563eb;padding:20px 22px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.concept-emoji{font-size:36px;margin-bottom:8px}
-.concept-title{font-size:18px;font-weight:700;color:#1e293b;margin-bottom:6px}
-.concept-desc{font-size:16px;color:#475569}
-.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:540px){.gloss-grid{grid-template-columns:1fr}}
-.gloss-item{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.gloss-term{font-size:20px;font-weight:700;color:#22c55e;margin-bottom:4px}
-.gloss-def{font-size:15px;color:#64748b}
-details{background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:18px}
-details summary{padding:18px 22px;font-size:17px;font-weight:600;color:#1e3a8a;cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px}
-details summary::before{content:'▶';font-size:12px;transition:transform .2s}
-details[open] summary::before{transform:rotate(90deg)}
-.ex-body{padding:0 22px 22px}
-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:15px}
-th{background:#1e3a8a;color:#fff;padding:10px 14px;text-align:left;font-weight:600}
-td{padding:10px 14px;border-bottom:1px solid #e2e8f0}
-tr:last-child td{border-bottom:none}
-tr:nth-child(even){background:#f8fafc}
-.tf-row td:last-child{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.tf-btn{display:inline-block;padding:5px 16px;border-radius:20px;border:2px solid #cbd5e1;background:#fff;cursor:pointer;font-size:14px;font-weight:600;transition:all .15s}
-.tf-btn:hover{background:#f1f5f9}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:12px;line-height:1.2;}
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{display:flex;gap:20px;align-items:flex-start;padding:22px 26px;border-radius:14px;background:var(--bg-alt);border:1px solid var(--border);border-left:5px solid var(--accent);}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:20px 22px;}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+.practice-details{border:2px solid var(--border);border-radius:16px;overflow:hidden;}
+.practice-summary{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;cursor:pointer;background:var(--bg-alt);list-style:none;user-select:none;gap:16px;}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);display:flex;align-items:center;gap:10px;}
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
+.ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
 .tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
 .tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-/* exam */
-.exam-cta-wrap{border-top:2px dashed #cbd5e1;margin:56px 0 0;padding:40px 20px;text-align:center}
-.exam-cta-wrap h2{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:#1e3a8a;margin-bottom:10px}
-.exam-cta-wrap p{color:#64748b;margin-bottom:24px;font-size:16px}
-.exam-start-btn{display:inline-block;background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);color:#fff;border:none;border-radius:14px;padding:16px 36px;font-size:18px;font-weight:800;cursor:pointer;transition:opacity .15s;box-shadow:0 4px 20px rgba(99,102,241,.4)}
-.exam-start-btn:hover{opacity:.88}
-#eval-section{display:none;margin-top:0}
-.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;padding:12px 20px;text-align:center;font-size:14px;font-weight:700;letter-spacing:.04em}
-.eval-hero{background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);color:#fff;padding:36px 24px;text-align:center}
-.eval-badge{display:inline-block;background:#fbbf24;color:#1e3a8a;border-radius:999px;padding:4px 16px;font-size:12px;font-weight:900;letter-spacing:.06em;margin-bottom:14px}
-.eval-hero h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,4vw,32px);font-weight:800;margin-bottom:8px}
-.eval-hero p{font-size:15px;opacity:.85}
-.eval-gate-wrap{display:flex;justify-content:center;margin:32px 0}
-.eval-gate{background:#fff;border-radius:20px;padding:32px 28px;max-width:480px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.12);text-align:center}
-.gate-icon{font-size:3rem;margin-bottom:14px}
-.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#1e3a8a;margin-bottom:10px}
-.gate-p{font-size:16px;color:#64748b;margin-bottom:26px;line-height:1.75}
-.gate-label{display:block;font-size:14px;font-weight:700;color:#1e3a8a;margin-bottom:8px;text-align:left}
-.gate-input{width:100%;border:2px solid #e2e8f0;border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:#1e293b;transition:border-color .2s}
-.gate-input:focus{border-color:#22c55e}
-.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
-.gate-btn{width:100%;background:linear-gradient(135deg,#22c55e,#22c55ecc);color:#000;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;transition:opacity .15s}
-.gate-btn:hover{opacity:.88}
-.already-box{background:#eff6ff;border:2px solid #bfdbfe;border-radius:14px;padding:20px 24px;color:#1d4ed8;font-size:16px;text-align:center;max-width:500px;margin:0 auto}
-.eval-container{max-width:780px;margin:0 auto;padding:24px 20px 40px}
-.eval-q{background:#fff;border-radius:14px;padding:22px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.eq-text{font-size:17px;font-weight:600;color:#1e293b;margin-bottom:16px}
-.eq-opts{display:flex;flex-direction:column;gap:10px}
-.eval-opt{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;cursor:pointer;transition:border-color .15s,background .15s;font-size:16px}
-.eval-opt:hover{background:#f8fafc;border-color:#94a3b8}
-.eval-opt input{margin-top:3px;accent-color:#22c55e;flex-shrink:0}
-.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.eq-fb{font-size:14px;margin-top:8px;min-height:1em}
-.eval-status-bar{background:#f1f5f9;border-radius:10px;padding:12px 18px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.eval-student-name{font-weight:700;color:#1e3a8a}
-#eval-answered{font-size:14px;color:#64748b}
-.submit-btn{width:100%;background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border:none;border-radius:14px;padding:18px;font-size:18px;font-weight:800;cursor:pointer;margin-top:8px;transition:opacity .15s}
-.submit-btn:hover{opacity:.88}
-.result-box{background:#fff;border-radius:20px;padding:32px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.1);max-width:560px;margin:0 auto}
-.result-emoji{font-size:4rem;margin-bottom:12px}
-.result-score{font-family:'Space Grotesk',sans-serif;font-size:48px;font-weight:900;color:#1e3a8a;margin-bottom:4px}
-.result-label{font-size:20px;font-weight:700;margin-bottom:8px}
-.result-detail{font-size:16px;color:#64748b;margin-bottom:20px}
-.result-badge{display:inline-block;border-radius:999px;padding:6px 18px;font-weight:800;font-size:14px;margin-bottom:20px}
-.result-badge.ok{background:var(--ok-bg);color:var(--ok-t)}
-.result-badge.good{background:#dbeafe;color:#1d4ed8}
-.result-badge.warn{background:var(--warn-bg);color:var(--warn-t)}
-.result-badge.low{background:var(--err-bg);color:var(--err-t)}
-.post-study{background:#eff6ff;border:2px solid #bfdbfe;border-radius:14px;padding:16px 20px;margin-top:28px;text-align:left}
-.post-study h3{font-size:16px;font-weight:700;color:#1d4ed8;margin-bottom:8px}
-.footer-note{text-align:center;color:#94a3b8;font-size:14px;margin-top:60px;padding-top:20px;border-top:1px solid #e2e8f0}
-
-/* ── Confirmación de identidad ───────────────────────────────── */
-.name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
-.confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
-.confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
-.confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
-.gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
-.gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
-/* ── Banner de nombre durante el examen ──────────────────────── */
-.exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
-.exam-who-name{font-size:20px;font-weight:900;color:#fff;letter-spacing:-.01em;}
-.exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
-.exam-who-change{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;}
-.exam-who-change:hover{border-color:var(--accent);color:var(--accent);}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.eval-banner{background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden;}
+.eval-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);pointer-events:none;}
+.eval-badge{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#1e3a8a;font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:5px 14px;margin-bottom:14px;}
+.eval-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;margin-bottom:10px;}
+.eval-subtitle{font-size:16px;opacity:.88;}
+.gate-box{background:#fff;border:2px solid var(--border);border-radius:16px;padding:32px;margin-bottom:28px;max-width:520px;}
+.gate-label{font-size:15px;font-weight:700;color:var(--brand);margin-bottom:8px;display:block;}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:17px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s;}
+.gate-input:focus{border-color:var(--accent);}
+.gate-btn{display:block;margin-top:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:10px;padding:14px 32px;font-size:17px;font-weight:800;cursor:pointer;}
+.gate-btn:hover{opacity:.88;}
+.confirm-box{background:#fff;border:2px solid var(--border);border-radius:16px;padding:28px;margin-bottom:28px;max-width:520px;display:none;}
+.confirm-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin:10px 0 6px;}
+.confirm-sub{font-size:15px;color:var(--muted);margin-bottom:20px;}
+.confirm-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.confirm-yes{background:linear-gradient(135deg,var(--emerald),var(--teal));color:#fff;border:none;border-radius:10px;padding:12px 28px;font-size:16px;font-weight:800;cursor:pointer;}
+.confirm-no{background:#fff;border:2px solid var(--border);color:var(--muted);border-radius:10px;padding:12px 22px;font-size:16px;font-weight:600;cursor:pointer;}
+.exam-who-bar{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8);border-radius:12px;padding:14px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.exam-who-bar.visible{display:flex;}
+.ewb-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#fff;}
+.ewb-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:8px;padding:7px 16px;font-size:14px;font-weight:700;cursor:pointer;}
+.q-block{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-bottom:16px;}
+.q-num{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+.q-text{font-size:17px;font-weight:700;color:var(--text);margin-bottom:16px;line-height:1.55;}
+.q-opts{display:flex;flex-direction:column;gap:10px;}
+.q-opt{display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;font-size:16px;transition:border-color .15s,background .15s;}
+.q-opt:hover{border-color:var(--accent);background:#eff6ff;}
+.q-opt input{margin-top:3px;accent-color:var(--accent);width:18px;height:18px;flex-shrink:0;}
+.q-opt.selected{border-color:var(--accent);background:#eff6ff;}
+.q-opt.correct{border-color:var(--ok-b)!important;background:var(--ok-bg)!important;}
+.q-opt.wrong{border-color:var(--err-b)!important;background:var(--err-bg)!important;}
+.submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px 40px;font-size:18px;font-weight:800;cursor:pointer;display:block;margin:32px auto 0;}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;}
+.score-box{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8);border-radius:16px;padding:32px;text-align:center;margin:28px 0;color:#fff;}
+.score-num{font-family:'Space Grotesk',sans-serif;font-size:64px;font-weight:900;line-height:1;}
+.score-denom{font-size:24px;opacity:.7;}
+.score-msg{font-size:18px;margin-top:10px;opacity:.9;}
+.material-reveal{display:none;margin-top:32px;}
 </style>
 </head>
 <body>
-<div class="page-header">
-  <div class="school">Asunción School · Computación 2026</div>
-  <div class="teacher">Prof. Estrella Vizcarra</div>
-  <h1>📝 Guía de Repaso — Sesión 05</h1>
-  <div class="meta">6.° Primaria · ¡Le ponemos estilo! — Formato de texto</div>
-  <div class="badge">📅 12 de junio de 2026</div>
+<div class="page-wrap">
+
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School · Computación 2026</div>
+    <div class="doc-title">🔍 Búsqueda segura en internet</div>
+    <div class="doc-subtitle">6.° Primaria · Sesión 05 · Viernes 12 de junio 2026</div>
+    <div class="teacher" style="margin-top:6px">Profa. Estrella Vizcarra</div>
+  </div>
+  <div class="meta"><div>Sesión 05</div><div>12 jun 2026</div><div>60 min</div></div>
 </div>
 
-<div id="study-content">
-<div class="container">
-
+<!-- Lo que aprendimos -->
 <div class="section">
-  <div class="section-title">📖 Lo que aprendimos hoy</div>
-  <div class="concept-card" style="border-left-color:#2563eb">
-    <div class="concept-emoji">🖱️</div>
-    <div class="concept-title">Seleccionar: el paso secreto</div>
-    <div class="concept-desc">Antes de aplicar cualquier formato, tienes que marcar el texto con el mouse. Sin seleccionar, nada funciona. El texto seleccionado se ve azul.</div>
-  </div>
-  <div class="concept-card" style="border-left-color:#7c3aed">
-    <div class="concept-emoji">𝐍</div>
-    <div class="concept-title">Negrita — para lo más importante</div>
-    <div class="concept-desc">Hace el texto más grueso y llamativo. Se usa para títulos y palabras clave. Atajo: Ctrl+B (B = Bold en inglés). Regla: no pongas TODO en negrita.</div>
-  </div>
-  <div class="concept-card" style="border-left-color:#16a34a">
-    <div class="concept-emoji">𝘊</div>
-    <div class="concept-title">Cursiva — para títulos y palabras especiales</div>
-    <div class="concept-desc">Inclina el texto. Se usa para títulos de libros, películas, y palabras en otro idioma. Atajo: Ctrl+I (I = Italic en inglés).</div>
-  </div>
-  <div class="concept-card" style="border-left-color:#d97706">
-    <div class="concept-emoji">S̲</div>
-    <div class="concept-title">Subrayado y color de texto</div>
-    <div class="concept-desc">El subrayado agrega una línea debajo del texto (Ctrl+U). El color de texto cambia el color de las letras. Máximo 2 colores distintos en un mismo texto.</div>
-  </div>
-  <div class="concept-card" style="border-left-color:#0d9488">
-    <div class="concept-emoji">📏</div>
-    <div class="concept-title">Tamaño de fuente</div>
-    <div class="concept-desc">El número en la barra de herramientas. El texto normal va en tamaño 11 o 12. Los títulos van más grandes, como 16 o 18. Muy pequeño es difícil de leer.</div>
+  <div class="section-title">📖 Lo que aprendimos</div>
+  <div class="concept-list">
+    <div class="concept-block"><div class="cb-icon">🖥️</div><div><div class="cb-title">Navegador ≠ Buscador</div><div class="cb-text">El <strong>navegador</strong> (Chrome, Firefox) es el programa para entrar a internet. El <strong>buscador</strong> (Google, Bing) es la herramienta para encontrar información dentro de internet. ¡No son lo mismo!</div></div></div>
+    <div class="concept-block"><div class="cb-icon">🔑</div><div><div class="cb-title">Palabras clave</div><div class="cb-text">En lugar de escribir oraciones largas, usa solo las palabras más importantes. Ejemplo: en vez de "quisiera saber por qué los pulpos son azules" → mejor: "pulpo sangre color motivo".</div></div></div>
+    <div class="concept-block"><div class="cb-icon">🛡️</div><div><div class="cb-title">Páginas confiables</div><div class="cb-text">Una página es más confiable si tiene: 🔒 candado HTTPS, un autor con nombre, una fecha reciente y una extensión como .gov, .edu o .org.</div></div></div>
+    <div class="concept-block"><div class="cb-icon">📢</div><div><div class="cb-title">La publicidad</div><div class="cb-text">Los anuncios aparecen con la palabra "Patrocinado" o "Ad". No son los mejores resultados. Y si una página dice "¡Ganaste un premio!" — es una trampa. ¡Ciérrala!</div></div></div>
+    <div class="concept-block"><div class="cb-icon">🕵️</div><div><div class="cb-title">El truco del detective digital</div><div class="cb-text">Para verificar que un dato es verdad, búscalo en <strong>dos fuentes distintas</strong>. Si las dos dicen lo mismo, probablemente es correcto.</div></div></div>
   </div>
 </div>
 
+<!-- Palabras clave -->
 <div class="section">
   <div class="section-title">📚 Palabras clave</div>
-  <div class="gloss-grid">
-  <div class="gloss-item">
-    <div class="gloss-term">Formato</div>
-    <div class="gloss-def">Cambios visuales al texto: grosor, estilo, color y tamaño de letra.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Negrita</div>
-    <div class="gloss-def">Texto más grueso para resaltar. Atajo: Ctrl+B.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Cursiva</div>
-    <div class="gloss-def">Texto inclinado para títulos especiales. Atajo: Ctrl+I.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Subrayado</div>
-    <div class="gloss-def">Línea debajo del texto. Atajo: Ctrl+U.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Seleccionar</div>
-    <div class="gloss-def">Marcar el texto con el mouse antes de darle formato.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Fuente</div>
-    <div class="gloss-def">El tipo y tamaño de letra que usas en el documento.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Ctrl+Z</div>
-    <div class="gloss-def">Deshacer el último cambio. El 'botón mágico' si te equivocas.</div>
-  </div>
-  <div class="gloss-item">
-    <div class="gloss-term">Barra de herramientas</div>
-    <div class="gloss-def">La franja con botones en la parte superior de Google Docs.</div>
-  </div>
+  <div class="gloss-v2">
+    <div class="gloss-card"><div class="gloss-term">Navegador</div><div class="gloss-def">El programa para entrar a internet (Chrome, Firefox, Edge, Safari).</div></div>
+    <div class="gloss-card"><div class="gloss-term">Buscador</div><div class="gloss-def">Herramienta para encontrar información en internet (Google, Bing, Kiddle).</div></div>
+    <div class="gloss-card"><div class="gloss-term">Palabras clave</div><div class="gloss-def">Las palabras más importantes de tu búsqueda. Sin palabras extra innecesarias.</div></div>
+    <div class="gloss-card"><div class="gloss-term">HTTPS / 🔒</div><div class="gloss-def">El candado en la barra del navegador. Indica que la conexión es segura.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Fuente confiable</div><div class="gloss-def">Página con autor, fecha, candado y extensión conocida (.gov, .edu, .org).</div></div>
+    <div class="gloss-card"><div class="gloss-term">Patrocinado / Ad</div><div class="gloss-def">Anuncio pagado que aparece en los resultados. No es el mejor resultado.</div></div>
+    <div class="gloss-card"><div class="gloss-term">SafeSearch</div><div class="gloss-def">Filtro de Google que bloquea contenido inapropiado.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Verificar</div><div class="gloss-def">Comprobar que un dato es verdad consultando más de una fuente.</div></div>
   </div>
 </div>
 
+<!-- Ejercicios -->
 <div class="section">
-  <div class="section-title">✏️ Ejercicios de práctica</div>
-  <p style="color:#475569;margin-bottom:20px">Practica antes de la evaluación. Puedes intentarlo las veces que quieras.</p>
-  <details>
-    <summary>⌨️ Ejercicio 1 — ¿Qué hace cada atajo?</summary>
-    <div class="ex-body"><p style="font-size:15px;color:#475569;margin-bottom:10px">¿Qué hace cada atajo de teclado?</p><table>
-<tr><th>Atajo</th><th>¿Qué hace?</th></tr>
-<tr><td><strong>Ctrl+B</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Negrita','Negrita')">Negrita</button><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Negrita')">Cursiva</button><button class="tf-btn" onclick="clsCheck(this,'Guardar','Negrita')">Guardar</button></td></tr>
-<tr><td><strong>Ctrl+I</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Cursiva')">Cursiva</button><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Cursiva')">Subrayado</button><button class="tf-btn" onclick="clsCheck(this,'Negrita','Cursiva')">Negrita</button></td></tr>
-<tr><td><strong>Ctrl+U</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Subrayado')">Subrayado</button><button class="tf-btn" onclick="clsCheck(this,'Color','Subrayado')">Color</button><button class="tf-btn" onclick="clsCheck(this,'Cursiva','Subrayado')">Cursiva</button></td></tr>
-<tr><td><strong>Ctrl+Z</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Deshacer','Deshacer')">Deshacer</button><button class="tf-btn" onclick="clsCheck(this,'Guardar','Deshacer')">Guardar</button><button class="tf-btn" onclick="clsCheck(this,'Negrita','Deshacer')">Negrita</button></td></tr>
-<tr><td><strong>Ctrl+S</strong></td><td style="white-space:nowrap"><button class="tf-btn" onclick="clsCheck(this,'Guardar','Guardar')">Guardar</button><button class="tf-btn" onclick="clsCheck(this,'Deshacer','Guardar')">Deshacer</button><button class="tf-btn" onclick="clsCheck(this,'Subrayado','Guardar')">Subrayado</button></td></tr>
-</table></div>
-  </details>
-  <details>
-    <summary>✅ Ejercicio 2 — ¿Verdadero o Falso?</summary>
-    <div class="ex-body"><table>
-<tr><th>Afirmación</th><th>¿Verdadero o Falso?</th></tr>
-<tr class="tf-row"><td>Puedes aplicar negrita sin seleccionar el texto primero.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
-<tr class="tf-row"><td>Ctrl+B pone el texto en negrita.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
-<tr class="tf-row"><td>Es buena idea poner todo el texto en negrita para que se vea importante.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
-<tr class="tf-row"><td>El tamaño normal para el texto en un documento es 11 o 12.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
-<tr class="tf-row"><td>Ctrl+Z deshace el último cambio.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','V')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','V')">Falso</button></td></tr>
-<tr class="tf-row"><td>Puedes usar todos los colores que quieras en un texto.</td><td><button class="tf-btn" onclick="tfCheck(this,'V','F')">Verdadero</button> <button class="tf-btn" onclick="tfCheck(this,'F','F')">Falso</button></td></tr>
-</table></div>
+  <details class="practice-details">
+    <summary class="practice-summary">
+      <div class="ps-left">
+        <div class="ps-title">✏️ Ejercicios de práctica</div>
+        <div class="ps-hint">3 ejercicios · toca para abrir</div>
+      </div>
+      <span class="ps-arrow">▾</span>
+    </summary>
+    <div class="practice-content">
+
+      <!-- Ejercicio 1 -->
+      <div class="ex">
+        <span class="ex-num">Ejercicio 1</span>
+        <h4>Verdadero o Falso</h4>
+        <table class="tf-tbl">
+          <thead><tr><th>Afirmación</th><th>¿V o F?</th></tr></thead>
+          <tbody>
+            <tr class="tf-row">
+  <td>Chrome y Google son lo mismo.</td>
+  <td>
+    <div class="tf-btns">
+      <button class="tf-btn" onclick="tfPick(this,'V','Chrome_y_Google_son_','F')">V</button>
+      <button class="tf-btn" onclick="tfPick(this,'F','Chrome_y_Google_son_','F')">F</button>
+    </div>
+  </td>
+</tr>
+            <tr class="tf-row">
+  <td>El candado 🔒 significa que la página es segura.</td>
+  <td>
+    <div class="tf-btns">
+      <button class="tf-btn" onclick="tfPick(this,'V','El_candado_🔒_signifi','V')">V</button>
+      <button class="tf-btn" onclick="tfPick(this,'F','El_candado_🔒_signifi','V')">F</button>
+    </div>
+  </td>
+</tr>
+            <tr class="tf-row">
+  <td>Los primeros resultados de Google son siempre los más confiables.</td>
+  <td>
+    <div class="tf-btns">
+      <button class="tf-btn" onclick="tfPick(this,'V','Los_primeros_resulta','F')">V</button>
+      <button class="tf-btn" onclick="tfPick(this,'F','Los_primeros_resulta','F')">F</button>
+    </div>
+  </td>
+</tr>
+            <tr class="tf-row">
+  <td>Una página sin autor ni fecha es más difícil de confiar.</td>
+  <td>
+    <div class="tf-btns">
+      <button class="tf-btn" onclick="tfPick(this,'V','Una_página_sin_autor','V')">V</button>
+      <button class="tf-btn" onclick="tfPick(this,'F','Una_página_sin_autor','V')">F</button>
+    </div>
+  </td>
+</tr>
+            <tr class="tf-row">
+  <td>Si la página dice ¡Ganaste!, debo ingresar mis datos rápido.</td>
+  <td>
+    <div class="tf-btns">
+      <button class="tf-btn" onclick="tfPick(this,'V','Si_la_página_dice_¡G','F')">V</button>
+      <button class="tf-btn" onclick="tfPick(this,'F','Si_la_página_dice_¡G','F')">F</button>
+    </div>
+  </td>
+</tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ejercicio 2 -->
+      <div class="ex">
+        <span class="ex-num">Ejercicio 2</span>
+        <h4>Convierte estas búsquedas a palabras clave</h4>
+        <p>Reescribe cada búsqueda usando solo las palabras más importantes:</p>
+        <ol style="margin-top:12px;padding-left:20px">
+          <li style="margin-bottom:10px">"Quisiera saber cuántos años vive un pingüino en promedio en su hábitat natural"</li>
+          <li style="margin-bottom:10px">"Me pregunto por qué el cielo se pone de color naranja cuando hay atardecer"</li>
+          <li>"Necesito información sobre los ríos más largos del Perú para mi tarea de geografía"</li>
+        </ol>
+        <p style="margin-top:14px;font-size:15px;color:#64748b">💡 Respuestas posibles: 1) pingüino vida años · 2) cielo naranja atardecer causa · 3) ríos más largos Perú</p>
+      </div>
+
+      <!-- Ejercicio 3 -->
+      <div class="ex">
+        <span class="ex-num">Ejercicio 3</span>
+        <h4>¿Cuál página elegirías para tu tarea?</h4>
+        <p>Para un trabajo sobre el oso de anteojos, tienes estas opciones:</p>
+        <ul style="margin:12px 0;padding-left:20px">
+          <li><strong>Página A:</strong> sernanp.gob.pe — Servicio Nacional de Áreas Naturales. Autor: Ing. Ramírez. Fecha: 2023. 🔒</li>
+          <li><strong>Página B:</strong> animalesraros999.com — Sin autor. Sin fecha. Sin candado.</li>
+          <li><strong>Página C:</strong> Wikipedia — Muchos editores. Tiene fuentes al pie. 🔒</li>
+        </ul>
+        <p style="font-size:15px;color:#64748b;margin-top:8px">💡 La mejor opción es la A. La C puede ser punto de partida. La B no es confiable.</p>
+      </div>
+
+    </div>
   </details>
 </div>
 
-</div><!-- /container -->
-</div><!-- /study-content -->
+<!-- Evaluación -->
+<div class="section">
+  <span id="eval-grade-key" data-grade="prim6" data-session="05" style="display:none"></span>
 
-<!-- Botón de transición -->
-<div class="exam-cta-wrap" id="exam-cta">
-  <h2>🎯 ¿Listo para la evaluación?</h2>
-  <p>Al comenzar, el material de estudio se ocultará. Tenés <strong>un solo intento</strong>.</p>
-  <button class="exam-start-btn" onclick="enterExamMode()">✅ Comenzar Evaluación →</button>
-</div>
-
-<!-- Sección de evaluación -->
-<div id="eval-section">
-  <div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>
-  <div class="eval-hero">
-    <div class="eval-badge">⚡ OBLIGATORIO</div>
-    <h2>🎯 Evaluación de la Clase</h2>
-    <p>Sesión 05 · 6.° Primaria · 10 preguntas · 20 puntos</p>
+  <div class="eval-banner">
+    <div class="eval-badge">🎯 Evaluación</div>
+    <div class="eval-title">Evaluación de la Clase</div>
+    <div class="eval-subtitle">10 preguntas · 2 pts cada una · Total 20 / 20 · Un solo intento</div>
   </div>
 
-  <div class="eval-container">
-    <div id="eval-gate-wrap">
-      <div class="eval-gate-wrap">
-        <div class="eval-gate">
-          <div class="gate-icon">📝</div>
-          <div class="gate-h">Antes de comenzar</div>
-          <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
-          <label class="gate-label">Nombre</label>
-          <datalist id="alumnos-gate-dl"></datalist>
-          <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
-          <button class="gate-btn" onclick="startEval('prim6')">Comenzar evaluación →</button>
-        </div>
-      </div>
-    </div>
-    <div id="eval-body" style="display:none">
-      <div class="eval-status-bar">
-        <span>Evaluando: <span class="eval-student-name" id="eval-student-name"></span></span>
-        <span id="eval-answered">0 / 10 respondidas</span>
-      </div>
-      <span id="eval-grade-key" data-grade="prim6" data-session="05" style="display:none"></span>
-<div class="eval-q" id="eq1">
-  <p class="eq-text"><strong>1.</strong> ¿Qué debes hacer ANTES de aplicar cualquier formato?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Guardar el documento</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()" data-correct="true"> <span>B) Seleccionar el texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Abrir un doc nuevo</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Presionar Ctrl+Z</span></label>
-</div>
-  <p class="eq-fb" id="fb1"></p>
-</div>
-<div class="eval-q" id="eq2">
-  <p class="eq-text"><strong>2.</strong> ¿Qué atajo pone el texto en negrita?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Ctrl+I</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Ctrl+U</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Ctrl+B</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Ctrl+Z</span></label>
-</div>
-  <p class="eq-fb" id="fb2"></p>
-</div>
-<div class="eval-q" id="eq3">
-  <p class="eq-text"><strong>3.</strong> ¿Para qué se usa la cursiva?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Hacer el texto más grande</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Borrar el texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Títulos de libros y palabras en otro idioma</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Guardar el archivo</span></label>
-</div>
-  <p class="eq-fb" id="fb3"></p>
-</div>
-<div class="eval-q" id="eq4">
-  <p class="eq-text"><strong>4.</strong> ¿Cuál es el tamaño de fuente recomendado para el texto normal?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Tamaño 6</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()" data-correct="true"> <span>B) Tamaño 11 o 12</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Tamaño 36</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Tamaño 100</span></label>
-</div>
-  <p class="eq-fb" id="fb4"></p>
-</div>
-<div class="eval-q" id="eq5">
-  <p class="eq-text"><strong>5.</strong> ¿Qué significa la 'B' en Ctrl+B?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Borrar</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Buscar</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Bold (negrita en inglés)</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Blanco</span></label>
-</div>
-  <p class="eq-fb" id="fb5"></p>
-</div>
-<div class="eval-q" id="eq6">
-  <p class="eq-text"><strong>6.</strong> ¿Cuántos colores distintos se recomienda usar máximo en un texto?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Los que quieras</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Solo uno</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) Dos</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Cinco</span></label>
-</div>
-  <p class="eq-fb" id="fb6"></p>
-</div>
-<div class="eval-q" id="eq7">
-  <p class="eq-text"><strong>7.</strong> ¿Qué hace Ctrl+Z?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Guarda el documento</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Pone el texto en negrita</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Abre un doc nuevo</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Deshace el último cambio</span></label>
-</div>
-  <p class="eq-fb" id="fb7"></p>
-</div>
-<div class="eval-q" id="eq8">
-  <p class="eq-text"><strong>8.</strong> ¿Qué cambias para que el título se vea más grande que el texto?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) El color del texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) La negrita</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()" data-correct="true"> <span>C) El tamaño de fuente</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) El subrayado</span></label>
-</div>
-  <p class="eq-fb" id="fb8"></p>
-</div>
-<div class="eval-q" id="eq9">
-  <p class="eq-text"><strong>9.</strong> ¿Qué atajo de teclado subraya el texto?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Ctrl+B</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Ctrl+I</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Ctrl+S</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Ctrl+U</span></label>
-</div>
-  <p class="eq-fb" id="fb9"></p>
-</div>
-<div class="eval-q" id="eq10">
-  <p class="eq-text"><strong>10.</strong> ¿Cuál es un error común de formato?</p>
-  <div class="eq-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Poner el título en negrita</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Usar tamaño 12 para el texto</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Usar cursiva para el título de un libro</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()" data-correct="true"> <span>D) Poner TODO el texto en negrita</span></label>
-</div>
-  <p class="eq-fb" id="fb10"></p>
-</div>
+  <div id="gate-box" class="gate-box">
+    <span class="gate-label">Tu nombre completo</span>
+    <input id="gate-nombre" class="gate-input" type="text"
+      placeholder="Escribe tu nombre y apellido…"
+      list="alumnos-gate-dl" autocomplete="off" autocorrect="off" />
+    <datalist id="alumnos-gate-dl"></datalist>
+    <button class="gate-btn" onclick="startEval()">Iniciar evaluación →</button>
+  </div>
 
-      <button class="submit-btn" onclick="submitEval()">📤 Enviar evaluación</button>
+  <div id="confirm-box" class="confirm-box">
+    <p style="font-size:15px;color:var(--muted);">¿Eres tú?</p>
+    <div class="confirm-name" id="confirm-name-display"></div>
+    <p class="confirm-sub">Confirma tu identidad antes de iniciar.</p>
+    <div class="confirm-btns">
+      <button class="confirm-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+      <button class="confirm-no" onclick="resetGate()">✏️ No soy yo</button>
+    </div>
+  </div>
+
+  <div class="exam-who-bar" id="exam-who-bar">
+    <span class="ewb-name" id="exam-who-name"></span>
+    <button class="ewb-btn" onclick="resetGate()">✏️ No soy yo</button>
+  </div>
+
+  <div id="eval-form" style="display:none">
+    <div class="q-block">
+  <div class="q-num">Pregunta 1 de 10</div>
+  <div class="q-text">¿Qué es un navegador?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q1" value="Una herramienta para buscar información" data-correct="false" />
+    Una herramienta para buscar información
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="El programa para entrar a internet" data-correct="true" />
+    El programa para entrar a internet
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="Una página web para niños" data-correct="false" />
+    Una página web para niños
+  </label><label class="q-opt">
+    <input type="radio" name="q1" value="Lo mismo que Google" data-correct="false" />
+    Lo mismo que Google
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 2 de 10</div>
+  <div class="q-text">¿Cuál de estos es un buscador?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q2" value="Chrome" data-correct="false" />
+    Chrome
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="Firefox" data-correct="false" />
+    Firefox
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="Google" data-correct="true" />
+    Google
+  </label><label class="q-opt">
+    <input type="radio" name="q2" value="Windows" data-correct="false" />
+    Windows
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 3 de 10</div>
+  <div class="q-text">¿Qué son las 'palabras clave' en una búsqueda?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q3" value="Una oración larga que explica todo lo que quieres saber" data-correct="false" />
+    Una oración larga que explica todo lo que quieres saber
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="Las palabras más importantes para encontrar lo que buscas" data-correct="true" />
+    Las palabras más importantes para encontrar lo que buscas
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="El nombre de la página web que vas a visitar" data-correct="false" />
+    El nombre de la página web que vas a visitar
+  </label><label class="q-opt">
+    <input type="radio" name="q3" value="El título del libro que vas a leer" data-correct="false" />
+    El título del libro que vas a leer
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 4 de 10</div>
+  <div class="q-text">¿Qué significa el candado 🔒 en la barra del navegador?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q4" value="La página está bloqueada y no puedes entrar" data-correct="false" />
+    La página está bloqueada y no puedes entrar
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="La página tiene muchos anuncios" data-correct="false" />
+    La página tiene muchos anuncios
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="La conexión a esa página es segura" data-correct="true" />
+    La conexión a esa página es segura
+  </label><label class="q-opt">
+    <input type="radio" name="q4" value="Solo la maestra puede verla" data-correct="false" />
+    Solo la maestra puede verla
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 5 de 10</div>
+  <div class="q-text">¿Cuál de estas páginas es MÁS confiable para un trabajo escolar?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q5" value="Un blog sin autor ni fecha" data-correct="false" />
+    Un blog sin autor ni fecha
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Una página del Ministerio de Educación con autor y fecha 2024" data-correct="true" />
+    Una página del Ministerio de Educación con autor y fecha 2024
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Una página que dice '¡GRATIS todo!'" data-correct="false" />
+    Una página que dice '¡GRATIS todo!'
+  </label><label class="q-opt">
+    <input type="radio" name="q5" value="Una red social anónima" data-correct="false" />
+    Una red social anónima
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 6 de 10</div>
+  <div class="q-text">¿Qué debes hacer si una página te dice '¡Ganaste un premio!'?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q6" value="Poner tus datos rápido antes de que se acabe" data-correct="false" />
+    Poner tus datos rápido antes de que se acabe
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Contarle a todos tus amigos del premio" data-correct="false" />
+    Contarle a todos tus amigos del premio
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Cerrar esa página — es una trampa" data-correct="true" />
+    Cerrar esa página — es una trampa
+  </label><label class="q-opt">
+    <input type="radio" name="q6" value="Hacer clic en el botón verde" data-correct="false" />
+    Hacer clic en el botón verde
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 7 de 10</div>
+  <div class="q-text">¿Cuántas fuentes distintas debes revisar para verificar un dato?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q7" value="Solo con una es suficiente" data-correct="false" />
+    Solo con una es suficiente
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="Al menos dos fuentes distintas" data-correct="true" />
+    Al menos dos fuentes distintas
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="Diez o más para estar seguro" data-correct="false" />
+    Diez o más para estar seguro
+  </label><label class="q-opt">
+    <input type="radio" name="q7" value="No importa la cantidad" data-correct="false" />
+    No importa la cantidad
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 8 de 10</div>
+  <div class="q-text">¿Cuál de estos es un buscador MÁS seguro para usar en la escuela?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q8" value="Un foro de internet sin filtros" data-correct="false" />
+    Un foro de internet sin filtros
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Google SafeSearch con filtro activado" data-correct="true" />
+    Google SafeSearch con filtro activado
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Cualquier buscador es igual de seguro" data-correct="false" />
+    Cualquier buscador es igual de seguro
+  </label><label class="q-opt">
+    <input type="radio" name="q8" value="Solo sirve usar libros físicos" data-correct="false" />
+    Solo sirve usar libros físicos
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 9 de 10</div>
+  <div class="q-text">¿Por qué no debes poner tus datos personales en páginas desconocidas?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q9" value="Porque es aburrido llenar formularios" data-correct="false" />
+    Porque es aburrido llenar formularios
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="Porque pueden usar esos datos de manera peligrosa" data-correct="true" />
+    Porque pueden usar esos datos de manera peligrosa
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="Porque el internet no los guarda" data-correct="false" />
+    Porque el internet no los guarda
+  </label><label class="q-opt">
+    <input type="radio" name="q9" value="No hay ningún peligro real" data-correct="false" />
+    No hay ningún peligro real
+  </label></div>
+</div><div class="q-block">
+  <div class="q-num">Pregunta 10 de 10</div>
+  <div class="q-text">¿Qué indica que un resultado de búsqueda dice 'Patrocinado'?</div>
+  <div class="q-opts"><label class="q-opt">
+    <input type="radio" name="q10" value="Es el resultado más confiable y relevante" data-correct="false" />
+    Es el resultado más confiable y relevante
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="Es un anuncio pagado, no necesariamente el mejor resultado" data-correct="true" />
+    Es un anuncio pagado, no necesariamente el mejor resultado
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="Es una página del gobierno" data-correct="false" />
+    Es una página del gobierno
+  </label><label class="q-opt">
+    <input type="radio" name="q10" value="No tiene ningún significado especial" data-correct="false" />
+    No tiene ningún significado especial
+  </label></div>
+</div>
+    <div class="score-box" id="score-box">
+      <div class="score-num" id="score-num">0</div>
+      <div class="score-denom">/ 20</div>
+      <div class="score-msg" id="score-msg"></div>
+    </div>
+    <button class="submit-btn" id="submit-btn" onclick="submitEval()">Enviar evaluación →</button>
+    <div class="material-reveal" id="material-reveal">
+      <p style="text-align:center;color:var(--muted);font-size:15px;margin-top:16px">
+        ✅ ¡Listo! Puedes repasar el material de arriba.
+      </p>
     </div>
   </div>
 </div>
 
-<div class="footer-note">Guía de Repaso · Asunción School · Computación 2026</div>
-
+</div><!-- /page-wrap -->
 <script>
-function tfCheck(btn,val,correct){
-  const row=btn.closest('tr');
-  row.querySelectorAll('.tf-btn').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=true;});
-  btn.classList.add(val===correct?'correct':'wrong');
-  if(val!==correct){row.querySelectorAll('.tf-btn').forEach(b=>{if(b!==btn&&b.textContent.trim()===(correct==='V'?'Verdadero':'Falso'))b.classList.add('correct');});}
-}
-function clsCheck(btn,val,correct){
-  const row=btn.closest('tr');
-  row.querySelectorAll('.tf-btn').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=true;});
-  btn.classList.add(val===correct?'correct':'wrong');
-  if(val!==correct){row.querySelectorAll('.tf-btn').forEach(b=>{if(b!==btn&&b.textContent.trim()===correct)b.classList.add('correct');});}
-}
-function enterExamMode(){
-  if(!confirm('¿Comenzar la evaluación? El material de estudio se ocultará.'))return;
-  document.getElementById('study-content').style.display='none';
-  document.getElementById('exam-cta').style.display='none';
-  document.getElementById('eval-section').style.display='block';
-}
-let _name='',_grade='',_session='';
-function startEval(grade){
-  const inpN=document.getElementById('gate-nombre');
-  const _rawName=(inpN?inpN.value:'').trim();
-  const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');
-  if(inpN) inpN.value=name;
-  if(name.split(/\s+/).filter(s=>s).length<2){
-    if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;
-  }
-  if(inpN) inpN.classList.remove('err');
-  _name=name;_grade=grade;
-  const gkEl=document.getElementById('eval-grade-key');
-  _session=gkEl?gkEl.dataset.session:'00';
-  // Mostrar pantalla de confirmación de identidad
-  const gw=document.getElementById('eval-gate-wrap');
-  gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card">
-    <div class="confirm-emoji">👤</div>
-    <div class="confirm-question">¿Eres tú quien va a rendir el examen?</div>
-    <div class="confirm-name-big">${name}</div>
-    <button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button>
-    <button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button>
-  </div></div>`;
-}
-function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
-function confirmarIdentidad(){
-  const nk=_nameKey(_name);
-  const lsKey='eval-'+_session+'-'+_grade+'-'+nk;
-  const saved=localStorage.getItem(lsKey);
-  if(saved){
-    try{
-      const r=JSON.parse(saved);
-      document.getElementById('eval-gate-wrap').innerHTML=
-        '<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';
-      showResult(r);
-    }catch(e){}
-    return;
-  }
-  document.getElementById('eval-gate-wrap').style.display='none';
-  const body=document.getElementById('eval-body');
-  if(body) body.style.display='block';
-  // Banner de nombre prominente
-  const banner=document.getElementById('exam-who-bar');
-  if(banner){
-    document.getElementById('exam-who-name').textContent=_name;
-  }
-  document.getElementById('eval-student-name').textContent=_name;
-  updateAnswered();
-}
-function updateAnswered(){
-  const qs=document.querySelectorAll('.eval-q');
-  let ans=0;
-  qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});
-  document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';
-}
-function submitEval(){
-  const qs=document.querySelectorAll('.eval-q');
-  let score=0,correct=0;
-  const respuestas={};
-  let allAnswered=true;
-  qs.forEach((q,i)=>{
-    const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');
-    if(!sel){allAnswered=false;return;}
-    const opt=q.querySelectorAll('.eval-opt')[['A','B','C','D'].indexOf(sel.value)];
-    const radio=q.querySelector('input[data-correct="true"]');
-    const isCorrect=radio&&sel.value===radio.value;
-    respuestas['q'+(i+1)]={respuesta:sel.value,correcto:isCorrect};
-    if(isCorrect){score+=2;correct++;opt.classList.add('correct');}
-    else{opt.classList.add('wrong');if(radio){const cidx=['A','B','C','D'].indexOf(radio.value);q.querySelectorAll('.eval-opt')[cidx].classList.add('correct');}};
-    q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);
-    const fb=document.getElementById('fb'+(i+1));
-    if(fb)fb.textContent=isCorrect?'✅ ¡Correcto!':'❌ Revisa la respuesta correcta arriba.';
-  });
-  if(!allAnswered){alert('Por favor responde todas las preguntas antes de enviar.');return;}
-  document.querySelector('.submit-btn').disabled=true;
-  const fecha=new Date().toLocaleDateString('es-PY',{day:'2-digit',month:'2-digit',year:'numeric'});
-  const result={name:_name,grade:_grade,score,correct,total:qs.length,fecha,respuestas};
-  const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));
-  fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({nombre:_name,grado:_grade,sesion:'05',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});
-  showResult(result);
-  document.getElementById('study-content').style.display='block';
-  const postStudy=document.createElement('div');
-  postStudy.className='post-study';postStudy.style.margin='0 20px 40px';
-  postStudy.innerHTML='<h3>📖 ¿Qué puedes mejorar?</h3><p style="font-size:15px;color:#1e40af">Revisa los conceptos donde te equivocaste y practica los ejercicios de arriba.</p>';
-  document.getElementById('eval-section').appendChild(postStudy);
-}
-function showResult(r){
-  const levels=[[18,'🏆','Excelente','ok'],[14,'⭐','Bueno','good'],[10,'📈','En proceso','warn'],[0,'📚','Necesita refuerzo','low']];
-  const [,em,label,cls]=levels.find(([min])=>r.score>=min);
-  const html=`<div class="result-box"><div class="result-emoji">${em}</div>
-    <div class="result-score">${r.score}/20</div>
-    <div class="result-label">Sesión 05 — ${r.name}</div>
-    <div class="result-detail">${r.correct} de ${r.total} preguntas correctas</div>
-    <div class="result-badge ${cls}">${label}</div></div>`;
-  const wrap=document.getElementById('eval-body');
-  if(wrap){const rb=document.createElement('div');rb.innerHTML=html;wrap.prepend(rb);}
-}
-document.addEventListener('DOMContentLoaded',function(){
-  const gk=document.getElementById('eval-grade-key');
-  if(!gk)return;
-  const grade=gk.dataset.grade;
-  const session=gk.dataset.session||'00';
-  const lsKey='eval-'+session+'-'+grade;
-  const saved=localStorage.getItem(lsKey);
-  if(!saved)return;
-  const r=JSON.parse(saved);
-  document.getElementById('exam-cta').innerHTML='<div class="already-box" style="margin:0 auto;max-width:560px">✅ Ya completaste esta evaluación como <strong>'+r.name+'</strong>. Puntaje: <strong>'+r.score+'/20</strong>.</div>';
-});
 
-// ── Autocomplete: roster del salón (lista estable anual) ──────────────────
-(function(){
-  const gkEl=document.getElementById('eval-grade-key');
-  if(!gkEl) return;
-  const grade=gkEl.dataset.grade;
-  function fillDl(names){
-    const dl=document.getElementById('alumnos-gate-dl');
-    if(dl&&names.length) dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');
-  }
-  // Intentar roster primero; fallback a ranking del mes si no existe
-  fetch('/.netlify/functions/get-roster?grado='+grade)
-    .then(r=>r.ok?r.json():null)
-    .then(d=>{
-      if(d&&d.found&&d.alumnos&&d.alumnos.length){
-        fillDl(d.alumnos.map(a=>a.nombre));
-      } else {
-        const mes=new Date().toISOString().slice(0,7);
-        return fetch('/.netlify/functions/get-ranking?grado='+grade+'&mes='+mes)
-          .then(r=>r.ok?r.json():null)
-          .then(r=>{ if(r&&r.ranking) fillDl(r.ranking.map(s=>s.nombre)); });
-      }
-    }).catch(()=>{});
-})();
+function tfPick(btn,ans,id,correct){
+  const row=btn.closest('tr');
+  row.querySelectorAll('.tf-btn').forEach(b=>{b.classList.remove('correct','wrong','reveal');b.disabled=true;});
+  if(ans===correct){btn.classList.add('correct');}
+  else{btn.classList.add('wrong');row.querySelectorAll('.tf-btn').forEach(b=>{if(b.textContent===correct)b.classList.add('reveal');});}
+}
+
+
+const GRADE = document.getElementById('eval-grade-key').dataset.grade;
+const SESSION = document.getElementById('eval-grade-key').dataset.session;
+const ROSTER_URL = '/.netlify/functions/get-roster?grado=' + GRADE;
+const SUBMIT_URL = '/.netlify/functions/submit-eval';
+let evalNombre = '', evalStarted = false;
+
+fetch(ROSTER_URL).then(r=>r.json()).then(data=>{
+  const dl = document.getElementById('alumnos-gate-dl');
+  const alumnos = data.alumnos || data || [];
+  alumnos.forEach(a=>{const opt=document.createElement('option');opt.value=typeof a==='string'?a:a.nombre;dl.appendChild(opt);});
+}).catch(()=>{});
+
+function titleCase(s){return s.toLowerCase().replace(/(?:^|\s|-)\S/g,c=>c.toUpperCase());}
+function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
+
+function startEval(){
+  const raw=document.getElementById('gate-nombre').value.trim();
+  if(raw.length<3){alert('Por favor escribe tu nombre completo.');return;}
+  evalNombre=titleCase(raw);
+  const nk=nameKey(evalNombre);
+  const lsKey='eval-'+SESSION+'-'+GRADE+'-'+nk;
+  const prev=localStorage.getItem(lsKey);
+  if(prev){const d=JSON.parse(prev);alert('Ya hiciste esta evaluación con '+d.score+'/20. ¡Solo se puede hacer una vez!');return;}
+  document.getElementById('confirm-name-display').textContent=evalNombre;
+  document.getElementById('gate-box').style.display='none';
+  document.getElementById('confirm-box').style.display='block';
+}
+function resetGate(){
+  document.getElementById('confirm-box').style.display='none';
+  document.getElementById('gate-box').style.display='block';
+  document.getElementById('gate-nombre').value='';
+  evalNombre='';
+}
+function confirmarIdentidad(){
+  document.getElementById('confirm-box').style.display='none';
+  document.getElementById('exam-who-bar').classList.add('visible');
+  document.getElementById('exam-who-name').textContent='👤 '+evalNombre;
+  document.getElementById('eval-form').style.display='block';
+  evalStarted=true;
+}
+document.getElementById('gate-nombre').addEventListener('keydown',e=>{if(e.key==='Enter')startEval();});
+document.querySelectorAll('.q-opt').forEach(opt=>{
+  opt.addEventListener('click',()=>{
+    if(opt.querySelector('input').disabled)return;
+    const block=opt.closest('.q-block');
+    block.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+    opt.classList.add('selected');opt.querySelector('input').checked=true;
+  });
+});
+async function submitEval(){
+  if(!evalStarted)return;
+  const questions=document.querySelectorAll('.q-block');
+  let answered=0;
+  questions.forEach(q=>{if(q.querySelector('input:checked'))answered++;});
+  if(answered<questions.length){alert('¡Responde todas las preguntas antes de enviar!');return;}
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='Enviando…';
+  let correctas=0;const respuestas={};
+  questions.forEach((q,i)=>{
+    const sel=q.querySelector('input:checked');
+    const correct=sel&&sel.dataset.correct==='true';
+    if(correct)correctas++;
+    respuestas['q'+(i+1)]=sel?sel.value:'';
+    q.querySelectorAll('.q-opt').forEach(o=>{
+      o.querySelector('input').disabled=true;
+      if(o.querySelector('input').dataset.correct==='true')o.classList.add('correct');
+      else if(o.querySelector('input').checked)o.classList.add('wrong');
+    });
+  });
+  const score=correctas*2;
+  const nk=nameKey(evalNombre);
+  const lsKey='eval-'+SESSION+'-'+GRADE+'-'+nk;
+  localStorage.setItem(lsKey,JSON.stringify({score,correctas,fecha:new Date().toISOString()}));
+  const sb=document.getElementById('score-box');sb.style.display='block';
+  document.getElementById('score-num').textContent=score;
+  const msgs=score>=18?'🏆 ¡Excelente!':score>=14?'✅ ¡Muy bien!':score>=10?'📚 ¡Sigue practicando!':'💪 ¡Puedes mejorar!';
+  document.getElementById('score-msg').textContent=msgs;
+  btn.style.display='none';
+  document.getElementById('material-reveal').style.display='block';
+  try{await fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalNombre,grado:GRADE,sesion:SESSION,score,correctas,total:questions.length,fecha:new Date().toISOString(),respuestas})});}catch(e){}
+}
+
 </script>
 </body>
 </html>

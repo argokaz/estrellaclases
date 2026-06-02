@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sesión 5 · 6.° Primaria — v2</title>
+<title>Sesión 05 · 6.° Primaria · Búsqueda segura en internet · 12 jun 2026</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
 .deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
-
-/* ── SLIDES BASE ── */
 .slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;
   flex-direction:column;justify-content:center;align-items:center;
   padding:4% 6%;text-align:center;background:linear-gradient(135deg,#052e16,#14532d);}
@@ -19,564 +17,362 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
   font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px;}
 .snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);
   color:rgba(255,255,255,.35);font-weight:600;}
-
-/* ── TIPOGRAFÍA ── */
-.t-super{font-size:clamp(36px,5.6vw,88px);font-weight:900;line-height:1.05;color:#fff;}
-.t-h1{font-size:clamp(26px,4vw,64px);font-weight:800;line-height:1.1;color:#fff;}
-.t-body{font-size:clamp(14px,1.9vw,30px);line-height:1.6;color:rgba(255,255,255,.92);}
-.t-sm{font-size:clamp(12px,1.6vw,26px);line-height:1.5;color:rgba(255,255,255,.8);}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
 .accent{color:#22c55e;}
-
-/* ── COMPONENTES EXISTENTES ── */
 .pill{display:inline-block;background:#22c55e;color:#000;border-radius:999px;
   padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
-.line{width:55%;height:3px;background:#22c55e;border-radius:2px;margin:2% auto;opacity:.65;}
-.list{text-align:left;width:100%;max-width:82%;}
-.list li{margin:.5em 0;list-style:none;padding-left:1.4em;position:relative;
-  font-size:clamp(14px,1.9vw,30px);color:rgba(255,255,255,.9);line-height:1.45;}
-.list li::before{content:'▸';position:absolute;left:0;color:#22c55e;font-size:1.1em;}
-.big-em{font-size:clamp(30px,4.8vw,78px);line-height:1.15;}
 .cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
-.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
-  border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
 .c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
   border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);
+  border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#22c55e;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;
+  font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#22c55e;}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
 .box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
-.highlight{background:rgba(255,255,255,.07);border:2px solid #22c55e;
-  border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%;}
-
-/* ── QUIZ ── */
-.quiz-opts{display:flex;flex-direction:column;gap:.7em;width:100%;max-width:76%;}
-.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
-  border-radius:clamp(6px,1vw,14px);padding:.65em 1.2em;
-  font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;
-  transition:background .15s,border-color .15s,transform .15s;
+.highlight{background:rgba(255,255,255,.07);border:2px solid #22c55e;border-radius:clamp(8px,1.2vw,18px);
+  padding:3% 4%;max-width:85%;margin-top:2%;}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #22c55e;border-radius:clamp(6px,1vw,14px);
+  padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);
+  padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;
   text-align:left;display:flex;align-items:center;gap:.6em;}
-.qopt:hover{background:rgba(255,255,255,.2);transform:scale(1.02);}
-.qopt.correct{background:rgba(34,197,94,.28);border-color:#22c55e;
-  animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;}
-.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;
-  animation:shake .35s ease both;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e;color:#fff;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
 .qletter{font-weight:900;color:#22c55e;min-width:1.6em;}
 .qopt.wrong .qletter{color:#f87171;}
-.quiz-feedback{font-size:clamp(13px,1.7vw,26px);min-height:1.5em;margin-top:1%;}
-
-/* ── NAV ── */
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.75);
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);
   display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;
-  z-index:99;backdrop-filter:blur(8px);}
+  z-index:99;backdrop-filter:blur(6px);}
 .nav button{background:#22c55e;color:#000;border:none;border-radius:8px;
-  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;
-  cursor:pointer;transition:opacity .15s,transform .1s;}
-.nav button:hover:not(:disabled){transform:scale(1.06);}
+  padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s;}
 .nav button:disabled{opacity:.25;cursor:default;}
 .nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
 .dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
 .dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;
-  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s,transform .2s;}
-.dot.active{background:#22c55e;transform:scale(1.4);}
-
-/* ══════════════════════════════════════════
-   ✨ NUEVOS ELEMENTOS — VARIANTE v2
-══════════════════════════════════════════ */
-
-/* Teclas de teclado animadas */
-.kbd{display:inline-block;background:rgba(255,255,255,.15);
-  border:2px solid rgba(255,255,255,.45);border-bottom:4px solid rgba(255,255,255,.45);
-  border-radius:clamp(4px,.6vw,10px);padding:.05em .4em;
-  font-family:'Segoe UI',monospace;font-weight:900;
-  color:#22c55e;font-size:clamp(13px,1.8vw,29px);
-  animation:keyGlow 2.4s ease-in-out infinite;}
-@keyframes keyGlow{
-  0%,100%{box-shadow:0 0 0 rgba(34,197,94,0);}
-  50%{box-shadow:0 0 18px rgba(34,197,94,.55),0 0 6px rgba(34,197,94,.3);}}
-
-/* Tarjeta ✏️ Apunta — momento de cuaderno */
-.apunta{background:rgba(251,191,36,.1);border:2.5px dashed #fbbf24;
-  border-radius:clamp(10px,1.4vw,22px);padding:2.5% 3.5%;max-width:86%;
-  position:relative;text-align:left;}
-.apunta-label{display:flex;align-items:center;gap:.5em;
-  font-size:clamp(12px,1.5vw,24px);font-weight:800;color:#fbbf24;
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:.8em;}
-.apunta-label .pen{animation:wiggle 1.2s ease-in-out infinite;display:inline-block;}
-.apunta-content{font-size:clamp(13px,1.75vw,28px);color:rgba(255,255,255,.92);line-height:1.6;}
-.apunta-content strong{color:#fbbf24;}
-.apunta-line{display:flex;align-items:center;gap:.5em;margin:.35em 0;}
-.apunta-line::before{content:'→';color:#fbbf24;font-weight:900;flex-shrink:0;}
-@keyframes wiggle{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-12deg);}75%{transform:rotate(10deg);}}
-
-/* Tarjeta de formato especial (negrita, cursiva, etc.) */
-.fmt-card{background:rgba(255,255,255,.12);border:2px solid rgba(34,197,94,.4);
-  border-radius:clamp(8px,1.2vw,20px);padding:2.5% 3%;
-  display:flex;flex-direction:column;align-items:center;gap:.6em;
-  flex:1;min-width:20%;max-width:28%;}
-.fmt-sample{font-size:clamp(22px,3.2vw,52px);font-weight:800;color:#fff;line-height:1.1;}
-.fmt-key{background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);
-  border-bottom:4px solid rgba(255,255,255,.35);border-radius:clamp(4px,.5vw,8px);
-  padding:.1em .45em;font-family:monospace;font-weight:900;
-  color:#22c55e;font-size:clamp(12px,1.6vw,26px);}
-.fmt-name{font-size:clamp(11px,1.4vw,22px);color:rgba(255,255,255,.75);font-weight:600;}
-
-/* Efecto de selección de texto */
-.selected-text{background:#2563eb;color:#fff;border-radius:3px;
-  padding:.05em .2em;animation:selectPulse 2s ease-in-out infinite;}
-@keyframes selectPulse{0%,100%{background:#2563eb;}50%{background:#3b82f6;}}
-
-/* Badge de estrella para "¡Importante!" */
-.star-badge{display:inline-flex;align-items:center;gap:.4em;
-  background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;
-  border-radius:999px;padding:.2em .9em;font-weight:900;
-  font-size:clamp(11px,1.4vw,22px);animation:popIn .5s .6s ease both;opacity:0;}
-
-/* Antes/Después para comparación de formato */
-.before-after{display:grid;grid-template-columns:1fr 1fr;gap:2.5%;width:100%;max-width:88%;}
-.ba-box{border-radius:clamp(8px,1.2vw,18px);padding:3% 3.5%;text-align:left;}
-.ba-box.before{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);}
-.ba-box.after{background:rgba(34,197,94,.1);border:2px solid rgba(34,197,94,.4);}
-.ba-label{font-size:clamp(11px,1.3vw,20px);font-weight:800;margin-bottom:.5em;opacity:.8;}
-.ba-text{font-size:clamp(13px,1.7vw,27px);line-height:1.55;color:rgba(255,255,255,.9);}
-
-/* Ticket de salida especial */
-.ticket{background:rgba(251,191,36,.12);border:2.5px dashed #fbbf24;
-  border-radius:clamp(8px,1.2vw,18px);padding:2% 3%;max-width:80%;}
-
-/* ── ORBES DE FONDO ── */
+  background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#22c55e;}
 .slide::before{content:'';position:absolute;width:55%;height:55%;
-  background:radial-gradient(circle,rgba(34,197,94,.18) 0%,transparent 68%);
+  background:radial-gradient(circle,#22c55e2e 0%,transparent 68%);
   border-radius:50%;top:-20%;right:-12%;
   animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
 .slide::after{content:'';position:absolute;width:40%;height:40%;
-  background:radial-gradient(circle,rgba(34,197,94,.12) 0%,transparent 70%);
+  background:radial-gradient(circle,#22c55e1e 0%,transparent 70%);
   border-radius:50%;bottom:-15%;left:-8%;
   animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
 .slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%;}
 .slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%;}
-
-/* ── ANIMACIONES ── */
 @keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
-@keyframes popIn{from{opacity:0;transform:scale(.7);}60%{transform:scale(1.08);}to{opacity:1;transform:scale(1);}}
-@keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}40%{transform:translateX(6px);}60%{transform:translateX(-4px);}80%{transform:translateX(4px);}}
-@keyframes fUpBig{from{opacity:0;transform:translateY(26px) scale(.97);}to{opacity:1;transform:none;}}
-@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
-@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
-@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
-@keyframes bounceIn{0%{opacity:0;transform:scale(.5);}60%{transform:scale(1.15);}80%{transform:scale(.95);}100%{opacity:1;transform:scale(1);}}
-@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
-
-/* Entrada de slides */
-.slide.enter-fwd{animation:eFwd .45s cubic-bezier(.34,1.56,.64,1) both;}
-.slide.enter-back{animation:eBack .45s cubic-bezier(.34,1.56,.64,1) both;}
-@keyframes eFwd{from{opacity:0;transform:translateX(5%) scale(.96);}to{opacity:1;transform:none;}}
-@keyframes eBack{from{opacity:0;transform:translateX(-5%) scale(.96);}to{opacity:1;transform:none;}}
-
-/* Animaciones al activar slide */
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
 .slide.active .t-super{animation:fUpBig .55s .05s ease both;}
 .slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
 .slide.active .t-body{animation:fUp .45s .2s ease both;}
 .slide.active .t-sm{animation:fUp .4s .24s ease both;}
 .slide.active .line{animation:lGrow .42s .1s ease both;}
-.slide.active .big-em{animation:bounceIn .6s .04s cubic-bezier(.34,1.56,.64,1) both;}
-.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .fmt-card:nth-child(1){animation:pIn .4s .12s ease both;}
-.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .fmt-card:nth-child(2){animation:pIn .4s .22s ease both;}
-.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .fmt-card:nth-child(3){animation:pIn .4s .32s ease both;}
-.slide.active .c:nth-child(4),.slide.active .fmt-card:nth-child(4){animation:pIn .4s .42s ease both;}
+.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both;}
 .slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
 .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
 .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
 .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
 .slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
 .slide.active .highlight{animation:pIn .45s .28s ease both;}
-.slide.active .apunta{animation:pIn .5s .2s cubic-bezier(.34,1.56,.64,1) both;}
-.slide.active .before-after>.ba-box:nth-child(1){animation:fUp .4s .16s ease both;}
-.slide.active .before-after>.ba-box:nth-child(2){animation:fUp .4s .32s ease both;}
 .slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
 .slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
 .slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
-.slide.active .ticket{animation:pIn .5s .3s cubic-bezier(.34,1.56,.64,1) both;}
-.slide.active .star-badge{animation:popIn .5s .55s cubic-bezier(.34,1.56,.64,1) both;opacity:0;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
 </style>
 </head>
 <body>
 <div class="deck-wrap" id="deck">
-
-<!-- ══ S1 · TÍTULO ══ -->
 <div class="slide active">
   <div class="brand">Asunción School</div><div class="snum">5 · 1</div>
-  <div class="big-em" style="margin-bottom:1%">🎨</div>
   <p class="t-sm accent">Viernes 12 de junio · 6.° Primaria</p>
   <div class="line"></div>
-  <h1 class="t-super">¡Le ponemos<br><span class="accent">estilo!</span></h1>
-  <p class="t-body" style="margin-top:2%">Formato de texto en Google Docs</p>
-  <p class="t-sm" style="margin-top:3%;opacity:.65">Profa. Estrella Vizcarra</p>
+  <h1 class="t-super">🔍 Búsqueda segura<br><span class='accent'>en internet</span></h1>
+  <p class="t-body" style="margin-top:2%">Buscar bien, encontrar lo mejor y no caer en trampas</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
 </div>
-
-<!-- ══ S2 · ¿QUÉ ES EL FORMATO? ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 2</div>
-  <h2 class="t-h1">¿Qué cambia el formato?</h2>
+  <h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2>
   <div class="line"></div>
-  <div class="before-after" style="margin-top:2.5%">
-    <div class="ba-box before">
-      <p class="ba-label" style="color:rgba(255,255,255,.5)">😴 Sin formato</p>
-      <p class="ba-text">hoy aprendimos sobre el sistema solar el sol es una estrella y la tierra gira alrededor de el</p>
-    </div>
-    <div class="ba-box after">
-      <p class="ba-label accent">✨ Con formato</p>
-      <p class="ba-text"><strong>Hoy aprendimos sobre el Sistema Solar.</strong><br>
-        El <em>Sol</em> es una estrella y la Tierra gira alrededor de él.</p>
-    </div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🖥️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Navegador vs buscador</p><p class="t-sm" style="opacity:.8">¡No son lo mismo!</p></div>
+    <div class="c3"><div class="big-em">🔑</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Palabras clave</p><p class="t-sm" style="opacity:.8">El truco para buscar mejor</p></div>
+    <div class="c3"><div class="big-em">🛡️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Páginas confiables</p><p class="t-sm" style="opacity:.8">¿Cómo saber cuáles son buenas?</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2.5%;opacity:.7">El formato hace que tu texto sea más fácil de leer</p>
 </div>
-
-<!-- ══ S3 · SELECCIONAR PRIMERO ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 3</div>
-  <h2 class="t-h1">El paso <span class="accent">secreto</span> 🔑</h2>
+  <h2 class="t-h1">¿Qué es internet? 🌐</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%">Antes de dar formato, tienes que <strong>seleccionar</strong> el texto.</p>
-  <div class="highlight" style="margin-top:3%;max-width:80%">
-    <p class="t-body" style="margin-bottom:.8em">Clic al inicio → mantén → arrastra hasta el final</p>
-    <p class="t-body">El texto seleccionado se ve así: <span class="selected-text">así se ve seleccionado</span></p>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🌍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Una red gigante</p><p class="t-sm" style="opacity:.8">Millones de computadoras conectadas en todo el mundo</p></div>
+    <div class="c3"><div class="big-em">📦</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Guarda información</p><p class="t-sm" style="opacity:.8">Páginas web, videos, fotos, noticias...</p></div>
+    <div class="c3"><div class="big-em">🔓</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cualquiera puede publicar</p><p class="t-sm" style="opacity:.8">¡Por eso hay que saber qué es confiable!</p></div>
   </div>
-  <p class="t-sm" style="margin-top:2.5%;opacity:.7">Sin seleccionar = el formato no funciona 😬</p>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Internet es como una biblioteca gigante donde cualquiera puede agregar libros — ¡incluso libros con errores!</p></div>
 </div>
-
-<!-- ══ S4 · LAS 4 HERRAMIENTAS ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 4</div>
-  <h2 class="t-h1">Las 4 herramientas 🛠️</h2>
+  <h2 class="t-h1">🖥️ Navegador ≠ Buscador</h2>
   <div class="line"></div>
-  <div class="cards" style="margin-top:2.5%">
-    <div class="fmt-card">
-      <div class="fmt-sample" style="font-weight:900">N</div>
-      <div class="fmt-key">Ctrl+B</div>
-      <div class="fmt-name">Negrita</div>
+  <div class="two" style="margin-top:3%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🖥️ Navegador</p>
+      <p class="t-sm" style="opacity:.85">El programa para entrar a internet.</p>
+      <p class="t-sm" style="margin-top:.5em;font-weight:700">Chrome · Firefox · Edge · Safari</p>
+      <p class="t-sm" style="margin-top:.5em;opacity:.7">Es como la puerta de la biblioteca.</p>
     </div>
-    <div class="fmt-card">
-      <div class="fmt-sample" style="font-style:italic">C</div>
-      <div class="fmt-key">Ctrl+I</div>
-      <div class="fmt-name">Cursiva</div>
-    </div>
-    <div class="fmt-card">
-      <div class="fmt-sample" style="text-decoration:underline">S</div>
-      <div class="fmt-key">Ctrl+U</div>
-      <div class="fmt-name">Subrayado</div>
-    </div>
-    <div class="fmt-card">
-      <div class="fmt-sample" style="color:#f87171">T</div>
-      <div class="fmt-key" style="color:#f87171">Color</div>
-      <div class="fmt-name">Color texto</div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🔍 Buscador</p>
+      <p class="t-sm" style="opacity:.85">La herramienta para buscar dentro de internet.</p>
+      <p class="t-sm" style="margin-top:.5em;font-weight:700">Google · Bing · DuckDuckGo</p>
+      <p class="t-sm" style="margin-top:.5em;opacity:.7">Es como el empleado que te ayuda a encontrar el libro.</p>
     </div>
   </div>
-  <p class="t-sm" style="margin-top:2.5%;opacity:.7">Las cuatro están en la barra de herramientas de Docs</p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> Di el nombre de un navegador que no sea Chrome. La profa pregunta al azar.</p></div>
 </div>
-
-<!-- ══ S5 · NEGRITA ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 5</div>
-  <h2 class="t-h1"><strong style="color:#22c55e">Negrita</strong> — la más usada</h2>
+  <h2 class="t-h1">🔑 El truco de las palabras clave</h2>
   <div class="line"></div>
-  <div class="two" style="margin-top:2.5%">
+  <div class="two" style="margin-top:3%">
     <div class="box">
-      <p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">✅ Úsala para:</p>
-      <ul class="list">
-        <li>Títulos y subtítulos</li>
-        <li>Palabras súper importantes</li>
-        <li>Que el lector las vea rápido</li>
-      </ul>
+      <p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.5em">❌ Búsqueda mala</p>
+      <p class="t-body" style="font-weight:700">"quisiera saber por qué los perros mueven la cola cuando están felices"</p>
+      <p class="t-sm" style="margin-top:.5em;opacity:.6">Demasiado largo — el buscador se confunde</p>
     </div>
-    <div class="box" style="border-color:rgba(34,197,94,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%">
-      <p class="t-sm" style="font-weight:700;margin-bottom:3%;color:rgba(255,255,255,.7)">El atajo:</p>
-      <p class="t-body">Selecciona → presiona</p>
-      <p style="margin-top:4%"><span class="kbd">Ctrl</span> <span style="color:#22c55e;font-size:clamp(14px,2vw,30px);font-weight:900">+</span> <span class="kbd">B</span></p>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Búsqueda con palabras clave</p>
+      <p class="t-body" style="font-weight:700">"perros cola felicidad motivo"</p>
+      <p class="t-sm" style="margin-top:.5em;opacity:.7">Solo las palabras más importantes</p>
     </div>
   </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">B = Bold = Negrita en inglés</p>
 </div>
-
-<!-- ══ S6 · MINI QUIZ ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 6</div>
   <h2 class="t-h1">🧩 Mini quiz</h2>
   <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%;font-weight:700">Antes de usar negrita, ¿qué tienes que hacer primero?</p>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Usas Google para buscar información. Google es un…</p>
   <div class="quiz-opts" style="margin-top:3%">
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Presionar Ctrl+B directo</div>
-    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Seleccionar el texto primero</div>
-    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Guardar el documento</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Navegador — es el programa para entrar a internet</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Buscador — te ayuda a encontrar información dentro de internet</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Página web — es un sitio que visitas</div>
   </div>
-  <p class="quiz-feedback t-sm" style="margin-top:2%"></p>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por respuesta correcta · <strong>+1 extra</strong> si explicas la diferencia con tus palabras</p></div>
 </div>
-
-<!-- ══ S7 · CURSIVA ══ -->
 <div class="slide">
   <div class="brand">Asunción School</div><div class="snum">5 · 7</div>
-  <h2 class="t-h1"><em style="color:#60a5fa">Cursiva</em> — elegante</h2>
-  <div class="line"></div>
-  <div class="two" style="margin-top:2.5%">
-    <div class="box">
-      <p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">✅ Úsala para:</p>
-      <ul class="list">
-        <li>Títulos de libros o películas</li>
-        <li>Palabras en otro idioma</li>
-        <li>Citas textuales</li>
-      </ul>
-    </div>
-    <div class="box" style="border-color:rgba(96,165,250,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%">
-      <p class="t-sm" style="font-weight:700;margin-bottom:3%;color:rgba(255,255,255,.7)">El atajo:</p>
-      <p><span class="kbd" style="color:#60a5fa;animation-delay:.3s">Ctrl</span> <span style="color:#60a5fa;font-size:clamp(14px,2vw,30px);font-weight:900">+</span> <span class="kbd" style="color:#60a5fa;animation-delay:.6s">I</span></p>
-    </div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">I = Italic = Cursiva en inglés</p>
-</div>
-
-<!-- ══ S8 · APUNTA — MOMENTO DE CUADERNO ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 8</div>
-  <h2 class="t-h1" style="margin-bottom:2%">Las teclas mágicas 🪄</h2>
-  <div class="line"></div>
-  <div class="apunta" style="margin-top:2%">
-    <div class="apunta-label">
-      <span class="pen">✏️</span> Escribe esto en tu cuaderno
-    </div>
-    <div class="apunta-content">
-      <div class="apunta-line"><strong>Ctrl + B</strong> → Negrita (Bold)</div>
-      <div class="apunta-line"><strong>Ctrl + I</strong> → Cursiva (Italic)</div>
-      <div class="apunta-line"><strong>Ctrl + U</strong> → Subrayado (Underline)</div>
-      <div class="apunta-line"><strong>Ctrl + Z</strong> → Deshacer (¡el botón mágico!)</div>
-      <div class="apunta-line"><strong>Ctrl + S</strong> → Guardar (Save)</div>
-    </div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.6">Cuando la escribas, prueba presionar cada tecla 💪</p>
-</div>
-
-<!-- ══ S9 · SUBRAYADO Y COLOR ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 9</div>
-  <h2 class="t-h1">Subrayado y <span class="accent">color</span></h2>
-  <div class="line"></div>
-  <div class="cards" style="margin-top:2.5%">
-    <div class="c3">
-      <div class="big-em" style="text-decoration:underline;font-size:clamp(24px,3.5vw,56px)">S̲</div>
-      <p class="t-sm accent" style="font-weight:700;margin:.6em 0">Subrayado</p>
-      <p class="t-sm" style="opacity:.8"><span class="kbd" style="font-size:clamp(11px,1.3vw,20px)">Ctrl+U</span></p>
-      <p class="t-sm" style="opacity:.7;margin-top:.5em">Para resaltar con línea</p>
-    </div>
-    <div class="c3">
-      <div class="big-em">🎨</div>
-      <p class="t-sm accent" style="font-weight:700;margin:.6em 0">Color de texto</p>
-      <p class="t-sm" style="opacity:.8">Botón <strong>A</strong> con rayita de color</p>
-      <p class="t-sm" style="opacity:.7;margin-top:.5em">Para dar vida al texto</p>
-    </div>
-    <div class="c3">
-      <div class="big-em">⚠️</div>
-      <p class="t-sm" style="color:#fbbf24;font-weight:700;margin:.6em 0">Ojo con el color</p>
-      <p class="t-sm" style="opacity:.7">No más de 2 colores distintos en un texto</p>
-    </div>
-  </div>
-</div>
-
-<!-- ══ S10 · TAMAÑO DE FUENTE ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 10</div>
-  <h2 class="t-h1">Tamaño de letra</h2>
-  <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%">El número en la barra de herramientas es el tamaño</p>
-  <div class="cards" style="margin-top:2.5%">
-    <div class="c3" style="display:flex;flex-direction:column;justify-content:center">
-      <p style="font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.7)">Tamaño 10</p>
-      <p style="font-size:clamp(12px,1.7vw,26px);color:#fff;margin-top:.3em">Hola</p>
-    </div>
-    <div class="c3" style="border-color:rgba(34,197,94,.5);display:flex;flex-direction:column;justify-content:center">
-      <p class="accent" style="font-size:clamp(11px,1.4vw,22px);font-weight:700">Tamaño 12 ✅</p>
-      <p style="font-size:clamp(16px,2.2vw,34px);color:#fff;margin-top:.3em;font-weight:600">Hola</p>
-    </div>
-    <div class="c3" style="display:flex;flex-direction:column;justify-content:center">
-      <p style="font-size:clamp(11px,1.4vw,22px);color:rgba(255,255,255,.7)">Tamaño 36</p>
-      <p style="font-size:clamp(22px,3.2vw,50px);color:#fff;margin-top:.3em">Hola</p>
-    </div>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">El tamaño normal para texto es 11 o 12 · Los títulos van más grandes</p>
-</div>
-
-<!-- ══ S11 · ERRORES COMUNES ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 11</div>
-  <h2 class="t-h1">❌ vs ✅ Errores de formato</h2>
-  <div class="line"></div>
-  <div class="two" style="margin-top:2%">
-    <div class="box">
-      <p class="t-sm" style="font-weight:700;margin-bottom:4%;opacity:.8">❌ Así no</p>
-      <ul class="list">
-        <li><strong>TODO EN NEGRITA</strong> pierde sentido</li>
-        <li style="color:#f472b6;text-decoration:underline">5 colores diferentes</li>
-        <li style="font-size:clamp(10px,1.3vw,20px)">Texto demasiado pequeño</li>
-        <li>Sin título, sin estructura</li>
-      </ul>
-    </div>
-    <div class="box" style="border-color:rgba(34,197,94,.35)">
-      <p class="t-sm accent" style="font-weight:700;margin-bottom:4%">✅ Así sí</p>
-      <ul class="list">
-        <li><strong>Solo lo importante</strong> en negrita</li>
-        <li>Máximo 2 colores distintos</li>
-        <li>Texto legible (11-12)</li>
-        <li>Título claro y grande</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- ══ S12 · IA — APUNTA ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 12</div>
-  <h2 class="t-h1">🤖 La IA puede ayudarte</h2>
-  <div class="line"></div>
-  <p class="t-body" style="margin-top:1.5%">Puedes pedirle que <strong>te diga cómo mejorar</strong> tu texto — pero <em>tú</em> aplicas el formato</p>
-  <div class="apunta" style="margin-top:2.5%">
-    <div class="apunta-label">
-      <span class="pen">✏️</span> Escribe esta regla en tu cuaderno
-    </div>
-    <div class="apunta-content">
-      <div class="apunta-line">La IA <strong>sugiere</strong> — tú <strong>decides</strong> y aplicas</div>
-      <div class="apunta-line">Siempre revisa antes de aceptar sus cambios</div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ S13 · PROMPT ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 13</div>
-  <h2 class="t-h1">💬 Prompt para usar</h2>
-  <div class="line"></div>
-  <div class="highlight" style="margin-top:2.5%;max-width:88%;text-align:left">
-    <p class="t-sm" style="opacity:.6;font-weight:700;margin-bottom:.8em">Copiar y pegar en la IA:</p>
-    <p class="t-body accent" style="font-style:italic;line-height:1.7">
-      "Mi texto dice: [pega tu texto aquí].<br>
-      ¿Qué palabras debería poner en negrita?<br>
-      ¿Hay algo que debería escribir en cursiva?"
-    </p>
-  </div>
-  <p class="t-sm" style="margin-top:2%;opacity:.7">Luego TÚ aplicas los cambios en Google Docs · Material M05-E</p>
-</div>
-
-<!-- ══ S14 · MISIÓN ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 14</div>
-  <h2 class="t-h1">🎯 Misión: ¡Decoro mi página!</h2>
-  <div class="line"></div>
-  <ul class="list" style="margin-top:1.5%">
-    <li>Abre el doc de la clase pasada</li>
-    <li>Pon tu nombre en <strong>negrita</strong></li>
-    <li>Pon un título en <em>cursiva</em> y tamaño 16</li>
-    <li>Agrega un color a una palabra importante</li>
-    <li>Guarda con <span class="kbd" style="font-size:clamp(11px,1.3vw,20px)">Ctrl+S</span></li>
-  </ul>
-  <p class="t-sm" style="margin-top:2.5%;opacity:.7">⏱ 10 min · Individual · Comparte con la profa cuando termines</p>
-</div>
-
-<!-- ══ S15 · PARA RECORDAR + TICKET ══ -->
-<div class="slide">
-  <div class="brand">Asunción School</div><div class="snum">5 · 15</div>
-  <h2 class="t-h1">🚀 Para recordar</h2>
+  <h2 class="t-h1">¿Qué aparece en los resultados? 📋</h2>
   <div class="line"></div>
   <div class="cards" style="margin-top:2%">
-    <div class="c3"><p class="t-sm">1. Selecciona primero.</p></div>
-    <div class="c3"><p class="t-sm">2. Aplica el formato.</p></div>
-    <div class="c3"><p class="t-sm">3. Menos es más.</p></div>
+    <div class="c4"><div class="big-em">📢</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Publicidad</p><p class="t-sm" style="opacity:.8">Dice "Patrocinado" o "Ad" — no es el mejor resultado</p></div>
+    <div class="c4"><div class="big-em">📰</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Páginas web</p><p class="t-sm" style="opacity:.8">El buscador las ordena por relevancia</p></div>
+    <div class="c4"><div class="big-em">📸</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Imágenes y videos</p><p class="t-sm" style="opacity:.8">También aparecen si son relevantes</p></div>
+    <div class="c4"><div class="big-em">🗺️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Mapas y lugares</p><p class="t-sm" style="opacity:.8">Si buscas algo local</p></div>
   </div>
-  <div class="ticket" style="margin-top:2.5%">
-    <p class="t-sm" style="color:#fbbf24;font-weight:800;margin-bottom:.5em">✏️ Ticket de salida — escribe en tu cuaderno:</p>
-    <p class="t-sm" style="color:rgba(255,255,255,.85)">"Para poner negrita uso ______. El paso secreto antes de formatear es ______."</p>
+  <p class="t-sm" style="margin-top:2%;opacity:.75">💡 Tip: los primeros resultados no siempre son los mejores — ¡revisa varias páginas!</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 8</div>
+  <h2 class="t-h1">🛡️ ¿Cómo saber si es confiable?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">🔒</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">HTTPS</p><p class="t-sm" style="opacity:.8">El candado 🔒 en la barra = conexión segura</p></div>
+    <div class="c4"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Tiene autor</p><p class="t-sm" style="opacity:.8">¿Quién lo escribió? ¿Tiene nombre y fecha?</p></div>
+    <div class="c4"><div class="big-em">🏛️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Fuente oficial</p><p class="t-sm" style="opacity:.8">edu, gov, org = más confiables</p></div>
+    <div class="c4"><div class="big-em">📅</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Fecha reciente</p><p class="t-sm" style="opacity:.8">¿La información es actual?</p></div>
   </div>
-  <p class="t-sm" style="margin-top:1.5%;opacity:.4">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 9</div>
+  <h2 class="t-h1">⭐ ¿Esta página es confiable?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3" style="border-color:#22c55e">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Página A</p>
+      <p class="t-sm">🔒 HTTPS · Autor: Dra. Sofía García · Fecha: 2024 · Sitio del Ministerio de Salud</p>
+    </div>
+    <div class="c3">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Página B</p>
+      <p class="t-sm">Sin candado · Sin autor · Fecha: 2009 · remediosmagicos123.com</p>
+    </div>
+    <div class="c3">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Página C</p>
+      <p class="t-sm">🔒 HTTPS · Wikipedia · Muchos editores anónimos · Sin fecha exacta</p>
+    </div>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto por cada página</strong> que puedas calificar correctamente con una razón</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 10</div>
+  <h2 class="t-h1">📢 La publicidad en internet</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>Los anuncios dicen <span class="accent">"Patrocinado"</span> o <span class="accent">"Ad"</span></li>
+    <li>Aparecen al <span class="accent">inicio</span> de los resultados — no son los mejores por ser primeros</li>
+    <li>Algunos anuncios se disfrazan de <span class="accent">noticias</span></li>
+    <li>Si algo dice <span class="accent">"¡Gratis!"</span> o <span class="accent">"¡Ganaste!"</span> — es trampa 🚨</li>
+  </ul>
+  <div class="highlight"><p class="t-sm" style="font-weight:700">Regla de oro: si parece demasiado bueno para ser verdad, probablemente no lo es.</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 11</div>
+  <h2 class="t-h1">🚨 Señales de peligro</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Demasiados anuncios</p><p class="t-sm" style="opacity:.8">La página es casi pura publicidad</p></div>
+    <div class="c4"><div class="big-em">🎁</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">"¡Ganaste un premio!"</p><p class="t-sm" style="opacity:.8">Nunca es real — cierra esa página</p></div>
+    <div class="c4"><div class="big-em">📧</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Pide tus datos</p><p class="t-sm" style="opacity:.8">Nunca pongas tu nombre, email o dirección</p></div>
+    <div class="c4"><div class="big-em">❗</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Lenguaje alarmante</p><p class="t-sm" style="opacity:.8">"¡Urgente!" "¡Solo hoy!" "¡Tu computadora tiene virus!"</p></div>
+  </div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 12</div>
+  <h2 class="t-h1">🔐 Buscadores más seguros para la escuela</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🌟</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Google SafeSearch</p><p class="t-sm" style="opacity:.8">Google con filtro de contenido activado</p></div>
+    <div class="c3"><div class="big-em">🦆</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">DuckDuckGo</p><p class="t-sm" style="opacity:.8">No guarda lo que buscas ni te rastrea</p></div>
+    <div class="c3"><div class="big-em">🔵</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Kiddle</p><p class="t-sm" style="opacity:.8">Diseñado especialmente para niños</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.75">💡 Pídele a tu profa o a tus padres que activen SafeSearch en el buscador que usas en casa.</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 13</div>
+  <h2 class="t-h1">⭐ ¡Misión Detective! 🕵️</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">Busca este dato en el buscador:<br>"¿De qué color es la sangre de los pulpos?"</p>
+  <ul class="list" style="margin-top:3%">
+    <li>Encuentra <span class="accent">2 páginas</span> con la respuesta</li>
+    <li>Comprueba que tengan <span class="accent">candado 🔒</span></li>
+    <li>Anota cuál parece <span class="accent">más confiable</span> y por qué</li>
+  </ul>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> por encontrar 2 fuentes · <strong>+1 extra</strong> por explicar cuál es mejor y por qué</p></div>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 14</div>
+  <h2 class="t-h1">🎯 ¡Misión: Mini ficha de fuentes!</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Elige un tema</p><p class="t-sm" style="opacity:.8">Un animal, una planta o un lugar del Perú</p></div>
+    <div class="c3"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Busca 3 datos</p><p class="t-sm" style="opacity:.8">De 3 páginas distintas y confiables</p></div>
+    <div class="c3"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Anota la fuente</p><p class="t-sm" style="opacity:.8">Nombre de la página y si tiene candado</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos. Comparte el Doc con la profa al terminar.</p>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 15</div>
+  <h2 class="t-h1">✅ Checklist del buscador inteligente</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>¿Usé <span class="accent">palabras clave</span>, no oraciones largas?</li>
+    <li>¿La página tiene <span class="accent">candado 🔒</span>?</li>
+    <li>¿La página tiene <span class="accent">autor y fecha</span>?</li>
+    <li>¿Revisé <span class="accent">más de una fuente</span>?</li>
+    <li>¿Evité páginas con <span class="accent">"¡Ganaste!"</span> o muchos anuncios?</li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 16</div>
+  <h2 class="t-h1">💡 El truco del detective digital</h2>
+  <div class="line"></div>
+  <div class="highlight">
+    <p class="t-body" style="font-weight:700;font-style:italic">"Si encuentras un dato importante,<br>búscalo en <span style='color:#22c55e'>DOS fuentes distintas</span>.<br>Si las dos dicen lo mismo → ¡probablemente es verdad!"</p>
+  </div>
+  <ul class="list" style="margin-top:3%">
+    <li>Los periodistas siempre verifican con 2 fuentes</li>
+    <li>Los científicos repiten sus experimentos</li>
+    <li>¡Tú también puedes ser un detective de la verdad!</li>
+  </ul>
+</div>
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">5 · 17</div>
+  <h2 class="t-h1">🚀 Lo que llevas hoy</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🖥️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Navegador ≠ Buscador</p><p class="t-sm" style="opacity:.8">Chrome es la puerta · Google es el mapa</p></div>
+    <div class="c3"><div class="big-em">🔑</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Palabras clave</p><p class="t-sm" style="opacity:.8">Cortas, precisas y directas</p></div>
+    <div class="c3"><div class="big-em">🛡️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Verifica siempre</p><p class="t-sm" style="opacity:.8">Candado 🔒 · autor · fecha · 2 fuentes</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: Respeto y comunicación en línea · Viernes 19 de junio</p>
 </div>
 
-</div><!-- /deck-wrap -->
-
-<div class="nav">
-  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+</div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
   <div class="dots" id="dots"></div>
-  <span id="counter">1 / 15</span>
-  <button id="btn-next" onclick="go(1)">▶</button>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<!-- Remote sync (deck) -->
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;
+  background:rgba(0,0,0,.82);border:2px solid #22c55e;border-radius:12px;padding:.4rem 1rem;
+  font-family:monospace;font-size:1.2rem;font-weight:900;color:#22c55e;letter-spacing:.22em;
+  backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
 </div>
-
 <script>
-const slides=[...document.querySelectorAll('.slide')];
-const total=15;let cur=0,initialized=false;
+(function(){
+  const API='/.netlify/functions/sync';const OFFSET=1;
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('room-code-display').textContent=ROOM;
+  let last=-999,busy=false;
+  async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}
+  setInterval(poll,1500);poll();
+})();
+</script>
+<script>
+
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];
-function goTo(n){
-  const dir=n>cur?1:-1;
-  slides[cur].classList.remove('active','enter-fwd','enter-back');
-  allDots[cur].classList.remove('active');
-  cur=Math.max(0,Math.min(total-1,n));
-  const s=slides[cur];
-  s.classList.remove('enter-fwd','enter-back');
-  s.classList.add('active');
-  if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}
-  allDots[cur].classList.add('active');
-  document.getElementById('counter').textContent=(cur+1)+' / '+total;
-  document.getElementById('btn-prev').disabled=cur===0;
-  document.getElementById('btn-next').disabled=cur===total-1;
-}
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
 function go(d){goTo(cur+d);}
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}
-  if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}
-});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
 let tx=0;
 document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
 document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
 function quizPick(el){
   const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
   const fb=el.closest('.slide').querySelector('.quiz-feedback');
-  opts.forEach(o=>{o.classList.remove('correct','wrong');o.style.pointerEvents='none';});
-  if(el.dataset.correct==='true'){
-    el.classList.add('correct');
-    if(fb){fb.textContent='✅ ¡Exacto! Seleccionar primero es el paso secreto.';fb.style.color='#4ade80';}
-  } else {
-    el.classList.add('wrong');
-    const right=[...opts].find(o=>o.dataset.correct==='true');
-    if(right)right.classList.add('correct');
-    if(fb){fb.textContent='Casi — la respuesta correcta está marcada en verde.';fb.style.color='#fbbf24';}
-  }
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
 }
-goTo(0);initialized=true;
-</script>
+goTo(0);
+initialized=true;
 
-<!-- ── Remote sync (deck) ── -->
-<div id="room-badge" style="
-  position:fixed;bottom:52px;right:12px;z-index:200;
-  background:rgba(0,0,0,.82);border:2px solid #22c55e;
-  border-radius:12px;padding:.4rem 1rem;
-  font-family:monospace;font-size:1.2rem;font-weight:900;
-  color:#22c55e;letter-spacing:.22em;
-  backdrop-filter:blur(6px);pointer-events:none;
-  display:flex;align-items:center;gap:.5rem">
-  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
-  <span id="room-code-display">···</span>
-</div>
-<script>
-(function(){
-  const API='/.netlify/functions/sync';
-  const OFFSET=1;
-  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
-  const ROOM=sessionStorage.getItem('deck-room')||genCode();
-  sessionStorage.setItem('deck-room',ROOM);
-  document.getElementById('room-code-display').textContent=ROOM;
-  let last=-999,busy=false;
-  async function poll(){
-    if(busy)return;busy=true;
-    try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());
-      if(!r.ok)return;const d=await r.json();
-      if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}
-    }catch(e){}finally{busy=false;}
-  }
-  setInterval(poll,1500);poll();
-})();
 </script>
 </body>
 </html>

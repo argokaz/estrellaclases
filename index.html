@@ -2396,12 +2396,12 @@ async function buildAndReloadRoster(){
     });
     const d = await res.json();
     if(d.ok){
-      const r = d.results[_rosterGrade];
-      sessionStorage.removeItem('roster-cache-' + _rosterGrade); // invalidar caché
+      const r = d.results?.[_rosterGrade] || {};
+      sessionStorage.removeItem('roster-cache-' + _rosterGrade);
       await loadRosterEditor(true);
-      statusEl.textContent = `✅ Reconstruido: ${r.alumnos} alumnos (${r.raw} nombres en bruto)`;
+      statusEl.textContent = `✅ Migrados: ${r.alumnos||0} alumnos, ${r.evals||0} evaluaciones`;
     } else {
-      statusEl.textContent = '⚠️ Error al reconstruir';
+      statusEl.textContent = '⚠️ Error: ' + (d.error||'desconocido');
     }
   } catch(e){
     statusEl.textContent = '⚠️ Error de conexión';

@@ -35,6 +35,14 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
 .nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
 #sync-overlay-btn{background:transparent;border:1.5px solid #c084fc;color:#c084fc;
   border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text);font-size:.85em;outline:none;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -129,7 +137,17 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
     <p class="note-text">Respuesta correcta: B — falta año, número de página y las comillas mal integradas. Aprovechar para reescribir la cita correctamente.<br><br>⭐ Bonus: +1 por respuesta, +1 extra si corrige la cita completa.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
     <p class="note-text">Vota por show of hands. Pide a uno que corrija la cita en voz alta.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <input id="bw-nombre" type="text" list="bw-dl" autocomplete="off" placeholder="Nombre del alumno…" class="bw-inp">
+    <datalist id="bw-dl"></datalist>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card" id="card-5">
   <div class="card-header">
@@ -307,6 +325,37 @@ cards.forEach((c,i)=>{
 function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
 
 openCard(0);
+
+const NOTA_GRADE='sec4';const NOTA_SESSION='04';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{
+    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const d=await r.json();
+    if(d.found){
+      const dl=document.getElementById('bw-dl');
+      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;dl.appendChild(o);});
+    }
+  }catch(e){}
+})();
+async function darBonus(){
+  const inp=document.getElementById('bw-nombre');
+  const msg=document.getElementById('bw-msg');
+  const nombre=inp.value.trim();
+  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
+    const d=await res.json();
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';}
+    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
+  }catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+}
 </script>
 
 <script>

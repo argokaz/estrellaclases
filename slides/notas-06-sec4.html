@@ -24,7 +24,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
 .nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
 .nav-btn:disabled{opacity:.25;cursor:default}
-#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}</style></head>
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text);font-size:.85em;outline:none;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 06 · 4.° Secundaria</div><div class="top-bar-meta">IA para investigación escolar · Viernes 19 de junio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
 <div class="cards-wrap"><div class="card">
@@ -54,7 +62,17 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
   <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: C. Siempre verificar que el libro exista y que la cita sea textualmente correcta. Las citas de libros inventadas son una de las alucinaciones más comunes.
 
-⭐ Bonus: +1 por respuesta, +1 extra por explicar cómo verificaría la cita.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Para A: la IA nunca es directamente confiable para citas. Para B: cambiar con palabras propias sigue siendo citar una fuente no verificada.</p></div>
+⭐ Bonus: +1 por respuesta, +1 extra por explicar cómo verificaría la cita.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Para A: la IA nunca es directamente confiable para citas. Para B: cambiar con palabras propias sigue siendo citar una fuente no verificada.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <input id="bw-nombre" type="text" list="bw-dl" autocomplete="off" placeholder="Nombre del alumno…" class="bw-inp">
+    <datalist id="bw-dl"></datalist>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">El corte de conocimiento</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
@@ -127,4 +145,35 @@ const API='/.netlify/functions/sync';
 function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
 function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
 function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
-async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}</script></body></html>
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec4';const NOTA_SESSION='06';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{
+    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const d=await r.json();
+    if(d.found){
+      const dl=document.getElementById('bw-dl');
+      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;dl.appendChild(o);});
+    }
+  }catch(e){}
+})();
+async function darBonus(){
+  const inp=document.getElementById('bw-nombre');
+  const msg=document.getElementById('bw-msg');
+  const nombre=inp.value.trim();
+  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
+    const d=await res.json();
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';}
+    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
+  }catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+}
+</script></body></html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S07 — 2.° Secundaria | Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--gold:#b45309;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted)}
+.section{margin-bottom:56px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:12px;line-height:1.2;}
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{display:flex;gap:20px;align-items:flex-start;padding:22px 26px;border-radius:14px;background:var(--bg-alt);border:1px solid var(--border);border-left:5px solid var(--accent);}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:20px 22px;}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+.practice-details{border:2px solid var(--border);border-radius:16px;overflow:hidden;}
+.practice-summary{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;cursor:pointer;background:var(--bg-alt);list-style:none;user-select:none;gap:16px;}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);display:flex;align-items:center;gap:10px;}
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
+.ex p,.ex li{font-size:16px;line-height:1.75}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.tf-btns{display:flex;gap:8px}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.eval-section{margin-top:12px}
+.eval-banner{background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden;}
+.eval-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);pointer-events:none;}
+.eval-badge{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#1e3a8a;font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:5px 14px;margin-bottom:14px;}
+.eval-banner-title{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:800;line-height:1.1;margin-bottom:10px;}
+.eval-banner-sub{font-size:16px;opacity:.88;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,.22);border-radius:10px;padding:14px 18px;font-size:15px;line-height:1.65;}
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:28px}
+.eval-gate{background:var(--bg-quiz);border:2px solid #c7d2fe;border-radius:16px;padding:36px 32px;text-align:center;max-width:480px;width:100%;}
+.gate-icon{font-size:3rem;margin-bottom:14px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:16px;color:var(--muted);margin-bottom:26px;line-height:1.75}
+.gate-label{display:block;font-size:14px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center}
+.gate-input:focus{border-color:var(--accent)}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s}
+.gate-btn:hover{opacity:.88}
+.eval-body{display:none}
+.eval-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:13px 18px;margin-bottom:20px;}
+.eval-top span{font-size:15px;color:var(--muted)}
+.eval-top strong{color:var(--brand)}
+.eval-answered{font-size:15px;color:var(--muted)}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
+.eval-q.done-ok{border-color:var(--ok-b)}
+.eval-q.done-err{border-color:var(--err-b)}
+.eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.eval-q-num.ok{background:var(--ok-t)}
+.eval-q-num.err{background:var(--err-t)}
+.eval-q-text{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid transparent;transition:background .12s;user-select:none;line-height:1.6}
+.eval-opt:hover{background:var(--bg-alt)}
+.eval-opt input[type=radio]{margin-top:4px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.eval-submit-wrap{text-align:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:17px 52px;font-size:18px;font-weight:700;transition:opacity .15s}
+.eval-submit-btn:hover:not(:disabled){opacity:.88}
+.eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.eval-hint{font-size:14px;color:var(--muted);margin-top:10px}
+.result-wrap{margin-top:28px}
+.result-card{border-radius:16px;padding:36px 28px;text-align:center}
+.result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
+.result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
+.result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
+.result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:24px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:76px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
+.res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
+.res-level{font-size:22px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
+.res-detail{font-size:15px;color:var(--muted)}
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
+.exam-cta-section{text-align:center;padding:60px 24px 64px;border-top:2px dashed var(--border);margin-top:8px}
+.exam-cta-icon{font-size:3rem;margin-bottom:18px}
+.exam-cta-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.exam-cta-sub{font-size:16px;color:var(--muted);margin-bottom:30px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto}
+.exam-cta-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:14px;padding:18px 52px;font-size:19px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 6px 24px rgba(37,99,235,.3)}
+.exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
+.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
+.review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
+.name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
+.confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
+.confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
+.confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
+.gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
+.gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
+.exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
+.exam-who-name{font-size:20px;font-weight:900;color:#1e293b;letter-spacing:-.01em;}
+.exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
+.exam-who-change{background:none;border:1px solid rgba(99,102,241,.3);color:var(--muted);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;}
+.exam-who-change:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>2.° Secundaria</div>
+    <div>Sesión 07 &nbsp;·&nbsp; 26 de junio de 2026</div>
+  </div>
+</div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 07</div>
+<div class="doc-subtitle">IA para estudiar sin copiar · ChatGPT / Gemini / Docs</div>
+
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list">
+<div class="concept-block" style="border-left-color:#2563eb">
+  <div class="cb-icon">🤖</div>
+  <div class="cb-body"><div class="cb-title">La IA como herramienta de aprendizaje</div>
+  <div class="cb-text">La IA puede explicar conceptos, hacerte preguntas de práctica, revisar tus textos y darte ideas cuando estás bloqueado. Usada correctamente, es un <strong>tutor disponible 24/7</strong>. El error es confundirla con alguien que hace el trabajo por ti.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#7c3aed">
+  <div class="cb-icon">⚖️</div>
+  <div class="cb-body"><div class="cb-title">Copiar vs usar — la diferencia que importa</div>
+  <div class="cb-text"><strong>Copiar:</strong> la IA hace el trabajo, tú solo entregas. <strong>Usar:</strong> la IA te ayuda a entender, tú produces el resultado. La prueba ética definitiva: ¿podrías responder preguntas sobre ese trabajo en clase sin mirar el papel?</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#059669">
+  <div class="cb-icon">🎯</div>
+  <div class="cb-body"><div class="cb-title">El prompt efectivo para estudiar</div>
+  <div class="cb-text">Un buen prompt incluye el <strong>tema exacto</strong>, el <strong>nivel esperado</strong> y el <strong>formato</strong>. Ejemplo: "Explícame las causas de la Segunda Guerra Mundial en 5 puntos clave, nivel secundaria." Mientras más específico, mejor la respuesta.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#d97706">
+  <div class="cb-icon">🔍</div>
+  <div class="cb-body"><div class="cb-title">Verificar siempre lo que dice la IA</div>
+  <div class="cb-text">La IA puede <strong>alucinar</strong>: inventar datos, fechas, autores y fuentes que suenan reales pero son falsos. Siempre verifica con el buscador, tu libro de texto o fuentes oficiales antes de usar la información en un trabajo.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#0d9488">
+  <div class="cb-icon">🛡️</div>
+  <div class="cb-body"><div class="cb-title">El límite ético</div>
+  <div class="cb-text">Si debes citar el uso de IA, hazlo. No usar la IA para tareas que prohíben su uso. Cuando usas la IA correctamente, <strong>aprendes y puedes defender lo que entregaste</strong>. Esa es la diferencia entre usar y trampar.</div>
+  </div>
+</div>
+</div></div>
+
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2">
+<div class="gloss-card"><div class="gloss-term">Alucinación</div><div class="gloss-def">Cuando la IA genera información falsa (datos, fuentes, autores) que suena real y convincente pero no lo es.</div></div>
+<div class="gloss-card"><div class="gloss-term">Prompt</div><div class="gloss-def">La instrucción o pregunta que le das a una IA. Su calidad determina la calidad de la respuesta que recibirás.</div></div>
+<div class="gloss-card"><div class="gloss-term">Tutor de IA</div><div class="gloss-def">Uso ético de la IA donde te ayuda a entender, practicar y mejorar — sin hacer el trabajo en tu lugar.</div></div>
+<div class="gloss-card"><div class="gloss-term">Integridad académica</div><div class="gloss-def">Conjunto de normas éticas que exigen que el trabajo entregado sea propio y honesto sobre las fuentes y herramientas usadas.</div></div>
+<div class="gloss-card"><div class="gloss-term">Verificación</div><div class="gloss-def">Proceso de comprobar que la información de la IA es correcta usando fuentes confiables adicionales.</div></div>
+<div class="gloss-card"><div class="gloss-term">Sobredependencia</div><div class="gloss-def">Uso excesivo de la IA que atrofia la capacidad de pensar, escribir y resolver problemas de forma autónoma.</div></div>
+<div class="gloss-card"><div class="gloss-term">Cita de IA</div><div class="gloss-def">Referencia bibliográfica que indica que se usó una herramienta de IA, incluyendo el nombre del modelo y la fecha de acceso.</div></div>
+<div class="gloss-card"><div class="gloss-term">Prueba ética</div><div class="gloss-def">"¿Puedes responder preguntas sobre este trabajo sin mirar el papel?" Si no, el uso de IA fue inapropiado.</div></div>
+</div></div>
+
+<div class="section"><details class="practice-details">
+  <summary class="practice-summary">
+    <div class="ps-left">
+      <div class="ps-title">✏️ Ejercicios de práctica</div>
+      <div class="ps-hint">Haz clic para practicar antes de la evaluación — sin límite de intentos</div>
+    </div>
+    <span class="ps-arrow">▾</span>
+  </summary>
+  <div class="practice-content">
+    <div class="practice-invite">
+      <div class="practice-invite-icon">💡</div>
+      <div><strong>Practica aquí primero.</strong><br>Estos ejercicios tienen feedback inmediato y puedes intentarlos las veces que necesites antes de pasar a la evaluación.</div>
+    </div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4>
+    <table class="tf-tbl"><thead><tr><th style="width:74%">Afirmación</th><th style="text-align:center">V</th><th style="text-align:center">F</th></tr></thead><tbody>
+    <tr class="tf-row"><td>La IA siempre da información correcta y verificada.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+    <tr class="tf-row"><td>Pedir a la IA que te haga preguntas de examen es un uso ético para estudiar.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+    <tr class="tf-row"><td>Copiar la respuesta de la IA sin leerla cuenta como haber aprendido.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+    <tr class="tf-row"><td>Un prompt específico genera mejores respuestas que uno vago.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+    </tbody></table></div>
+    <div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Uso ético o no ético?</h4><p style="margin-bottom:14px">Clasifica cada situación:</p>
+    <table class="tf-tbl"><thead><tr><th style="width:74%">Situación</th><th style="text-align:center">Ético</th><th style="text-align:center">No ético</th></tr></thead><tbody>
+    <tr class="tf-row"><td>Pedirle a la IA que explique la fotosíntesis y reescribirla con tus palabras.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">Ético</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">No ético</button></td></tr>
+    <tr class="tf-row"><td>Pegar directamente la respuesta de la IA en tu tarea sin modificarla.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">Ético</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">No ético</button></td></tr>
+    <tr class="tf-row"><td>Usar la IA para que revise los errores de tu redacción y los corrija.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">Ético</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">No ético</button></td></tr>
+    </tbody></table></div>
+  </div>
+</details></div>
+</div>
+
+<div id="exam-cta" class="exam-cta-section">
+  <div class="exam-cta-icon">🎯</div>
+  <div class="exam-cta-title">¿Listo para la evaluación?</div>
+  <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
+  <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
+</div>
+
+<div class="eval-section" id="eval-section" style="display:none">
+  <span id="eval-grade-key" data-grade="sec2" data-session="07" style="display:none"></span>
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 2.° Secundaria</div>
+    <div class="eval-banner-warn">⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno. Lee cada pregunta con calma.</div>
+  </div>
+  <div id="eval-gate-wrap">
+    <div class="eval-gate-wrap">
+      <div class="eval-gate">
+        <div class="gate-icon">📝</div>
+        <div class="gate-h">Antes de comenzar</div>
+        <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+        <label class="gate-label">Nombre</label>
+        <datalist id="alumnos-gate-dl"></datalist>
+        <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval('sec2')">
+        <button class="gate-btn" onclick="startEval('sec2')">Comenzar evaluación →</button>
+      </div>
+    </div>
+  </div>
+  <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div><div class="exam-who-name" id="exam-who-name"></div><div class="exam-who-grade">2.° Secundaria · Sesión 07</div></div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio.'))location.reload()">✏️ No soy yo</button>
+    </div>
+    <div class="eval-top">
+      <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 2.° Secundaria</span>
+      <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
+    </div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál es la diferencia más importante entre COPIAR y USAR la IA correctamente?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Copiar es usar la IA en el celular; usar es usarla en la computadora</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Copiar usa ChatGPT; usar correctamente usa Gemini</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Copiar es que la IA hace el trabajo; usar es que la IA te ayuda a aprender y tú produces el resultado</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) No hay diferencia — ambos usos son iguales</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué es una "alucinación" en una IA como ChatGPT?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Cuando la IA responde en otro idioma</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Cuando la IA genera información falsa que suena real y convincente</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Cuando la IA tarda mucho en responder</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Cuando la IA dice que no sabe responder</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuál de estos prompts es más efectivo para estudiar?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) "Hazme 5 preguntas de examen sobre la Revolución Francesa, nivel 2.° secundaria"</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) "Explícame historia"</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) "Ayúdame con mi tarea"</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) "Dime cosas sobre la guerra"</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Por qué siempre debes verificar la información que da la IA antes de usarla?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Porque la IA cobra dinero por cada respuesta correcta</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Porque la IA solo responde en inglés</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Porque la IA siempre pone información desactualizada</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Porque la IA puede inventar datos, fuentes y fechas falsas que suenan reales</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">Ana usa la IA para estudiar biología así: le pide una explicación, la lee con atención y después la escribe con sus propias palabras. ¿Qué tipo de uso es este?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) No ético — cualquier uso de IA en tareas es trampa</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Ético — usa la IA como herramienta de aprendizaje y produce su propio resultado</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Depende del humor de la profesora ese día</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Ético solo si usa Gemini, no ChatGPT</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Cuál es la "prueba ética" para saber si usaste la IA correctamente en un trabajo?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Que el trabajo tenga más de 500 palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Que el trabajo no tenga ninguna palabra de la IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Que puedas responder preguntas sobre ese trabajo sin mirar el papel</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Que hayas usado la IA menos de 10 minutos</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Para qué materia escolar es MENOS confiable la IA y requiere más cuidado?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Matemáticas — puede fallar en cálculos y dar resultados incorrectos</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Arte — porque no tiene imaginación</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Educación física — porque no puede moverse</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) La IA es igual de confiable en todas las materias</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué es la sobredependencia de la IA?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Usar la IA más de dos horas al día</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Pagar por una versión premium de la IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Tener más de tres cuentas de IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Usar la IA tanto que se pierde la capacidad de pensar y escribir de forma autónoma</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">Si usaste la IA para elaborar parte de un trabajo y la política de tu curso lo exige, ¿qué debes hacer?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) No decir nada — la profesora nunca lo sabrá</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Eliminar el trabajo y empezar de cero sin IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Citar la IA usada con nombre del modelo y fecha de acceso</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Cambiar el texto de la IA para que no sea detectable</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Cuál de estas acciones representa el USO MÁS CORRECTO de la IA para preparar un examen?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Pedirle a la IA que resuelva los ejercicios del examen de práctica</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Pedirle que te haga preguntas de práctica y responderlas tú mismo</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Pedirle que te diga exactamente qué preguntas va a poner la profesora</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) No usar la IA — es trampa en cualquier contexto de estudio</span></label>
+</div></div>
+
+    <div id="eval-submit-wrap" class="eval-submit-wrap">
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+      <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
+    </div>
+    <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<script>
+function tfPick(btn,chosen,correct){const row=btn.closest('.tf-row');if(row.dataset.done)return;row.dataset.done='1';const ok=chosen===correct;row.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add(ok?'correct':'reveal');});btn.classList.add(ok?'correct':'wrong');}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
+let _name='',_grade='',_session='';
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
+function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-'+_session+'-'+_grade+'-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){document.getElementById('exam-who-name').textContent=_name;banner.style.display='flex';}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'07',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 07 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}}).catch(()=>{});})();
+</script>
+</div>
+</body>
+</html>

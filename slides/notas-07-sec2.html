@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S7 · 2.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #60a5fa;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#60a5fa;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;color:#60a5fa;letter-spacing:.15em;cursor:pointer;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#60a5fa;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#60a5fa;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);border-top:2px solid #60a5fa;display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #60a5fa;color:#60a5fa;border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid rgba(96,165,250,.3);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:#f0f0f0;font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:#60a5fa;}
+.bw-btn{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
+</style>
+</head>
+<body>
+
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #60a5fa;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#60a5fa;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X" style="width:100%;background:#111;border:2px solid #60a5fa;color:#fff;font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#60a5fa;color:#000;border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 7 · 2.° Secundaria</div>
+    <div class="tema">IA para estudiar sin copiar</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header"><span class="card-num">S7·2</span><span class="card-title">¿Qué haremos hoy?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conecta con algo que ya hacen: ¿Alguno usó ChatGPT o Gemini para una tarea? Sin juzgar — normalizar el uso y luego distinguir entre copiar y usar bien. Presenta las 3 metas de la clase.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Manos levantadas anónimas: ¿Quién usó IA para una tarea escolar? Usar el dato como punto de partida, no para señalar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header"><span class="card-num">S7·3</span><span class="card-title">¿Qué puede hacer la IA?</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cuatro capacidades: explicar, preguntar, revisar, dar ideas. Énfasis en que la IA puede ser un tutor ilimitado — disponible a cualquier hora, sin cansarse. Pero solo si se le usa bien.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo rápida si tienes acceso: pídele a la IA que explique un concepto de biología en términos simples. Muestra la respuesta.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header"><span class="card-num">S7·4</span><span class="card-title">Copiar vs usar</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La distinción clave: copiar = la IA hace el trabajo, tú solo entregas. Usar = la IA te ayuda a entender, tú produces. La consecuencia práctica es simple: si no puedes defender lo que entregaste en clase, fue trampa.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Debate breve: ¿Es lo mismo copiar de internet que usar IA? Deja que opinen libremente y guía hacia la distinción.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header"><span class="card-num">S7·5</span><span class="card-title">La diferencia que importa</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Analogía del tutor vs fantasma. Contar a alguien que escriba tu trabajo se llama "contract cheating" — tiene consecuencias académicas graves en la universidad. La IA hace lo mismo si se usa para eso. ⭐ Bonus: ejemplo real de uso ético.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide voluntarios para dar ejemplos de uso ético. Da +1 al mejor ejemplo.</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header"><span class="card-num">S7·6</span><span class="card-title">🧩 Mini quiz — Ana y la fotosíntesis</span><span class="card-time">⏱ 2 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: B — Ana usó la IA correctamente como herramienta de aprendizaje. Clave: pidió una explicación (no que le hiciera la tarea), la leyó, y reescribió con sus propias palabras. Ese proceso es exactamente lo que se busca.</p>
+    <p class="note-label" style="margin-top:.8em">🧩 Q&A (solo en notas)</p>
+    <p class="note-text"><strong>P:</strong> ¿Qué hubiera tenido que hacer Ana para que fuera trampa?<br><strong>R:</strong> Copiar directamente la explicación de la IA sin reescribir, o pedir que la IA hiciera el resumen completo de la tarea.<br><br><strong>P:</strong> ¿La manera en que Ana usó la IA la ayuda a aprender?<br><strong>R:</strong> Sí — al reescribir con sus propias palabras, procesa y consolida la información. Es como tomar apuntes.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación rápida: A, B o C. Da +1 al primero que responda correctamente y explique por qué.</p>
+    <div class="bw">
+      <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#60a5fa;margin-bottom:.3em">⭐ Participación en clase</p>
+      <div class="bw-row">
+        <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+        <button onclick="darBonus()" class="bw-btn">+1</button>
+      </div>
+      <p id="bw-msg" class="bw-msg"> </p>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header"><span class="card-num">S7·7</span><span class="card-title">El prompt perfecto para estudiar</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La diferencia entre prompt vago y específico es enorme. Muestra ambos ejemplos en el slide y la diferencia en la respuesta. Un prompt bueno incluye: el tema exacto, el nivel esperado, y el formato de la respuesta.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Si tienes acceso a IA: prueba ambos prompts en tiempo real. Compara los resultados. Deja que vean la diferencia.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header"><span class="card-num">S7·8</span><span class="card-title">IA como tutor de estudio</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cuatro usos específicos: explicar, hacer preguntas de examen, retroalimentar párrafos, corregir sin reescribir. El punto más potente es "hazme un mini examen" — muchos no saben que se puede hacer esto. ⭐ Bonus: en qué materia usarías la IA.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: "ChatGPT, hazme 3 preguntas de examen sobre la Segunda Guerra Mundial, nivel secundaria." Muestra el resultado.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header"><span class="card-num">S7·9</span><span class="card-title">Verifica siempre</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Las "alucinaciones" de la IA son el riesgo principal cuando se usa para estudiar. La IA puede inventar autores, fechas, citas, estadísticas que suenan reales pero no lo son. La regla de oro: si lo vas a entregar, tienes que poder defenderlo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejemplo real si tienes uno: muestra una respuesta de IA con un dato falso. O inventa uno: "¿Verdad que Cervantes nació en 1547?" y deja que la IA lo "confirme" aunque la fecha sea incorrecta.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header"><span class="card-num">S7·10</span><span class="card-title">Errores comunes</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Los 5 errores más importantes para 2.° secundaria. El error de "creer que la IA tiene razón" es el más peligroso a esta edad porque aún no tienen el criterio para cuestionar. El error de la sobredependencia es a largo plazo pero importante mencionarlo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Cuál de estos errores ya cometieron? Sin señalar — manos levantadas anónimas. Normalizar para poder corregir.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header"><span class="card-num">S7·11</span><span class="card-title">IA en diferentes materias</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Útil: Ciencias, Historia (verificando), Lenguaje, Idiomas. Cuidado: Matemáticas (puede fallar en cálculos), datos estadísticos, eventos recientes. Conocer los límites es tan importante como conocer las capacidades.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: ¿En qué materia les parece más útil la IA? ¿En cuál les parece más riesgosa? Breve discusión.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header"><span class="card-num">S7·12</span><span class="card-title">El límite ético</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La "pregunta de oro" es el mejor criterio práctico. Úsala como mantra. Si no puedes responder preguntas sobre tu propio trabajo, algo está mal. Esto les prepara para la universidad, donde la integridad académica tiene consecuencias formales.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Leer la pregunta en voz alta con énfasis: "¿PUEDES responder sin mirar el papel?" Pausa dramática.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header"><span class="card-num">S7·13</span><span class="card-title">Citar la IA</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Mostrar el formato recomendado. Aclarar que no todas las asignaturas lo exigen aún, pero es la práctica responsable. En la universidad esto ya es una exigencia en muchas instituciones. Mejor acostumbrarse ahora.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide que copien los dos formatos en su cuaderno. Especifica que si tienen dudas sobre si citar, siempre pregunten a la profesora de la materia.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header"><span class="card-num">S7·14</span><span class="card-title">✏️ Tu primer prompt de estudio</span><span class="card-time">⏱ 12 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal: eligen un tema difícil de cualquier materia, escriben un prompt específico, obtienen la respuesta de la IA, y la reescriben con sus propias palabras. El producto es el Doc con ambas versiones.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circula por el salón. Verifica que estén reescribiendo, no copiando directamente. Pide a 2-3 que compartan su prompt y cómo lo mejoraron.</p>
+  </div>
+</div>
+
+<div class="card" id="card-13">
+  <div class="card-header"><span class="card-num">S7·15</span><span class="card-title">🚀 Para recordar</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre con los 3 puntos clave. Ticket de salida: ¿Cómo usarías la IA para repasar el próximo examen? Quiero respuestas específicas, no genéricas.<br><br>Conexión S8: la próxima clase aprenderán a protegerse online — contraseñas, phishing y permisos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: pide 3-4 respuestas concretas. La más específica y práctica gana un +1.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 14</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
+</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;const total=14;
+function openCard(i){cards.forEach((c,j)=>{c.classList.remove('active','open');if(j===i)c.classList.add('active','open');});cur=i;document.getElementById('ncounter').textContent=(i+1)+' / '+total;document.getElementById('btn-prev').disabled=i===0;document.getElementById('btn-next').disabled=i===total-1;cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+openCard(0);
+const NOTA_GRADE='sec2';const NOTA_SESSION='07';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const sel=document.getElementById('bw-nombre');d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});}}catch(e){}})();
+async function darBonus(){const inp=document.getElementById('bw-nombre');const msg=document.getElementById('bw-msg');const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);}
+</script>
+<script>
+(function(){const API='/.netlify/functions/sync';let _room=null;function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#60a5fa;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script>
+</body>
+</html>

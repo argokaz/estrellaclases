@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S7 · 3.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #fb923c;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#fb923c;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;color:#fb923c;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#fb923c;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#fb923c;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#fb923c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);border-top:2px solid #fb923c;display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#fb923c;color:#000;border:none;border-radius:8px;padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #fb923c;color:#fb923c;border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid rgba(251,146,60,.3);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:#f0f0f0;font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:#fb923c;}
+.bw-btn{background:#fb923c;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
+</style>
+</head>
+<body>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #fb923c;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#fb923c;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X" style="width:100%;background:#111;border:2px solid #fb923c;color:#fff;font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#fb923c;color:#000;border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+<div class="top-bar">
+  <div><div class="grade">Sesión 7 · 3.° Secundaria</div><div class="tema">Presentar datos sin aburrir</div></div>
+  <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
+</div>
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header"><span class="card-num">S7·2</span><span class="card-title">¿Qué haremos hoy?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conecta con una visualización que todos hayan visto: gráfico de noticias, estadística de redes sociales. Pregunta: ¿Cuándo un gráfico te aburre? Las respuestas revelan los problemas de diseño que van a resolver hoy.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra un gráfico sobrecargado en pantalla. Pide que identifiquen qué está mal antes de explicar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header"><span class="card-num">S7·3</span><span class="card-title">El problema: datos sin historia</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Comparar las dos columnas del slide. La visualización fallida tiene problemas comunes que el 90% de los trabajos escolares presentan. La efectiva sigue principios simples. El objetivo es que vean la diferencia concreta.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide que identifiquen cuál de sus propios gráficos anteriores tenía alguno de estos problemas. Sin señalar — reflexión personal.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header"><span class="card-num">S7·4</span><span class="card-title">Los 3 gráficos más útiles</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Barras, líneas y torta. Para cada uno: cuándo usarlo, cuándo NO usarlo. La torta tiene la regla de oro: máximo 5 porciones. Con más de 5, nadie puede comparar los ángulos visualmente.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra ejemplos de cada tipo en Sheets o con imagen preparada. Pide que digan qué dato específico se está comunicando en cada uno.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header"><span class="card-num">S7·5</span><span class="card-title">¿Cuándo usar cada gráfico?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El cuadro de decisión del slide es la guía práctica. Añadir: si tienen dos variables numéricas continuas (ej: altura vs peso de personas), un gráfico de dispersión es mejor que barras. Mencionar solo si el grupo lo entiende. ⭐ Bonus: fuente peruana de datos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Escenario rápido: "Tengo datos de ventas de 3 productos durante 6 meses. ¿Qué gráfico uso?" Espera respuestas antes de dar la solución.</p>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header"><span class="card-num">S7·6</span><span class="card-title">🧩 Mini quiz — Temperatura de Lima</span><span class="card-time">⏱ 2 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: C — gráfico de líneas. La temperatura durante 12 meses es una serie temporal (datos en el tiempo). Las líneas muestran la tendencia y los cambios progresivos. La torta no funciona porque los meses no son "partes" de un todo, son puntos en el tiempo.</p>
+    <p class="note-label" style="margin-top:.8em">🧩 Q&A (solo en notas)</p>
+    <p class="note-text"><strong>P:</strong> ¿Por qué no usarías barras para mostrar temperatura mensual?<br><strong>R:</strong> Barras sirven para comparar categorías distintas. Los meses en una serie temporal tienen una relación continua entre sí — las líneas muestran esa continuidad mejor.<br><br><strong>P:</strong> ¿Cuándo SÍ usarías barras con datos mensuales?<br><strong>R:</strong> Si quieres comparar el mismo mes en distintos años (ej: enero 2022 vs enero 2023 vs enero 2024).</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación y +1 al primero que responda correctamente con justificación.</p>
+    <div class="bw">
+      <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#fb923c;margin-bottom:.3em">⭐ Participación en clase</p>
+      <div class="bw-row">
+        <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+        <button onclick="darBonus()" class="bw-btn">+1</button>
+      </div>
+      <p id="bw-msg" class="bw-msg"> </p>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header"><span class="card-num">S7·7</span><span class="card-title">Diseño: menos es más</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El principio de "menos es más" en visualización viene de Edward Tufte: maximizar el ratio de datos por unidad de tinta. Cada elemento visual que no agrega información la quita. Los efectos 3D son el peor ofensor — distorsionan la percepción de las alturas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Si tienes Sheets: muestra cómo un mismo gráfico cambia al quitar la cuadrícula, los colores innecesarios y el borde. Impacto visual inmediato.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header"><span class="card-num">S7·8</span><span class="card-title">El título que cuenta la historia</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El título narrativo es la técnica más transformadora de la clase. Un buen título hace que el lector entienda la conclusión antes de analizar el gráfico. En periodismo de datos se llama "declarative headline". Muestra los dos ejemplos del slide — la diferencia es enorme.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejercicio rápido: dales un dato ("Las ventas de la región norte crecieron 35% mientras el sur cayó 12%") y pide que escriban un título narrativo. Comparte 2-3.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header"><span class="card-num">S7·9</span><span class="card-title">Colores con propósito</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La técnica del "gris más uno": todo en gris claro, el dato importante en un color llamativo. El ojo va automáticamente al color. Es la técnica más usada en visualización profesional de datos. El punto de accesibilidad es importante — el daltonismo rojo-verde es el más común.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra un gráfico de barras donde todas las barras están en gris excepto la más importante en naranja. Pregunta qué ven primero.</p>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header"><span class="card-num">S7·10</span><span class="card-title">Errores comunes</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El error del eje Y que no empieza en cero puede ser manipulador (en noticias a veces se hace intencionalmente para exagerar diferencias). Mencionarlo como pensamiento crítico: cuando vean un gráfico, revisar el eje Y siempre.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Alguien cometió alguno de estos errores en sus últimas presentaciones? Sin señalar. ¿Cuál es el más frecuente en clase?</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header"><span class="card-num">S7·11</span><span class="card-title">Sheets y Canva</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Sheets: ideal cuando los datos son propios o actualizables. Canva: ideal para diseño final de infografías y presentaciones. El flujo recomendado: analizar datos en Sheets → exportar como imagen → mejorar diseño en Canva si se necesita presentación profesional.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Si tienes tiempo: demo rápida de cómo se cambia el tipo de gráfico en Sheets en 10 segundos.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header"><span class="card-num">S7·12</span><span class="card-title">IA para ideas visuales</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Los prompts del slide son útiles para pedir consejo de diseño, no para que la IA genere el gráfico (aún no hace eso bien de manera confiable). La IA es buena para sugerir qué tipo de gráfico usar y cómo formularlo. La decisión final siempre es del estudiante.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Prueba en tiempo real si tienes acceso: "Tengo datos de presencia de plástico en 5 playas peruanas. ¿Qué tipo de gráfico recomiendas y por qué?"</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header"><span class="card-num">S7·13</span><span class="card-title">Adaptar a tu audiencia</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El mismo dato se presenta diferente para público general, trabajo escolar e informe formal. Para trabajos de investigación: fuente de datos citada es obligatoria. Muchos no citan la fuente de sus gráficos — error grave en investigación.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta: en sus últimas presentaciones, ¿citaron de dónde venían los datos de sus gráficos? Manos levantadas.</p>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header"><span class="card-num">S7·14</span><span class="card-title">✏️ Mejora una visualización</span><span class="card-time">⏱ 12 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad: 3 gráficos problemáticos (preparados o tomados de internet). Para cada uno: identificar el problema y proponer la mejora. Opcional: recrear uno. El producto puede ser una lista escrita o un gráfico mejorado en Sheets.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pide a parejas que compartan sus observaciones. ¿En qué gráfico hubo más acuerdo sobre los problemas?</p>
+  </div>
+</div>
+
+<div class="card" id="card-13">
+  <div class="card-header"><span class="card-num">S7·15</span><span class="card-title">🚀 Para recordar</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre con los 3 puntos clave. Ticket de salida: ¿Qué cambiarías en el último gráfico que creaste? Quiero una respuesta específica, no genérica.<br><br>Conexión S8: la próxima clase exploran cómo funciona la IA generativa — de dónde viene lo que produce.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida oral: pide 3-4 respuestas. La más específica y aplicada gana un punto.</p>
+  </div>
+</div>
+
+</div>
+<div class="nav-bar">
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 14</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
+</div>
+<script>
+const cards=[...document.querySelectorAll('.card')];let cur=0;const total=14;
+function openCard(i){cards.forEach((c,j)=>{c.classList.remove('active','open');if(j===i)c.classList.add('active','open');});cur=i;document.getElementById('ncounter').textContent=(i+1)+' / '+total;document.getElementById('btn-prev').disabled=i===0;document.getElementById('btn-next').disabled=i===total-1;cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+openCard(0);
+const NOTA_GRADE='sec3';const NOTA_SESSION='07';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const sel=document.getElementById('bw-nombre');d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});}}catch(e){}})();
+async function darBonus(){const inp=document.getElementById('bw-nombre');const msg=document.getElementById('bw-msg');const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);}
+</script>
+<script>
+(function(){const API='/.netlify/functions/sync';let _room=null;function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#fb923c;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script>
+</body>
+</html>

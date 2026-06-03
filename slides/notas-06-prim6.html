@@ -62,7 +62,16 @@ Las MAYÚSCULAS como grito es el ejemplo más impactante — muchos nunca lo hab
 - B: 'Hola 😊 Creo que faltó...' → respetuoso
 - C: 'ok' → neutro (puede sonar frío según el contexto)
 
-⭐ Bonus: +1 por clasificar correctamente con razón.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 30 segundos por mensaje. Recoge respuestas. Para C: explica que el contexto importa — a veces 'ok' sin nada más suena a molestia.</p></div>
+⭐ Bonus: +1 por clasificar correctamente con razón.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 30 segundos por mensaje. Recoge respuestas. Para C: explica que el contexto importa — a veces 'ok' sin nada más suena a molestia.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c6" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c6','bw-msg-c6')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c6" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
@@ -91,7 +100,16 @@ Las MAYÚSCULAS como grito es el ejemplo más impactante — muchos nunca lo hab
 
 Respuesta modelo: 'Hola 😊 La tarea de hoy me costó bastante. ¿Podrías explicarme la parte de [tema]? Me ayudaría mucho 🙏'
 
-⭐ Bonus: +2 puntos al mejor mensaje reescrito.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge 3-4 respuestas. Compara cuál usa mejor saludo, tono y emojis. Anota los elementos positivos de cada uno.</p></div>
+⭐ Bonus: +2 puntos al mejor mensaje reescrito.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge 3-4 respuestas. Compara cuál usa mejor saludo, tono y emojis. Anota los elementos positivos de cada uno.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">¿Qué NO se comparte en línea?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
@@ -112,7 +130,16 @@ Respuesta modelo: 'Hola 😊 La tarea de hoy me costó bastante. ¿Podrías expl
 - 'Ese trabajo tuyo es una basura...' → 'Creo que podrías mejorar [parte] así...'
 - 'Para qué preguntas...' → 'Puedo ayudarte, ¿qué parte no entendiste?'
 
-⭐ Bonus: +1 por mensaje correcto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas en voz alta. Compara versiones. Señala qué hace a cada reescritura más respetuosa.</p></div>
+⭐ Bonus: +1 por mensaje correcto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas en voz alta. Compara versiones. Señala qué hace a cada reescritura más respetuosa.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Taller de mensajes</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
@@ -160,14 +187,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -185,7 +213,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Navigation sync: postSlide on every card change ─────────────────────────

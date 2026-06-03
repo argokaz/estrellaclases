@@ -57,7 +57,16 @@ Análogía: el tablero de un avión. Cada indicador le dice al piloto algo que n
 
 KPI que falta: identificación de alumnos con nota < 11 (o umbral de riesgo) + sus secciones.
 
-⭐ Bonus: +1 por proponer el KPI con justificación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas. Válidas: ranking de notas, alumnos bajo umbral por sección, tabla de alumnos en riesgo. Cualquier propuesta que responda la pregunta del director.</p></div>
+⭐ Bonus: +1 por proponer el KPI con justificación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas. Válidas: ranking de notas, alumnos bajo umbral por sección, tabla de alumnos en riesgo. Cualquier propuesta que responda la pregunta del director.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c5" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
@@ -93,7 +102,16 @@ Respuesta modelo:
 - KPI 2: promedio mensual → líneas por sección
 - KPI 3: participación extracurricular vs rendimiento → dispersión o barras
 
-⭐ Bonus: +2 al diseño más completo y justificado.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas de 3-4 grupos o individuos. Compara los diseños. El más completo (KPI + gráfico + segmento) gana los puntos.</p></div>
+⭐ Bonus: +2 al diseño más completo y justificado.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas de 3-4 grupos o individuos. Compara los diseños. El más completo (KPI + gráfico + segmento) gana los puntos.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Formatear un dashboard profesional</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
@@ -115,7 +133,16 @@ Demo completo en Sheets con datos reales del aula si están disponibles.</p><p c
 
 'Las secciones con mayor asistencia (3.°A: 95%) y participación extracurricular (62%) tienen el mayor % de aprobación (91%). La correlación sugiere que la implicación escolar impacta el rendimiento. Recomendación: estrategias para aumentar asistencia y actividades en 3.°C.'
 
-⭐ Bonus: +2 al insight más completo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 2 minutos para pensar. Recoge 2-3 respuestas. El mejor insight conecta las 3 variables y da una recomendación concreta.</p></div>
+⭐ Bonus: +2 al insight más completo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 2 minutos para pensar. Recoge 2-3 respuestas. El mejor insight conecta las 3 variables y da una recomendación concreta.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Dashboard de encuesta propia</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
@@ -157,14 +184,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -182,7 +210,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Navigation sync: postSlide on every card change ─────────────────────────

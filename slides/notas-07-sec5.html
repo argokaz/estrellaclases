@@ -91,7 +91,16 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
     <p class="note-text">Las 4 habilidades irreemplazables: empatía real, juicio ético, síntesis contextual, creatividad estratégica. Para 5.° secundaria: conectar cada una con una carrera específica. La empatía en medicina y psicología. El juicio ético en derecho y política. ⭐ Bonus: sobre tipo de evidencia.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
     <p class="note-text">¿Cuál de las 4 habilidades les parece más difícil de desarrollar? ¿Cuál ya tienen? Reflexión personal, 1 minuto.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s7-5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s7-5','bw-msg-s7-5')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-s7-5" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 
 <div class="card" id="card-4">
@@ -218,8 +227,10 @@ function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
 openCard(0);
 const NOTA_GRADE='sec5';const NOTA_SESSION='07';
 let bwPw=sessionStorage.getItem('nota_pw')||'';
-(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const sel=document.getElementById('bw-nombre');d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});}}catch(e){}})();
-async function darBonus(){const inp=document.getElementById('bw-nombre');const msg=document.getElementById('bw-msg');const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);}
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
 </script>
 <script>
 (function(){const API='/.netlify/functions/sync';let _room=null;function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();

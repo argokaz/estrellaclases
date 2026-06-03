@@ -126,7 +126,16 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
     <p class="note-text">Ctrl+S, Ctrl+Z, Ctrl+C, Ctrl+V. Llama a estos 4 los 'atajos de supervivencia'. Énfasis especial en Ctrl+Z — muchos no saben que existe.<br><br>⭐ Bonus: Pregunta al azar quién puede decir qué hace Ctrl+Z. Da +1 punto.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
     <p class="note-text">Demuestra cada atajo en Google Docs en pantalla. Luego pide que los prueben.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s4-5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s4-5','bw-msg-s4-5')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-s4-5" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card" id="card-4">
   <div class="card-header">
@@ -275,7 +284,16 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
     <p class="note-text">Interacción práctica: seleccionar → Ctrl+C → Enter → Ctrl+V.<br>⭐ Bonus: +2 puntos para quienes lo demuestren a la profa.</p>
     <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
     <p class="note-text">Llama a 2-3 voluntarios para demostrarlo frente al grupo.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s4-15" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s4-15','bw-msg-s4-15')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-s4-15" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card" id="card-14">
   <div class="card-header">
@@ -344,14 +362,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -369,7 +388,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 </script>
 

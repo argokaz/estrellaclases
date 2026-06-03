@@ -49,7 +49,16 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
   <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">¿Para qué SÍ sirve una animación?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
   <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 usos válidos son concretos y verificables. El más poderoso: revelar una lista elemento por elemento para que el público no se adelante mientras el expositor habla.
 
-⭐ Bonus: +1 por ejemplo real de cuándo revelar element por elemento ayuda.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en Slides: lista con animación 'Aparecer' elemento por elemento. Pregunta: ¿hay diferencia con mostrar todo de una vez mientras se habla?</p></div>
+⭐ Bonus: +1 por ejemplo real de cuándo revelar element por elemento ayuda.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en Slides: lista con animación 'Aparecer' elemento por elemento. Pregunta: ¿hay diferencia con mostrar todo de una vez mientras se habla?</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c4" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c4','bw-msg-c4')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c4" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">❌ Animaciones que destruyen</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
@@ -89,7 +98,16 @@ Morph es la excepción porque crea continuidad visual real — no es decorativa.
 - B: Spin de 2 seg + texto rebotando → distrae completamente
 - C: Fade para gráfico al momento de mencionarlo → ayuda
 
-⭐ Bonus: +1 por caso con justificación, +1 extra por vocabulario de la clase.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para A: señala que aunque el concepto de revelar es correcto, Flying In no es el efecto adecuado.</p></div>
+⭐ Bonus: +1 por caso con justificación, +1 extra por vocabulario de la clase.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para A: señala que aunque el concepto de revelar es correcto, Flying In no es el efecto adecuado.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Cuándo NO debes animar</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
@@ -111,7 +129,16 @@ Morph es la excepción porque crea continuidad visual real — no es decorativa.
 3. Bounce en listas → cambiar a Aparecer o Fade
 4. Flying In en imágenes decorativas → eliminar animación
 
-⭐ Bonus: +1 por corrección con explicación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para cada problema: pregunta cuál sería la alternativa correcta.</p></div>
+⭐ Bonus: +1 por corrección con explicación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge respuestas. Para cada problema: pregunta cuál sería la alternativa correcta.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Aplica con criterio</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
@@ -157,14 +184,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -182,7 +210,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Navigation sync: postSlide on every card change ─────────────────────────

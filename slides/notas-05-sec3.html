@@ -111,7 +111,16 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 ⭐ Bonus: Da un ejemplo real de tu vida donde usarías barras. +1 punto.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Muestra un gráfico de barras con eje Y desde 95 vs uno desde 0. ¿Cuál parece que hay más diferencia?</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c4" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c4','bw-msg-c4')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c4" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -212,7 +221,16 @@ Dato curioso: la mayoría de gráficos que vemos en redes sociales no tienen fue
 ⭐ Bonus: +1 punto por error identificado con explicación. Máx. 3 puntos.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Lee cada error de la lista. Da 1-2 minutos para que los identifiquen antes de revelarlos. Recoge respuestas y añade puntos en el ranking.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -282,7 +300,16 @@ Comparar títulos vagos vs informativo es muy efectivo — los estudiantes ven i
 ⭐ Bonus: +1 punto por caso con justificación, +1 extra si nadie más respondió igual.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Recoge respuestas en orden. Discute brevemente el caso más interesante o polémico.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -435,14 +462,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -460,7 +488,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────

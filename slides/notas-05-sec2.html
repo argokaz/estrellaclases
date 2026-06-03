@@ -113,7 +113,16 @@ Menciona la regla: 'Si alguien llega tarde, debe poder entender el tema solo con
 ⭐ Bonus: Inventa un gancho para una presentación sobre IA. +1 punto al mejor.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Pide 2-3 voluntarios que digan un gancho de cualquier tipo. Comenta cuál sería más efectivo y por qué.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c4" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c4','bw-msg-c4')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c4" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -210,7 +219,16 @@ La mayoría debería votar B. Refuerza: no es truco, es empatía con la audienci
 ⭐ Bonus: +1 por votar, +2 extra por justificar con vocabulario de la clase.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Da 30 segundos para decidir. Recoge manos. Pide a 2-3 que justifiquen. Anota palabras clave que usen en la pizarra.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -276,7 +294,16 @@ La mayoría debería votar B. Refuerza: no es truco, es empatía con la audienci
 ⭐ Bonus: +2 puntos al primero que nombre 2 cambios con términos como '1 idea por slide', 'menos texto', 'gancho', etc.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Espera que varios alumnos propongan cambios. Anótalos en la pizarra. Ejecuta los mejores en pantalla en tiempo real si tienes Slides/Canva abierto.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -428,14 +455,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -453,7 +481,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────

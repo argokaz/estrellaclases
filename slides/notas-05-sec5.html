@@ -113,7 +113,16 @@ Ejemplo real: una empresa de logística descubrió que el 30% de sus registros t
 ⭐ Bonus: ¿Qué función combinarías con TRIM para limpiar un nombre mal escrito? Respuesta esperada: TRIM(PROPER(celda)). +1 punto.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Demo en Sheets: celda con '  ana TORRES  '. Aplicar TRIM: 'ana TORRES'. Aplicar PROPER: 'Ana Torres'. Combinar: TRIM(PROPER(A1)).</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c4" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c4','bw-msg-c4')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c4" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -215,7 +224,16 @@ Demo obligatorio: copiar fórmula sin $ vs con $. Ver el error en tiempo real.</
 ⭐ Bonus: +1 por caso correcto, +1 extra por escribir la fórmula completa.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Recoge respuestas de la clase en orden. Para el caso 3, el que mencione IFERROR merece un punto extra inmediato — es avanzado.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -287,7 +305,16 @@ D: =TRIM(PROPER(C2) → un paréntesis de cierre faltante
 ⭐ Bonus: +1 por error identificado y corregido correctamente. Máx. 3.</p>
     <p class="section-lbl">⚙️ Mecánica</p>
     <p class="mech-text">Da 2 minutos para revisar. Recoge respuestas. Para C: el que diga 'correcto' también merece punto.</p>
+  
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
   </div>
+  <p id="bw-msg-c13" class="bw-msg"> </p>
+</div>
+</div>
 </div>
 <div class="card">
   <div class="card-header">
@@ -440,14 +467,15 @@ let bwPw=sessionStorage.getItem('nota_pw')||'';
     const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
     const d=await r.json();
     if(d.found){
-      const sel=document.getElementById('bw-nombre');
-      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
     }
   }catch(e){}
 })();
-async function darBonus(){
-  const inp=document.getElementById('bw-nombre');
-  const msg=document.getElementById('bw-msg');
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
   const nombre=inp.value.trim();
   if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
   if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
@@ -465,7 +493,7 @@ async function darBonus(){
     else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
     else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
   }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{if(document.getElementById('bw-msg'))document.getElementById('bw-msg').textContent=' ';},3500);
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
 // ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────

@@ -10,6 +10,9 @@
 const { supabase }    = require("./_supabase");
 const { normalize, areSamePerson } = require("./_nameUtils");
 
+// Excluir del ranking: profesora actuando como test user
+const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
+
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
@@ -87,23 +90,25 @@ exports.handler = async (event) => {
 
     const bonusTotal = (bonuses || []).reduce((s, b) => s + (Number(b.puntos) || 0), 0);
 
-    // ── 4. Rank en el mes actual ──────────────────────────────────────────────
-    const ids = (alumnos || []).map(a => a.id);
+    // ── 4. Rank en el mes actual (excluye profesora) ─────────────────────────
+    const ids = (alumnos || []).map(a => a.id); // todos (para buscar al alumno actual)
 
     const [{ data: monthEvals }, { data: monthBonuses }] = await Promise.all([
       db.from("evaluaciones")
         .select("alumno_id, score")
-        .in("alumno_id", ids)
+        .in("alumno_id", rankIds)
         .gte("fecha", `${currentMes}-01`)
         .lt("fecha", nextMes),
       db.from("bonuses")
         .select("alumno_id, puntos")
-        .in("alumno_id", ids)
+        .in("alumno_id", rankIds)
         .eq("mes", currentMes),
     ]);
 
-    // Sumar scores del mes por alumno
-    const mesScores = new Map(ids.map(id => [id, 0]));
+    // Sumar scores del mes por alumno (excluir profesora)
+    const rankAlumnos = (alumnos || []).filter(a => !EXCLUDED_NAMES.has(a.nombre.toLowerCase()));
+    const rankIds = rankAlumnos.map(a => a.id);
+    const mesScores = new Map(rankIds.map(id => [id, 0]));
     for (const ev of monthEvals  || []) mesScores.set(ev.alumno_id, (mesScores.get(ev.alumno_id) || 0) + ev.score);
     for (const b  of monthBonuses || []) mesScores.set(b.alumno_id,  (mesScores.get(b.alumno_id)  || 0) + (Number(b.puntos) || 0));
 

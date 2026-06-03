@@ -9,7 +9,9 @@
 
 const { supabase } = require("./_supabase");
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const TEACHER_PW    = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+// Excluir de resultados: profesora actuando como test user
+const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -44,7 +46,9 @@ exports.handler = async (event) => {
     if (error) throw error;
 
     // Formatear para que sea compatible con el panel de resultados existente
-    const results = (data || []).map(ev => ({
+    const results = (data || [])
+      .filter(ev => !EXCLUDED_NAMES.has((ev.alumnos?.nombre || ev.nombre_raw || "").toLowerCase()))
+      .map(ev => ({
       _key:      ev.id,           // UUID para borrar
       nombre:    ev.alumnos?.nombre || ev.nombre_raw || "—",
       grado:     ev.alumnos?.grado  || ev.grado || "—",

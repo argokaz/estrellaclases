@@ -12,6 +12,9 @@
 const { supabase }    = require("./_supabase");
 const { normalize, titleCase, areSamePerson } = require("./_nameUtils");
 
+// Nombres excluidos: no se guardan en BD (profesora actuando como test user)
+const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
+
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -30,6 +33,11 @@ exports.handler = async (event) => {
   const { nombre, grado, sesion, score, correctas, total, fecha } = data;
   if (!nombre || !grado || !sesion || typeof score !== "number") {
     return { statusCode: 400, headers: CORS, body: '{"error":"Missing required fields"}' };
+  }
+
+  // Ignorar entregas de la profesora (test user) — responder OK sin guardar
+  if (EXCLUDED_NAMES.has(normalize(nombre).toLowerCase())) {
+    return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
   }
 
   const nombreNorm = titleCase(nombre);

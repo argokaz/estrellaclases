@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S8 · 2.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #60a5fa;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#60a5fa;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;color:#60a5fa;letter-spacing:.15em;cursor:pointer;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#60a5fa;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#60a5fa;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);border-top:2px solid #60a5fa;display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #60a5fa;color:#60a5fa;border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid rgba(96,165,250,.3);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:#f0f0f0;font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:#60a5fa;}
+.bw-btn{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
+</style>
+</head>
+<body>
+
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #60a5fa;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#60a5fa;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X" style="width:100%;background:#111;border:2px solid #60a5fa;color:#fff;font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#60a5fa;color:#000;border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+
+<div class="top-bar">
+  <div>
+    <div class="grade">Sesión 8 · 2.° Secundaria</div>
+    <div class="tema">Contraseñas, phishing y permisos</div>
+  </div>
+  <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
+</div>
+
+<div class="cards-list" id="cards-list">
+
+<!-- card-0 = slide 2 -->
+<div class="card" id="card-0">
+  <div class="card-header"><span class="card-num">S8·2</span><span class="card-title">¿Qué haremos hoy?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conecta con la sesión anterior: en S07 aprendieron a usar IA para estudiar, hoy protegen las cuentas donde lo hacen. Preguntar: ¿Alguien intentó cambiar una contraseña esta semana? ¿Recibieron un correo raro? Presentar las 3 metas: contraseñas, phishing y permisos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Presentación rápida de agenda. Preguntar: ¿Quién usa la misma contraseña para varias cuentas? (manos levantadas anónimas). Usar el dato como puerta de entrada al tema.</p>
+  </div>
+</div>
+
+<!-- card-1 = slide 3 -->
+<div class="card" id="card-1">
+  <div class="card-header"><span class="card-num">S8·3</span><span class="card-title">Contraseñas débiles vs fuertes</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">"123456" fue la contraseña más usada del mundo por más de 10 años seguidos. Los hackers la prueban primero. Mencionar que la mayoría de hackeos no son por hackers sofisticados sino por contraseñas débiles. Una contraseña fuerte tiene: mayúsculas, minúsculas, números Y símbolos, de 12+ caracteres, única por cuenta.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar el slide lado a lado. Pedir que evalúen su contraseña mental: ¿Débil o fuerte? Sin decirla en voz alta, levantar la mano si es débil. Normalizar y motivar el cambio.</p>
+  </div>
+</div>
+
+<!-- card-2 = slide 4 -->
+<div class="card" id="card-2">
+  <div class="card-header"><span class="card-num">S8·4</span><span class="card-title">Cómo crear una contraseña fuerte</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La regla de los 3 tipos: Mayúscula + Minúscula + Número + Símbolo, mínimo 12 caracteres. El método de la frase es el más práctico para esta edad: tomar una oración que recuerdes y transformar algunas letras. Ejemplo: "Me gusta el fútbol 2025!" → "Mg3lF!tb0l_25". Énfasis en que una contraseña por cuenta es clave — si hackean Netflix, que no puedan entrar al Gmail.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en pizarra: tomar una frase del salón y transformarla juntos. Dejar que propongan frases (sin que sean sus contraseñas reales). Hacer el ejercicio de sustitución en grupo.</p>
+  </div>
+</div>
+
+<!-- card-3 = slide 5 — BONUS -->
+<div class="card" id="card-3">
+  <div class="card-header"><span class="card-num">S8·5</span><span class="card-title">⭐ Reto: Contraseña fuerte</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Reto individual: crear una contraseña que cumpla las 3 reglas (mayúscula + número + símbolo) y tenga más de 10 caracteres. El primero en dar una válida gana +1. ⭐ Bonus: dar una contraseña fuerte que siga las 3 reglas — máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que las digan en voz alta. Evaluar en tiempo real: ¿Tiene mayúscula? ¿Número? ¿Símbolo? ¿Más de 10 caracteres? Si pasa todo, dar el +1. Repetir hasta 3 ganadores.</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-4 = slide 6 — QUIZ + BONUS PRINCIPAL -->
+<div class="card" id="card-4">
+  <div class="card-header"><span class="card-num">S8·6</span><span class="card-title">🧩 Mini quiz — ¿Cuál contraseña es más segura?</span><span class="card-time">⏱ 2 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: <strong>C — "T!g3r_azul#88"</strong>. Razón: tiene mayúsculas (T), minúsculas (iger, azul), número (88), símbolo especial (! y #) y más de 8 caracteres. Es la única que cumple los 4 requisitos.</p>
+    <p class="note-label" style="margin-top:.8em">🧩 Q&A (solo en notas)</p>
+    <p class="note-text"><strong>P:</strong> ¿Cuál contraseña es más segura?<br><strong>R:</strong> C — "T!g3r_azul#88" porque tiene mayúsculas, minúsculas, números Y símbolo especial, más de 8 caracteres. Cumple todos los requisitos.<br><br><strong>P extra:</strong> ¿Por qué "123456" es peligrosa?<br><strong>R:</strong> Es la contraseña más usada del mundo y la primera que prueban los hackers con herramientas automáticas. Un hacker la prueba en menos de 1 segundo.<br><br><strong>P extra:</strong> ¿Y "Micumpleaños2010"?<br><strong>R:</strong> Aunque es larga, solo tiene letras y un número. No tiene símbolo especial. Además, los hackers prueban patrones como "nombre+año" porque mucha gente los usa.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación rápida: A, B o C. Da +1 al primero que responda correctamente y explique por qué C es mejor que B.</p>
+    <div class="bw">
+      <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#60a5fa;margin-bottom:.3em">⭐ Participación en clase</p>
+      <div class="bw-row">
+        <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+        <button onclick="darBonus()" class="bw-btn">+1</button>
+      </div>
+      <p id="bw-msg" class="bw-msg"> </p>
+    </div>
+  </div>
+</div>
+
+<!-- card-5 = slide 7 -->
+<div class="card" id="card-5">
+  <div class="card-header"><span class="card-num">S8·7</span><span class="card-title">¿Qué es el phishing?</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Phishing viene de "fishing" (pesca) — los criminales lanzan el anzuelo y esperan que alguien pique. Se hacen pasar por el banco, Netflix, la escuela, un amigo. Los tres tipos más comunes: email, SMS/WhatsApp y links falsos (sitios clonados que se ven idénticos al real). Esta es la causa del 80% de los hackeos en adultos y adolescentes.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Alguien recibió alguna vez un mensaje raro del "banco" o de "WhatsApp"? Levantar la mano. Usar las experiencias del grupo como casos reales.</p>
+  </div>
+</div>
+
+<!-- card-6 = slide 8 -->
+<div class="card" id="card-6">
+  <div class="card-header"><span class="card-num">S8·8</span><span class="card-title">Señales de un correo falso</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Las 5 señales clave: 1) Remitente raro (el dominio tiene errores o es genérico como gmail.com cuando debería ser @banco.com), 2) Urgencia exagerada ("24 horas o pierdes tu cuenta"), 3) Link sospechoso (el texto dice una cosa pero el link va a otro lado — pasar el mouse para verlo), 4) Errores de ortografía o traducción rara, 5) Piden contraseña o datos — ninguna empresa real hace eso por correo o SMS.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Recorrer la lista con el slide. Preguntar por cada señal: ¿Cómo la detectarían? Dejar que participen antes de dar la respuesta.</p>
+  </div>
+</div>
+
+<!-- card-7 = slide 9 — BONUS -->
+<div class="card" id="card-7">
+  <div class="card-header"><span class="card-num">S8·9</span><span class="card-title">⭐ Práctica: ¿Es phishing?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El ejemplo del slide tiene 5 señales de alerta: 1) Dominio raro: "banco-alerts.net" en lugar del dominio oficial del banco. 2) Urgencia: "tiene 24 horas". 3) Link sospechoso: "banco-verificar.tk" (dominio .tk es gratuito, nadie lo usa para banca real). 4) Error ortográfico: "sospechoza" y "permanante". 5) Pide verificar identidad (credenciales) por link. ⭐ Bonus: al primero que identifique todas las señales — máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Proyectar el correo del slide. Pedir que levanten la mano cuando encuentren una señal. Ir marcando en voz alta. El primero que diga las 5 gana el +1.</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s9','bw-msg-s9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s9" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-8 = slide 10 -->
+<div class="card" id="card-8">
+  <div class="card-header"><span class="card-num">S8·10</span><span class="card-title">Permisos de apps</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La linterna que pide contactos es el ejemplo clásico de app que recolecta más datos de los necesarios. Los 4 permisos más sensibles: cámara (puede ver lo que estás haciendo), micrófono (puede escucharte), ubicación (sabe dónde estás), contactos (tiene los datos de tus amigos y familia). Las apps legítimas solo piden lo que necesitan para funcionar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que abran Configuración → Apps → revisar permisos de alguna app de su celular. ¿Encontraron algo raro? Dar 2 minutos para explorar.</p>
+  </div>
+</div>
+
+<!-- card-9 = slide 11 -->
+<div class="card" id="card-9">
+  <div class="card-header"><span class="card-num">S8·11</span><span class="card-title">Regla de oro de los permisos</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La regla es simple: un permiso está bien si la app lo necesita para su función principal. Una app de mapas necesita ubicación. Una app de recetas no necesita ni micrófono ni ubicación. Un juego no necesita contactos. Si pide lo que no necesita → denegar o desinstalar. En Android e iOS se puede dar permiso "solo mientras uso la app" — siempre preferir eso.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejercicio mental: nombrar 3 apps y pensar qué permisos necesitan. El salón vota: ¿Está bien o no? Ejemplos: cámara para Instagram (sí), micrófono para un juego de carreras (no).</p>
+  </div>
+</div>
+
+<!-- card-10 = slide 12 -->
+<div class="card" id="card-10">
+  <div class="card-header"><span class="card-num">S8·12</span><span class="card-title">Autenticación de dos factores (2FA)</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">2FA es el escudo extra: aunque alguien robe tu contraseña, necesita un segundo código que llega a tu celular. Es como tener llave y cerradura — aunque alguien copie la llave, necesita el candado físico. Disponible en Google, Instagram, WhatsApp, TikTok, etc. En Google: Cuenta → Seguridad → Verificación en 2 pasos. Recomendar activarlo hoy en la cuenta de Google escolar.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo si es posible: mostrar cómo se activa en una cuenta de Google. Pedir que lo activen en clase si tienen tiempo. Preguntar: ¿Cuántos ya tienen 2FA en alguna cuenta?</p>
+  </div>
+</div>
+
+<!-- card-11 = slide 13 — BONUS -->
+<div class="card" id="card-11">
+  <div class="card-header"><span class="card-num">S8·13</span><span class="card-title">⭐ Reto grupal: ¿Te hackearon?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Escenario: alguien entra al Instagram desde un dispositivo desconocido a las 3 AM. ¿Qué harías? Los pasos correctos son: 1) Cambiar la contraseña de inmediato, 2) Avisar a un adulto de confianza, 3) Cerrar sesión en todos los dispositivos (en Instagram: Configuración → Actividad → Dispositivos), 4) Revisar si otras cuentas usan la misma contraseña y cambiarlas. ⭐ Bonus: al primero que explique correctamente todos los pasos — máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Leer el escenario en voz alta con dramatismo. Pedir voluntarios para dar los pasos en orden. Dar +1 al que dé los 4 pasos correctamente y en el orden correcto.</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-12 = slide 14 -->
+<div class="card" id="card-12">
+  <div class="card-header"><span class="card-num">S8·14</span><span class="card-title">Gestores de contraseñas</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El problema de las contraseñas únicas y fuertes es que son difíciles de recordar. La solución es un gestor de contraseñas. Solo necesitas recordar una contraseña maestra — el gestor hace el resto. Opciones: Bitwarden (gratuito y de código abierto), 1Password, o simplemente el gestor integrado de Google Chrome/Safari que ya tienen. El objetivo de este slide es que conozcan el concepto, no que cambien todo hoy.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Preguntar: ¿Alguien usa el gestor de contraseñas de Google/Safari sin saberlo? Probablemente varios sí. Mostrar cómo se ve si tienes acceso. Este concepto está para que no sientan que "contraseña única por cuenta" es imposible de gestionar.</p>
+  </div>
+</div>
+
+<!-- card-13 = slide 15 -->
+<div class="card" id="card-13">
+  <div class="card-header"><span class="card-num">S8·15</span><span class="card-title">Resumen de seguridad digital</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Los 5 puntos del resumen son el "kit mínimo" de seguridad digital para un adolescente hoy. Énfasis en "nunca compartir" — aunque sea el mejor amigo, las contraseñas son personales. Y en "verificar links" antes de hacer clic: pasar el mouse encima para ver la URL real.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Leer cada punto con el salón. Preguntar cuál les parece más difícil de cumplir. Escuchar las respuestas — dan info sobre qué hábitos reforzar.</p>
+  </div>
+</div>
+
+<!-- card-14 = slide 16 -->
+<div class="card" id="card-14">
+  <div class="card-header"><span class="card-num">S8·16</span><span class="card-title">✏️ Auditoría de seguridad personal</span><span class="card-time">⏱ 10 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad principal: cada alumno elige una cuenta propia y responde honestamente el checklist de seguridad (sin revelar la contraseña). El producto es un Doc con sus respuestas y el plan de mejora si algo falla. Lo que evalúan: ¿contraseña fuerte?, ¿2FA activo?, ¿compartida con alguien?</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circula por el salón. El objetivo no es juzgar sino que reflexionen. Pedir a 2-3 voluntarios que compartan qué van a mejorar (no lo que está mal, sino el plan de mejora). Compartir el Doc con la profesora al terminar.</p>
+  </div>
+</div>
+
+<!-- card-15 = slide 17 -->
+<div class="card" id="card-15">
+  <div class="card-header"><span class="card-num">S8·17</span><span class="card-title">🚀 Para recordar</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre con los 3 puntos clave. Ticket de salida: ¿Cuál cambio de seguridad vas a hacer esta semana? Quiero respuestas específicas (activar 2FA en Google, cambiar la contraseña de Instagram, revisar permisos de apps).<br><br>Conexión S09: la próxima clase verán cómo usar Canva/Docs para presentaciones — herramientas productivas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: pedir 3-4 respuestas concretas. La más específica y comprometida gana un +1. Cierre motivador: la seguridad digital no es complicada — es un hábito.</p>
+  </div>
+</div>
+
+</div>
+
+<div class="nav-bar">
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
+</div>
+
+<script>
+const cards=[...document.querySelectorAll('.card')];
+let cur=0;const total=16;
+function _oc(i){cards.forEach((c,j)=>{c.classList.remove('active','open');if(j===i)c.classList.add('active','open');});cur=i;document.getElementById('ncounter').textContent=(i+1)+' / '+total;document.getElementById('btn-prev').disabled=i===0;document.getElementById('btn-next').disabled=i===total-1;cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:i})}).catch(()=>{});}}
+function openCard(i){_oc(i);}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>_oc(i));});
+function navCard(d){_oc(Math.max(0,Math.min(total-1,cur+d)));}
+_oc(0);
+const NOTA_GRADE='sec2';const NOTA_SESSION='08';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+let _room=null;
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
+function startSync(){}
+</script>
+<script>
+(function(){const API='/.netlify/functions/sync';function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#60a5fa;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script>
+</body>
+</html>

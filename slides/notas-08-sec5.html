@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S8 · 5.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #f87171;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#f87171;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;color:#f87171;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#f87171;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#f87171;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);border-top:2px solid #f87171;display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#f87171;color:#000;border:none;border-radius:8px;padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #f87171;color:#f87171;border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid rgba(248,113,113,.3);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:#f0f0f0;font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:#f87171;}
+.bw-btn{background:#f87171;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
+</style>
+</head>
+<body>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #f87171;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#f87171;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X" style="width:100%;background:#111;border:2px solid #f87171;color:#fff;font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#f87171;color:#000;border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+<div class="top-bar">
+  <div><div class="grade">Sesión 8 · 5.° Secundaria</div><div class="tema">Prompting profesional</div></div>
+  <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
+</div>
+<div class="cards-list" id="cards-list">
+
+<!-- card-0 = slide 2 -->
+<div class="card" id="card-0">
+  <div class="card-header"><span class="card-num">S8·2</span><span class="card-title">¿Qué haremos hoy?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conectar con S07: discutimos que saber usar IA con criterio es la ventaja competitiva. Hoy pasamos de la teoría a la práctica. El prompting profesional es la habilidad que separa al usuario promedio del usuario estratégico. En sus futuros empleos o universidades, esto ya se valora.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta abierta: ¿Alguna vez pediste algo a ChatGPT o similar y la respuesta no fue lo que esperabas? ¿Por qué creen que pasó? Recoger 2-3 respuestas.</p>
+  </div>
+</div>
+
+<!-- card-1 = slide 3 -->
+<div class="card" id="card-1">
+  <div class="card-header"><span class="card-num">S8·3</span><span class="card-title">¿Qué es un prompt?</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La diferencia entre usuario casual y estratégico es una mentalidad, no una herramienta. El casual reacciona; el estratégico planea. Para 5.° secundaria: conectar con situaciones reales — buscar trabajo, aplicar a una universidad, presentar un proyecto. En todos esos contextos, la calidad de tu prompt determina la utilidad del output.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Cuál de las dos columnas describe mejor cómo usan la IA actualmente? Honestidad. No hay respuesta incorrecta — es diagnóstico.</p>
+  </div>
+</div>
+
+<!-- card-2 = slide 4 -->
+<div class="card" id="card-2">
+  <div class="card-header"><span class="card-num">S8·4</span><span class="card-title">Zero-shot prompting</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Zero-shot es la forma más común de usar IA y funciona bien para muchas tareas. El problema surge cuando se espera un resultado muy específico sin dar contexto. "Zero" hace referencia a cero ejemplos en el prompt — no a cero esfuerzo. La calidad del zero-shot mejora cuando la tarea y el formato de salida son unívocos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo rápida: escribir un prompt zero-shot para algo simple (resumen de texto) vs algo complejo (clasificar con criterios específicos). Observar la diferencia en calidad.</p>
+  </div>
+</div>
+
+<!-- card-3 = slide 5 (⭐ Bonus) -->
+<div class="card" id="card-3">
+  <div class="card-header"><span class="card-num">S8·5</span><span class="card-title">⭐ Reto — Zero-shot</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Buscar que den ejemplos concretos y justificados. Buenos ejemplos: clasificación de sentimientos con criterios propios de la empresa, generación de texto en un tono de marca específico, replicar el estilo de un autor concreto. Evitar respuestas vagas. ⭐ Bonus: +1 al primero con un ejemplo sólido. Máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Dejar 30-40 segundos para pensar. Si no hay respuestas, guiar: "¿Si quieren que la IA escriba exactamente como su marca favorita, creen que basta con pedirlo directamente?"</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-4 = slide 6 (Quiz + Bonus principal) -->
+<div class="card" id="card-4">
+  <div class="card-header"><span class="card-num">S8·6</span><span class="card-title">🧩 Mini quiz — Few-shot</span><span class="card-time">⏱ 2 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: B — Few-shot prompting. "Few" = pocos; incluir 2-3 ejemplos del output esperado para que la IA replique el patrón. Zero-shot (A) no incluye ejemplos. Chain-of-thought (C) pide razonamiento paso a paso, no ejemplos de resultados.</p>
+    <p class="note-label" style="margin-top:.8em">🧩 Q&A completo (solo en notas)</p>
+    <p class="note-text"><strong>P:</strong> ¿Qué técnica de prompting incluye ejemplos dentro del prompt?<br><strong>R:</strong> B — Few-shot prompting. "Few" = pocos; le das 2-3 ejemplos del output que esperas para que la IA replique el patrón. Es especialmente útil cuando el formato o la clasificación tiene criterios muy específicos.<br><br><strong>Pregunta extra:</strong> ¿Cuál es la diferencia entre few-shot y chain-of-thought?<br><strong>R:</strong> Few-shot da ejemplos de los resultados esperados (el "qué"); chain-of-thought pide que la IA muestre su razonamiento paso a paso antes de dar el resultado final (el "cómo piensa"). Son complementarias — podés combinarlas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">+1 al primero que responda y explique por qué las otras opciones son incorrectas.</p>
+    <div class="bw">
+      <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#f87171;margin-bottom:.3em">⭐ Participación en clase</p>
+      <div class="bw-row">
+        <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+        <button onclick="darBonus()" class="bw-btn">+1</button>
+      </div>
+      <p id="bw-msg" class="bw-msg"> </p>
+    </div>
+  </div>
+</div>
+
+<!-- card-5 = slide 7 -->
+<div class="card" id="card-5">
+  <div class="card-header"><span class="card-num">S8·7</span><span class="card-title">Few-shot prompting</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Few-shot es la técnica con mayor impacto en tareas de clasificación y generación con formato específico. La clave es que los ejemplos sean representativos — si los ejemplos son inconsistentes, la IA también lo será. En entornos profesionales: análisis de feedback de clientes, revisión de CVs según criterios de empresa, generación de contenido de marca.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar el ejemplo del slide en vivo. Luego preguntar: ¿Qué pasa si los 2 ejemplos que doy son contradictorios? Debate breve.</p>
+  </div>
+</div>
+
+<!-- card-6 = slide 8 -->
+<div class="card" id="card-6">
+  <div class="card-header"><span class="card-num">S8·8</span><span class="card-title">Chain-of-thought</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Chain-of-thought (cadena de pensamiento) es especialmente poderoso para problemas de razonamiento: análisis legal, resolución de casos, argumentación ética, matemáticas aplicadas. La instrucción "piensa paso a paso" activa un modo diferente en el modelo. La ventaja adicional: permite verificar el razonamiento y detectar errores de lógica antes de aceptar la conclusión.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo: hacer la misma pregunta de razonamiento con y sin "piensa paso a paso". Comparar la calidad y el nivel de detalle. ¿Cuándo usarían cada uno?</p>
+  </div>
+</div>
+
+<!-- card-7 = slide 9 (⭐ Bonus) -->
+<div class="card" id="card-7">
+  <div class="card-header"><span class="card-num">S8·9</span><span class="card-title">⭐ Práctica — Few-shot</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El prompt correcto tiene: (1) instrucción de la tarea, (2) al menos 2 ejemplos con su etiqueta, (3) la nueva respuesta a clasificar. Un buen few-shot para clasificar encuestas: "Clasifica como Positiva / Negativa / Neutra. Ej: 'Me atendieron muy bien' → Positiva. 'El producto llegó roto' → Negativa. Ahora clasifica: 'El envío tardó más de lo esperado'". ⭐ Bonus: máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Dar 1 minuto para que construyan mentalmente el prompt antes de pasar al frente. Guiar si el ejemplo no incluye la estructura completa.</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s9','bw-msg-s9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s9" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-8 = slide 10 -->
+<div class="card" id="card-8">
+  <div class="card-header"><span class="card-num">S8·10</span><span class="card-title">Roles y personas</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Asignar roles es una de las técnicas más usadas en prompting empresarial. El ejemplo del reclutador de RRHH es inmediatamente relevante para esta edad. Importante matizar: el rol mejora el tono y la perspectiva, pero no convierte a la IA en un experto real. Un "médico de IA" puede dar información incorrecta que suena convincente — el criterio de verificación sigue siendo humano.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Qué rol usarían para preparar una entrevista universitaria? ¿Y para revisar un ensayo de admisión? Que propongan 2-3 roles concretos.</p>
+  </div>
+</div>
+
+<!-- card-9 = slide 11 -->
+<div class="card" id="card-9">
+  <div class="card-header"><span class="card-num">S8·11</span><span class="card-title">Estructura de un prompt profesional</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Las 5 partes son el marco estándar en equipos de prompting profesional (también llamado "prompt engineering"). No siempre se usan las 5 — pero conocerlas permite decidir cuáles incluir según la tarea. ROL alinea perspectiva. CONTEXTO elimina ambigüedad. TAREA especifica el output. FORMATO facilita el uso del resultado. RESTRICCIONES evitan que la IA "se vaya por las ramas".</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Construir un ejemplo colectivo en el pizarrón/pantalla: la clase propone cada parte y se arma el prompt completo en tiempo real. Tema sugerido: pedir feedback de un párrafo de ensayo universitario.</p>
+  </div>
+</div>
+
+<!-- card-10 = slide 12 -->
+<div class="card" id="card-10">
+  <div class="card-header"><span class="card-num">S8·12</span><span class="card-title">Aplicaciones para tu egreso</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Para 5.° secundaria estas aplicaciones son inmediatas: en 6-12 meses van a necesitar CV, cartas, entrevistas. La IA bien promoteada puede ser un coach personal gratuito. Conectar: quien sabe construir prompts profesionales tiene acceso a asesoría de calidad que antes costaba dinero (career coaches, consultores de CV).</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">¿Para cuál de estas aplicaciones les parece más urgente aprender a hacer buenos prompts? ¿Por qué? Recoger 2-3 respuestas.</p>
+  </div>
+</div>
+
+<!-- card-11 = slide 13 (⭐ Bonus) -->
+<div class="card" id="card-11">
+  <div class="card-header"><span class="card-num">S8·13</span><span class="card-title">⭐ Reto — Prompt completo</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El prompt completo para CV debe tener las 5 partes. Ejemplo de referencia: ROL: "Actúa como un consultor de RRHH senior con experiencia en admisiones universitarias" | CONTEXTO: "Soy estudiante de 5.° de secundaria, 17 años, interesado en Ingeniería Industrial" | TAREA: "Revisa mi párrafo de presentación y señala 3 puntos fuertes y 2 áreas de mejora" | FORMATO: "Usa viñetas, sé específico" | RESTRICCIONES: "No reescribas el texto, solo da feedback". ⭐ Bonus: máx. 3 alumnos.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Verificar que el alumno incluya las 5 partes. Si falta alguna, preguntar al resto: "¿Qué le falta?" antes de dar el punto.</p>
+
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<!-- card-12 = slide 14 -->
+<div class="card" id="card-12">
+  <div class="card-header"><span class="card-num">S8·14</span><span class="card-title">Iteración de prompts</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La iteración es la mentalidad más importante del prompting profesional. Conectar con metodología de trabajo en general: en investigación, diseño y programación también se itera. El primer borrador no es el producto final — es el punto de partida. Aplicar esto a la IA quita la frustración del "no me dio lo que quería" y lo convierte en un proceso de refinamiento.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejemplo en vivo: tomar un prompt simple, ver el resultado, identificar 1 cosa que falta, ajustar y comparar. El proceso tarda 2 minutos y es muy ilustrativo.</p>
+  </div>
+</div>
+
+<!-- card-13 = slide 15 -->
+<div class="card" id="card-13">
+  <div class="card-header"><span class="card-num">S8·15</span><span class="card-title">Ética del prompting</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Para 5.° secundaria: el debate ético es especialmente relevante en el contexto universitario. Las universidades están desarrollando políticas sobre uso de IA — quien no entiende los límites puede enfrentar consecuencias académicas serias. El sesgo amplificado es un tema sofisticado pero accesible: si el modelo aprendió de datos sesgados, un prompt que le pide "el candidato ideal" puede replicar ese sesgo.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Debate rápido: ¿Es lo mismo usar IA para corregir tu texto que para escribirlo desde cero? ¿Dónde está la línea? Deja que argumenten. No hay respuesta única — el objetivo es que desarrollen criterio propio.</p>
+  </div>
+</div>
+
+<!-- card-14 = slide 16 -->
+<div class="card" id="card-14">
+  <div class="card-header"><span class="card-num">S8·16</span><span class="card-title">✏️ Actividad: 3 versiones</span><span class="card-time">⏱ 15 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La actividad es el núcleo práctico de la clase. Cada alumno elige un caso real: CV, carta de presentación o preparación de entrevista. El objetivo es comparar las 3 versiones y documentar por escrito qué cambia y por qué la versión completa es superior. Esta documentación es el aprendizaje real — no solo la ejecución del prompt.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circular y observar. Verificar que realmente hagan las 3 versiones (no solo la completa). Los que terminan antes: invitarlos a compartir su comparación con la clase. Recoger los documentos de Google Docs antes de cerrar la sesión.</p>
+  </div>
+</div>
+
+<!-- card-15 = slide 17 -->
+<div class="card" id="card-15">
+  <div class="card-header"><span class="card-num">S8·17</span><span class="card-title">🚀 Para recordar</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre con los 3 puntos del slide. Ticket de salida: ¿Cuál de las 3 técnicas usarías primero en tu vida real y para qué? Quiero respuestas específicas — no "todas" o "depende". Forzar una elección concreta.<br><br>Conexión S09: la próxima sesión aplican estas habilidades a un proyecto más extenso — o se integra con el tema siguiente del cronograma.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida: escrito, 30-45 segundos. Leer 3-4 en voz alta. Terminar con el mensaje: "Quien domina el prompting tiene acceso a un multiplicador de su propio criterio. Ese criterio es intransferible."</p>
+  </div>
+</div>
+
+</div>
+<div class="nav-bar">
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
+</div>
+<script>
+const cards=[...document.querySelectorAll('.card')];let cur=0;const total=16;
+function openCard(i){cards.forEach((c,j)=>{c.classList.remove('active','open');if(j===i)c.classList.add('active','open');});cur=i;document.getElementById('ncounter').textContent=(i+1)+' / '+total;document.getElementById('btn-prev').disabled=i===0;document.getElementById('btn-next').disabled=i===total-1;cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+openCard(0);
+const NOTA_GRADE='sec5';const NOTA_SESSION='08';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
+</script>
+<script>
+(function(){const API='/.netlify/functions/sync';let _room=null;function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#f87171;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S08 — 6.° Primaria | Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--brand:#1e3a8a;--accent:#2563eb;--accent2:#7c3aed;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#1e293b;--muted:#64748b;--dim:#94a3b8;--border:#e2e8f0;--bg-alt:#f8fafc;--bg-quiz:#f0f4ff;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:840px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:20px;margin-bottom:32px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--brand);margin-top:4px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:0;padding-bottom:0}
+.section{margin-bottom:56px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:24px;padding-bottom:12px;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:12px;line-height:1.2;}
+.concept-list{display:flex;flex-direction:column;gap:16px}
+.concept-block{display:flex;gap:20px;align-items:flex-start;padding:22px 26px;border-radius:14px;background:var(--bg-alt);border:1px solid var(--border);border-left:5px solid var(--accent);}
+.cb-icon{font-size:2rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-size:18px;font-weight:800;color:var(--brand);margin-bottom:6px}
+.cb-text{font-size:16px;line-height:1.75;color:var(--text)}
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gloss-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:14px;padding:20px 22px;}
+.gloss-term{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:6px}
+.gloss-def{font-size:15px;color:var(--muted);line-height:1.65}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+.practice-details{border:2px solid var(--border);border-radius:16px;overflow:hidden;}
+.practice-summary{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;cursor:pointer;background:var(--bg-alt);list-style:none;user-select:none;gap:16px;}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:#f1f5f9}
+.ps-left{display:flex;flex-direction:column;gap:5px}
+.ps-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);display:flex;align-items:center;gap:10px;}
+.ps-hint{font-size:15px;color:var(--muted)}
+.ps-arrow{font-size:22px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:28px;border-top:2px solid var(--border)}
+.practice-invite{display:flex;gap:16px;align-items:flex-start;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:18px 22px;margin-bottom:24px;font-size:16px;color:#1e40af;line-height:1.75;}
+.practice-invite-icon{font-size:1.8rem;flex-shrink:0}
+.ex{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
+.ex p,.ex li{font-size:16px;line-height:1.75}
+.cls-tbl{width:100%;border-collapse:collapse}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
+.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
+.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
+.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
+.eval-section{margin-top:12px}
+.eval-banner{background:linear-gradient(135deg,#312e81 0%,#1d4ed8 45%,#6d28d9 100%);border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden;}
+.eval-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.1) 0%,transparent 65%);pointer-events:none;}
+.eval-badge{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#1e3a8a;font-weight:900;font-size:13px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:5px 14px;margin-bottom:14px;}
+.eval-banner-title{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:800;line-height:1.1;margin-bottom:10px;}
+.eval-banner-sub{font-size:16px;opacity:.88;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,.22);border-radius:10px;padding:14px 18px;font-size:15px;line-height:1.65;}
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:28px}
+.eval-gate{background:var(--bg-quiz);border:2px solid #c7d2fe;border-radius:16px;padding:36px 32px;text-align:center;max-width:480px;width:100%;}
+.gate-icon{font-size:3rem;margin-bottom:14px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:16px;color:var(--muted);margin-bottom:26px;line-height:1.75}
+.gate-label{display:block;font-size:14px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s;text-align:center}
+.gate-input:focus{border-color:var(--accent)}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s}
+.gate-btn:hover{opacity:.88}
+.eval-body{display:none}
+.eval-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:13px 18px;margin-bottom:20px;}
+.eval-top span{font-size:15px;color:var(--muted)}
+.eval-top strong{color:var(--brand)}
+.eval-answered{font-size:15px;color:var(--muted)}
+.eval-q{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s}
+.eval-q.done-ok{border-color:var(--ok-b)}
+.eval-q.done-err{border-color:var(--err-b)}
+.eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.eval-q-num{background:var(--accent);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.eval-q-num.ok{background:var(--ok-t)}
+.eval-q-num.err{background:var(--err-t)}
+.eval-q-text{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:16px;cursor:pointer;padding:11px 14px;border-radius:9px;border:1px solid transparent;transition:background .12s;user-select:none;line-height:1.6}
+.eval-opt:hover{background:var(--bg-alt)}
+.eval-opt input[type=radio]{margin-top:4px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.eval-submit-wrap{text-align:center;margin-top:28px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:17px 52px;font-size:18px;font-weight:700;transition:opacity .15s}
+.eval-submit-btn:hover:not(:disabled){opacity:.88}
+.eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.eval-hint{font-size:14px;color:var(--muted);margin-top:10px}
+.result-wrap{margin-top:28px}
+.result-card{border-radius:16px;padding:36px 28px;text-align:center}
+.result-card.ok{background:var(--ok-bg);border:2px solid var(--ok-b)}
+.result-card.good{background:#eff6ff;border:2px solid #bfdbfe}
+.result-card.warn{background:var(--hint-bg);border:2px solid var(--hint-b)}
+.result-card.low{background:var(--err-bg);border:2px solid var(--err-b)}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:24px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:76px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
+.res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px}
+.res-level{font-size:22px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
+.res-detail{font-size:15px;color:var(--muted)}
+.already-box{background:var(--ok-bg);border:1.5px solid var(--ok-b);border-radius:12px;padding:18px 22px;font-size:16px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.75}
+.exam-cta-section{text-align:center;padding:60px 24px 64px;border-top:2px dashed var(--border);margin-top:8px}
+.exam-cta-icon{font-size:3rem;margin-bottom:18px}
+.exam-cta-title{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:800;color:var(--brand);margin-bottom:12px}
+.exam-cta-sub{font-size:16px;color:var(--muted);margin-bottom:30px;line-height:1.7;max-width:460px;margin-left:auto;margin-right:auto}
+.exam-cta-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:14px;padding:18px 52px;font-size:19px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 6px 24px rgba(37,99,235,.3)}
+.exam-cta-btn:hover{opacity:.88;transform:translateY(-2px)}
+.exam-mode-bar{background:linear-gradient(135deg,#312e81,#1d4ed8);color:#fff;border-radius:12px;padding:14px 22px;margin-bottom:32px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:700;letter-spacing:.2px}
+.review-banner{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:16px;color:#1e40af;line-height:1.7}
+.name-confirm-card{background:var(--bg-quiz);border:2px solid var(--accent);border-radius:16px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;}
+.confirm-emoji{font-size:3.5rem;margin-bottom:12px;}
+.confirm-question{font-size:17px;color:var(--muted);margin-bottom:14px;font-weight:600;}
+.confirm-name-big{font-size:28px;font-weight:900;color:var(--brand);margin-bottom:24px;letter-spacing:-.01em;line-height:1.2;word-break:break-word;}
+.gate-btn-sec{width:100%;background:transparent;border:2px solid var(--border);color:var(--muted);border-radius:11px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:border-color .15s,color .15s;}
+.gate-btn-sec:hover{border-color:var(--accent);color:var(--brand);}
+.exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,rgba(99,102,241,.18),rgba(139,92,246,.12));border:1.5px solid rgba(139,92,246,.4);border-radius:12px;padding:14px 18px;margin-bottom:22px;}
+.exam-who-name{font-size:20px;font-weight:900;color:#1e293b;letter-spacing:-.01em;}
+.exam-who-grade{font-size:13px;color:var(--muted);margin-top:2px;}
+.exam-who-change{background:none;border:1px solid rgba(99,102,241,.3);color:var(--muted);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;}
+.exam-who-change:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>6.° Primaria</div>
+    <div>Sesión 08 &nbsp;·&nbsp; 3 de julio de 2026</div>
+  </div>
+</div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 08</div>
+<div class="doc-subtitle">Prompts para IA · ¿Cómo le pido ayuda a la inteligencia artificial?</div>
+
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list">
+<div class="concept-block" style="border-left-color:#2563eb">
+  <div class="cb-icon">💬</div>
+  <div class="cb-body"><div class="cb-title">Qué es un Prompt</div>
+  <div class="cb-text">Un <strong>prompt</strong> es la instrucción o pregunta que le das a una IA. La calidad de tu prompt determina la calidad de la respuesta. Un prompt vago da una respuesta genérica; un prompt claro da una respuesta útil. La IA no adivina — necesita que le expliques bien qué quieres.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#7c3aed">
+  <div class="cb-icon">✨</div>
+  <div class="cb-body"><div class="cb-title">La Fórmula Mágica: Contexto + Tarea + Formato</div>
+  <div class="cb-text"><strong>Contexto:</strong> quién eres y qué necesitas. <strong>Tarea:</strong> qué quieres que haga la IA exactamente. <strong>Formato:</strong> cómo quieres la respuesta (lista, resumen, pasos, ejemplo). Ejemplo completo: "Soy alumno de 6.° grado. Explícame qué son los volcanes con palabras simples y un ejemplo real."</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#059669">
+  <div class="cb-icon">🎯</div>
+  <div class="cb-body"><div class="cb-title">Prompt vago vs. Prompt claro</div>
+  <div class="cb-text">"Ayúdame con mates" es <strong>vago</strong> — la IA no sabe qué hacer. "Explícame cómo resolver fracciones paso a paso con un ejemplo sencillo" es <strong>claro</strong> — la IA sabe exactamente qué hacer. Cuanto más específico, mejor resultado.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#d97706">
+  <div class="cb-icon">⚠️</div>
+  <div class="cb-body"><div class="cb-title">Verificar las respuestas</div>
+  <div class="cb-text">La IA puede <strong>equivocarse</strong> aunque el prompt sea perfecto. Siempre lee la respuesta completa antes de usarla. Verifica los datos importantes en tu libro, con la profesora o en otras fuentes. La IA ayuda — pero tú eres quien piensa y decide.</div>
+  </div>
+</div>
+<div class="concept-block" style="border-left-color:#0d9488">
+  <div class="cb-icon">🛡️</div>
+  <div class="cb-body"><div class="cb-title">Uso responsable de la IA</div>
+  <div class="cb-text">Usa la IA para <strong>entender y aprender</strong>, no para copiar. Escribe con tus propias palabras lo que la IA te explicó. Nunca compartas datos personales (nombre completo, dirección, contraseñas). Usa solo herramientas aprobadas: Copilot (escuela) o Gemini supervisado.</div>
+  </div>
+</div>
+</div></div>
+
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2">
+<div class="gloss-card"><div class="gloss-term">Prompt</div><div class="gloss-def">La instrucción o pregunta que le das a una IA. Un buen prompt es específico, tiene contexto y dice cómo quieres la respuesta.</div></div>
+<div class="gloss-card"><div class="gloss-term">Contexto</div><div class="gloss-def">La información que le das a la IA sobre quién eres y qué necesitas. Sin contexto, la IA no sabe nada de ti.</div></div>
+<div class="gloss-card"><div class="gloss-term">Tarea</div><div class="gloss-def">Lo que le pides exactamente a la IA que haga: explicar, resumir, comparar, hacer una lista, etc.</div></div>
+<div class="gloss-card"><div class="gloss-term">Formato</div><div class="gloss-def">Cómo quieres que la IA te entregue la respuesta: en lista, en pasos, en resumen, con ejemplos, con tabla.</div></div>
+<div class="gloss-card"><div class="gloss-term">IA generativa</div><div class="gloss-def">Tipo de IA que puede generar texto, imágenes o código. Ejemplos: ChatGPT, Gemini, Copilot. Aprenden de millones de textos.</div></div>
+<div class="gloss-card"><div class="gloss-term">Verificar</div><div class="gloss-def">Comprobar que lo que dice la IA es correcto usando otras fuentes antes de usarlo en un trabajo o tarea.</div></div>
+<div class="gloss-card"><div class="gloss-term">Copilot</div><div class="gloss-def">La IA de Microsoft integrada en las herramientas del colegio. Es segura y supervisada para uso escolar.</div></div>
+<div class="gloss-card"><div class="gloss-term">Responsable</div><div class="gloss-def">Usar la IA de forma ética: para aprender, no para copiar; sin compartir datos privados; solo con permiso de un adulto.</div></div>
+</div></div>
+
+<div class="section"><details class="practice-details">
+  <summary class="practice-summary">
+    <div class="ps-left">
+      <div class="ps-title">✏️ Ejercicios de práctica</div>
+      <div class="ps-hint">Haz clic para practicar antes de la evaluación — sin límite de intentos</div>
+    </div>
+    <span class="ps-arrow">▾</span>
+  </summary>
+  <div class="practice-content">
+    <div class="practice-invite">
+      <div class="practice-invite-icon">💡</div>
+      <div><strong>Practica aquí primero.</strong><br>Estos ejercicios tienen feedback inmediato y puedes intentarlos cuantas veces quieras. Cuando te sientas listo, pasa a la evaluación más abajo.</div>
+    </div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Vago o Claro? Identifica el tipo de prompt</h4><p style="margin-bottom:12px">Di si cada prompt es VAGO o CLARO:</p>
+    <table class="cls-tbl"><thead><tr><th style="width:58%">Prompt</th><th>Respuesta</th><th></th></tr></thead><tbody>
+    <tr class="cls-row"><td>"Explícame cómo funciona el sistema solar paso a paso con ejemplos"</td><td><div class="cls-btns"><button class="cls-btn" data-val="claro" onclick="classify(this,'claro','claro')">Claro</button><button class="cls-btn" data-val="vago" onclick="classify(this,'vago','claro')">Vago</button></div></td><td><span class="cls-res"></span></td></tr>
+    <tr class="cls-row"><td>"Ayúdame"</td><td><div class="cls-btns"><button class="cls-btn" data-val="claro" onclick="classify(this,'claro','vago')">Claro</button><button class="cls-btn" data-val="vago" onclick="classify(this,'vago','vago')">Vago</button></div></td><td><span class="cls-res"></span></td></tr>
+    <tr class="cls-row"><td>"Soy alumno de 6.° grado. Dame 3 ejemplos de animales en peligro de extinción en América del Sur"</td><td><div class="cls-btns"><button class="cls-btn" data-val="claro" onclick="classify(this,'claro','claro')">Claro</button><button class="cls-btn" data-val="vago" onclick="classify(this,'vago','claro')">Vago</button></div></td><td><span class="cls-res"></span></td></tr>
+    <tr class="cls-row"><td>"Explícame todo sobre historia"</td><td><div class="cls-btns"><button class="cls-btn" data-val="claro" onclick="classify(this,'claro','vago')">Claro</button><button class="cls-btn" data-val="vago" onclick="classify(this,'vago','vago')">Vago</button></div></td><td><span class="cls-res"></span></td></tr>
+    </tbody></table></div>
+    <div class="ex"><div class="ex-num">Ejercicio 2</div><h4>¿Cuál es la parte de la fórmula?</h4><p style="margin-bottom:12px">Identifica qué parte de la fórmula representa cada fragmento:</p>
+    <table class="cls-tbl"><thead><tr><th style="width:55%">Fragmento del prompt</th><th>¿Qué es?</th><th></th></tr></thead><tbody>
+    <tr class="cls-row"><td>"Soy alumno de 6.° grado"</td><td><div class="cls-btns"><button class="cls-btn" data-val="c" onclick="classify(this,'c','c')">Contexto</button><button class="cls-btn" data-val="t" onclick="classify(this,'t','c')">Tarea</button><button class="cls-btn" data-val="f" onclick="classify(this,'f','c')">Formato</button></div></td><td><span class="cls-res"></span></td></tr>
+    <tr class="cls-row"><td>"en 3 puntos simples"</td><td><div class="cls-btns"><button class="cls-btn" data-val="c" onclick="classify(this,'c','f')">Contexto</button><button class="cls-btn" data-val="t" onclick="classify(this,'t','f')">Tarea</button><button class="cls-btn" data-val="f" onclick="classify(this,'f','f')">Formato</button></div></td><td><span class="cls-res"></span></td></tr>
+    <tr class="cls-row"><td>"Explícame qué son los volcanes"</td><td><div class="cls-btns"><button class="cls-btn" data-val="c" onclick="classify(this,'c','t')">Contexto</button><button class="cls-btn" data-val="t" onclick="classify(this,'t','t')">Tarea</button><button class="cls-btn" data-val="f" onclick="classify(this,'f','t')">Formato</button></div></td><td><span class="cls-res"></span></td></tr>
+    </tbody></table></div>
+  </div>
+</details></div>
+</div>
+
+<div id="exam-cta" class="exam-cta-section">
+  <div class="exam-cta-icon">🎯</div>
+  <div class="exam-cta-title">¿Listo para la evaluación?</div>
+  <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
+  <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
+</div>
+
+<div class="eval-section" id="eval-section" style="display:none">
+  <span id="eval-grade-key" data-grade="prim6" data-session="08" style="display:none"></span>
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 6.° Primaria</div>
+    <div class="eval-banner-warn">⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno. Lee cada pregunta con calma.</div>
+  </div>
+  <div id="eval-gate-wrap">
+    <div class="eval-gate-wrap">
+      <div class="eval-gate">
+        <div class="gate-icon">📝</div>
+        <div class="gate-h">Antes de comenzar</div>
+        <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+        <label class="gate-label">Nombre</label>
+        <datalist id="alumnos-gate-dl"></datalist>
+        <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval('prim6')">
+        <button class="gate-btn" onclick="startEval('prim6')">Comenzar evaluación →</button>
+      </div>
+    </div>
+  </div>
+  <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div><div class="exam-who-name" id="exam-who-name"></div><div class="exam-who-grade">6.° Primaria · Sesión 08</div></div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio.'))location.reload()">✏️ No soy yo</button>
+    </div>
+    <div class="eval-top">
+      <span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 6.° Primaria</span>
+      <span id="eval-answered" class="eval-answered">0 / 10 respondidas</span>
+    </div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué es un "prompt"?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Una respuesta que da la IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) La instrucción o pregunta que le das a la IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Un error de la computadora</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál es la fórmula para hacer un buen prompt?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Pregunta + respuesta</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Contexto + tarea + formato</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Título + cuerpo + conclusión</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Cuál de estos es un prompt CLARO?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) "Ayúdame con ciencias"</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) "Explícame cómo se forman las nubes con un ejemplo simple"</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) "No entiendo nada"</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Escribes "Haz mi tarea de historia". ¿Eso es…?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Un buen prompt</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Un uso responsable de la IA</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Copiar, no usar la IA para aprender</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Para qué sirve el CONTEXTO en un prompt?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Para decirle a la IA quién eres y qué necesitas</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Para poner el título del trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Para decorar la pregunta</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">La IA te responde algo que parece incorrecto. ¿Qué debes hacer?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Publicarlo tal cual en el trabajo</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Verificarlo en otra fuente antes de usarlo</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Borrar la IA del celular</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Cuál de estas herramientas de IA es segura para usar en el colegio con supervisión?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Copilot / Gemini supervisado</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Cualquier chatbot que encuentres en internet</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Solo las herramientas que están en papel</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Le pides a la IA "dame un resumen en 3 puntos". ¿Qué parte de la fórmula es "en 3 puntos"?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Contexto</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Tarea</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Formato</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuándo está bien usar la respuesta de una IA?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Siempre, la IA nunca se equivoca</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Nunca, porque es trampa</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Cuando la verificas y la usas para mejorar tu trabajo</span></label>
+</div></div>
+
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Tu amigo dice "la IA hizo mi tarea completa, solo la copié". ¿Eso está bien?</div></div><div class="eval-opts">
+<label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Sí, si nadie se da cuenta</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) No, porque no aprendió nada</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Sí, si la respuesta era correcta</span></label>
+</div></div>
+
+    <div id="eval-submit-wrap" class="eval-submit-wrap">
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+      <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
+    </div>
+    <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
+  </div>
+</div>
+</div>
+
+<script>
+function classify(btn,chosen,correct){const row=btn.closest('.cls-row');if(row.dataset.done)return;row.dataset.done='1';row.querySelectorAll('.cls-btn').forEach(b=>b.disabled=true);const ok=chosen===correct;btn.classList.add(ok?'correct':'wrong');if(!ok)row.querySelectorAll('.cls-btn').forEach(b=>{if(b.dataset.val===correct)b.classList.add('reveal');});const r=row.querySelector('.cls-res');if(r){r.className='cls-res '+(ok?'ok':'err');r.textContent=ok?'✓ Correcto':'✗ Incorrecto';}}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
+let _name='',_grade='',_session='';
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
+function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-08-prim6-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){document.getElementById('exam-who-name').textContent=_name;banner.style.display='flex';}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-08-prim6-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'08',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 08 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está disponible arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}}).catch(()=>{});})();
+</script>
+</div>
+</body>
+</html>

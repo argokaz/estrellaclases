@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 8 · 3.° Secundaria — Cómo funciona la IA generativa</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12);}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#fb923c;}
+.pill{display:inline-block;background:#fb923c;color:#000;border-radius:999px;padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#fb923c;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#fb923c;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #fb923c;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%;}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #fb923c;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s;text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(251,146,60,.25);border-color:#fb923c;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qletter{font-weight:900;color:#fb923c;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#fb923c;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#fb923c;}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,rgba(251,146,60,.18) 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,rgba(251,146,60,.12) 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.25,.46,.45,.94) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.25,.46,.45,.94) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super,.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-body,.slide.active .t-sm{animation:fUp .45s .2s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
+#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
+#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
+.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
+.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
+.cn{font-size:clamp(32px,6.2vw,96px);font-weight:900;color:#fbbf24;animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
+.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
+.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
+@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<div class="slide active"><div class="brand">Asunción School</div><div class="snum">8 · 1</div>
+  <p class="t-sm accent">Viernes 3 de julio · 3.° Secundaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">Cómo funciona la<br><span class="accent">IA generativa</span> 🤖</h1>
+  <p class="t-body" style="margin-top:2%">Detrás de la magia hay matemática · Canva / Docs</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 2</div>
+  <h2 class="t-h1">¿Qué haremos hoy?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🧠</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Abrir la caja negra</p><p class="t-sm" style="opacity:.8">La semana pasada presentamos datos. Hoy descubrimos cómo la IA los genera</p></div>
+    <div class="c3"><div class="big-em">🔤</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Tokens y predicción</p><p class="t-sm" style="opacity:.8">La unidad básica que procesa la IA y cómo genera texto palabra a palabra</p></div>
+    <div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Alucinaciones y sesgos</p><p class="t-sm" style="opacity:.8">Por qué la IA se equivoca y cómo detectar sus errores</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 3</div>
+  <h2 class="t-h1">¿Qué es la IA generativa? 🤖</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">🔍 Búsqueda tradicional</p>
+      <ul class="list"><li>Encuentra información que <strong>ya existe</strong> en internet</li><li>Muestra páginas web tal como están</li><li>Indexa y recupera — no crea</li><li>Google, Bing, Yahoo</li></ul>
+    </div>
+    <div class="box" style="border-color:rgba(251,146,60,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✨ IA generativa</p>
+      <ul class="list"><li>Aprende <strong>patrones</strong> del texto que leyó</li><li><strong>Genera contenido nuevo</strong>: texto, imágenes, código</li><li>No copia — produce algo original (o lo intenta)</li><li>ChatGPT, Gemini, Claude, DALL-E</li></ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 4</div>
+  <h2 class="t-h1">Tokens: la unidad básica 🔤</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm" style="font-weight:700;margin-bottom:.8em;opacity:.7">¿Qué es un token?</p>
+    <p class="t-sm">Un <span class="accent" style="font-weight:800">token</span> es la unidad mínima de texto que procesa la IA. Puede ser una palabra, parte de una palabra, o un signo de puntuación.</p>
+  </div>
+  <div class="cards" style="margin-top:2.5%">
+    <div class="c3"><div class="big-em">2️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">"Hola mundo"</p><p class="t-sm" style="opacity:.8">= 2 tokens: <strong>"Hola"</strong> + <strong>"mundo"</strong></p></div>
+    <div class="c3"><div class="big-em">3️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">"inteligencia"</p><p class="t-sm" style="opacity:.8">= 3 tokens en inglés: <strong>"intel"</strong> + <strong>"ig"</strong> + <strong>"encia"</strong></p></div>
+    <div class="c3"><div class="big-em">💡</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">¿Por qué importa?</p><p class="t-sm" style="opacity:.8">Los modelos tienen un límite de tokens — como la "memoria" de cada conversación</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 5</div>
+  <h2 class="t-h1">⭐ Reto de participación</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:3%;max-width:88%">
+    <p class="t-body" style="font-weight:700">¿Cómo explicarías en tus propias palabras qué es un <span class="accent">token</span>?</p>
+    <p class="t-sm" style="margin-top:1.5%;opacity:.7">Piensa en una analogía: ¿con qué lo compararías?</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> primer alumno que explique en sus palabras qué es un token · máx. 3 alumnos</p></div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 6</div>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué hace una IA cuando "alucina"?</p>
+  <div class="quiz-opts" style="margin-top:3%">
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Se reinicia sola para corregir el error</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Genera información que parece correcta pero está inventada</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Deja de funcionar y pide ayuda al usuario</div>
+  </div>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 7</div>
+  <h2 class="t-h1">¿Cómo aprendió la IA? 📚</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Fase 1: Leer todo</p><p class="t-sm" style="opacity:.8">La IA leyó <strong>miles de millones</strong> de textos: libros, artículos, páginas web, código. Aprendió patrones del lenguaje.</p></div>
+    <div class="c3"><div class="big-em">👩‍🏫</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Fase 2: Feedback humano</p><p class="t-sm" style="opacity:.8">Personas reales calificaron las respuestas de la IA. Esto se llama <strong>RLHF</strong> — aprendizaje con refuerzo humano.</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Resultado</p><p class="t-sm" style="opacity:.8">La IA aprende qué respuestas son útiles, seguras y precisas — gracias a ese feedback.</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 8</div>
+  <h2 class="t-h1">¿Cómo genera texto la IA? ✍️</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm accent" style="font-weight:700;margin-bottom:.8em">El secreto: predice la siguiente palabra más probable</p>
+    <p class="t-sm">Dado el contexto anterior, la IA calcula: <em>"¿cuál es la palabra más probable aquí?"</em> — y lo hace token por token.</p>
+  </div>
+  <div class="two" style="margin-top:2.5%">
+    <div class="box"><p class="t-sm" style="opacity:.7;font-weight:700;margin-bottom:.6em">Contexto A</p><p class="t-sm">"El perro movía la ____"<br>→ Probable: <span class="accent" style="font-weight:700">cola</span></p></div>
+    <div class="box"><p class="t-sm" style="opacity:.7;font-weight:700;margin-bottom:.6em">Contexto B</p><p class="t-sm">"La música movía la ____"<br>→ Probable: <span class="accent" style="font-weight:700">multitud</span></p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">El contexto completo cambia la predicción — por eso el prompt importa tanto.</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 9</div>
+  <h2 class="t-h1">⭐ Práctica en tiempo real</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:3%;max-width:88%">
+    <p class="t-body" style="font-weight:700">¿Puedes dar un ejemplo <span class="accent">real</span> de una alucinación de IA?</p>
+    <p class="t-sm" style="margin-top:1.5%;opacity:.7">Un caso que hayas vivido o escuchado: la IA inventó un dato, una cita, una fecha o un nombre que no existe.</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> primer alumno que dé un ejemplo real de alucinación de IA · máx. 3 alumnos</p></div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 10</div>
+  <h2 class="t-h1">Tipos de IA generativa 🎨</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">💬</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Texto</p><p class="t-sm" style="opacity:.8">ChatGPT, Gemini, Claude</p></div>
+    <div class="c4"><div class="big-em">🎨</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Imagen</p><p class="t-sm" style="opacity:.8">DALL-E, Midjourney, Stable Diffusion</p></div>
+    <div class="c4"><div class="big-em">💻</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Código</p><p class="t-sm" style="opacity:.8">GitHub Copilot, Cursor</p></div>
+    <div class="c4"><div class="big-em">🎵</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Audio / Video</p><p class="t-sm" style="opacity:.8">Suno, Udio, Sora (OpenAI)</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">Todos aprenden patrones de su tipo de dato y generan algo nuevo</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 11</div>
+  <h2 class="t-h1">Sesgos en la IA ⚖️</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm accent" style="font-weight:700;margin-bottom:.8em">Si el entrenamiento tiene sesgos, las respuestas también</p>
+    <ul class="list">
+      <li>Si la IA leyó más textos en inglés, su inglés es mejor que su español</li>
+      <li>Si los textos describen ciertas profesiones siempre con un género, la IA repite ese patrón</li>
+      <li>Si los evaluadores humanos tenían preferencias culturales, la IA las reflejará</li>
+    </ul>
+  </div>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">El sesgo no es malicia — es un reflejo de los datos y las personas que la entrenaron</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 12</div>
+  <h2 class="t-h1">¿Cuándo es útil la IA? 💡</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box" style="border-color:rgba(251,146,60,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Útil para...</p>
+      <ul class="list"><li>Hacer <strong>brainstorming</strong> de ideas</li><li><strong>Explicar</strong> conceptos difíciles de otra manera</li><li><strong>Primeros borradores</strong> que tú revisas y mejoras</li><li>Traducción y resúmenes rápidos</li><li>Generar código base para empezar</li></ul>
+    </div>
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">⚠️ Cuidado con...</p>
+      <ul class="list"><li>Datos exactos sin verificar fuente</li><li>Citas bibliográficas (puede inventarlas)</li><li>Eventos recientes o noticias</li><li>Decisiones médicas o legales</li></ul>
+    </div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 13</div>
+  <h2 class="t-h1">⭐ Reto de análisis crítico</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:3%;max-width:88%">
+    <p class="t-body" style="font-weight:700">Identifica un caso donde la IA <span class="accent">claramente puede fallar</span></p>
+    <p class="t-sm" style="margin-top:1.5%;opacity:.7">No vale "cuando se queda sin internet". Tiene que ser un caso específico relacionado con lo que vimos hoy: tokens, entrenamiento, sesgos o alucinación.</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto:</strong> primer alumno que identifique un caso donde la IA puede fallar · máx. 3 alumnos</p></div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 14</div>
+  <h2 class="t-h1">Los límites del conocimiento 📅</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">✂️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Fecha de corte</p><p class="t-sm" style="opacity:.8">La IA solo sabe lo que leyó hasta cierta fecha. ChatGPT-4 no sabe qué pasó el mes pasado.</p></div>
+    <div class="c3"><div class="big-em">📵</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Sin internet en tiempo real</p><p class="t-sm" style="opacity:.8">Por defecto, la IA no navega. No busca información actualizada mientras le escribes.</p></div>
+    <div class="c3"><div class="big-em">🧩</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">No "sabe" de verdad</p><p class="t-sm" style="opacity:.8">La IA predice patrones estadísticos — no comprende el significado como tú lo haces.</p></div>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 15</div>
+  <h2 class="t-h1">Cómo verificar lo que dice la IA 🔎</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm accent" style="font-weight:700;margin-bottom:.8em">Regla de oro: fuente primaria &gt; IA</p>
+    <ul class="list">
+      <li>La IA es útil para <strong>entender</strong> y <strong>explorar</strong> — no para citar directamente</li>
+      <li>Si la IA te dice un dato, búscalo en una <strong>fuente oficial</strong> (artículo, libro, web institucional)</li>
+      <li>La IA <strong>confirma</strong> lo que ya puedes saber — no crea conocimiento nuevo</li>
+      <li>Si no encuentras la fuente, el dato <em>no existe</em> para efectos de tu trabajo</li>
+    </ul>
+  </div>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 16</div>
+  <h2 class="t-h1">✏️ Actividad: IA en acción</h2>
+  <div class="line"></div>
+  <ul class="list">
+    <li>Con la profesora: hacer <strong>3 preguntas a una IA</strong> en la pantalla grande</li>
+    <li>Pregunta 1: algo que debería saber bien (concepto general)</li>
+    <li>Pregunta 2: un dato reciente o local que probablemente no sabe</li>
+    <li>Pregunta 3: algo donde podría alucinar (cita, estadística específica)</li>
+    <li>Analizar: ¿cuál respondió bien? ¿Cuál falló? ¿Por qué?</li>
+  </ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 10 min · Análisis grupal · Canva Docs para registrar observaciones</p>
+</div>
+
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 17</div>
+  <h2 class="t-h1">🚀 Para recordar</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3"><p class="t-sm"><strong>🔤</strong> Token = unidad mínima · La IA predice el siguiente token más probable · No "piensa", predice</p></div>
+    <div class="c3"><p class="t-sm"><strong>⚠️</strong> Alucinación = datos falsos con apariencia real · Sesgos vienen del entrenamiento · Verificar siempre</p></div>
+    <div class="c3"><p class="t-sm"><strong>✅</strong> Útil para borradores, ideas y explicaciones · Fuente primaria siempre por encima de la IA</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket de salida: ¿Qué cambiaría en la forma en que usas la IA después de hoy? 🎟️</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');const fb=el.closest('.slide').querySelector('.quiz-feedback');opts.forEach(o=>o.classList.remove('correct','wrong'));if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada.';fb.style.color='#fbbf24';}}}
+goTo(0);initialized=true;
+</script>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #fb923c;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#fb923c;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+const DECK_GRADE='sec3';
+const DECK_SESSION='08';
+(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:DECK_GRADE,session:DECK_SESSION})}).catch(()=>{});let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();
+function showCeleb(nombre){document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';spawnConfetti();const el=document.getElementById('celeb');el.style.display='block';['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);}
+function closeCeleb(){const el=document.getElementById('celeb');el.style.transition='opacity .4s';el.style.opacity='0';setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);}
+function spawnConfetti(){const w=document.getElementById('celeb-wrap');w.innerHTML='';const cols=['#fbbf24','#fb923c','#22c55e','#60a5fa','#a78bfa','#fff'];for(let i=0;i<72;i++){const d=document.createElement('div');const c=cols[i%cols.length];const sz=6+Math.random()*11;const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';w.appendChild(d);}}
+let lastBonusId=null;
+(async function pollBonus(){try{const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}}catch(e){}setTimeout(pollBonus,2000);})();
+</script>
+<div id="celeb" onclick="closeCeleb()">
+  <div id="celeb-wrap"></div>
+  <div id="celeb-body">
+    <div class="ca">🎉</div>
+    <p class="cs">¡Felicitaciones!</p>
+    <p class="cn" id="celeb-name"></p>
+    <p class="cp">⭐ +1 punto de participación</p>
+    <p class="ct">Toca para continuar</p>
+  </div>
+</div>
+</body>
+</html>

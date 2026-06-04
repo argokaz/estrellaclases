@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notas S8 · 4.° Secundaria</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;padding:0 0 80px;}
+.top-bar{background:rgba(0,0,0,.85);border-bottom:2px solid #c084fc;padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px);}
+.top-bar .grade{font-weight:900;font-size:1.1rem;color:#c084fc;}
+.top-bar .tema{font-size:.85rem;opacity:.7;}
+.room-info{margin-left:auto;font-family:monospace;font-size:1rem;font-weight:700;color:#c084fc;letter-spacing:.15em;}
+.cards-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem;max-width:700px;margin:0 auto;}
+.card{background:#1a1a1a;border:2px solid rgba(255,255,255,.1);border-radius:14px;overflow:hidden;transition:border-color .2s;}
+.card.active{border-color:#c084fc;}
+.card-header{background:rgba(255,255,255,.05);padding:.6rem 1rem;display:flex;align-items:center;gap:.8rem;cursor:pointer;}
+.card-num{font-weight:900;font-size:.9rem;color:#c084fc;min-width:2.5em;}
+.card-title{font-weight:700;font-size:.95rem;flex:1;}
+.card-time{font-size:.8rem;opacity:.6;white-space:nowrap;}
+.card-body{padding:.8rem 1rem;border-top:1px solid rgba(255,255,255,.08);display:none;}
+.card.open .card-body{display:block;}
+.note-label{font-size:.75rem;font-weight:700;color:#c084fc;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.25em;}
+.note-text{font-size:.9rem;line-height:1.55;opacity:.9;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.9);border-top:2px solid #c084fc;display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;backdrop-filter:blur(6px);z-index:99;}
+.nav-bar button{background:#c084fc;color:#000;border:none;border-radius:8px;padding:.4rem 1.2rem;font-size:.95rem;font-weight:800;cursor:pointer;}
+.nav-bar button:disabled{opacity:.25;cursor:default;}
+.nav-bar #ncounter{color:#fff;font-weight:700;min-width:4em;text-align:center;}
+#sync-overlay-btn{background:transparent;border:1.5px solid #c084fc;color:#c084fc;border-radius:8px;padding:.3rem .8rem;font-size:.8rem;font-weight:700;cursor:pointer;margin-left:.5rem;}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid rgba(192,132,252,.3);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:#f0f0f0;font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:#c084fc;}
+.bw-btn{background:#c084fc;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
+</style>
+</head>
+<body>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:#1a1a1a;border:2px solid #c084fc;border-radius:16px;padding:2rem;max-width:340px;width:100%;text-align:center;">
+    <p style="font-weight:900;font-size:1.1rem;color:#c084fc;margin-bottom:.5rem;">📡 Conectar al proyector</p>
+    <p style="font-size:.85rem;opacity:.7;margin-bottom:1.2rem;">Ingresa el código que aparece en la pantalla grande</p>
+    <input id="sync-code-inp" type="text" maxlength="6" placeholder="Ej: AB3X" style="width:100%;background:#111;border:2px solid #c084fc;color:#fff;font-size:1.6rem;font-weight:900;text-align:center;letter-spacing:.3em;border-radius:10px;padding:.6rem;font-family:monospace;margin-bottom:1rem;text-transform:uppercase;">
+    <button id="sync-connect-btn" style="width:100%;background:#c084fc;color:#000;border:none;border-radius:10px;padding:.75rem;font-weight:800;font-size:1rem;cursor:pointer;margin-bottom:.6rem;">✅ Conectar</button>
+    <button id="sync-cancel-btn" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:10px;padding:.6rem;font-size:.9rem;cursor:pointer;">Cancelar</button>
+  </div>
+</div>
+<div class="top-bar">
+  <div><div class="grade">Sesión 8 · 4.° Secundaria</div><div class="tema">Sheets para investigación</div></div>
+  <div class="room-info" id="room-display">···</div>
+  <button id="sync-overlay-btn">📡 Sync</button>
+</div>
+<div class="cards-list" id="cards-list">
+
+<div class="card" id="card-0">
+  <div class="card-header"><span class="card-num">S8·2</span><span class="card-title">¿Qué haremos hoy?</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conecta con la sesión anterior: "La semana pasada aprendimos a redactar con formalidad. Hoy le añadimos datos que respalden esos argumentos. Un trabajo académico sin datos es solo opinión." Esta sesión es muy aplicada — los alumnos de 4.° ya tienen o tendrán que presentar investigaciones con encuestas.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pregunta de apertura: ¿Alguien ha hecho una encuesta o tiene que hacer una para alguna materia? Conectar el contenido con necesidades reales inmediatas.</p>
+  </div>
+</div>
+
+<div class="card" id="card-1">
+  <div class="card-header"><span class="card-num">S8·3</span><span class="card-title">Estructura de una hoja de datos</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El error más frecuente de 4.°: mezclar dos valores en una celda (ej: "Lima / 17 años") o combinar celdas en la zona de datos. Esto rompe absolutamente todas las fórmulas. Énfasis en cabeceras claras: "Edad" no "¿Cuántos años tienes?". Cuanto más corta la cabecera, más legibles las fórmulas que referencien esa columna.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Muestra un antes/después: una hoja mal estructurada vs una bien estructurada. Pide que identifiquen los errores antes de revelar la versión correcta.</p>
+  </div>
+</div>
+
+<div class="card" id="card-2">
+  <div class="card-header"><span class="card-num">S8·4</span><span class="card-title">Funciones esenciales para investigación</span><span class="card-time">⏱ 5 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Repaso rápido de SUMA y PROMEDIO — ya las conocen. Énfasis en la diferencia CONTAR vs CONTARA: CONTAR solo cuenta números, CONTARA cuenta cualquier celda no vacía (incluye texto). CONTAR.SI es la estrella de la sesión: permite filtrar respuestas por criterio, fundamental para analizar encuestas de opción múltiple.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo: dataset simple de 10 filas, aplicar cada función en tiempo real. Pide que predigan el resultado antes de ejecutar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-3">
+  <div class="card-header"><span class="card-num">S8·5</span><span class="card-title">⭐ Reto — CONTAR.SI vs CONTAR</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La respuesta esperada: CONTAR.SI se usa cuando las celdas contienen texto (respuestas como "Sí"/"No"/"A veces") porque CONTAR solo funciona con números. Si intentas usar CONTAR en una columna de texto, el resultado será 0. ⭐ Bonus: hasta 3 alumnos que expliquen correctamente con sus palabras.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Dar 60 segundos de reflexión en silencio antes de recibir respuestas. No aceptar "porque tiene criterio" sin explicación — pedir que den un ejemplo concreto.</p>
+  <div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<div class="card" id="card-4">
+  <div class="card-header"><span class="card-num">S8·6</span><span class="card-title">🧩 Mini quiz — CONTAR.SI</span><span class="card-time">⏱ 2 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta correcta: C — CONTAR.SI. SUMA agrega valores numéricos; CONTAR cuenta celdas con números y no funcionaría con texto. CONTAR.SI es la única que acepta un criterio de filtro.</p>
+    <p class="note-label" style="margin-top:.8em">🧩 Q&A (solo en notas)</p>
+    <p class="note-text"><strong>P:</strong> ¿Qué función usas para contar solo las celdas que cumplen un criterio?<br><strong>R:</strong> CONTAR.SI — sintaxis: <code>=CONTAR.SI(rango, criterio)</code>. Ejemplo: <code>=CONTAR.SI(A2:A50,"Sí")</code> cuenta cuántos respondieron exactamente "Sí" en el rango A2:A50.<br><br><strong>P extra:</strong> ¿Cuál es la diferencia entre CONTAR y CONTARA?<br><strong>R:</strong> CONTAR solo cuenta celdas con valores numéricos. CONTARA cuenta cualquier celda no vacía, incluyendo texto. Si tu columna tiene texto ("Sí"/"No"), CONTAR dará 0 — debes usar CONTARA o CONTAR.SI.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Votación y +1 al primero que responda correctamente. Aprovechar para repasar la diferencia CONTAR/CONTARA.</p>
+    <div class="bw">
+      <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#c084fc;margin-bottom:.3em">⭐ Participación en clase</p>
+      <div class="bw-row">
+        <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+        <button onclick="darBonus()" class="bw-btn">+1</button>
+      </div>
+      <p id="bw-msg" class="bw-msg"> </p>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="card-5">
+  <div class="card-header"><span class="card-num">S8·7</span><span class="card-title">Validación de datos</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La validación de datos es la herramienta preventiva por excelencia. Un dato mal capturado ("si" con minúscula en lugar de "Sí") hace que CONTAR.SI no lo cuente, y el análisis queda incorrecto. La lista desplegable elimina ese error. Para escala Likert, validar con rango numérico entero entre 1 y 5 evita que alguien escriba "3.5" o "bueno".</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo: crear una lista desplegable en 30 segundos. Ruta: seleccionar columna → Datos → Validación de datos → Lista de elementos → escribir "Sí,No,A veces". Pedir que lo repliquen en su propio Sheets.</p>
+  </div>
+</div>
+
+<div class="card" id="card-6">
+  <div class="card-header"><span class="card-num">S8·8</span><span class="card-title">Tablas dinámicas</span><span class="card-time">⏱ 5 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Las tablas dinámicas son la herramienta más poderosa de Sheets para investigación. Sin ellas, cruzar género × respuesta requeriría varias fórmulas CONTAR.SI anidadas. Con tabla dinámica: 3 clics. El concepto clave: arrastrar campos a Filas, Columnas y Valores. Para 4.° es suficiente entender el para qué — no necesitan dominar la interfaz completa hoy.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo con dataset de encuesta simple: Insertar → Tabla dinámica → nueva hoja. Arrastrar "Género" a Filas, "Respuesta" a Columnas, "Nombre" a Valores (CONTA). Resultado: tabla de contingencia en segundos.</p>
+  </div>
+</div>
+
+<div class="card" id="card-7">
+  <div class="card-header"><span class="card-num">S8·9</span><span class="card-title">⭐ Práctica — tabla dinámica</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Respuesta esperada: la tabla dinámica permite cruzar las dos variables (género × uso de redes) y responder preguntas como "¿Las mujeres usan más redes para estudiar que los hombres?" en segundos, sin fórmulas. La pregunta de investigación que podría responder: "¿Existe diferencia en el uso de redes sociales para el estudio según el género?" ⭐ Bonus: hasta 3 alumnos que den una respuesta concreta y bien argumentada.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que piensen 30 segundos antes de responder. Valorar respuestas que conecten la herramienta con una pregunta de investigación específica, no solo describan la funcionalidad.</p>
+  <div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s9','bw-msg-s9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s9" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<div class="card" id="card-8">
+  <div class="card-header"><span class="card-num">S8·10</span><span class="card-title">Gráficos para investigación</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La regla de oro: el tipo de gráfico depende de la pregunta que quieres responder, no de la estética. Barras: comparar magnitudes entre categorías distintas (¿cuántos eligieron cada opción?). Líneas: mostrar cómo cambia algo en el tiempo (¿cómo evolucionó la participación semana a semana?). Circular: mostrar proporciones de un todo (¿qué porcentaje eligió Sí vs No?).</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ejercicio rápido: mostrar 3 preguntas de investigación diferentes y pedir que indiquen qué tipo de gráfico usarían y por qué. Validar argumentos, no solo respuestas.</p>
+  </div>
+</div>
+
+<div class="card" id="card-9">
+  <div class="card-header"><span class="card-num">S8·11</span><span class="card-title">Errores comunes en gráficos</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El error del eje Y sin cero es el más grave porque manipula la percepción — una diferencia pequeña parece enorme. Es un recurso de manipulación mediática documentado. El error de título sin unidad es muy frecuente en trabajos de 4.°: "Frecuencia" no dice nada; "Número de alumnos" sí. La fuente es obligatoria en APA — sin ella el gráfico no puede citarse correctamente.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar un gráfico real con eje Y manipulado (hay muchos en noticias). Preguntar: "¿Qué problema tienen estos datos?" antes de revelar el error.</p>
+  </div>
+</div>
+
+<div class="card" id="card-10">
+  <div class="card-header"><span class="card-num">S8·12</span><span class="card-title">Función SI para clasificar</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La función SI es el primer paso hacia el análisis condicional. Para investigación con escala Likert es especialmente útil: convierte respuestas numéricas (1-5) en categorías descriptivas que son más fáciles de comunicar en un trabajo escrito. Aclarar que =SI(B2>3,"Alta","Baja") deja el valor 3 como "Baja" — si quieren incluirlo en "Alta" deben usar >=3.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Demo en vivo con una columna de 5 valores (2, 4, 1, 5, 3). Aplicar la fórmula y arrastrar. Pedir que predigan el resultado de cada celda antes de ejecutar.</p>
+  </div>
+</div>
+
+<div class="card" id="card-11">
+  <div class="card-header"><span class="card-num">S8·13</span><span class="card-title">⭐ Reto — construir CONTAR.SI</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">La fórmula correcta: <code>=CONTAR.SI(A2:A31,"Siempre")</code>. El rango es A2:A31 (30 filas de datos, sin la cabecera en A1). El criterio va entre comillas porque es texto. Errores frecuentes: usar A1:A30 (incluiría la cabecera) o escribir el criterio sin comillas (daría error). ⭐ Bonus: hasta 3 alumnos que escriban la fórmula correctamente con explicación de cada parte.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que escriban la fórmula en su cuaderno o en el chat antes de revelar la respuesta. Seleccionar 3 respuestas diferentes y analizarlas públicamente.</p>
+  <div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+  </div>
+</div>
+
+<div class="card" id="card-12">
+  <div class="card-header"><span class="card-num">S8·14</span><span class="card-title">Datos y texto académico</span><span class="card-time">⏱ 4 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Conexión directa con S07 (redacción formal): un gráfico sin referencia en el texto es decoración, no evidencia académica. APA distingue entre Tablas (datos en cuadrícula) y Figuras (gráficos, imágenes). Las Tablas van numeradas con título en cursiva SOBRE la tabla. Las Figuras van numeradas con título descriptivo DEBAJO de la figura. "Fuente: elaboración propia" es suficiente cuando los datos son propios.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Mostrar un ejemplo de trabajo con un gráfico correctamente citado en APA y uno sin citar. Pedir que escriban cómo referenciarían en el texto su propio gráfico de hoy.</p>
+  </div>
+</div>
+
+<div class="card" id="card-13">
+  <div class="card-header"><span class="card-num">S8·15</span><span class="card-title">Checklist del investigador</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">El checklist integra todos los aprendizajes de la sesión en un formato aplicable. Insistir en que este checklist debe usarse ANTES de entregar cualquier trabajo con datos, no después. El último punto — "¿la figura está citada en el texto?" — conecta explícitamente con S07 y forma el hábito de integrar datos y redacción.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Pedir que evalúen su trabajo de hoy contra este checklist. ¿Cuántos puntos cumplen? ¿Cuál les falta?</p>
+  </div>
+</div>
+
+<div class="card" id="card-14">
+  <div class="card-header"><span class="card-num">S8·16</span><span class="card-title">✏️ Actividad</span><span class="card-time">⏱ 15 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Actividad individual con producto concreto: análisis de dataset + gráfico + 2 oraciones formales. Los criterios informales de evaluación: CONTAR.SI con criterio correcto, PROMEDIO funcionando, gráfico con título y fuente, tipo de gráfico adecuado, oraciones en registro formal sin coloquialismos. Identificar 2-3 trabajos para compartir al cierre.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Circular por el aula. Priorizar revisar que las fórmulas sean correctas antes que el gráfico. Error más probable: rango que incluye la cabecera (A1 en vez de A2 como inicio).</p>
+  </div>
+</div>
+
+<div class="card" id="card-15">
+  <div class="card-header"><span class="card-num">S8·17</span><span class="card-title">🚀 Para recordar</span><span class="card-time">⏱ 3 min</span></div>
+  <div class="card-body">
+    <p class="note-label">📋 Notas</p>
+    <p class="note-text">Cierre con los 3 puntos del slide. Ticket de salida: ¿qué tipo de gráfico usarías para mostrar la distribución de edades y por qué? Respuesta esperada: barras (comparar grupos de edad) o circular (proporciones si hay pocos grupos). La justificación es lo más importante.<br><br>Conexión S09: mencionar que la próxima sesión profundizará en búsqueda y evaluación de fuentes confiables para el marco teórico.</p>
+    <p class="note-label" style="margin-top:.8em">⚙️ Mecánica</p>
+    <p class="note-text">Ticket de salida oral o escrito. Leer 2-3 respuestas y comentar la calidad del argumento, no solo si el tipo de gráfico es correcto.</p>
+  </div>
+</div>
+
+</div>
+<div class="nav-bar">
+  <button id="btn-prev" onclick="navCard(-1)" disabled>◀</button>
+  <span id="ncounter">1 / 16</span>
+  <button id="btn-next" onclick="navCard(1)">▶</button>
+</div>
+<script>
+const cards=[...document.querySelectorAll('.card')];let cur=0;const total=16;
+function openCard(i){cards.forEach((c,j)=>{c.classList.remove('active','open');if(j===i)c.classList.add('active','open');});cur=i;document.getElementById('ncounter').textContent=(i+1)+' / '+total;document.getElementById('btn-prev').disabled=i===0;document.getElementById('btn-next').disabled=i===total-1;cards[i].scrollIntoView({behavior:'smooth',block:'nearest'});}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+function navCard(d){openCard(Math.max(0,Math.min(total-1,cur+d)));}
+openCard(0);
+const NOTA_GRADE='sec4';const NOTA_SESSION='08';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof _room!=='undefined'&&_room){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
+</script>
+<script>
+(function(){const API='/.netlify/functions/sync';let _room=null;function showOverlay(){const ov=document.getElementById('sync-overlay');if(ov){ov.style.display='flex';document.getElementById('sync-code-inp').focus();}}function hideOverlay(){const ov=document.getElementById('sync-overlay');if(ov)ov.style.display='none';}document.getElementById('sync-overlay-btn').addEventListener('click',showOverlay);document.getElementById('sync-cancel-btn').addEventListener('click',hideOverlay);document.getElementById('sync-connect-btn').addEventListener('click',function(){const val=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(val.length<3)return;_room=val;document.getElementById('room-display').textContent=_room;hideOverlay();startObserver();});function startObserver(){let lastSent=-1;const counter=document.getElementById('ncounter');const obs=new MutationObserver(()=>{const txt=counter.textContent||'';const m=txt.match(/(\d+)/);if(!m)return;const idx=parseInt(m[1])-1;if(idx===lastSent||!_room)return;lastSent=idx;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:_room,slide:idx})}).catch(()=>{});});obs.observe(counter,{childList:true,subtree:true,characterData:true});}})();
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#c084fc;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script>
+</body>
+</html>

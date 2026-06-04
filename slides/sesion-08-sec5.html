@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 8 · 5.° Secundaria — Prompting profesional</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#450a0a,#7f1d1d);}
+.slide.active{opacity:1;pointer-events:auto;z-index:2;}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600;}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff;}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff;}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff;}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92);}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8);}
+.accent{color:#f87171;}
+.pill{display:inline-block;background:#f87171;color:#000;border-radius:999px;padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em;}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%;}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center;}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center;}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center;}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2;}
+.line{width:55%;height:3px;background:#f87171;border-radius:2px;margin:2% auto;opacity:.65;}
+.list{text-align:left;width:100%;max-width:82%;}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4;}
+.list li::before{content:'▸';position:absolute;left:0;color:#f87171;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left;}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%;}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #f87171;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%;}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #f87171;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%;}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px);}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95);}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%;}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s;text-align:left;display:flex;align-items:center;gap:.6em;}
+.qopt:hover{background:rgba(255,255,255,.18);}
+.qopt.correct{background:rgba(248,113,113,.25);border-color:#f87171;}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171;}
+.qopt.correct{background:rgba(34,197,94,.2);border-color:#22c55e;}
+.qletter{font-weight:900;color:#f87171;min-width:1.6em;}
+.qopt.wrong .qletter{color:#f87171;}
+.qopt.correct .qletter{color:#22c55e;}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px);}
+.nav button{background:#f87171;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;}
+.nav button:disabled{opacity:.25;cursor:default;}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%;}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s;}
+.dot.active{background:#f87171;}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,rgba(248,113,113,.18) 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0;}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,rgba(248,113,113,.12) 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0;}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-20px) scale(1.09);}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.25,.46,.45,.94) both;}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.25,.46,.45,.94) both;}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97);}to{opacity:1;transform:none;}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97);}to{opacity:1;transform:none;}}
+.slide.active .t-super,.slide.active .t-h1{animation:fUpBig .5s .07s ease both;}
+.slide.active .t-body,.slide.active .t-sm{animation:fUp .45s .2s ease both;}
+.slide.active .line{animation:lGrow .42s .1s ease both;}
+.slide.active .c:nth-child(1),.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both;}
+.slide.active .c:nth-child(2),.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both;}
+.slide.active .c:nth-child(3),.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both;}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both;}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both;}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both;}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both;}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both;}
+.slide.active .highlight{animation:pIn .45s .28s ease both;}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both;}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both;}
+.slide.active .big-em{animation:pIn .5s .04s ease both;}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both;}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both;}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:none;}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0;}to{transform:scaleX(1);opacity:.65;}}
+@keyframes pIn{from{opacity:0;transform:scale(.82);}to{opacity:1;transform:none;}}
+#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
+#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
+.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
+.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
+.cn{font-size:clamp(32px,6.2vw,96px);font-weight:900;color:#fbbf24;animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
+.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
+.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
+@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="deck-wrap" id="deck">
+
+<!-- SLIDE 1: Título -->
+<div class="slide active"><div class="brand">Asunción School</div><div class="snum">8 · 1</div>
+  <p class="t-sm accent">Viernes 3 de julio · 5.° Secundaria</p>
+  <div class="line"></div>
+  <h1 class="t-super">Prompting<br><span class="accent">profesional</span> 💼</h1>
+  <p class="t-body" style="margin-top:2%">El que sabe pedir, obtiene mejores resultados · IA / Docs</p>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+
+<!-- SLIDE 2: Agenda -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 2</div>
+  <h2 class="t-h1">¿Qué haremos hoy?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><div class="big-em">🔁</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Conexión S07</p><p class="t-sm" style="opacity:.8">En S07 vimos que saber usar la IA con criterio es la ventaja clave. Hoy la llevamos a la práctica.</p></div>
+    <div class="c3"><div class="big-em">🧠</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Técnicas avanzadas</p><p class="t-sm" style="opacity:.8">Zero-shot, few-shot, chain-of-thought: las 3 técnicas que usan los profesionales</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Aplicación real</p><p class="t-sm" style="opacity:.8">Construir prompts completos para CV, cartas, entrevistas y más</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 3: Repaso rápido -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 3</div>
+  <h2 class="t-h1">¿Qué es un prompt? 🤔</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">👤 Usuario casual</p>
+      <ul class="list"><li>Escribe lo primero que se le ocurre</li><li>Acepta la primera respuesta sin cuestionar</li><li>No ajusta ni refina el prompt</li><li>Obtiene resultados genéricos</li></ul>
+    </div>
+    <div class="box" style="border-color:rgba(248,113,113,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">🚀 Usuario estratégico</p>
+      <ul class="list"><li>Piensa antes de escribir: ¿qué necesito exactamente?</li><li>Estructura el prompt con contexto y restricciones</li><li>Itera y refina según los resultados</li><li>Obtiene outputs de calidad profesional</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: Zero-shot -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 4</div>
+  <h2 class="t-h1">Zero-shot prompting 🎯</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm accent" style="font-weight:700;margin-bottom:.8em">¿Qué es? Pedir directamente, sin incluir ejemplos en el prompt.</p>
+    <p class="t-sm"><strong>Ejemplo:</strong> "Escribe un párrafo de presentación profesional para un CV de administración de empresas."</p>
+    <p class="t-sm" style="margin-top:1em;font-weight:700">¿Cuándo funciona bien?</p>
+    <ul class="list" style="max-width:100%"><li>Tareas generales y bien conocidas por la IA (resúmenes, traducciones, explicaciones)</li><li>Cuando el formato de salida esperado es obvio</li></ul>
+    <p class="t-sm" style="margin-top:1em;font-weight:700">¿Cuándo no es suficiente?</p>
+    <ul class="list" style="max-width:100%"><li>Cuando necesitas un formato específico o poco común</li><li>Cuando el resultado depende de un estilo o patrón concreto</li></ul>
+  </div>
+</div>
+
+<!-- SLIDE 5: Reto zero-shot -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 5</div>
+  <h2 class="t-h1">⭐ Reto — Zero-shot</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%">
+    <p class="t-h2" style="text-align:center">¿Para qué tarea el zero-shot NO sería suficiente y por qué?</p>
+    <p class="t-body" style="margin-top:2%;opacity:.85">Piensa en un caso concreto: algo que necesites que la IA replique con un formato, tono o estructura muy específica.</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al primero que dé un ejemplo de tarea donde zero-shot NO es suficiente · máx. 3 alumnos</p></div>
+</div>
+
+<!-- SLIDE 6: Mini quiz -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 6</div>
+  <h2 class="t-h1">🧩 Mini quiz</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué técnica de prompting incluye ejemplos dentro del prompt?</p>
+  <div class="quiz-opts" style="margin-top:3%">
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Zero-shot — pedir directamente sin ejemplos</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Few-shot — incluir 2-3 ejemplos del resultado esperado</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Chain-of-thought — pedir que razone paso a paso</div>
+  </div>
+  <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+
+<!-- SLIDE 7: Few-shot -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 7</div>
+  <h2 class="t-h1">Few-shot prompting 📋</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-sm accent" style="font-weight:700;margin-bottom:.8em">"Few" = pocos. Incluís 2-3 ejemplos del output esperado para que la IA replique el patrón.</p>
+    <p class="t-sm"><strong>Ejemplo:</strong><br>"Clasifica estas respuestas de encuesta como positiva, negativa o neutra.<br>Ejemplo 1: 'Me encantó la atención' → Positiva<br>Ejemplo 2: 'El tiempo de espera fue largo' → Negativa<br>Ahora clasifica: 'El producto llegó en perfecto estado'"</p>
+    <p class="t-sm" style="margin-top:1em;font-weight:700">Muy útil para:</p>
+    <ul class="list" style="max-width:100%"><li>Clasificación con criterios específicos</li><li>Mantener formato o tono consistente</li><li>Replicar un estilo de escritura concreto</li></ul>
+  </div>
+</div>
+
+<!-- SLIDE 8: Chain-of-thought -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 8</div>
+  <h2 class="t-h1">Chain-of-thought 🔗</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">¿Qué es?</p>
+      <p class="t-sm" style="opacity:.9">Pedirle a la IA que razone paso a paso antes de dar la respuesta final. La instrucción clave:</p>
+      <div style="background:rgba(248,113,113,.15);border:1px solid #f87171;border-radius:8px;padding:4% 5%;margin-top:4%;text-align:center">
+        <p class="t-sm" style="font-weight:800;color:#f87171">"Piensa paso a paso antes de responder"</p>
+      </div>
+    </div>
+    <div class="box" style="border-color:rgba(248,113,113,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">¿Por qué mejora los resultados?</p>
+      <ul class="list"><li>Fuerza a la IA a mostrar su razonamiento</li><li>Reduce errores en problemas complejos</li><li>Permite detectar dónde falla la lógica</li><li>Esencial para análisis, argumentación y resolución de problemas</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9: Práctica few-shot -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 9</div>
+  <h2 class="t-h1">⭐ Práctica — Few-shot</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%">
+    <p class="t-h2" style="text-align:center">Construye en voz alta un few-shot prompt para clasificar respuestas de encuesta</p>
+    <p class="t-body" style="margin-top:2%;opacity:.85">Debe incluir: la instrucción de tarea + al menos 2 ejemplos con su clasificación + la nueva respuesta a clasificar.</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al que construya en voz alta un few-shot prompt para clasificar respuestas de encuesta · máx. 3 alumnos</p></div>
+</div>
+
+<!-- SLIDE 10: Roles y personas -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 10</div>
+  <h2 class="t-h1">Roles y personas 🎭</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">✅ Cómo funciona</p>
+      <p class="t-sm" style="opacity:.9;margin-bottom:4%">Asignarle a la IA un rol alinea su tono, vocabulario y perspectiva con el contexto que necesitás.</p>
+      <p class="t-sm"><strong>Ejemplo:</strong> "Actúa como un reclutador de RR.HH. con 10 años de experiencia y revisa mi CV. Señala 3 puntos fuertes y 2 áreas de mejora."</p>
+    </div>
+    <div class="box" style="border-color:rgba(248,113,113,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">⚠️ Límites y precauciones</p>
+      <ul class="list"><li>El rol mejora el tono — no garantiza precisión factual</li><li>Una IA "actuando como médico" no reemplaza un médico real</li><li>Siempre verificar afirmaciones técnicas o legales</li><li>El criterio final sigue siendo tuyo</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 11: Estructura completa -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 11</div>
+  <h2 class="t-h1">Estructura de un prompt profesional 🏗️</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><div class="big-em">🎭</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">ROL</p><p class="t-sm" style="opacity:.8">"Actúa como un experto en [área]"</p></div>
+    <div class="c4"><div class="big-em">📍</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">CONTEXTO</p><p class="t-sm" style="opacity:.8">"Estoy preparando [X] para [audiencia]"</p></div>
+    <div class="c4"><div class="big-em">📋</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">TAREA</p><p class="t-sm" style="opacity:.8">"[Acción específica] con [formato]"</p></div>
+    <div class="c4"><div class="big-em">📐</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">FORMATO</p><p class="t-sm" style="opacity:.8">"En [lista/párrafos/tabla]"</p></div>
+    <div class="c4"><div class="big-em">🚫</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">RESTRICCIONES</p><p class="t-sm" style="opacity:.8">"Sin tecnicismos · máx. [N] palabras"</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 12: Aplicaciones para egreso -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 12</div>
+  <h2 class="t-h1">Aplicaciones para tu egreso 🎓</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">📄 Documentos profesionales</p>
+      <ul class="list"><li>CV adaptado a cada oferta laboral o universitaria</li><li>Carta de presentación con tono correcto</li><li>Propósito de estudio para universidades</li><li>Síntesis de documentos largos para investigación</li></ul>
+    </div>
+    <div class="box" style="border-color:rgba(248,113,113,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">🗣️ Preparación personal</p>
+      <ul class="list"><li>Simulación de entrevistas de trabajo o admisión</li><li>Preguntas difíciles con respuestas modelo</li><li>Feedback sobre tu presentación escrita</li><li>Investigación de empresas e instituciones</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 13: Reto prompt completo -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 13</div>
+  <h2 class="t-h1">⭐ Reto — Prompt completo</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:88%">
+    <p class="t-h2" style="text-align:center">Construí un prompt con las 5 partes para pedir ayuda con tu CV</p>
+    <p class="t-body" style="margin-top:2%;opacity:.85">ROL + CONTEXTO + TAREA + FORMATO + RESTRICCIONES. Usa un caso real o imaginario de tu propio perfil.</p>
+  </div>
+  <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al primero que construya un prompt completo con las 5 partes para pedir ayuda con su CV · máx. 3 alumnos</p></div>
+</div>
+
+<!-- SLIDE 14: Iteración -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 14</div>
+  <h2 class="t-h1">Iteración de prompts 🔄</h2>
+  <div class="line"></div>
+  <div class="highlight" style="margin-top:2%;max-width:90%;text-align:left">
+    <p class="t-h2" style="color:#f87171;text-align:center">El primer prompt rara vez es el mejor.</p>
+    <p class="t-body" style="margin-top:2%">La iteración es el proceso de refinar el prompt con base en los resultados obtenidos. No es un fracaso — es parte del método profesional.</p>
+  </div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c3"><p class="t-sm"><strong>1.</strong> Escribe el prompt inicial</p></div>
+    <div class="c3"><p class="t-sm"><strong>2.</strong> Evalúa el resultado: ¿qué falta o sobra?</p></div>
+    <div class="c3"><p class="t-sm"><strong>3.</strong> Ajusta: agrega contexto, cambia restricciones, aclara la tarea</p></div>
+  </div>
+</div>
+
+<!-- SLIDE 15: Ética -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 15</div>
+  <h2 class="t-h1">Ética del prompting profesional ⚖️</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box"><p class="t-sm" style="font-weight:700;margin-bottom:5%;opacity:.8">🚨 Riesgos reales</p>
+      <ul class="list"><li>Presentar trabajo de IA como íntegramente propio sin transparencia</li><li>Sesgos del modelo amplificados en decisiones de RRHH o selección</li><li>Dependencia excesiva que atrofia el criterio propio</li><li>Información incorrecta usada sin verificación</li></ul>
+    </div>
+    <div class="box" style="border-color:rgba(248,113,113,.35)"><p class="t-sm accent" style="font-weight:700;margin-bottom:5%">🛡️ Uso responsable</p>
+      <ul class="list"><li>Transparencia: indica cuándo usaste IA y en qué parte</li><li>Autoría: la revisión y el criterio final son tuyos</li><li>Verificación: no publiques sin corroborar los datos</li><li>Equilibrio: la IA amplifica tu pensamiento, no lo reemplaza</li></ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 16: Actividad -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 16</div>
+  <h2 class="t-h1">✏️ Actividad: 3 versiones de un mismo prompt</h2>
+  <div class="line"></div>
+  <ul class="list">
+    <li>Elige un caso laboral real: pedir feedback de tu CV, preparar una entrevista, redactar una carta de presentación</li>
+    <li><strong>Versión 1 — Zero-shot:</strong> pide directamente, sin ejemplos ni estructura especial</li>
+    <li><strong>Versión 2 — Few-shot:</strong> agrega 2 ejemplos del resultado que esperas</li>
+    <li><strong>Versión 3 — Estructura completa:</strong> ROL + CONTEXTO + TAREA + FORMATO + RESTRICCIONES</li>
+    <li>Compara las 3 respuestas: ¿cuál es más útil? ¿por qué?</li>
+    <li>Documenta tus conclusiones en Google Docs y compartilo con la profesora</li>
+  </ul>
+  <p class="t-sm" style="margin-top:2%;opacity:.7">⏱ 15 min · Individual o en pares · Google Docs · Comparte con la profesora</p>
+</div>
+
+<!-- SLIDE 17: Cierre -->
+<div class="slide"><div class="brand">Asunción School</div><div class="snum">8 · 17</div>
+  <h2 class="t-h1">🚀 Para recordar</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3"><p class="t-sm"><strong>🎯</strong> Zero-shot, few-shot y chain-of-thought: cada técnica tiene su momento. Saber cuál elegir es la habilidad profesional.</p></div>
+    <div class="c3"><p class="t-sm"><strong>🏗️</strong> ROL + CONTEXTO + TAREA + FORMATO + RESTRICCIONES = el prompt que da resultados de calidad consistente</p></div>
+    <div class="c3"><p class="t-sm"><strong>🔄</strong> Iterar no es fracasar — es el método. El criterio para evaluar el resultado siempre es tuyo.</p></div>
+  </div>
+  <p class="t-sm" style="margin-top:3%;opacity:.7">Ticket de salida: ¿Cuál de las 3 técnicas usarías primero en tu vida real y para qué? 🎟️</p>
+  <p class="t-sm" style="margin-top:1.5%;opacity:.45">Asunción School · Computación 2026 · Profa. Estrella Vizcarra</p>
+</div>
+
+</div>
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 17</span>
+  <button id="btn-next" onclick="go(1)">▶</button>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=17;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');const fb=el.closest('.slide').querySelector('.quiz-feedback');opts.forEach(o=>o.classList.remove('correct','wrong'));if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada.';fb.style.color='#fbbf24';}}}
+goTo(0);initialized=true;
+</script>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #f87171;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#f87171;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem">
+  <span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span>
+  <span id="room-code-display">···</span>
+</div>
+<script>
+const DECK_GRADE='sec5';
+const DECK_SESSION='08';
+(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:DECK_GRADE,session:DECK_SESSION})}).catch(()=>{});let last=-999,busy=false;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();
+function showCeleb(nombre){document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';spawnConfetti();const el=document.getElementById('celeb');el.style.display='block';['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);}
+function closeCeleb(){const el=document.getElementById('celeb');el.style.transition='opacity .4s';el.style.opacity='0';setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);}
+function spawnConfetti(){const w=document.getElementById('celeb-wrap');w.innerHTML='';const cols=['#fbbf24','#f87171','#22c55e','#60a5fa','#c084fc','#fff'];for(let i=0;i<72;i++){const d=document.createElement('div');const c=cols[i%cols.length];const sz=6+Math.random()*11;const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';w.appendChild(d);}}
+let lastBonusId=null;
+(async function pollBonus(){try{const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}}catch(e){}setTimeout(pollBonus,2000);})();
+</script>
+<div id="celeb" onclick="closeCeleb()">
+  <div id="celeb-wrap"></div>
+  <div id="celeb-body">
+    <div class="ca">🎉</div>
+    <p class="cs">¡Felicitaciones!</p>
+    <p class="cn" id="celeb-name"></p>
+    <p class="cp">⭐ +1 punto de participación</p>
+    <p class="ct">Toca para continuar</p>
+  </div>
+</div>
+</body>
+</html>

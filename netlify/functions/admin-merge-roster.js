@@ -24,6 +24,15 @@ exports.handler = async (event) => {
   let body={};try{body=JSON.parse(event.body||"{}");}catch{}
   if(body.pw!==TEACHER_PW) return {statusCode:401,headers:CORS,body:'{"error":"Unauthorized"}'};
 
+  if(body.action==="delete-by-id"){
+    const d=db();
+    await d.from("evaluaciones").delete().eq("alumno_id",body.id);
+    await d.from("bonuses").delete().eq("alumno_id",body.id);
+    const {error}=await d.from("alumnos").delete().eq("id",body.id);
+    if(error) return {statusCode:500,headers:CORS,body:JSON.stringify({error:error.message})};
+    return {statusCode:200,headers:CORS,body:JSON.stringify({ok:true,deleted:body.id})};
+  }
+
   if(body.action==="full-clean"){
     const {grado,canonical}=body;
     const d=db();

@@ -170,6 +170,42 @@ exports.handler = async (event) => {
   try { body = JSON.parse(event.body || "{}"); } catch {}
   if (body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
 
+  // ── Acción: fusionar dos alumnos por nombre exacto ─────────────────────────
+  if (body.action === "merge-named") {
+    const { grado, from_nombre, to_nombre, delete_from } = body;
+    const d = db();
+    const { data: alumnos } = await d.from("alumnos").select("id, nombre, evaluaciones(id,sesion,score), bonuses(id)").eq("grado", grado);
+    const fromA = (alumnos||[]).find(a => norm(a.nombre) === norm(from_nombre));
+    const toA   = (alumnos||[]).find(a => norm(a.nombre) === norm(to_nombre));
+    if (!fromA) return { statusCode: 404, headers: CORS, body: JSON.stringify({ error: `No encontrado: "${from_nombre}"` }) };
+    if (!toA)   return { statusCode: 404, headers: CORS, body: JSON.stringify({ error: `No encontrado: "${to_nombre}"` }) };
+    const winSesiones = new Set((toA.evaluaciones||[]).map(e => e.sesion));
+    for (const ev of (fromA.evaluaciones||[])) {
+      if (winSesiones.has(ev.sesion)) {
+        await d.from("evaluaciones").delete().eq("id", ev.id);
+      } else {
+        await d.from("evaluaciones").update({ alumno_id: toA.id }).eq("id", ev.id);
+        winSesiones.add(ev.sesion);
+      }
+    }
+    if ((fromA.bonuses||[]).length > 0) await d.from("bonuses").update({ alumno_id: toA.id }).eq("alumno_id", fromA.id);
+    if (delete_from !== false) await d.from("alumnos").delete().eq("id", fromA.id);
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, merged: (fromA.evaluaciones||[]).length, from: fromA.nombre, to: toA.nombre }) };
+  }
+
+  // ── Acción: eliminar alumno por nombre ─────────────────────────────────────
+  if (body.action === "delete-named") {
+    const { grado, nombre } = body;
+    const d = db();
+    const { data: alumnos } = await d.from("alumnos").select("id, nombre, evaluaciones(id)").eq("grado", grado);
+    const target = (alumnos||[]).find(a => norm(a.nombre) === norm(nombre));
+    if (!target) return { statusCode: 404, headers: CORS, body: JSON.stringify({ error: `No encontrado: "${nombre}"` }) };
+    if ((target.evaluaciones||[]).length > 0) await d.from("evaluaciones").delete().eq("alumno_id", target.id);
+    await d.from("bonuses").delete().eq("alumno_id", target.id);
+    await d.from("alumnos").delete().eq("id", target.id);
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, deleted: target.nombre, evals: (target.evaluaciones||[]).length }) };
+  }
+
   const grado = body.grado;
   if (!grado || !CANONICAL[grado]) {
     return { statusCode: 400, headers: CORS, body: '{"error":"grado inválido"}' };

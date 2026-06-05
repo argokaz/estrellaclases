@@ -2604,7 +2604,7 @@ async function loadRosterEditor(force=false){
 function renderRosterList(){
   const listEl = document.getElementById('roster-list');
   if(!_rosterData.length){
-    listEl.innerHTML = '<div style="padding:2rem;text-align:center;color:#64748b">Sin alumnos. Haz clic en "Reconstruir" para generar desde las evaluaciones, o en "+ Agregar" para añadir manualmente.</div>';
+    listEl.innerHTML = '<div style="padding:2rem;text-align:center;color:#64748b">Sin alumnos. Haz clic en "+ Agregar" para añadir manualmente.</div>';
     return;
   }
   listEl.innerHTML = _rosterData.map((a,i)=>{
@@ -2745,57 +2745,8 @@ async function saveRoster(){
   saveBtn.disabled = false;
 }
 
-async function buildAndReloadRoster(){
-  const statusEl = document.getElementById('roster-status');
-  statusEl.textContent = '⏳ Reconstruyendo desde evaluaciones…';
-  try{
-    const res = await fetch('/.netlify/functions/build-roster',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({pw:CORRECT_PW, grado:_rosterGrade})
-    });
-    const d = await res.json();
-    if(d.ok){
-      const r = d.results?.[_rosterGrade] || {};
-      sessionStorage.removeItem('roster-cache-' + _rosterGrade);
-      await loadRosterEditor(true);
-      statusEl.textContent = `✅ Migrados: ${r.alumnos||0} alumnos, ${r.evals||0} evaluaciones`;
-    } else {
-      statusEl.textContent = '⚠️ Error: ' + (d.error||'desconocido');
-    }
-  } catch(e){
-    statusEl.textContent = '⚠️ Error de conexión';
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// ROSTER — construcción y autocomplete del bonus form
-// ═══════════════════════════════════════════════════════════
-async function buildRoster(gradeId){
-  const btn = event.currentTarget;
-  const origText = btn.textContent;
-  btn.textContent = '⏳ Actualizando…';
-  btn.disabled = true;
-  try{
-    const res = await fetch('/.netlify/functions/build-roster',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({pw: CORRECT_PW, grado: gradeId})
-    });
-    const d = await res.json();
-    if(d.ok){
-      const r = d.results[gradeId];
-      btn.textContent = `✅ ${r.alumnos} alumnos guardados`;
-      // Refrescar el autocomplete del bonus form si está abierto
-      const overlay = document.getElementById('ranking-overlay');
-      if(overlay && overlay.dataset.grade === gradeId) updateBonusAutocomplete();
-    } else {
-      btn.textContent = '⚠️ Error';
-    }
-  } catch(e){
-    btn.textContent = '⚠️ Sin conexión';
-  }
-  setTimeout(()=>{ btn.textContent = origText; btn.disabled = false; }, 3000);
-}
+// buildAndReloadRoster y buildRoster eliminados — Supabase es la fuente oficial,
+// reconstruir desde Blobs reintroducía nombres incorrectos.
 
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
@@ -2812,7 +2763,6 @@ render();
       <button class="roster-hdr-btn gold" onclick="normalizeRosterNames()">Aa Normalizar</button>
       <button class="roster-hdr-btn green" onclick="addRosterRow()">+ Agregar</button>
       <button class="roster-hdr-btn" onclick="loadRosterEditor(true)" title="Recargar desde servidor">↺ Actualizar</button>
-      <button class="roster-hdr-btn" onclick="buildAndReloadRoster()">🔄 Reconstruir</button>
       <button class="roster-hdr-btn" onclick="closeRosterEditor()">✕</button>
     </div>
     <div class="roster-scroll" id="roster-list"></div>

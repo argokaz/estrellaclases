@@ -1,26 +1,22 @@
 /**
- * build-roster.js  — Migración Blobs → Supabase
+ * build-roster.js  — Sincronizar evaluaciones de Blobs → Supabase
  *
  * POST /.netlify/functions/build-roster
  * Body: { pw, grado? }
  *
- * Lee todos los blobs de evaluaciones (Netlify Blobs), clusteriza nombres
- * con fuzzy matching, e inserta en Supabase en batch para ser rápido.
+ * Nuevo comportamiento (roster canónico ya existe en Supabase):
+ *   1. Leer alumnos EXISTENTES en Supabase para el grado
+ *   2. Leer evaluaciones de Netlify Blobs
+ *   3. Para cada eval del blob, buscar el alumno canónico por fuzzy match
+ *   4. Si matchea → upsert eval (conserva el score más alto si ya existe)
+ *   5. Si NO matchea → ignorar (NO crea alumnos nuevos)
  *
- * Estrategia sin upsert de expresión:
- *   1. Leer blobs en paralelo
- *   2. Clusterizar en memoria
- *   3. Insertar alumnos en batch (ignorar duplicados via ON CONFLICT DO NOTHING)
- *   4. Re-leer alumnos para obtener IDs
- *   5. Insertar evaluaciones en batch
- *   6. Migrar bonuses
+ * Esto preserva la lista canónica. Solo importa datos de evaluaciones.
  */
 
-const { getStore }    = require("@netlify/blobs");
-const { supabase }    = require("./_supabase");
-const {
-  normalize, titleCase, areSamePerson, bestDisplayName, clusterKeys,
-} = require("./_nameUtils");
+const { getStore }  = require("@netlify/blobs");
+const { supabase }  = require("./_supabase");
+const { normalize, areSamePerson } = require("./_nameUtils");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 const GRADES     = ["prim6", "sec2", "sec3", "sec4", "sec5"];
@@ -48,139 +44,94 @@ exports.handler = async (event) => {
   const gradesToBuild = targetGrade ? [targetGrade] : GRADES;
 
   try {
-    const evalStore  = makeStore("evaluaciones");
-    const bonusStore = makeStore("bonuses");
-    const db         = supabase();
+    const evalStore = makeStore("evaluaciones");
+    const db        = supabase();
 
-    // ── 1. Leer TODOS los blobs en paralelo ───────────────────────────────────
-    const [{ blobs: evalBlobs }, { blobs: bonusBlobs }] = await Promise.all([
-      evalStore.list({}),
-      bonusStore.list({}).catch(() => ({ blobs: [] })),
-    ]);
-
-    const [allEvals, allBonuses] = await Promise.all([
-      Promise.all((evalBlobs  || []).map(({ key }) => evalStore.get(key,  { type: "json" }).catch(() => null))),
-      Promise.all((bonusBlobs || []).map(({ key }) => bonusStore.get(key, { type: "json" }).catch(() => null))),
-    ]);
-
-    const evals   = allEvals.filter(Boolean);
-    const bonuses = allBonuses.filter(Boolean);
+    // ── 1. Leer blobs en paralelo ─────────────────────────────────────────────
+    const { blobs: evalBlobs } = await evalStore.list({});
+    const allEvals = (await Promise.all(
+      (evalBlobs || []).map(({ key }) => evalStore.get(key, { type: "json" }).catch(() => null))
+    )).filter(Boolean);
 
     const results = {};
 
     for (const grado of gradesToBuild) {
-      const gradeEvals = evals.filter(d => d.grado === grado);
-      if (gradeEvals.length === 0) {
-        results[grado] = { alumnos: 0, evals: 0, msg: "Sin evaluaciones en blobs para este grado" };
-        continue;
-      }
-
-      // ── 2. Clusterizar nombres ──────────────────────────────────────────────
-      const nameMap = new Map();
-      for (const ev of gradeEvals) {
-        const key = normalize(ev.nombre);
-        if (!nameMap.has(key)) nameMap.set(key, { displayNames: [], sessionScores: new Map() });
-        const s     = nameMap.get(key);
-        const disp  = (ev.nombre || "").trim();
-        if (!s.displayNames.includes(disp)) s.displayNames.push(disp);
-        const sesId = String(ev.sesion || "??").padStart(2, "0");
-        const score = Number(ev.score) || 0;
-        const prev  = s.sessionScores.get(sesId);
-        if (!prev || score > prev.score) {
-          s.sessionScores.set(sesId, { score, fecha: ev.fecha || new Date().toISOString() });
-        }
-      }
-
-      const clusters = clusterKeys([...nameMap.keys()]);
-
-      // ── 3. Preparar arrays para insert en batch ─────────────────────────────
-      // clusterData: [{nombre, evals: [{sesion, score, fecha}]}]
-      const clusterData = [];
-      for (const [, groupKeys] of clusters) {
-        const allNames = [];
-        const merged   = new Map();
-        for (const k of groupKeys) {
-          const s = nameMap.get(k);
-          allNames.push(...s.displayNames);
-          s.sessionScores.forEach((data, sesId) => {
-            const prev = merged.get(sesId);
-            if (!prev || data.score > prev.score) merged.set(sesId, data);
-          });
-        }
-        clusterData.push({
-          nombre: titleCase(bestDisplayName(allNames)),
-          evals:  [...merged.entries()].map(([sesion, d]) => ({ sesion, score: d.score, fecha: d.fecha })),
-        });
-      }
-
-      // ── 4. Insertar alumnos (uno a uno para manejar conflictos con índice funcional) ──
-      for (const c of clusterData) {
-        // Intentar insertar; si hay conflicto (mismo nombre normalizado) ignorar
-        const { error: insErr } = await db
-          .from("alumnos")
-          .insert({ nombre: c.nombre, grado });
-        if (insErr && !insErr.message.includes("duplicate") && !insErr.code === "23505") {
-          console.warn("alumno insert warning:", insErr.message, c.nombre);
-        }
-      }
-
-      // ── 5. Leer alumnos creados para obtener IDs ───────────────────────────
-      const { data: alumnosDB } = await db
+      // ── 2. Obtener roster canónico desde Supabase ──────────────────────────
+      const { data: alumnosDB, error: fetchErr } = await db
         .from("alumnos")
         .select("id, nombre")
         .eq("grado", grado);
 
-      // Mapear nombre → id (fuzzy para cubrir diferencias menores de mayúsculas)
-      const idMap = new Map(); // nombre (lower) → id
-      for (const a of (alumnosDB || [])) idMap.set(a.nombre.toLowerCase(), a.id);
+      if (fetchErr) throw fetchErr;
 
-      // ── 6. Insertar evaluaciones en batch ──────────────────────────────────
-      const evalsPayload = [];
-      for (const c of clusterData) {
-        const alumnoId = idMap.get(c.nombre.toLowerCase());
-        if (!alumnoId) continue;
-        for (const ev of c.evals) {
-          evalsPayload.push({
-            alumno_id:  alumnoId,
-            grado,
-            sesion:     ev.sesion,
-            score:      ev.score,
-            fecha:      ev.fecha,
-            nombre_raw: c.nombre,
-            total:      10,
-          });
+      const alumnos = alumnosDB || [];
+      if (alumnos.length === 0) {
+        results[grado] = { sinced: 0, skipped: 0, msg: "Sin alumnos en roster — agrega alumnos primero" };
+        continue;
+      }
+
+      // ── 3. Evaluar blobs del grado ─────────────────────────────────────────
+      const gradeEvals = allEvals.filter(d => d.grado === grado);
+      let synced = 0, skipped = 0;
+
+      // Agrupar por (nombreNorm, sesion) → quedarse con el score más alto
+      const bestByKey = new Map(); // "normNombre|sesion" → {nombre, sesion, score, fecha}
+      for (const ev of gradeEvals) {
+        const normN = normalize(ev.nombre || "");
+        const sesId = String(ev.sesion || "??").padStart(2, "0");
+        const key   = `${normN}|${sesId}`;
+        const score = Number(ev.score) || 0;
+        const prev  = bestByKey.get(key);
+        if (!prev || score > prev.score) {
+          bestByKey.set(key, { nombre: ev.nombre, sesion: sesId, score, fecha: ev.fecha });
         }
       }
 
-      // Batch insert evaluaciones — UNIQUE(alumno_id, sesion), ignorar duplicados
-      if (evalsPayload.length > 0) {
-        const { error: evErr } = await db
-          .from("evaluaciones")
-          .upsert(evalsPayload, { onConflict: "alumno_id,sesion", ignoreDuplicates: true });
-        if (evErr) console.warn("evals upsert warning:", evErr.message);
-      }
+      // ── 4. Para cada eval, buscar alumno canónico y upsert ─────────────────
+      const evalsPayload = [];
 
-      // ── 7. Migrar bonuses ──────────────────────────────────────────────────
-      const gradeBonuses = bonuses.filter(b => b.grado === grado);
-      for (const b of gradeBonuses) {
-        const normB  = normalize(b.nombre || "");
-        const alumno = (alumnosDB || []).find(a => areSamePerson(normB, normalize(a.nombre)));
-        if (!alumno) continue;
-        await db.from("bonuses").insert({
-          alumno_id: alumno.id,
+      for (const [, ev] of bestByKey) {
+        const normEv  = normalize(ev.nombre || "");
+        const matched = alumnos.find(a => areSamePerson(normEv, normalize(a.nombre)));
+
+        if (!matched) {
+          skipped++;
+          continue;
+        }
+
+        evalsPayload.push({
+          alumno_id:  matched.id,
           grado,
-          puntos:    Number(b.puntos) || 0,
-          razon:     b.razon || "",
-          mes:       b.mes   || "",
-          fecha:     b.fecha || new Date().toISOString(),
+          sesion:     ev.sesion,
+          score:      ev.score,
+          fecha:      ev.fecha || new Date().toISOString(),
+          nombre_raw: ev.nombre,
+          total:      10,
         });
       }
 
-      results[grado] = {
-        alumnos: clusterData.length,
-        evals:   evalsPayload.length,
-        bonuses: gradeBonuses.length,
-      };
+      // Upsert en batch: si ya existe (alumno_id, sesion), conservar el score más alto
+      for (const payload of evalsPayload) {
+        const { data: existing } = await db
+          .from("evaluaciones")
+          .select("id, score")
+          .eq("alumno_id", payload.alumno_id)
+          .eq("sesion",    payload.sesion)
+          .maybeSingle();
+
+        if (!existing) {
+          const { error } = await db.from("evaluaciones").insert(payload);
+          if (!error) synced++;
+        } else if (payload.score > existing.score) {
+          const { error } = await db.from("evaluaciones")
+            .update({ score: payload.score, fecha: payload.fecha, nombre_raw: payload.nombre_raw })
+            .eq("id", existing.id);
+          if (!error) synced++;
+        }
+        // Si score <= existing.score: ya tiene un mejor intento, no tocar
+      }
+
+      results[grado] = { alumnos: alumnos.length, synced, skipped };
     }
 
     return {

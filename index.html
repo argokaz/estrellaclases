@@ -2424,8 +2424,8 @@ async function loadTasks(){
     let url = `/.netlify/functions/get-tasks?pw=${encodeURIComponent(CORRECT_PW)}&session=${_currentTasksSession}`;
     if(_currentTasksGrade) url += `&grado=${_currentTasksGrade}`;
     const res = await fetch(url);
-    if(!res.ok) throw new Error('Error ' + res.status);
-    const data = await res.json();
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error || ('Error ' + res.status));
     renderTasks(data);
   } catch(err){
     content.innerHTML = '<div style="padding:2rem;text-align:center;color:#f87171">⚠️ No se pudieron cargar las entregas.<br><small>' + err.message + '</small></div>';

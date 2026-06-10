@@ -43,7 +43,18 @@ exports.handler = async (event) => {
 
   const [{ data: roster, error: rErr }, { data: tasks, error: tErr }] = await Promise.all([rosterQ, tasksQ]);
   if (rErr) return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: rErr.message }) };
-  if (tErr) return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: tErr.message }) };
+  if (tErr) {
+    const missingTable = /tareas.*schema cache|relation .* does not exist/i.test(tErr.message);
+    return {
+      statusCode: 500,
+      headers: CORS,
+      body: JSON.stringify({
+        error: missingTable
+          ? "Falta crear la tabla 'tareas' en Supabase — ejecutar el SQL de tareas.md (sección Backend) en el SQL Editor."
+          : tErr.message,
+      }),
+    };
+  }
 
   const submittedIds = new Set((tasks || []).filter(t => t.alumno_id).map(t => t.alumno_id));
   const pending = (roster || [])

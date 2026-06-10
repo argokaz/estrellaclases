@@ -84,6 +84,15 @@ exports.handler = async (event) => {
     };
   } catch (err) {
     console.error('submit-task error:', err.message);
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };
+    const missingTable = /tareas.*schema cache|relation .* does not exist/i.test(err.message || '');
+    return {
+      statusCode: 500,
+      headers: CORS,
+      body: JSON.stringify({
+        error: missingTable
+          ? 'El sistema de tareas aún no está activado. Avisa a la profesora.'
+          : err.message,
+      }),
+    };
   }
 };

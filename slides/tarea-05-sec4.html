@@ -61,6 +61,21 @@ button{font-family:inherit;cursor:pointer}
 .confirm-link-box a{color:var(--accent2);font-weight:600;}
 .resubmit-btn{background:transparent;border:2px solid #e9d5ff;color:var(--brand);border-radius:9px;padding:9px 20px;font-size:14px;font-weight:700;font-family:inherit;transition:all .15s;}
 .resubmit-btn:hover{border-color:var(--accent);color:var(--accent2);}
+/* Tutorial SVG + pasos plegados */
+.tut-svg{width:100%;height:auto;display:block;border-radius:12px;margin-bottom:14px;}
+details.tut-text{margin-bottom:14px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
+details.tut-text summary{cursor:pointer;padding:12px 16px;font-weight:700;color:#78350f;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:8px;}
+details.tut-text summary::-webkit-details-marker{display:none;}
+details.tut-text summary::after{content:'▾';margin-left:auto;transition:transform .2s;}
+details.tut-text[open] summary::after{transform:rotate(180deg);}
+details.tut-text .steps{padding:0 14px 14px;margin-bottom:0;}
+/* Autocomplete de nombres */
+.ac-wrap{position:relative;}
+.ac-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:2px solid var(--accent);border-radius:10px;max-height:230px;overflow-y:auto;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.15);display:none;}
+.ac-list.open{display:block;}
+.ac-item{padding:11px 15px;font-size:15.5px;cursor:pointer;border-bottom:1px solid #f1f5f9;color:var(--text);}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover,.ac-item.sel{background:#f1f5f9;}
 </style>
 </head>
 <body>
@@ -95,13 +110,97 @@ button{font-family:inherit;cursor:pointer}
 
 <div class="tutorial-wrap">
   <div class="tutorial-title">📤 Cómo compartir tu Google Docs</div>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-text">Abre el documento en <strong>Google Docs</strong></div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-text">Clic en <strong>"Compartir"</strong> (botón azul, esquina superior derecha)</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-text">En <strong>"Acceso general"</strong> → selecciona <strong>"Cualquiera con el enlace"</strong></div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-text">Permiso: <strong>"Lector"</strong></div></div>
-    <div class="step"><div class="step-num">5</div><div class="step-text">Clic en <strong>"Copiar enlace"</strong> y pégalo abajo 👇</div></div>
-  </div>
+  <svg class="tut-svg" viewBox="0 0 600 432" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Animación: cómo compartir tu documento en Google Docs">
+    <rect x="10" y="10" width="580" height="380" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+    <path d="M10 24 a14 14 0 0 1 14-14 h552 a14 14 0 0 1 14 14 v42 h-580 z" fill="#f8fafc"/>
+    <line x1="10" y1="66" x2="590" y2="66" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="28" y="22" width="30" height="34" rx="5" fill="#4285f4"/>
+    <rect x="34" y="30" width="18" height="2.5" rx="1" fill="#fff"/>
+    <rect x="34" y="36" width="18" height="2.5" rx="1" fill="#fff"/>
+    <rect x="34" y="42" width="12" height="2.5" rx="1" fill="#fff"/>
+    <text x="70" y="38" font-size="15" font-weight="700" fill="#1e293b">Mis referencias</text>
+    <text x="70" y="54" font-size="11" fill="#94a3b8">Google Docs</text>
+    <rect x="462" y="23" width="108" height="32" rx="16" fill="#1a73e8"/>
+    <text x="516" y="44" font-size="13.5" font-weight="700" fill="#fff" text-anchor="middle">🔒 Compartir</text>
+    <g fill="#e2e8f0">
+      <rect x="60" y="92" width="480" height="9" rx="4"/>
+      <rect x="60" y="112" width="430" height="9" rx="4"/>
+      <rect x="60" y="132" width="460" height="9" rx="4"/>
+      <rect x="60" y="152" width="300" height="9" rx="4"/>
+    </g>
+    <g>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.20;0.24;0.97;1"/>
+      <rect x="128" y="98" width="344" height="246" rx="14" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="150" y="130" font-size="15" font-weight="700" fill="#202124">Compartir "Mis referencias"</text>
+      <text x="150" y="162" font-size="11.5" font-weight="700" fill="#5f6368">ACCESO GENERAL</text>
+      <g>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.50;0.52;1"/>
+        <rect x="150" y="172" width="225" height="34" rx="8" fill="#f1f3f4"/>
+        <text x="164" y="194" font-size="13" fill="#3c4043">🔒 Restringido ▾</text>
+      </g>
+      <g>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.50;0.52;1"/>
+        <rect x="150" y="172" width="225" height="34" rx="8" fill="#e6f4ea"/>
+        <text x="164" y="194" font-size="13" fill="#137333">🌐 Cualquiera con el enlace ▾</text>
+      </g>
+      <rect x="385" y="172" width="68" height="34" rx="8" fill="#f1f3f4"/>
+      <text x="419" y="194" font-size="12.5" fill="#3c4043" text-anchor="middle">Lector ▾</text>
+      <rect x="150" y="298" width="138" height="32" rx="16" fill="#fff" stroke="#dadce0" stroke-width="1.5"/>
+      <text x="219" y="319" font-size="13" font-weight="700" fill="#1a73e8" text-anchor="middle">🔗 Copiar enlace</text>
+      <rect x="394" y="298" width="78" height="32" rx="16" fill="#1a73e8"/>
+      <text x="433" y="319" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Listo</text>
+    </g>
+    <g>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.345;0.365;0.50;0.52;1"/>
+      <rect x="150" y="210" width="225" height="72" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="168" y="234" font-size="13" fill="#3c4043">Restringido</text>
+      <rect x="154" y="244" width="217" height="30" rx="6" fill="#e8f0fe"/>
+      <text x="168" y="264" font-size="13" font-weight="700" fill="#1a73e8">Cualquiera con el enlace</text>
+    </g>
+    <g>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.72;0.75;0.90;0.93;1"/>
+      <rect x="195" y="352" width="210" height="30" rx="8" fill="#202124"/>
+      <text x="300" y="372" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">✅ Enlace copiado</text>
+    </g>
+    <circle cx="516" cy="40" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.15;0.16;0.22;0.23;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.15;0.16;0.22;0.23;1"/>
+    </circle>
+    <circle cx="260" cy="189" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.33;0.34;0.40;0.41;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.33;0.34;0.40;0.41;1"/>
+    </circle>
+    <circle cx="265" cy="259" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.47;0.48;0.54;0.55;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.47;0.48;0.54;0.55;1"/>
+    </circle>
+    <circle cx="219" cy="314" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
+      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/>
+      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite"
+        values="300 250;516 40;516 40;260 189;260 189;265 259;265 259;219 314;219 314;300 250"
+        keyTimes="0;0.14;0.22;0.32;0.38;0.46;0.52;0.62;0.78;1"/>
+      <path d="M0 0 L0 17 L5 13.5 L8 20 L10.5 19 L7.5 12.5 L13 12 Z" fill="#1e293b" stroke="#fff" stroke-width="1.4"/>
+    </g>
+    <g font-size="16" font-weight="700" text-anchor="middle">
+      <text x="300" y="420" fill="#92400e">1️⃣ Haz clic en "Compartir"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.22;0.24;0.98;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">2️⃣ Elige "Cualquiera con el enlace"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.24;0.26;0.50;0.52;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">3️⃣ Haz clic en "Copiar enlace"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.54;0.70;0.72;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">4️⃣ ¡Pega el enlace en el formulario! 👇<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.72;0.74;0.96;0.98;1"/></text>
+    </g>
+  </svg>
+  <details class="tut-text">
+    <summary>📖 ¿Prefieres leer los pasos? Toca aquí</summary>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Abre el documento en <strong>Google Docs</strong></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Clic en <strong>"Compartir"</strong> (botón azul, esquina superior derecha)</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">En <strong>"Acceso general"</strong> → selecciona <strong>"Cualquiera con el enlace"</strong></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Permiso: <strong>"Lector"</strong></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Clic en <strong>"Copiar enlace"</strong> y pégalo abajo 👇</div></div>
+    </div>
+  </details>
   <div class="warn-box">
     <div class="warn-icon">⚠️</div>
     <div class="warn-text">
@@ -115,9 +214,12 @@ button{font-family:inherit;cursor:pointer}
   <div class="form-title">📬 Enviar mi tarea</div>
   <div class="form-group">
     <label class="form-label" for="inp-nombre">Nombre completo</label>
-    <datalist id="alumnos-dl"></datalist>
-    <input id="inp-nombre" class="form-input" type="text" list="alumnos-dl"
-           placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off">
+    <div class="ac-wrap">
+      <input id="inp-nombre" class="form-input" type="text"
+             placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off">
+      <div class="ac-list" id="ac-list"></div>
+    </div>
+    <div class="form-hint">Empieza a escribir y elige tu nombre de la lista.</div>
   </div>
   <div class="form-group">
     <label class="form-label" for="inp-link">Link de tu Google Docs</label>
@@ -144,7 +246,40 @@ button{font-family:inherit;cursor:pointer}
 </div>
 <script>
 const GRADE='sec4',SESION='05';
-(function(){fetch('/.netlify/functions/get-roster?grado='+GRADE).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.alumnos&&d.alumnos.length){const dl=document.getElementById('alumnos-dl');dl.innerHTML=d.alumnos.map(a=>'<option value="'+a.nombre+'">').join('');}}).catch(()=>{});})();
+let ROSTER=[];
+fetch('/.netlify/functions/get-roster?grado='+GRADE)
+  .then(r=>r.ok?r.json():null)
+  .then(d=>{if(d&&d.alumnos)ROSTER=d.alumnos.map(a=>a.nombre);})
+  .catch(()=>{});
+
+const acInput=document.getElementById('inp-nombre');
+const acList=document.getElementById('ac-list');
+const acNorm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+let acSel=-1;
+function acRender(){
+  const q=acNorm(acInput.value.trim());
+  const matches=(q?ROSTER.filter(n=>acNorm(n).includes(q)):ROSTER).slice(0,8);
+  if(!matches.length||(matches.length===1&&acNorm(matches[0])===q)){acList.classList.remove('open');return;}
+  acSel=-1;
+  acList.innerHTML=matches.map(n=>'<div class="ac-item">'+n+'</div>').join('');
+  acList.querySelectorAll('.ac-item').forEach(el=>{
+    el.addEventListener('mousedown',e=>{e.preventDefault();acInput.value=el.textContent;acList.classList.remove('open');});
+  });
+  acList.classList.add('open');
+}
+acInput.addEventListener('input',acRender);
+acInput.addEventListener('focus',acRender);
+acInput.addEventListener('blur',()=>setTimeout(()=>acList.classList.remove('open'),150));
+acInput.addEventListener('keydown',e=>{
+  const items=[...acList.querySelectorAll('.ac-item')];
+  if(!acList.classList.contains('open')||!items.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();acSel=Math.min(acSel+1,items.length-1);}
+  else if(e.key==='ArrowUp'){e.preventDefault();acSel=Math.max(acSel-1,0);}
+  else if(e.key==='Enter'){e.preventDefault();const pick=acSel>=0?items[acSel]:(items.length===1?items[0]:null);if(pick)acInput.value=pick.textContent;acList.classList.remove('open');return;}
+  else if(e.key==='Escape'){acList.classList.remove('open');return;}
+  else return;
+  items.forEach((el,i)=>el.classList.toggle('sel',i===acSel));
+});
 function mostrarForm(){document.getElementById('confirm-card').classList.remove('show');document.getElementById('form-section').style.display='';}
 function enviarTarea(){
   const nombre=document.getElementById('inp-nombre').value.trim();

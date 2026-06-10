@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarea S05 — 6.° Primaria | Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#22c55e;--accent2:#16a34a;--brand:#14532d;--grad:linear-gradient(135deg,#052e16,#14532d);--badge-bg:#bbf7d0;--badge-c:#14532d;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg-alt:#f8fafc;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:780px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--accent);padding-bottom:18px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--accent2);margin-top:3px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:15px;color:var(--muted);margin-bottom:28px}
+/* Task card */
+.task-card{background:var(--grad);border-radius:18px;padding:30px 34px;margin-bottom:28px;color:#fff;position:relative;overflow:hidden;}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.08) 0%,transparent 65%);pointer-events:none;}
+.task-badge{display:inline-flex;align-items:center;gap:6px;background:var(--badge-bg);color:var(--badge-c);font-weight:900;font-size:12px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:4px 12px;margin-bottom:12px;}
+.task-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+.task-desc{font-size:16px;opacity:.92;line-height:1.7;margin-bottom:14px;}
+.task-items{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px;}
+.task-items li{display:flex;align-items:flex-start;gap:10px;font-size:15.5px;line-height:1.55;}
+.task-items li::before{content:'✓';background:rgba(255,255,255,.2);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px;flex-shrink:0;}
+.task-deadline{margin-top:16px;font-size:13px;background:rgba(0,0,0,.2);border-radius:8px;padding:9px 13px;display:flex;align-items:center;gap:8px;}
+/* Tutorial */
+.tutorial-wrap{background:#fffbeb;border:2px solid #fde68a;border-radius:18px;padding:26px 30px;margin-bottom:28px;}
+.tutorial-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#78350f;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.step{display:flex;align-items:flex-start;gap:12px;padding:11px 15px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
+.step-num{background:#f59e0b;color:#fff;border-radius:50%;width:28px;height:28px;min-width:28px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
+.step-text{font-size:15px;color:#44403c;line-height:1.5;}
+.step-text strong{color:#78350f;}
+.warn-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:11px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
+.warn-icon{font-size:1.5rem;flex-shrink:0;line-height:1.2}
+.warn-text{font-size:14px;color:#78350f;line-height:1.6;}
+.warn-text strong{display:block;margin-bottom:3px;font-size:14.5px;}
+/* Form */
+.form-section{border:2px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:28px;background:var(--bg-alt);}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand);margin-bottom:22px;display:flex;align-items:center;gap:8px;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
+.form-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:13px 15px;font-size:16px;font-family:inherit;outline:none;color:var(--text);transition:border-color .2s;background:#fff;}
+.form-input:focus{border-color:var(--accent);}
+.form-input.err{border-color:#ef4444;background:#fef2f2;}
+.form-hint{font-size:13px;color:var(--muted);margin-top:5px;}
+.form-textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;resize:vertical;min-height:76px;outline:none;color:var(--text);transition:border-color .2s;background:#fff;line-height:1.65;}
+.form-textarea:focus{border-color:var(--accent);}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 4px 16px rgba(34,197,94,.28);margin-top:4px;}
+.submit-btn:hover:not(:disabled){opacity:.88;transform:translateY(-1px);}
+.submit-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed;box-shadow:none;}
+.err-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:9px;padding:11px 15px;font-size:14px;color:#b91c1c;margin-top:10px;display:none;}
+.err-msg.show{display:block;}
+/* Confirmation */
+.confirm-card{background:#f0fdf4;border:2px solid #86efac;border-radius:18px;padding:36px;text-align:center;display:none;}
+.confirm-card.show{display:block;}
+.confirm-icon{font-size:3.5rem;margin-bottom:14px;}
+.confirm-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--brand);margin-bottom:8px;}
+.confirm-sub{font-size:15px;color:#166534;margin-bottom:18px;line-height:1.65;}
+.confirm-link-box{background:#fff;border:1.5px solid #86efac;border-radius:9px;padding:11px 14px;font-size:13px;color:var(--muted);word-break:break-all;margin-bottom:18px;text-align:left;}
+.confirm-link-box a{color:#16a34a;font-weight:600;}
+.resubmit-btn{background:transparent;border:2px solid #86efac;color:#15803d;border-radius:9px;padding:9px 20px;font-size:14px;font-weight:700;font-family:inherit;transition:all .15s;}
+.resubmit-btn:hover{border-color:var(--accent);color:var(--accent2);}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Profesora Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>6.° Primaria 🟢</div>
+    <div>Sesión 05 &nbsp;·&nbsp; 12 de junio de 2026</div>
+  </div>
+</div>
+
+<div class="doc-title">📎 Entrega de Tarea — Sesión 05</div>
+<div class="doc-subtitle">Búsqueda segura en internet · Google Docs</div>
+
+<div class="task-card">
+  <div class="task-badge">📋 Tu misión</div>
+  <div class="task-title">🔍 Mini ficha de búsqueda</div>
+  <div class="task-desc">Crea un documento en <strong>Google Docs</strong> con tu investigación.</div>
+  <ul class="task-items">
+    <li>Elige un animal, planta o lugar del Perú</li>
+    <li>Busca 3 datos usando un buscador seguro (Google, Bing u otro)</li>
+    <li>Para cada dato, escribe de qué sitio web lo sacaste</li>
+    <li>Agrega una imagen relacionada con su crédito (nombre del sitio)</li>
+  </ul>
+  <div class="task-deadline">📅 &nbsp; Entrega antes de la próxima clase · Viernes 19 de junio</div>
+</div>
+
+<div class="tutorial-wrap">
+  <div class="tutorial-title">📤 Antes de pegar el link — ¡Comparte bien tu archivo!</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-text">Abre tu documento en <strong>Google Docs</strong></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">Haz clic en el botón azul <strong>"Compartir"</strong> que está arriba a la derecha</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">Busca donde dice <strong>"Acceso general"</strong> → haz clic en la flechita → elige <strong>"Cualquiera con el enlace"</strong></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">Fíjate que el permiso diga <strong>"Lector"</strong> ✓ (así está bien)</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-text">Haz clic en <strong>"Copiar enlace"</strong></div></div>
+    <div class="step"><div class="step-num">6</div><div class="step-text">¡Pega el enlace en el formulario de abajo! 👇</div></div>
+  </div>
+  <div class="warn-box">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-text">
+      <strong>Si no lo compartes, la profesora no puede abrir tu archivo.</strong>
+      Si el enlace dice "Restringido", solo vos podés verlo. Cambia eso a "Cualquiera con el enlace" en el Paso 3.
+    </div>
+  </div>
+</div>
+
+<div class="form-section" id="form-section">
+  <div class="form-title">📬 Enviar mi tarea</div>
+
+  <div class="form-group">
+    <label class="form-label" for="inp-nombre">Tu nombre y apellido</label>
+    <datalist id="alumnos-dl"></datalist>
+    <input id="inp-nombre" class="form-input" type="text" list="alumnos-dl"
+           placeholder="Escribe tu nombre completo…" maxlength="80" autocomplete="off">
+    <div class="form-hint">Escríbelo tal como aparece en el registro del aula.</div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="inp-link">Link de tu Google Docs</label>
+    <input id="inp-link" class="form-input" type="url"
+           placeholder="https://docs.google.com/document/d/…">
+    <div class="form-hint">Pega aquí el enlace que copiaste en el Paso 5.</div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label" for="inp-comment">Comentario para la profesora <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+    <textarea id="inp-comment" class="form-textarea"
+              placeholder="¿Quieres contarle algo sobre tu tarea?"></textarea>
+  </div>
+
+  <button class="submit-btn" id="submit-btn" onclick="enviarTarea()">
+    📤 Enviar tarea →
+  </button>
+  <div class="err-msg" id="err-msg"></div>
+</div>
+
+<div class="confirm-card" id="confirm-card">
+  <div class="confirm-icon">🎉</div>
+  <div class="confirm-title" id="confirm-title">¡Tarea entregada!</div>
+  <div class="confirm-sub" id="confirm-sub">La profesora ya puede ver tu archivo. Si cambias el documento después, no necesitas volver a enviar el link — ¡funciona igual!</div>
+  <div class="confirm-link-box" id="confirm-link-box"></div>
+  <button class="resubmit-btn" onclick="mostrarForm()">✏️ Actualizar el link</button>
+</div>
+
+</div>
+
+<script>
+const GRADE='prim6', SESION='05';
+
+(function(){
+  fetch('/.netlify/functions/get-roster?grado='+GRADE)
+    .then(r=>r.ok?r.json():null)
+    .then(d=>{
+      if(d&&d.alumnos&&d.alumnos.length){
+        const dl=document.getElementById('alumnos-dl');
+        dl.innerHTML=d.alumnos.map(a=>'<option value="'+a.nombre+'">').join('');
+      }
+    }).catch(()=>{});
+})();
+
+function mostrarForm(){
+  document.getElementById('confirm-card').classList.remove('show');
+  document.getElementById('form-section').style.display='';
+}
+
+function enviarTarea(){
+  const nombre  = document.getElementById('inp-nombre').value.trim();
+  const link    = document.getElementById('inp-link').value.trim();
+  const comment = document.getElementById('inp-comment').value.trim();
+  const errEl   = document.getElementById('err-msg');
+  const btn     = document.getElementById('submit-btn');
+  errEl.classList.remove('show');
+
+  if(nombre.split(/\s+/).filter(Boolean).length < 2){
+    errEl.textContent='⚠️ Escribe tu nombre Y apellido completo.';
+    errEl.classList.add('show');
+    document.getElementById('inp-nombre').focus();
+    return;
+  }
+  if(!link.startsWith('http')){
+    errEl.textContent='⚠️ El link debe comenzar con "https://…". Cópialo desde Google Docs (Paso 5).';
+    errEl.classList.add('show');
+    document.getElementById('inp-link').focus();
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent='⏳ Enviando…';
+
+  fetch('/.netlify/functions/submit-task',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre,grado:GRADE,sesion:SESION,drive_link:link,comentario:comment})
+  })
+  .then(r=>r.json())
+  .then(d=>{
+    if(!d.ok) throw new Error(d.error||'Error desconocido');
+    document.getElementById('form-section').style.display='none';
+    const cc=document.getElementById('confirm-card');
+    cc.classList.add('show');
+    document.getElementById('confirm-title').textContent='¡Tarea entregada, '+d.nombre+'!';
+    document.getElementById('confirm-link-box').innerHTML='🔗 <a href="'+link+'" target="_blank" rel="noopener">Ver mi archivo</a>';
+    window.scrollTo({top:0,behavior:'smooth'});
+  })
+  .catch(err=>{
+    btn.disabled=false;
+    btn.textContent='📤 Enviar tarea →';
+    errEl.textContent='❌ '+(err.message||'No se pudo enviar. Intenta de nuevo.');
+    errEl.classList.add('show');
+  });
+}
+</script>
+</body>
+</html>

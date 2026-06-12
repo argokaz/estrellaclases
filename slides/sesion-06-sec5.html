@@ -10,10 +10,13 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;ju
 .snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600}
 .t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff}
 .t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff}
+.t-h2{font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#fff}
 .t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92)}
 .t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8)}
 .accent{color:#f87171}
+.pill{display:inline-block;background:#f87171;color:#000;border-radius:999px;padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.7vw,28px);margin:.2em}
 .cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%}
+.c{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:22%;max-width:30%;text-align:center}
 .c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center}
 .c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center}
 .big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
@@ -28,315 +31,376 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;ju
 .bonus-icon{font-size:clamp(18px,2.8vw,46px)}
 .bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95)}
 .quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%}
-.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;text-align:left;display:flex;align-items:center;gap:.6em}
-.qopt:hover{background:rgba(255,255,255,.18)}
-.qopt.correct{background:rgba(34,197,94,.25);border-color:#22c55e}
-.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171}
-.qletter{font-weight:900;color:#f87171;min-width:1.6em}
-.qopt.wrong .qletter{color:#f87171}
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px)}
-.nav button{background:#f87171;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s}
-.nav button:disabled{opacity:.25;cursor:default}
-.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center}
-.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%}
-.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s}
-.dot.active{background:#f87171}
-.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,#f871712e 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0}
-.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,#f871711e 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0}
-.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%}
-.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%}
-@keyframes orbA{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.09)}}
-.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both}
-.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both}
-@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97)}to{opacity:1;transform:none}}
-@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97)}to{opacity:1;transform:none}}
-.slide.active .t-super{animation:fUpBig .55s .05s ease both}
-.slide.active .t-h1{animation:fUpBig .5s .07s ease both}
-.slide.active .t-body{animation:fUp .45s .2s ease both}
-.slide.active .t-sm{animation:fUp .4s .24s ease both}
-.slide.active .line{animation:lGrow .42s .1s ease both}
-.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both}
-.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both}
-.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both}
-.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both}
-.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
-.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
-.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
-.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
-.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
-.slide.active .highlight{animation:pIn .45s .28s ease both}
-.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both}
-.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both}
-.slide.active .big-em{animation:pIn .5s .04s ease both}
-.slide.active .quiz-opts{animation:fUp .4s .2s ease both}
-.slide.active .bonus-bar{animation:pIn .45s .3s ease both}
-@keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-@keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
-@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
-/* ── Celebration splash ── */
-#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);
-  backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
-#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
-#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
-.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
-.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
-.cn{font-size:clamp(32px,6.2vw,96px);font-weight:900;color:#fbbf24;
-  animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;
-  text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
-.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
-.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
-@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
-@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
-@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:1% 2%;cursor:pointer;font-size:clamp(13px,1.8vw,28px);color:#fff;display:flex;align-items:center;gap:1em;text-align:left;transition:background .15s,border-color .15s}
+.qopt:hover{background:rgba(255,255,255,.18);border-color:#f87171}
+.qopt.correct{background:rgba(74,222,128,.2);border-color:#4ade80}
+.qopt.wrong{background:rgba(248,113,113,.15);border-color:#f87171}
+.qletter{display:inline-flex;align-items:center;justify-content:center;width:clamp(24px,3vw,48px);height:clamp(24px,3vw,48px);border-radius:50%;background:#f87171;color:#000;font-weight:900;font-size:clamp(11px,1.4vw,22px);flex-shrink:0}
+.qfeedback{font-size:clamp(13px,1.7vw,26px);margin-top:1%;min-height:1.4em;color:#4ade80;font-weight:700}
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:1.5%;padding:1% 2%;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:100}
+.nav button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:clamp(6px,1vw,12px);padding:.5% 2%;font-size:clamp(12px,1.5vw,22px);cursor:pointer;transition:background .15s}
+.nav button:hover{background:rgba(255,255,255,.2)}
+.counter{font-size:clamp(11px,1.3vw,20px);color:rgba(255,255,255,.6);min-width:5em;text-align:center}
+.sync-badge{position:fixed;bottom:6%;right:2%;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.15);border-radius:clamp(6px,1vw,12px);padding:.5% 1.2%;font-size:clamp(10px,1.2vw,18px);color:rgba(255,255,255,.7);cursor:pointer;z-index:200;display:flex;align-items:center;gap:.5em}
+.sync-dot{width:clamp(6px,1vw,12px);height:clamp(6px,1vw,12px);border-radius:50%;background:#6b7280}
+.sync-dot.on{background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+#celeb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;flex-direction:column}
+#celeb.show{display:flex}
+.celeb-msg{font-size:clamp(32px,5vw,80px);font-weight:900;color:#fff;text-align:center;animation:fUpBig .5s ease}
+.celeb-sub{font-size:clamp(16px,2.2vw,36px);color:rgba(255,255,255,.8);margin-top:1%}
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:299}
+@keyframes fUpBig{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style></head>
 <body>
-<div class="deck-wrap" id="deck"><div class="slide active">
-<div class="brand">Asunción School</div><div class="snum">6 · 1</div><p class="t-sm accent">Viernes 19 de junio · 5.° Secundaria</p><div class="line"></div>
-<h1 class="t-super">Gráficos y <span class="accent">dashboard</span><br>simple</h1>
-<p class="t-body" style="margin-top:2%">KPIs, segmentación y visualización para tomar decisiones</p>
-<p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 2</div><h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2><div class="line"></div>
-<div class="cards" style="margin-top:2%">
-<div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">KPIs</p><p class="t-sm" style="opacity:.8">Qué medir y por qué</p></div>
-<div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Dashboard</p><p class="t-sm" style="opacity:.8">Múltiples gráficos con sentido</p></div>
-<div class="c3"><div class="big-em">🔎</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Segmentación</p><p class="t-sm" style="opacity:.8">Comparar grupos para insights</p></div>
-</div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 3</div><h2 class="t-h1">¿Qué es un KPI?</h2><div class="line"></div>
-<div class="highlight" style="margin-bottom:2%">
-<p class="t-body" style="font-weight:700">KPI = Key Performance Indicator<br><span style="font-size:.8em;opacity:.8">Indicador Clave de Rendimiento</span></p>
-</div>
-<div class="cards" style="margin-top:2%">
-<div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Qué es</p><p class="t-sm" style="opacity:.8">Una métrica que indica si se está cumpliendo un objetivo</p></div>
-<div class="c3"><div class="big-em">📐</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Ejemplos</p><p class="t-sm" style="opacity:.8">% aprobados · promedio de notas · % asistencia</p></div>
-<div class="c3"><div class="big-em">⚠️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Cuidado</p><p class="t-sm" style="opacity:.8">No todo se puede medir — elegir bien</p></div>
-</div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 4</div><h2 class="t-h1">¿Qué es un dashboard?</h2><div class="line"></div>
-<div class="two" style="margin-top:3%">
-<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">📊 Un dashboard es...</p>
-<p class="t-sm" style="opacity:.85">Una hoja con varios gráficos juntos que permiten ver el panorama completo de una situación de un vistazo.</p></div>
-<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🎯 Cada gráfico responde...</p>
-<p class="t-sm" style="opacity:.85">Una sola pregunta específica. Si un gráfico no responde ninguna pregunta clara → sobra.</p></div>
-</div>
-<div class="highlight"><p class="t-sm" style="font-weight:700">Dashboard ≠ colección de gráficos bonitos. Cada gráfico debe ser necesario.</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 5</div><h2 class="t-h1">⭐ ¿Qué KPI falta?</h2><div class="line"></div>
-<div class="highlight" style="text-align:left;max-width:85%">
-<p class="t-sm" style="opacity:.6;margin-bottom:.6em">Dashboard de rendimiento escolar — tiene estos gráficos:</p>
-<ul class="list">
-<li>Promedio de notas por sección (barras)</li>
-<li>Evolución del promedio en los últimos 3 meses (líneas)</li>
-<li>Distribución de notas: aprobados vs reprobados (circular)</li>
-</ul>
-<p class="t-sm" style="margin-top:.8em;opacity:.7">Pregunta del director: "¿Quiénes necesitan apoyo urgente?"</p>
-</div>
-<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al primero que proponga el KPI faltante con justificación · máx. 3 alumnos</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
-<p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué tipo de gráfico usarías para mostrar el porcentaje de aprobados vs reprobados en un salón?</p>
-<div class="quiz-opts" style="margin-top:3%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Gráfico de líneas — muestra la evolución en el tiempo</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Gráfico circular — muestra partes de un todo (100%)</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Gráfico de barras — compara categorías distintas</div>
-</div>
-<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
-<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 7</div><h2 class="t-h1">Segmentación: comparar para entender</h2><div class="line"></div>
-<div class="two" style="margin-top:3%">
-<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">🔎 ¿Qué es?</p>
-<p class="t-sm" style="opacity:.85">Dividir los datos en grupos (segmentos) para comparar el comportamiento de cada uno.</p></div>
-<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">📊 Ejemplos</p>
-<ul class="list"><li>Promedio por <span class="accent">sección</span></li><li>Notas por <span class="accent">género</span></li><li>Asistencia por <span class="accent">mes</span></li></ul></div>
-</div>
-<div class="highlight"><p class="t-sm" style="font-weight:700">Sin segmentar: "El promedio es 13". Con segmentación: "3.°A promedia 15 · 3.°B promedia 11 — hay una brecha de 4 puntos."</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 8</div><h2 class="t-h1">Segmentar en Sheets</h2><div class="line"></div>
-<ul class="list" style="margin-top:2%">
-<li><span class="accent">Filtrar</span> por categoría → ver solo un segmento a la vez</li>
-<li><span class="accent">AVERAGEIF(rango, criterio, rango_valores)</span> → promedio por grupo</li>
-<li><span class="accent">Tabla dinámica</span> → comparar todos los segmentos automáticamente</li>
-<li><span class="accent">Gráfico de barras agrupadas</span> → comparar segmentos visualmente</li>
-</ul>
-<p class="t-sm" style="margin-top:2%;opacity:.75">💡 AVERAGEIF es la función más útil para segmentar sin tabla dinámica.</p>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 9</div><h2 class="t-h1">⭐ Diseña tu dashboard</h2><div class="line"></div>
-<p class="t-body" style="font-weight:700;margin-bottom:2%">Escenario: eres analista del colegio. Tienes datos de notas, asistencia y actividades extracurriculares de 120 alumnos.</p>
-<ul class="list" style="margin-top:1%">
-<li>¿Cuáles son los <span class="accent">3 KPIs</span> más importantes?</li>
-<li>¿Qué <span class="accent">3 gráficos</span> incluirías?</li>
-<li>¿Qué <span class="accent">segmentación</span> usarías?</li>
-</ul>
-<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al diseño más completo · elige la profesora entre los primeros 3</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 10</div><h2 class="t-h1">Formatear un dashboard profesional</h2><div class="line"></div>
-<div class="cards" style="margin-top:2%">
-<div class="c4"><div class="big-em">🏷️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Títulos</p><p class="t-sm" style="opacity:.8">Cada gráfico con título informativo</p></div>
-<div class="c4"><div class="big-em">🎨</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Colores coherentes</p><p class="t-sm" style="opacity:.8">Misma paleta en todos los gráficos</p></div>
-<div class="c4"><div class="big-em">📐</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Alineados</p><p class="t-sm" style="opacity:.8">Gráficos del mismo tamaño en cuadrícula</p></div>
-<div class="c4"><div class="big-em">✍️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Conclusión</p><p class="t-sm" style="opacity:.8">1-2 oraciones de insight debajo de cada uno</p></div>
-</div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 11</div><h2 class="t-h1">Del gráfico al insight</h2><div class="line"></div>
-<div class="two" style="margin-top:3%">
-<div class="box"><p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.4em">❌ Solo descripción</p>
-<p class="t-sm" style="opacity:.85">"El gráfico muestra que 3.°A tiene nota promedio 15 y 3.°B tiene 11."</p></div>
-<div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:.4em">✅ Insight accionable</p>
-<p class="t-sm">"3.°B tiene una brecha de 4 puntos respecto a 3.°A. Se recomienda revisar la metodología o identificar alumnos en riesgo de 3.°B."</p></div>
-</div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 12</div><h2 class="t-h1">AVERAGEIF: promedio por segmento</h2><div class="line"></div>
-<div class="highlight" style="text-align:left;max-width:88%">
-<p class="t-sm" style="opacity:.7;margin-bottom:.5em">Sintaxis:</p>
-<p class="t-body" style="font-weight:700">=AVERAGEIF(rango_criterio, criterio, rango_valores)</p>
-</div>
-<div class="two" style="margin-top:2%">
-<div class="box"><p class="t-sm" style="opacity:.6;margin-bottom:.4em">Ejemplo:</p>
-<p class="t-sm">=AVERAGEIF(B2:B50, "3A", C2:C50)</p>
-<p class="t-sm" style="margin-top:.4em;opacity:.7">Promedio de notas (col C) solo para alumnos de 3.°A (col B)</p></div>
-<div class="box"><p class="t-sm accent" style="font-weight:700;margin-bottom:.4em">Ventaja</p>
-<p class="t-sm" style="opacity:.85">Sin necesidad de filtrar manualmente. Una fórmula por segmento.</p></div>
-</div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 13</div><h2 class="t-h1">⭐ Construye el insight</h2><div class="line"></div>
-<div class="highlight" style="text-align:left;max-width:88%">
-<p class="t-sm" style="opacity:.6;margin-bottom:.6em">Datos del dashboard:</p>
-<ul class="list">
-<li>% aprobados 3.°A: 91% · 3.°B: 74% · 3.°C: 68%</li>
-<li>Asistencia promedio: A=95% · B=87% · C=79%</li>
-<li>Participación extracurricular: A=62% · B=38% · C=31%</li>
-</ul>
-</div>
-<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al mejor insight · elige la profesora entre los primeros 3</p></div>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 14</div><h2 class="t-h1">🎯 Actividad: Dashboard de encuesta propia</h2><div class="line"></div>
-<div class="cards" style="margin-top:2%">
-<div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Define 3 KPIs</p><p class="t-sm" style="opacity:.8">¿Qué preguntas responderá tu dashboard?</p></div>
-<div class="c3"><div class="big-em">📊</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">3 gráficos</p><p class="t-sm" style="opacity:.8">Uno por KPI · con título y conclusión</p></div>
-<div class="c3"><div class="big-em">🔎</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Segmenta</p><p class="t-sm" style="opacity:.8">Al menos 1 gráfico con AVERAGEIF o tabla dinámica</p></div>
-</div>
-<p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 12 minutos · Comparte el enlace con la profesora</p>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 15</div><h2 class="t-h1">❌ Errores comunes en dashboards</h2><div class="line"></div>
-<ul class="list" style="margin-top:2%">
-<li>Demasiados gráficos → el lector no sabe qué mirar primero</li>
-<li>Sin títulos informativos → los gráficos no se entienden solos</li>
-<li>Colores distintos en cada gráfico → crea confusión</li>
-<li>Sin conclusiones → solo descripción, no insight</li>
-<li>Un solo gráfico sin segmentación → pierde profundidad</li>
-</ul>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 16</div><h2 class="t-h1">💡 El dashboard responde preguntas</h2><div class="line"></div>
-<div class="highlight">
-<p class="t-body" style="font-weight:700;font-style:italic">"Un buen dashboard no muestra todo lo que puedes medir.<br>Muestra lo que necesitas saber para actuar."</p>
-</div>
-<ul class="list" style="margin-top:3%">
-<li>Antes de crear: escribe las 3 preguntas que debe responder</li>
-<li>Después de crear: cada gráfico debe responder una de ellas</li>
-<li>Si un gráfico no responde ninguna → eliminarlo</li>
-</ul>
-</div>
-<div class="slide">
-<div class="brand">Asunción School</div><div class="snum">6 · 17</div><h2 class="t-h1">🚀 Lo que llevas hoy</h2><div class="line"></div>
-<div class="cards" style="margin-top:2%">
-<div class="c3"><div class="big-em">📌</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">KPI</p><p class="t-sm" style="opacity:.8">Solo medir lo que importa para decidir</p></div>
-<div class="c3"><div class="big-em">🔎</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Segmentación</p><p class="t-sm" style="opacity:.8">AVERAGEIF · tabla dinámica · barras agrupadas</p></div>
-<div class="c3"><div class="big-em">💡</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Insight</p><p class="t-sm" style="opacity:.8">Descripción + implicación + recomendación</p></div>
-</div>
-<p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: IA, empleo y estudios superiores · Viernes 26 de junio</p>
-</div>
-</div>
-<nav class="nav">
-  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
-  <div class="dots" id="dots"></div>
-  <span id="counter">1 / 17</span>
-  <button id="btn-next" onclick="go(1)">Sig →</button>
-</nav>
-<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #f87171;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#f87171;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec5',session:'06'})}).catch(()=>{});let last=-999,busy=false,lastBonusTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
-<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
-const total=17;let cur=0;
-const dots=document.getElementById('dots');
-slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
-const allDots=[...dots.querySelectorAll('.dot')];
-function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
-function go(d){goTo(cur+d);}
-document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
-let tx=0;
-document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
-document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
-function quizPick(el){
-  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
-  const fb=el.closest('.slide').querySelector('.quiz-feedback');
-  opts.forEach(o=>o.classList.remove('correct','wrong'));
-  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
-  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
-}
-goTo(0);initialized=true;
-function showCeleb(nombre){
-  document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';
-  spawnConfetti();
-  const el=document.getElementById('celeb');
-  el.style.display='block';
-  ['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});
-  clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);
-}
-function closeCeleb(){
-  const el=document.getElementById('celeb');
-  el.style.transition='opacity .4s';el.style.opacity='0';
-  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);
-}
-function spawnConfetti(){
-  const w=document.getElementById('celeb-wrap');w.innerHTML='';
-  const cols=['#fbbf24','#f97316','#22c55e','#60a5fa','#a78bfa','#f472b6','#fff','#fb7185'];
-  for(let i=0;i<72;i++){
-    const d=document.createElement('div');
-    const c=cols[i%cols.length];const sz=6+Math.random()*11;
-    const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';
-    d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';
-    w.appendChild(d);
-  }
-}
+<div class="deck-wrap">
 
-const DECK_GRADE='sec5';
-const DECK_SESSION='06';
-let lastBonusId=null;
-(async function pollBonus(){
-  try{
-    const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());
-    if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}
-  }catch(e){}
-  setTimeout(pollBonus,2000);
-})();
-</script>
+<!-- SLIDE 1 — TÍTULO -->
+<div class="slide active">
+  <div class="brand">Asunción School</div><div class="snum">6 · 1</div>
+  <p class="t-body accent" style="font-weight:700;margin-bottom:1%">5.° Secundaria · Sesión 06 · 19 jun 2026</p>
+  <h1 class="t-super">Del párrafo<br>al <span class="accent">ensayo</span></h1>
+  <div class="line"></div>
+  <p class="t-body" style="opacity:.8">Síntesis de fuentes · Tesis · Estructura académica</p>
+</div>
 
-<div id="celeb" onclick="closeCeleb()">
-  <div id="celeb-wrap"></div>
-  <div id="celeb-body">
-    <div class="ca">🎉</div>
-    <p class="cs">¡Felicitaciones!</p>
-    <p class="cn" id="celeb-name"></p>
-    <p class="cp">⭐ +1 punto de participación</p>
-    <p class="ct">Toca para continuar</p>
+<!-- SLIDE 2 — ¿QUÉ HAREMOS HOY? -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 2</div>
+  <h2 class="t-h1">¿Qué haremos hoy?</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3"><div class="big-em">🏗️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Estructura del ensayo</p><p class="t-sm" style="opacity:.8">Intro + desarrollo + conclusión</p></div>
+    <div class="c3"><div class="big-em">🔀</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Síntesis de fuentes</p><p class="t-sm" style="opacity:.8">No es resumir por separado</p></div>
+    <div class="c3"><div class="big-em">👥</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Múltiples autores</p><p class="t-sm" style="opacity:.8">Dos autores y et al.</p></div>
   </div>
 </div>
+
+<!-- SLIDE 3 — ESTRUCTURA DEL ENSAYO -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 3</div>
+  <h2 class="t-h1">El ensayo académico corto</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3" style="border-color:#f87171">
+      <div class="big-em">📥</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">INTRODUCCIÓN</p>
+      <p class="t-sm" style="opacity:.8">Gancho · contexto · tesis</p>
+    </div>
+    <div class="c3" style="border-color:#f87171">
+      <div class="big-em">📄</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">DESARROLLO</p>
+      <p class="t-sm" style="opacity:.8">Párrafos TEA con fuentes sintetizadas</p>
+    </div>
+    <div class="c3" style="border-color:#f87171">
+      <div class="big-em">📤</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">CONCLUSIÓN</p>
+      <p class="t-sm" style="opacity:.8">Síntesis · implicación · apertura</p>
+    </div>
+  </div>
+  <p class="t-sm" style="opacity:.6;margin-top:3%">Cada sección cumple una función diferente — no son intercambiables.</p>
+</div>
+
+<!-- SLIDE 4 — LA INTRODUCCIÓN -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 4</div>
+  <h2 class="t-h1">La introducción: 3 movimientos</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.8em">1 · Gancho</p>
+      <p class="t-sm" style="opacity:.85">Una dato sorprendente, una pregunta o una afirmación que atrapa al lector desde la primera línea.</p>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.8em">2 · Contexto</p>
+      <p class="t-sm" style="opacity:.85">2-3 oraciones que ubican el tema: qué está en juego, qué debate existe, qué dicen las fuentes sobre ello.</p>
+    </div>
+  </div>
+  <div class="highlight" style="margin-top:2%;max-width:70%">
+    <p class="t-sm accent" style="font-weight:800;margin-bottom:.6em">3 · Tesis</p>
+    <p class="t-sm" style="opacity:.9">Tu postura concreta y argumentable en una oración. No un hecho — una posición que puedes defender con evidencia.</p>
+  </div>
+</div>
+
+<!-- SLIDE 5 — LA TESIS -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 5</div>
+  <h2 class="t-h1">La tesis: sí vs no</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box" style="border:2px solid rgba(248,113,113,.5)">
+      <p class="t-sm" style="font-weight:800;color:#f87171;margin-bottom:.8em">❌ No es tesis</p>
+      <ul class="list" style="max-width:100%">
+        <li style="font-size:clamp(12px,1.6vw,24px)">"El cambio climático existe."<br><span style="opacity:.6;font-size:.85em">Es un hecho, no una posición.</span></li>
+        <li style="font-size:clamp(12px,1.6vw,24px);margin-top:.6em">"Hablaré sobre las redes sociales."<br><span style="opacity:.6;font-size:.85em">Es un anuncio, no un argumento.</span></li>
+        <li style="font-size:clamp(12px,1.6vw,24px);margin-top:.6em">"Hay muchas opiniones sobre el tema."<br><span style="opacity:.6;font-size:.85em">No dice nada específico.</span></li>
+      </ul>
+    </div>
+    <div class="box" style="border:2px solid rgba(74,222,128,.4)">
+      <p class="t-sm" style="font-weight:800;color:#4ade80;margin-bottom:.8em">✅ Sí es tesis</p>
+      <ul class="list" style="max-width:100%">
+        <li style="font-size:clamp(12px,1.6vw,24px)">"La desinformación en redes sociales profundiza la desigualdad educativa en adolescentes."</li>
+        <li style="font-size:clamp(12px,1.6vw,24px);margin-top:.6em">"El uso excesivo de dispositivos antes de los 12 años afecta negativamente el desarrollo de la atención sostenida."</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 — QUIZ -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 6</div>
+  <h2 class="t-h2">🎯 Quiz: ¿cuál es la mejor tesis?</h2>
+  <p class="t-sm" style="opacity:.7;margin:.5% 0 1.2%">+1 punto · primer alumno en responder correctamente</p>
+  <div class="quiz-opts">
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"En este ensayo analizaré el impacto de la tecnología en la educación."</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"La tecnología ha cambiado la educación en el mundo entero."</div>
+    <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>"La integración de herramientas digitales en el aula mejora el aprendizaje cuando va acompañada de formación docente efectiva."</div>
+    <div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Hay muchos estudios sobre tecnología y educación."</div>
+  </div>
+  <div class="qfeedback" id="qfeedback"></div>
+</div>
+
+<!-- SLIDE 7 — SÍNTESIS ≠ RESUMEN -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 7</div>
+  <h2 class="t-h1">Síntesis ≠ resumen por separado</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box" style="border:2px solid rgba(248,113,113,.4)">
+      <p class="t-sm" style="font-weight:800;color:#f87171;margin-bottom:.8em">❌ Error común</p>
+      <p class="t-sm" style="opacity:.85">Según García (2022), X…<br>Según López (2021), Y…<br>Según Pérez (2020), Z…</p>
+      <p class="t-sm" style="opacity:.55;margin-top:.8em;font-style:italic">Tres resúmenes seguidos, no un argumento.</p>
+    </div>
+    <div class="box" style="border:2px solid rgba(74,222,128,.35)">
+      <p class="t-sm" style="font-weight:800;color:#4ade80;margin-bottom:.8em">✅ Síntesis</p>
+      <p class="t-sm" style="opacity:.85">La atención de los jóvenes disminuye con el uso excesivo de pantallas (García, 2022; López, 2021), lo que se refleja en peores resultados académicos cuando no hay mediación adulta (Pérez, 2020).</p>
+    </div>
+  </div>
+  <p class="t-sm" style="opacity:.6;margin-top:2%">Sintetizar = tejer varias fuentes en <em>tu</em> argumento.</p>
+</div>
+
+<!-- SLIDE 8 — CÓMO SINTETIZAR -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 8</div>
+  <h2 class="t-h1">Cómo sintetizar: 3 pasos</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3">
+      <div class="big-em">1️⃣</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Tu oración temática</p>
+      <p class="t-sm" style="opacity:.8">La idea central es tuya. No empieces con una cita.</p>
+    </div>
+    <div class="c3">
+      <div class="big-em">2️⃣</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Evidencia combinada</p>
+      <p class="t-sm" style="opacity:.8">Une las fuentes con ";" o conectores: "de forma similar", "en contraste", "esto se refuerza con".</p>
+    </div>
+    <div class="c3">
+      <div class="big-em">3️⃣</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Tu análisis</p>
+      <p class="t-sm" style="opacity:.8">Explica qué significa esa evidencia para tu argumento. No termines el párrafo con una cita.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 9 — MÚLTIPLES AUTORES -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 9</div>
+  <h2 class="t-h1">Citas con múltiples autores</h2>
+  <div class="line"></div>
+  <div class="two" style="margin-top:2%">
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.8em">👥 Dos autores</p>
+      <p class="t-sm" style="opacity:.9">Siempre se nombran los dos, unidos por <span class="accent" style="font-weight:800">&amp;</span> dentro del paréntesis:</p>
+      <p class="t-sm" style="margin-top:.8em;background:rgba(255,255,255,.07);padding:2% 3%;border-radius:8px">(García &amp; López, 2022)</p>
+      <p class="t-sm" style="margin-top:.6em">o: García y López (2022) afirman…</p>
+    </div>
+    <div class="box">
+      <p class="t-sm accent" style="font-weight:800;margin-bottom:.8em">👥👥👥 Tres o más autores</p>
+      <p class="t-sm" style="opacity:.9">Solo se escribe el primero seguido de <span class="accent" style="font-weight:800">et al.</span> (desde la primera mención en APA 7):</p>
+      <p class="t-sm" style="margin-top:.8em;background:rgba(255,255,255,.07);padding:2% 3%;border-radius:8px">(Martínez et al., 2023)</p>
+      <p class="t-sm" style="margin-top:.6em">o: Martínez et al. (2023) señalan…</p>
+    </div>
+  </div>
+  <p class="t-sm" style="opacity:.5;margin-top:2%">Et al. = "et alia" (latín: "y otros"). No va en cursiva. Siempre con punto después de "al".</p>
+</div>
+
+<!-- SLIDE 10 — BONUS: ERRORES ET AL. -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 10</div>
+  <h2 class="t-h2">⭐ Encuentra los errores — citas con múltiples autores</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>(García, López & Ramírez, 2021)</li>
+    <li>(Herrera, Soto, Vásquez &amp; Torres, 2022)</li>
+    <li>(Ruiz et. al., 2020)</li>
+    <li>Mendoza &amp; Castillo (2023) afirman que…</li>
+  </ul>
+  <div class="bonus-bar" style="margin-top:3%">
+    <span class="bonus-icon">⭐</span>
+    <span class="bonus-text"><strong>Bonus</strong> — ¿Cuáles están mal y por qué? +1 punto por identificar los errores correctamente.</span>
+  </div>
+</div>
+
+<!-- SLIDE 11 — LA CONCLUSIÓN -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 11</div>
+  <h2 class="t-h1">La conclusión: 3 movimientos</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c3">
+      <div class="big-em">🔁</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Síntesis</p>
+      <p class="t-sm" style="opacity:.8">No repitas la introducción palabra por palabra. Reafirma tu tesis a la luz de lo que argumentaste.</p>
+    </div>
+    <div class="c3">
+      <div class="big-em">💡</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Implicación</p>
+      <p class="t-sm" style="opacity:.8">¿Qué significa lo que encontraste? ¿Qué consecuencias o decisiones se desprenden del argumento?</p>
+    </div>
+    <div class="c3">
+      <div class="big-em">🌐</div>
+      <p class="t-sm accent" style="font-weight:800;margin:.5em 0">Apertura</p>
+      <p class="t-sm" style="opacity:.8">Una pregunta, limitación o conexión con algo más amplio que deja al lector pensando.</p>
+    </div>
+  </div>
+  <p class="t-sm" style="opacity:.5;margin-top:2%">La conclusión NO introduce información nueva ni citas nuevas.</p>
+</div>
+
+<!-- SLIDE 12 — CONECTORES FORMALES -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 12</div>
+  <h2 class="t-h1">Conectores para ensayo académico</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:2%">
+    <div class="c4"><p class="t-sm accent" style="font-weight:800;margin-bottom:.4em">Para agregar</p><p class="t-sm" style="opacity:.8">De manera similar · Asimismo · Además · En línea con esto</p></div>
+    <div class="c4"><p class="t-sm accent" style="font-weight:800;margin-bottom:.4em">Para contrastar</p><p class="t-sm" style="opacity:.8">Sin embargo · No obstante · En contraste · A diferencia de</p></div>
+    <div class="c4"><p class="t-sm accent" style="font-weight:800;margin-bottom:.4em">Para concluir</p><p class="t-sm" style="opacity:.8">En consecuencia · Por lo tanto · A partir de lo anterior · Esto sugiere que</p></div>
+  </div>
+  <div class="highlight" style="margin-top:2%">
+    <p class="t-sm" style="opacity:.7">❌ Evitar en texto académico: <span class="accent">primero que nada · en conclusión · o sea · como ya dijimos · es obvio que</span></p>
+  </div>
+</div>
+
+<!-- SLIDE 13 — ¿ES TESIS O NO? -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 13</div>
+  <h2 class="t-h2">⭐ ¿Es tesis, es hecho o es anuncio?</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>"Las redes sociales tienen efectos positivos y negativos."</li>
+    <li>"El acceso desigual a internet reproduce las brechas educativas existentes y requiere políticas públicas urgentes."</li>
+    <li>"Voy a analizar por qué la IA es importante en la educación."</li>
+    <li>"La alimentación saludable mejora el rendimiento académico en adolescentes cuando se combina con actividad física regular."</li>
+  </ul>
+  <div class="bonus-bar" style="margin-top:2%">
+    <span class="bonus-icon">⭐</span>
+    <span class="bonus-text"><strong>Bonus</strong> — Clasifica cada oración: ¿tesis ✅, hecho ℹ️ o anuncio ❌? +1 punto por clasificarlas todas correctamente.</span>
+  </div>
+</div>
+
+<!-- SLIDE 14 — ACTIVIDAD -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 14</div>
+  <h2 class="t-h1">🎯 Actividad: escribe tu introducción</h2>
+  <div class="line"></div>
+  <p class="t-body" style="margin-bottom:2%">En Google Docs, escribe la introducción de un ensayo académico sobre un tema de tu elección.</p>
+  <div class="cards">
+    <div class="c3"><div class="big-em">🪝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Gancho</p><p class="t-sm" style="opacity:.8">Dato, pregunta o afirmación que enganche desde la primera línea</p></div>
+    <div class="c3"><div class="big-em">📖</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Contexto</p><p class="t-sm" style="opacity:.8">2-3 oraciones con al menos 1 cita APA de una fuente real</p></div>
+    <div class="c3"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Tesis</p><p class="t-sm" style="opacity:.8">Tu posición argumentable y específica en una oración</p></div>
+  </div>
+  <p class="t-sm" style="opacity:.55;margin-top:2%">⏱ 20 minutos · Si terminas, agrega un párrafo de desarrollo con síntesis de 2 fuentes.</p>
+</div>
+
+<!-- SLIDE 15 — CHECKLIST -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 15</div>
+  <h2 class="t-h1">✅ Checklist antes de entregar</h2>
+  <div class="line"></div>
+  <ul class="list" style="margin-top:2%">
+    <li>Mi introducción tiene gancho, contexto y tesis clara</li>
+    <li>La tesis es una posición argumentable, no un hecho ni un anuncio</li>
+    <li>Cada párrafo de desarrollo empieza con <em>mi</em> oración temática</li>
+    <li>Sinteticé fuentes (no las resumí por separado)</li>
+    <li>Citas con 2 autores usan &amp; · con 3+ usan et al.</li>
+    <li>La conclusión no introduce información nueva</li>
+    <li>Todas las fuentes del texto están en la lista de referencias</li>
+  </ul>
+</div>
+
+<!-- SLIDE 16 — CIERRE -->
+<div class="slide">
+  <div class="brand">Asunción School</div><div class="snum">6 · 16</div>
+  <h2 class="t-h1">Lo que llevas hoy</h2>
+  <div class="line"></div>
+  <div class="cards" style="margin-top:3%">
+    <div class="c"><div class="big-em">🏗️</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Estructura de ensayo</p><p class="t-sm" style="opacity:.8">Intro · desarrollo · conclusión</p></div>
+    <div class="c"><div class="big-em">🎯</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Tesis sólida</p><p class="t-sm" style="opacity:.8">Argumentable y específica</p></div>
+    <div class="c"><div class="big-em">🔀</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Síntesis real</p><p class="t-sm" style="opacity:.8">Varias fuentes, un argumento</p></div>
+    <div class="c"><div class="big-em">👥</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Et al. y &amp;</p><p class="t-sm" style="opacity:.8">Citas con múltiples autores</p></div>
+  </div>
+  <p class="t-sm" style="opacity:.5;margin-top:3%">📎 Comparte tu Google Doc antes del próximo viernes 26 de junio.</p>
+</div>
+
+</div><!-- end deck-wrap -->
+
+<div class="nav">
+  <button onclick="go(-1)">◀ Anterior</button>
+  <span class="counter" id="counter">1 / 16</span>
+  <button onclick="go(1)">Siguiente ▶</button>
+</div>
+
+<div class="sync-badge" id="sync-badge" onclick="toggleSync()">
+  <span class="sync-dot" id="sync-dot"></span>
+  <span id="sync-code">— — — —</span>
+</div>
+
+<div id="celeb" onclick="closeCeleb()">
+  <canvas id="confetti-canvas"></canvas>
+  <div class="celeb-msg" id="celeb-msg">⭐ ¡Correcto!</div>
+  <div class="celeb-sub" id="celeb-sub"></div>
+</div>
+
+<script>
+const DECK_GRADE='sec5';const DECK_SESSION='06';
+const total=16;
+let cur=1;
+function go(d){const n=cur+d;if(n<1||n>total)return;cur=n;document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===cur-1));document.getElementById('counter').textContent=cur+' / '+total;syncPost();}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);else if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);});
+
+function quizPick(el){
+  const opts=el.parentElement.querySelectorAll('.qopt');
+  opts.forEach(o=>o.onclick=null);
+  const fb=document.getElementById('qfeedback');
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}showCeleb();}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+function showCeleb(){document.getElementById('celeb').classList.add('show');spawnConfetti();}
+function closeCeleb(){document.getElementById('celeb').classList.remove('show');}
+function spawnConfetti(){const c=document.getElementById('confetti-canvas');const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const bits=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20,r:Math.random()*6+3,color:`hsl(${Math.random()*360},80%,60%)`,vx:(Math.random()-0.5)*4,vy:Math.random()*4+2,a:Math.random()*360}));let frame=0;function draw(){ctx.clearRect(0,0,c.width,c.height);bits.forEach(b=>{ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.a*Math.PI/180);ctx.fillStyle=b.color;ctx.fillRect(-b.r,-b.r/2,b.r*2,b.r);ctx.restore();b.x+=b.vx;b.y+=b.vy;b.a+=3;});frame++;if(frame<180)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height);}draw();}
+
+// REMOTE SYNC
+let roomCode='';let syncActive=false;let syncInterval=null;
+const OFFSET=1;
+function genCode(){return String(Math.floor(1000+Math.random()*9000));}
+async function initSync(){
+  roomCode=genCode();
+  document.getElementById('sync-code').textContent=roomCode;
+  try{await fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:roomCode,slide:0,grade:DECK_GRADE,session:DECK_SESSION})});}catch(e){}
+  syncActive=true;
+  document.getElementById('sync-dot').classList.add('on');
+  syncInterval=setInterval(pollBonus,1500);
+}
+async function pollBonus(){
+  try{const r=await fetch('/.netlify/functions/get-bonus-signal');const d=await r.json();if(d&&d.ts&&d.ts!==lastBonusTs){lastBonusTs=d.ts;const g=d.grade||DECK_GRADE;if(g===DECK_GRADE){showCeleb();document.getElementById('celeb-msg').textContent='⭐ +1 Bonus!';document.getElementById('celeb-sub').textContent=d.nombre||'';}}}catch(e){}
+}
+let lastBonusTs=0;
+async function syncPost(){
+  if(!syncActive||!roomCode)return;
+  try{await fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:roomCode,slide:cur-OFFSET,grade:DECK_GRADE,session:DECK_SESSION})});}catch(e){}
+}
+function toggleSync(){if(!syncActive)initSync();else{clearInterval(syncInterval);syncActive=false;document.getElementById('sync-dot').classList.remove('on');}}
+initSync();
+</script>
 </body></html>

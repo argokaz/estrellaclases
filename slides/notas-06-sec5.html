@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 06 · 5.° Secundaria · 19 jun 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 06 · 5.° Secundaria · 19 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
 :root{--accent:#f87171;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
@@ -17,234 +18,446 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .card.open .card-arrow{transform:rotate(180deg)}
 .card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
 .card.open .card-body{display:block}
-.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
-.section-lbl:first-child{margin-top:0}
-.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
-.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
-.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
-.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
-.nav-btn:disabled{opacity:.25;cursor:default}
-#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
-.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
-.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
-.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
-.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
-.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
-.bw-inp:focus{border-color:var(--accent);}
-.bw-inp::placeholder{color:var(--muted);}
-.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
-.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+.notes-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);margin-bottom:.35rem;margin-top:.7rem}
+.notes-label:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.65;color:var(--text);margin-bottom:.4rem}
+.notes-text strong{color:var(--accent)}
+.code-block{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:.6rem .8rem;font-family:'Courier New',monospace;font-size:.82rem;color:#e6edf3;margin:.4rem 0;line-height:1.5}
+.ok{color:#4ade80;font-weight:700}
+.err{color:#f87171;font-weight:700}
+.qa-block{background:rgba(255,255,255,.04);border-radius:8px;padding:.6rem .8rem;margin:.4rem 0}
+.qa-q{font-size:.82rem;font-weight:700;color:var(--muted);margin-bottom:.25rem}
+.qa-a{font-size:.88rem;color:#4ade80;font-weight:700}
+.qa-exp{font-size:.82rem;color:var(--muted);margin-top:.2rem;line-height:1.5}
+/* Bonus widget */
+.bw{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);border-radius:10px;padding:.7rem .85rem;margin-top:.65rem}
+.bw-title{font-size:.75rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.4px;margin-bottom:.5rem}
+.bw-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.bw-sel{flex:1;min-width:0;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:.85rem;padding:.4rem .6rem;font-family:inherit}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:7px;padding:.4rem .9rem;font-size:.83rem;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.bw-btn:hover{opacity:.85}
+.bw-msg{font-size:.8rem;color:#4ade80;margin-top:.4rem;min-height:1.1em;font-weight:600}
+/* Sync */
+.sync-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.8rem 1rem;margin-bottom:.8rem}
+.sync-row{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap}
+.sync-input{flex:1;min-width:80px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:1.1rem;font-weight:800;letter-spacing:.3em;padding:.4rem .7rem;font-family:inherit;text-align:center}
+.sync-btn{background:var(--accent);color:#000;border:none;border-radius:7px;padding:.45rem 1rem;font-size:.85rem;font-weight:800;cursor:pointer;flex-shrink:0}
+.sync-status{font-size:.78rem;color:var(--muted)}
+.sync-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--dim);margin-right:.3rem;vertical-align:middle}
+.sync-dot.on{background:#4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+/* Nav */
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:100}
+.nav-btn{background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.4rem .9rem;font-size:.85rem;cursor:pointer}
+.nav-btn:hover{background:rgba(255,255,255,.12)}
+.nav-counter{font-size:.78rem;color:var(--muted);min-width:4.5em;text-align:center}
 </style></head>
 <body>
-<div class="top-bar"><div><div class="top-bar-title">Sesión 06 · 5.° Secundaria</div><div class="top-bar-meta">Gráficos y dashboard simple · Viernes 19 de junio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
-<div class="cards-wrap"><div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S05 (análisis de datos en Sheets). Hoy llevan ese análisis al siguiente nivel: visualización organizada para tomar decisiones. Pregunta: ¿alguno vio un dashboard real en una empresa o en las noticias?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. Genera motivación: los analistas de datos más buscados en el mercado laboral son los que saben hacer dashboards accionables.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">¿Qué es un KPI?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">KPI = Key Performance Indicator. El concepto es simple pero la elección correcta es difícil. No todo lo que se puede medir debe medirse — solo lo que indica si se está cumpliendo el objetivo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Ejemplos del contexto escolar: % aprobados (sí, mide resultado directo), color favorito (no, no indica rendimiento). Pide que propongan 2 KPIs para un colegio.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">¿Qué es un dashboard?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La definición operativa es la más importante: cada gráfico responde una pregunta. Si un gráfico no responde ninguna pregunta clara → sobra.
-
-Análogía: el tablero de un avión. Cada indicador le dice al piloto algo que necesita saber para volar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Muestra un dashboard real (captura de Sheets o Google Data Studio) en pantalla. Señala qué pregunta responde cada gráfico.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">⭐ ¿Qué KPI falta?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Dashboard con 3 gráficos para el director. La pregunta del director: '¿Quiénes necesitan apoyo urgente?' — ninguno de los 3 gráficos la responde directamente.
-
-KPI que falta: identificación de alumnos con nota < 11 (o umbral de riesgo) + sus secciones.
-
-⭐ Bonus: +1 por proponer el KPI con justificación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas. Válidas: ranking de notas, alumnos bajo umbral por sección, tabla de alumnos en riesgo. Cualquier propuesta que responda la pregunta del director.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
-  <div class="bw-row">
-    <select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
-    <button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button>
+<div class="top-bar">
+  <div>
+    <div class="top-bar-title">Notas 06 · 5.° Sec · Del párrafo al ensayo</div>
+    <div class="top-bar-meta">19 jun 2026 · Profa. Estrella Vizcarra</div>
   </div>
-  <p id="bw-msg-c5" class="bw-msg"> </p>
+  <div style="font-size:.75rem;color:var(--muted)">Slide: <span id="ncounter">—</span></div>
 </div>
-</div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B. El circular muestra partes de un todo que suman 100% — aprobados + reprobados = 100% del salón.
 
-⭐ Bonus: +1 por respuesta, +1 extra si describe el gráfico para comparar rendimiento entre secciones (barras agrupadas).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Para A: las líneas son para evolución temporal, no distribución. Para C: las barras comparan categorías distintas, pero aquí tenemos 2 partes de un todo.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
-  <div class="bw-row">
-    <select id="bw-nombre" class="bw-inp bw-sel">
-      <option value="">— Selecciona alumno —</option>
-    </select>
-    <button onclick="darBonus()" class="bw-btn">+1</button>
+<div class="cards-wrap">
+  <div class="sync-panel">
+    <div class="sync-row">
+      <input class="sync-input" id="sync-room-input" placeholder="XXXX" maxlength="4" inputmode="numeric"/>
+      <button class="sync-btn" id="sync-connect-btn" onclick="startSync()">Conectar</button>
+    </div>
+    <div class="sync-status"><span class="sync-dot" id="sync-dot"></span><span id="sync-status-text">Sin conectar</span></div>
   </div>
-  <p id="bw-msg" class="bw-msg"> </p>
-</div>
-</div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">Segmentación: comparar para entender</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La diferencia entre 'el promedio es 13' y el insight segmentado es enorme. Para 5.° Sec: conectar con análisis de datos real — empresas toman decisiones de inversión basadas en segmentación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: muestra un Sheet con datos de 2 secciones mezclados. Sin segmentar: un promedio. Con segmentación: dos promedios distintos y una brecha clara. ¿Cuál permite actuar?</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">Segmentar en Sheets</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 métodos de segmentación de más simple a más potente: filtro manual, AVERAGEIF, tabla dinámica, barras agrupadas. Para el dashboard de hoy: AVERAGEIF es suficiente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo de AVERAGEIF: =AVERAGEIF(B2:B50,'3A',C2:C50). Explica cada argumento. Pide que lo repliquen con sus datos.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">⭐ Diseña tu dashboard</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Escenario abierto: 120 alumnos, datos de notas, asistencia y extracurriculares. Los alumnos proponen KPIs, gráficos y segmentación.
 
-Respuesta modelo:
-- KPI 1: % aprobados por sección → circular por sección
-- KPI 2: promedio mensual → líneas por sección
-- KPI 3: participación extracurricular vs rendimiento → dispersión o barras
-
-⭐ Bonus: +2 al diseño más completo y justificado.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge propuestas de 3-4 grupos o individuos. Compara los diseños. El más completo (KPI + gráfico + segmento) gana los puntos.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
-  <div class="bw-row">
-    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
-    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  <!-- CARD 0 → SLIDE 2 -->
+  <div class="card" id="card-0">
+    <div class="card-header" onclick="openCard(0)">
+      <div class="ch-left"><span class="card-num">S06·2</span><span class="card-title">¿Qué haremos hoy?</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Retomar la sesión anterior brevemente: párrafo TEA ya lo manejan, hoy damos el salto al ensayo completo. Tres pilares nuevos: estructura, síntesis real de fuentes y citas con múltiples autores.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Mostrar el slide. Pedir a un alumno que diga qué recuerda de la sesión pasada (30 seg). Conectar con lo que viene.</p>
+    </div>
   </div>
-  <p id="bw-msg-c9" class="bw-msg"> </p>
-</div>
-</div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Formatear un dashboard profesional</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 elementos de formato son los que diferencian un dashboard de análisis de una colección de gráficos. El más importante: los títulos informativos — sin ellos nadie sabe qué ver.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo: muestra el mismo dashboard con y sin formato (títulos, colores coherentes, alineación). La diferencia es inmediata y visual.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">Del gráfico al insight</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La diferencia entre descripción e insight es el salto del analista junior al senior. Un insight incluye: qué muestra el dato + qué implica + qué debería hacerse.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que transformen la descripción del slide en un insight completo en voz alta. El ejercicio de verbalización es muy efectivo.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">AVERAGEIF: promedio por segmento</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Función clave para segmentación sin tabla dinámica. Los 3 argumentos: rango de criterios, criterio, rango de valores.
 
-Demo completo en Sheets con datos reales del aula si están disponibles.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demo en Sheets: crear columnas sección + nota. Aplicar AVERAGEIF para cada sección. Mostrar los resultados. Graficar con barras.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">⭐ Construye el insight</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Datos de 3 secciones con 3 variables (aprobación, asistencia, extracurricular). El insight debe conectar las 3 variables:
-
-'Las secciones con mayor asistencia (3.°A: 95%) y participación extracurricular (62%) tienen el mayor % de aprobación (91%). La correlación sugiere que la implicación escolar impacta el rendimiento. Recomendación: estrategias para aumentar asistencia y actividades en 3.°C.'
-
-⭐ Bonus: +2 al insight más completo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 2 minutos para pensar. Recoge 2-3 respuestas. El mejor insight conecta las 3 variables y da una recomendación concreta.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
-  <div class="bw-row">
-    <select id="bw-nombre-c13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
-    <button onclick="darBonus('bw-nombre-c13','bw-msg-c13')" class="bw-btn">+1</button>
+  <!-- CARD 1 → SLIDE 3 -->
+  <div class="card" id="card-1">
+    <div class="card-header" onclick="openCard(1)">
+      <div class="ch-left"><span class="card-num">S06·3</span><span class="card-title">Estructura del ensayo</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Las 3 partes no son opcionales y cada una tiene una función distinta. Introducción = promesa. Desarrollo = cumplir la promesa con evidencia. Conclusión = qué significa haberla cumplido.</p>
+      <p class="notes-text">Énfasis: no se trata de longitud. Un ensayo corto de 500 palabras tiene las 3 partes igual que uno de 5 páginas.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Señalar cada sección del slide. Preguntar: "¿En cuál de las tres van las fuentes APA?" → En desarrollo principalmente, y en introducción para el contexto.</p>
+    </div>
   </div>
-  <p id="bw-msg-c13" class="bw-msg"> </p>
-</div>
-</div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🎯 Actividad: Dashboard de encuesta propia</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal. Definir 3 KPIs claros primero. Crear 3 gráficos en Sheets con sus datos. Al menos 1 con AVERAGEIF o tabla dinámica. Títulos informativos y 1 conclusión por gráfico.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. Verificar: ¿los KPIs están definidos por escrito? ¿Cada gráfico responde una pregunta? ¿Hay al menos 1 segmentación con AVERAGEIF? ¿Las conclusiones son insights, no solo descripciones?</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">❌ Errores comunes en dashboards</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">5 errores concretos. El más frecuente para 5.° Sec.: demasiados gráficos sin hilo conductor. El más dañino: sin conclusiones — el dashboard se queda en descriptivo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: '¿Cuál de estos errores van a evitar activamente en su actividad de hoy?' Mano alzada.</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">16</span><span class="card-title">💡 El dashboard responde preguntas</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El proceso de 3 pasos para diseñar cualquier dashboard: preguntas primero → gráficos que las respondan → eliminar los que no responden ninguna.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que revisen su dashboard de la actividad con este criterio: ¿cada gráfico responde una de las 3 preguntas que definieron?</p></div>
-</div>
-<div class="card">
-  <div class="card-header"><div class="ch-left"><span class="card-num">17</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
-  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: 'Da un ejemplo de KPI para un colegio y el gráfico que usarías para visualizarlo.'
 
-Conexión con S07: IA, empleo y estudios superiores.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3-4 alumnos. Refuerza la estructura: KPI → pregunta → gráfico → insight → decisión.</p></div>
+  <!-- CARD 2 → SLIDE 4 -->
+  <div class="card" id="card-2">
+    <div class="card-header" onclick="openCard(2)">
+      <div class="ch-left"><span class="card-num">S06·4</span><span class="card-title">La introducción: 3 movimientos</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text"><strong>Gancho:</strong> captura al lector. Puede ser una estadística impactante, una paradoja, una pregunta abierta o una anécdota muy breve. Lo que no puede ser: "Desde tiempos inmemoriales..." o "El diccionario define...". Esos son clichés académicos a evitar.</p>
+      <p class="notes-text"><strong>Contexto:</strong> ubica el tema. Aquí van 1-2 citas APA para mostrar que hay debate o investigación existente. El contexto debe construir el camino hacia la tesis.</p>
+      <p class="notes-text"><strong>Tesis:</strong> normalmente la última oración de la introducción. El lector debe poder leer solo esa oración y saber exactamente de qué lado está el autor.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Pedir un ejemplo de gancho a la clase. Corregir con amabilidad si proponen clichés. Mostrar contraste entre gancho flojo y gancho efectivo.</p>
+    </div>
+  </div>
+
+  <!-- CARD 3 → SLIDE 5 -->
+  <div class="card" id="card-3">
+    <div class="card-header" onclick="openCard(3)">
+      <div class="ch-left"><span class="card-num">S06·5</span><span class="card-title">La tesis: sí vs no</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">La prueba de la tesis: si alguien razonablemente puede estar en desacuerdo contigo, es tesis. Si todos estarían de acuerdo, es un hecho.</p>
+      <p class="notes-text">Tres errores clásicos en tesis: <strong>(1)</strong> es un hecho comprobable, <strong>(2)</strong> es un anuncio del ensayo, <strong>(3)</strong> es tan vaga que no compromete nada.</p>
+      <p class="notes-text">Las dos tesis del lado verde son argumentables: alguien puede defender lo contrario.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Proponer un tema (ej: "uso del celular en la escuela") y pedir a 2-3 alumnos que propongan una tesis. Analizar entre todos.</p>
+    </div>
+  </div>
+
+  <!-- CARD 4 → SLIDE 6 — QUIZ con bonus widget -->
+  <div class="card" id="card-4">
+    <div class="card-header" onclick="openCard(4)">
+      <div class="ch-left"><span class="card-num">S06·6</span><span class="card-title">🎯 Quiz: ¿cuál es la mejor tesis?</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <div class="qa-block">
+        <div class="qa-q">A — "En este ensayo analizaré el impacto de la tecnología en la educación."</div>
+        <div class="qa-a err">❌ Anuncio</div>
+        <div class="qa-exp">Dice lo que el autor va a hacer, no cuál es su posición.</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">B — "La tecnología ha cambiado la educación en el mundo entero."</div>
+        <div class="qa-a err">❌ Hecho</div>
+        <div class="qa-exp">Nadie lo discutiría. No es argumentable.</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">C — "La integración de herramientas digitales en el aula mejora el aprendizaje cuando va acompañada de formación docente efectiva."</div>
+        <div class="qa-a ok">✅ TESIS — Respuesta correcta</div>
+        <div class="qa-exp">Argumentable (alguien podría decir que la tecnología mejora el aprendizaje independientemente del docente). Específica: dice "cuando va acompañada de formación docente".</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">D — "Hay muchos estudios sobre tecnología y educación."</div>
+        <div class="qa-a err">❌ Hecho genérico</div>
+        <div class="qa-exp">No tiene posición ni especificidad.</div>
+      </div>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Dar ~45 segundos para pensar. Primero en levantar la mano con la respuesta correcta gana el punto.</p>
+      <div class="bw">
+        <div class="bw-title">⭐ Dar bonus al ganador</div>
+        <div class="bw-row">
+          <select class="bw-sel" id="bw-nombre"><option value="">— Alumno —</option></select>
+          <button class="bw-btn" onclick="darBonus('bw-nombre','bw-msg')">+1 ⭐</button>
+        </div>
+        <div class="bw-msg" id="bw-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 5 → SLIDE 7 -->
+  <div class="card" id="card-5">
+    <div class="card-header" onclick="openCard(5)">
+      <div class="ch-left"><span class="card-num">S06·7</span><span class="card-title">Síntesis ≠ resumen por separado</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">El error más común en ensayos de secundaria y primer año de universidad: el "desfile de citas". Cada fuente aparece en su propio párrafo o su propia oración, sin que el autor las conecte ni las analice.</p>
+      <p class="notes-text">Sintetizar = el autor es el conductor. Las fuentes son los pasajeros que aportan evidencia para el camino que el autor ya eligió.</p>
+      <p class="notes-text">La señal de síntesis real: las citas aparecen entre tus propias oraciones, no al principio ni al final del párrafo.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Leer en voz alta el ejemplo ❌ y luego el ✅. Pedir a un alumno que explique la diferencia.</p>
+    </div>
+  </div>
+
+  <!-- CARD 6 → SLIDE 8 -->
+  <div class="card" id="card-6">
+    <div class="card-header" onclick="openCard(6)">
+      <div class="ch-left"><span class="card-num">S06·8</span><span class="card-title">Cómo sintetizar: 3 pasos</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text"><strong>Paso 1 — Oración temática propia:</strong> Nunca iniciar el párrafo con una cita. La idea central pertenece al autor del ensayo.</p>
+      <p class="notes-text"><strong>Paso 2 — Evidencia combinada:</strong> Usar el punto y coma para unir referencias de la misma idea: (García, 2022; López, 2021). Los conectores "de manera similar", "en contraste", "esto se refuerza en" son las costuras que unen las fuentes.</p>
+      <p class="notes-text"><strong>Paso 3 — Análisis propio:</strong> El párrafo no puede terminar con una cita. Siempre cerrar con la voz del autor explicando qué significa esa evidencia para su argumento.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Mostrar en el pizarrón un párrafo TEA de la sesión 05 y pedir a los alumnos que identifiquen los 3 pasos.</p>
+    </div>
+  </div>
+
+  <!-- CARD 7 → SLIDE 9 -->
+  <div class="card" id="card-7">
+    <div class="card-header" onclick="openCard(7)">
+      <div class="ch-left"><span class="card-num">S06·9</span><span class="card-title">Múltiples autores</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text"><strong>Dos autores:</strong> siempre se citan los dos. Dentro del paréntesis se usa <strong>&amp;</strong>. En el texto corrido se usa "y": García y López (2022) afirman…</p>
+      <p class="notes-text"><strong>Tres o más autores:</strong> desde la primera mención, solo el apellido del primero + "et al." (sin cursiva). Punto únicamente después de "al", nunca después de "et".</p>
+      <div class="code-block">✅ (Martínez et al., 2023)<br>❌ (Martínez et. al., 2023)  ← punto mal<br>❌ (Martínez, Ruiz &amp; Torres, 2023)  ← deben ser et al.</div>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Dictar 2 ejemplos: uno de 2 autores y uno de 4. Pedir que los escriban correctamente en su cuaderno o Doc.</p>
+    </div>
+  </div>
+
+  <!-- CARD 8 → SLIDE 10 — BONUS errores et al. -->
+  <div class="card" id="card-8">
+    <div class="card-header" onclick="openCard(8)">
+      <div class="ch-left"><span class="card-num">S06·10</span><span class="card-title">⭐ Encuentra errores — et al.</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Q&A — Respuestas</div>
+      <div class="qa-block">
+        <div class="qa-q">(García, López &amp; Ramírez, 2021)</div>
+        <div class="qa-a err">❌ Error</div>
+        <div class="qa-exp">3 autores → debe ser (García et al., 2021)</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">(Herrera, Soto, Vásquez &amp; Torres, 2022)</div>
+        <div class="qa-a err">❌ Error</div>
+        <div class="qa-exp">4 autores → debe ser (Herrera et al., 2022)</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">(Ruiz et. al., 2020)</div>
+        <div class="qa-a err">❌ Error</div>
+        <div class="qa-exp">Punto mal ubicado → debe ser (Ruiz et al., 2020)</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">Mendoza &amp; Castillo (2023) afirman que…</div>
+        <div class="qa-a ok">✅ Correcta</div>
+        <div class="qa-exp">2 autores, uso correcto de &amp; y posición de cita narrativa.</div>
+      </div>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">⭐ Bonus: +1 al primero en identificar los 3 errores y explicar por qué.</p>
+      <div class="bw">
+        <div class="bw-title">⭐ Dar bonus</div>
+        <div class="bw-row">
+          <select class="bw-sel" id="bw-nombre-c10"><option value="">— Alumno —</option></select>
+          <button class="bw-btn" onclick="darBonus('bw-nombre-c10','bw-msg-c10')">+1 ⭐</button>
+        </div>
+        <div class="bw-msg" id="bw-msg-c10"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 9 → SLIDE 11 -->
+  <div class="card" id="card-9">
+    <div class="card-header" onclick="openCard(9)">
+      <div class="ch-left"><span class="card-num">S06·11</span><span class="card-title">La conclusión: 3 movimientos</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text"><strong>Síntesis:</strong> no es copiar la tesis. Es reformularla a la luz de lo que se argumentó. El lector ya leyó el desarrollo — la conclusión le dice qué significa haber llegado hasta aquí.</p>
+      <p class="notes-text"><strong>Implicación:</strong> ¿Qué se desprende del argumento? ¿Qué debería hacerse diferente? ¿Qué consecuencias tiene si el argumento es correcto?</p>
+      <p class="notes-text"><strong>Apertura:</strong> una pregunta sin responder, una limitación del ensayo, o una conexión con algo más amplio. No cierra herméticamente — invita a seguir pensando.</p>
+      <p class="notes-text"><strong>Regla de oro:</strong> la conclusión no introduce información nueva ni citas que no aparecieron en el desarrollo.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Preguntar: "¿Por qué una conclusión no puede terminar con una cita?" → Porque la última voz del ensayo debe ser la del autor.</p>
+    </div>
+  </div>
+
+  <!-- CARD 10 → SLIDE 12 -->
+  <div class="card" id="card-10">
+    <div class="card-header" onclick="openCard(10)">
+      <div class="ch-left"><span class="card-num">S06·12</span><span class="card-title">Conectores formales</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Los conectores son el esqueleto invisible del ensayo. Un ensayo sin conectores suena a lista de oraciones desconectadas. Con conectores, el argumento fluye.</p>
+      <p class="notes-text">Las frases a evitar son trampas comunes en secundaria. "Primero que nada" suena coloquial. "En conclusión" al inicio de la conclusión es redundante. "Como ya dijimos" es un relleno.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Pedir que en el Doc de la actividad usen al menos 2 conectores de la lista. Circulará durante la actividad para verificarlo.</p>
+    </div>
+  </div>
+
+  <!-- CARD 11 → SLIDE 13 — BONUS ¿es tesis? -->
+  <div class="card" id="card-11">
+    <div class="card-header" onclick="openCard(11)">
+      <div class="ch-left"><span class="card-num">S06·13</span><span class="card-title">⭐ ¿Es tesis, hecho o anuncio?</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Q&A — Respuestas</div>
+      <div class="qa-block">
+        <div class="qa-q">"Las redes sociales tienen efectos positivos y negativos."</div>
+        <div class="qa-a err">ℹ️ Hecho / afirmación genérica</div>
+        <div class="qa-exp">Es tan obvia que nadie la discutiría. No toma posición.</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">"El acceso desigual a internet reproduce las brechas educativas existentes y requiere políticas públicas urgentes."</div>
+        <div class="qa-a ok">✅ Tesis</div>
+        <div class="qa-exp">Específica, argumentable y orientada a una posición ("requiere políticas públicas urgentes").</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">"Voy a analizar por qué la IA es importante en la educación."</div>
+        <div class="qa-a err">❌ Anuncio</div>
+        <div class="qa-exp">Describe lo que el autor hará, no su posición.</div>
+      </div>
+      <div class="qa-block">
+        <div class="qa-q">"La alimentación saludable mejora el rendimiento académico en adolescentes cuando se combina con actividad física regular."</div>
+        <div class="qa-a ok">✅ Tesis</div>
+        <div class="qa-exp">Argumentable (alguien podría cuestionar la combinación) y específica.</div>
+      </div>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">⭐ Bonus al primero en clasificar las 4 correctamente.</p>
+      <div class="bw">
+        <div class="bw-title">⭐ Dar bonus</div>
+        <div class="bw-row">
+          <select class="bw-sel" id="bw-nombre-c13"><option value="">— Alumno —</option></select>
+          <button class="bw-btn" onclick="darBonus('bw-nombre-c13','bw-msg-c13')">+1 ⭐</button>
+        </div>
+        <div class="bw-msg" id="bw-msg-c13"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 12 → SLIDE 14 -->
+  <div class="card" id="card-12">
+    <div class="card-header" onclick="openCard(12)">
+      <div class="ch-left"><span class="card-num">S06·14</span><span class="card-title">🎯 Actividad: introducción completa</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">20 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Los alumnos eligen su propio tema. Sugerirles temas si se quedan en blanco: impacto de las redes en adolescentes, inteligencia artificial en la educación, cambio climático y juventud, desinformación en medios.</p>
+      <p class="notes-text">El objetivo es que la introducción tenga los 3 movimientos: gancho, contexto con al menos 1 cita APA real, y tesis argumentable.</p>
+      <p class="notes-text">Los que terminan antes pueden agregar un párrafo de desarrollo sintetizando 2 fuentes.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Circular por el aula durante los 20 minutos. Verificar: ¿el gancho engancha? ¿hay cita en el contexto? ¿la tesis es argumentable?</p>
+      <p class="notes-text">Con 5 minutos restantes, avisar para que guarden el Doc y lo compartan (o lo dejen para la tarea).</p>
+    </div>
+  </div>
+
+  <!-- CARD 13 → SLIDE 15 -->
+  <div class="card" id="card-13">
+    <div class="card-header" onclick="openCard(13)">
+      <div class="ch-left"><span class="card-num">S06·15</span><span class="card-title">Checklist antes de entregar</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Recorrer el checklist en voz alta con la clase. Pedir que levanten la mano quienes ya cumplen cada punto.</p>
+      <p class="notes-text">Los puntos que generen menos manos son los que hay que reforzar en la próxima sesión o en la retroalimentación individual.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Recordar la fecha de entrega: viernes 26 de junio. El link del Doc en la página de tarea de la sesión 06.</p>
+    </div>
+  </div>
+
+  <!-- CARD 14 → SLIDE 16 -->
+  <div class="card" id="card-14">
+    <div class="card-header" onclick="openCard(14)">
+      <div class="ch-left"><span class="card-num">S06·16</span><span class="card-title">Lo que llevan hoy</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem"><span class="card-time">2 min</span><span class="card-arrow">▾</span></div>
+    </div>
+    <div class="card-body">
+      <div class="notes-label">📋 Notas</div>
+      <p class="notes-text">Cerrar con energía. Las sesiones 05 y 06 juntas les dan las herramientas completas para escribir un ensayo académico con fuentes: párrafo TEA, síntesis, referencias, tesis, estructura y conectores.</p>
+      <div class="notes-label">⚙️ Mecánica</div>
+      <p class="notes-text">Recordar: tarea vía página de entrega antes del viernes 26. Si tienen dudas sobre las fuentes reales a citar, pueden preguntar por el grupo de clase.</p>
+    </div>
+  </div>
+
+</div><!-- end cards-wrap -->
+
+<div class="nav-bar">
+  <button class="nav-btn" onclick="navCard(-1)">◀</button>
+  <span class="nav-counter" id="nav-counter">1 / 15</span>
+  <button class="nav-btn" onclick="navCard(1)">▶</button>
 </div>
-</div>
-<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#f87171;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
-<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 16</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
-<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
-function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});}
-cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
-document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
-document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
-openCard(0);
-let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
-const API='/.netlify/functions/sync';
-function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
-function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
-function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
-async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+
+<script>
 const NOTA_GRADE='sec5';const NOTA_SESSION='06';
 let bwPw=sessionStorage.getItem('nota_pw')||'';
-(async function bwInit(){
+let currentCard=0;const totalCards=15;
+
+// Roster → poblar todos los selects
+fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE)
+  .then(r=>r.json()).then(d=>{
+    if(!d.found)return;
+    document.querySelectorAll('.bw-sel').forEach(sel=>{
+      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;o.textContent=a.nombre;sel.appendChild(o);});
+    });
+  }).catch(()=>{});
+
+function openCard(idx){
+  document.querySelectorAll('.card').forEach((c,i)=>{if(i===idx)c.classList.toggle('open');else c.classList.remove('open');});
+  currentCard=idx;
+  document.getElementById('nav-counter').textContent=(idx+1)+' / '+totalCards;
+  document.getElementById('ncounter').textContent=idx+2;
+}
+function navCard(d){const n=currentCard+d;if(n<0||n>=totalCards)return;openCard(n);}
+
+// Sync
+let syncRoom='';let syncActive=false;let syncTimer=null;
+function startSync(){
+  const code=document.getElementById('sync-room-input').value.trim();
+  if(!code){alert('Ingresa el código del proyector.');return;}
+  syncRoom=code;syncActive=true;
+  document.getElementById('sync-status-text').textContent='Conectando…';
+  if(syncTimer)clearInterval(syncTimer);
+  syncTimer=setInterval(pullSync,1500);
+}
+async function pullSync(){
   try{
-    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const r=await fetch('/.netlify/functions/sync?room='+syncRoom);
     const d=await r.json();
-    if(d.found){
-      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
-      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
+    if(d&&typeof d.slide==='number'){
+      const OFFSET=1;const idx=d.slide-OFFSET;
+      document.getElementById('sync-dot').classList.add('on');
+      document.getElementById('sync-status-text').textContent='Sincronizado · slide '+(d.slide+1);
+      document.getElementById('ncounter').textContent=d.slide+1;
+      if(idx>=0&&idx<totalCards&&idx!==currentCard)openCard(idx);
     }
   }catch(e){}
-})();
+}
 async function darBonus(selId,msgId){
   selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
-  const inp=document.getElementById(selId);
+  const sel=document.getElementById(selId);
   const msg=document.getElementById(msgId);
-  const nombre=inp.value.trim();
-  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
-  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
-  if(!bwPw)return;
-  msg.textContent='Guardando…';
+  const nombre=sel?sel.value:'';
+  if(!nombre){if(msg)msg.textContent='Elige un alumno primero.';return;}
+  if(msg)msg.textContent='Enviando…';
   try{
-    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
-    const d=await res.json();
-    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';
-    if(typeof syncRoom!=='undefined'&&syncRoom){
-      fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});
-    }}
-    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
-    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
-  }catch(e){msg.textContent='❌ Sin conexión';}
-  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+    const r=await fetch('/.netlify/functions/add-bonus',{method:'POST',
+      headers:{'Content-Type':'application/json','x-nota-pw':bwPw},
+      body:JSON.stringify({nombre,grado:NOTA_GRADE,sesion:NOTA_SESSION,puntos:1})});
+    const d=await r.json();
+    if(d.ok){if(msg)msg.textContent='⭐ +1 a '+nombre+'!';}
+    else{if(msg)msg.textContent=d.error||'Error.';}
+  }catch(e){if(msg)msg.textContent='Sin conexión.';}
 }
 
-// ── Navigation sync: postSlide on every card change ─────────────────────────
-if(typeof postSlide==='function'&&typeof openCard==='function'){
-  const _oc=openCard;
-  openCard=function(n){_oc(n);if(syncActive)postSlide(n);};
-}
-// ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────
+// Auto-connect IIFE
 (function(){
-  const _r=new URLSearchParams(window.location.search).get('room');
-  if(!_r||_r.length<4)return;
-  const _code=_r.slice(0,6).toUpperCase();
-
-  // Rellenar el input del overlay con el código
-  const _inp=document.getElementById('sync-code-inp');
-  if(_inp)_inp.value=_code;
-
-  // Disparar la conexión según el formato del archivo:
-  // - notas-05/06: startSync() es global
-  // - notas-04: sync-connect-btn wired vía IIFE listener
-  if(typeof startSync==='function'){
-    startSync();  // sets syncRoom, syncActive, calls postSlide, closes overlay
-  } else {
-    const _btn=document.getElementById('sync-connect-btn');
-    if(_btn)_btn.click();  // triggers IIFE: sets _room, startObserver()
+  const p=new URLSearchParams(location.search);
+  const room=p.get('room');
+  if(room){
+    document.getElementById('sync-room-input').value=room;
+    setTimeout(()=>document.getElementById('sync-connect-btn').click(),600);
   }
-
-  // Toast de confirmación (visible ~4s tras cargar)
-  setTimeout(()=>{
-    const _t=document.createElement('div');
-    _t.textContent='📡 Sync conectado · '+_code;
-    _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';
-    document.body.appendChild(_t);
-    setTimeout(()=>_t.remove(),4000);
-  },300);
 })();
-</script></body></html>
+</script>
+</body></html>

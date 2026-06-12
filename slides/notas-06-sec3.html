@@ -207,11 +207,6 @@ async function darBonus(selId,msgId){
   setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
-// ── Navigation sync: postSlide on every card change ─────────────────────────
-if(typeof postSlide==='function'&&typeof openCard==='function'){
-  const _oc=openCard;
-  openCard=function(n){_oc(n);if(syncActive)postSlide(n);};
-}
 // ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────
 (function(){
   const _r=new URLSearchParams(window.location.search).get('room');

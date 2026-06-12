@@ -567,7 +567,7 @@ goTo(0);initialized=true;
   const ROOM=sessionStorage.getItem('deck-room')||genCode();
   sessionStorage.setItem('deck-room',ROOM);
   document.getElementById('room-code-display').textContent=ROOM;
-  let last=-999,busy=false;
+  let last=0,busy=false;
   async function poll(){
     if(busy)return;busy=true;
     try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());

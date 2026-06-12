@@ -3,298 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tarea S05 — 5.° Secundaria | Asunción School</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
-:root{--accent:#f87171;--accent2:#ef4444;--brand:#450a0a;--grad:linear-gradient(135deg,#450a0a,#7f1d1d);--badge-bg:#fecaca;--badge-c:#450a0a;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg-alt:#f8fafc;--radius:12px;}
+<title>Tarea Sesión 05 · 5.° Secundaria · 12 jun 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+:root{
+  --accent:#f87171;--accent2:#ef4444;--brand:#450a0a;
+  --grad:135deg,#450a0a,#7f1d1d;--badge-bg:#fecaca;
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg:#f8fafc;--radius:14px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
-button{font-family:inherit;cursor:pointer}
-.page-wrap{max-width:780px;margin:0 auto;padding:44px 48px}
-@media(max-width:640px){.page-wrap{padding:24px 18px}}
-.doc-header{border-bottom:3px solid var(--accent);padding-bottom:18px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
-.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
-.doc-header .teacher{font-size:15px;font-weight:700;color:var(--accent2);margin-top:3px}
-.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
-.doc-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:4px}
-.doc-subtitle{font-size:15px;color:var(--muted);margin-bottom:28px}
-.task-card{background:var(--grad);border-radius:18px;padding:30px 34px;margin-bottom:28px;color:#fff;position:relative;overflow:hidden;}
-.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.08) 0%,transparent 65%);pointer-events:none;}
-.task-badge{display:inline-flex;align-items:center;gap:6px;background:var(--badge-bg);color:var(--badge-c);font-weight:900;font-size:12px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:4px 12px;margin-bottom:12px;}
-.task-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;line-height:1.2;margin-bottom:10px;}
-.task-desc{font-size:16px;opacity:.92;line-height:1.7;margin-bottom:14px;}
-.task-items{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px;}
-.task-items li{display:flex;align-items:flex-start;gap:10px;font-size:15.5px;line-height:1.55;}
-.task-items li::before{content:'✓';background:rgba(255,255,255,.2);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px;flex-shrink:0;}
-.task-deadline{margin-top:16px;font-size:13px;background:rgba(0,0,0,.2);border-radius:8px;padding:9px 13px;display:flex;align-items:center;gap:8px;}
-.tutorial-wrap{background:#fffbeb;border:2px solid #fde68a;border-radius:18px;padding:26px 30px;margin-bottom:28px;}
-.tutorial-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#78350f;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
-.step{display:flex;align-items:flex-start;gap:12px;padding:11px 15px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
-.step-num{background:#f59e0b;color:#fff;border-radius:50%;width:28px;height:28px;min-width:28px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
-.step-text{font-size:15px;color:#44403c;line-height:1.5;}
-.step-text strong{color:#78350f;}
-.warn-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:11px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
-.warn-icon{font-size:1.5rem;flex-shrink:0;line-height:1.2}
-.warn-text{font-size:14px;color:#78350f;line-height:1.6;}
-.warn-text strong{display:block;margin-bottom:3px;font-size:14.5px;}
-.form-section{border:2px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:28px;background:var(--bg-alt);}
-.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand);margin-bottom:22px;display:flex;align-items:center;gap:8px;}
-.form-group{margin-bottom:18px;}
-.form-label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
-.form-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:13px 15px;font-size:16px;font-family:inherit;outline:none;color:var(--text);transition:border-color .2s;background:#fff;}
-.form-input:focus{border-color:var(--accent);}
-.form-hint{font-size:13px;color:var(--muted);margin-top:5px;}
-.form-textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;resize:vertical;min-height:76px;outline:none;color:var(--text);transition:border-color .2s;background:#fff;line-height:1.65;}
-.form-textarea:focus{border-color:var(--accent);}
-.submit-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 4px 16px rgba(248,113,113,.28);margin-top:4px;}
-.submit-btn:hover:not(:disabled){opacity:.88;transform:translateY(-1px);}
-.submit-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed;box-shadow:none;}
-.err-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:9px;padding:11px 15px;font-size:14px;color:#b91c1c;margin-top:10px;display:none;}
-.err-msg.show{display:block;}
-.confirm-card{background:#fff1f2;border:2px solid #fecaca;border-radius:18px;padding:36px;text-align:center;display:none;}
-.confirm-card.show{display:block;}
-.confirm-icon{font-size:3.5rem;margin-bottom:14px;}
-.confirm-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--brand);margin-bottom:8px;}
-.confirm-sub{font-size:15px;color:#991b1b;margin-bottom:18px;line-height:1.65;}
-.confirm-link-box{background:#fff;border:1.5px solid #fecaca;border-radius:9px;padding:11px 14px;font-size:13px;color:var(--muted);word-break:break-all;margin-bottom:18px;text-align:left;}
-.confirm-link-box a{color:var(--accent2);font-weight:600;}
-.resubmit-btn{background:transparent;border:2px solid #fecaca;color:var(--brand);border-radius:9px;padding:9px 20px;font-size:14px;font-weight:700;font-family:inherit;transition:all .15s;}
-.resubmit-btn:hover{border-color:var(--accent);color:var(--accent2);}
-/* Tutorial SVG + pasos plegados */
-.tut-svg{width:100%;height:auto;display:block;border-radius:12px;margin-bottom:14px;}
-details.tut-text{margin-bottom:14px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
-details.tut-text summary{cursor:pointer;padding:12px 16px;font-weight:700;color:#78350f;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:8px;}
-details.tut-text summary::-webkit-details-marker{display:none;}
-details.tut-text summary::after{content:'▾';margin-left:auto;transition:transform .2s;}
-details.tut-text[open] summary::after{transform:rotate(180deg);}
-details.tut-text .steps{padding:0 14px 14px;margin-bottom:0;}
-/* Autocomplete de nombres */
-.ac-wrap{position:relative;}
-.ac-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:2px solid var(--accent);border-radius:10px;max-height:230px;overflow-y:auto;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.15);display:none;}
-.ac-list.open{display:block;}
-.ac-item{padding:11px 15px;font-size:15.5px;cursor:pointer;border-bottom:1px solid #f1f5f9;color:var(--text);}
-.ac-item:last-child{border-bottom:none;}
-.ac-item:hover,.ac-item.sel{background:#f1f5f9;}
+body{font-family:'Inter',sans-serif;font-size:16px;color:var(--text);background:#fff;line-height:1.75}
+.page{max-width:780px;margin:0 auto;padding:40px 44px}
+@media(max-width:600px){.page{padding:22px 16px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:18px;margin-bottom:28px}
+.school{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin:6px 0 2px}
+.doc-subtitle{font-size:15px;color:var(--muted)}
+.task-card{background:linear-gradient(var(--grad));border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 50% at 90% 20%,rgba(255,255,255,.1),transparent);pointer-events:none}
+.task-badge{display:inline-block;background:var(--badge-bg);color:var(--brand);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-radius:7px;padding:4px 12px;margin-bottom:14px}
+.task-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px}
+.task-desc{font-size:16px;opacity:.92;margin-bottom:18px;line-height:1.65}
+.task-items{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.task-items li{font-size:15px;opacity:.95;padding-left:22px;position:relative;line-height:1.6}
+.task-items li::before{content:'✓';position:absolute;left:0;font-weight:800;color:#fecaca}
+.task-deadline{font-size:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:9px;padding:9px 16px;display:inline-block;font-weight:600}
+.tutorial-wrap{background:#fffbeb;border:2px solid #fde68a;border-radius:18px;padding:28px 32px;margin-bottom:28px}
+.tut-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#92400e;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.tut-svg{display:block;width:100%;max-width:520px;margin:0 auto 20px;border-radius:12px;overflow:hidden}
+details.tut-text{margin-bottom:16px}
+details.tut-text summary{cursor:pointer;font-size:14px;font-weight:700;color:#92400e;padding:10px 0;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
+details.tut-text summary::-webkit-details-marker{display:none}
+details.tut-text summary::before{content:'▸';transition:transform .2s;display:inline-block}
+details.tut-text[open] summary::before{transform:rotate(90deg)}
+.tut-steps{list-style:decimal;padding-left:22px;display:flex;flex-direction:column;gap:8px;padding-top:10px}
+.tut-steps li{font-size:15px;line-height:1.65;color:#78350f}
+.warn-box{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:12px 16px;font-size:14px;color:#991b1b;display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+.warn-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+#form-section{background:var(--bg);border:2px solid var(--border);border-radius:16px;padding:28px 32px}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand);margin-bottom:20px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.ac-wrap{position:relative}
+.field input[type=text],.field input[type=url],.field textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-size:16px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s;line-height:1.5}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid var(--accent);border-top:none;border-radius:0 0 10px 10px;max-height:220px;overflow-y:auto;z-index:100;display:none}
+.ac-list.open{display:block}
+.ac-item{padding:10px 14px;font-size:15px;cursor:pointer;border-bottom:1px solid var(--border)}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.active{background:#fef2f2;color:var(--brand)}
+.ac-hint{font-size:12px;color:var(--muted);margin-top:5px}
+.send-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:14px 36px;font-size:17px;font-weight:800;cursor:pointer;display:block;width:100%;margin-top:8px;transition:opacity .15s}
+.send-btn:hover{opacity:.88}
+.err-msg{font-size:14px;color:#b91c1c;margin-top:8px;display:none}
+#confirm-card{display:none;background:linear-gradient(135deg,#fecaca,#fee2e2);border:2px solid var(--accent);border-radius:16px;padding:28px 32px;text-align:center;margin-top:20px}
+.confirm-icon{font-size:3rem;margin-bottom:12px}
+.confirm-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:8px}
+.confirm-link{display:inline-block;margin:10px 0 16px;font-size:14px;color:var(--accent2);text-decoration:underline;word-break:break-all}
+.resubmit-btn{background:#fff;border:2px solid var(--accent);color:var(--brand);border-radius:9px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer}
+.resubmit-btn:hover{background:#fef2f2}
 </style>
 </head>
 <body>
-<div class="page-wrap">
-
-<div class="doc-header">
-  <div>
-    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
-    <div class="teacher">Profesora Estrella Vizcarra</div>
+<div class="page">
+  <div class="doc-header">
+    <div class="school">Asunción School · Computación 2026 · 5.° Secundaria 🔴</div>
+    <div class="doc-title">📎 Entrega de Tarea — Sesión 05</div>
+    <div class="doc-subtitle">Redacción APA: práctica avanzada · Google Docs · Profa. Estrella Vizcarra · 12 jun 2026</div>
   </div>
-  <div class="meta">
-    <div>5.° Secundaria 🔴</div>
-    <div>Sesión 05 &nbsp;·&nbsp; 12 de junio de 2026</div>
+
+  <div class="task-card">
+    <div class="task-badge">📋 Tarea</div>
+    <div class="task-title">✍️ Párrafo formal con fuentes APA</div>
+    <div class="task-desc">Redacta en <strong>Google Docs</strong> un párrafo académico sobre un tema de tu elección. El párrafo debe integrar fuentes correctamente en formato APA 7.</div>
+    <ul class="task-items">
+      <li>Mínimo <strong>150 palabras</strong> en el párrafo principal</li>
+      <li>Al menos <strong>2 citas en el texto</strong> correctamente formateadas (directa o paráfrasis)</li>
+      <li>Lista de referencias al final con <strong>todas las fuentes citadas</strong> en formato APA 7</li>
+      <li>Primera oración = tu idea propia (oración temática), no una cita</li>
+      <li>Encabezado con nombre completo, grado y fecha</li>
+    </ul>
+    <div class="task-deadline">📅 &nbsp; Entrega antes del viernes 19 de junio</div>
   </div>
-</div>
 
-<div class="doc-title">📎 Entrega de Tarea — Sesión 05</div>
-<div class="doc-subtitle">Sheets para análisis de datos · Google Sheets</div>
+  <div class="tutorial-wrap">
+    <div class="tut-title">📤 Cómo compartir tu documento de Google Docs</div>
 
-<div class="task-card">
-  <div class="task-badge">📋 Tarea</div>
-  <div class="task-title">📈 Dataset con análisis estadístico</div>
-  <div class="task-desc">Crea una hoja de cálculo en <strong>Google Sheets</strong> que integre recolección, análisis y comunicación de datos.</div>
-  <ul class="task-items">
-    <li>Dataset propio de <strong>al menos 20 filas</strong> (tema libre: música, deportes, hábitos, etc.)</li>
-    <li>Columnas con categorías y valores numéricos</li>
-    <li>Fórmulas de análisis aplicadas: <strong>PROMEDIO, MAX, MIN, CONTAR</strong> o <strong>CONTARSI</strong></li>
-    <li>Al menos <strong>1 gráfico</strong> con título descriptivo y ejes etiquetados</li>
-    <li>Un párrafo de conclusiones en una celda lateral explicando qué revelan los datos</li>
-  </ul>
-  <div class="task-deadline">📅 &nbsp; Entrega antes del viernes 19 de junio</div>
-</div>
+    <svg class="tut-svg" viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg"
+      role="img" aria-label="Tutorial animado: compartir Google Docs">
+      <defs>
+        <clipPath id="win"><rect width="520" height="440" rx="10"/></clipPath>
+        <filter id="sh"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity=".12"/></filter>
+      </defs>
+      <g clip-path="url(#win)">
+        <!-- Window chrome -->
+        <rect width="520" height="440" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+        <!-- Title bar -->
+        <rect width="520" height="44" fill="#f8f9fa"/>
+        <rect y="43" width="520" height="1" fill="#e2e8f0"/>
+        <!-- Traffic lights -->
+        <circle cx="20" cy="22" r="6" fill="#ff5f57"/>
+        <circle cx="38" cy="22" r="6" fill="#febc2e"/>
+        <circle cx="56" cy="22" r="6" fill="#28c840"/>
+        <!-- Docs icon -->
+        <rect x="78" y="14" width="16" height="16" rx="2" fill="#4285f4"/>
+        <rect x="81" y="18" width="10" height="1.5" rx=".75" fill="#fff"/>
+        <rect x="81" y="21" width="10" height="1.5" rx=".75" fill="#fff"/>
+        <rect x="81" y="24" width="7" height="1.5" rx=".75" fill="#fff"/>
+        <!-- Doc title -->
+        <text x="100" y="26" font-family="Inter,sans-serif" font-size="13" fill="#3c4043" font-weight="600">Mi párrafo APA — Google Docs</text>
+        <!-- Share button -->
+        <rect x="408" y="10" width="100" height="26" rx="13" fill="#4285f4"/>
+        <text x="458" y="27" font-family="Inter,sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">Compartir</text>
+        <!-- Doc content area -->
+        <rect x="0" y="44" width="520" height="250" fill="#fff"/>
+        <!-- Doc lines -->
+        <rect x="60" y="72" width="220" height="10" rx="3" fill="#e8eaf6"/>
+        <rect x="60" y="92" width="380" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="106" width="360" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="120" width="380" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="134" width="310" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="158" width="380" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="172" width="350" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="186" width="380" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="200" width="200" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="228" width="160" height="7" rx="2" fill="#f1f3f4"/>
+        <rect x="60" y="242" width="280" height="7" rx="2" fill="#f1f3f4"/>
 
-<div class="tutorial-wrap">
-  <div class="tutorial-title">📤 Cómo compartir tu Google Sheets</div>
-  <svg class="tut-svg" viewBox="0 0 600 432" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Animación: cómo compartir tu hoja de cálculo en Google Sheets">
-    <rect x="10" y="10" width="580" height="380" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
-    <path d="M10 24 a14 14 0 0 1 14-14 h552 a14 14 0 0 1 14 14 v42 h-580 z" fill="#f8fafc"/>
-    <line x1="10" y1="66" x2="590" y2="66" stroke="#e2e8f0" stroke-width="1.5"/>
-    <rect x="28" y="22" width="30" height="34" rx="5" fill="#0f9d58"/>
-    <rect x="34" y="30" width="8" height="6" rx="1" fill="#fff"/>
-    <rect x="44" y="30" width="8" height="6" rx="1" fill="#fff"/>
-    <rect x="34" y="38" width="8" height="6" rx="1" fill="#fff"/>
-    <rect x="44" y="38" width="8" height="6" rx="1" fill="#fff"/>
-    <text x="70" y="38" font-size="15" font-weight="700" fill="#1e293b">Mi análisis</text>
-    <text x="70" y="54" font-size="11" fill="#94a3b8">Google Sheets</text>
-    <rect x="462" y="23" width="108" height="32" rx="16" fill="#1a73e8"/>
-    <text x="516" y="44" font-size="13.5" font-weight="700" fill="#fff" text-anchor="middle">🔒 Compartir</text>
-    <g fill="#e2e8f0">
-      <rect x="60" y="92" width="480" height="9" rx="4"/>
-      <rect x="60" y="112" width="430" height="9" rx="4"/>
-      <rect x="60" y="132" width="460" height="9" rx="4"/>
-      <rect x="60" y="152" width="300" height="9" rx="4"/>
-    </g>
-    <g>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.20;0.24;0.97;1"/>
-      <rect x="128" y="98" width="344" height="246" rx="14" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
-      <text x="150" y="130" font-size="15" font-weight="700" fill="#202124">Compartir "Mi análisis"</text>
-      <text x="150" y="162" font-size="11.5" font-weight="700" fill="#5f6368">ACCESO GENERAL</text>
-      <g>
-        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.50;0.52;1"/>
-        <rect x="150" y="172" width="225" height="34" rx="8" fill="#f1f3f4"/>
-        <text x="164" y="194" font-size="13" fill="#3c4043">🔒 Restringido ▾</text>
+        <!-- Animated cursor -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="200,300; 450,20; 450,20; 230,145; 230,145; 230,195; 230,195; 200,380; 200,380"
+            keyTimes="0; 0.1; 0.2; 0.35; 0.5; 0.6; 0.75; 0.88; 1"
+            dur="12s" repeatCount="indefinite"/>
+          <polygon points="0,0 0,16 4,12 7,18 9,17 6,11 11,11" fill="#333" opacity=".9"/>
+        </g>
+
+        <!-- Share dialog -->
+        <g opacity="0">
+          <animate attributeName="opacity" values="0;0;1;1;1;1;0;0;0" keyTimes="0;0.19;0.2;0.34;0.74;0.84;0.85;0.99;1" dur="12s" repeatCount="indefinite"/>
+          <rect x="100" y="55" width="310" height="235" rx="12" fill="#fff" stroke="#dadce0" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="115" y="80" font-family="Inter,sans-serif" font-size="13" fill="#202124" font-weight="700">Compartir "Mi párrafo APA"</text>
+          <!-- Restricted badge -->
+          <rect x="115" y="92" width="280" height="36" rx="8" fill="#f8f9fa" stroke="#dadce0" stroke-width="1"/>
+          <text x="128" y="115" font-family="Inter,sans-serif" font-size="13" fill="#3c4043">🔒 Restringido</text>
+          <text x="342" y="115" font-family="Inter,sans-serif" font-size="12" fill="#4285f4">▾</text>
+          <!-- Dropdown options -->
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0" keyTimes="0;0.19;0.2;0.33;0.34;0.35;0.59;0.6;0.61;1" dur="12s" repeatCount="indefinite"/>
+            <rect x="115" y="130" width="280" height="70" rx="8" fill="#fff" stroke="#dadce0" stroke-width="1"/>
+            <text x="128" y="152" font-family="Inter,sans-serif" font-size="12" fill="#3c4043">🔒 Restringido</text>
+            <rect x="115" y="162" width="280" height="34" rx="0" fill="#e8f0fe"/>
+            <text x="128" y="184" font-family="Inter,sans-serif" font-size="12" fill="#1a73e8" font-weight="700">🌐 Cualquiera con el enlace</text>
+          </g>
+          <!-- After selection -->
+          <g opacity="0">
+            <animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;1;0;0" keyTimes="0;0.19;0.2;0.59;0.6;0.61;0.62;0.63;0.73;0.74;0.85;1" dur="12s" repeatCount="indefinite"/>
+            <rect x="115" y="92" width="280" height="36" rx="8" fill="#e8f5e9" stroke="#34a853" stroke-width="1"/>
+            <text x="128" y="115" font-family="Inter,sans-serif" font-size="13" fill="#1e8e3e">🌐 Cualquiera con el enlace</text>
+          </g>
+          <!-- Copy link button -->
+          <rect x="200" y="250" width="100" height="28" rx="6" fill="#1a73e8"/>
+          <text x="250" y="269" font-family="Inter,sans-serif" font-size="12" fill="#fff" font-weight="700" text-anchor="middle">🔗 Copiar enlace</text>
+          <!-- Done button -->
+          <rect x="325" y="250" width="60" height="28" rx="6" fill="#f8f9fa" stroke="#dadce0" stroke-width="1"/>
+          <text x="355" y="269" font-family="Inter,sans-serif" font-size="12" fill="#3c4043" text-anchor="middle">Listo</text>
+        </g>
+
+        <!-- Toast -->
+        <g opacity="0">
+          <animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;0;0" keyTimes="0;0.19;0.2;0.59;0.6;0.61;0.72;0.73;0.74;0.75;0.84;0.85;1" dur="12s" repeatCount="indefinite"/>
+          <rect x="140" y="290" width="240" height="36" rx="10" fill="#323232"/>
+          <text x="260" y="313" font-family="Inter,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="600">✅ Enlace copiado</text>
+        </g>
+
+        <!-- Step subtitles -->
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260">
+          <tspan opacity="1">
+            <animate attributeName="opacity" values="1;1;0;0;0;0;0;0;0" keyTimes="0;0.18;0.19;0.5;0.6;0.7;0.8;0.9;1" dur="12s" repeatCount="indefinite"/>
+            1️⃣ Haz clic en el botón azul "Compartir"
+          </tspan>
+        </text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260">
+          <tspan opacity="0">
+            <animate attributeName="opacity" values="0;0;1;1;0;0;0;0;0" keyTimes="0;0.19;0.2;0.34;0.35;0.5;0.7;0.9;1" dur="12s" repeatCount="indefinite"/>
+            2️⃣ Toca el menú "🔒 Restringido"
+          </tspan>
+        </text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260">
+          <tspan opacity="0">
+            <animate attributeName="opacity" values="0;0;0;0;1;1;0;0;0" keyTimes="0;0.34;0.35;0.6;0.61;0.72;0.73;0.9;1" dur="12s" repeatCount="indefinite"/>
+            3️⃣ Selecciona "Cualquiera con el enlace"
+          </tspan>
+        </text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260">
+          <tspan opacity="0">
+            <animate attributeName="opacity" values="0;0;0;0;0;0;1;1;1;0" keyTimes="0;0.6;0.61;0.72;0.73;0.74;0.75;0.84;0.85;1" dur="12s" repeatCount="indefinite"/>
+            4️⃣ Toca "Copiar enlace" y pégalo aquí abajo
+          </tspan>
+        </text>
       </g>
-      <g>
-        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.50;0.52;1"/>
-        <rect x="150" y="172" width="225" height="34" rx="8" fill="#e6f4ea"/>
-        <text x="164" y="194" font-size="13" fill="#137333">🌐 Cualquiera con el enlace ▾</text>
-      </g>
-      <rect x="385" y="172" width="68" height="34" rx="8" fill="#f1f3f4"/>
-      <text x="419" y="194" font-size="12.5" fill="#3c4043" text-anchor="middle">Lector ▾</text>
-      <rect x="150" y="298" width="138" height="32" rx="16" fill="#fff" stroke="#dadce0" stroke-width="1.5"/>
-      <text x="219" y="319" font-size="13" font-weight="700" fill="#1a73e8" text-anchor="middle">🔗 Copiar enlace</text>
-      <rect x="394" y="298" width="78" height="32" rx="16" fill="#1a73e8"/>
-      <text x="433" y="319" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Listo</text>
-    </g>
-    <g>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.345;0.365;0.50;0.52;1"/>
-      <rect x="150" y="210" width="225" height="72" rx="10" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
-      <text x="168" y="234" font-size="13" fill="#3c4043">Restringido</text>
-      <rect x="154" y="244" width="217" height="30" rx="6" fill="#e8f0fe"/>
-      <text x="168" y="264" font-size="13" font-weight="700" fill="#1a73e8">Cualquiera con el enlace</text>
-    </g>
-    <g>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.72;0.75;0.90;0.93;1"/>
-      <rect x="195" y="352" width="210" height="30" rx="8" fill="#202124"/>
-      <text x="300" y="372" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">✅ Enlace copiado</text>
-    </g>
-    <circle cx="516" cy="40" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
-      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.15;0.16;0.22;0.23;1"/>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.15;0.16;0.22;0.23;1"/>
-    </circle>
-    <circle cx="260" cy="189" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
-      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.33;0.34;0.40;0.41;1"/>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.33;0.34;0.40;0.41;1"/>
-    </circle>
-    <circle cx="265" cy="259" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
-      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.47;0.48;0.54;0.55;1"/>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.47;0.48;0.54;0.55;1"/>
-    </circle>
-    <circle cx="219" cy="314" r="0" fill="none" stroke="#1a73e8" stroke-width="3">
-      <animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/>
-      <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/>
-    </circle>
-    <g>
-      <animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite"
-        values="300 250;516 40;516 40;260 189;260 189;265 259;265 259;219 314;219 314;300 250"
-        keyTimes="0;0.14;0.22;0.32;0.38;0.46;0.52;0.62;0.78;1"/>
-      <path d="M0 0 L0 17 L5 13.5 L8 20 L10.5 19 L7.5 12.5 L13 12 Z" fill="#1e293b" stroke="#fff" stroke-width="1.4"/>
-    </g>
-    <g font-size="16" font-weight="700" text-anchor="middle">
-      <text x="300" y="420" fill="#92400e">1️⃣ Haz clic en "Compartir"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.22;0.24;0.98;1"/></text>
-      <text x="300" y="420" fill="#92400e" opacity="0">2️⃣ Elige "Cualquiera con el enlace"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.24;0.26;0.50;0.52;1"/></text>
-      <text x="300" y="420" fill="#92400e" opacity="0">3️⃣ Haz clic en "Copiar enlace"<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.54;0.70;0.72;1"/></text>
-      <text x="300" y="420" fill="#92400e" opacity="0">4️⃣ ¡Pega el enlace en el formulario! 👇<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.72;0.74;0.96;0.98;1"/></text>
-    </g>
-  </svg>
-  <details class="tut-text">
-    <summary>📖 ¿Prefieres leer los pasos? Toca aquí</summary>
-    <div class="steps">
-      <div class="step"><div class="step-num">1</div><div class="step-text">Abre la hoja de cálculo en <strong>Google Sheets</strong></div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-text">Clic en <strong>"Compartir"</strong> (botón azul, esquina superior derecha)</div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-text">En <strong>"Acceso general"</strong> → selecciona <strong>"Cualquiera con el enlace"</strong></div></div>
-      <div class="step"><div class="step-num">4</div><div class="step-text">Permiso: <strong>"Lector"</strong></div></div>
-      <div class="step"><div class="step-num">5</div><div class="step-text">Clic en <strong>"Copiar enlace"</strong> y pégalo abajo 👇</div></div>
+    </svg>
+
+    <details class="tut-text">
+      <summary>📖 ¿Prefieres leer los pasos? Toca aquí</summary>
+      <ol class="tut-steps">
+        <li>Abre tu documento en <strong>Google Docs</strong> (docs.google.com).</li>
+        <li>Haz clic en el botón azul <strong>"Compartir"</strong> en la esquina superior derecha.</li>
+        <li>En el diálogo, haz clic donde dice <strong>"🔒 Restringido"</strong>.</li>
+        <li>Selecciona <strong>"🌐 Cualquiera con el enlace"</strong>.</li>
+        <li>Haz clic en <strong>"🔗 Copiar enlace"</strong>.</li>
+        <li>Pega ese link en el formulario de abajo y envía tu tarea.</li>
+      </ol>
+    </details>
+
+    <div class="warn-box">
+      <span class="warn-icon">⚠️</span>
+      <span><strong>"Restringido"</strong> significa que la profesora no podrá abrir tu documento. Asegúrate de cambiarlo antes de enviar.</span>
     </div>
-  </details>
-  <div class="warn-box">
-    <div class="warn-icon">⚠️</div>
-    <div class="warn-text">
-      <strong>Acceso "Restringido" = la profesora no puede revisar tu análisis.</strong>
-      Asegúrate de que el acceso general esté en "Cualquiera con el enlace" antes de copiar el link.
+  </div>
+
+  <div id="form-section">
+    <div class="form-title">📤 Envía tu tarea</div>
+
+    <div class="field">
+      <label for="inp-nombre">Tu nombre completo</label>
+      <div class="ac-wrap">
+        <input type="text" id="inp-nombre" placeholder="Escribe tu nombre y elige de la lista" autocomplete="off" autocorrect="off" oninput="acFilter(this.value)" onblur="acBlur()" onkeydown="acKey(event)"/>
+        <div class="ac-list" id="ac-list"></div>
+      </div>
+      <div class="ac-hint">Empieza a escribir y elige tu nombre de la lista.</div>
     </div>
+
+    <div class="field">
+      <label for="inp-link">Link de tu Google Doc</label>
+      <input type="url" id="inp-link" placeholder="https://docs.google.com/document/d/…"/>
+    </div>
+
+    <div class="field">
+      <label for="inp-comentario">Comentario (opcional)</label>
+      <textarea id="inp-comentario" rows="3" placeholder="¿Alguna aclaración para la profesora?"></textarea>
+    </div>
+
+    <button class="send-btn" onclick="sendTask()">📤 Enviar tarea →</button>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+
+  <div id="confirm-card">
+    <div class="confirm-icon">✅</div>
+    <div class="confirm-name" id="confirm-name"></div>
+    <p style="font-size:15px;color:#7f1d1d;margin-bottom:8px">Tu tarea fue recibida.</p>
+    <a class="confirm-link" id="confirm-link" target="_blank" rel="noopener"></a>
+    <br>
+    <button class="resubmit-btn" onclick="resetForm()">✏️ Actualizar el link</button>
   </div>
 </div>
 
-<div class="form-section" id="form-section">
-  <div class="form-title">📬 Enviar mi tarea</div>
-  <div class="form-group">
-    <label class="form-label" for="inp-nombre">Nombre completo</label>
-    <div class="ac-wrap">
-      <input id="inp-nombre" class="form-input" type="text"
-             placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off">
-      <div class="ac-list" id="ac-list"></div>
-    </div>
-    <div class="form-hint">Empieza a escribir y elige tu nombre de la lista.</div>
-  </div>
-  <div class="form-group">
-    <label class="form-label" for="inp-link">Link de tu Google Sheets</label>
-    <input id="inp-link" class="form-input" type="url"
-           placeholder="https://docs.google.com/spreadsheets/d/…">
-    <div class="form-hint">Pega el link copiado al compartir la hoja.</div>
-  </div>
-  <div class="form-group">
-    <label class="form-label" for="inp-comment">Comentario <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
-    <textarea id="inp-comment" class="form-textarea" placeholder="¿Algo que quieras destacar de tu análisis?"></textarea>
-  </div>
-  <button class="submit-btn" id="submit-btn" onclick="enviarTarea()">📤 Enviar tarea →</button>
-  <div class="err-msg" id="err-msg"></div>
-</div>
-
-<div class="confirm-card" id="confirm-card">
-  <div class="confirm-icon">✅</div>
-  <div class="confirm-title" id="confirm-title">¡Tarea entregada!</div>
-  <div class="confirm-sub">La profesora ya tiene acceso a tu hoja de cálculo. Las ediciones posteriores se verán automáticamente — no necesitas reenviar.</div>
-  <div class="confirm-link-box" id="confirm-link-box"></div>
-  <button class="resubmit-btn" onclick="mostrarForm()">✏️ Actualizar el link</button>
-</div>
-
-</div>
 <script>
-const GRADE='sec5',SESION='05';
+const GRADE='sec5', SESION='05';
 let ROSTER=[];
-fetch('/.netlify/functions/get-roster?grado='+GRADE)
-  .then(r=>r.ok?r.json():null)
-  .then(d=>{if(d&&d.alumnos)ROSTER=d.alumnos.map(a=>a.nombre);})
-  .catch(()=>{});
+let acIndex=-1;
 
-const acInput=document.getElementById('inp-nombre');
-const acList=document.getElementById('ac-list');
-const acNorm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-let acSel=-1;
-function acRender(){
-  const q=acNorm(acInput.value.trim());
-  const matches=(q?ROSTER.filter(n=>acNorm(n).includes(q)):ROSTER).slice(0,8);
-  if(!matches.length||(matches.length===1&&acNorm(matches[0])===q)){acList.classList.remove('open');return;}
-  acSel=-1;
-  acList.innerHTML=matches.map(n=>'<div class="ac-item">'+n+'</div>').join('');
-  acList.querySelectorAll('.ac-item').forEach(el=>{
-    el.addEventListener('mousedown',e=>{e.preventDefault();acInput.value=el.textContent;acList.classList.remove('open');});
-  });
-  acList.classList.add('open');
+fetch('/.netlify/functions/get-roster?grado='+GRADE)
+  .then(r=>r.json()).then(d=>{if(d.found)ROSTER=d.alumnos.map(a=>a.nombre);}).catch(()=>{});
+
+function normalize(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function acFilter(v){
+  const list=document.getElementById('ac-list');
+  acIndex=-1;
+  if(!v.trim()){list.classList.remove('open');list.innerHTML='';return;}
+  const q=normalize(v);
+  const matches=ROSTER.filter(n=>normalize(n).includes(q)).slice(0,8);
+  if(!matches.length){list.classList.remove('open');list.innerHTML='';return;}
+  list.innerHTML=matches.map(n=>`<div class="ac-item" data-name="${n}" onmousedown="acPick('${n.replace(/'/g,"\\'")}')"> ${n}</div>`).join('');
+  list.classList.add('open');
 }
-acInput.addEventListener('input',acRender);
-acInput.addEventListener('focus',acRender);
-acInput.addEventListener('blur',()=>setTimeout(()=>acList.classList.remove('open'),150));
-acInput.addEventListener('keydown',e=>{
-  const items=[...acList.querySelectorAll('.ac-item')];
-  if(!acList.classList.contains('open')||!items.length)return;
-  if(e.key==='ArrowDown'){e.preventDefault();acSel=Math.min(acSel+1,items.length-1);}
-  else if(e.key==='ArrowUp'){e.preventDefault();acSel=Math.max(acSel-1,0);}
-  else if(e.key==='Enter'){e.preventDefault();const pick=acSel>=0?items[acSel]:(items.length===1?items[0]:null);if(pick)acInput.value=pick.textContent;acList.classList.remove('open');return;}
-  else if(e.key==='Escape'){acList.classList.remove('open');return;}
-  else return;
-  items.forEach((el,i)=>el.classList.toggle('sel',i===acSel));
-});
-function mostrarForm(){document.getElementById('confirm-card').classList.remove('show');document.getElementById('form-section').style.display='';}
-function enviarTarea(){
+function acPick(name){
+  document.getElementById('inp-nombre').value=name;
+  document.getElementById('ac-list').classList.remove('open');
+  document.getElementById('ac-list').innerHTML='';
+  acIndex=-1;
+}
+function acBlur(){setTimeout(()=>{document.getElementById('ac-list').classList.remove('open');},150);}
+function acKey(e){
+  const items=document.querySelectorAll('.ac-item');
+  if(!items.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();acIndex=Math.min(acIndex+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('active',i===acIndex));}
+  else if(e.key==='ArrowUp'){e.preventDefault();acIndex=Math.max(acIndex-1,0);items.forEach((el,i)=>el.classList.toggle('active',i===acIndex));}
+  else if(e.key==='Enter'&&acIndex>=0){e.preventDefault();acPick(items[acIndex].dataset.name);}
+  else if(e.key==='Escape'){document.getElementById('ac-list').classList.remove('open');}
+}
+
+async function sendTask(){
   const nombre=document.getElementById('inp-nombre').value.trim();
   const link=document.getElementById('inp-link').value.trim();
-  const comment=document.getElementById('inp-comment').value.trim();
-  const errEl=document.getElementById('err-msg');const btn=document.getElementById('submit-btn');
-  errEl.classList.remove('show');
-  if(nombre.split(/\s+/).filter(Boolean).length<2){errEl.textContent='⚠️ Escribe tu nombre Y apellido completo.';errEl.classList.add('show');document.getElementById('inp-nombre').focus();return;}
-  if(!link.startsWith('http')){errEl.textContent='⚠️ El link debe comenzar con "https://…".';errEl.classList.add('show');document.getElementById('inp-link').focus();return;}
-  btn.disabled=true;btn.textContent='⏳ Enviando…';
-  fetch('/.netlify/functions/submit-task',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,grado:GRADE,sesion:SESION,drive_link:link,comentario:comment})})
-  .then(r=>r.json()).then(d=>{if(!d.ok)throw new Error(d.error||'Error');document.getElementById('form-section').style.display='none';document.getElementById('confirm-card').classList.add('show');document.getElementById('confirm-title').textContent='¡Entregada, '+d.nombre+'!';document.getElementById('confirm-link-box').innerHTML='🔗 <a href="'+link+'" target="_blank" rel="noopener">Ver mi hoja de cálculo</a>';window.scrollTo({top:0,behavior:'smooth'});})
-  .catch(err=>{btn.disabled=false;btn.textContent='📤 Enviar tarea →';errEl.textContent='❌ '+(err.message||'Error al enviar.');errEl.classList.add('show');});
+  const comentario=document.getElementById('inp-comentario').value.trim();
+  const err=document.getElementById('err-msg');
+  err.style.display='none';
+  if(nombre.split(' ').filter(Boolean).length<2){err.textContent='Escribe tu nombre y apellido completos.';err.style.display='block';return;}
+  if(!link.startsWith('http')){err.textContent='El link debe comenzar con http o https.';err.style.display='block';return;}
+  const btn=document.querySelector('.send-btn');
+  btn.textContent='Enviando…';btn.disabled=true;
+  try{
+    const res=await fetch('/.netlify/functions/submit-task',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nombre,grado:GRADE,sesion:SESION,drive_link:link,comentario})});
+    const d=await res.json();
+    if(d.ok){
+      document.getElementById('form-section').style.display='none';
+      const card=document.getElementById('confirm-card');
+      card.style.display='block';
+      document.getElementById('confirm-name').textContent=d.nombre||nombre;
+      const a=document.getElementById('confirm-link');
+      a.href=link;a.textContent=link;
+    }else{
+      err.textContent='Hubo un error al enviar. Inténtalo de nuevo.';err.style.display='block';
+      btn.textContent='📤 Enviar tarea →';btn.disabled=false;
+    }
+  }catch(e){
+    err.textContent='Sin conexión. Revisa el internet e inténtalo de nuevo.';err.style.display='block';
+    btn.textContent='📤 Enviar tarea →';btn.disabled=false;
+  }
+}
+function resetForm(){
+  document.getElementById('confirm-card').style.display='none';
+  document.getElementById('form-section').style.display='block';
+  document.querySelector('.send-btn').textContent='📤 Enviar tarea →';
+  document.querySelector('.send-btn').disabled=false;
 }
 </script>
 </body>

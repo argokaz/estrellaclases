@@ -45,27 +45,6 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .ex-num{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
 .ex h4{font-size:17px;font-weight:700;margin-bottom:12px}
 .ex p,.ex li{font-size:16px;line-height:1.75}
-.tf-tbl{width:100%;border-collapse:collapse}
-.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
-.tf-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
-.tf-btns{display:flex;gap:8px}
-.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
-.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
-.cls-tbl{width:100%;border-collapse:collapse}
-.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:13px;text-align:left}
-.cls-row td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:16px;vertical-align:middle}
-.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
-.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
-.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
-.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
-.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
-.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
-.cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
-.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
-.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
 .txt-area{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s;line-height:1.75}
 .txt-area:focus{border-color:var(--accent)}
 .model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
@@ -120,11 +99,10 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 <body>
 <div class="page-wrap">
 
-<!-- Header -->
 <div class="doc-header">
   <div>
     <div class="school">Asunción School · Computación 2026</div>
-    <div class="doc-title">Sheets para análisis de datos</div>
+    <div class="doc-title">Redacción APA: práctica avanzada</div>
     <div class="doc-subtitle">5.° Secundaria · Sesión 05 · Viernes 12 de junio 2026</div>
     <div class="teacher" style="margin-top:6px">Profa. Estrella Vizcarra</div>
   </div>
@@ -135,61 +113,50 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   </div>
 </div>
 
-<!-- Lo que aprendimos -->
 <div class="section">
   <div class="section-title">📖 Lo que aprendimos</div>
-  <div class="concept-list"><div class="concept-block">
-  <div class="cb-icon">🧹</div>
-  <div><div class="cb-title">Limpieza de datos</div><div class="cb-text">Antes de analizar, los datos deben estar limpios: sin espacios extra (TRIM), formato de texto consistente (PROPER), sin duplicados. Datos sucios → análisis incorrecto.</div></div>
-</div><div class="concept-block">
-  <div class="cb-icon">✂️</div>
-  <div><div class="cb-title">TRIM y PROPER</div><div class="cb-text">TRIM elimina espacios extra al inicio, al final y entre palabras. PROPER convierte texto a Título (primera letra de cada palabra en mayúscula). Se pueden combinar: =TRIM(PROPER(A1)).</div></div>
-</div><div class="concept-block">
-  <div class="cb-icon">📐</div>
-  <div><div class="cb-title">AVERAGE vs MEDIAN</div><div class="cb-text">AVERAGE calcula el promedio aritmético — se distorsiona por valores extremos. MEDIAN da el valor central — no se afecta por outliers. Con datos asimétricos, MEDIAN es más representativo.</div></div>
-</div><div class="concept-block">
-  <div class="cb-icon">🔢</div>
-  <div><div class="cb-title">COUNTIF y porcentajes</div><div class="cb-text">COUNTIF(rango, criterio) cuenta celdas que cumplen una condición. Los porcentajes requieren referencias absolutas ($): =B2/SUMA($B$2:$B$10)*100 para que el denominador no cambie al copiar.</div></div>
-</div><div class="concept-block">
-  <div class="cb-icon">🛡️</div>
-  <div><div class="cb-title">IFERROR</div><div class="cb-text">IFERROR(fórmula, valor_alternativo) evita que los errores (#DIV/0!, #VALUE!) sean visibles. Hace que las hojas sean robustas y de apariencia profesional.</div></div>
-</div><div class="concept-block">
-  <div class="cb-icon">🔄</div>
-  <div><div class="cb-title">Tabla dinámica</div><div class="cb-text">Resumen automático de datos agrupados por categoría. En Sheets: Insertar → Tabla dinámica. Permite calcular promedios, sumas o conteos por grupo sin fórmulas manuales.</div></div>
-</div></div>
+  <div class="concept-list">
+    <div class="concept-block">
+      <div class="cb-icon">💬</div>
+      <div><div class="cb-title">Cita directa</div><div class="cb-text">Palabras exactas del autor entre comillas, con apellido, año y número de página: (García, 2023, p. 45). Si supera 40 palabras, va en bloque sin comillas.</div></div>
+    </div>
+    <div class="concept-block">
+      <div class="cb-icon">🔄</div>
+      <div><div class="cb-title">Paráfrasis</div><div class="cb-text">La idea del autor con tu propia estructura sintáctica. No es cambiar palabras sueltas — es reformular completamente la oración. Requiere cita (Autor, año) sin número de página.</div></div>
+    </div>
+    <div class="concept-block">
+      <div class="cb-icon">📘</div>
+      <div><div class="cb-title">Referencia de libro</div><div class="cb-text">Apellido, I. (Año). <em>Título en cursiva</em>. Editorial. El título va solo en cursiva, sin comillas ni subrayado.</div></div>
+    </div>
+    <div class="concept-block">
+      <div class="cb-icon">🌐</div>
+      <div><div class="cb-title">Referencia de sitio web</div><div class="cb-text">Apellido, I. (Año, día mes). <em>Título del artículo</em>. Nombre del sitio. URL. La URL va sin punto al final.</div></div>
+    </div>
+    <div class="concept-block">
+      <div class="cb-icon">📋</div>
+      <div><div class="cb-title">Lista de referencias</div><div class="cb-text">Al final del documento, orden alfabético por apellido, sangría francesa. Cada fuente citada en el texto debe estar en la lista — y viceversa.</div></div>
+    </div>
+    <div class="concept-block">
+      <div class="cb-icon">✍️</div>
+      <div><div class="cb-title">Párrafo formal con fuentes</div><div class="cb-text">Estructura: oración temática propia → evidencia (cita o paráfrasis) → análisis tuyo. La fuente apoya tu argumento; tú no eres el portavoz de la fuente.</div></div>
+    </div>
+  </div>
 </div>
 
-<!-- Palabras clave -->
 <div class="section">
   <div class="section-title">📚 Palabras clave</div>
-  <div class="gloss-v2"><div class="gloss-card">
-  <div class="gloss-term">TRIM()</div>
-  <div class="gloss-def">Elimina espacios extra al inicio, al final y entre palabras de un texto.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">PROPER()</div>
-  <div class="gloss-def">Convierte texto a formato Título: primera letra de cada palabra en mayúscula.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">MEDIAN()</div>
-  <div class="gloss-def">Valor central de un conjunto de datos. No se distorsiona por valores extremos.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">COUNTIF()</div>
-  <div class="gloss-def">Cuenta celdas en un rango que cumplen una condición dada.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">IFERROR()</div>
-  <div class="gloss-def">Devuelve un valor alternativo si la fórmula produce un error.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">Referencia absoluta</div>
-  <div class="gloss-def">Celda fija con $ (ej. $B$2) que no cambia al copiar la fórmula.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">Outlier</div>
-  <div class="gloss-def">Valor extremo que se aleja significativamente del resto de los datos.</div>
-</div><div class="gloss-card">
-  <div class="gloss-term">Tabla dinámica</div>
-  <div class="gloss-def">Resumen automático que agrupa datos por categoría para análisis.</div>
-</div></div>
+  <div class="gloss-v2">
+    <div class="gloss-card"><div class="gloss-term">Cita en el texto</div><div class="gloss-def">Referencia breve dentro del párrafo: (Apellido, año) o (Apellido, año, p. X).</div></div>
+    <div class="gloss-card"><div class="gloss-term">Lista de referencias</div><div class="gloss-def">Sección final con todas las fuentes citadas, en orden alfabético.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Paráfrasis</div><div class="gloss-def">Reformulación de la idea de otro autor con tu propia estructura.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Plagio</div><div class="gloss-def">Presentar ideas o palabras ajenas como propias, sea con o sin intención.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Sangría francesa</div><div class="gloss-def">Formato de las referencias: primera línea al margen, las siguientes con sangría.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Cita flotante</div><div class="gloss-def">Error: una cita sin oración propia antes o después que la contextualice.</div></div>
+    <div class="gloss-card"><div class="gloss-term">s.f.</div><div class="gloss-def">"Sin fecha": se usa cuando un texto no tiene año de publicación identificable.</div></div>
+    <div class="gloss-card"><div class="gloss-term">Oración temática</div><div class="gloss-def">Primera oración del párrafo: tu idea principal, sin cita — es tuya.</div></div>
+  </div>
 </div>
 
-<!-- Ejercicios de práctica -->
 <div class="section">
   <details class="practice-details">
     <summary class="practice-summary">
@@ -205,42 +172,45 @@ details[open] .ps-arrow{transform:rotate(180deg)}
         <span>Estos ejercicios son para repasar. No se envían a la profesora — son solo para ti.</span>
       </div>
       <div class="ex">
-  <span class="ex-num">Ejercicio 1</span>
-  <h4>Escribe la fórmula correcta</h4>
-  <p>1. Limpia el nombre en A2 (espacios extra y mayúsculas inconsistentes).
-2. Calcula el porcentaje de B2 sobre el total de B2:B8 (referencia absoluta).
-3. Cuenta cuántos valores en C2:C20 son mayores o iguales a 14.
-4. Muestra 'N/A' si D2/E2 genera error.</p>
-  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
-  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
-  <div class="model-box"><strong>Respuesta modelo</strong>1. =TRIM(PROPER(A2))
-2. =B2/SUMA($B$2:$B$8)*100
-3. =COUNTIF(C2:C20,">=14")
-4. =IFERROR(D2/E2,"N/A")</div>
-</div><div class="ex">
-  <span class="ex-num">Ejercicio 2</span>
-  <h4>Encuentra el error</h4>
-  <p>Identifica qué está mal en cada fórmula:
-A. =AVERAGE(B2:B10
-B. =B2/SUMA(B2:B10)*100 (al copiar hacia abajo)
-C. =COUNTIF(A2:A15,">10")
-D. =TRIM(PROPER(C2)</p>
-  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
-  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
-  <div class="model-box"><strong>Respuesta modelo</strong>A. Falta el paréntesis de cierre: =AVERAGE(B2:B10). B. El denominador no tiene $, cambia al copiar: =B2/SUMA($B$2:$B$10)*100. C. Correcta ✅. D. Falta un paréntesis de cierre de TRIM: =TRIM(PROPER(C2)).</div>
-</div><div class="ex">
-  <span class="ex-num">Ejercicio 3</span>
-  <h4>AVERAGE vs MEDIAN</h4>
-  <p>Datos: 10, 12, 11, 14, 13, 20, 11. Calcula el promedio y la mediana. ¿Cuál representa mejor al grupo si el 20 es un alumno excepcional? Justifica.</p>
-  <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="4"></textarea>
-  <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
-  <div class="model-box"><strong>Respuesta modelo</strong>Promedio ≈ 13. Mediana = 12 (valor central ordenado: 10,11,11,12,13,14,20). La mediana representa mejor al grupo porque el 20 sube artificialmente el promedio. La mayoría del grupo rinde entre 10 y 14.</div>
-</div>
+        <span class="ex-num">Ejercicio 1</span>
+        <h4>Corrige estas citas en el texto</h4>
+        <p>Identifica el error en cada cita y escribe la versión correcta:<br>
+        a) "La educación es transformadora" (Freire 2000 p. 18).<br>
+        b) Según Freire, la educación libera a las personas. (2000)<br>
+        c) …como señala el autor: 'La educación es transformadora' (Freire, 2000).</p>
+        <textarea class="txt-area" placeholder="Escribe tu respuesta aquí…" rows="5"></textarea>
+        <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+        <div class="model-box"><strong>Respuesta modelo</strong>
+          a) Faltan comas: (Freire, 2000, p. 18). ✓<br>
+          b) El paréntesis va al final integrado: Según Freire (2000), la educación libera a las personas. ✓<br>
+          c) Cita directa de menos de 40 palabras: comillas dobles, no simples. Y falta la página: (Freire, 2000, p. X). ✓
+        </div>
+      </div>
+      <div class="ex">
+        <span class="ex-num">Ejercicio 2</span>
+        <h4>Escribe la referencia correcta</h4>
+        <p>Datos del libro: autor = Ana Lucía Morales, año = 2021, título = "Escritura académica en secundaria", editorial = Planeta.<br>
+        Datos del sitio web: autor = Carlos Vega, fecha = 15 de marzo de 2023, título del artículo = "Cómo evitar el plagio", sitio = RPP Noticias, URL = https://rpp.pe/educacion/plagio.</p>
+        <textarea class="txt-area" placeholder="Escribe ambas referencias aquí…" rows="5"></textarea>
+        <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+        <div class="model-box"><strong>Respuesta modelo</strong>
+          Morales, A. L. (2021). <em>Escritura académica en secundaria</em>. Planeta.<br><br>
+          Vega, C. (2023, 15 marzo). <em>Cómo evitar el plagio</em>. RPP Noticias. https://rpp.pe/educacion/plagio
+        </div>
+      </div>
+      <div class="ex">
+        <span class="ex-num">Ejercicio 3</span>
+        <h4>Transforma la cita directa en paráfrasis</h4>
+        <p>Texto original (López, 2022, p. 34): "Las redes sociales han modificado profundamente los hábitos de lectura de los jóvenes, desplazando el texto largo por el contenido visual fragmentado."<br><br>
+        Escribe una paráfrasis correcta con su cita correspondiente.</p>
+        <textarea class="txt-area" placeholder="Escribe tu paráfrasis aquí…" rows="4"></textarea>
+        <button class="model-btn" onclick="this.nextElementSibling.classList.toggle('open')">Ver respuesta modelo</button>
+        <div class="model-box"><strong>Respuesta modelo</strong>Ejemplo: Según López (2022), el auge de las plataformas digitales ha transformado la manera en que los jóvenes consumen información, favoreciendo el contenido breve e ilustrado sobre la lectura extensa.</div>
+      </div>
     </div>
   </details>
 </div>
 
-<!-- Evaluación -->
 <div class="section eval-section">
   <span id="eval-grade-key" data-grade="sec5" data-session="05" style="display:none"></span>
 
@@ -250,25 +220,23 @@ D. =TRIM(PROPER(C2)</p>
     <div class="eval-subtitle">10 preguntas · 2 pts cada una · Total 20 / 20 · Un solo intento</div>
   </div>
 
-  
-<div id="gate-box" class="gate-box">
-  <span class="gate-label">Tu nombre completo</span>
-  <input id="gate-nombre" class="gate-input" type="text"
-    placeholder="Escribe tu nombre y apellido…"
-    list="alumnos-gate-dl" autocomplete="off" autocorrect="off" />
-  <datalist id="alumnos-gate-dl"></datalist>
-  <button class="gate-btn" onclick="startEval()">Iniciar evaluación →</button>
-</div>
-<div id="confirm-box" class="confirm-box">
-  <p style="font-size:15px;color:var(--muted);">¿Eres tú?</p>
-  <div class="confirm-name" id="confirm-name-display"></div>
-  <p class="confirm-sub">Confirma tu identidad antes de iniciar.</p>
-  <div class="confirm-btns">
-    <button class="confirm-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
-    <button class="confirm-no" onclick="resetGate()">✏️ No soy yo</button>
+  <div id="gate-box" class="gate-box">
+    <span class="gate-label">Tu nombre completo</span>
+    <input id="gate-nombre" class="gate-input" type="text"
+      placeholder="Escribe tu nombre y apellido…"
+      list="alumnos-gate-dl" autocomplete="off" autocorrect="off" />
+    <datalist id="alumnos-gate-dl"></datalist>
+    <button class="gate-btn" onclick="startEval()">Iniciar evaluación →</button>
   </div>
-</div>
-
+  <div id="confirm-box" class="confirm-box">
+    <p style="font-size:15px;color:var(--muted);">¿Eres tú?</p>
+    <div class="confirm-name" id="confirm-name-display"></div>
+    <p class="confirm-sub">Confirma tu identidad antes de iniciar.</p>
+    <div class="confirm-btns">
+      <button class="confirm-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+      <button class="confirm-no" onclick="resetGate()">✏️ No soy yo</button>
+    </div>
+  </div>
 
   <div class="exam-who-bar" id="exam-who-bar">
     <span class="ewb-name" id="exam-who-name"></span>
@@ -276,316 +244,223 @@ D. =TRIM(PROPER(C2)</p>
   </div>
 
   <div id="eval-form" style="display:none">
+
     <div class="q-block">
-  <div class="q-num">Pregunta 1 de 10</div>
-  <div class="q-text">¿Qué hace la función TRIM()?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q1" value="Convierte texto a mayúsculas" data-correct="false" />
-    Convierte texto a mayúsculas
-  </label><label class="q-opt">
-    <input type="radio" name="q1" value="Elimina espacios extra en el texto" data-correct="true" />
-    Elimina espacios extra en el texto
-  </label><label class="q-opt">
-    <input type="radio" name="q1" value="Cuenta el número de caracteres" data-correct="false" />
-    Cuenta el número de caracteres
-  </label><label class="q-opt">
-    <input type="radio" name="q1" value="Divide el texto en columnas" data-correct="false" />
-    Divide el texto en columnas
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 2 de 10</div>
-  <div class="q-text">¿Qué hace PROPER()?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q2" value="Convierte texto a minúsculas" data-correct="false" />
-    Convierte texto a minúsculas
-  </label><label class="q-opt">
-    <input type="radio" name="q2" value="Elimina caracteres especiales" data-correct="false" />
-    Elimina caracteres especiales
-  </label><label class="q-opt">
-    <input type="radio" name="q2" value="Convierte texto a formato Título (primera letra de cada palabra en mayúscula)" data-correct="true" />
-    Convierte texto a formato Título (primera letra de cada palabra en mayúscula)
-  </label><label class="q-opt">
-    <input type="radio" name="q2" value="Ordena el texto alfabéticamente" data-correct="false" />
-    Ordena el texto alfabéticamente
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 3 de 10</div>
-  <div class="q-text">¿Para qué sirve IFERROR()?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q3" value="Para calcular el promedio ignorando errores" data-correct="false" />
-    Para calcular el promedio ignorando errores
-  </label><label class="q-opt">
-    <input type="radio" name="q3" value="Para contar celdas con errores" data-correct="false" />
-    Para contar celdas con errores
-  </label><label class="q-opt">
-    <input type="radio" name="q3" value="Para mostrar un valor alternativo cuando la fórmula produce un error" data-correct="true" />
-    Para mostrar un valor alternativo cuando la fórmula produce un error
-  </label><label class="q-opt">
-    <input type="radio" name="q3" value="Para corregir automáticamente errores ortográficos" data-correct="false" />
-    Para corregir automáticamente errores ortográficos
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 4 de 10</div>
-  <div class="q-text">¿Por qué usar referencias absolutas ($) en fórmulas de porcentaje?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q4" value="Para que la fórmula sea más rápida" data-correct="false" />
-    Para que la fórmula sea más rápida
-  </label><label class="q-opt">
-    <input type="radio" name="q4" value="Para que el denominador no cambie al copiar la fórmula hacia abajo" data-correct="true" />
-    Para que el denominador no cambie al copiar la fórmula hacia abajo
-  </label><label class="q-opt">
-    <input type="radio" name="q4" value="Para bloquear la hoja de edición" data-correct="false" />
-    Para bloquear la hoja de edición
-  </label><label class="q-opt">
-    <input type="radio" name="q4" value="Para sumar automáticamente el rango" data-correct="false" />
-    Para sumar automáticamente el rango
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 5 de 10</div>
-  <div class="q-text">¿Cuál es la diferencia entre AVERAGE y MEDIAN?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q5" value="Son idénticas — calculan lo mismo" data-correct="false" />
-    Son idénticas — calculan lo mismo
-  </label><label class="q-opt">
-    <input type="radio" name="q5" value="AVERAGE da el valor más frecuente; MEDIAN el más alto" data-correct="false" />
-    AVERAGE da el valor más frecuente; MEDIAN el más alto
-  </label><label class="q-opt">
-    <input type="radio" name="q5" value="AVERAGE es el promedio aritmético; MEDIAN es el valor central, más resistente a extremos" data-correct="true" />
-    AVERAGE es el promedio aritmético; MEDIAN es el valor central, más resistente a extremos
-  </label><label class="q-opt">
-    <input type="radio" name="q5" value="MEDIAN solo funciona con números pares" data-correct="false" />
-    MEDIAN solo funciona con números pares
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 6 de 10</div>
-  <div class="q-text">¿Qué hace COUNTIF(A2:A20, ">=14")?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q6" value="Suma todos los valores mayores o iguales a 14" data-correct="false" />
-    Suma todos los valores mayores o iguales a 14
-  </label><label class="q-opt">
-    <input type="radio" name="q6" value="Cuenta cuántas celdas en A2:A20 tienen un valor >= 14" data-correct="true" />
-    Cuenta cuántas celdas en A2:A20 tienen un valor >= 14
-  </label><label class="q-opt">
-    <input type="radio" name="q6" value="Filtra las celdas con valor >= 14" data-correct="false" />
-    Filtra las celdas con valor >= 14
-  </label><label class="q-opt">
-    <input type="radio" name="q6" value="Calcula el promedio de valores >= 14" data-correct="false" />
-    Calcula el promedio de valores >= 14
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 7 de 10</div>
-  <div class="q-text">¿Cuál es el primer paso antes de analizar datos en Sheets?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q7" value="Crear un gráfico" data-correct="false" />
-    Crear un gráfico
-  </label><label class="q-opt">
-    <input type="radio" name="q7" value="Calcular el promedio" data-correct="false" />
-    Calcular el promedio
-  </label><label class="q-opt">
-    <input type="radio" name="q7" value="Limpiar los datos (espacios, formato, duplicados)" data-correct="true" />
-    Limpiar los datos (espacios, formato, duplicados)
-  </label><label class="q-opt">
-    <input type="radio" name="q7" value="Hacer una tabla dinámica" data-correct="false" />
-    Hacer una tabla dinámica
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 8 de 10</div>
-  <div class="q-text">¿Qué es una tabla dinámica?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q8" value="Una tabla con muchas columnas" data-correct="false" />
-    Una tabla con muchas columnas
-  </label><label class="q-opt">
-    <input type="radio" name="q8" value="Un gráfico de barras automático" data-correct="false" />
-    Un gráfico de barras automático
-  </label><label class="q-opt">
-    <input type="radio" name="q8" value="Un resumen automático de datos agrupados por categoría" data-correct="true" />
-    Un resumen automático de datos agrupados por categoría
-  </label><label class="q-opt">
-    <input type="radio" name="q8" value="Una hoja que se actualiza sola" data-correct="false" />
-    Una hoja que se actualiza sola
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 9 de 10</div>
-  <div class="q-text">Tienes notas: 8, 15, 14, 16, 20. Un alumno sacó 20 (outlier). ¿Qué función da mejor idea del desempeño típico?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q9" value="AVERAGE — siempre se usa el promedio" data-correct="false" />
-    AVERAGE — siempre se usa el promedio
-  </label><label class="q-opt">
-    <input type="radio" name="q9" value="MEDIAN — no se distorsiona por el valor extremo" data-correct="true" />
-    MEDIAN — no se distorsiona por el valor extremo
-  </label><label class="q-opt">
-    <input type="radio" name="q9" value="MAX — para ver el mejor resultado" data-correct="false" />
-    MAX — para ver el mejor resultado
-  </label><label class="q-opt">
-    <input type="radio" name="q9" value="COUNTIF — para contar cuántos aprobaron" data-correct="false" />
-    COUNTIF — para contar cuántos aprobaron
-  </label></div>
-</div><div class="q-block">
-  <div class="q-num">Pregunta 10 de 10</div>
-  <div class="q-text">¿Cómo combinas TRIM y PROPER para limpiar un nombre con espacios y mayúsculas inconsistentes?</div>
-  <div class="q-opts"><label class="q-opt">
-    <input type="radio" name="q10" value="=PROPER(A1) y luego =TRIM(resultado)" data-correct="false" />
-    =PROPER(A1) y luego =TRIM(resultado)
-  </label><label class="q-opt">
-    <input type="radio" name="q10" value="=TRIM(PROPER(A1))" data-correct="true" />
-    =TRIM(PROPER(A1))
-  </label><label class="q-opt">
-    <input type="radio" name="q10" value="=TRIM+PROPER(A1)" data-correct="false" />
-    =TRIM+PROPER(A1)
-  </label><label class="q-opt">
-    <input type="radio" name="q10" value="No se pueden combinar" data-correct="false" />
-    No se pueden combinar
-  </label></div>
-</div>
-
-    <div class="score-box" id="score-box">
-      <div class="score-num" id="score-num">0</div>
-      <div class="score-denom">/ 20</div>
-      <div class="score-msg" id="score-msg"></div>
+      <div class="q-num">Pregunta 1 de 10</div>
+      <div class="q-text">En una cita directa en APA 7, ¿qué información debe aparecer entre paréntesis?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q1" value="a" data-correct="false"/>Solo el apellido del autor</label>
+        <label class="q-opt"><input type="radio" name="q1" value="b" data-correct="false"/>Apellido y año únicamente</label>
+        <label class="q-opt"><input type="radio" name="q1" value="c" data-correct="true"/>Apellido, año y número de página</label>
+        <label class="q-opt"><input type="radio" name="q1" value="d" data-correct="false"/>Apellido, año y editorial</label>
+      </div>
     </div>
 
-    <button class="submit-btn" id="submit-btn" onclick="submitEval()">
-      Enviar evaluación →
-    </button>
-
-    <div class="material-reveal" id="material-reveal">
-      <p style="text-align:center;color:var(--muted);font-size:15px;margin-top:16px">
-        ✅ Evaluación enviada. Puedes revisar el material de arriba para reforzar los temas.
-      </p>
+    <div class="q-block">
+      <div class="q-num">Pregunta 2 de 10</div>
+      <div class="q-text">¿Cuál de estas es una paráfrasis correcta del texto: "La tecnología transforma la educación" (Pérez, 2021, p. 10)?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q2" value="a" data-correct="false"/>"La tecnología transforma la educación" (Pérez, 2021, p. 10).</label>
+        <label class="q-opt"><input type="radio" name="q2" value="b" data-correct="true"/>Según Pérez (2021), los avances tecnológicos están cambiando la forma en que se enseña y aprende.</label>
+        <label class="q-opt"><input type="radio" name="q2" value="c" data-correct="false"/>La tecnología cambia la educación (Pérez, 2021, p. 10).</label>
+        <label class="q-opt"><input type="radio" name="q2" value="d" data-correct="false"/>Pérez dice que la tecnología transforma la educación.</label>
+      </div>
     </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 3 de 10</div>
+      <div class="q-text">¿En qué orden van las entradas de la lista de referencias en APA?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q3" value="a" data-correct="false"/>Por año de publicación, del más antiguo al más reciente</label>
+        <label class="q-opt"><input type="radio" name="q3" value="b" data-correct="true"/>Alfabético por apellido del primer autor</label>
+        <label class="q-opt"><input type="radio" name="q3" value="c" data-correct="false"/>Por tipo de fuente: libros primero, webs después</label>
+        <label class="q-opt"><input type="radio" name="q3" value="d" data-correct="false"/>En el mismo orden en que aparecen citadas en el texto</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 4 de 10</div>
+      <div class="q-text">¿Cuál es el formato correcto para la referencia de un libro en APA 7?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q4" value="a" data-correct="false"/>García, María. (2022). "Educación digital". Editorial Norma.</label>
+        <label class="q-opt"><input type="radio" name="q4" value="b" data-correct="true"/>García, M. (2022). <em>Educación digital</em>. Editorial Norma.</label>
+        <label class="q-opt"><input type="radio" name="q4" value="c" data-correct="false"/>García M. (2022). Educación digital. Editorial Norma.</label>
+        <label class="q-opt"><input type="radio" name="q4" value="d" data-correct="false"/>García, M. 2022. Educación digital. Editorial Norma.</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 5 de 10</div>
+      <div class="q-text">Un artículo de sitio web no tiene autor identificable. ¿Qué se usa como autor en la referencia APA?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q5" value="a" data-correct="false"/>Se omite la referencia — no se puede citar</label>
+        <label class="q-opt"><input type="radio" name="q5" value="b" data-correct="false"/>Se escribe "Anónimo" como autor</label>
+        <label class="q-opt"><input type="radio" name="q5" value="c" data-correct="true"/>El nombre de la organización o institución responsable del sitio</label>
+        <label class="q-opt"><input type="radio" name="q5" value="d" data-correct="false"/>Se copia solo la URL, sin más datos</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 6 de 10</div>
+      <div class="q-text">¿Qué es la "sangría francesa" en la lista de referencias?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q6" value="a" data-correct="false"/>Poner todas las líneas con sangría por igual</label>
+        <label class="q-opt"><input type="radio" name="q6" value="b" data-correct="false"/>No usar sangría en ninguna línea</label>
+        <label class="q-opt"><input type="radio" name="q6" value="c" data-correct="true"/>La primera línea de cada referencia va al margen y las siguientes con sangría</label>
+        <label class="q-opt"><input type="radio" name="q6" value="d" data-correct="false"/>Sangría solo en la última línea de cada referencia</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 7 de 10</div>
+      <div class="q-text">Citas 3 párrafos de un libro en tu trabajo, pero pones solo la referencia al final del documento, sin citas en el texto. ¿Es plagio?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q7" value="a" data-correct="false"/>No — la referencia al final es suficiente</label>
+        <label class="q-opt"><input type="radio" name="q7" value="b" data-correct="true"/>Sí — cada fragmento copiado debe ir con comillas y cita en el texto</label>
+        <label class="q-opt"><input type="radio" name="q7" value="c" data-correct="false"/>Depende de cuántos párrafos se copiaron</label>
+        <label class="q-opt"><input type="radio" name="q7" value="d" data-correct="false"/>Solo si son más de 5 párrafos</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 8 de 10</div>
+      <div class="q-text">¿Cuándo se usa la cita directa en lugar de la paráfrasis?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q8" value="a" data-correct="false"/>Siempre — es más seguro copiar textual para no distorsionar la idea</label>
+        <label class="q-opt"><input type="radio" name="q8" value="b" data-correct="false"/>Nunca — la paráfrasis es siempre preferible</label>
+        <label class="q-opt"><input type="radio" name="q8" value="c" data-correct="true"/>Cuando las palabras exactas del autor son relevantes en sí mismas, no solo la idea</label>
+        <label class="q-opt"><input type="radio" name="q8" value="d" data-correct="false"/>Solo para textos muy cortos de menos de 10 palabras</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 9 de 10</div>
+      <div class="q-text">¿Cuál es la diferencia entre una "cita flotante" y una "cita integrada"?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q9" value="a" data-correct="false"/>La cita flotante tiene paréntesis y la integrada no</label>
+        <label class="q-opt"><input type="radio" name="q9" value="b" data-correct="false"/>La cita integrada es solo para libros; la flotante, para webs</label>
+        <label class="q-opt"><input type="radio" name="q9" value="c" data-correct="true"/>La integrada está contextualizada con oraciones propias; la flotante aparece sola sin conexión</label>
+        <label class="q-opt"><input type="radio" name="q9" value="d" data-correct="false"/>No hay diferencia — son términos equivalentes</label>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-num">Pregunta 10 de 10</div>
+      <div class="q-text">En tu trabajo aparece una referencia de un autor en la lista, pero en ningún párrafo del texto lo has citado. ¿Qué debes hacer?</div>
+      <div class="q-opts">
+        <label class="q-opt"><input type="radio" name="q10" value="a" data-correct="false"/>Nada — es válido incluir fuentes de consulta aunque no se citen</label>
+        <label class="q-opt"><input type="radio" name="q10" value="b" data-correct="true"/>Eliminar esa referencia de la lista o agregar una cita de ese autor en el texto</label>
+        <label class="q-opt"><input type="radio" name="q10" value="c" data-correct="false"/>Agregar la frase "consultado para referencia" junto a la referencia</label>
+        <label class="q-opt"><input type="radio" name="q10" value="d" data-correct="false"/>Moverla a una sección llamada "Bibliografía complementaria"</label>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+  </div>
+
+  <div class="score-box" id="score-box">
+    <div><span class="score-num" id="score-num">0</span><span class="score-denom"> / 20</span></div>
+    <div class="score-msg" id="score-msg"></div>
+  </div>
+
+  <div class="material-reveal" id="material-reveal">
+    <div class="section-title" style="margin-top:32px;">📖 Lo que aprendimos</div>
+    <p style="font-size:16px;color:var(--muted);margin-bottom:24px;">Revisa los conceptos clave de la sesión para reforzar lo aprendido.</p>
   </div>
 </div>
 
-</div><!-- /page-wrap -->
+</div>
 <script>
+const GK=document.getElementById('eval-grade-key');
+const GRADE=GK.dataset.grade;
+const SESSION=GK.dataset.session;
 
-const GRADE = document.getElementById('eval-grade-key').dataset.grade;
-const SESSION = document.getElementById('eval-grade-key').dataset.session;
-const ROSTER_URL = '/.netlify/functions/get-roster?grado=' + GRADE;
-const SUBMIT_URL = '/.netlify/functions/submit-eval';
+fetch('/.netlify/functions/get-roster?grado='+GRADE)
+  .then(r=>r.json()).then(d=>{
+    if(d.found){
+      const dl=document.getElementById('alumnos-gate-dl');
+      d.alumnos.forEach(a=>{const o=document.createElement('option');o.value=a.nombre;dl.appendChild(o);});
+    }
+  }).catch(()=>{});
 
-let evalNombre = '';
-let evalStarted = false;
-
-// Cargar roster
-fetch(ROSTER_URL).then(r=>r.json()).then(data=>{
-  const dl = document.getElementById('alumnos-gate-dl');
-  const alumnos = data.alumnos || data || [];
-  alumnos.forEach(a=>{
-    const opt = document.createElement('option');
-    opt.value = typeof a === 'string' ? a : a.nombre;
-    dl.appendChild(opt);
-  });
-}).catch(()=>{});
-
-function titleCase(s){return s.toLowerCase().replace(/(?:^|\s|-)\S/g,c=>c.toUpperCase());}
-function nameKey(n){return n.toLowerCase().replace(/[^a-z0-9]+/g,'-');}
-
+let evalName='';
 function startEval(){
-  const raw = document.getElementById('gate-nombre').value.trim();
-  if(raw.length < 3){ alert('Por favor ingresa tu nombre completo.'); return; }
-  evalNombre = titleCase(raw);
-  const nk = nameKey(evalNombre);
-  const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
-  const prev = localStorage.getItem(lsKey);
-  if(prev){
-    const d = JSON.parse(prev);
-    alert('Ya completaste esta evaluación con ' + d.score + '/20. Solo se permite un intento.');
-    return;
-  }
-  document.getElementById('confirm-name-display').textContent = evalNombre;
-  document.getElementById('gate-box').style.display = 'none';
-  document.getElementById('confirm-box').style.display = 'block';
+  const v=document.getElementById('gate-nombre').value.trim();
+  if(v.split(' ').filter(Boolean).length<2){alert('Escribe tu nombre y apellido completos.');return;}
+  evalName=v;
+  document.getElementById('confirm-name-display').textContent=v;
+  document.getElementById('gate-box').style.display='none';
+  document.getElementById('confirm-box').style.display='block';
 }
-
-function resetGate(){
-  document.getElementById('confirm-box').style.display = 'none';
-  document.getElementById('gate-box').style.display = 'block';
-  document.getElementById('gate-nombre').value = '';
-  evalNombre = '';
-}
-
 function confirmarIdentidad(){
-  document.getElementById('confirm-box').style.display = 'none';
-  document.getElementById('exam-who-bar').classList.add('visible');
-  document.getElementById('exam-who-name').textContent = '👤 ' + evalNombre;
-  document.getElementById('eval-form').style.display = 'block';
-  evalStarted = true;
-}
-
-document.getElementById('gate-nombre') && document.getElementById('gate-nombre').addEventListener('keydown', e=>{
-  if(e.key==='Enter') startEval();
-});
-
-// Options selection
-document.querySelectorAll('.q-opt').forEach(opt=>{
-  opt.addEventListener('click',()=>{
-    if(opt.querySelector('input').disabled) return;
-    const block = opt.closest('.q-block');
-    block.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
-    opt.classList.add('selected');
-    opt.querySelector('input').checked = true;
-  });
-});
-
-async function submitEval(){
-  if(!evalStarted) return;
-  const questions = document.querySelectorAll('.q-block');
-  let answered = 0;
-  questions.forEach(q=>{
-    if(q.querySelector('input:checked')) answered++;
-  });
-  if(answered < questions.length){
-    alert('Por favor responde todas las preguntas antes de enviar.');
+  const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const lsKey='eval-'+SESSION+'-'+GRADE+'-'+nameKey;
+  if(localStorage.getItem(lsKey)){
+    alert('Ya completaste esta evaluación, '+evalName.split(' ')[0]+'. Solo se permite un intento por alumno en este dispositivo.');
     return;
   }
-  const btn = document.getElementById('submit-btn');
-  btn.disabled = true;
-  btn.textContent = 'Enviando…';
-
-  let correctas = 0;
-  const respuestas = {};
-  questions.forEach((q,i)=>{
-    const sel = q.querySelector('input:checked');
-    const correct = sel && sel.dataset.correct === 'true';
-    if(correct) correctas++;
-    respuestas['q'+(i+1)] = sel ? sel.value : '';
-    // Color feedback
-    q.querySelectorAll('.q-opt').forEach(o=>{
-      o.querySelector('input').disabled = true;
-      if(o.querySelector('input').dataset.correct==='true') o.classList.add('correct');
-      else if(o.querySelector('input').checked) o.classList.add('wrong');
+  document.getElementById('confirm-box').style.display='none';
+  const bar=document.getElementById('exam-who-bar');
+  bar.classList.add('visible');
+  document.getElementById('exam-who-name').textContent=evalName;
+  document.getElementById('eval-form').style.display='block';
+  document.querySelectorAll('.q-opt').forEach(opt=>{
+    opt.addEventListener('click',()=>{
+      opt.querySelector('input').checked=true;
+      opt.closest('.q-opts').querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      checkAllAnswered();
     });
   });
-
-  const score = correctas * 2;
-  const nk = nameKey(evalNombre);
-  const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
-  localStorage.setItem(lsKey, JSON.stringify({score, correctas, fecha: new Date().toISOString()}));
-
-  // Show score
-  const sb = document.getElementById('score-box');
-  sb.style.display = 'block';
-  document.getElementById('score-num').textContent = score;
-  const msgs = score>=18?'🏆 ¡Excelente!':score>=14?'✅ ¡Bien hecho!':score>=10?'📚 Puedes mejorar':'💪 ¡Sigue practicando!';
-  document.getElementById('score-msg').textContent = msgs;
-  btn.style.display = 'none';
-  document.getElementById('material-reveal').style.display = 'block';
-
-  // POST to backend
-  try {
-    await fetch(SUBMIT_URL, {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        nombre: evalNombre, grado: GRADE, sesion: SESSION,
-        score, correctas, total: questions.length,
-        fecha: new Date().toISOString(), respuestas
-      })
-    });
-  } catch(e) {}
 }
-
+function resetGate(){
+  document.getElementById('gate-box').style.display='block';
+  document.getElementById('confirm-box').style.display='none';
+  document.getElementById('exam-who-bar').classList.remove('visible');
+  document.getElementById('eval-form').style.display='none';
+  document.getElementById('gate-nombre').value='';
+  evalName='';
+}
+function checkAllAnswered(){
+  const total=10;
+  let answered=0;
+  for(let i=1;i<=total;i++){
+    if(document.querySelector('input[name="q'+i+'"]:checked'))answered++;
+  }
+  document.getElementById('submit-btn').disabled=(answered<total);
+}
+async function submitEval(){
+  const total=10;let correctas=0;const respuestas={};
+  for(let i=1;i<=total;i++){
+    const sel=document.querySelector('input[name="q'+i+'"]:checked');
+    if(!sel)continue;
+    const isCorrect=sel.dataset.correct==='true';
+    if(isCorrect)correctas++;
+    respuestas['q'+i]=sel.value;
+    sel.closest('.q-opts').querySelectorAll('.q-opt').forEach(opt=>{
+      const inp=opt.querySelector('input');
+      opt.classList.remove('selected');
+      if(inp.dataset.correct==='true')opt.classList.add('correct');
+      else if(inp.checked)opt.classList.add('wrong');
+      inp.disabled=true;
+    });
+  }
+  const score=correctas*2;
+  const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const lsKey='eval-'+SESSION+'-'+GRADE+'-'+nameKey;
+  localStorage.setItem(lsKey,'done');
+  document.getElementById('submit-btn').style.display='none';
+  document.getElementById('score-box').style.display='block';
+  document.getElementById('score-num').textContent=score;
+  const msgs=['¡Sigue practicando!','Buen trabajo','¡Muy bien!','¡Excelente!'];
+  document.getElementById('score-msg').textContent=score<10?msgs[0]:score<14?msgs[1]:score<18?msgs[2]:msgs[3];
+  document.getElementById('material-reveal').style.display='block';
+  const fecha=new Date().toISOString();
+  try{
+    await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total,fecha,respuestas})});
+  }catch(e){}
+}
 </script>
 </body>
 </html>

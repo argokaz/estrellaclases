@@ -402,36 +402,28 @@ fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE)
     });
   }).catch(()=>{});
 
+let syncRoom='';let syncActive=false;let syncBusy=false;let lastPosted=-1;
+const API_SYNC='/.netlify/functions/sync';
 function openCard(idx){
   document.querySelectorAll('.card').forEach((c,i)=>{if(i===idx)c.classList.toggle('open');else c.classList.remove('open');});
   currentCard=idx;
   document.getElementById('nav-counter').textContent=(idx+1)+' / '+totalCards;
   document.getElementById('ncounter').textContent=idx+2;
+  if(syncActive&&idx!==lastPosted){lastPosted=idx;postSlide(idx);}
 }
 function navCard(d){const n=currentCard+d;if(n<0||n>=totalCards)return;openCard(n);}
-
-// Sync
-let syncRoom='';let syncActive=false;let syncTimer=null;
 function startSync(){
-  const code=document.getElementById('sync-room-input').value.trim();
+  const code=document.getElementById('sync-room-input').value.trim().toUpperCase();
   if(!code){alert('Ingresa el código del proyector.');return;}
   syncRoom=code;syncActive=true;
   document.getElementById('sync-status-text').textContent='Conectando…';
-  if(syncTimer)clearInterval(syncTimer);
-  syncTimer=setInterval(pullSync,1500);
+  document.getElementById('sync-dot').classList.add('on');
+  postSlide(currentCard);
 }
-async function pullSync(){
-  try{
-    const r=await fetch('/.netlify/functions/sync?room='+syncRoom);
-    const d=await r.json();
-    if(d&&typeof d.slide==='number'){
-      const OFFSET=1;const idx=d.slide-OFFSET;
-      document.getElementById('sync-dot').classList.add('on');
-      document.getElementById('sync-status-text').textContent='Sincronizado · slide '+(d.slide+1);
-      document.getElementById('ncounter').textContent=d.slide+1;
-      if(idx>=0&&idx<totalCards&&idx!==currentCard)openCard(idx);
-    }
-  }catch(e){}
+async function postSlide(idx){
+  if(!syncActive||syncBusy)return;syncBusy=true;
+  try{await fetch(API_SYNC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
+  catch(e){}finally{syncBusy=false;}
 }
 async function darBonus(selId,msgId){
   selId=selId||'bw-nombre';msgId=msgId||'bw-msg';

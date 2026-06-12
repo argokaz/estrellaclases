@@ -366,7 +366,8 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;ju
 const DECK_GRADE='sec5';const DECK_SESSION='06';
 const total=16;
 let cur=1;
-function go(d){const n=cur+d;if(n<1||n>total)return;cur=n;document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===cur-1));document.getElementById('counter').textContent=cur+' / '+total;syncPost();}
+function goTo(n){if(n<1||n>total)return;cur=n;document.querySelectorAll('.slide').forEach((s,i)=>s.classList.toggle('active',i===cur-1));document.getElementById('counter').textContent=cur+' / '+total;}
+function go(d){goTo(cur+d);}
 document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);else if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);});
 
 function quizPick(el){
@@ -381,26 +382,17 @@ function closeCeleb(){document.getElementById('celeb').classList.remove('show');
 function spawnConfetti(){const c=document.getElementById('confetti-canvas');const ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;const bits=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20,r:Math.random()*6+3,color:`hsl(${Math.random()*360},80%,60%)`,vx:(Math.random()-0.5)*4,vy:Math.random()*4+2,a:Math.random()*360}));let frame=0;function draw(){ctx.clearRect(0,0,c.width,c.height);bits.forEach(b=>{ctx.save();ctx.translate(b.x,b.y);ctx.rotate(b.a*Math.PI/180);ctx.fillStyle=b.color;ctx.fillRect(-b.r,-b.r/2,b.r*2,b.r);ctx.restore();b.x+=b.vx;b.y+=b.vy;b.a+=3;});frame++;if(frame<180)requestAnimationFrame(draw);else ctx.clearRect(0,0,c.width,c.height);}draw();}
 
 // REMOTE SYNC
-let roomCode='';let syncActive=false;let syncInterval=null;
-const OFFSET=1;
-function genCode(){return String(Math.floor(1000+Math.random()*9000));}
-async function initSync(){
-  roomCode=genCode();
-  document.getElementById('sync-code').textContent=roomCode;
-  try{await fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:roomCode,slide:0,grade:DECK_GRADE,session:DECK_SESSION})});}catch(e){}
-  syncActive=true;
+(function(){
+  const API='/.netlify/functions/sync';const OFFSET=1;
+  function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
+  const ROOM=sessionStorage.getItem('deck-room')||genCode();
+  sessionStorage.setItem('deck-room',ROOM);
+  document.getElementById('sync-code').textContent=ROOM;
   document.getElementById('sync-dot').classList.add('on');
-  syncInterval=setInterval(pollBonus,1500);
-}
-async function pollBonus(){
-  try{const r=await fetch('/.netlify/functions/get-bonus-signal');const d=await r.json();if(d&&d.ts&&d.ts!==lastBonusTs){lastBonusTs=d.ts;const g=d.grade||DECK_GRADE;if(g===DECK_GRADE){showCeleb();document.getElementById('celeb-msg').textContent='⭐ +1 Bonus!';document.getElementById('celeb-sub').textContent=d.nombre||'';}}}catch(e){}
-}
-let lastBonusTs=0;
-async function syncPost(){
-  if(!syncActive||!roomCode)return;
-  try{await fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:roomCode,slide:cur-OFFSET,grade:DECK_GRADE,session:DECK_SESSION})});}catch(e){}
-}
-function toggleSync(){if(!syncActive)initSync();else{clearInterval(syncInterval);syncActive=false;document.getElementById('sync-dot').classList.remove('on');}}
-initSync();
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:DECK_GRADE,session:DECK_SESSION})}).catch(()=>{});
+  let last=0,busy=false,lastBonusTs=0;
+  async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb();document.getElementById('celeb-msg').textContent='⭐ +1 Bonus!';document.getElementById('celeb-sub').textContent=d.bonus.nombre||'';}}catch(e){}finally{busy=false;}}
+  setInterval(poll,1500);poll();
+})();
 </script>
 </body></html>

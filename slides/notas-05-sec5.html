@@ -388,6 +388,8 @@ Conexión con S06: próxima clase — estructura completa del trabajo formal: in
 <script>
 const cards=[...document.querySelectorAll('.card')];
 let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
 function openCard(n){
   cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
   cur=n;
@@ -395,6 +397,7 @@ function openCard(n){
   document.getElementById('btn-prev').disabled=n===0;
   document.getElementById('btn-next').disabled=n===cards.length-1;
   cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}
 }
 cards.forEach((c,i)=>{
   c.querySelector('.card-header').addEventListener('click',()=>{openCard(i);});
@@ -402,9 +405,6 @@ cards.forEach((c,i)=>{
 document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
 document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
 openCard(0);
-
-let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
-const API='/.netlify/functions/sync';
 function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
 function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
 function startSync(){
@@ -421,10 +421,6 @@ async function postSlide(idx){
   try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
   catch(e){}finally{syncBusy=false;}
 }
-const _origOpen=openCard;
-function openCard(n){_origOpen(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
-const mo=new MutationObserver(()=>{const m=document.getElementById('ncounter').textContent.match(/(\d+)/);if(m){const idx=parseInt(m[1])-1;if(syncActive&&idx!==lastPosted){lastPosted=idx;postSlide(idx);}}});
-mo.observe(document.getElementById('ncounter'),{childList:true,characterData:true,subtree:true});
 
 const NOTA_GRADE='sec5';const NOTA_SESSION='05';
 let bwPw=sessionStorage.getItem('nota_pw')||'';

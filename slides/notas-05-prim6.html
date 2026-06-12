@@ -400,6 +400,8 @@ Conexión con S6: próxima clase — respeto y comunicación en línea.</p>
 
 const cards=[...document.querySelectorAll('.card')];
 let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
 function openCard(n){
   cards.forEach((c,i)=>{c.classList.toggle('open',i===n);});
   cur=n;
@@ -407,14 +409,12 @@ function openCard(n){
   document.getElementById('btn-prev').disabled=n===0;
   document.getElementById('btn-next').disabled=n===cards.length-1;
   cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}
 }
 cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
 document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
 document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
 openCard(0);
-
-let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
-const API='/.netlify/functions/sync';
 function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
 function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
 function startSync(){
@@ -429,8 +429,6 @@ async function postSlide(idx){
   try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}
   catch(e){}finally{syncBusy=false;}
 }
-const _orig=openCard;
-function openCard(n){_orig(n);if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
 
 
 const NOTA_GRADE='prim6';const NOTA_SESSION='05';
@@ -469,11 +467,6 @@ async function darBonus(selId,msgId){
   setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 
-// ── Navigation sync: postSlide on every card change ─────────────────────────
-if(typeof postSlide==='function'&&typeof openCard==='function'){
-  const _oc=openCard;
-  openCard=function(n){_oc(n);if(syncActive)postSlide(n);};
-}
 // ── Auto-connect desde URL ?room=XXXX ──────────────────────────────────────
 (function(){
   const _r=new URLSearchParams(window.location.search).get('room');

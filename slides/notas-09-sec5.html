@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 09 · 5.° Secundaria · 10 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#f87171;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 09 · 5.° Secundaria</div><div class="top-bar-meta">Identidad digital y reputación · Viernes 10 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S08 (ciudadanía digital). Hoy el foco es la identidad digital como activo o pasivo profesional — algo que en 5.° ya es urgente porque algunos van a postular a universidades en menos de 2 años. Pregunta de entrada: ¿alguien googló su propio nombre alguna vez? ¿Qué encontraron?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. La idea clave: tu identidad digital se construye con o sin tu conciencia. La diferencia entre quienes la gestionan y quienes no puede ser significativa en el mundo profesional.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·3</span><span class="card-title">Huella digital: activa vs. pasiva</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La distinción activa/pasiva es el concepto más importante del slide:
+
+Huella activa (consciente): lo que publicas deliberadamente
+- Fotos, posts, comentarios, perfiles, respuestas en foros
+
+Huella pasiva (inconsciente): lo que se registra automáticamente
+- Historial de búsqueda (Google lo guarda)
+- Cookies de sitios visitados
+- Geolocalización activa en apps
+- Tiempo de visualización de contenido (YouTube, TikTok lo registran)
+
+La mayoría de 16-17 años no conoce la dimensión de su huella pasiva — este es el momento para hacerla visible.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿cuántos tienen el historial de ubicación activo en su celular? ¿Saben que Google tiene un mapa de cada lugar donde estuvieron? Esto suele generar sorpresa o incomodidad — úsala para anclar el concepto.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·4</span><span class="card-title">El efecto de permanencia</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El efecto de permanencia tiene 4 mecanismos concretos:
+1. Google indexa contenido público → aparece en búsquedas del nombre
+2. Las capturas de pantalla existen aunque se borre el original
+3. Wayback Machine archiva versiones anteriores de sitios web públicos
+4. Las plataformas tienen copias de lo que se "borró" en sus servidores
+
+Dato concreto: el 70% de las universidades de EEUU y muchas de Latinoamérica declaran que buscan el nombre de los postulantes en redes sociales como parte del proceso de selección.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si hay conexión, demuestra Wayback Machine (web.archive.org) con un sitio conocido. Ver que existe un historial de versiones anteriores de cualquier página hace tangible la permanencia digital.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·5</span><span class="card-title">⭐ Caso para analizar: Sebastián</span></div><span class="card-time">6 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El caso de Sebastián (17 años, comentarios despectivos hace 3 años, postula a beca universitaria):
+
+Respuestas esperadas para el análisis:
+1. Probabilidad: alta — Google indexa foros públicos y los comentarios aparecen en búsqueda de nombre
+2. Consecuencia: el comité puede decidir que el perfil no es compatible con los valores de la institución — afecta la admisión o la beca
+3. Cómo evitarlo: no usar el nombre real en foros, usar seudónimos para perfiles personales, pensar antes de publicar cualquier opinión fuerte
+
+El debate interesante: ¿debe un comentario de hace 3 años, cuando Sebastián tenía 14, afectar su futuro adulto?
+
+⭐ Bonus: +1 por análisis más completo con argumentación clara.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 2-3 minutos para que piensen. Recoge 3-4 respuestas. El debate sobre si es justo o no que comentarios de la adolescencia afecten el futuro adulto es valioso — no lo cortes, generalmente es el más rico de la clase.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: C) "Puede afectar negativamente la decisión de admisión, ya que la reputación digital es permanente e influye en la percepción profesional"
+
+Por qué las otras están mal:
+- A) "Ningún impacto: las fotos son antiguas y era menor" → la ley puede proteger en algunos contextos, pero la percepción del comité no está obligada a ignorarlas
+- B) "Impacto mínimo: el rector entenderá que era joven" → no hay evidencia de que eso sea así; depende del rector y la institución
+- D) "Solo impacta si son recientes" → la permanencia digital no expira por antigüedad
+
+⭐ Bonus: +1 al primero en responder correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. El debate post-quiz es más valioso que la respuesta correcta. Pregunta: ¿deberían existir reglas que protejan a las personas de contenido antiguo en búsquedas? → esto conecta directamente con el derecho al olvido del slide 13.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·7</span><span class="card-title">Capital profesional digital</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El concepto de "capital profesional digital" es una metáfora financiera: es un activo que se puede invertir (construir) o descuidar (depreciar). Los 3 componentes:
+
+1. Buscabilidad: qué aparece cuando buscan tu nombre. Un perfil vacío = invisible. Un perfil positivo = ventaja.
+2. Consistencia: el mismo tono, los mismos valores en todas las plataformas. Contradicciones entre LinkedIn y Twitter son señales de alerta para empleadores.
+3. Evidencia de valor: proyectos, logros, contribuciones visibles. Publicar trabajo propio, participar en comunidades, escribir sobre temas de interés.
+
+Para 5.° es el momento ideal para empezar a construirlo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿alguien tiene un LinkedIn? ¿Un portafolio personal? ¿Un perfil de GitHub o similar? Muestra que los que sí tienen ya están construyendo capital. Los que no, esta es la invitación a empezar.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·8</span><span class="card-title">Perfil personal vs. profesional</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La distinción no es sobre qué contenido publicar, sino sobre qué plataforma y con qué audiencia:
+
+Perfil personal:
+- Instagram, TikTok, Snapchat con configuración de privacidad REAL (cuenta privada verificada)
+- Contenido para amigos y familia
+- Momento del día, opinión, humor
+- Regla: si la cuenta es privada y controlada, está bien
+
+Perfil profesional:
+- LinkedIn, GitHub, portafolio propio
+- Logros, proyectos, trabajo académico
+- Tono formal y consistente
+- Este es el que verán universidades y empleadores
+
+El mensaje: los dos pueden coexistir — la clave es saber cuál es cuál y controlar quién ve qué.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿cuántos tienen su Instagram en privado? ¿Verificaron que realmente es privado? Hay un error frecuente: creer que la cuenta está en privado pero las "stories" o el perfil aún son visibles a no-seguidores.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·9</span><span class="card-title">Qué ven empleadores y universidades</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 5 puntos son datos basados en estudios de recursos humanos:
+1. Búsqueda de nombre en Google y redes: práctica estándar en más del 60% de las empresas
+2. Análisis de tono y valores: comentarios agresivos, discriminatorios o imprudentes son señales negativas
+3. Coherencia con la solicitud: si el CV dice "trabajo en equipo" pero las redes muestran conflictos públicos, hay contradicción
+4. Señales de madurez: cómo se responde a críticas, cómo se trata a otros
+5. Perfil invisible: en muchos contextos también genera preguntas
+
+El dato más impactante para 5.°: en postulaciones universitarias competitivas (especialmente internacionales), el digital screening ya es práctica establecida.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: si mañana postularas a una beca y supieran que buscarán tu nombre en Google, ¿cambiarías algo de tu presencia digital hoy? El silencio o la incomodidad es información valiosa sobre el nivel de consciencia del grupo.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·10</span><span class="card-title">Auditoría de identidad digital</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 pasos de la auditoría son el inicio de la actividad práctica:
+1. Búsqueda en incógnito: crucial usar incógnito porque el perfil personalizado de Google muestra resultados distintos al resto
+2. Revisión de privacidad: Instagram, TikTok, Facebook, Twitter — verificar cada una individualmente
+3. Auditoría de comentarios: buscar comentarios en YouTube, foros, Reddit con el nombre real o el apodo habitual
+
+La mayoría de 16-17 años no ha hecho esto nunca. El resultado de la búsqueda suele ser sorprendente — a veces más visible de lo que creían, a veces más invisible.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que abran el modo incógnito ahora mismo y busquen su nombre. Da 2 minutos. Pregunta: ¿encontraron algo? ¿Les gusta lo que encontraron? Esto prepara la actividad principal del slide 14.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·11</span><span class="card-title">Gestión activa de tu reputación</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 5 estrategias de gestión activa:
+1. Publicar contenido positivo: desplaza resultados negativos en búsquedas de Google (el algoritmo favorece contenido reciente)
+2. Seudónimo coherente: usar un alias para perfiles personales que quieren mantener separados del nombre real
+3. Alertas de Google: google.com/alerts → recibir un email cuando alguien menciona tu nombre
+4. LinkedIn/portafolio: aunque parezca "para el futuro", en 5.° ya es el momento adecuado
+5. Solicitar eliminación: a plataformas o personas que publicaron contenido comprometedor sin consentimiento
+
+La estrategia #1 es la más poderosa: si los primeros 5 resultados de Google para tu nombre son positivos, el contenido negativo queda en la segunda página (que casi nadie visita).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Las alertas de Google son la acción más fácil de hacer hoy mismo. Si hay tiempo, muestra cómo configurarlas en el proyector. Toma menos de 2 minutos y es inmediatamente útil.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·12</span><span class="card-title">El "yo del futuro" como criterio</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La pregunta del slide ("¿estaría cómodo/a si esto aparece en una búsqueda en 5 años?") es una heurística práctica que no requiere memorizar reglas.
+
+Los 4 matices del slide son importantes:
+1. No es autocensura — es conciencia de audiencia. Diferencia conceptual importante para adolescentes que sienten que "no deben censurarse"
+2. Puedes tener opiniones sin hacerlas permanentes y públicas
+3. La privacidad es un derecho, pero las plataformas públicas no la garantizan por defecto
+4. La regla de oro: "privado" digital no existe si otra persona puede capturar la pantalla</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿hay algo que publicaron en el último año que hoy no publicarían? (sin pedir que lo compartan). La pregunta en sí genera la reflexión necesaria.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·13</span><span class="card-title">⭐ Debate: derecho al olvido</span></div><span class="card-time">6 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El derecho al olvido (GDPR Europa, 2014): ciudadanos europeos pueden pedir a Google que elimine resultados que los afectan injustamente. No elimina el contenido — elimina el resultado de búsqueda.
+
+Las 3 preguntas del debate y posiciones posibles:
+1. ¿Debería existir en Perú?
+   → PRO: protege a personas de su pasado digital / CON: dificulta la rendición de cuentas de figuras públicas
+2. ¿Cuándo es justo vs cuándo es interés público?
+   → Criterios: es privado (opinión personal de menor) vs es público (acción de funcionario)
+3. ¿Quién decide?
+   → Jueces y abogados (sistema actual en Europa) / algoritmo de IA / el propio usuario
+
+⭐ Bonus: +1 por argumento más fundamentado con posición clara y reconocimiento del contrapunto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Forma dos grupos: uno defiende el derecho al olvido, otro defiende la permanencia de la información. Da 2 minutos para preparar y 1 minuto por grupo. Esto activa el pensamiento crítico más que una discusión abierta.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·14</span><span class="card-title">🎯 Actividad: auditoría personal</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal en Google Doc. Los alumnos documentan:
+1. Búsqueda en incógnito: anotar los 3 primeros resultados exactos
+2. Análisis: ¿positivo / neutro / negativo / invisible? ¿Representa bien quién son?
+3. Plan de acción: 3 acciones concretas con fecha (ej: "esta semana: poner Instagram en privado", "este mes: crear perfil de LinkedIn")
+
+La actividad es personal — no se comparte públicamente. El Doc compartido con la profesora es suficiente para evaluación.
+
+Criterios:
+- ¿Los hallazgos son honestos? ✓
+- ¿El análisis conecta con el contenido de la clase? ✓
+- ¿El plan de acción es concreto y realista? ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. Algunos pueden no querer compartir sus hallazgos — es válido. El Doc es solo para la profesora. Lo más importante es que el plan de acción sea específico: "mejorar mi identidad digital" no es un plan; "crear perfil de LinkedIn esta semana" sí lo es.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·15</span><span class="card-title">⚠️ Límites críticos</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 límites del slide son los más importantes de seguridad digital:
+1. No compartir: DNI, dirección, nombre del colegio, horarios, fotos de uniforme en plataformas públicas — todo esto permite triangular ubicación física
+2. Privacidad activa: las plataformas cambian sus configuraciones con cada actualización — verificar cada 3 meses mínimo
+3. Ley 30096 (Perú): hostigamiento digital (cyberbullying) es un delito con consecuencias legales. Es importante que lo sepan tanto como posibles víctimas Y como posibles responsables.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">La Ley 30096 suele generar sorpresa — la mayoría no sabe que existe. No para asustar, sino para que sepan que tienen derechos legales y que también tienen responsabilidades legales en el entorno digital.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·16</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿Cuál es la diferencia entre huella digital activa y pasiva?"
+→ Activa: lo que publicas conscientemente / Pasiva: lo que se registra automáticamente sin que lo sepas.
+
+Los 3 elementos que se llevan: huella activa+pasiva, permanencia digital, gestión activa.
+
+Conexión con S10: próxima clase — ciudadanía digital: derechos y responsabilidades en la red.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3 alumnos al azar. Recordatorio: tarea = Doc con auditoría y plan de acción antes del 17 de julio. El plan debe tener al menos 3 acciones concretas con plazos.</p></div>
+</div>
+
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#f87171;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 15</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx}));}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec5';const NOTA_SESSION='09';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();
+  if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(syncRoom){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}
+  else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+  else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#f87171;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script></body></html>

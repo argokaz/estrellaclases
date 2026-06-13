@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 09 · 4.° Secundaria · 10 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#c084fc;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 09 · 4.° Secundaria</div><div class="top-bar-meta">Google Forms ético · Viernes 10 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S08 (análisis de datos). Hoy usamos Google Forms como herramienta de recolección de datos primarios, pero con énfasis en la responsabilidad ética de quién pide qué a quién. Pregunta de entrada: ¿alguien rellenó una encuesta online esta semana? ¿Saben quién la hizo ni para qué?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. La idea clave: tener los datos no justifica pedirlos. Hay que saber qué datos son necesarios y cómo protegerlos.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·3</span><span class="card-title">Google Forms: ¿para qué sirve?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 usos principales para el contexto escolar:
+1. Encuestas de opinión → datos cualitativos o cuantitativos sobre un tema
+2. Investigación → "datos primarios" son los que el investigador recoge directamente (opuesto a datos secundarios de internet)
+3. Evaluaciones → Forms puede configurarse para tener respuestas correctas y calcular puntaje automáticamente
+
+El punto clave: los datos primarios son los más valiosos en una investigación porque son propios y verificables.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿para qué trabajo escolar les sería más útil usar Forms? Deja que propongan casos reales. Esto activa la motivación antes de enseñar los detalles técnicos.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·4</span><span class="card-title">Tipos de preguntas en Forms</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 4 tipos y cuándo usar cada uno:
+- Opción múltiple: cuando hay respuestas mutuamente excluyentes (una sola correcta o preferida)
+- Casillas: cuando pueden elegir varias respuestas a la vez (ej: "¿qué deportes practicas?")
+- Escala lineal: para medir intensidad o grado de acuerdo (1-5 o 1-10)
+- Párrafo: para respuestas abiertas donde el encuestado desarrolla ideas propias
+
+El error más frecuente: usar opción múltiple cuando debería ser casillas, lo que fuerza a elegir una sola respuesta cuando la realidad admite varias.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Abre forms.new en el proyector. Muestra cómo cambiar el tipo de pregunta con el menú desplegable. Crea una de cada tipo en 2 minutos.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·5</span><span class="card-title">⭐ ¿Qué tipo de pregunta usarías?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Clasificación de los 4 casos:
+1. "¿Cuál es tu color favorito? Rojo/Azul/Verde" → Opción múltiple (una sola)
+2. "¿Qué materias te gustan?" → Casillas (pueden gustar varias)
+3. "¿Qué tan de acuerdo estás? 1-5" → Escala lineal
+4. "¿Por qué elegiste esa opción?" → Párrafo (respuesta abierta)
+
+El caso más debatido: #1. ¿Y si les gustan dos colores? → ahí cambia de opción múltiple a casillas. El tipo de pregunta depende de si la realidad admite múltiples respuestas.
+
+⭐ Bonus: +1 para quien clasifique los 4 correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 60 segundos. Recoge respuestas. El caso 1 genera debate interesante — aprovéchalo para profundizar en la diferencia entre opción múltiple y casillas.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: C) "Pide datos personales innecesarios y no explica para qué se usarán"
+
+Por qué las otras están mal:
+- A) "Tiene muy pocas preguntas" → el número de preguntas no es el problema ético
+- B) "No hay ningún problema: son datos básicos" → nombre + teléfono + dirección son datos sensibles que no tienen por qué pedirse en una encuesta escolar
+- D) "Las preguntas deberían ser siempre de opción múltiple" → el tipo de pregunta no es un problema ético
+
+La clave: pedir teléfono y dirección en una encuesta escolar sobre hábitos de lectura no tiene justificación ética.
+
+⭐ Bonus: +1 al primero en responder correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Para los que eligieron B: pregunta "¿para qué necesita el creador de la encuesta tu dirección de casa?" La respuesta obvia es que no la necesita. Eso hace visible el problema.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·7</span><span class="card-title">El consentimiento informado</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El consentimiento informado tiene 3 componentes:
+1. El encuestado sabe PARA QUÉ se usan sus respuestas
+2. Sabe si sus datos son anónimos o identificados
+3. Puede elegir no participar sin consecuencias
+
+En la práctica para Forms: el primer "campo" del formulario debe ser una descripción corta. No una pregunta — un texto explicativo. Ejemplo:
+"Esta encuesta es para un trabajo escolar sobre hábitos de sueño en adolescentes. Es completamente anónima y los datos solo serán usados para el trabajo."
+
+Sin esta descripción, la encuesta es éticamente deficiente aunque técnicamente funcione.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿alguien rellenó una encuesta sin saber para qué era? ¿Cómo se sintieron? Conecta con la experiencia personal. Esto hace tangible el principio abstracto.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·8</span><span class="card-title">Crear un formulario paso a paso</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 pasos críticos que deben dominar para la tarea:
+1. Nuevo formulario: forms.new → título descriptivo + descripción con consentimiento
+2. Preguntas: elegir tipo correcto, marcar obligatorio solo si es esencial para el análisis
+3. Compartir: botón "Enviar" → ícono de enlace (cadena) → "Acortar URL" → Copiar
+
+El paso 3 es el más confundido: muchos copian la URL de edición en lugar del enlace de respuesta. La URL de edición da acceso para editar el formulario — un error grave si se comparte con encuestados.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demuestra los 3 pasos en el proyector desde cero hasta tener el enlace listo. Enfatiza la diferencia entre "Editar" y "Ver formulario" — son URLs distintas.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·9</span><span class="card-title">Preguntas obligatorias vs opcionales</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La regla práctica: si el análisis no funciona sin ese dato → obligatoria. Si enriquece pero no es imprescindible → opcional.
+
+Ejemplos para una encuesta de hábitos de sueño:
+- "¿Cuántas horas duermes en promedio?" → obligatoria (es el dato central)
+- "¿Usas el celular antes de dormir?" → obligatoria (variable explicativa)
+- "¿Comentario adicional?" → opcional (enriquece, no bloquea)
+- "¿Cuál es tu nombre?" → depende: si la encuesta es anónima, no debería ser obligatoria ni estar</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">El toggle de "Obligatorio" está al final de cada pregunta en Forms. Muéstralo en el proyector. La regla ética: menos obligatorias = más respeto por el encuestado.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·10</span><span class="card-title">Respuestas: hoja automática</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La conexión Forms → Sheets es la función más poderosa para análisis:
+- Pasos: pestaña "Respuestas" → ícono de Sheets (verde) → "Crear hoja de cálculo nueva"
+- Cada respuesta nueva aparece automáticamente como una fila nueva
+- Cada pregunta ocupa una columna con el texto de la pregunta como encabezado
+- La primera columna siempre es la marca de tiempo (cuándo respondieron)
+
+Esta estructura ya es una tabla lista para aplicar fórmulas (PROMEDIO, CONTAR, CONTARSI) y gráficos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si tienes un formulario con respuestas previas, muestra la hoja vinculada. Si no, crea uno rápido con 2 preguntas y respóndelo desde otro dispositivo en tiempo real para ver cómo aparece la fila.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·11</span><span class="card-title">Privacidad: qué pedir y qué no</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La regla de mínimos necesarios: pide solo los datos que realmente usarás en tu análisis.
+
+Datos aceptables para encuestas escolares:
+- Edad o rango de edad (no fecha de nacimiento exacta)
+- Grado o año escolar
+- Opiniones, preferencias, frecuencias de conducta
+
+Datos sensibles (evitar a menos que sea estrictamente necesario y justificado):
+- Nombre completo (si es anónima, no lo pidas)
+- Teléfono, dirección, DNI — innecesarios para análisis escolares
+- Información sobre situación familiar o económica</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: en una encuesta sobre hábitos de estudio, ¿qué 3 datos pedirían? Recoge respuestas y analiza cuáles son necesarios y cuáles innecesarios. Este ejercicio les ayuda a diseñar sus propias encuestas.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·12</span><span class="card-title">Gráficos automáticos en Forms</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Forms genera gráficos automáticamente para preguntas cerradas:
+- Opción múltiple → gráfico circular (porcentajes)
+- Escala lineal → gráfico de barras con distribución
+- Casillas → barras horizontales con frecuencia de cada opción
+- Párrafo → solo muestra texto, no gráfico (análisis manual)
+
+Para análisis más sofisticado (cruzar variables, filtrar por subgrupo): exportar a Sheets y crear gráficos propios.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Muestra la pestaña "Respuestas" de un formulario con datos. Los gráficos automáticos impresionan por lo rápido que aparecen. Señala cuáles tipos de pregunta generan gráficos útiles.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·13</span><span class="card-title">⭐ Reto: detecta el error ético</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 casos y los errores éticos:
+
+Caso 1 (hábitos de sueño + nombre + apellido + celular):
+→ Número de celular es innecesario para el análisis. El nombre completo es debatible (si la encuesta es anónima, sobra).
+
+Caso 2 (descripción: solo "Encuesta"):
+→ Falta el propósito, la confidencialidad y quién recopila los datos. El encuestado no puede dar consentimiento informado.
+
+Caso 3 (todas obligatorias, incluyendo "situación familiar"):
+→ "Situación familiar" es dato sensible que no tiene justificación para ser obligatorio en una encuesta escolar. Hacerlo obligatorio viola la autonomía del encuestado.
+
+⭐ Bonus: +1 por cada error identificado y explicado correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 3 minutos. Recoge respuestas por caso. El debate sobre qué es "necesario" vs "conveniente" pedir es el aprendizaje más profundo de la clase.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·14</span><span class="card-title">🎯 Actividad: diseña tu encuesta</span></div><span class="card-time">15 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal. Los alumnos crean su formulario en Forms:
+- Tema: hábitos de estudio, lectura, uso de tecnología o redes sociales (a elección)
+- Título descriptivo + descripción con consentimiento
+- 5-7 preguntas usando al menos 3 tipos distintos
+- Al menos una pregunta de escala lineal
+- Solo preguntas obligatorias donde sean imprescindibles
+- Sin datos personales innecesarios
+
+Criterios de verificación:
+- ¿La descripción explica el propósito y la confidencialidad? ✓
+- ¿Hay al menos 3 tipos distintos de pregunta? ✓
+- ¿No hay datos sensibles innecesarios? ✓
+- ¿El enlace de respuesta (no de edición) funciona? ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. El error más frecuente: no agregar la descripción de consentimiento. Recordar: sin eso el formulario no cumple los criterios éticos aunque técnicamente funcione. El link correcto es el de Enviar → enlace, no la URL del navegador.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·15</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿Cuáles son los 3 componentes del consentimiento informado en una encuesta?"
+→ Saber para qué se usan los datos + saber si son anónimos + poder elegir no participar.
+
+Las 3 cosas que se llevan: 4 tipos de preguntas, consentimiento informado, datos mínimos necesarios.
+
+Conexión con S10: próxima clase — análisis de resultados de encuestas con Sheets (cruzar variables, CONTARSI).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta al azar. Recordatorio: tarea = formulario de Forms con el enlace de respuesta compartido antes del 17 de julio. El enlace que envíen debe permitir a cualquier persona responder la encuesta.</p></div>
+</div>
+
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#c084fc;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 14</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx}));}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec4';const NOTA_SESSION='09';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();
+  if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(syncRoom){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}
+  else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+  else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#c084fc;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script></body></html>

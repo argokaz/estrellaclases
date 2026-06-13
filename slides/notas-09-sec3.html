@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 09 · 3.° Secundaria · 10 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#fb923c;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 09 · 3.° Secundaria</div><div class="top-bar-meta">Prompts por objetivo · Viernes 10 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S08 (introducción a herramientas de IA). Hoy el foco es diseñar prompts según el objetivo específico que se quiere lograr. Pregunta de entrada: ¿alguien usó IA esta semana para algo escolar? ¿Qué escribieron exactamente?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala los 3 objetivos del slide. La idea clave: la IA es tan útil como preciso sea el prompt que le das. Un prompt vago desperdicia la herramienta.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·3</span><span class="card-title">Repaso: ¿qué es un prompt?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Repaso deliberadamente breve — S08 cubrió la definición. Este slide solo ancla los 3 conceptos:
+1. El prompt es la instrucción
+2. Controla completamente la calidad de la respuesta
+3. La IA no adivina intenciones — solo procesa lo que le das
+
+El error conceptual más común: pensar que la IA "sabe" lo que el usuario quería decir.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿alguien tiene un ejemplo de una vez que la IA le dijo algo que no era lo que esperaba? ¿Qué habían escrito? Ese caso abre la discusión de por qué el prompt importa.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·4</span><span class="card-title">Vago vs. preciso</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El contraste del slide es el núcleo pedagógico de la clase. Los elementos que hacen "preciso" al Prompt B:
+1. Tema exacto: "Río Rímac" (no "la contaminación" genérico)
+2. Cantidad: "Dame 3 causas" (acota la respuesta)
+3. Nivel del destinatario: "lenguaje de 3.° secundaria"
+4. Estructura esperada: implícita en "causas"
+
+El prompt vago genera 5 párrafos de Wikipedia reorganizados. El preciso genera exactamente lo que necesitas.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Abre ChatGPT o Gemini en el proyector. Prueba el prompt vago → muestra la respuesta larga e inútil. Luego prueba el preciso → muestra la respuesta directamente usable. La comparación en vivo es el mejor argumento.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·5</span><span class="card-title">⭐ ¿Qué objetivo tiene este prompt?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Clasificación de los 3 prompts del slide:
+- Prompt A: "¿Cuáles son las 5 capitales más grandes de América del Sur?" → EXPLORAR (busca datos concretos)
+- Prompt B: "Escríbeme un poema sobre el cambio climático para recitar en clase" → CREAR (genera contenido nuevo)
+- Prompt C: "Revisa este párrafo y dime qué mejorarías: [párrafo]" → EVALUAR (retroalimentación sobre trabajo propio)
+
+⭐ Bonus: +1 para quien clasifique los 3 correctamente con justificación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 60 segundos para pensar. Recoge respuestas. Para cada prompt, pregunta "¿cómo sabes?" — el razonamiento importa más que la etiqueta.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s5','bw-msg-s5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B) "Dame 3 causas de la contaminación del Río Rímac con fuentes y lenguaje sencillo para 3.° secundaria"
+
+Por qué las otras están mal:
+- A) "Háblame de la contaminación" → vago, sin tema, cantidad ni nivel
+- C) "Contaminación información completa" → ni siquiera es una frase completa, la IA dará lo que quiera
+- D) "Explica todo sobre contaminación del agua en el mundo entero" → demasiado amplio, respuesta de enciclopedia inútil
+
+⭐ Bonus: +1 al primero en responder correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Para los que eligieron D: pregunta ¿cuántos párrafos esperarían de ese prompt? La respuesta sería páginas y páginas de texto que nunca leerían — eso hace obvia la diferencia.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·7</span><span class="card-title">Los 5 objetivos del prompt</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 5 objetivos como marco conceptual:
+1. EXPLORAR: datos, hechos, contexto
+2. CREAR: texto, ideas, borradores, poemas
+3. RESUMIR: comprimir texto propio o ajeno
+4. APRENDER: explicaciones adaptadas a su nivel
+5. EVALUAR: retroalimentación sobre trabajo propio
+
+El mensaje clave: el objetivo define la estructura del prompt. Si sabes para qué lo usas, sabes cómo escribirlo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que escriban los 5 en su cuaderno con un ejemplo propio de cada uno. Los ejemplos propios los harán recordar mejor que los del slide.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·8</span><span class="card-title">Prompts para EXPLORAR</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 4 reglas para explorar:
+1. Tema exacto (no genérico)
+2. Cantidad explícita ("3 datos", "5 causas")
+3. Nivel del destinatario
+4. Pedir fuentes si se necesita citar
+
+El error más frecuente: no pedir nivel → la IA da texto universitario a un alumno de 14 años.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Construye un prompt de exploración en vivo con sugerencias de la clase. Escríbelo en el pizarrón o en el proyector. El resultado colectivo es más efectivo que el del slide.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·9</span><span class="card-title">Prompts para CREAR</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Para crear, los 4 elementos son:
+1. Formato exacto ("poema de 12 versos" / "correo formal" / "lista de 5 ideas")
+2. Tono ("motivador" / "informativo" / "humorístico")
+3. Destinatario ("para presentar en clase" / "para mi profesora")
+4. Contexto ("estoy estudiando fotosíntesis" — da marco a la IA)
+
+Sin estos 4, la IA crea algo genérico que nadie usaría tal cual.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide a un alumno que dicte un prompt de creación. Escríbelo y pruébalo en vivo. La primera vez suele faltar algún elemento — editarlo en vivo muestra el proceso real.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·10</span><span class="card-title">Prompts para RESUMIR</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">RESUMIR es el objetivo más práctico para el trabajo diario:
+- Pegar el texto directamente en el prompt es esencial
+- Especificar extensión: "en 5 puntos" / "en 3 oraciones" / "en 100 palabras"
+- Decir qué conservar: "mantén los nombres propios" / "conserva las fechas"
+
+El error común: pedir "un resumen" sin texto y sin extensión → la IA resume lo que sabe del tema, no el texto específico.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si hay tiempo, pega un párrafo de texto escolar en ChatGPT/Gemini y prueba el prompt de resumen. El contraste entre "un resumen" vs "resume en 3 puntos: [texto]" es muy claro.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·11</span><span class="card-title">Prompts para APRENDER</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">APRENDER = convertir la IA en tutor personal:
+- Dar el nivel exacto: "soy estudiante de 3.° secundaria"
+- Pedir analogías: "explícalo con un ejemplo de la vida cotidiana"
+- Pedir simplicidad: "sin términos técnicos complicados"
+
+El ejemplo del slide ("como si fuera una receta de cocina") es una técnica real: las analogías activan conocimiento previo y hacen los conceptos más retenibles.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide al grupo que elijan un tema de ciencias o matemáticas que encuentren difícil. Construyen el prompt de aprendizaje juntos y lo prueban en vivo.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·12</span><span class="card-title">Prompts para EVALUAR</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">EVALUAR es el objetivo más maduro — implica poner el propio trabajo en revisión. Las reglas:
+1. Pegar el texto propio en el prompt
+2. Especificar qué revisar: "coherencia" / "argumentos" / "redacción"
+3. Pedir sugerencias concretas: "3 cosas específicas"
+4. Pedir que NO reescriba: "solo dame retroalimentación"
+
+La regla 4 es crítica: sin ella, la IA reescribe el trabajo completo → el alumno pierde su voz y aprende menos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si alguien tiene un párrafo propio en su cuaderno, pídele que lo comparta (voluntariamente). Construye el prompt de evaluación con el grupo y prueba el resultado.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·13</span><span class="card-title">⭐ Reto: diseña el prompt</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 3 situaciones del slide y el objetivo/estructura esperados:
+
+Situación 1 (presentación de 3 min, agua, 5 datos):
+→ EXPLORAR. Prompt: "Dame 5 datos clave sobre el agua potable en Perú con lenguaje sencillo para 3.° secundaria."
+
+Situación 2 (revisar párrafo de conclusión de Historia):
+→ EVALUAR. Prompt: "Revisa la coherencia y claridad de esta conclusión de un trabajo de Historia. Dame 3 sugerencias específicas sin reescribirla: [párrafo]."
+
+Situación 3 (entender fotosíntesis):
+→ APRENDER. Prompt: "Explícame qué es la fotosíntesis con una analogía cotidiana, sin términos técnicos. Soy estudiante de 3.° secundaria."
+
+⭐ Bonus: +1 por prompt bien construido (objetivo + contexto + formato + nivel).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da 4 minutos. Recoge prompts de voluntarios. Evalúa en voz alta: ¿tiene objetivo claro? ¿contexto? ¿formato? ¿nivel? El grupo aprende de la evaluación colectiva.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-s13" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-s13','bw-msg-s13')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-s13" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·14</span><span class="card-title">🎯 Actividad: laboratorio de prompts</span></div><span class="card-time">15 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal. En su Google Doc, cada alumno:
+1. Elige un objetivo (explorar, crear, resumir, aprender o evaluar)
+2. Escribe el prompt completo (objetivo + contexto + formato + nivel)
+3. Lo prueba en ChatGPT, Gemini o Copilot
+4. Pega el prompt y la respuesta en el Doc
+5. Anota: ¿fue útil la respuesta? ¿Qué cambiarías?
+6. Repite con 2 objetivos distintos (mínimo 3 prompts en total)
+
+Criterios de evaluación:
+- ¿El prompt tiene los 4 elementos? ✓
+- ¿El objetivo es explícito o deducible? ✓
+- ¿La reflexión sobre la respuesta es genuina? ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula. Ayuda a los que están escribiendo prompts vagos: pregunta "¿qué objetivo tiene este prompt?" Si no saben responder, el prompt necesita más trabajo. El Doc compartido es la tarea — deben agregar el link al sistema de entrega.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·15</span><span class="card-title">⚠️ Límite crítico: verifica siempre</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La "alucinación" de IA es el riesgo más importante que deben conocer. La IA inventa datos, fechas, citas y fuentes con total seguridad y sin señal de que está equivocada. No es un bug — es cómo funciona el modelo.
+
+Ejemplos reales: IA que cita artículos científicos que no existen, que da estadísticas falsas, que atribuye citas a personas que nunca las dijeron.
+
+La regla de oro: la IA es un punto de partida, nunca el producto final.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: ¿alguien usó datos de la IA en una tarea sin verificarlos? (sin juzgar — para calibrar el grupo). Conecta con la tarea: cualquier dato de la IA que vayan a usar en un trabajo debe verificarse en una fuente confiable.</p></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">S09·16</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿Cuál es la fórmula de un buen prompt?"
+→ Objetivo + contexto + formato + nivel = prompt útil.
+
+Los 3 elementos que se llevan: 5 objetivos, estructura del prompt, límite de verificación.
+
+Conexión con S10: próxima clase — auditoría de respuestas de IA: cómo verificar si lo que te dio es confiable.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta al azar a 3 alumnos: "¿Cuál de los 5 objetivos usarías para [situación concreta]?" Ej: "tienes que estudiar para un examen de historia" → APRENDER. Recordatorio: tarea = Doc con 3 prompts documentados antes del 17 de julio.</p></div>
+</div>
+
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#fb923c;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 15</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx}));}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec3';const NOTA_SESSION='09';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Selecciona un alumno';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});const d=await res.json();
+  if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(syncRoom){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});}}
+  else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+  else{msg.textContent='❌ '+(d.error||'Error');}}catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#fb923c;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script></body></html>

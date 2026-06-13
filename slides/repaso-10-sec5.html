@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Repaso 10 · 5.° Secundaria · CV escolar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+:root{--accent:#f87171;--bg:#0a0a0a;--card:#111;--border:rgba(255,255,255,.08);--text:#f0f0f0;--muted:#888;--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:1rem 1rem 3rem}
+.hero{background:linear-gradient(135deg,#450a0a,#7f1d1d);border-radius:20px;padding:1.5rem;margin-bottom:1.2rem;text-align:center}
+.hero-grade{font-size:.75rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.hero-sub{font-size:.85rem;color:rgba(255,255,255,.6)}
+section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem}
+section h2{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.9rem}
+.concepts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.concept-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.75rem;text-align:center}
+.concept-emoji{font-size:1.6rem;margin-bottom:.3rem}
+.concept-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.concept-desc{font-size:.74rem;color:var(--muted);line-height:1.4}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.kw{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;padding:.5rem .7rem;font-size:.82rem;font-weight:600;color:var(--accent)}
+details{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;margin-bottom:.5rem}
+summary{padding:.75rem 1rem;cursor:pointer;font-size:.88rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▾';color:var(--muted)}
+details[open] summary::after{content:'▴'}
+.ex-body{padding:.5rem 1rem .9rem;font-size:.85rem;line-height:1.7;color:#ccc}
+.gate{background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.4rem;text-align:center;margin-bottom:1rem}
+.gate h2{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.4rem}
+.gate p{font-size:.83rem;color:rgba(255,255,255,.7);margin-bottom:.9rem}
+.gate-inp{width:100%;padding:.65rem .9rem;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:.95rem;font-family:inherit;outline:none}
+.gate-inp:focus{border-color:rgba(255,255,255,.5)}
+.gate-btn{margin-top:.6rem;width:100%;padding:.65rem;border-radius:10px;border:none;background:#fff;color:#1d4ed8;font-weight:800;font-size:.95rem;cursor:pointer}
+.gate-btn:disabled{opacity:.4;cursor:default}
+#identity-confirm{display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:1rem;margin-top:.8rem;text-align:center}
+#identity-name-display{font-size:1.1rem;font-weight:800;color:#fff;margin:.4rem 0 .8rem}
+.id-btn{padding:.55rem 1.2rem;border-radius:9px;border:none;font-weight:800;font-size:.88rem;cursor:pointer}
+.id-yes{background:#f87171;color:#000;margin-right:.4rem}
+.id-no{background:rgba(255,255,255,.1);color:#fff}
+#exam-who-bar{display:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.5rem .9rem;margin-bottom:.8rem;align-items:center;justify-content:space-between;gap:.5rem}
+#exam-who-bar span{color:rgba(255,255,255,.7)}
+#exam-who-bar strong{color:#fff}
+.not-me-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:7px;padding:.25rem .6rem;font-size:.75rem;cursor:pointer}
+#exam-section{display:none}
+.exam-q{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-bottom:.7rem}
+.exam-q-text{font-size:.9rem;font-weight:700;margin-bottom:.65rem;line-height:1.4}
+.exam-opt{display:flex;align-items:flex-start;gap:.55rem;padding:.45rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem;line-height:1.4;transition:background .15s}
+.exam-opt:hover{background:rgba(255,255,255,.05)}
+.exam-opt input{margin-top:2px;flex-shrink:0;accent-color:var(--accent)}
+.submit-wrap{text-align:center;margin-top:1.2rem}
+.submit-btn{background:linear-gradient(135deg,#f87171,#ef4444);color:#000;border:none;border-radius:12px;padding:.75rem 2.5rem;font-size:1rem;font-weight:800;cursor:pointer}
+.submit-btn:disabled{opacity:.3;cursor:default}
+#result-box{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.3rem;text-align:center;margin-bottom:1rem}
+.result-score{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;color:#fff}
+.result-label{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.2rem}
+.result-msg{font-size:.9rem;font-weight:700;color:#fff;margin-top:.6rem}
+.opt-correct{background:rgba(34,197,94,.15)!important;border:1px solid #22c55e}
+.opt-wrong{background:rgba(239,68,68,.12)!important;border:1px solid #ef4444}
+.ac-wrap{position:relative;width:100%}
+.ac-list{display:none;position:absolute;top:100%;left:0;right:0;z-index:99;background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:10px;max-height:200px;overflow-y:auto;margin-top:3px}
+.ac-item{padding:.55rem .9rem;cursor:pointer;font-size:.88rem;color:#e0e0e0}
+.ac-item:hover,.ac-item.active{background:rgba(248,113,113,.15);color:var(--accent)}
+</style></head>
+<body>
+<div class="hero">
+  <div class="hero-grade">🔴 5.° Secundaria · Sesión 10</div>
+  <div class="hero-title">CV escolar sin inflar logros</div>
+  <div class="hero-sub">17 de julio 2026 · Prof. Estrella Vizcarra</div>
+</div>
+
+<section>
+  <h2>📖 Lo que aprendimos</h2>
+  <div class="concepts-grid">
+    <div class="concept-card"><div class="concept-emoji">📄</div><div class="concept-title">6 secciones del CV</div><div class="concept-desc">Datos · perfil · educación · experiencia · habilidades · extracurriculares</div></div>
+    <div class="concept-card"><div class="concept-emoji">⚡</div><div class="concept-title">Fórmula de descripción</div><div class="concept-desc">Verbo de acción + qué + dónde + resultado/impacto</div></div>
+    <div class="concept-card"><div class="concept-emoji">❌</div><div class="concept-title">Inflar vs describir bien</div><div class="concept-desc">"Líder nato" ≠ "Coordiné equipo de 5 personas, 2 meses"</div></div>
+    <div class="concept-card"><div class="concept-emoji">🎯</div><div class="concept-title">Honestidad estratégica</div><div class="concept-desc">Presentar lo que sí tienes de la forma más poderosa y creíble</div></div>
+    <div class="concept-card"><div class="concept-emoji">✅</div><div class="concept-title">Habilidades verificables</div><div class="concept-desc">Solo las que puedes demostrar en 5 minutos de entrevista</div></div>
+    <div class="concept-card"><div class="concept-emoji">📋</div><div class="concept-title">Formato del CV</div><div class="concept-desc">1 página · fuente legible · guardar como PDF</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>📚 Palabras clave</h2>
+  <div class="kw-grid">
+    <div class="kw">Verbo de acción</div>
+    <div class="kw">Honestidad estratégica</div>
+    <div class="kw">Habilidad verificable</div>
+    <div class="kw">Inflar logros</div>
+    <div class="kw">Perfil profesional</div>
+    <div class="kw">Experiencia con contexto</div>
+    <div class="kw">CV escolar (1 página)</div>
+    <div class="kw">Guardar como PDF</div>
+  </div>
+</section>
+
+<section>
+  <h2>✏️ Ejercicios de práctica</h2>
+  <details><summary>Reescribe: "Tengo habilidades de liderazgo" usando la fórmula correcta</summary><div class="ex-body">Ejemplo: "Coordiné la organización del día del logro del colegio en mayo 2026, gestionando a 6 compañeros de clase durante 3 semanas." — Verbo de acción (coordiné) + qué (organización del día del logro) + dónde (colegio) + resultado (6 compañeros, 3 semanas).</div></details>
+  <details><summary>¿Por qué "Responsable y puntual" no debería estar en la sección de habilidades?</summary><div class="ex-body">Son adjetivos, no habilidades demostrables. Un seleccionador no puede verificarlos en una entrevista. Las habilidades útiles tienen evidencia: "Google Workspace (uso diario en clase)" o "Inglés B1 (completé curso X)".</div></details>
+  <details><summary>¿Por qué siempre guardar el CV como PDF antes de enviarlo?</summary><div class="ex-body">Porque el formato de Word (.docx) puede verse diferente en otros dispositivos y sistemas operativos — los márgenes, fuentes y espaciado pueden romperse. Un PDF se ve exactamente igual en cualquier pantalla.</div></details>
+</section>
+
+<div class="gate" id="gate-section">
+  <h2>🎯 Evaluación de la Clase</h2>
+  <p>Escribe tu nombre completo para comenzar</p>
+  <div class="ac-wrap">
+    <input id="gate-nombre" class="gate-inp" type="text" placeholder="Tu nombre completo" autocomplete="off" oninput="acFilter()" onkeydown="acKey(event)" />
+    <div id="ac-list" class="ac-list"></div>
+  </div>
+  <button class="gate-btn" onclick="startEval()">Comenzar evaluación →</button>
+  <div id="identity-confirm">
+    <p style="color:rgba(255,255,255,.7);font-size:.83rem">¿Eres tú?</p>
+    <div id="identity-name-display"></div>
+    <button class="id-btn id-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+    <button class="id-btn id-no" onclick="resetGate()">✏️ No, cambiar</button>
+  </div>
+</div>
+
+<div id="exam-who-bar">
+  <div><span>Respondiendo como: </span><strong id="who-name"></strong></div>
+  <button class="not-me-btn" onclick="resetGate()">✏️ No soy yo</button>
+</div>
+
+<div id="exam-section">
+<div class="exam-q"><div class="exam-q-text">1. ¿Cuál es el principal problema de escribir "Experto en liderazgo" en un CV escolar?</div>
+  <label class="exam-opt"><input type="radio" name="q1" value="A">A. Es demasiado corto — necesita más palabras</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="B">B. Es una afirmación no verificable que no dice nada concreto sobre lo que hiciste</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="C">C. La palabra "experto" está mal escrita</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="D">D. Los seleccionadores prefieren palabras en inglés</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">2. Usando la fórmula de descripción, ¿cuál de estas opciones describe mejor una experiencia real?</div>
+  <label class="exam-opt"><input type="radio" name="q2" value="A">A. "Participé en muchas actividades del colegio"</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="B">B. "Diseñé el afiche del día de la familia usando Canva — impreso en el colegio, mayo 2026"</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="C">C. "Tengo experiencia en diseño gráfico y comunicación visual"</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="D">D. "Soy creativo y me gustan las artes"</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">3. ¿Cuál es la regla de oro para incluir una habilidad en tu CV?</div>
+  <label class="exam-opt"><input type="radio" name="q3" value="A">A. Que suene profesional aunque no la domines bien</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="B">B. Que puedas demostrarla en una entrevista de 5 minutos</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="C">C. Que todos tus amigos también la tengan</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="D">D. Que aparezca en muchos CV de ejemplo en internet</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">4. ¿Qué significa "honestidad estratégica" en el contexto del CV?</div>
+  <label class="exam-opt"><input type="radio" name="q4" value="A">A. Mentir un poco para parecer más competente</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="B">B. Presentar lo que sí tienes de la manera más poderosa y creíble posible, sin inventar nada</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="C">C. Omitir las experiencias pequeñas para parecer más selectivo</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="D">D. Copiar el formato del CV de alguien exitoso</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">5. Un CV escolar de 16 años debería tener idealmente…</div>
+  <label class="exam-opt"><input type="radio" name="q5" value="A">A. Al menos 3 páginas para mostrar todo el contenido</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="B">B. 1 página — los seleccionadores saben que tienen poca experiencia y buscan claridad</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="C">C. La misma extensión que el CV de un profesional adulto</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="D">D. 2 páginas mínimo para ser tomado en serio</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">6. ¿Cuál de estos errores descalifica un CV de inmediato?</div>
+  <label class="exam-opt"><input type="radio" name="q6" value="A">A. Que tenga menos de 5 experiencias listadas</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="B">B. Faltas de ortografía en el nombre o en las secciones principales</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="C">C. Que no tenga foto de perfil</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="D">D. Que use una sola fuente tipográfica</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">7. ¿Por qué es importante guardar el CV como PDF antes de enviarlo?</div>
+  <label class="exam-opt"><input type="radio" name="q7" value="A">A. Porque los PDF pesan menos que los Word</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="B">B. Porque el formato se mantiene igual en cualquier dispositivo — el Word puede romperse</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="C">C. Porque los seleccionadores no tienen Word instalado</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="D">D. No importa el formato, el contenido es lo único que cuenta</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">8. "Aprendiendo Python — completé los módulos 1-3 de Google Coursera" — ¿Esta frase está inflando o describiendo bien?</div>
+  <label class="exam-opt"><input type="radio" name="q8" value="A">A. Inflando — no deberías poner algo que no has terminado</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="B">B. Describiendo bien — es honesto, específico y muestra iniciativa</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="C">C. Inflando — Python es muy avanzado para un estudiante de colegio</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="D">D. No es válido porque no está terminado el curso</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">9. ¿Cuál de estos elementos NO debería incluirse en un CV digital escolar?</div>
+  <label class="exam-opt"><input type="radio" name="q9" value="A">A. Nombre completo y correo electrónico profesional</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="B">B. Número de DNI y foto de perfil</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="C">C. Nombre del colegio y año de egreso esperado</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="D">D. Actividades extracurriculares con detalles</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">10. ¿Cuál es el mensaje más importante sobre el CV que tienen hoy, aunque sea corto?</div>
+  <label class="exam-opt"><input type="radio" name="q10" value="A">A. Deben esperar a tener más experiencia antes de hacer un CV</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="B">B. Empezar con honestidad y especificidad importa más que empezar con un CV impresionante pero vago</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="C">C. El CV escolar no sirve para nada real hasta terminar la universidad</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="D">D. Copiar el formato de un CV exitoso de internet es la estrategia más eficiente</label>
+</div>
+<div class="submit-wrap"><button class="submit-btn" id="submit-btn" onclick="submitEval()">Enviar respuestas ✓</button></div>
+</div>
+
+<div id="result-box">
+  <div class="result-score" id="result-score"></div>
+  <div class="result-label">preguntas correctas de 10</div>
+  <div class="result-msg" id="result-msg"></div>
+</div>
+<span id="eval-grade-key" data-grade="sec5" data-session="10" style="display:none"></span>
+
+<script>
+const CORRECT={q1:'B',q2:'B',q3:'B',q4:'B',q5:'B',q6:'B',q7:'B',q8:'B',q9:'B',q10:'B'};
+const GRADE='sec5',SESSION='10';
+let evalName='',evalStarted=false,roster=[];
+(async function(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+GRADE);const d=await r.json();if(d.found)roster=d.alumnos.map(a=>a.nombre);}catch(e){}})();
+function acFilter(){const val=document.getElementById('gate-nombre').value.trim().toLowerCase();const list=document.getElementById('ac-list');if(!val||!roster.length){list.style.display='none';return;}const matches=roster.filter(n=>n.toLowerCase().includes(val)).slice(0,8);if(!matches.length){list.style.display='none';return;}list.innerHTML=matches.map(n=>`<div class="ac-item" onclick="selectAc(this.textContent)">${n}</div>`).join('');list.style.display='block';}
+function selectAc(name){document.getElementById('gate-nombre').value=name;document.getElementById('ac-list').style.display='none';}
+function acKey(e){const list=document.getElementById('ac-list');const items=[...list.querySelectorAll('.ac-item')];let idx=items.findIndex(i=>i.classList.contains('active'));if(e.key==='ArrowDown'){e.preventDefault();if(idx<items.length-1){if(idx>=0)items[idx].classList.remove('active');items[idx+1].classList.add('active');}}else if(e.key==='ArrowUp'){e.preventDefault();if(idx>0){items[idx].classList.remove('active');items[idx-1].classList.add('active');}}else if(e.key==='Enter'){e.preventDefault();const active=list.querySelector('.active');if(active)selectAc(active.textContent);else startEval();}else if(e.key==='Escape'){list.style.display='none';}}
+function startEval(){document.getElementById('ac-list').style.display='none';const name=document.getElementById('gate-nombre').value.trim();if(!name){alert('Escribe tu nombre primero');return;}const nameKey=name.toLowerCase().replace(/[^a-z0-9]+/g,'-');if(localStorage.getItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey)){alert('Ya completaste esta evaluación, '+name+'. Solo se permite un intento.');return;}evalName=name;document.getElementById('identity-name-display').textContent=name;document.getElementById('identity-confirm').style.display='block';document.querySelector('.gate-btn').disabled=true;}
+function confirmarIdentidad(){document.getElementById('gate-section').style.display='none';const bar=document.getElementById('exam-who-bar');bar.style.display='flex';document.getElementById('who-name').textContent=evalName;document.getElementById('exam-section').style.display='block';evalStarted=true;}
+function resetGate(){document.getElementById('identity-confirm').style.display='none';document.querySelector('.gate-btn').disabled=false;document.getElementById('gate-nombre').value='';evalName='';if(!evalStarted){document.getElementById('gate-section').style.display='block';}else{document.getElementById('exam-who-bar').style.display='none';document.getElementById('exam-section').style.display='none';document.getElementById('gate-section').style.display='block';evalStarted=false;}}
+async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=Math.round((correctas/10)*100);for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');localStorage.setItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=score>=80?'¡Excelente! Tu CV ya tiene bases sólidas 🌟':score>=60?'¡Bien! Sigue practicando la descripción honesta 💪':'Repasa la fórmula de descripción y la honestidad estratégica 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
+</script></body></html>

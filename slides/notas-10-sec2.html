@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 10 · 2.° Secundaria · 17 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#60a5fa;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 10 · 2.° Secundaria</div><div class="top-bar-meta">Fórmulas básicas en Sheets · Viernes 17 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·2</span><span class="card-title">¿Qué veremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conecta con S09 (tablas y datos). Hoy damos el siguiente paso: ya saben organizar datos en tablas, ahora Sheets va a calcular por ellos. Pregunta de arranque: ¿alguien sabe qué diferencia hay entre escribir "=A1+A2" y escribir directamente el resultado?</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Señala las 3 metas. Anticipar la promesa: al final de la clase tendrán una tabla de notas que se calcula sola — si cambian un dato, todo se actualiza automáticamente.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·3</span><span class="card-title">¿Qué es una fórmula?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La distinción clave: una fórmula no es un número — es una instrucción. La ventaja principal: si cambia un dato, la fórmula recalcula sola. El signo = es el activador que le dice a Sheets "esto es una instrucción, no texto".
+
+Demostrar en vivo: escribir 5 en A1, 3 en A2, y =A1+A2 en A3. Luego cambiar A1 a 10 y ver cómo A3 cambia solo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Esa demo en vivo de cambio automático es el momento más impactante de la clase — hacerlo despacio y señalar que A3 cambió sin tocarla.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·4</span><span class="card-title">Anatomía de una fórmula</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 4 partes: = (activador), nombre de la función (SUMA, PROMEDIO…), paréntesis (), y el rango (B2:B10). La notación B2:B10 significa "desde B2 hasta B10 incluyendo todo en medio". Es como decir "del piso 2 al piso 10 del edificio B".</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Escribir =SUMA(B2:B10) en la pizarra o en el doc compartido y señalar cada parte con el cursor. Pedir que lean en voz alta: "igual — suma — abre paréntesis — B2 dos puntos B10 — cierra paréntesis".</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·5</span><span class="card-title">⭐ =SUMA() — La más usada</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tres formas de SUMA:
+- =SUMA(B2:B10) → rango continuo
+- =SUMA(B2,D2,F2) → celdas sueltas separadas por coma
+- =B2+B3+B4 → suma directa (funciona pero no se recomienda para rangos largos)
+
+El rango es más eficiente porque si insertas una fila en medio, se adapta automáticamente.
+
+⭐ Bonus: +1 al primero que escriba =SUMA(A1:A5) correctamente en Sheets.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Dar 1 minuto para que todos escriban =SUMA() en un rango de su elección. Verificar que usaron el signo = y los dos puntos para el rango.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: C — =PROMEDIO(B2:B5)
+
+Las otras opciones:
+- A: SUMA suma todo, no calcula promedio
+- B: =PROMEDIO(B2,B5) solo promedia B2 y B5 (2 celdas), omitiendo B3 y B4
+- D: MAX devuelve el valor más alto, no el promedio
+
+El error B es el más tramposo — pasar dos argumentos separados por coma da el promedio de esos dos, no del rango completo.
+
+⭐ Bonus: +1 por respuesta correcta + explicación del error de B.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Si muchos eligen B: demostrar la diferencia entre =PROMEDIO(B2,B5) y =PROMEDIO(B2:B5) en vivo.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus()" class="bw-btn">+1</button></div>
+<p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·7</span><span class="card-title">=PROMEDIO(), =MAX() y =MIN()</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tres funciones de estadística básica que tienen exactamente la misma sintaxis que SUMA: =FUNCIÓN(rango). Una vez que entienden SUMA, las otras tres son triviales.
+
+Caso de uso concreto para 13-14 años: tabla de notas. =MAX te dice quién tuvo la nota más alta, =MIN quién necesita más ayuda, =PROMEDIO el rendimiento general.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demostrar las tres en la misma columna de datos. Preguntar: "¿para qué usaría cada una un profesor?" Generar discusión breve.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·8</span><span class="card-title">⭐ Reto: ¿Cuánto ahorraron?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Datos: S/35, S/42, S/28, S/56 y S/19
+Respuestas:
+- Total: =SUMA() → S/180
+- Mayor ahorro: =MAX() → S/56
+- Menor ahorro: =MIN() → S/19
+- Promedio: =PROMEDIO() → S/36
+
+⭐ Bonus: +1 al primero en completar las 4 fórmulas correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Dar 3 minutos. Verificar que no hayan calculado mentalmente y escrito el número — la fórmula debe estar visible en la barra de fórmulas.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c8" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c8','bw-msg-c8')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c8" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·9</span><span class="card-title">Referencias: relativas vs absolutas</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Este es el concepto más difícil de la clase. La analogía más útil: referencia relativa = dirección relativa ("ve 2 calles arriba"); referencia absoluta = dirección fija ("siempre ve a la Plaza Mayor").
+
+Cómo escribir $: Sheets en Mac: Fn+F4. En PC: F4 cicla entre A1, $A$1, A$1, $A1.
+
+Caso de uso: calcular descuento del 15% sobre varios precios. El 15% va en $B$1 — siempre fijo. Los precios cambian de fila en fila.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demostrar: escribir un precio en A2 y el % en B1. Fórmula en C2: =A2*$B$1. Copiar hacia abajo. Ver que A cambia (relativo) pero $B$1 no (absoluto).</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·10</span><span class="card-title">=CONTAR() y =CONTARA()</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Diferencia clave:
+- CONTAR: solo cuenta celdas con números
+- CONTARA: cuenta celdas no vacías (texto o número)
+- CONTAR.BLANCO: cuenta celdas vacías
+
+Caso de uso escolar: saber cuántos alumnos entregaron una tarea. Si la columna tiene el nombre cuando entregaron, CONTARA cuenta los que sí lo hicieron.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demostrar con una lista de nombres mezclada con celdas vacías. =CONTARA da el total de celdas con contenido.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·11</span><span class="card-title">⭐ Reto grupal: Tabla de notas</span></div><span class="card-time">6 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tabla de notas: 5 alumnos × 3 notas.
+Columna D = promedio con =PROMEDIO(B2:D2) por fila.
+Fila 8 = Max: =MAX(B2:B6), Min: =MIN(B2:B6), Promedio del grupo: =PROMEDIO(D2:D6).
+
+⭐ Bonus: +1 al primero en completar sin errores de fórmula (sin #¡VALOR! ni celdas rojas).</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circular y verificar. Error más común: usar coma en lugar de punto y coma en algunos sistemas de Sheets (depende del idioma del navegador). Si hay error, revisar separador de argumentos.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#60a5fa);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c11" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c11','bw-msg-c11')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c11" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·12</span><span class="card-title">Errores comunes en fórmulas</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los 3 errores más comunes:
+- #DIV/0!: dividir entre cero o celda vacía → solución: verificar que el denominador no sea 0
+- #¡VALOR!: texto en celda donde debería haber número → solución: revisar el rango, buscar texto mezclado
+- #REF!: la celda referenciada fue borrada → solución: no borrar filas/columnas que son parte de fórmulas activas</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Provocar un error en vivo: escribir =A1/B1 con B1 vacío → aparece #DIV/0!. Luego poner 0 en B1 → sigue el error. Poner un número → se resuelve.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·13</span><span class="card-title">Consejos de productividad</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Cuatro trucos de productividad:
+1. Arrastrar el cuadrito azul (esquina inferior derecha de la celda) copia la fórmula hacia abajo adaptándose
+2. Tab acepta la sugerencia de fórmula que aparece al escribir
+3. Ctrl+` (acento grave) muestra todas las fórmulas en lugar de los resultados — útil para revisar
+4. Nombrar el rango: Datos → Rangos con nombre — hace las fórmulas más legibles</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demostrar el arrastre del cuadrito azul — es el truco que más tiempo ahorra y que más les sorprende.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·14</span><span class="card-title">🎯 Actividad: Hoja de calificaciones</span></div><span class="card-time">15 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal:
+- Tabla: 8-10 alumnos ficticios, 3 notas cada uno
+- Columna Promedio: =PROMEDIO() por fila
+- Fila final: Max, Min, Promedio del grupo
+- Gráfico de barras de los promedios individuales
+- Guardar como Calificaciones_10_TuNombre
+
+Sin errores de fórmula = condición mínima.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circular. Verificar que el gráfico tenga título y etiquetas de eje. Error frecuente: seleccionar un rango equivocado para el gráfico — debe ser la columna de nombres + la de promedios.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·15</span><span class="card-title">💡 Fórmulas avanzadas (próximamente)</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Vista previa de las próximas sesiones: =SI() para decisiones condicionales, =BUSCARV() para búsquedas en tablas, =CONTAR.SI() para contar solo los que cumplen una condición. Hoy dejaron la base: si dominan SUMA, PROMEDIO, MAX, MIN y referencias absolutas, el resto es más fácil.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta de cierre: "¿Qué situación real en su vida podrían resolver con =CONTAR.SI()?" Generar ideas — ej: contar cuántos días cumplieron una meta.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·16</span><span class="card-title">✅ Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿Cuándo usarías una referencia absoluta ($) en lugar de una relativa?" Respuesta esperada: cuando un valor es constante para todas las filas (tasa, porcentaje, impuesto fijo).
+
+Conexión S11: próxima clase sobre auditoría de respuestas de IA.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Preguntar a 3-4 alumnos. El que responda correctamente con un ejemplo propio recibe +1 punto de participación.</p></div>
+</div>
+
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 15</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec2';const NOTA_SESSION='10';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Clase S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof syncRoom!=='undefined'&&syncRoom){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{}); }}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#60a5fa;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script></body></html>

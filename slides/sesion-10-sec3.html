@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 10 · 3.° Secundaria · 17 jul 2026</title>
+<style>*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;background:linear-gradient(135deg,#431407,#7c2d12)}
+.slide.active{opacity:1;pointer-events:auto;z-index:2}
+.brand{position:absolute;top:3%;right:3%;font-size:clamp(10px,1.2vw,18px);font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.5px}
+.snum{position:absolute;top:3%;left:3%;font-size:clamp(10px,1.1vw,16px);color:rgba(255,255,255,.35);font-weight:600}
+.t-super{font-size:clamp(38px,6vw,92px);font-weight:900;line-height:1.05;color:#fff}
+.t-h1{font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.1;color:#fff}
+.t-body{font-size:clamp(15px,2vw,32px);line-height:1.55;color:rgba(255,255,255,.92)}
+.t-sm{font-size:clamp(13px,1.7vw,27px);line-height:1.5;color:rgba(255,255,255,.8)}
+.accent{color:#fb923c}
+.cards{display:flex;gap:2%;justify-content:center;width:100%;flex-wrap:wrap;margin-top:2%}
+.c3{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,20px);padding:2% 2.5%;flex:1;min-width:28%;max-width:32%;text-align:center}
+.c4{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);border-radius:clamp(8px,1.2vw,18px);padding:1.5% 2%;flex:1;min-width:20%;max-width:26%;text-align:center}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
+.line{width:55%;height:3px;background:#fb923c;border-radius:2px;margin:2% auto;opacity:.65}
+.list{text-align:left;width:100%;max-width:82%}
+.list li{margin:.45em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(15px,2vw,32px);color:rgba(255,255,255,.9);line-height:1.4}
+.list li::before{content:'▸';position:absolute;left:0;color:#fb923c}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:88%;text-align:left}
+.box{background:rgba(255,255,255,.08);border-radius:clamp(6px,1vw,16px);padding:3%}
+.highlight{background:rgba(255,255,255,.07);border:2px solid #fb923c;border-radius:clamp(8px,1.2vw,18px);padding:3% 4%;max-width:85%;margin-top:2%}
+.bonus-bar{background:rgba(255,255,255,.1);border:2px solid #fb923c;border-radius:clamp(6px,1vw,14px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px)}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:rgba(255,255,255,.95)}
+.quiz-opts{display:flex;flex-direction:column;gap:.6em;width:100%;max-width:78%}
+.qopt{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:clamp(6px,1vw,14px);padding:.6em 1.2em;font-size:clamp(14px,1.9vw,30px);color:#fff;cursor:pointer;transition:background .18s,border-color .18s;text-align:left;display:flex;align-items:center;gap:.6em}
+.qopt:hover{background:rgba(255,255,255,.18)}
+.qopt.correct{background:rgba(251,146,60,.25);border-color:#fb923c}
+.qopt.wrong{background:rgba(248,113,113,.18);border-color:#f87171}
+.qletter{font-weight:900;color:#fb923c;min-width:1.6em}
+.qopt.wrong .qletter{color:#f87171}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(6px)}
+.nav button{background:#fb923c;color:#000;border:none;border-radius:8px;padding:.4rem 1.1rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav #counter{color:#fff;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center}
+.dots{display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;max-width:40%}
+.dot{width:clamp(5px,.8vw,12px);height:clamp(5px,.8vw,12px);border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .2s}
+.dot.active{background:#fb923c}
+.slide::before{content:'';position:absolute;width:55%;height:55%;background:radial-gradient(circle,#fb923c2e 0%,transparent 68%);border-radius:50%;top:-20%;right:-12%;animation:orbA 8s ease-in-out infinite;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;width:40%;height:40%;background:radial-gradient(circle,#fb923c1e 0%,transparent 70%);border-radius:50%;bottom:-15%;left:-8%;animation:orbA 10s ease-in-out infinite reverse;pointer-events:none;z-index:0}
+.slide:first-child::before{width:72%;height:72%;top:-28%;right:-18%}
+.slide:first-child::after{width:52%;height:52%;bottom:-22%;left:-12%}
+@keyframes orbA{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.09)}}
+.slide.enter-fwd{animation:eFwd .5s cubic-bezier(.34,1.56,.64,1) both}
+.slide.enter-back{animation:eBack .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.97)}to{opacity:1;transform:none}}
+@keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.97)}to{opacity:1;transform:none}}
+.slide.active .t-super{animation:fUpBig .55s .05s ease both}
+.slide.active .t-h1{animation:fUpBig .5s .07s ease both}
+.slide.active .t-body{animation:fUp .45s .2s ease both}
+.slide.active .t-sm{animation:fUp .4s .24s ease both}
+.slide.active .line{animation:lGrow .42s .1s ease both}
+.slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:pIn .4s .16s ease both}
+.slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:pIn .4s .26s ease both}
+.slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:pIn .4s .36s ease both}
+.slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:pIn .4s .46s ease both}
+.slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
+.slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
+.slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
+.slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
+.slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
+.slide.active .highlight{animation:pIn .45s .28s ease both}
+.slide.active .two>.box:nth-child(1){animation:fUp .4s .16s ease both}
+.slide.active .two>.box:nth-child(2){animation:fUp .4s .28s ease both}
+.slide.active .big-em{animation:pIn .5s .04s ease both}
+.slide.active .quiz-opts{animation:fUp .4s .2s ease both}
+.slide.active .bonus-bar{animation:pIn .45s .3s ease both}
+@keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.65}}
+@keyframes pIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
+#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
+.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
+.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
+.cn{font-size:clamp(32px,6.2vw,96px);font-weight:900;color:#fbbf24;animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
+.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
+.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
+@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
+</style></head>
+<body>
+<div class="deck-wrap" id="deck">
+<div class="slide active">
+<div class="brand">Asunción School</div><div class="snum">10 · 1</div>
+<p class="t-sm accent">Viernes 17 de julio · 3.° Secundaria</p><div class="line"></div>
+<h1 class="t-super">🔍 Auditoría de <span class="accent">IA</span></h1>
+<p class="t-body" style="margin-top:2%">Cómo verificar y cuestionar las respuestas de la inteligencia artificial</p>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Profesora Estrella Vizcarra</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 2</div>
+<h2 class="t-h1">¿Qué veremos hoy? 🗓️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🧠</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Por qué falla la IA</p><p class="t-sm" style="opacity:.8">Alucinaciones y tipos de error</p></div>
+<div class="c3"><div class="big-em">🔬</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Protocolo de auditoría</p><p class="t-sm" style="opacity:.8">4 pasos para verificar</p></div>
+<div class="c3"><div class="big-em">📰</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Fuentes primarias</p><p class="t-sm" style="opacity:.8">Dónde buscar para confirmar</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 3</div>
+<h2 class="t-h1">¿Por qué auditar la IA? 🤔</h2><div class="line"></div>
+<div class="highlight" style="margin-bottom:3%"><p class="t-body" style="font-weight:700">La IA no busca en internet en tiempo real — predice qué texto viene a continuación basándose en su entrenamiento. Eso puede generar errores.</p></div>
+<ul class="list">
+<li>Sus datos tienen una <span class="accent">fecha de corte</span> — no sabe lo que pasó después</li>
+<li>Puede <span class="accent">mezclar datos correctos</span> con información incorrecta con igual confianza</li>
+<li>No distingue entre fuente confiable y no confiable</li>
+<li>El texto suena siempre seguro — aunque esté equivocado</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 4</div>
+<h2 class="t-h1">La alucinación: cuando la IA inventa 😵</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">¿Qué es?</p>
+<ul class="list"><li>La IA genera información plausible pero <span class="accent">falsa</span></li><li>Cita estudios que no existen</li><li>Inventa estadísticas convincentes</li><li>Atribuye frases a personas equivocadas</li></ul></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Ejemplo real</p>
+<p class="t-sm" style="opacity:.85">Si preguntas "¿qué dijo el Dr. García en 2023?" la IA puede inventar una cita convincente de una conferencia que nunca existió.</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 5</div>
+<h2 class="t-h1">⭐ Tres tipos de error de la IA</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">📅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Error temporal</p><p class="t-sm" style="opacity:.8">Datos desactualizados después de la fecha de corte</p></div>
+<div class="c3"><div class="big-em">🔢</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Error factual</p><p class="t-sm" style="opacity:.8">Cifras, nombres o hechos incorrectos presentados con certeza</p></div>
+<div class="c3"><div class="big-em">🎭</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Error de atribución</p><p class="t-sm" style="opacity:.8">Afirmar que alguien dijo algo que nunca dijo</p></div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al que dé un ejemplo real de error de IA que haya encontrado · máx. 3 alumnos</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 6</div>
+<h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">La IA te da una estadística muy específica ("el 73.4% de los estudiantes..."). ¿Cuál es el primer paso para auditarla?</p>
+<div class="quiz-opts" style="margin-top:3%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Copiarla directamente al trabajo porque suena muy precisa</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Preguntar a la IA si está segura del dato</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Buscar la fuente original de ese estudio o institución</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Cambiar el número ligeramente para que no se note</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 7</div>
+<h2 class="t-h1">Protocolo de auditoría: 4 pasos 🔬</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c4"><div class="big-em">1️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Identifica</p><p class="t-sm" style="opacity:.8">¿Qué afirmación quieres verificar?</p></div>
+<div class="c4"><div class="big-em">2️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Busca</p><p class="t-sm" style="opacity:.8">Fuente primaria o institución oficial</p></div>
+<div class="c4"><div class="big-em">3️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Triangula</p><p class="t-sm" style="opacity:.8">Confirma con 2+ fuentes independientes</p></div>
+<div class="c4"><div class="big-em">4️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.4em 0">Documenta</p><p class="t-sm" style="opacity:.8">Registra qué verificaste y qué encontraste</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 8</div>
+<h2 class="t-h1">Fuentes primarias vs secundarias 📰</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Fuentes primarias</p>
+<ul class="list"><li>Estudios académicos originales (Google Scholar)</li><li>Sitios oficiales de gobiernos e instituciones</li><li>Bases de datos como INEI, OMS, UNICEF</li><li>Publicaciones científicas revisadas</li></ul></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">⚠️ Fuentes a revisar con cuidado</p>
+<ul class="list"><li>Blogs y artículos de opinión</li><li>Redes sociales, incluyendo Wikipedia</li><li>Noticias sin autor identificado</li><li>La propia IA como única fuente</li></ul></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 9</div>
+<h2 class="t-h1">⭐ Reto: Audita esta respuesta</h2><div class="line"></div>
+<div class="highlight" style="text-align:left;max-width:85%">
+<p class="t-sm" style="opacity:.6;margin-bottom:.5em">Respuesta de una IA:</p>
+<p class="t-body">"Según un estudio de la Universidad de Lima publicado en 2022, el 68% de los adolescentes peruanos pasan más de 6 horas diarias en redes sociales."</p>
+</div>
+<p class="t-body" style="margin-top:2%;font-weight:700">Aplica el protocolo: ¿cómo verificarías este dato paso a paso?</p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al que describa el proceso más completo · elige la profesora</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 10</div>
+<h2 class="t-h1">Triangulación de fuentes 🔺</h2><div class="line"></div>
+<div class="highlight" style="margin-bottom:3%"><p class="t-body" style="font-weight:700">Un dato verificado por 3 fuentes independientes es mucho más confiable que uno confirmado solo por la IA.</p></div>
+<ul class="list">
+<li>Fuente 1: la IA dice X → <span class="accent">punto de partida, no conclusión</span></li>
+<li>Fuente 2: búsqueda en Google Scholar o sitio oficial → <span class="accent">¿confirma?</span></li>
+<li>Fuente 3: artículo periodístico o segundo estudio → <span class="accent">¿coherente?</span></li>
+<li>Si las 3 coinciden → dato confiable · si divergen → investiga más</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 11</div>
+<h2 class="t-h1">⭐ ¿Cuándo sí confiar en la IA?</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Confiable para…</p>
+<ul class="list"><li>Explicar conceptos generales y conocidos</li><li>Generar borradores para editar</li><li>Resumir textos que tú ya tienes</li><li>Ayudar a estructurar ideas propias</li></ul></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">⚠️ Verificar siempre…</p>
+<ul class="list"><li>Estadísticas y cifras específicas</li><li>Eventos recientes o noticias</li><li>Citas textuales y atribuciones</li><li>Leyes, normas y datos legales</li></ul></div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> al que agregue un ejemplo más a cada columna · máx. 2 alumnos</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 12</div>
+<h2 class="t-h1">Reportar y documentar hallazgos 📋</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>Cuando encuentras un error de IA: <span class="accent">anota qué preguntaste, qué respondió y qué encontraste</span></li>
+<li>Formato útil: Afirmación | ¿Verificada? | Fuente encontrada | ¿Coincide?</li>
+<li>Esto construye tu <span class="accent">criterio crítico</span> — empiezas a reconocer patrones de error</li>
+<li>Algunas plataformas permiten reportar respuestas incorrectas directamente</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 13</div>
+<h2 class="t-h1">Herramientas para verificar 🛠️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🎓</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Google Scholar</p><p class="t-sm" style="opacity:.8">Busca estudios académicos reales y revisados</p></div>
+<div class="c3"><div class="big-em">🏛️</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Sitios .gob / .org</p><p class="t-sm" style="opacity:.8">Instituciones oficiales y organismos internacionales</p></div>
+<div class="c3"><div class="big-em">📅</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Wayback Machine</p><p class="t-sm" style="opacity:.8">Ver versiones antiguas de páginas web</p></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 14</div>
+<h2 class="t-h1">🎯 Actividad: Auditoría en vivo</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">💬</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Pregunta</p><p class="t-sm" style="opacity:.8">Haz una pregunta factual a ChatGPT o Gemini</p></div>
+<div class="c3"><div class="big-em">🔍</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Verifica</p><p class="t-sm" style="opacity:.8">Aplica el protocolo de 4 pasos</p></div>
+<div class="c3"><div class="big-em">📝</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Documenta</p><p class="t-sm" style="opacity:.8">Registra en tu Google Doc: correcto / incorrecto / no verificable</p></div>
+</div>
+<p class="t-sm" style="margin-top:2%;opacity:.7">Tiempo: 15 minutos · Comparte 1 hallazgo al final</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 15</div>
+<h2 class="t-h1">Errores al auditar ⚠️</h2><div class="line"></div>
+<div class="two" style="margin-top:3%">
+<div class="box"><p class="t-sm" style="color:rgba(255,255,255,.5);margin-bottom:.5em">❌ Errores frecuentes</p>
+<ul class="list"><li>Usar Wikipedia como fuente final</li><li>Buscar solo en la IA otra vez</li><li>Conformarse con 1 sola fuente</li><li>No leer el artículo completo — solo el titular</li></ul></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">✅ Buenas prácticas</p>
+<ul class="list"><li>Ir siempre a la fuente original</li><li>Revisar fecha de publicación</li><li>Cruzar 3 fuentes independientes</li><li>Documentar lo que no pudiste verificar</li></ul></div>
+</div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">10 · 16</div>
+<h2 class="t-h1">✅ Lo que llevas hoy</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>La IA puede <span class="accent">alucinar</span>: datos falsos presentados con certeza</li>
+<li><span class="accent">3 tipos de error</span>: temporal, factual, de atribución</li>
+<li><span class="accent">Protocolo de 4 pasos</span>: identificar → buscar → triangular → documentar</li>
+<li>Fuentes primarias y .gob / Google Scholar son más confiables</li>
+<li>Saber auditar la IA es una habilidad del siglo XXI</li>
+</ul>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Próxima clase: Análisis de resultados en Sheets · Viernes 24 de julio</p>
+</div>
+</div>
+<nav class="nav">
+<button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+<div class="dots" id="dots"></div>
+<span id="counter">1 / 16</span>
+<button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:rgba(0,0,0,.82);border:2px solid #fb923c;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#fb923c;letter-spacing:.22em;backdrop-filter:blur(6px);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const ROOM=sessionStorage.getItem('deck-room')||genCode();sessionStorage.setItem('deck-room',ROOM);document.getElementById('room-code-display').textContent=ROOM;fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec3',session:'10'})}).catch(()=>{});let last=0,busy=false,lastBonusTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=16;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');const fb=el.closest('.slide').querySelector('.quiz-feedback');opts.forEach(o=>o.classList.remove('correct','wrong'));if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}}
+goTo(0);initialized=true;
+function showCeleb(nombre){document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';spawnConfetti();const el=document.getElementById('celeb');el.style.display='block';['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);}
+function closeCeleb(){const el=document.getElementById('celeb');el.style.transition='opacity .4s';el.style.opacity='0';setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);}
+function spawnConfetti(){const w=document.getElementById('celeb-wrap');w.innerHTML='';const cols=['#fbbf24','#f97316','#22c55e','#60a5fa','#a78bfa','#f472b6','#fff','#fb7185'];for(let i=0;i<72;i++){const d=document.createElement('div');const c=cols[i%cols.length];const sz=6+Math.random()*11;const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';w.appendChild(d);}}
+const DECK_GRADE='sec3';
+const DECK_SESSION='10';
+let lastBonusId=null;
+(async function pollBonus(){try{const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}}catch(e){}setTimeout(pollBonus,2000);})();
+</script>
+<div id="celeb" onclick="closeCeleb()">
+<div id="celeb-wrap"></div>
+<div id="celeb-body">
+<div class="ca">🎉</div>
+<p class="cs">¡Felicitaciones!</p>
+<p class="cn" id="celeb-name"></p>
+<p class="cp">⭐ +1 punto de participación</p>
+<p class="ct">Toca para continuar</p>
+</div>
+</div>
+</body></html>

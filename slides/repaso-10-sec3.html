@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Repaso 10 · 3.° Secundaria · Auditoría de IA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+:root{--accent:#fb923c;--bg:#0a0a0a;--card:#111;--border:rgba(255,255,255,.08);--text:#f0f0f0;--muted:#888;--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:1rem 1rem 3rem}
+.hero{background:linear-gradient(135deg,#431407,#7c2d12);border-radius:20px;padding:1.5rem;margin-bottom:1.2rem;text-align:center}
+.hero-grade{font-size:.75rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.hero-sub{font-size:.85rem;color:rgba(255,255,255,.6)}
+section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem}
+section h2{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.9rem}
+.concepts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.concept-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.75rem;text-align:center}
+.concept-emoji{font-size:1.6rem;margin-bottom:.3rem}
+.concept-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.concept-desc{font-size:.74rem;color:var(--muted);line-height:1.4}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.kw{background:rgba(251,146,60,.08);border:1px solid rgba(251,146,60,.2);border-radius:8px;padding:.5rem .7rem;font-size:.82rem;font-weight:600;color:var(--accent)}
+details{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;margin-bottom:.5rem}
+summary{padding:.75rem 1rem;cursor:pointer;font-size:.88rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▾';color:var(--muted)}
+details[open] summary::after{content:'▴'}
+.ex-body{padding:.5rem 1rem .9rem;font-size:.85rem;line-height:1.7;color:#ccc}
+.gate{background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.4rem;text-align:center;margin-bottom:1rem}
+.gate h2{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.4rem}
+.gate p{font-size:.83rem;color:rgba(255,255,255,.7);margin-bottom:.9rem}
+.gate-inp{width:100%;padding:.65rem .9rem;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:.95rem;font-family:inherit;outline:none}
+.gate-inp:focus{border-color:rgba(255,255,255,.5)}
+.gate-btn{margin-top:.6rem;width:100%;padding:.65rem;border-radius:10px;border:none;background:#fff;color:#1d4ed8;font-weight:800;font-size:.95rem;cursor:pointer}
+.gate-btn:disabled{opacity:.4;cursor:default}
+#identity-confirm{display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:1rem;margin-top:.8rem;text-align:center}
+#identity-name-display{font-size:1.1rem;font-weight:800;color:#fff;margin:.4rem 0 .8rem}
+.id-btn{padding:.55rem 1.2rem;border-radius:9px;border:none;font-weight:800;font-size:.88rem;cursor:pointer}
+.id-yes{background:#fb923c;color:#000;margin-right:.4rem}
+.id-no{background:rgba(255,255,255,.1);color:#fff}
+#exam-who-bar{display:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.5rem .9rem;margin-bottom:.8rem;align-items:center;justify-content:space-between;gap:.5rem}
+#exam-who-bar span{color:rgba(255,255,255,.7)}
+#exam-who-bar strong{color:#fff}
+.not-me-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:7px;padding:.25rem .6rem;font-size:.75rem;cursor:pointer}
+#exam-section{display:none}
+.exam-q{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-bottom:.7rem}
+.exam-q-text{font-size:.9rem;font-weight:700;margin-bottom:.65rem;line-height:1.4}
+.exam-opt{display:flex;align-items:flex-start;gap:.55rem;padding:.45rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem;line-height:1.4;transition:background .15s}
+.exam-opt:hover{background:rgba(255,255,255,.05)}
+.exam-opt input{margin-top:2px;flex-shrink:0;accent-color:var(--accent)}
+.submit-wrap{text-align:center;margin-top:1.2rem}
+.submit-btn{background:linear-gradient(135deg,#fb923c,#ea580c);color:#000;border:none;border-radius:12px;padding:.75rem 2.5rem;font-size:1rem;font-weight:800;cursor:pointer}
+.submit-btn:disabled{opacity:.3;cursor:default}
+#result-box{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.3rem;text-align:center;margin-bottom:1rem}
+.result-score{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;color:#fff}
+.result-label{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.2rem}
+.result-msg{font-size:.9rem;font-weight:700;color:#fff;margin-top:.6rem}
+.opt-correct{background:rgba(34,197,94,.15)!important;border:1px solid #22c55e}
+.opt-wrong{background:rgba(239,68,68,.12)!important;border:1px solid #ef4444}
+.ac-wrap{position:relative;width:100%}
+.ac-list{display:none;position:absolute;top:100%;left:0;right:0;z-index:99;background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:10px;max-height:200px;overflow-y:auto;margin-top:3px}
+.ac-item{padding:.55rem .9rem;cursor:pointer;font-size:.88rem;color:#e0e0e0}
+.ac-item:hover,.ac-item.active{background:rgba(251,146,60,.15);color:var(--accent)}
+</style></head>
+<body>
+<div class="hero">
+  <div class="hero-grade">🟠 3.° Secundaria · Sesión 10</div>
+  <div class="hero-title">Auditoría de respuestas de IA</div>
+  <div class="hero-sub">17 de julio 2026 · Prof. Estrella Vizcarra</div>
+</div>
+
+<section>
+  <h2>📖 Lo que aprendimos</h2>
+  <div class="concepts-grid">
+    <div class="concept-card"><div class="concept-emoji">🔍</div><div class="concept-title">Alucinación</div><div class="concept-desc">La IA genera datos falsos con total confianza</div></div>
+    <div class="concept-card"><div class="concept-emoji">📋</div><div class="concept-title">Protocolo 4 pasos</div><div class="concept-desc">Identificar → buscar fuente → comparar → clasificar</div></div>
+    <div class="concept-card"><div class="concept-emoji">📚</div><div class="concept-title">Fuentes primarias</div><div class="concept-desc">El documento original o la institución que generó el dato</div></div>
+    <div class="concept-card"><div class="concept-emoji">🔺</div><div class="concept-title">Triangulación</div><div class="concept-desc">3 fuentes independientes que coinciden = mayor confianza</div></div>
+    <div class="concept-card"><div class="concept-emoji">❌</div><div class="concept-title">3 tipos de error</div><div class="concept-desc">De dato · de contexto · de omisión</div></div>
+    <div class="concept-card"><div class="concept-emoji">✅</div><div class="concept-title">Cuándo confiar</div><div class="concept-desc">Alta confianza: ideas. Baja: fechas, estadísticas, citas</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>📚 Palabras clave</h2>
+  <div class="kw-grid">
+    <div class="kw">Alucinación de IA</div>
+    <div class="kw">Fuente primaria</div>
+    <div class="kw">Fuente secundaria</div>
+    <div class="kw">Triangulación</div>
+    <div class="kw">Error de dato</div>
+    <div class="kw">Error de contexto</div>
+    <div class="kw">Error de omisión</div>
+    <div class="kw">Auditoría</div>
+  </div>
+</section>
+
+<section>
+  <h2>✏️ Ejercicios de práctica</h2>
+  <details><summary>¿Por qué verificar con otra IA no es una fuente independiente?</summary><div class="ex-body">Porque diferentes IAs pueden compartir los mismos datos de entrenamiento. Si el dato estaba mal en esa base, todas lo reproducirán mal. Necesitas fuentes que generen sus datos de manera independiente.</div></details>
+  <details><summary>¿Cuál sería la fuente primaria para verificar una estadística del INEI?</summary><div class="ex-body">El sitio web oficial del INEI (inei.gob.pe) — ahí publican sus reportes directamente. Un artículo periodístico que cita al INEI es fuente secundaria.</div></details>
+  <details><summary>¿Qué diferencia hay entre error de dato y error de contexto?</summary><div class="ex-body">Error de dato: el número o nombre es incorrecto (ej: año equivocado). Error de contexto: el dato es correcto pero se aplica mal (ej: estadística de otro país presentada como si fuera del Perú).</div></details>
+</section>
+
+<div class="gate" id="gate-section">
+  <h2>🎯 Evaluación de la Clase</h2>
+  <p>Escribe tu nombre completo para comenzar</p>
+  <div class="ac-wrap">
+    <input id="gate-nombre" class="gate-inp" type="text" placeholder="Tu nombre completo" autocomplete="off" oninput="acFilter()" onkeydown="acKey(event)" />
+    <div id="ac-list" class="ac-list"></div>
+  </div>
+  <button class="gate-btn" onclick="startEval()">Comenzar evaluación →</button>
+  <div id="identity-confirm">
+    <p style="color:rgba(255,255,255,.7);font-size:.83rem">¿Eres tú?</p>
+    <div id="identity-name-display"></div>
+    <button class="id-btn id-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+    <button class="id-btn id-no" onclick="resetGate()">✏️ No, cambiar</button>
+  </div>
+</div>
+
+<div id="exam-who-bar">
+  <div><span>Respondiendo como: </span><strong id="who-name"></strong></div>
+  <button class="not-me-btn" onclick="resetGate()">✏️ No soy yo</button>
+</div>
+
+<div id="exam-section">
+<div class="exam-q"><div class="exam-q-text">1. ¿Qué es una "alucinación" en el contexto de la inteligencia artificial?</div>
+  <label class="exam-opt"><input type="radio" name="q1" value="A">A. Cuando la IA se queda sin batería y responde mal</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="B">B. Cuando la IA genera información falsa con total confianza</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="C">C. Cuando la IA no entiende la pregunta y pide aclaración</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="D">D. Cuando la IA copia texto de internet sin citar la fuente</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">2. ¿Cuál es el primer paso del protocolo de auditoría de respuestas de IA?</div>
+  <label class="exam-opt"><input type="radio" name="q2" value="A">A. Buscar en Google la misma pregunta</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="B">B. Identificar las afirmaciones verificables en la respuesta (datos, fechas, nombres)</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="C">C. Preguntarle a la IA si está segura de su respuesta</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="D">D. Copiar la respuesta y entregarla</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">3. ¿Por qué "preguntarle a la misma IA si está segura" NO es una forma válida de verificar?</div>
+  <label class="exam-opt"><input type="radio" name="q3" value="A">A. Porque la IA nunca responde a esa pregunta</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="B">B. Porque la IA puede confirmar sus propios errores con igual confianza</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="C">C. Porque tarda demasiado en responder</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="D">D. Porque solo los expertos pueden preguntarle eso</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">4. La IA dice: "El 60% de los peruanos tiene acceso a internet (dato de 2019 de México)." ¿Qué tipo de error es?</div>
+  <label class="exam-opt"><input type="radio" name="q4" value="A">A. Error de dato — el porcentaje es incorrecto</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="B">B. Error de contexto — el dato es de otro país pero se presenta como peruano</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="C">C. Error de omisión — falta información importante</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="D">D. No es un error — la IA siempre tiene razón</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">5. ¿Qué es una fuente primaria?</div>
+  <label class="exam-opt"><input type="radio" name="q5" value="A">A. El primer resultado que aparece en Google</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="B">B. Un artículo que resume el trabajo de otros investigadores</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="C">C. El documento original o la institución que generó el dato directamente</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="D">D. La IA con más usuarios en el mundo</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">6. ¿Qué significa "triangular" información?</div>
+  <label class="exam-opt"><input type="radio" name="q6" value="A">A. Buscar el mismo dato en tres lugares que usan la misma fuente</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="B">B. Verificar con tres fuentes independientes entre sí</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="C">C. Hacer tres preguntas a la IA sobre el mismo tema</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="D">D. Dividir el texto en tres partes para revisarlo mejor</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">7. ¿Para cuál de estas tareas puedes usar la IA con mayor confianza sin verificar?</div>
+  <label class="exam-opt"><input type="radio" name="q7" value="A">A. Obtener la fecha exacta de un evento histórico</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="B">B. Obtener estadísticas recientes de un país</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="C">C. Generar ideas para la estructura de un ensayo</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="D">D. Obtener citas textuales de un autor</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">8. La IA omite mencionar que un estudio tiene limitaciones importantes. ¿Qué tipo de error es?</div>
+  <label class="exam-opt"><input type="radio" name="q8" value="A">A. Error de dato</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="B">B. Error de contexto</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="C">C. Error de omisión</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="D">D. No es un error</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">9. ¿Cuál de estas herramientas tiene la ventaja de mostrar sus fuentes, reduciendo (no eliminando) el riesgo de alucinación?</div>
+  <label class="exam-opt"><input type="radio" name="q9" value="A">A. ChatGPT sin conexión a internet</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="B">B. Perplexity.ai</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="C">C. Google Translate</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="D">D. Google Docs</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">10. ¿Cuál es la conclusión más importante sobre cómo usar IA para trabajos académicos?</div>
+  <label class="exam-opt"><input type="radio" name="q10" value="A">A. Nunca usar IA porque siempre miente</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="B">B. Usar IA solo para preguntas de opinión, nunca para hechos</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="C">C. Usar IA como punto de partida y verificar los datos específicos en fuentes primarias</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="D">D. Copiar la respuesta de la IA exactamente como la da</label>
+</div>
+<div class="submit-wrap"><button class="submit-btn" id="submit-btn" onclick="submitEval()">Enviar respuestas ✓</button></div>
+</div>
+
+<div id="result-box">
+  <div class="result-score" id="result-score"></div>
+  <div class="result-label">preguntas correctas de 10</div>
+  <div class="result-msg" id="result-msg"></div>
+</div>
+<span id="eval-grade-key" data-grade="sec3" data-session="10" style="display:none"></span>
+
+<script>
+const CORRECT={q1:'B',q2:'B',q3:'B',q4:'B',q5:'C',q6:'B',q7:'C',q8:'C',q9:'B',q10:'C'};
+const GRADE='sec3',SESSION='10';
+let evalName='',evalStarted=false,roster=[];
+(async function(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+GRADE);const d=await r.json();if(d.found)roster=d.alumnos.map(a=>a.nombre);}catch(e){}})();
+function acFilter(){const val=document.getElementById('gate-nombre').value.trim().toLowerCase();const list=document.getElementById('ac-list');if(!val||!roster.length){list.style.display='none';return;}const matches=roster.filter(n=>n.toLowerCase().includes(val)).slice(0,8);if(!matches.length){list.style.display='none';return;}list.innerHTML=matches.map(n=>`<div class="ac-item" onclick="selectAc(this.textContent)">${n}</div>`).join('');list.style.display='block';}
+function selectAc(name){document.getElementById('gate-nombre').value=name;document.getElementById('ac-list').style.display='none';}
+function acKey(e){const list=document.getElementById('ac-list');const items=[...list.querySelectorAll('.ac-item')];let idx=items.findIndex(i=>i.classList.contains('active'));if(e.key==='ArrowDown'){e.preventDefault();if(idx<items.length-1){if(idx>=0)items[idx].classList.remove('active');items[idx+1].classList.add('active');}}else if(e.key==='ArrowUp'){e.preventDefault();if(idx>0){items[idx].classList.remove('active');items[idx-1].classList.add('active');}}else if(e.key==='Enter'){e.preventDefault();const active=list.querySelector('.active');if(active)selectAc(active.textContent);else startEval();}else if(e.key==='Escape'){list.style.display='none';}}
+function startEval(){document.getElementById('ac-list').style.display='none';const name=document.getElementById('gate-nombre').value.trim();if(!name){alert('Escribe tu nombre primero');return;}const nameKey=name.toLowerCase().replace(/[^a-z0-9]+/g,'-');if(localStorage.getItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey)){alert('Ya completaste esta evaluación, '+name+'. Solo se permite un intento.');return;}evalName=name;document.getElementById('identity-name-display').textContent=name;document.getElementById('identity-confirm').style.display='block';document.querySelector('.gate-btn').disabled=true;}
+function confirmarIdentidad(){document.getElementById('gate-section').style.display='none';const bar=document.getElementById('exam-who-bar');bar.style.display='flex';document.getElementById('who-name').textContent=evalName;document.getElementById('exam-section').style.display='block';evalStarted=true;}
+function resetGate(){document.getElementById('identity-confirm').style.display='none';document.querySelector('.gate-btn').disabled=false;document.getElementById('gate-nombre').value='';evalName='';if(!evalStarted){document.getElementById('gate-section').style.display='block';}else{document.getElementById('exam-who-bar').style.display='none';document.getElementById('exam-section').style.display='none';document.getElementById('gate-section').style.display='block';evalStarted=false;}}
+async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=Math.round((correctas/10)*100);for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');localStorage.setItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=score>=80?'¡Excelente pensamiento crítico! 🌟':score>=60?'¡Bien! Sigue cuestionando y verificando 💪':'Repasa el protocolo de auditoría 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
+</script></body></html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Repaso 10 · 4.° Secundaria · Análisis de resultados</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+:root{--accent:#c084fc;--bg:#0a0a0a;--card:#111;--border:rgba(255,255,255,.08);--text:#f0f0f0;--muted:#888;--radius:14px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:1rem 1rem 3rem}
+.hero{background:linear-gradient(135deg,#2e1065,#4a1d96);border-radius:20px;padding:1.5rem;margin-bottom:1.2rem;text-align:center}
+.hero-grade{font-size:.75rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.hero-sub{font-size:.85rem;color:rgba(255,255,255,.6)}
+section{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;margin-bottom:1rem}
+section h2{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:.9rem}
+.concepts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.concept-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:.75rem;text-align:center}
+.concept-emoji{font-size:1.6rem;margin-bottom:.3rem}
+.concept-title{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.concept-desc{font-size:.74rem;color:var(--muted);line-height:1.4}
+.kw-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.kw{background:rgba(192,132,252,.08);border:1px solid rgba(192,132,252,.2);border-radius:8px;padding:.5rem .7rem;font-size:.82rem;font-weight:600;color:var(--accent)}
+details{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;margin-bottom:.5rem}
+summary{padding:.75rem 1rem;cursor:pointer;font-size:.88rem;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:'▾';color:var(--muted)}
+details[open] summary::after{content:'▴'}
+.ex-body{padding:.5rem 1rem .9rem;font-size:.85rem;line-height:1.7;color:#ccc}
+.gate{background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.4rem;text-align:center;margin-bottom:1rem}
+.gate h2{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.4rem}
+.gate p{font-size:.83rem;color:rgba(255,255,255,.7);margin-bottom:.9rem}
+.gate-inp{width:100%;padding:.65rem .9rem;border-radius:10px;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:.95rem;font-family:inherit;outline:none}
+.gate-inp:focus{border-color:rgba(255,255,255,.5)}
+.gate-btn{margin-top:.6rem;width:100%;padding:.65rem;border-radius:10px;border:none;background:#fff;color:#1d4ed8;font-weight:800;font-size:.95rem;cursor:pointer}
+.gate-btn:disabled{opacity:.4;cursor:default}
+#identity-confirm{display:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:1rem;margin-top:.8rem;text-align:center}
+#identity-name-display{font-size:1.1rem;font-weight:800;color:#fff;margin:.4rem 0 .8rem}
+.id-btn{padding:.55rem 1.2rem;border-radius:9px;border:none;font-weight:800;font-size:.88rem;cursor:pointer}
+.id-yes{background:#c084fc;color:#000;margin-right:.4rem}
+.id-no{background:rgba(255,255,255,.1);color:#fff}
+#exam-who-bar{display:none;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:.5rem .9rem;margin-bottom:.8rem;align-items:center;justify-content:space-between;gap:.5rem}
+#exam-who-bar span{color:rgba(255,255,255,.7)}
+#exam-who-bar strong{color:#fff}
+.not-me-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);border-radius:7px;padding:.25rem .6rem;font-size:.75rem;cursor:pointer}
+#exam-section{display:none}
+.exam-q{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:.9rem;margin-bottom:.7rem}
+.exam-q-text{font-size:.9rem;font-weight:700;margin-bottom:.65rem;line-height:1.4}
+.exam-opt{display:flex;align-items:flex-start;gap:.55rem;padding:.45rem .55rem;border-radius:8px;cursor:pointer;font-size:.85rem;line-height:1.4;transition:background .15s}
+.exam-opt:hover{background:rgba(255,255,255,.05)}
+.exam-opt input{margin-top:2px;flex-shrink:0;accent-color:var(--accent)}
+.submit-wrap{text-align:center;margin-top:1.2rem}
+.submit-btn{background:linear-gradient(135deg,#c084fc,#9333ea);color:#000;border:none;border-radius:12px;padding:.75rem 2.5rem;font-size:1rem;font-weight:800;cursor:pointer}
+.submit-btn:disabled{opacity:.3;cursor:default}
+#result-box{display:none;background:linear-gradient(135deg,#312e81,#1d4ed8,#6d28d9);border-radius:16px;padding:1.3rem;text-align:center;margin-bottom:1rem}
+.result-score{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;color:#fff}
+.result-label{font-size:.85rem;color:rgba(255,255,255,.7);margin-top:.2rem}
+.result-msg{font-size:.9rem;font-weight:700;color:#fff;margin-top:.6rem}
+.opt-correct{background:rgba(34,197,94,.15)!important;border:1px solid #22c55e}
+.opt-wrong{background:rgba(239,68,68,.12)!important;border:1px solid #ef4444}
+.ac-wrap{position:relative;width:100%}
+.ac-list{display:none;position:absolute;top:100%;left:0;right:0;z-index:99;background:#1a1a2e;border:1px solid rgba(255,255,255,.15);border-radius:10px;max-height:200px;overflow-y:auto;margin-top:3px}
+.ac-item{padding:.55rem .9rem;cursor:pointer;font-size:.88rem;color:#e0e0e0}
+.ac-item:hover,.ac-item.active{background:rgba(192,132,252,.15);color:var(--accent)}
+</style></head>
+<body>
+<div class="hero">
+  <div class="hero-grade">🟣 4.° Secundaria · Sesión 10</div>
+  <div class="hero-title">Análisis de resultados con Sheets</div>
+  <div class="hero-sub">17 de julio 2026 · Prof. Estrella Vizcarra</div>
+</div>
+
+<section>
+  <h2>📖 Lo que aprendimos</h2>
+  <div class="concepts-grid">
+    <div class="concept-card"><div class="concept-emoji">📊</div><div class="concept-title">Forms → Sheets</div><div class="concept-desc">Las respuestas del formulario llegan automáticamente a una hoja</div></div>
+    <div class="concept-card"><div class="concept-emoji">🔢</div><div class="concept-title">=CONTAR.SI()</div><div class="concept-desc">Cuenta las celdas que cumplen un criterio de texto</div></div>
+    <div class="concept-card"><div class="concept-emoji">📈</div><div class="concept-title">Gráficos</div><div class="concept-desc">Barras para comparar · torta para proporciones · línea para tiempo</div></div>
+    <div class="concept-card"><div class="concept-emoji">🔺</div><div class="concept-title">Pirámide de análisis</div><div class="concept-desc">Dato → patrón → hipótesis → conclusión con matiz</div></div>
+    <div class="concept-card"><div class="concept-emoji">⚠️</div><div class="concept-title">Ética del análisis</div><div class="concept-desc">Cherry-picking, gráficos engañosos, correlación ≠ causalidad</div></div>
+    <div class="concept-card"><div class="concept-emoji">📌</div><div class="concept-title">Limitaciones</div><div class="concept-desc">Muestra pequeña, sesgo de selección, deseabilidad social</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>📚 Palabras clave</h2>
+  <div class="kw-grid">
+    <div class="kw">=CONTAR.SI(rango,crit)</div>
+    <div class="kw">Tabla de frecuencias</div>
+    <div class="kw">Tabla dinámica</div>
+    <div class="kw">Gráfico de barras</div>
+    <div class="kw">Cherry-picking</div>
+    <div class="kw">Correlación vs causalidad</div>
+    <div class="kw">Sesgo de selección</div>
+    <div class="kw">Pirámide de análisis</div>
+  </div>
+</section>
+
+<section>
+  <h2>✏️ Ejercicios de práctica</h2>
+  <details><summary>¿Cuándo usar gráfico de barras vs gráfico de torta?</summary><div class="ex-body">Barras: cuando comparas categorías distintas o hay muchas opciones. Torta: solo cuando son pocas categorías (3-5) y quieres mostrar la proporción del total. Si hay más de 5 categorías o alguna tiene menos del 5%, usa barras.</div></details>
+  <details><summary>¿Qué significa que dos variables estén correlacionadas?</summary><div class="ex-body">Que cuando una sube, la otra también tiende a subir (o bajar). Pero correlación NO significa que una cause la otra — puede haber una tercera variable en juego, o ser una coincidencia estadística.</div></details>
+  <details><summary>¿Cómo se escribe la fórmula para contar cuántas veces aparece "Sí" en B2:B50?</summary><div class="ex-body">=CONTAR.SI(B2:B50,"Sí") — con las comillas alrededor del criterio de texto.</div></details>
+</section>
+
+<div class="gate" id="gate-section">
+  <h2>🎯 Evaluación de la Clase</h2>
+  <p>Escribe tu nombre completo para comenzar</p>
+  <div class="ac-wrap">
+    <input id="gate-nombre" class="gate-inp" type="text" placeholder="Tu nombre completo" autocomplete="off" oninput="acFilter()" onkeydown="acKey(event)" />
+    <div id="ac-list" class="ac-list"></div>
+  </div>
+  <button class="gate-btn" onclick="startEval()">Comenzar evaluación →</button>
+  <div id="identity-confirm">
+    <p style="color:rgba(255,255,255,.7);font-size:.83rem">¿Eres tú?</p>
+    <div id="identity-name-display"></div>
+    <button class="id-btn id-yes" onclick="confirmarIdentidad()">✅ Sí, soy yo</button>
+    <button class="id-btn id-no" onclick="resetGate()">✏️ No, cambiar</button>
+  </div>
+</div>
+
+<div id="exam-who-bar">
+  <div><span>Respondiendo como: </span><strong id="who-name"></strong></div>
+  <button class="not-me-btn" onclick="resetGate()">✏️ No soy yo</button>
+</div>
+
+<div id="exam-section">
+<div class="exam-q"><div class="exam-q-text">1. Cuando respondes un Google Form, ¿dónde aparecen automáticamente tus respuestas?</div>
+  <label class="exam-opt"><input type="radio" name="q1" value="A">A. En un archivo de Word en tu Drive</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="B">B. En una hoja de Google Sheets vinculada al formulario</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="C">C. En el correo de quien creó el formulario, solo</label>
+  <label class="exam-opt"><input type="radio" name="q1" value="D">D. En un PDF que se genera automáticamente</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">2. ¿Qué fórmula cuenta cuántas veces aparece "A veces" en el rango B2:B49?</div>
+  <label class="exam-opt"><input type="radio" name="q2" value="A">A. =SUMA(B2:B49,"A veces")</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="B">B. =CONTAR.SI(B2:B49,"A veces")</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="C">C. =PROMEDIO(B2:B49,"A veces")</label>
+  <label class="exam-opt"><input type="radio" name="q2" value="D">D. =CONTAR(B2:B49)</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">3. ¿Cuál es la principal ventaja de la tabla dinámica frente a =CONTAR.SI?</div>
+  <label class="exam-opt"><input type="radio" name="q3" value="A">A. La tabla dinámica puede filtrar por color</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="B">B. La tabla dinámica agrupa y cuenta automáticamente sin escribir fórmulas manualmente para cada opción</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="C">C. La tabla dinámica funciona sin datos</label>
+  <label class="exam-opt"><input type="radio" name="q3" value="D">D. La tabla dinámica es más precisa que una fórmula</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">4. Tienes 8 categorías en una pregunta de tu encuesta y quieres mostrar la distribución. ¿Qué gráfico es mejor?</div>
+  <label class="exam-opt"><input type="radio" name="q4" value="A">A. Gráfico de torta — siempre es el mejor para encuestas</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="B">B. Gráfico de barras — más legible con muchas categorías</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="C">C. Gráfico de línea — para mostrar tendencias</label>
+  <label class="exam-opt"><input type="radio" name="q4" value="D">D. Gráfico de dispersión — para ver correlación</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">5. ¿Qué es el "cherry-picking" en análisis de datos?</div>
+  <label class="exam-opt"><input type="radio" name="q5" value="A">A. Seleccionar el tipo de gráfico más llamativo</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="B">B. Mostrar solo los datos que apoyan tu posición, ignorando los que no</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="C">C. Elegir el color más atractivo para el gráfico</label>
+  <label class="exam-opt"><input type="radio" name="q5" value="D">D. Recopilar datos de muchas fuentes diferentes</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">6. Un gráfico de barras muestra que el partido A tiene 52% y el B tiene 48%. Pero el eje Y empieza en 45%. ¿Qué problema tiene?</div>
+  <label class="exam-opt"><input type="radio" name="q6" value="A">A. Ninguno, el gráfico está bien</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="B">B. La escala truncada exagera la diferencia visualmente — parece mucho mayor de lo que es (4%)</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="C">C. Los porcentajes deberían sumar 100% exacto</label>
+  <label class="exam-opt"><input type="radio" name="q6" value="D">D. No se puede usar barras para comparar dos candidatos</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">7. En la pirámide de análisis, ¿cuál es el paso correcto DESPUÉS de identificar un patrón en los datos?</div>
+  <label class="exam-opt"><input type="radio" name="q7" value="A">A. Escribir inmediatamente la conclusión final</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="B">B. Formular una hipótesis que explique el patrón</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="C">C. Eliminar los datos que no encajan con el patrón</label>
+  <label class="exam-opt"><input type="radio" name="q7" value="D">D. Buscar un gráfico más bonito</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">8. Tu encuesta tuvo 15 respuestas de alumnos de tu colegio. ¿Cuál es la limitación más importante?</div>
+  <label class="exam-opt"><input type="radio" name="q8" value="A">A. Los datos no se pueden graficar con tan pocas respuestas</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="B">B. La muestra es pequeña y no representativa de toda la población — el margen de error es alto</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="C">C. Sheets no funciona con menos de 50 filas de datos</label>
+  <label class="exam-opt"><input type="radio" name="q8" value="D">D. No hay limitación si el colegio es grande</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">9. Correlación NO es causalidad. ¿Cuál ejemplo ilustra mejor esta distinción?</div>
+  <label class="exam-opt"><input type="radio" name="q9" value="A">A. Quienes estudian más tienden a sacar mejores notas</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="B">B. Los países con más televisores per cápita tienen mayor esperanza de vida — pero los televisores no causan longevidad</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="C">C. Cuando llueve, la gente usa paraguas</label>
+  <label class="exam-opt"><input type="radio" name="q9" value="D">D. A más horas de sueño, menos cansancio al día siguiente</label>
+</div>
+<div class="exam-q"><div class="exam-q-text">10. ¿Cuál es el propósito de mencionar las limitaciones del estudio en el informe de resultados?</div>
+  <label class="exam-opt"><input type="radio" name="q10" value="A">A. Para mostrar que el análisis fue difícil de hacer</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="B">B. Para que el lector sepa hasta dónde se pueden generalizar las conclusiones</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="C">C. Para justificar por qué los resultados no son confiables</label>
+  <label class="exam-opt"><input type="radio" name="q10" value="D">D. Las limitaciones no se mencionan en un buen informe</label>
+</div>
+<div class="submit-wrap"><button class="submit-btn" id="submit-btn" onclick="submitEval()">Enviar respuestas ✓</button></div>
+</div>
+
+<div id="result-box">
+  <div class="result-score" id="result-score"></div>
+  <div class="result-label">preguntas correctas de 10</div>
+  <div class="result-msg" id="result-msg"></div>
+</div>
+<span id="eval-grade-key" data-grade="sec4" data-session="10" style="display:none"></span>
+
+<script>
+const CORRECT={q1:'B',q2:'B',q3:'B',q4:'B',q5:'B',q6:'B',q7:'B',q8:'B',q9:'B',q10:'B'};
+const GRADE='sec4',SESSION='10';
+let evalName='',evalStarted=false,roster=[];
+(async function(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+GRADE);const d=await r.json();if(d.found)roster=d.alumnos.map(a=>a.nombre);}catch(e){}})();
+function acFilter(){const val=document.getElementById('gate-nombre').value.trim().toLowerCase();const list=document.getElementById('ac-list');if(!val||!roster.length){list.style.display='none';return;}const matches=roster.filter(n=>n.toLowerCase().includes(val)).slice(0,8);if(!matches.length){list.style.display='none';return;}list.innerHTML=matches.map(n=>`<div class="ac-item" onclick="selectAc(this.textContent)">${n}</div>`).join('');list.style.display='block';}
+function selectAc(name){document.getElementById('gate-nombre').value=name;document.getElementById('ac-list').style.display='none';}
+function acKey(e){const list=document.getElementById('ac-list');const items=[...list.querySelectorAll('.ac-item')];let idx=items.findIndex(i=>i.classList.contains('active'));if(e.key==='ArrowDown'){e.preventDefault();if(idx<items.length-1){if(idx>=0)items[idx].classList.remove('active');items[idx+1].classList.add('active');}}else if(e.key==='ArrowUp'){e.preventDefault();if(idx>0){items[idx].classList.remove('active');items[idx-1].classList.add('active');}}else if(e.key==='Enter'){e.preventDefault();const active=list.querySelector('.active');if(active)selectAc(active.textContent);else startEval();}else if(e.key==='Escape'){list.style.display='none';}}
+function startEval(){document.getElementById('ac-list').style.display='none';const name=document.getElementById('gate-nombre').value.trim();if(!name){alert('Escribe tu nombre primero');return;}const nameKey=name.toLowerCase().replace(/[^a-z0-9]+/g,'-');if(localStorage.getItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey)){alert('Ya completaste esta evaluación, '+name+'. Solo se permite un intento.');return;}evalName=name;document.getElementById('identity-name-display').textContent=name;document.getElementById('identity-confirm').style.display='block';document.querySelector('.gate-btn').disabled=true;}
+function confirmarIdentidad(){document.getElementById('gate-section').style.display='none';const bar=document.getElementById('exam-who-bar');bar.style.display='flex';document.getElementById('who-name').textContent=evalName;document.getElementById('exam-section').style.display='block';evalStarted=true;}
+function resetGate(){document.getElementById('identity-confirm').style.display='none';document.querySelector('.gate-btn').disabled=false;document.getElementById('gate-nombre').value='';evalName='';if(!evalStarted){document.getElementById('gate-section').style.display='block';}else{document.getElementById('exam-who-bar').style.display='none';document.getElementById('exam-section').style.display='none';document.getElementById('gate-section').style.display='block';evalStarted=false;}}
+async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=Math.round((correctas/10)*100);for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');localStorage.setItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=score>=80?'¡Excelente análisis crítico! 🌟':score>=60?'¡Bien! Sigue practicando con datos reales 💪':'Repasa la pirámide de análisis y las limitaciones 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
+</script></body></html>

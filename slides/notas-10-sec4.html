@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 10 · 4.° Secundaria · 17 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#c084fc;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 10 · 4.° Secundaria</div><div class="top-bar-meta">Análisis de resultados con Sheets · Viernes 17 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·2</span><span class="card-title">El ciclo Forms → Sheets</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Conectar con S09: ya saben crear formularios en Google Forms. Hoy cerramos el ciclo: los datos que recolectaron van a Sheets automáticamente, y ahí se analiza. El flujo completo: formulario → hoja de respuestas → análisis → conclusiones → toma de decisiones. Este flujo es exactamente el que usan empresas, investigadores y organismos públicos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Mostrar la hoja de respuestas de un Forms real. Señalar que cada fila = un encuestado, cada columna = una pregunta. Eso es la base del análisis.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·3</span><span class="card-title">Tipos de pregunta y su análisis</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Cada tipo de pregunta tiene su método de análisis natural:
+- Opción múltiple → tabla de frecuencias, gráfico de barras o torta
+- Escala 1-5 → promedio, mediana, distribución
+- Texto libre → categorías manuales o nube de palabras
+- Casilla de verificación (múltiple respuesta) → frecuencia por opción, no sumar al 100%
+
+El error más común: tratar preguntas de opción múltiple como si los porcentajes debieran sumar 100% cuando hay múltiple respuesta.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Preguntar: "si el 60% marcó opción A, 50% marcó opción B y 40% marcó opción C en una pregunta de casilla, ¿eso suma más de 100%? ¿está mal?" Respuesta: no está mal — cada persona puede marcar varias opciones.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·4</span><span class="card-title">Tablas de frecuencia en Sheets</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Dos métodos para crear tabla de frecuencias:
+1. Manual: listar las opciones, contar con =CONTAR.SI(rango,"opción")
+2. Automático: tabla dinámica (Insertar → Tabla dinámica) — filtra y agrupa en segundos
+
+Para 15-16 años: recomendable enseñar primero el método manual para entender la lógica, luego mostrar la tabla dinámica como atajo.
+
+=CONTAR.SI(B2:B50,"Sí") — cuenta cuántas respuestas son exactamente "Sí".</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Demostrar =CONTAR.SI en vivo con los datos del formulario de muestra. Luego mostrar tabla dinámica del mismo resultado — el contraste motiva.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·5</span><span class="card-title">⭐ =CONTAR.SI() en profundidad</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Variantes de CONTAR.SI:
+- =CONTAR.SI(rango,"A veces") — coincidencia exacta
+- =CONTAR.SI(rango,">3") — condición numérica (mayor que 3)
+- =CONTAR.SI(rango,"*vez*") — comodín (contiene "vez")
+- =CONTAR.SI.CONJUNTO(rango1,crit1,rango2,crit2) — múltiples condiciones
+
+Caso de uso real: "¿cuántas personas de 4.° Sec respondieron Sí?" — necesita CONTAR.SI.CONJUNTO con dos columnas.
+
+⭐ Bonus: +1 al primero en escribir correctamente =CONTAR.SI(B2:B49,"A veces") y verificar el resultado.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Dar 2 minutos para que lo prueben en Sheets. Verificar que las comillas estén correctas y el rango sea el adecuado.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B — =CONTAR.SI(B2:B49,"A veces")
+
+Las otras opciones:
+- A: =SUMA() no cuenta texto, cuenta números — daría error o 0
+- C: =PROMEDIO() calcula el promedio numérico — no aplica a texto
+- D: =CONTAR() solo cuenta celdas con números, no texto — daría 0
+
+El error más común: elegir A porque SUMA parece "contar". La distinción SUMA (números) vs CONTAR.SI (criterio) es la clave.
+
+⭐ Bonus: +1 por respuesta correcta + explicar por qué A no funciona.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si muchos eligen A: demostrar en vivo que =SUMA() sobre texto devuelve 0.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus()" class="bw-btn">+1</button></div>
+<p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·7</span><span class="card-title">Gráficos que comunican bien</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Guía de elección de gráfico:
+- Barras: comparar categorías (la más útil para encuestas)
+- Torta/circular: proporciones de un total (usar solo si hay 3-5 categorías claras)
+- Línea: tendencia en el tiempo (para datos con fecha)
+- Dispersión: relación entre dos variables numéricas
+
+El error más frecuente en trabajos escolares: usar gráfico de torta con 8+ categorías — se vuelve ilegible. Regla: si las tajadas son menores al 5%, la torta no sirve.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Mostrar un gráfico de torta con demasiadas categorías vs el mismo dato en barras. La diferencia visual es inmediata.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·8</span><span class="card-title">⭐ Reto: Lee este gráfico</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Gráfico de barras en slide: respuestas a "¿Cuántas horas usas el celular por día?"
+Opciones: Menos de 2h (15%), 2-4h (35%), 4-6h (30%), Más de 6h (20%)
+
+Preguntas a responder:
+1. ¿Qué respuesta fue la más común? → 2-4h
+2. ¿Qué porcentaje usa más de 4h? → 50% (30+20)
+3. ¿Qué conclusión sacarías para el colegio? → respuesta abierta
+
+⭐ Bonus: +1 al mejor análisis de la pregunta 3 con argumento concreto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">La pregunta 3 es la más importante — va más allá de leer el gráfico, implica interpretar y proponer. Escuchar 3-4 respuestas.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c8" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c8','bw-msg-c8')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c8" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·9</span><span class="card-title">De datos a conclusiones</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La pirámide de análisis:
+1. Dato: "El 35% respondió 2-4 horas"
+2. Patrón: "La mayoría usa entre 2 y 4 horas, con tendencia a subir"
+3. Hipótesis: "Podría relacionarse con el uso escolar de dispositivos"
+4. Conclusión con matiz: "Los datos sugieren X, aunque se necesitan más datos sobre Y"
+
+El error crítico: saltar del dato a la conclusión sin el patrón y la hipótesis. Eso produce conclusiones injustificadas.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Mostrar dos conclusiones del mismo dato: una bien construida y una que salta pasos. Pedir que identifiquen cuál es cuál y por qué.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·10</span><span class="card-title">⭐ Reto grupal: Análisis completo</span></div><span class="card-time">6 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">En parejas con el dataset de muestra en Sheets:
+1. Calcular frecuencias con =CONTAR.SI para cada opción de la pregunta principal
+2. Crear tabla de frecuencias + porcentajes (=frecuencia/TOTAL*100)
+3. Insertar gráfico de barras
+4. Escribir 2 conclusiones usando la pirámide
+
+⭐ Bonus: +1 al que entregue las 4 tareas completas correctamente primero.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circular y verificar. Error frecuente en el paso 2: dividir entre el número de opciones en lugar de entre el total de respuestas. Verificar la fórmula del porcentaje.</p>
+<div class="bw">
+<p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#c084fc);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw-row"><select id="bw-nombre-c10" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select><button onclick="darBonus('bw-nombre-c10','bw-msg-c10')" class="bw-btn">+1</button></div>
+<p id="bw-msg-c10" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·11</span><span class="card-title">Ética en el análisis de datos</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tres problemas éticos reales del análisis de datos:
+1. Cherry-picking: mostrar solo los datos que apoyan tu posición, ignorar los que no
+2. Gráficos engañosos: escala manipulada para exagerar diferencias pequeñas
+3. Correlación vs causalidad: "X sube cuando Y sube" no significa que X causa Y
+
+Ejemplo de Perú/Latinoamérica si está disponible: gráficos de uso en medios que manipulan el eje Y para que diferencias del 2% parezcan enormes.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Mostrar un gráfico con eje Y truncado vs el mismo gráfico con eje desde 0. El impacto visual es poderoso.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·12</span><span class="card-title">Limitaciones del análisis</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Todo análisis honesto incluye sus limitaciones:
+- Muestra pequeña: "con 20 respuestas, el margen de error es alto"
+- Sesgo de selección: "solo respondieron alumnos del colegio, no es representativo de toda la ciudad"
+- Preguntas sesgadas: si la pregunta influye en la respuesta, el dato no es neutral
+- Respuestas de deseabilidad social: la gente responde lo que cree que se espera, no siempre la verdad</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Preguntar: "¿cuáles de estas limitaciones aplican al formulario que crearon en S09?" Reflexión honesta.</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·13</span><span class="card-title">🎯 Actividad: Informe de resultados</span></div><span class="card-time">15 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal con el formulario de S09:
+1. Abrir la hoja de respuestas de su Forms de la sesión anterior
+2. Crear tabla de frecuencias para 2-3 preguntas clave
+3. Insertar 2 gráficos apropiados
+4. Escribir un párrafo de conclusiones con la pirámide (dato → patrón → hipótesis → conclusión)
+5. Nombrar una limitación del estudio
+6. Guardar como Analisis_10_TuNombre</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si alguien no tiene datos de S09: usar el dataset de muestra compartido. Circular y preguntar: "¿qué te dice este dato? ¿y qué NO te dice?"</p></div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="ch-left"><span class="card-num">S10·14</span><span class="card-title">✅ Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+<div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Cierre: "¿En qué situación fuera del colegio usarías hoy lo que aprendiste?" Escuchar 3-4 respuestas. Conexión real: encuestas de opinión, estudios de mercado, análisis de redes sociales — el flujo Forms→Sheets→conclusiones es universal.
+
+S11 conecta con: análisis más complejo con gráficos compuestos y comparación entre grupos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">La pregunta de cierre es genuina — no retórica. Las respuestas de 4.° Sec suelen ser sorprendentemente maduras.</p></div>
+</div>
+
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#c084fc;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 14</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec4';const NOTA_SESSION='10';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();
+async function darBonus(selId,msgId){selId=selId||'bw-nombre';msgId=msgId||'bw-msg';const inp=document.getElementById(selId);const msg=document.getElementById(msgId);const nombre=inp.value.trim();if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}if(!bwPw)return;msg.textContent='Guardando…';try{const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Clase S'+NOTA_SESSION})});const d=await res.json();if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';if(typeof syncRoom!=='undefined'&&syncRoom){fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{}); }}else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}}catch(e){msg.textContent='❌ Sin conexión';}setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;if(typeof startSync==='function'){startSync();}else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}setTimeout(()=>{const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#c084fc;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);},300);})();
+</script></body></html>

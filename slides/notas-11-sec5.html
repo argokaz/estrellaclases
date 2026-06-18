@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 11 · 5.° Secundaria · 24 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#f87171;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 11 · 5.° Secundaria</div><div class="top-bar-meta">Carta/correo formal de presentación · Viernes 24 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Presenta los 3 ejes: estructura de la carta formal, tono profesional y correo formal (asunto, saludo, cierre). Para 5.° es muy relevante: están a meses de postular a universidades y trabajos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: "¿Cuántos han escrito un correo formal real? ¿A un profesor, a una institución?" Conecta con su realidad inmediata.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">¿Por qué importa una carta de presentación?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Es la primera impresión ante una universidad, beca o trabajo: a menudo te leen antes de conocerte. Demuestra que sabes comunicarte; un error de forma puede cerrar una puerta.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Plantea: "Si recibes 50 cartas y una tiene faltas y un 'holaa', ¿cuál descartas primero?" Genera conciencia del filtro real.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">La estructura de la carta formal</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 4 partes: Encabezado (lugar, fecha, destinatario), Saludo ("Estimado/a…"), Cuerpo (quién eres y qué pides), Cierre (despedida y firma). Es el esqueleto que usarán en la tarea.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Escribe las 4 partes en la pizarra. Iremos profundizando en saludo, cuerpo, tono y cierre.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">⭐ ¿Saludo formal o informal?</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Opciones: A "Hola, ¿qué tal? Soy yo…" (informal), B "Estimada Dra. Pérez:" (formal correcto), C "Buenas, le escribo para…" (semi-informal).
+Correcto: B — usa tratamiento y dos puntos.
+
+⭐ Bonus: +1 al primero que identifique el saludo correcto y explique por qué.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Aclara: "Estimado/a" + cargo o apellido + dos puntos es el estándar. Evita "Hola" en contextos formales.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B — Resumir en pocas palabras el motivo del correo. Un buen asunto hace que abran el correo y sepan de qué trata.
+A (vacío) hace que lo ignoren; C (emojis) resta seriedad.
+
+⭐ Bonus: +1 al primer alumno en responder correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Ejemplo de buen asunto: "Postulación a beca de excelencia 2027 – [Nombre]".</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">El cuerpo: qué decir</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El cuerpo tiene 2 movimientos: 1) quién eres (nombre, qué estudias/haces, en una frase), 2) qué buscas (el motivo claro: postular, pedir, proponer) y por qué tú. Conciso y directo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Regla: el lector debe saber QUÉ quieres en los primeros 2 renglones. Nada de rodeos.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">El tono: ni frío ni casual</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Contraste: "Holaa, quería ver si me daban el cupo, porfa 🙏" (demasiado casual) vs "Me dirijo a usted para postular al programa, con gran interés en…" (formal y cordial). El tono correcto es respetuoso pero humano, no robótico.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que reescriban la versión casual a formal en voz alta. Buen calentamiento para la actividad.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">⭐ Mejora el asunto</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Asunto malo: "hola". Reescribir para postular a una beca universitaria.
+Modelo: "Postulación a beca universitaria 2027 – [Nombre Apellido]".
+
+⭐ Bonus: +1 al mejor asunto claro y profesional.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Verifica que el asunto diga el motivo Y permita identificar al remitente. Celebra los específicos.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">El cierre y la despedida</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">El cierre: una frase de agradecimiento o disponibilidad, despedida formal ("Atentamente," / "Cordialmente,"), nombre completo y datos de contacto. Sin emojis ni abreviaturas.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Da ejemplos de cierre: "Quedo atento/a a su respuesta. Atentamente, [Nombre]". Simple y profesional.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">Errores que restan profesionalismo</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Errores que matan la impresión: faltas de ortografía, correo informal (ej: "elgaleux99@…"), texto demasiado largo. Recomendar revisar 2 veces y usar una dirección seria con nombre real.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta cuántos tienen correos con apodos. Sugiere crear uno formal tipo nombre.apellido para postulaciones.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">⭐ Detecta los errores</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Texto: "ola, soy juan y kiero el cupo de la beca xq lo necesito. graciasss".
+Errores: "ola" (falta H, informal), nombre en minúscula, "kiero/xq" (abreviaturas), sin saludo formal, sin estructura, "graciasss" exagerado.
+
+⭐ Bonus: +1 al primero que liste 3 errores y los corrija.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge errores en voz alta. Luego pide una versión corregida modelo entre todos.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#f87171);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c12" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c12','bw-msg-c12')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c12" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">🎯 Actividad: Tu carta de presentación</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal: elegir un destino (beca, universidad o trabajo) y redactar una carta formal en Docs con sus 4 partes, cuidando tono, ortografía y asunto.
+
+Criterios rápidos:
+- Las 4 partes presentes ✓
+- Tono formal y cordial ✓
+- Sin faltas ni abreviaturas ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula revisando tono y ortografía. Señala saludos informales en el momento. Es justo lo que pide la tarea de hoy.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">💡 Escribir bien abre puertas</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Cierre: una carta cuidada dice de ti algo que ningún currículum dice: que sabes comunicarte con respeto y claridad. Estructura, tono formal y revisión antes de enviar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Frase para llevar: "lo que escribes habla de ti cuando no estás presente".</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿Qué debe lograr el asunto de un correo formal?" (resumir el motivo). Recuerda la tarea: carta formal de presentación. Entrega antes del viernes 31 de julio. Conexión con S12: portafolio digital de egreso.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3-4 alumnos al azar. Cierra recordando la fecha de entrega de la tarea.</p></div>
+</div>
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#f87171;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 14</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec5';const NOTA_SESSION='11';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{
+    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const d=await r.json();
+    if(d.found){
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
+    }
+  }catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();
+  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
+    const d=await res.json();
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';
+    if(typeof syncRoom!=='undefined'&&syncRoom){
+      fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});
+    }}
+    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
+  }catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){
+  const _r=new URLSearchParams(window.location.search).get('room');
+  if(!_r||_r.length<4)return;
+  const _code=_r.slice(0,6).toUpperCase();
+  const _inp=document.getElementById('sync-code-inp');
+  if(_inp)_inp.value=_code;
+  if(typeof startSync==='function'){startSync();}
+  else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}
+  setTimeout(()=>{
+    const _t=document.createElement('div');
+    _t.textContent='📡 Sync conectado · '+_code;
+    _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#f87171;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';
+    document.body.appendChild(_t);
+    setTimeout(()=>_t.remove(),4000);
+  },300);
+})();
+</script></body></html>

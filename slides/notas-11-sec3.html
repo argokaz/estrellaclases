@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 11 · 3.° Secundaria · 24 jul 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#fb923c;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 11 · 3.° Secundaria</div><div class="top-bar-meta">Pensamiento computacional · Viernes 24 de julio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Presenta los 3 ejes: los 4 pilares, los algoritmos y la depuración. Aclara desde el inicio que pensar computacionalmente NO requiere computadora: es una forma de resolver problemas.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta: "¿Qué tienen en común una receta de cocina y un programa?" → ambos son pasos en orden.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">¿Qué es el pensamiento computacional?</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Definición: forma de resolver problemas dividiéndolos en pasos claros que cualquiera (o una computadora) pueda seguir. Es la base de la programación, pero se practica sin pantalla.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Ejemplo cotidiano: armar un mueble siguiendo el instructivo es pensamiento computacional en acción.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">Los 4 pilares</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Descomposición (dividir en partes), Patrones (lo que se repite), Abstracción (quedarse con lo esencial), Algoritmo (los pasos en orden). Estos 4 conceptos son el corazón de la clase.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Escribe los 4 pilares en la pizarra; los iremos usando uno por uno en los siguientes slides.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">⭐ Descompón este problema</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Problema: "Organizar una fiesta sorpresa". Sub-tareas posibles: invitar gente sin que se entere, conseguir lugar, comida, decoración, distraer al cumpleañero.
+
+⭐ Bonus: +1 al primero que liste 3 sub-tareas claras.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Recoge varias ideas. Lo importante: ver que un problema grande se vuelve manejable al dividirlo.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c5" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c5','bw-msg-c5')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c5" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Mini quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Respuesta correcta: B — Descomposición. Dividir un problema grande en partes pequeñas es exactamente descomponer.
+A (abstracción) es quedarse con lo esencial; C (depuración) es corregir errores.
+
+⭐ Bonus: +1 al primer alumno en responder correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Votación. Refuerza la diferencia entre los 3 conceptos que suenan parecido.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus()" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">Patrones: lo que se repite</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Buscar patrones = identificar pasos que se repiten, situaciones parecidas, reglas comunes. Si encuentras un patrón, reusas una solución en vez de inventar una nueva cada vez.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Ejemplo: si todas las mañanas haces los mismos pasos para alistarte, ese patrón se puede automatizar mentalmente.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">Abstracción: quedarse con lo clave</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Abstracción = ignorar los detalles que no importan y enfocarse en lo esencial. El ejemplo del mapa del metro es perfecto: no muestra cada calle, solo las estaciones, porque eso es lo que necesitas.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Muestra (o describe) un mapa del metro vs un mapa real con todas las calles. La simplificación es la abstracción.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">⭐ Escribe el algoritmo</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Tarea: escribir los pasos para "preparar un sándwich", en orden y sin saltarse ninguno.
+El truco pedagógico: alguien siempre olvida un paso (abrir el pan, untar). Eso muestra por qué el orden y la completitud importan.
+
+⭐ Bonus: +1 al algoritmo más claro y completo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Opcional divertido: "ejecuta" literalmente el algoritmo de un alumno; si dice "pon el jamón" sin abrir el pan, hazlo mal a propósito. Se ríen y entienden.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c9" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c9','bw-msg-c9')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c9" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">Algoritmos: la receta de pasos</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Un algoritmo es una lista de pasos en orden. Debe ser claro (sin ambigüedades) y completo (sin saltos). Si cambias el orden, el resultado cambia.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Conecta con el ejercicio del sándwich: ese ya era un algoritmo. Ahora le ponemos nombre y reglas.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">Secuencia, repetición y decisión</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 3 estructuras: Secuencia (un paso tras otro), Repetición/bucle (repetir hasta cumplir algo), Decisión (si… elegir según una condición). Son las que verán en Scratch la próxima clase.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Ejemplos: secuencia (caminar), bucle (sube escaleras hasta llegar), decisión (si llueve, llevo paraguas). Anticipa Scratch.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">⭐ Depura este algoritmo</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Algoritmo con error: 1. Cepillarse · 2. Poner pasta · 3. Enjuagarse · 4. Mojar el cepillo.
+Orden correcto: mojar el cepillo → poner pasta → cepillarse → enjuagarse. Los pasos están desordenados.
+
+⭐ Bonus: +1 al primero que corrija el orden.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que lo "ejecuten" mentalmente: ¿puedes cepillarte antes de poner pasta? Ahí ven el error.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#fb923c);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c12" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c12','bw-msg-c12')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c12" class="bw-msg"> </p>
+</div>
+</div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">🎯 Actividad: Tu algoritmo en Docs</span></div><span class="card-time">12 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Actividad principal: elegir una tarea cotidiana, descomponerla, escribir el algoritmo paso a paso en Docs y marcar dónde hay repetición o decisión.
+
+Criterios rápidos:
+- Pasos claros y ordenados ✓
+- Sin saltos (completo) ✓
+- Identifica al menos una repetición o decisión ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Circula verificando que los pasos sean ejecutables sin ambigüedad. Es justo lo que pide la tarea de hoy.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">Depurar: cazar errores</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Depurar (debug) = encontrar y corregir errores. Se prueba el algoritmo paso a paso; si algo falla, se revisa el orden y los pasos olvidados. Equivocarse es parte normal de programar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Normaliza el error: "los programadores pasan más tiempo depurando que escribiendo". Quita el miedo a equivocarse.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">💡 Pensar como programador</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Cierre: no necesitas una computadora para pensar computacionalmente; necesitas dividir, ordenar y probar. Estas habilidades sirven en matemáticas, en la vida y en cualquier carrera.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Frase para llevar: "divide, ordena y prueba".</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">16</span><span class="card-title">🚀 Lo que llevas hoy</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "Nombra los 4 pilares del pensamiento computacional." Recuerda la tarea: escribir un algoritmo en Docs. Entrega antes del viernes 31 de julio. Conexión con S12: Scratch — eventos y movimiento.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3-4 alumnos al azar. Cierra recordando la fecha de entrega de la tarea.</p></div>
+</div>
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#fb923c;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 15</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
+async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
+const NOTA_GRADE='sec3';const NOTA_SESSION='11';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{
+    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const d=await r.json();
+    if(d.found){
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
+    }
+  }catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();
+  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
+    const d=await res.json();
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';
+    if(typeof syncRoom!=='undefined'&&syncRoom){
+      fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});
+    }}
+    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
+  }catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){
+  const _r=new URLSearchParams(window.location.search).get('room');
+  if(!_r||_r.length<4)return;
+  const _code=_r.slice(0,6).toUpperCase();
+  const _inp=document.getElementById('sync-code-inp');
+  if(_inp)_inp.value=_code;
+  if(typeof startSync==='function'){startSync();}
+  else{const _btn=document.getElementById('sync-connect-btn');if(_btn)_btn.click();}
+  setTimeout(()=>{
+    const _t=document.createElement('div');
+    _t.textContent='📡 Sync conectado · '+_code;
+    _t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#fb923c;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';
+    document.body.appendChild(_t);
+    setTimeout(()=>_t.remove(),4000);
+  },300);
+})();
+</script></body></html>

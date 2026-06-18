@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarea Sesión 11 · 3.° Secundaria · 24 jul 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+:root{
+  --accent:#fb923c;--accent2:#ea580c;--brand:#431407;
+  --grad:135deg,#431407,#7c2d12;--badge-bg:#fed7aa;
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg:#f8fafc;--radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:16px;color:var(--text);background:#fff;line-height:1.75}
+.page{max-width:780px;margin:0 auto;padding:40px 44px}
+@media(max-width:600px){.page{padding:22px 16px}}
+.doc-header{border-bottom:3px solid var(--brand);padding-bottom:18px;margin-bottom:28px}
+.school{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin:6px 0 2px}
+.doc-subtitle{font-size:15px;color:var(--muted)}
+.task-card{background:linear-gradient(var(--grad));border-radius:18px;padding:32px 36px;margin-bottom:32px;color:#fff;position:relative;overflow:hidden}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 50% at 90% 20%,rgba(255,255,255,.1),transparent);pointer-events:none}
+.task-badge{display:inline-block;background:var(--badge-bg);color:var(--brand);font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;border-radius:7px;padding:4px 12px;margin-bottom:14px}
+.task-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;margin-bottom:10px}
+.task-desc{font-size:16px;opacity:.92;margin-bottom:18px;line-height:1.65}
+.task-items{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.task-items li{font-size:15px;opacity:.95;padding-left:22px;position:relative;line-height:1.6}
+.task-items li::before{content:'✓';position:absolute;left:0;font-weight:800;color:var(--badge-bg)}
+.task-deadline{font-size:14px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:9px;padding:9px 16px;display:inline-block;font-weight:600}
+.tutorial-wrap{background:#fffbeb;border:2px solid #fde68a;border-radius:18px;padding:28px 32px;margin-bottom:28px}
+.tut-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:#92400e;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.tut-svg{display:block;width:100%;max-width:520px;margin:0 auto 20px;border-radius:12px;overflow:hidden}
+details.tut-text{margin-bottom:16px}
+details.tut-text summary{cursor:pointer;font-size:14px;font-weight:700;color:#92400e;padding:10px 0;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
+details.tut-text summary::-webkit-details-marker{display:none}
+details.tut-text summary::before{content:'▸';transition:transform .2s;display:inline-block}
+details.tut-text[open] summary::before{transform:rotate(90deg)}
+.tut-steps{list-style:decimal;padding-left:22px;display:flex;flex-direction:column;gap:8px;padding-top:10px}
+.tut-steps li{font-size:15px;line-height:1.65;color:#78350f}
+.tut-note{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:12px 16px;font-size:14px;color:#1e40af;line-height:1.6;margin-bottom:16px}
+.warn-box{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:12px 16px;font-size:14px;color:#991b1b;display:flex;align-items:flex-start;gap:10px;line-height:1.6}
+.warn-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px}
+#form-section{background:var(--bg);border:2px solid var(--border);border-radius:16px;padding:28px 32px}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand);margin-bottom:20px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.ac-wrap{position:relative}
+.field input[type=text],.field input[type=url],.field textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:11px 14px;font-size:16px;font-family:inherit;color:var(--text);outline:none;transition:border-color .2s;line-height:1.5}
+.field input:focus,.field textarea:focus{border-color:var(--accent)}
+.ac-list{position:absolute;top:100%;left:0;right:0;background:#fff;border:2px solid var(--accent);border-top:none;border-radius:0 0 10px 10px;max-height:220px;overflow-y:auto;z-index:100;display:none}
+.ac-list.open{display:block}
+.ac-item{padding:10px 14px;font-size:15px;cursor:pointer;border-bottom:1px solid var(--border)}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.active{background:#fff7ed;color:var(--brand)}
+.ac-hint{font-size:12px;color:var(--muted);margin-top:5px}
+.send-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:14px 36px;font-size:17px;font-weight:800;cursor:pointer;display:block;width:100%;margin-top:8px;transition:opacity .15s}
+.send-btn:hover{opacity:.88}
+.err-msg{font-size:14px;color:#b91c1c;margin-top:8px;display:none}
+#confirm-card{display:none;background:linear-gradient(135deg,#fed7aa,#ffedd5);border:2px solid var(--accent);border-radius:16px;padding:28px 32px;text-align:center;margin-top:20px}
+.confirm-icon{font-size:3rem;margin-bottom:12px}
+.confirm-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--brand);margin-bottom:8px}
+.confirm-link{display:inline-block;margin:10px 0 16px;font-size:14px;color:var(--accent2);text-decoration:underline;word-break:break-all}
+.resubmit-btn{background:#fff;border:2px solid var(--accent);color:var(--brand);border-radius:9px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer}
+.resubmit-btn:hover{background:#fff7ed}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="doc-header">
+    <div class="school">Asunción School · Computación 2026 · 3.° Secundaria 🟠</div>
+    <div class="doc-title">📎 Entrega de Tarea — Sesión 11</div>
+    <div class="doc-subtitle">Pensamiento computacional · Google Docs · Profesora Estrella Vizcarra · 24 jul 2026</div>
+  </div>
+
+  <div class="task-card">
+    <div class="task-badge">📋 Tarea</div>
+    <div class="task-title">🧠 Mi algoritmo paso a paso</div>
+    <div class="task-desc">Elige una tarea cotidiana, descompónla y escribe su <strong>algoritmo</strong> en <strong>Google Docs</strong> aplicando los pilares del pensamiento computacional.</div>
+    <ul class="task-items">
+      <li>Elige una <strong>tarea cotidiana</strong> (ej: hacer un café, llegar al colegio, lavar la ropa)</li>
+      <li><strong>Descompónla</strong>: lista las partes principales del problema</li>
+      <li>Escribe el <strong>algoritmo completo</strong>: pasos numerados, claros y en orden (sin saltos)</li>
+      <li>Marca dónde hay una <strong>repetición (bucle)</strong> o una <strong>decisión (si…)</strong></li>
+      <li>Una frase de cierre: ¿qué pasaría si cambiaras el orden de dos pasos?</li>
+    </ul>
+    <div class="task-deadline">📅 &nbsp; Entrega antes del viernes 31 de julio</div>
+  </div>
+
+  <div class="tutorial-wrap">
+    <div class="tut-title">📤 Cómo compartir tu documento de Google Docs</div>
+    <svg class="tut-svg" viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tutorial animado: compartir Google Docs">
+      <defs><clipPath id="win"><rect width="520" height="440" rx="10"/></clipPath><filter id="sh"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity=".12"/></filter></defs>
+      <g clip-path="url(#win)">
+        <rect width="520" height="440" rx="10" fill="#fff" stroke="#e2e8f0" stroke-width="1.5"/>
+        <rect width="520" height="44" fill="#f8f9fa"/><rect y="43" width="520" height="1" fill="#e2e8f0"/>
+        <circle cx="20" cy="22" r="6" fill="#ff5f57"/><circle cx="38" cy="22" r="6" fill="#febc2e"/><circle cx="56" cy="22" r="6" fill="#28c840"/>
+        <rect x="78" y="14" width="16" height="16" rx="2" fill="#4285f4"/><rect x="81" y="18" width="10" height="1.5" rx=".75" fill="#fff"/><rect x="81" y="21" width="10" height="1.5" rx=".75" fill="#fff"/><rect x="81" y="24" width="7" height="1.5" rx=".75" fill="#fff"/>
+        <text x="100" y="26" font-family="Inter,sans-serif" font-size="13" fill="#3c4043" font-weight="600">Mi algoritmo — Google Docs</text>
+        <rect x="408" y="10" width="100" height="26" rx="13" fill="#4285f4"/><text x="458" y="27" font-family="Inter,sans-serif" font-size="13" fill="#fff" font-weight="700" text-anchor="middle">Compartir</text>
+        <rect x="0" y="44" width="520" height="250" fill="#fff"/>
+        <rect x="60" y="72" width="220" height="10" rx="3" fill="#ffedd5"/><rect x="60" y="92" width="380" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="106" width="360" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="120" width="380" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="134" width="310" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="158" width="380" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="172" width="350" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="186" width="380" height="7" rx="2" fill="#f1f3f4"/><rect x="60" y="200" width="200" height="7" rx="2" fill="#f1f3f4"/>
+        <g><animateTransform attributeName="transform" type="translate" values="200,300; 450,20; 450,20; 230,145; 230,145; 230,195; 230,195; 200,380; 200,380" keyTimes="0; 0.1; 0.2; 0.35; 0.5; 0.6; 0.75; 0.88; 1" dur="12s" repeatCount="indefinite"/><polygon points="0,0 0,16 4,12 7,18 9,17 6,11 11,11" fill="#333" opacity=".9"/></g>
+        <g opacity="0"><animate attributeName="opacity" values="0;0;1;1;1;1;0;0;0" keyTimes="0;0.19;0.2;0.34;0.74;0.84;0.85;0.99;1" dur="12s" repeatCount="indefinite"/>
+          <rect x="100" y="55" width="310" height="235" rx="12" fill="#fff" stroke="#dadce0" stroke-width="1.5" filter="url(#sh)"/>
+          <text x="115" y="80" font-family="Inter,sans-serif" font-size="13" fill="#202124" font-weight="700">Compartir "Mi algoritmo"</text>
+          <rect x="115" y="92" width="280" height="36" rx="8" fill="#f8f9fa" stroke="#dadce0" stroke-width="1"/>
+          <text x="128" y="115" font-family="Inter,sans-serif" font-size="13" fill="#3c4043">🔒 Restringido</text><text x="342" y="115" font-family="Inter,sans-serif" font-size="12" fill="#4285f4">▾</text>
+          <g opacity="0"><animate attributeName="opacity" values="0;0;0;0;0;1;1;1;0;0" keyTimes="0;0.19;0.2;0.33;0.34;0.35;0.59;0.6;0.61;1" dur="12s" repeatCount="indefinite"/>
+            <rect x="115" y="130" width="280" height="70" rx="8" fill="#fff" stroke="#dadce0" stroke-width="1"/>
+            <text x="128" y="152" font-family="Inter,sans-serif" font-size="12" fill="#3c4043">🔒 Restringido</text>
+            <rect x="115" y="162" width="280" height="34" fill="#e8f0fe"/><text x="128" y="184" font-family="Inter,sans-serif" font-size="12" fill="#1a73e8" font-weight="700">🌐 Cualquiera con el enlace</text></g>
+          <g opacity="0"><animate attributeName="opacity" values="0;0;0;0;0;0;0;1;1;1;0;0" keyTimes="0;0.19;0.2;0.59;0.6;0.61;0.62;0.63;0.73;0.74;0.85;1" dur="12s" repeatCount="indefinite"/>
+            <rect x="115" y="92" width="280" height="36" rx="8" fill="#e8f5e9" stroke="#34a853" stroke-width="1"/><text x="128" y="115" font-family="Inter,sans-serif" font-size="13" fill="#1e8e3e">🌐 Cualquiera con el enlace</text></g>
+          <rect x="200" y="250" width="100" height="28" rx="6" fill="#1a73e8"/><text x="250" y="269" font-family="Inter,sans-serif" font-size="12" fill="#fff" font-weight="700" text-anchor="middle">🔗 Copiar enlace</text>
+          <rect x="325" y="250" width="60" height="28" rx="6" fill="#f8f9fa" stroke="#dadce0" stroke-width="1"/><text x="355" y="269" font-family="Inter,sans-serif" font-size="12" fill="#3c4043" text-anchor="middle">Listo</text></g>
+        <g opacity="0"><animate attributeName="opacity" values="0;0;0;0;0;0;0;0;0;1;1;0;0" keyTimes="0;0.19;0.2;0.59;0.6;0.61;0.72;0.73;0.74;0.75;0.84;0.85;1" dur="12s" repeatCount="indefinite"/>
+          <rect x="140" y="290" width="240" height="36" rx="10" fill="#323232"/><text x="260" y="313" font-family="Inter,sans-serif" font-size="13" fill="#fff" text-anchor="middle" font-weight="600">✅ Enlace copiado</text></g>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260"><tspan opacity="1"><animate attributeName="opacity" values="1;1;0;0;0;0;0;0;0" keyTimes="0;0.18;0.19;0.5;0.6;0.7;0.8;0.9;1" dur="12s" repeatCount="indefinite"/>1️⃣ Haz clic en el botón azul "Compartir"</tspan></text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260"><tspan opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0;0;0;0" keyTimes="0;0.19;0.2;0.34;0.35;0.5;0.7;0.9;1" dur="12s" repeatCount="indefinite"/>2️⃣ Toca "🔒 Restringido"</tspan></text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260"><tspan opacity="0"><animate attributeName="opacity" values="0;0;0;0;1;1;0;0;0" keyTimes="0;0.34;0.35;0.6;0.61;0.72;0.73;0.9;1" dur="12s" repeatCount="indefinite"/>3️⃣ Elige "Cualquiera con el enlace"</tspan></text>
+        <text y="340" font-family="Inter,sans-serif" font-size="14" fill="#92400e" text-anchor="middle" x="260"><tspan opacity="0"><animate attributeName="opacity" values="0;0;0;0;0;0;1;1;1;0" keyTimes="0;0.6;0.61;0.72;0.73;0.74;0.75;0.84;0.85;1" dur="12s" repeatCount="indefinite"/>4️⃣ Toca "Copiar enlace" y pégalo abajo</tspan></text>
+      </g>
+    </svg>
+    <details class="tut-text"><summary>📖 ¿Prefieres leer los pasos? Toca aquí</summary>
+      <ol class="tut-steps">
+        <li>Abre tu documento en <strong>Google Docs</strong> (docs.google.com).</li>
+        <li>Haz clic en el botón azul <strong>"Compartir"</strong> arriba a la derecha.</li>
+        <li>Haz clic donde dice <strong>"🔒 Restringido"</strong>.</li>
+        <li>Selecciona <strong>"🌐 Cualquiera con el enlace"</strong>.</li>
+        <li>Haz clic en <strong>"🔗 Copiar enlace"</strong>.</li>
+        <li>Pega ese link en el formulario de abajo y envía tu tarea.</li>
+      </ol>
+    </details>
+    <div class="tut-note">💻 <strong>¿Hiciste un proyecto en Scratch?</strong> Igual entrega tu algoritmo escrito en <strong>Google Docs</strong>. Si quieres, puedes añadir el link de tu proyecto Scratch en el comentario.</div>
+    <div class="warn-box"><span class="warn-icon">⚠️</span><span><strong>"Restringido"</strong> significa que la profesora no podrá abrir tu documento. Cámbialo antes de enviar.</span></div>
+  </div>
+
+  <div id="form-section">
+    <div class="form-title">📤 Envía tu tarea</div>
+    <div class="field"><label for="inp-nombre">Tu nombre completo</label>
+      <div class="ac-wrap"><input type="text" id="inp-nombre" placeholder="Escribe tu nombre y elige de la lista" autocomplete="off" autocorrect="off" oninput="acFilter(this.value)" onblur="acBlur()" onkeydown="acKey(event)"/><div class="ac-list" id="ac-list"></div></div>
+      <div class="ac-hint">Empieza a escribir y elige tu nombre de la lista.</div></div>
+    <div class="field"><label for="inp-link">Link de tu Google Doc</label><input type="url" id="inp-link" placeholder="https://docs.google.com/document/d/…"/></div>
+    <div class="field"><label for="inp-comentario">Comentario (opcional)</label><textarea id="inp-comentario" rows="3" placeholder="¿Alguna aclaración para la profesora?"></textarea></div>
+    <button class="send-btn" onclick="sendTask()">📤 Enviar tarea →</button>
+    <div class="err-msg" id="err-msg"></div>
+  </div>
+  <div id="confirm-card">
+    <div class="confirm-icon">✅</div><div class="confirm-name" id="confirm-name"></div>
+    <p style="font-size:15px;color:#431407;margin-bottom:8px">Tu tarea fue recibida.</p>
+    <a class="confirm-link" id="confirm-link" target="_blank" rel="noopener"></a><br>
+    <button class="resubmit-btn" onclick="resetForm()">✏️ Actualizar el link</button>
+  </div>
+</div>
+<script>
+const GRADE='sec3',SESION='11';
+let ROSTER=[];let acIndex=-1;
+fetch('/.netlify/functions/get-roster?grado='+GRADE).then(r=>r.json()).then(d=>{if(d.found)ROSTER=d.alumnos.map(a=>a.nombre);}).catch(()=>{});
+function normalize(s){return s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function acFilter(v){const list=document.getElementById('ac-list');acIndex=-1;if(!v.trim()){list.classList.remove('open');list.innerHTML='';return;}const q=normalize(v);const matches=ROSTER.filter(n=>normalize(n).includes(q)).slice(0,8);if(!matches.length){list.classList.remove('open');list.innerHTML='';return;}list.innerHTML=matches.map(n=>`<div class="ac-item" data-name="${n}" onmousedown="acPick('${n.replace(/'/g,"\\'")}')"> ${n}</div>`).join('');list.classList.add('open');}
+function acPick(name){document.getElementById('inp-nombre').value=name;document.getElementById('ac-list').classList.remove('open');document.getElementById('ac-list').innerHTML='';acIndex=-1;}
+function acBlur(){setTimeout(()=>{document.getElementById('ac-list').classList.remove('open');},150);}
+function acKey(e){const items=document.querySelectorAll('.ac-item');if(!items.length)return;if(e.key==='ArrowDown'){e.preventDefault();acIndex=Math.min(acIndex+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('active',i===acIndex));}else if(e.key==='ArrowUp'){e.preventDefault();acIndex=Math.max(acIndex-1,0);items.forEach((el,i)=>el.classList.toggle('active',i===acIndex));}else if(e.key==='Enter'&&acIndex>=0){e.preventDefault();acPick(items[acIndex].dataset.name);}else if(e.key==='Escape'){document.getElementById('ac-list').classList.remove('open');}}
+async function sendTask(){const nombre=document.getElementById('inp-nombre').value.trim();const link=document.getElementById('inp-link').value.trim();const comentario=document.getElementById('inp-comentario').value.trim();const err=document.getElementById('err-msg');err.style.display='none';if(nombre.split(' ').filter(Boolean).length<2){err.textContent='Escribe tu nombre y apellido completos.';err.style.display='block';return;}if(!link.startsWith('http')){err.textContent='El link debe comenzar con http o https.';err.style.display='block';return;}const btn=document.querySelector('.send-btn');btn.textContent='Enviando…';btn.disabled=true;try{const res=await fetch('/.netlify/functions/submit-task',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,grado:GRADE,sesion:SESION,drive_link:link,comentario})});const d=await res.json();if(d.ok){document.getElementById('form-section').style.display='none';const card=document.getElementById('confirm-card');card.style.display='block';document.getElementById('confirm-name').textContent=d.nombre||nombre;const a=document.getElementById('confirm-link');a.href=link;a.textContent=link;}else{err.textContent='Hubo un error al enviar. Inténtalo de nuevo.';err.style.display='block';btn.textContent='📤 Enviar tarea →';btn.disabled=false;}}catch(e){err.textContent='Sin conexión. Revisa el internet e inténtalo de nuevo.';err.style.display='block';btn.textContent='📤 Enviar tarea →';btn.disabled=false;}}
+function resetForm(){document.getElementById('confirm-card').style.display='none';document.getElementById('form-section').style.display='block';document.querySelector('.send-btn').textContent='📤 Enviar tarea →';document.querySelector('.send-btn').disabled=false;}
+</script>
+</body>
+</html>

@@ -453,5 +453,42 @@ async function submitEval(){
   }catch(e){}
 }
 </script>
+<script>
+/* === Red de seguridad de envío de evaluaciones (no pierde entregas) ===
+   Envuelve fetch al endpoint submit-eval: reintenta ante fallos de red y,
+   si el alumno cierra la pestaña antes de confirmar, reenvía con sendBeacon.
+   Aditivo: no modifica la lógica de submitEval existente. */
+(function(){
+  if(window.__evalNetInstalled) return; window.__evalNetInstalled=true;
+  var EP='/.netlify/functions/submit-eval';
+  var pending=null, tries=0;
+  var _f=window.fetch.bind(window);
+  function retry(p){
+    if(tries>=3) return; tries++;
+    setTimeout(function(){
+      _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:p})
+        .then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} })
+        .catch(function(){ retry(p); });
+    }, 1000*tries);
+  }
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string' && u.indexOf(EP)>-1 && o && o.body){
+        var p=o.body; pending=p; tries=0;
+        return _f(u,o).then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} return r; })
+                      .catch(function(e){ retry(p); throw e; });
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+  function flush(){
+    if(pending && navigator.sendBeacon){
+      try{ navigator.sendBeacon(EP, new Blob([pending],{type:'text/plain'})); pending=null; }catch(e){}
+    }
+  }
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(); });
+  window.addEventListener('pagehide', flush);
+})();
+</script>
 </body>
 </html>

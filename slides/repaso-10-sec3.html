@@ -202,4 +202,41 @@ function startEval(){document.getElementById('ac-list').style.display='none';con
 function confirmarIdentidad(){document.getElementById('gate-section').style.display='none';const bar=document.getElementById('exam-who-bar');bar.style.display='flex';document.getElementById('who-name').textContent=evalName;document.getElementById('exam-section').style.display='block';evalStarted=true;}
 function resetGate(){document.getElementById('identity-confirm').style.display='none';document.querySelector('.gate-btn').disabled=false;document.getElementById('gate-nombre').value='';evalName='';if(!evalStarted){document.getElementById('gate-section').style.display='block';}else{document.getElementById('exam-who-bar').style.display='none';document.getElementById('exam-section').style.display='none';document.getElementById('gate-section').style.display='block';evalStarted=false;}}
 async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=Math.round((correctas/10)*100);for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');localStorage.setItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=score>=80?'¡Excelente pensamiento crítico! 🌟':score>=60?'¡Bien! Sigue cuestionando y verificando 💪':'Repasa el protocolo de auditoría 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
-</script></body></html>
+</script><script>
+/* === Red de seguridad de envío de evaluaciones (no pierde entregas) ===
+   Envuelve fetch al endpoint submit-eval: reintenta ante fallos de red y,
+   si el alumno cierra la pestaña antes de confirmar, reenvía con sendBeacon.
+   Aditivo: no modifica la lógica de submitEval existente. */
+(function(){
+  if(window.__evalNetInstalled) return; window.__evalNetInstalled=true;
+  var EP='/.netlify/functions/submit-eval';
+  var pending=null, tries=0;
+  var _f=window.fetch.bind(window);
+  function retry(p){
+    if(tries>=3) return; tries++;
+    setTimeout(function(){
+      _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:p})
+        .then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} })
+        .catch(function(){ retry(p); });
+    }, 1000*tries);
+  }
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string' && u.indexOf(EP)>-1 && o && o.body){
+        var p=o.body; pending=p; tries=0;
+        return _f(u,o).then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} return r; })
+                      .catch(function(e){ retry(p); throw e; });
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+  function flush(){
+    if(pending && navigator.sendBeacon){
+      try{ navigator.sendBeacon(EP, new Blob([pending],{type:'text/plain'})); pending=null; }catch(e){}
+    }
+  }
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(); });
+  window.addEventListener('pagehide', flush);
+})();
+</script>
+</body></html>

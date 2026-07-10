@@ -26,7 +26,10 @@ exports.handler = async (event) => {
     return { statusCode: 204, headers: CORS, body: "" };
   }
 
-  const store = getStore({ name: "sync-rooms", siteID: process.env.SITE_ID, token: process.env.NETLIFY_TOKEN });
+  // consistency:"strong" es OBLIGATORIO: el default (eventual) sirve lecturas
+  // cacheadas viejas → el proyector no ve la posición nueva de las notas y el
+  // Conectar del dashboard no encuentra salas recién creadas.
+  const store = getStore({ name: "sync-rooms", consistency: "strong", siteID: process.env.SITE_ID, token: process.env.NETLIFY_TOKEN });
 
   // ── GET: el proyector poll + el dashboard de redirect ─────────────────────
   if (event.httpMethod === "GET") {

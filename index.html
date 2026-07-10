@@ -2203,29 +2203,34 @@ async function submitSyncConnect(){
   btn.disabled = true;
   msg.style.color = 'rgba(255,255,255,.6)';
   msg.textContent = 'Buscando sala…';
-  try {
-    const r = await fetch(`/.netlify/functions/sync?room=${code}&_=${Date.now()}`);
-    const d = await r.json();
-    if(!d.grade || !d.session){
-      msg.style.color='#f87171';
-      msg.textContent='❌ Sala no encontrada. ¿Está la presentación abierta?';
-      btn.disabled = false;
-      return;
+  // Hasta 3 intentos: el POST inicial del proyector puede tardar un instante en registrarse
+  let d = null;
+  for(let i = 0; i < 3; i++){
+    try {
+      const r = await fetch(`/.netlify/functions/sync?room=${code}&_=${Date.now()}`);
+      d = await r.json();
+      if(d && d.grade && d.session) break;
+    } catch(e){ d = null; }
+    if(i < 2){
+      msg.textContent = `Buscando sala… (intento ${i+2}/3)`;
+      await new Promise(res => setTimeout(res, 900));
     }
-    const label = GRADE_LABELS[d.grade] || d.grade;
-    msg.style.color='#4ade80';
-    msg.textContent=`✅ Sesión ${d.session} · ${label}`;
-    // Pre-cargar el PW del bonus en sessionStorage — notas lo lee al cargar
-    sessionStorage.setItem('nota_pw', CORRECT_PW);
-    setTimeout(()=>{
-      closeSyncConnect();
-      window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;
-    }, 900);
-  } catch(e){
-    msg.style.color='#f87171';
-    msg.textContent='❌ Error de conexión';
-    btn.disabled = false;
   }
+  if(!d || !d.grade || !d.session){
+    msg.style.color='#f87171';
+    msg.textContent='❌ Sala no encontrada. ¿Está la presentación abierta?';
+    btn.disabled = false;
+    return;
+  }
+  const label = GRADE_LABELS[d.grade] || d.grade;
+  msg.style.color='#4ade80';
+  msg.textContent=`✅ Sesión ${d.session} · ${label}`;
+  // Pre-cargar el PW del bonus en sessionStorage — notas lo lee al cargar
+  sessionStorage.setItem('nota_pw', CORRECT_PW);
+  setTimeout(()=>{
+    closeSyncConnect();
+    window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;
+  }, 900);
 }
 
 function openResults(session, gradeId){

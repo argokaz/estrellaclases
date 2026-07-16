@@ -67,14 +67,15 @@ exports.handler = async (event) => {
         .single();
 
       if (error) {
-        // Podría ser conflicto de unicidad (race condition) — reintentar fetch
-        const { data: recheck } = await db
+        // Podría ser conflicto de unicidad (race condition) — refetch con fuzzy,
+        // NO con ilike exacto (acentos/typos harían fallar el recheck)
+        const { data: refetch } = await db
           .from("alumnos")
           .select("id, nombre")
-          .eq("grado", grado)
-          .ilike("nombre", nombreNorm)
-          .single();
-        alumno = recheck;
+          .eq("grado", grado);
+        alumno = (refetch || []).find(a =>
+          areSamePerson(normBuscado, normalize(a.nombre))
+        );
       } else {
         alumno = nuevo;
       }
@@ -83,16 +84,21 @@ exports.handler = async (event) => {
     if (!alumno) throw new Error("No se pudo crear o encontrar el alumno");
 
     // ── 3. Upsert evaluación (conservar el score más alto) ────────────────────
-    // Primero verificar si ya existe un score mayor para esta sesión
-    const { data: existing } = await db
+    // maybeSingle: 0 filas → null sin error; error real (red/RLS) → throw
+    const { data: existing, error: exErr } = await db
       .from("evaluaciones")
       .select("id, score")
       .eq("alumno_id", alumno.id)
       .eq("sesion", sesId)
-      .single();
+      .maybeSingle();
+    if (exErr) throw new Error("lookup evaluación: " + exErr.message);
 
+    // ⚠️ SIEMPRE verificar el error del insert/update — un fallo silencioso aquí
+    //    respondía {ok:true} y el alumno perdía su evaluación (bug real: Jasmin
+    //    Fatima sec2, S05–S09 sin registrar). Con 500, la red de seguridad del
+    //    cliente reintenta hasta confirmar.
     if (!existing) {
-      await db.from("evaluaciones").insert({
+      const { error: insErr } = await db.from("evaluaciones").insert({
         alumno_id:  alumno.id,
         grado,
         sesion:     sesId,
@@ -102,14 +108,16 @@ exports.handler = async (event) => {
         fecha:      fechaStr,
         nombre_raw: nombre,
       });
+      if (insErr) throw new Error("insert evaluación: " + insErr.message);
     } else if (score > existing.score) {
-      await db.from("evaluaciones")
+      const { error: updErr } = await db.from("evaluaciones")
         .update({ score, correctas: correctas ?? null, fecha: fechaStr, nombre_raw: nombre })
         .eq("id", existing.id);
+      if (updErr) throw new Error("update evaluación: " + updErr.message);
     }
     // Si score <= existing.score: ignorar (ya tiene un mejor intento)
 
-    return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, alumno: alumno.nombre }) };
 
   } catch (err) {
     console.error("submit-eval error:", err.message);

@@ -380,40 +380,113 @@ function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,c
 </script>
 
 <script>
-/* === Red de seguridad de envío de evaluaciones (no pierde entregas) ===
-   Envuelve fetch al endpoint submit-eval: reintenta ante fallos de red y,
-   si el alumno cierra la pestaña antes de confirmar, reenvía con sendBeacon.
-   Aditivo: no modifica la lógica de submitEval existente. */
+/* === Red de seguridad de envío v2 — no se pierde ninguna evaluación ===
+   1) Outbox persistente en localStorage: si el POST falla o el alumno cierra
+      la pestaña, el resultado queda guardado localmente y se reenvía solo
+      (cada 8s mientras la página esté abierta, al volver la conexión, y al
+      abrir CUALQUIER guía de repaso después).
+   2) Chip de estado visible: el alumno VE si su resultado ya se guardó.
+   3) sendBeacon al ocultar/cerrar la página como último recurso.
+   4) Autosave del progreso del examen: las respuestas marcadas se restauran
+      si la página se recarga antes de enviar (TTL 6 h).
+   El upsert del backend es idempotente (conserva el mejor score), así que
+   reenviar un mismo resultado varias veces es seguro. */
 (function(){
   if(window.__evalNetInstalled) return; window.__evalNetInstalled=true;
   var EP='/.netlify/functions/submit-eval';
-  var pending=null, tries=0;
+  var OUTBOX='evalOutboxV2';
   var _f=window.fetch.bind(window);
-  function retry(p){
-    if(tries>=3) return; tries++;
-    setTimeout(function(){
-      _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:p})
-        .then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} })
-        .catch(function(){ retry(p); });
-    }, 1000*tries);
+
+  /* ── chip de estado ── */
+  var chip=null,chipTimer=null;
+  function showChip(txt,bg,autoHideMs){
+    if(!chip){chip=document.createElement('div');chip.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s;';document.body.appendChild(chip);}
+    chip.style.background=bg;chip.textContent=txt;chip.style.opacity='1';
+    clearTimeout(chipTimer);
+    if(autoHideMs)chipTimer=setTimeout(function(){chip.style.opacity='0';},autoHideMs);
   }
+
+  /* ── outbox persistente ── */
+  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function keyOf(payload){try{var p=JSON.parse(payload);return (p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');}catch(e){return 'x'+payload.length;}}
+  function enqueue(payload){var k=keyOf(payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,p:payload,t:Date.now()});writeBox(b);}
+  function dequeue(payload){var k=keyOf(payload);writeBox(readBox().filter(function(it){return it.k!==k;}));}
+
+  function clearProgress(){try{localStorage.removeItem(PKEY);}catch(e){}}
+
+  /* ── reenvío del outbox ── */
+  var sending=false;
+  function flushOutbox(){
+    if(sending)return;var b=readBox();if(!b.length)return;
+    sending=true;var it=b[0];
+    _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
+      .then(function(d){if(d&&d.ok===false)throw 0;
+        dequeue(it.p);sending=false;clearProgress();
+        showChip('✅ Resultado guardado en el sistema','#15803d',6000);
+        if(readBox().length)setTimeout(flushOutbox,500);
+      })
+      .catch(function(){sending=false;
+        showChip('📡 Guardando tu resultado… no cierres esta página todavía','#b45309');
+      });
+  }
+
+  /* ── interceptar el POST de submitEval ── */
   window.fetch=function(u,o){
     try{
-      if(typeof u==='string' && u.indexOf(EP)>-1 && o && o.body){
-        var p=o.body; pending=p; tries=0;
-        return _f(u,o).then(function(r){ if(r&&r.ok){pending=null;} else {retry(p);} return r; })
-                      .catch(function(e){ retry(p); throw e; });
+      if(typeof u==='string'&&u.indexOf(EP)>-1&&o&&o.body){
+        enqueue(o.body);
+        showChip('⏳ Guardando tu resultado…','#1d4ed8');
+        return _f(u,o).then(function(r){
+          if(r&&r.ok){dequeue(o.body);clearProgress();showChip('✅ Resultado guardado en el sistema','#15803d',6000);}
+          else{setTimeout(flushOutbox,1500);}
+          return r;
+        }).catch(function(e){setTimeout(flushOutbox,1500);throw e;});
       }
     }catch(e){}
     return _f(u,o);
   };
-  function flush(){
-    if(pending && navigator.sendBeacon){
-      try{ navigator.sendBeacon(EP, new Blob([pending],{type:'text/plain'})); pending=null; }catch(e){}
-    }
+
+  /* ── disparadores de reenvío ── */
+  setInterval(flushOutbox,8000);
+  window.addEventListener('online',flushOutbox);
+  setTimeout(flushOutbox,1500); // al cargar: reenvía pendientes de sesiones anteriores
+
+  /* ── último recurso al cerrar ── */
+  function beaconAll(){
+    var b=readBox();if(!b.length||!navigator.sendBeacon)return;
+    for(var i=0;i<b.length;i++){try{navigator.sendBeacon(EP,new Blob([b[i].p],{type:'text/plain'}));}catch(e){}}
+    /* no vaciamos el outbox: el upsert es idempotente y así confirmamos en la próxima visita */
   }
-  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(); });
-  window.addEventListener('pagehide', flush);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
+  window.addEventListener('pagehide',beaconAll);
+
+  /* ── autosave/restore del progreso del examen ── */
+  var PKEY='evalProgress-'+location.pathname.split('/').pop();
+  document.addEventListener('change',function(ev){
+    var t=ev.target;
+    if(!t||t.type!=='radio'||!/^eq\d+$/.test(t.name||''))return;
+    try{
+      var sel={};
+      var checked=document.querySelectorAll('.eval-q input[type=radio]:checked');
+      for(var i=0;i<checked.length;i++)sel[checked[i].name]=checked[i].value;
+      localStorage.setItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
+    }catch(e){}
+  },true);
+  (function restoreProgress(){
+    try{
+      var raw=localStorage.getItem(PKEY);if(!raw)return;
+      var st=JSON.parse(raw);
+      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){localStorage.removeItem(PKEY);return;}
+      var any=false;
+      for(var name in st.sel){
+        var inp=document.querySelector('input[name="'+name+'"][value="'+st.sel[name]+'"]');
+        if(inp&&!inp.disabled&&!inp.checked){inp.checked=true;any=true;}
+      }
+      if(any&&typeof updateAnswered==='function')updateAnswered();
+    }catch(e){}
+  })();
 })();
 </script>
 </body>

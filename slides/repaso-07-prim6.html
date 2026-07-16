@@ -414,7 +414,7 @@ function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,c
       .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
       .then(function(d){if(d&&d.ok===false)throw 0;
         dequeue(it.p);sending=false;clearProgress();
-        showChip('✅ Resultado guardado en el sistema','#15803d',6000);
+        showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
         if(readBox().length)setTimeout(flushOutbox,500);
       })
       .catch(function(){sending=false;
@@ -429,7 +429,7 @@ function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,c
         enqueue(o.body);
         showChip('⏳ Guardando tu resultado…','#1d4ed8');
         return _f(u,o).then(function(r){
-          if(r&&r.ok){dequeue(o.body);clearProgress();showChip('✅ Resultado guardado en el sistema','#15803d',6000);}
+          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
           else{setTimeout(flushOutbox,1500);}
           return r;
         }).catch(function(e){setTimeout(flushOutbox,1500);throw e;});

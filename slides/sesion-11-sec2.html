@@ -71,13 +71,23 @@ body{background:#050505;display:flex;flex-direction:column;align-items:center;ju
 .deco{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .dp{fill:none;stroke:var(--acc);stroke-width:1.6;vector-effect:non-scaling-stroke;opacity:.4;stroke-dasharray:1;stroke-dashoffset:1;stroke-linecap:round}
 .dcirc{fill:var(--acc);opacity:0}
+/* ── Polvo estelar de fondo (capa por slide, detrás del contenido) ── */
+.stars{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;top:0;border-radius:50%;background:var(--acc2);
+  box-shadow:0 0 6px 1px color-mix(in srgb,var(--acc) 55%,transparent);
+  opacity:calc(var(--o) * .6);transform:translateY(var(--rest,40vh))}
 /* ═══ MOVIMIENTO (todo tras prefers-reduced-motion) ═══ */
 @media (prefers-reduced-motion: no-preference){
   .slide::before{animation:orbA 14s ease-in-out infinite}
   .slide::after{animation:orbA 18s ease-in-out infinite reverse}
   @keyframes orbA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-2%,3%,0) scale(1.12)}}
-  .line::after{animation:lineDot 3.2s ease-in-out infinite}
-  @keyframes lineDot{0%,100%{left:6%}50%{left:92%}}
+  /* la línea hace UN barrido al entrar y se detiene (sin ida-y-vuelta perpetua) */
+  .slide.active .line::after{animation:lineSweep 1.5s cubic-bezier(.22,1,.36,1) .2s both}
+  @keyframes lineSweep{0%{left:2%;opacity:0}18%{opacity:1}82%{opacity:1}100%{left:96%;opacity:0}}
+  /* polvo estelar: cae muy lento con titileo tenue; solo anima en la slide activa */
+  .slide.active .star{animation:fall linear infinite}
+  .slide:not(.active) .star{animation:none}
+  @keyframes fall{0%{transform:translateY(-10vh) translateX(0);opacity:0}10%{opacity:var(--o)}50%{opacity:calc(var(--o) * .45)}90%{opacity:var(--o)}100%{transform:translateY(112vh) translateX(var(--dx));opacity:0}}
   .bonus-bar{animation:shimmer 3.6s linear infinite}
   @keyframes shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
   /* transiciones por tipo de slide */
@@ -403,6 +413,26 @@ let lastBonusId=null;
     +'<circle class="dcirc" cx="28" cy="176" r="4"/>'
     +'</svg>';
   slides.forEach(function(s){s.insertAdjacentHTML('afterbegin',SVG);});
+  /* 3b. Polvo estelar: capa de partículas por slide (caen lento; solo animan
+     en la slide activa por el CSS, así no consumen en las ocultas) */
+  var STAR_N=13;
+  slides.forEach(function(s){
+    var layer=document.createElement('div');layer.className='stars';
+    for(var i=0;i<STAR_N;i++){
+      var st=document.createElement('i');st.className='star';
+      var sz=(2+Math.random()*2).toFixed(1);
+      var dur=(20+Math.random()*16).toFixed(1);
+      st.style.left=(Math.random()*100).toFixed(2)+'%';
+      st.style.width=st.style.height=sz+'px';
+      st.style.setProperty('--o',(0.10+Math.random()*0.20).toFixed(2));
+      st.style.setProperty('--dx',((Math.random()*2-1)*22).toFixed(0)+'px');
+      st.style.setProperty('--rest',(8+Math.random()*84).toFixed(0)+'vh');
+      st.style.animationDuration=dur+'s';
+      st.style.animationDelay='-'+(Math.random()*dur).toFixed(1)+'s';
+      layer.appendChild(st);
+    }
+    s.insertBefore(layer,s.firstChild);
+  });
   /* 4. Rail de progreso (lee el contador — sin tocar goTo) */
   var rail=document.createElement('div');rail.id='rail';rail.innerHTML='<i></i>';
   document.body.appendChild(rail);

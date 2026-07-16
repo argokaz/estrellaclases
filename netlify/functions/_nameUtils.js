@@ -173,14 +173,23 @@ function matchStrength(normA, normB) {
  * o null si ninguno pasa.
  */
 function findBestPerson(normBuscado, candidatos, getNombre) {
-  let best = null, bestStrength = 0, bestSim = -1;
+  let best = null, bestStrength = 0, bestExact = -1, bestSim = -1;
+  const tokIn = normBuscado.split(' ').filter(Boolean);
   for (const c of candidatos || []) {
     const normC = normalize(getNombre(c));
     const s = matchStrength(normBuscado, normC);
     if (s === 0) continue;
+    // Desempate 1: tokens con coincidencia EXACTA (caso real: «Alexandra Rojas»
+    // debe ir a "Sofia ALEXANDRA ROJAS Chuco" [2 exactos], no a
+    // "Alejandra … Rojas" [1 exacto + 1 fuzzy] — sin esto el empate se
+    // resolvía por orden de lista)
+    const tokC = new Set(normC.split(' ').filter(Boolean));
+    const exact = tokIn.filter(t => tokC.has(t)).length;
     const sim = nameSimilarity(normBuscado, normC);
-    if (s > bestStrength || (s === bestStrength && sim > bestSim)) {
-      best = c; bestStrength = s; bestSim = sim;
+    if (s > bestStrength ||
+       (s === bestStrength && exact > bestExact) ||
+       (s === bestStrength && exact === bestExact && sim > bestSim)) {
+      best = c; bestStrength = s; bestExact = exact; bestSim = sim;
     }
   }
   return best;

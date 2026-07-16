@@ -89,7 +89,10 @@ exports.handler = async (event) => {
     const bonusTotal = (bonuses || []).reduce((s, b) => s + (Number(b.puntos) || 0), 0);
 
     // ── 4. Rank en el mes actual (excluye profesora) ─────────────────────────
-    const ids = (alumnos || []).map(a => a.id); // todos (para buscar al alumno actual)
+    // ⚠️ rankIds debe declararse ANTES de usarse en las queries (TDZ) — este
+    //    error tenía roto get-progress para todo alumno encontrado.
+    const rankAlumnos = (alumnos || []).filter(a => !EXCLUDED_NAMES.has(a.nombre.toLowerCase()));
+    const rankIds = rankAlumnos.map(a => a.id);
 
     const [{ data: monthEvals }, { data: monthBonuses }] = await Promise.all([
       db.from("evaluaciones")
@@ -104,8 +107,6 @@ exports.handler = async (event) => {
     ]);
 
     // Sumar scores del mes por alumno (excluir profesora)
-    const rankAlumnos = (alumnos || []).filter(a => !EXCLUDED_NAMES.has(a.nombre.toLowerCase()));
-    const rankIds = rankAlumnos.map(a => a.id);
     const mesScores = new Map(rankIds.map(id => [id, 0]));
     for (const ev of monthEvals  || []) mesScores.set(ev.alumno_id, (mesScores.get(ev.alumno_id) || 0) + ev.score);
     for (const b  of monthBonuses || []) mesScores.set(b.alumno_id,  (mesScores.get(b.alumno_id)  || 0) + (Number(b.puntos) || 0));

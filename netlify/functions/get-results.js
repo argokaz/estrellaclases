@@ -51,6 +51,7 @@ exports.handler = async (event) => {
       .map(ev => ({
       _key:      ev.id,           // UUID para borrar
       nombre:    ev.alumnos?.nombre || ev.nombre_raw || "—",
+      nombre_raw: ev.nombre_raw || null,   // lo que tipeó el alumno — permite auditar asignaciones
       grado:     ev.alumnos?.grado  || ev.grado || "—",
       sesion:    ev.sesion,
       score:     ev.score,

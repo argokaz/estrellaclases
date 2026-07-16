@@ -143,6 +143,49 @@ function areSamePerson(normA, normB) {
   return subsetStrategy(tokA, tokB) || anchorStrategy(tokA, tokB);
 }
 
+/**
+ * Fuerza del match, jerárquica: 3 = igualdad exacta (normalizada),
+ * 2 = subset (todos los tokens del corto están en el largo),
+ * 1 = apellido ancla + nombre similar (la estrategia más permisiva),
+ * 0 = no es la misma persona.
+ */
+function matchStrength(normA, normB) {
+  if (normA === normB) return 3;
+  const tokA = normA.split(' ').filter(Boolean);
+  const tokB = normB.split(' ').filter(Boolean);
+  if (tokA.length === 0 || tokB.length === 0) return 0;
+  if (subsetStrategy(tokA, tokB)) return 2;
+  if (anchorStrategy(tokA, tokB)) return 1;
+  return 0;
+}
+
+/**
+ * Elige el MEJOR candidato de una lista — no el primero que pase.
+ *
+ * ⚠️ Bug real (16 jul 2026): con `.find(areSamePerson)`, "Jasmin Fatima
+ * Torrejon Sanchez" (nombre EXACTO del roster) se asignaba a "Julio Angelo
+ * Torres Sanchez" porque Julio aparecía antes en la lista y pasaba la
+ * estrategia de ancla (sanchez + torrejon≈torres al 45%). Sus evaluaciones
+ * S05–S09 se registraron bajo Julio o se descartaron.
+ *
+ * candidatos: array de objetos; getNombre extrae el nombre de cada uno.
+ * Devuelve el candidato con mayor matchStrength (desempate: nameSimilarity),
+ * o null si ninguno pasa.
+ */
+function findBestPerson(normBuscado, candidatos, getNombre) {
+  let best = null, bestStrength = 0, bestSim = -1;
+  for (const c of candidatos || []) {
+    const normC = normalize(getNombre(c));
+    const s = matchStrength(normBuscado, normC);
+    if (s === 0) continue;
+    const sim = nameSimilarity(normBuscado, normC);
+    if (s > bestStrength || (s === bestStrength && sim > bestSim)) {
+      best = c; bestStrength = s; bestSim = sim;
+    }
+  }
+  return best;
+}
+
 /** Similitud 0–1 (solo para compatibilidad; usar areSamePerson para decisiones) */
 function nameSimilarity(normA, normB) {
   if (normA === normB) return 1;
@@ -228,6 +271,8 @@ module.exports = {
   titleCase,
   nameSimilarity,
   areSamePerson,
+  matchStrength,
+  findBestPerson,
   bestDisplayName,
   clusterKeys,
   SAME_THRESHOLD,

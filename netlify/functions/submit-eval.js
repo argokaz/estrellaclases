@@ -10,7 +10,7 @@
  */
 
 const { supabase }    = require("./_supabase");
-const { normalize, titleCase, areSamePerson } = require("./_nameUtils");
+const { normalize, titleCase, findBestPerson } = require("./_nameUtils");
 
 // Nombres excluidos: no se guardan en BD (profesora actuando como test user)
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
@@ -54,9 +54,8 @@ exports.handler = async (event) => {
       .eq("grado", grado);
 
     const normBuscado = normalize(nombreNorm);
-    let alumno = (alumnos || []).find(a =>
-      areSamePerson(normBuscado, normalize(a.nombre))
-    );
+    // findBestPerson: exacto > subset > ancla — NUNCA "primer match gana"
+    let alumno = findBestPerson(normBuscado, alumnos, a => a.nombre);
 
     // ── 2. Crear alumno si no existe ──────────────────────────────────────────
     if (!alumno) {
@@ -73,9 +72,7 @@ exports.handler = async (event) => {
           .from("alumnos")
           .select("id, nombre")
           .eq("grado", grado);
-        alumno = (refetch || []).find(a =>
-          areSamePerson(normBuscado, normalize(a.nombre))
-        );
+        alumno = findBestPerson(normBuscado, refetch, a => a.nombre);
       } else {
         alumno = nuevo;
       }

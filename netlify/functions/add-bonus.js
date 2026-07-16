@@ -6,7 +6,7 @@
  */
 
 const { supabase }    = require("./_supabase");
-const { normalize, areSamePerson } = require("./_nameUtils");
+const { normalize, findBestPerson } = require("./_nameUtils");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 
@@ -48,9 +48,7 @@ exports.handler = async (event) => {
       .eq("grado", grado);
 
     const normSearch = normalize(nombre);
-    const alumno = (alumnos || []).find(a =>
-      areSamePerson(normSearch, normalize(a.nombre))
-    );
+    const alumno = findBestPerson(normSearch, alumnos, a => a.nombre); // exacto > subset > ancla
 
     if (!alumno) {
       return { statusCode: 404, headers: CORS, body: '{"error":"Alumno no encontrado en el roster"}' };

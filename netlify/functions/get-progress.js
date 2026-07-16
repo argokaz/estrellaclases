@@ -8,7 +8,7 @@
  */
 
 const { supabase }    = require("./_supabase");
-const { normalize, areSamePerson } = require("./_nameUtils");
+const { normalize, findBestPerson } = require("./_nameUtils");
 
 // Excluir del ranking: profesora actuando como test user
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
@@ -49,9 +49,7 @@ exports.handler = async (event) => {
       .eq("grado", grado);
 
     const normSearch = normalize(nombre);
-    const alumno = (alumnos || []).find(a =>
-      areSamePerson(normSearch, normalize(a.nombre))
-    );
+    const alumno = findBestPerson(normSearch, alumnos, a => a.nombre); // exacto > subset > ancla
 
     if (!alumno) {
       return { statusCode: 200, headers: CORS, body: JSON.stringify({ found: false }) };

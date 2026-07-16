@@ -11,7 +11,7 @@
  */
 
 const { supabase }  = require('./_supabase');
-const { normalize, areSamePerson, titleCase } = require('./_nameUtils');
+const { normalize, findBestPerson, titleCase } = require('./_nameUtils');
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -42,7 +42,7 @@ exports.handler = async (event) => {
 
   const { data: alumnos } = await db.from('alumnos').select('id, nombre').eq('grado', grado);
   const normNombre = normalize(nombreClean);
-  const matched    = (alumnos || []).find(a => areSamePerson(normNombre, normalize(a.nombre)));
+  const matched    = findBestPerson(normNombre, alumnos, a => a.nombre); // exacto > subset > ancla
 
   const payload = {
     grado,

@@ -55,26 +55,33 @@ exports.handler = async (event) => {
   };
 
   try {
+    // Idempotente: buscar entrega existente por alumno_id (si matchea) o, si no,
+    // por (grado, sesion, nombre_raw) — así reintentar el mismo envío NUNCA
+    // duplica filas. ⚠️ Verificar el error de CADA insert/update: un fallo
+    // silencioso respondía ok:true y la entrega se perdía (mismo bug que evals).
+    let existing = null;
     if (matched) {
-      const { data: existing } = await db
-        .from('tareas')
-        .select('id')
-        .eq('alumno_id', matched.id)
-        .eq('sesion', sesionPad)
-        .maybeSingle();
-
-      if (existing) {
-        await db.from('tareas').update({
-          drive_link: payload.drive_link,
-          comentario: payload.comentario,
-          fecha:      payload.fecha,
-          nombre_raw: payload.nombre_raw,
-        }).eq('id', existing.id);
-      } else {
-        await db.from('tareas').insert(payload);
-      }
+      const r = await db.from('tareas').select('id')
+        .eq('alumno_id', matched.id).eq('sesion', sesionPad).maybeSingle();
+      if (r.error) throw new Error('lookup tarea: ' + r.error.message);
+      existing = r.data;
     } else {
-      await db.from('tareas').insert(payload);
+      const r = await db.from('tareas').select('id')
+        .eq('grado', grado).eq('sesion', sesionPad).eq('nombre_raw', nombreClean).maybeSingle();
+      if (!r.error) existing = r.data; // si falla el lookup, insertamos igual (no bloquear)
+    }
+
+    if (existing) {
+      const { error: uErr } = await db.from('tareas').update({
+        drive_link: payload.drive_link,
+        comentario: payload.comentario,
+        fecha:      payload.fecha,
+        nombre_raw: payload.nombre_raw,
+      }).eq('id', existing.id);
+      if (uErr) throw new Error('update tarea: ' + uErr.message);
+    } else {
+      const { error: iErr } = await db.from('tareas').insert(payload);
+      if (iErr) throw new Error('insert tarea: ' + iErr.message);
     }
 
     return {

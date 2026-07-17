@@ -25,7 +25,7 @@ exports.handler = async (event) => {
   try { data = JSON.parse(event.body); }
   catch { return { statusCode: 400, headers: CORS, body: '{"error":"Bad JSON"}' }; }
 
-  const { pw, nombre, grado, puntos, razon, mes: mesParam } = data;
+  const { pw, nombre, grado, puntos, razon, mes: mesParam, fecha: fechaParam } = data;
 
   if (pw !== TEACHER_PW)  return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
   if (!nombre || !grado || puntos === undefined)
@@ -37,6 +37,9 @@ exports.handler = async (event) => {
 
   const now = new Date();
   const mes = mesParam || `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
+  // fecha del cliente = nonce natural para idempotencia. El cliente la genera UNA
+  // vez y la reusa en cada reintento; así el outbox NUNCA duplica un bonus.
+  const fechaStr = fechaParam || now.toISOString();
 
   try {
     const db = supabase();
@@ -54,18 +57,24 @@ exports.handler = async (event) => {
       return { statusCode: 404, headers: CORS, body: '{"error":"Alumno no encontrado en el roster"}' };
     }
 
+    // Idempotencia: si ya existe un bonus de este alumno con la misma fecha
+    // (nonce), fue un reintento → responder ok sin duplicar.
+    const { data: dupe } = await db.from("bonuses")
+      .select("id").eq("alumno_id", alumno.id).eq("fecha", fechaStr).maybeSingle();
+    if (dupe) return { statusCode: 200, headers: CORS, body: '{"ok":true,"dedupe":true}' };
+
     const { error } = await db.from("bonuses").insert({
       alumno_id: alumno.id,
       grado,
       puntos:    puntosNum,
       razon:     (razon || "").trim(),
       mes,
-      fecha:     now.toISOString(),
+      fecha:     fechaStr,
     });
 
     if (error) throw error;
 
-    return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, alumno: alumno.nombre }) };
   } catch (err) {
     console.error("add-bonus error:", err.message);
     return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };

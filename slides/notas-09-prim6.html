@@ -223,4 +223,102 @@ async function darBonus(selId,msgId){
   setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
 }
 (function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;let _n=0;(function _try(){_n++;if(typeof startSync==='function')startSync();setTimeout(()=>{if(syncActive){const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);}else if(_n<5){_try();}},1400);})();})();
-</script></body></html>
+</script><script>
+/* ═══ Failsafe universal de datos v1 — ninguna acción del alumno se pierde ═══
+   Cubre submit-eval, submit-task y add-bonus. Cola persistente en localStorage,
+   reintentos indefinidos (cada 8s + al volver la conexión + al cargar cualquier
+   página), sendBeacon al cerrar, e inyección de 'fecha' (nonce) para que
+   reintentar un bonus NUNCA lo duplique. Nunca descarta un envío hasta que el
+   servidor responda ok. Si algo queda atascado >25s, avisa de forma visible. */
+(function(){
+  if(window.__dataFailsafe) return; window.__dataFailsafe=true;
+  var EPS=['/.netlify/functions/submit-eval','/.netlify/functions/submit-task','/.netlify/functions/add-bonus'];
+  var BONUS='/.netlify/functions/add-bonus';
+  var OUTBOX='dataOutboxV1';
+  var _f=window.fetch.bind(window);
+
+  /* ── chip de estado ── */
+  var chip=null,chipT=null;
+  function showChip(txt,bg,ms){
+    if(!chip){chip=document.createElement('div');chip.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s;';document.body.appendChild(chip);}
+    chip.style.background=bg;chip.textContent=txt;chip.style.opacity='1';clearTimeout(chipT);
+    if(ms)chipT=setTimeout(function(){chip.style.opacity='0';},ms);
+  }
+  /* ── banner de atascado (aviso fuerte) ── */
+  var banner=null;
+  function showStuck(on){
+    if(on){
+      if(!banner){banner=document.createElement('div');banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99998;background:#b91c1c;color:#fff;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:.6rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.3);';banner.textContent='⚠️ Un resultado aún no se ha guardado. No cierres esta página; si tarda, avísale a la profesora.';document.body.appendChild(banner);}
+      banner.style.display='block';
+    } else if(banner){banner.style.display='none';}
+  }
+
+  /* ── cola persistente ── */
+  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function keyOf(ep,payload){try{var p=JSON.parse(payload);
+    if(ep.indexOf('add-bonus')>-1) return 'bonus|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.fecha||'');
+    return ep+'|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');
+  }catch(e){return ep+'|'+payload.length;}}
+  function enqueue(ep,payload){var k=keyOf(ep,payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,ep:ep,p:payload,t:Date.now()});writeBox(b);}
+  function dequeue(k){writeBox(readBox().filter(function(it){return it.k!==k;}));}
+
+  /* ── normaliza el body: inyecta fecha (nonce) si es bonus y no la trae ── */
+  function withNonce(ep,body){
+    if(ep.indexOf('add-bonus')===-1) return body;
+    try{var p=JSON.parse(body);if(!p.fecha){p.fecha=new Date().toISOString();return JSON.stringify(p);}}catch(e){}
+    return body;
+  }
+
+  /* ── reenvío de la cola ── */
+  var sending=false;
+  function flush(){
+    if(sending)return;var b=readBox();if(!b.length){showStuck(false);return;}
+    // ¿algo atascado > 25s?
+    var stuck=b.some(function(it){return Date.now()-it.t>25000;});showStuck(stuck);
+    sending=true;var it=b[0];
+    _f(it.ep,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
+      .then(function(d){if(d&&d.ok===false)throw 0;
+        dequeue(it.k);sending=false;
+        showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
+        if(readBox().length)setTimeout(flush,400); else showStuck(false);
+      })
+      .catch(function(){sending=false;
+        showChip('📡 Guardando… no cierres esta página todavía','#b45309');
+      });
+  }
+
+  /* ── interceptar los POST de escritura ── */
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string' && o && o.body){
+        var ep=null;for(var i=0;i<EPS.length;i++){if(u.indexOf(EPS[i])>-1){ep=EPS[i];break;}}
+        if(ep){
+          var body=withNonce(ep,o.body);
+          var o2={};for(var k in o)o2[k]=o[k];o2.body=body;
+          enqueue(ep,body);showChip('⏳ Guardando tu resultado…','#1d4ed8');
+          return _f(u,o2).then(function(r){
+            if(r&&r.ok){dequeue(keyOf(ep,body));r.clone().json().then(function(d){showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Guardado en el sistema','#15803d',7000);});showStuck(false);}
+            else{setTimeout(flush,1200);}
+            return r;
+          }).catch(function(e){setTimeout(flush,1200);throw e;});
+        }
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+
+  /* ── disparadores ── */
+  setInterval(flush,8000);
+  window.addEventListener('online',flush);
+  setTimeout(flush,1500); // reintenta pendientes de visitas anteriores
+
+  /* ── último recurso al cerrar ── */
+  function beaconAll(){var b=readBox();if(!b.length||!navigator.sendBeacon)return;
+    for(var i=0;i<b.length;i++){try{navigator.sendBeacon(b[i].ep,new Blob([b[i].p],{type:'text/plain'}));}catch(e){}}}
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
+  window.addEventListener('pagehide',beaconAll);
+})();
+</script>
+</body></html>

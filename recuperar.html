@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recuperar mi resultado · Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--acc:#4d7c0f;--acc2:#65a30d;--ink:#141a22;--muted:#5b6472;--border:#e7ebf0;--ok:#15803d;--ok-bg:#dcfce7;--warn:#b45309;--soft:0 1px 2px rgba(16,24,40,.04),0 8px 30px rgba(16,24,40,.07)}
+body{font-family:'Inter',sans-serif;background:#fbfcfe;color:var(--ink);min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.6}
+.card{background:#fff;border:1px solid var(--border);border-radius:22px;box-shadow:var(--soft);max-width:460px;width:100%;padding:36px 30px;text-align:center}
+.badge{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);margin-bottom:14px}
+.spinner{width:52px;height:52px;border-radius:50%;border:4px solid var(--border);border-top-color:var(--acc);margin:6px auto 20px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spinner{animation:none}}
+h1{font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:800;letter-spacing:-.01em;margin-bottom:10px}
+p{font-size:15.5px;color:var(--muted);margin-bottom:6px}
+.big-emoji{font-size:3.2rem;margin-bottom:8px;line-height:1}
+.list{text-align:left;margin:20px 0 4px;display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:10px;background:var(--ok-bg);border:1px solid #bbf7d0;border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;color:var(--ok)}
+.item .n{font-family:'Space Grotesk',sans-serif}
+.foot{font-size:13px;color:#94a3b8;margin-top:22px}
+.retry{margin-top:18px;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border:none;border-radius:12px;padding:13px 28px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="badge">Asunción School · Computación 2026</div>
+  <div id="loading">
+    <div class="spinner"></div>
+    <h1>Guardando tu resultado…</h1>
+    <p>Un momento, estamos enviando lo que quedó pendiente en este dispositivo.</p>
+  </div>
+  <div id="done-ok" class="hidden">
+    <div class="big-emoji">✅</div>
+    <h1>¡Listo, ya se guardó!</h1>
+    <p>Tu resultado quedó registrado en el sistema. Ya puedes cerrar esta página.</p>
+    <div class="list" id="recovered-list"></div>
+  </div>
+  <div id="done-empty" class="hidden">
+    <div class="big-emoji">👍</div>
+    <h1>No hay nada pendiente</h1>
+    <p>En este dispositivo no quedó ningún resultado sin enviar. Si rendiste en otro teléfono o computadora, ábrelo ahí.</p>
+  </div>
+  <div id="done-fail" class="hidden">
+    <div class="big-emoji">📡</div>
+    <h1>Aún no se pudo enviar</h1>
+    <p>Parece que no hay conexión. No cierres esta página: revisa tu internet y toca reintentar.</p>
+    <button class="retry" onclick="run()">Reintentar</button>
+  </div>
+  <div class="foot">Guía de repaso · Prof. Estrella Vizcarra</div>
+</div>
+<script>
+(function(){
+  var OUTBOXES=['evalOutboxV2','dataOutboxV1'];
+  var DEFAULT_EP='/.netlify/functions/submit-eval';
+  function show(id){['loading','done-ok','done-empty','done-fail'].forEach(function(x){document.getElementById(x).classList.toggle('hidden',x!==id);});}
+  function read(k){try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];}}
+  function write(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+
+  // Junta los pendientes de ambos outboxes en una lista uniforme
+  function pending(){
+    var out=[];
+    OUTBOXES.forEach(function(box){
+      read(box).forEach(function(it){
+        out.push({box:box, key:it.k, ep:it.ep||DEFAULT_EP, payload:it.p});
+      });
+    });
+    return out;
+  }
+  function removeItem(box,key){write(box, read(box).filter(function(it){return it.k!==key;}));}
+  function nameOf(payload){try{return JSON.parse(payload).nombre||'';}catch(e){return '';}}
+
+  window.run=function(){
+    show('loading');
+    var items=pending();
+    if(!items.length){ show('done-empty'); return; }
+    var recovered=[], failed=0, i=0;
+    function next(){
+      if(i>=items.length){
+        if(recovered.length){
+          var host=document.getElementById('recovered-list');host.innerHTML='';
+          recovered.forEach(function(n){var d=document.createElement('div');d.className='item';d.innerHTML='✅ <span class="n">'+(n||'Tu resultado')+'</span>';host.appendChild(d);});
+          show('done-ok');
+        } else if(failed){ show('done-fail'); }
+        else { show('done-empty'); }
+        return;
+      }
+      var it=items[i++];
+      fetch(it.ep,{method:'POST',headers:{'Content-Type':'application/json'},body:it.payload})
+        .then(function(r){return r.ok?r.json().catch(function(){return{ok:true};}):Promise.reject();})
+        .then(function(d){ if(d&&d.ok===false) throw 0;
+          removeItem(it.box,it.key);
+          recovered.push((d&&d.alumno)||nameOf(it.payload));
+          next();
+        })
+        .catch(function(){ failed++; next(); });
+    }
+    next();
+  };
+  // Auto-ejecutar al abrir
+  setTimeout(window.run,400);
+})();
+</script>
+</body>
+</html>

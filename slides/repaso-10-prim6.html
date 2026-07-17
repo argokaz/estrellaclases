@@ -301,7 +301,7 @@ async function submitEval(){
   }
   let correctas=0;
   for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}
-  const score=Math.round((correctas/10)*100);
+  const score=correctas*2;
 
   // Color answers
   for(const q of qs){
@@ -320,7 +320,7 @@ async function submitEval(){
 
   const rb=document.getElementById('result-box');
   document.getElementById('result-score').textContent=correctas+'/10';
-  document.getElementById('result-msg').textContent=score>=80?'¡Excelente trabajo! 🌟':score>=60?'¡Bien! Sigue practicando 💪':'Repasa el material y vuelve a intentarlo 📚';
+  document.getElementById('result-msg').textContent=correctas>=8?'¡Excelente trabajo! 🌟':correctas>=6?'¡Bien! Sigue practicando 💪':'Repasa el material y vuelve a intentarlo 📚';
   rb.style.display='block';
   rb.scrollIntoView({behavior:'smooth',block:'center'});
 

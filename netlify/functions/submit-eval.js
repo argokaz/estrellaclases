@@ -30,10 +30,25 @@ exports.handler = async (event) => {
   try { data = JSON.parse(event.body); }
   catch { return { statusCode: 400, headers: CORS, body: '{"error":"Bad JSON"}' }; }
 
-  const { nombre, grado, sesion, score, correctas, total, fecha } = data;
+  const { nombre, grado, sesion, correctas, total, fecha } = data;
+  let { score } = data;
   if (!nombre || !grado || !sesion || typeof score !== "number") {
     return { statusCode: 400, headers: CORS, body: '{"error":"Missing required fields"}' };
   }
+
+  // ── Saneamiento de score a la escala 0–20 (constraint de la BD) ──
+  // Algunos repasos (S10 oscuros) enviaban el score como porcentaje 0–100, que
+  // la BD rechaza → la nota se perdía en silencio. Recalculamos desde `correctas`
+  // cuando el score viene fuera de rango, para que hasta los envíos ya
+  // encolados (con score=100) se guarden bien al reintentar.
+  const totalN = (typeof total === "number" && total > 0) ? total : 10;
+  if (typeof correctas === "number" && correctas >= 0 && correctas <= totalN) {
+    score = Math.round((correctas / totalN) * 20);   // fuente de verdad: aciertos
+  } else if (score > 20) {
+    score = Math.round(score / 5);                    // 0–100 → 0–20
+  }
+  if (score < 0) score = 0;
+  if (score > 20) score = 20;
 
   // Ignorar entregas de la profesora (test user) — responder OK sin guardar
   if (EXCLUDED_NAMES.has(normalize(nombre).toLowerCase())) {

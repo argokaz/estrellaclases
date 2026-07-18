@@ -3234,5 +3234,49 @@ render();
   </div>
 </div>
 
+<script>
+/* ═══ Rescate automático de resultados pendientes (jul 2026) ═══
+   Las laptops del colegio pueden quedar con exámenes/tareas/bonus sin enviar
+   en su localStorage (outbox de repasos: evalOutboxV2; universal: dataOutboxV1).
+   El dashboard es la página que TODOS abren al empezar clase en esas máquinas,
+   así que al cargarla reenviamos silenciosamente todo lo pendiente. Si algo se
+   recupera, se muestra un toast con el nombre. Idempotente en el backend →
+   reintentar nunca duplica. */
+(function(){
+  var DEFAULT_EP='/.netlify/functions/submit-eval';
+  var BOXES=['evalOutboxV2','dataOutboxV1'];
+  function read(k){try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];}}
+  function write(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  function toast(msg){
+    var t=document.createElement('div');
+    t.style.cssText='position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:99999;background:#15803d;color:#fff;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;padding:.65rem 1.2rem;border-radius:999px;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;';
+    t.textContent=msg;document.body.appendChild(t);
+    setTimeout(function(){t.style.transition='opacity .4s';t.style.opacity='0';setTimeout(function(){t.remove();},450);},7000);
+  }
+  function flushAll(){
+    var items=[];
+    BOXES.forEach(function(box){read(box).forEach(function(it){items.push({box:box,key:it.k,ep:it.ep||DEFAULT_EP,p:it.p});});});
+    if(!items.length)return;
+    var i=0,recovered=[];
+    (function next(){
+      if(i>=items.length){
+        if(recovered.length)toast('✅ Se recuperó y guardó: '+recovered.join(', '));
+        return;
+      }
+      var it=items[i++];
+      fetch(it.ep,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+        .then(function(r){return r.ok?r.json().catch(function(){return{ok:true};}):Promise.reject();})
+        .then(function(d){if(d&&d.ok===false)throw 0;
+          write(it.box,read(it.box).filter(function(x){return x.k!==it.key;}));
+          var nom=(d&&d.alumno)||'';if(!nom){try{nom=JSON.parse(it.p).nombre||'';}catch(e){}}
+          if(nom)recovered.push(nom);
+          next();
+        })
+        .catch(function(){next();}); // sin conexión: se reintenta en la próxima visita
+    })();
+  }
+  setTimeout(flushAll,2000);
+})();
+</script>
 </body>
 </html>

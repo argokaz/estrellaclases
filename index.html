@@ -85,36 +85,36 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ── GRADE TABS ──────────────────────────────────────────── */
 /* ── SELECTOR DE AULA ──
-   Pastillas, no pestañas: la barra con divisorias y subrayado se leía
-   como una tabla sobre el papel blanco. Cada aula conserva su color,
-   que es identidad en todo el sistema. */
+   Es lo primero que ve un alumno y decide si entra al salón correcto:
+   se queda arriba, siempre, y pesa lo suficiente para no pasarse por alto. */
 .grade-tabs{
-  display:flex;gap:.45rem;overflow-x:auto;align-items:center;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  padding:.85rem 1rem;
-  background:transparent;
+  /* wrap, no scroll: un aula que se sale de pantalla es la que nadie encuentra */
+  display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;
+  padding:.9rem 1rem;background:var(--bg2);
+  border-bottom:1px solid var(--border);
 }
 .grade-tabs::-webkit-scrollbar{display:none;}
+.gtab-lbl{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:var(--fs-sm);
+  font-weight:800;color:var(--text);margin-right:.15rem;white-space:nowrap;}
 .gtab{
   --gaccent:var(--accent);
   flex:0 0 auto;
-  display:inline-flex;align-items:center;gap:.4rem;
-  color:var(--text-muted);
+  display:inline-flex;align-items:center;gap:.45rem;
+  color:var(--text);
   background:#fff;
-  border:1px solid var(--border);
+  border:2px solid var(--border);
   border-radius:100px;
-  padding:.5rem 1rem;
-  font-size:var(--fs-sm);font-weight:600;
+  padding:.58rem 1rem;
+  font-size:var(--fs-sm);font-weight:700;
   white-space:nowrap;cursor:pointer;font-family:inherit;
-  transition:color .15s,background .15s,border-color .15s;
+  transition:color .15s,background .15s,border-color .15s,transform .15s;
   -webkit-tap-highlight-color:transparent;
 }
-.gtab:hover{color:var(--text);border-color:var(--line-strong);}
+.gtab:hover{border-color:var(--gaccent);background:color-mix(in srgb,var(--gaccent) 8%,#fff);transform:translateY(-1px);}
 .gtab.active{
-  color:var(--text);
-  font-weight:700;
   border-color:var(--gaccent);
-  background:color-mix(in srgb, var(--gaccent) 12%, #fff);
+  background:color-mix(in srgb,var(--gaccent) 16%,#fff);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--gaccent) 22%,transparent);
 }
 
 /* ── PROGRESS BAR ────────────────────────────────────────── */
@@ -700,29 +700,13 @@ button{font-family:inherit;cursor:pointer;}
 .future-fold .future-grid{padding:0 1.05rem 1.05rem;}
 
 
-/* ── ELEGIR SALÓN: lo primero que ve un alumno ── */
-.aula-pick{max-width:760px;margin:clamp(24px,6vw,64px) auto;text-align:center;padding:0 1rem;}
-.aula-pick h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,4vw,38px);font-weight:800;
-  letter-spacing:-.5px;margin-bottom:.35rem;}
-.aula-pick p{color:var(--text-muted);font-size:var(--fs-base);margin-bottom:1.6rem;}
-.aula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;}
-.aula-card{display:flex;flex-direction:column;align-items:center;gap:.5rem;
-  background:#fff;border:2px solid var(--border);border-radius:16px;
-  padding:1.4rem .8rem;cursor:pointer;font-family:inherit;
-  transition:border-color .16s,background .16s,transform .16s;}
-.aula-card:hover{border-color:var(--gaccent);background:color-mix(in srgb,var(--gaccent) 8%,#fff);transform:translateY(-2px);}
-.aula-card .aula-em{font-size:2.2rem;line-height:1;}
-.aula-card b{font-family:'Space Grotesk',sans-serif;font-size:var(--fs-base);font-weight:700;color:var(--text);}
 
 /* la pestaña activa del selector superior pesa más: es dónde estás */
 .gtab.active{box-shadow:0 2px 0 0 var(--gaccent) inset, 0 0 0 1px var(--gaccent);}
-.gtab-cambiar{flex-shrink:0;background:none;border:none;color:var(--text-muted);
-  font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:inherit;
-  text-decoration:underline;text-underline-offset:3px;padding:.5rem .6rem;white-space:nowrap;}
-.gtab-cambiar:hover{color:var(--text);}
-@media(max-width:520px){
-  .aula-grid{grid-template-columns:repeat(2,1fr);}
-}
+.sin-aula{max-width:640px;margin:clamp(30px,8vw,80px) auto;text-align:center;
+  font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,2.4vw,24px);font-weight:700;
+  color:var(--text-muted);line-height:1.5;padding:0 1rem;}
+
 /* ── RANKING: la tarjeta con más peso del panel ── */
 .rank-card{background:var(--lilac);border:1px solid #b49ae8;border-radius:var(--radius);
   padding:1rem 1.1rem 1.1rem;margin:0 0 1.1rem;}
@@ -2318,58 +2302,40 @@ function daysSince(dateStr){
 // Acento visual de cada grado (mismo sistema que decks/repasos/tareas)
 const GRADE_ACCENTS = {prim6:'#15803d', sec2:'#1d4ed8', sec3:'#c2410c', sec4:'#7c3aed', sec5:'#b91c1c'};
 
-const MI_AULA = 'mi_aula';
-
+// El selector NO recuerda el salón: las laptops del colegio rotan entre
+// alumnos y el siguiente entraría al aula del anterior sin darse cuenta.
+// Se elige en cada visita, y el selector se queda arriba, grande y visible.
 function render(){
-  const tabs = document.getElementById('grade-tabs');
-  tabs.innerHTML = GRADE_ORDER.map(id=>{
-    const g = GRADES[id];
-    return `<button class="gtab" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="elegirAula('${id}')">${g.emoji} ${g.label}</button>`;
-  }).join('') + '<button class="gtab-cambiar" onclick="cambiarAula()">Cambiar de salón</button>';
-
+  pintarSelector(null);
   if(ES_CONSOLA){ switchGrade(GRADE_ORDER[0]); return; }
-
-  // El alumno entra a SU salón: se le pregunta una vez y se recuerda.
-  const guardada = localStorage.getItem(MI_AULA);
-  if(guardada && GRADES[guardada]){ switchGrade(guardada); return; }
-  pedirAula();
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('main').innerHTML =
+    '<div class="sin-aula">👆 Elige tu salón arriba para ver tus clases</div>';
 }
 
-/** Primera visita: elegir salón antes de ver nada, para no entrar al equivocado. */
-function pedirAula(){
-  document.getElementById('grade-tabs').style.display = 'none';
-  document.getElementById('progress-wrap').style.display = 'none';
-  document.getElementById('main').innerHTML = `
-    <section class="aula-pick">
-      <h2>¿En qué salón estás?</h2>
-      <p>Elígelo una vez y la página se abrirá siempre en el tuyo.</p>
-      <div class="aula-grid">${GRADE_ORDER.map(id=>{
-        const g = GRADES[id];
-        return `<button class="aula-card" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="elegirAula('${id}')">
-          <span class="aula-em">${g.emoji}</span>
-          <b>${g.label}</b>
-        </button>`;
-      }).join('')}</div>
-    </section>`;
+/** Selector permanente en la cabecera. Recibe el aula activa, o null. */
+function pintarSelector(activa){
+  const tabs = document.getElementById('grade-tabs');
+  if(!tabs) return;
+  tabs.innerHTML =
+    '<span class="gtab-lbl">Tu salón:</span>' +
+    GRADE_ORDER.map(id=>{
+      const g = GRADES[id];
+      return `<button class="gtab${id===activa?' active':''}" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}"
+        onclick="elegirAula('${id}')">${g.emoji} ${g.label}</button>`;
+    }).join('');
 }
 
 function elegirAula(id){
-  try{ localStorage.setItem(MI_AULA, id); }catch(_){}
-  document.getElementById('grade-tabs').style.display = '';
+  document.getElementById('progress-wrap').style.display = '';
   switchGrade(id);
-}
-
-function cambiarAula(){
-  try{ localStorage.removeItem(MI_AULA); }catch(_){}
-  pedirAula();
+  pintarSelector(id);
 }
 
 function switchGrade(gradeId){
   currentGrade = gradeId;
   if(ES_CONSOLA){ renderConsola(gradeId); return; }
-  document.querySelectorAll('.gtab').forEach((t,i)=>{
-    t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
-  });
+  pintarSelector(gradeId);
   renderPanel(gradeId);
 }
 

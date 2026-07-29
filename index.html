@@ -2240,7 +2240,7 @@ function saveDone(gId, set){ localStorage.setItem(storageKey(gId), JSON.stringif
 // RENDER
 // ═══════════════════════════════════════════════════════════
 const GRADE_ORDER = ['prim6','sec2','sec3','sec4','sec5'];
-let currentGrade  = GRADE_ORDER[0];
+let currentGrade  = null;   // hasta que el alumno elija su salón
 
 // ═══════════════════════════════════════════════════════════
 // ACCESS CONTROL
@@ -3620,9 +3620,10 @@ const GRADE_LABEL_SHORT = {all:'Todos los salones', prim6:'6.° Primaria', sec2:
 /** Repinta la superficie que toca. Nunca pisa el muro de contraseña:
  *  loadShifts y demás terminan async y borraban el formulario a medio llenar. */
 function repintar(){
-  if(ES_CONSOLA && !isUnlocked()) return;   // el muro se queda
-  if(ES_CONSOLA){ renderConsola(currentGrade); return; }
-  renderPanel(currentGrade);
+  if(ES_CONSOLA && !isUnlocked()) return;      // el muro se queda
+  if(ES_CONSOLA){ renderConsola(currentGrade || GRADE_ORDER[0]); return; }
+  if(!currentGrade) return;                    // sin salón elegido no se pinta nada:
+  renderPanel(currentGrade);                   // loadShifts tapaba el «elige tu salón»
 }
 
 /** Trae los aplazamientos del backend. Si falla, se queda con la copia local. */

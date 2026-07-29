@@ -1302,7 +1302,6 @@ body.modo-consola{background:var(--bg2);}
 <header class="site-header">
   <h1>Computación 2026<span class="h1-dot">.</span></h1>
   <p>Asunción School · Viernes · Prof. Estrella Vizcarra</p>
-  <button class="prof-access" id="prof-access" onclick="goToUnlock()">🔑 Modo profesora</button>
 </header>
 
 <button class="logout-btn" id="logout-btn" onclick="lock()">🔓 Logout</button>
@@ -2257,7 +2256,10 @@ function renderPanel(gradeId){
   const g       = GRADES[gradeId];
   const done    = loadDone(gradeId);
   const today   = todayStr();
-  const unlocked = isUnlocked();
+  // Esta es la vista del alumno y es siempre la misma: lo docente está en
+  // /profe. Sin esto, cualquier navegador donde la profesora escribió su
+  // contraseña le mostraba al alumno notas, resultados y entregas.
+  const unlocked = false;
 
   // Clasificación por fecha Lima:
   //   isPast  = date < today  (clases pasadas, van al acordeón)
@@ -2289,9 +2291,6 @@ function renderPanel(gradeId){
   document.getElementById('prog-label').textContent = `${dictadas} de ${TOTAL} clases`;
   document.getElementById('prog-fill').style.transform = 'scaleX(' + (pct/100) + ')';
   document.getElementById('prog-pct').textContent    = pct+'%';
-  // Acceso a modo profesora en el header: oculto si ya está desbloqueado
-  const profBtn = document.getElementById('prof-access');
-  if(profBtn) profBtn.style.display = unlocked ? 'none' : 'inline-flex';
 
   let html = `<div class="panel active" id="panel-${gradeId}">`;
 
@@ -2374,15 +2373,17 @@ function renderPanel(gradeId){
     html += `<div class="empty-state">Aún no hay clases pasadas para este grado.</div>`;
   }
 
-  // ── CLASES FUTURAS — requieren contraseña ──────────────────
-  if(unlocked){
+  // ── LO QUE VIENE — temario, sin materiales ─────────────────
+  // El alumno puede ver qué temas siguen; los materiales de una clase que
+  // aún no se dictó son de la profesora.
+  {
 
     if(nextItem && !todayItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
-      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, true);
+      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, false);
     } else if(nextItem && todayItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
-      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, true);
+      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, false);
     }
 
     const rest = nextItem ? futureItems.slice(1) : futureItems;
@@ -2395,7 +2396,7 @@ function renderPanel(gradeId){
         </summary>
         <div class="future-grid">`;
       rest.forEach(item=>{
-        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, true);
+        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, false);
       });
       html += `</div></details>`;
     }
@@ -2404,18 +2405,6 @@ function renderPanel(gradeId){
       html += `<div class="empty-state">🎉 ¡Todas las sesiones están completadas!</div>`;
     }
 
-  } else {
-    // Muro de acceso
-    html += `<div class="lock-wall">
-      <div class="lock-icon-big">🔒</div>
-      <h3>Clases futuras</h3>
-      <p>${futureItems.length} sesiones planificadas · Solo para profesores</p>
-      <input id="pass-input" class="lock-input" type="password"
-        placeholder="Código de acceso" autocomplete="off"
-        onkeydown="if(event.key==='Enter') tryUnlock()">
-      <button class="lock-btn" onclick="tryUnlock()">Desbloquear</button>
-      <div class="lock-err" id="lock-err">Código incorrecto. Inténtalo de nuevo.</div>
-    </div>`;
   }
 
   // ── RECURSOS PARA PROFESORES — al pie, fuera del camino del alumno ──
@@ -3756,6 +3745,7 @@ function renderConsola(gradeId){
         <button class="cns-tool" onclick="openRosterEditor('${gradeId}')">Alumnos</button>
         <button class="cns-tool" onclick="openSchedule()">Fechas</button>
         <button class="cns-tool" onclick="openAccess()">Accesos</button>
+        <a class="cns-tool" href="/" style="text-decoration:none">Ver como alumno</a>
         <button class="cns-tool" onclick="lock()">Salir</button>
       </div>
     </div>

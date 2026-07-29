@@ -47,22 +47,6 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,5.6vw,62px);font-
 /* ── CONTROLES ── */
 .tools{position:sticky;top:0;z-index:30;background:rgba(10,12,17,.93);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:clamp(20px,3vw,34px)}
-.searchbox{position:relative;margin-bottom:10px}
-#q{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:11px;color:var(--paper);
-  font-family:inherit;font-size:15px;padding:11px 40px 11px 38px;outline:none}
-#q:focus{border-color:rgba(163,230,53,.5)}
-#q::placeholder{color:var(--dim)}
-.searchbox .mg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
-#clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);
-  cursor:pointer;font-size:17px;padding:4px 8px;display:none}
-#clr:hover{color:var(--paper)}
-.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);
-  border-radius:100px;padding:.44em 1em;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;
-  transition:background .18s,color .18s,border-color .18s;white-space:nowrap}
-.chip:hover{color:var(--paper);border-color:rgba(255,255,255,.22)}
-.chip.on{background:var(--lime);border-color:var(--lime);color:var(--limeInk)}
 
 /* ── LISTA ── */
 .cat{margin-bottom:clamp(26px,4vw,46px)}
@@ -83,8 +67,6 @@ pre mark{background:rgba(163,230,53,.14);color:var(--lime2);border-radius:4px;pa
   font-size:13.5px;cursor:pointer;transition:background .18s,color .18s}
 .copy:hover{background:var(--lime);color:var(--limeInk)}
 .copy.ok{background:var(--lime);color:var(--limeInk);border-color:var(--lime)}
-#empty{display:none;text-align:center;padding:50px 20px;color:var(--muted)}
-#empty b{display:block;font-family:'Space Grotesk',sans-serif;font-size:19px;color:var(--paper);margin-bottom:.4em}
 
 /* ── GUARDAR ── */
 .save{margin-top:clamp(34px,5vw,64px);background:linear-gradient(158deg,#0c1017,#12171f);
@@ -255,6 +237,52 @@ footer{flex-direction:column;align-items:flex-start;gap:.35rem}
   .yape{justify-self:center}
   .locked{grid-template-columns:1fr}
 }
+
+/* etiqueta de categoría en cada tarjeta */
+.cardtag{display:inline-block;font-size:11.5px;font-weight:600;color:var(--dim);letter-spacing:.02em;
+  margin-bottom:.5em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);
+  border-radius:100px;padding:.22em .7em}
+
+/* ═══════ MOVIMIENTO DE LA SECCIÓN DE PAGO ═══════ */
+@media (prefers-reduced-motion: no-preference){
+  /* entrada al llegar con el scroll */
+  .rev{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
+  .rev.in{opacity:1;transform:none}
+  .rev.d1{transition-delay:.08s} .rev.d2{transition-delay:.16s} .rev.d3{transition-delay:.24s}
+
+  /* las tarjetas bloqueadas entran en cascada… */
+  .pitch.in .lock{animation:lockIn .5s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(.1s + var(--i,0)*.045s)}
+  @keyframes lockIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  /* …y un destello las recorre: hay algo detrás que no se ve */
+  .pitch.in .lock::before{content:'';position:absolute;inset:0;z-index:1;
+    background:linear-gradient(105deg,transparent 40%,rgba(163,230,53,.13) 50%,transparent 60%);
+    transform:translateX(-120%);
+    animation:shimmer 3.2s ease-in-out 3 both;animation-delay:calc(1s + var(--i,0)*.1s)}
+  @keyframes shimmer{0%{transform:translateX(-120%)}22%,100%{transform:translateX(120%)}}
+
+  /* el QR invita a escanear */
+  .pitch.in .yape img{animation:qrIn .7s .2s cubic-bezier(.22,1,.36,1) both}
+  @keyframes qrIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+  .yape{position:relative}
+  .yape::after{content:'';position:absolute;left:8%;right:8%;top:0;height:2px;border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--lime),transparent);opacity:0;pointer-events:none}
+  .pitch.in .yape::after{animation:scan 3.4s ease-in-out 3 both;animation-delay:1.1s}
+  @keyframes scan{
+    0%{opacity:0;transform:translateY(6%)}
+    8%{opacity:.85}
+    42%{opacity:.85;transform:translateY(300%)}
+    52%{opacity:0;transform:translateY(300%)}
+    100%{opacity:0;transform:translateY(6%)}}
+
+  /* el precio aterriza */
+  .pitch.in .price{animation:priceIn .6s .12s cubic-bezier(.22,1,.36,1) both}
+  @keyframes priceIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .pitch.in .steps3 li{animation:lockIn .5s cubic-bezier(.22,1,.36,1) both}
+  .pitch.in .steps3 li:nth-child(1){animation-delay:.3s}
+  .pitch.in .steps3 li:nth-child(2){animation-delay:.4s}
+  .pitch.in .steps3 li:nth-child(3){animation-delay:.5s}
+  .pitch.in .pitch-cta{animation:lockIn .5s .62s cubic-bezier(.22,1,.36,1) both}
+}
 </style>
 </head>
 <body>
@@ -272,17 +300,8 @@ footer{flex-direction:column;align-items:flex-start;gap:.35rem}
   </div>
 </header>
 
-<div class="tools">
-  <div class="searchbox">
-    <span class="mg">🔎</span>
-    <input id="q" type="search" placeholder="Buscar: examen, rúbrica, padres, actividad…" autocomplete="off">
-    <button id="clr" aria-label="Limpiar búsqueda">✕</button>
-  </div>
-  <div class="chips" id="chips"></div>
-</div>
 
 <main id="list"></main>
-<div id="empty"><b>No encontramos nada con esa palabra</b>Prueba con otra, o toca "Todos" para ver la lista completa.</div>
 
 <section class="pitch" id="acceso">
   <div class="pitch-in">
@@ -478,62 +497,25 @@ const WHATSAPP = '51923828655';
 
 
 
-var list=document.getElementById('list'), chips=document.getElementById('chips'),
-    q=document.getElementById('q'), clr=document.getElementById('clr'),
-    empty=document.getElementById('empty'), toast=document.getElementById('toast');
-var filtro='todos', busca='';
+var list=document.getElementById('list'), toast=document.getElementById('toast');
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 function marca(s){return esc(s).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')}
 
-// chips de categoría
-var todos=document.createElement('button');
-todos.className='chip on'; todos.textContent='Todos'; todos.dataset.c='todos';
-chips.appendChild(todos);
-// Solo las categorías que tienen algún prompt abierto: un filtro que lleva
-// a una lista vacía se lee como error.
-CATS.filter(function(c){return PROMPTS.some(function(p){return p.c===c.id})}).forEach(function(c){
-  var b=document.createElement('button');
-  b.className='chip'; b.dataset.c=c.id; b.textContent=c.em+' '+c.nom;
-  chips.appendChild(b);
-});
-chips.addEventListener('click',function(e){
-  var b=e.target.closest('.chip'); if(!b)return;
-  [].forEach.call(chips.children,function(x){x.classList.remove('on')});
-  b.classList.add('on'); filtro=b.dataset.c; render();
-});
-
 function render(){
-  var t=busca.trim().toLowerCase();
-  list.innerHTML='';
-  var total=0;
-  CATS.forEach(function(cat){
-    if(filtro!=='todos'&&filtro!==cat.id)return;
-    var items=PROMPTS.filter(function(p){
-      if(p.c!==cat.id)return false;
-      if(!t)return true;
-      return (p.t+' '+p.p+' '+p.x).toLowerCase().indexOf(t)>-1;
-    });
-    if(!items.length)return;
-    total+=items.length;
-    var sec=document.createElement('section');
-    sec.className='cat';
-    var h=document.createElement('h2');
-    h.innerHTML=cat.em+' '+esc(cat.nom)+' <small>'+items.length+'</small>';
-    sec.appendChild(h);
-    var g=document.createElement('div'); g.className='grid';
-    items.forEach(function(p){
-      var c=document.createElement('article'); c.className='card';
-      c.innerHTML='<h3>'+esc(p.t)+'</h3><p class="when">'+esc(p.p)+'</p>'+
-                  '<pre>'+marca(p.x)+'</pre>'+
-                  '<button class="copy">📋 Copiar</button>';
-      c.querySelector('.copy').addEventListener('click',function(){copiar(p.x,this)});
-      g.appendChild(c);
-    });
-    sec.appendChild(g);
-    list.appendChild(sec);
+  // Seis prompts no se agrupan por categoría: quedarían filas de una sola
+  // tarjeta. Van en una rejilla continua, cada uno con su etiqueta.
+  var emoji={};
+  CATS.forEach(function(c){emoji[c.id]=c.em+' '+c.nom});
+  list.innerHTML='<div class="grid">'+PROMPTS.map(function(p,i){
+    return '<article class="card" style="--i:'+i+'">'+
+      '<span class="cardtag">'+esc(emoji[p.c]||'')+'</span>'+
+      '<h3>'+esc(p.t)+'</h3><p class="when">'+esc(p.p)+'</p>'+
+      '<pre>'+marca(p.x)+'</pre><button class="copy">📋 Copiar</button></article>';
+  }).join('')+'</div>';
+  [].forEach.call(list.querySelectorAll('.copy'),function(b,i){
+    b.addEventListener('click',function(){copiar(PROMPTS[i].x,this)});
   });
-  empty.style.display=total?'none':'block';
 }
 
 function copiar(txt,btn){
@@ -556,12 +538,9 @@ function fallback(txt,ok){
   document.body.removeChild(ta);
 }
 
-q.addEventListener('input',function(){
-  busca=q.value; clr.style.display=busca?'block':'none'; render();
-});
-clr.addEventListener('click',function(){q.value='';busca='';clr.style.display='none';q.focus();render()});
 
 render();
+
 
 // ── Teaser: los títulos de lo que falta ──
 (function(){
@@ -596,6 +575,20 @@ render();
     b.textContent='💬 Búscame en la sala de profesores';
   }
 })();
+// ── La sección de pago se anima al llegar, no al cargar ──
+(function(){
+  var pitch=document.querySelector('.pitch');
+  if(!pitch) return;
+  // índice de cada tarjeta bloqueada, para la cascada y el destello
+  [].forEach.call(pitch.querySelectorAll('.lock'),function(el,i){el.style.setProperty('--i',i)});
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)){ pitch.classList.add('in'); return; }
+  var io=new IntersectionObserver(function(ent){
+    ent.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.18});
+  io.observe(pitch);
+})();
+
 </script>
 </body>
 </html>

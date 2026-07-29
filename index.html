@@ -124,8 +124,8 @@ button{font-family:inherit;cursor:pointer;}
 }
 .progress-label{font-size:var(--fs-sm);color:var(--text-muted);white-space:nowrap;}
 .progress-track{flex:1;height:6px;background:rgba(255,255,255,.07);border-radius:4px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));
-  border-radius:4px;transition:width .4s ease;}
+.progress-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--blue),var(--violet));
+  border-radius:4px;transform-origin:0 50%;transform:scaleX(0);transition:transform .4s cubic-bezier(.22,1,.36,1);}
 .progress-pct{font-size:var(--fs-sm);font-weight:700;color:var(--blue);white-space:nowrap;}
 
 /* ── HERO "CLASE DE HOY / ÚLTIMA CLASE" ──────────────────── */
@@ -282,7 +282,7 @@ button{font-family:inherit;cursor:pointer;}
 .card.done{
   background:rgba(6,13,31,.6);
   border-color:rgba(16,185,129,.18);
-  border-left:3px solid rgba(16,185,129,.4);
+  border-top:2px solid rgba(16,185,129,.45);
 }
 .card.done:hover{
   border-color:rgba(16,185,129,.38);
@@ -672,18 +672,28 @@ button{font-family:inherit;cursor:pointer;}
 .teacher-btn.green:hover{background:rgba(34,197,94,.28);}
 .teacher-btn.blue{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:#d3f184;}
 .teacher-btn.blue:hover{background:rgba(96,165,250,.28);}
-/* ── ENLACES DEL HEADER ── */
-.header-links{position:relative;z-index:2;display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.85rem;}
-.header-links a{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;
-  border-radius:100px;padding:.32rem .78rem;font-size:.76rem;font-weight:600;text-decoration:none;
-  transition:background .18s,color .18s,border-color .18s;white-space:nowrap;}
-.header-links a:hover{background:rgba(163,230,53,.14);border-color:rgba(163,230,53,.4);color:#a3e635;}
-@media(max-width:520px){.header-links a{font-size:.72rem;padding:.3rem .65rem;}}
 
 .teacher-btn.gold{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4);color:#fbbf24;}
 .teacher-btn.gold:hover{background:rgba(245,158,11,.28);}
 .teacher-btn.violet{background:rgba(139,92,246,.16);border-color:rgba(139,92,246,.42);color:#c4b5fd;}
 .teacher-btn.violet:hover{background:rgba(139,92,246,.3);}
+
+/* ── RECURSOS PARA PROFESORES (pie del panel) ── */
+.prof-hub{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--border);}
+.hub-head{margin-bottom:.75rem;}
+.hub-title{display:block;font-size:.82rem;font-weight:700;color:#94a3b8;letter-spacing:.06em;text-transform:uppercase;}
+.hub-sub{display:block;font-size:.8rem;color:#64748b;margin-top:.15rem;}
+.hub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.55rem;}
+.hub-card{display:block;text-align:left;background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:11px;padding:.75rem .85rem;text-decoration:none;color:inherit;cursor:pointer;
+  font-family:inherit;transition:background .16s,border-color .16s;}
+.hub-card:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18);}
+.hub-card .hub-em{display:block;font-size:1.15rem;line-height:1;margin-bottom:.4rem;}
+.hub-card b{display:block;font-size:.88rem;color:#e2e8f0;margin-bottom:.15rem;}
+.hub-card span:not(.hub-em){display:block;font-size:.76rem;color:#64748b;line-height:1.4;}
+.hub-card.hub-act{border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.07);}
+.hub-card.hub-act:hover{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.5);}
+.hub-card.hub-act b{color:#c4b5fd;}
 
 /* ── ACCESOS A LOS PROMPTS ── */
 .acc-intro{font-size:.85rem;color:#94a3b8;line-height:1.5;margin-bottom:1rem;}
@@ -1126,11 +1136,6 @@ button{font-family:inherit;cursor:pointer;}
   <h1>Computación 2026<span class="h1-dot">.</span></h1>
   <p>Asunción School · Viernes · Prof. Estrella Vizcarra</p>
   <button class="prof-access" id="prof-access" onclick="goToUnlock()">🔑 Modo profesora</button>
-  <div class="header-links">
-    <a href="/demo/presentacion.html">🎓 Para profesores: más allá de la pizarra</a>
-    <a href="/prompts">✨ Prompts para clases</a>
-    <a href="/demo/">▶ Conoce la plataforma</a>
-  </div>
 </header>
 
 <button class="logout-btn" id="logout-btn" onclick="lock()">🔓 Logout</button>
@@ -2108,10 +2113,12 @@ function renderPanel(gradeId){
   // Progress bar — tracker de la profesora (por dispositivo): solo en modo profesor
   const doneCount = done.size;
   const pct = Math.round(doneCount/TOTAL*100);
+  // Solo se muestra en modo profesor Y cuando ya marcó alguna sesión:
+  // una barra al 0% ocupa una franja entera para no decir nada.
+  document.getElementById('progress-wrap').style.display = (unlocked && doneCount>0) ? 'flex' : 'none';
   document.getElementById('prog-label').textContent = `${doneCount} / ${TOTAL} sesiones`;
-  document.getElementById('prog-fill').style.width   = pct+'%';
+  document.getElementById('prog-fill').style.transform = 'scaleX(' + (pct/100) + ')';
   document.getElementById('prog-pct').textContent    = pct+'%';
-  document.getElementById('progress-wrap').style.display = unlocked ? 'flex' : 'none';
   // Acceso a modo profesora en el header: oculto si ya está desbloqueado
   const profBtn = document.getElementById('prof-access');
   if(profBtn) profBtn.style.display = unlocked ? 'none' : 'inline-flex';
@@ -2130,7 +2137,6 @@ function renderPanel(gradeId){
         <button class="teacher-btn green" onclick="openRosterEditor('${gradeId}')">📋 Alumnos</button>
         <button class="teacher-btn" onclick="openResults(null, '${gradeId}')">📊 Resultados</button>
         <button class="teacher-btn gold" onclick="openSchedule()">🗓️ Fechas</button>
-        <button class="teacher-btn violet" onclick="openAccess()">✨ Accesos a prompts</button>
       </div>
     </div>`;
   }
@@ -2251,8 +2257,50 @@ function renderPanel(gradeId){
     </div>`;
   }
 
+  // ── RECURSOS PARA PROFESORES — al pie, fuera del camino del alumno ──
+  html += buildProfHub(unlocked);
+
   html += `</div>`;
   document.getElementById('main').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════
+// RECURSOS PARA PROFESORES
+// ═══════════════════════════════════════════════════════════
+// Van al pie y en su propia sección: son para colegas docentes, no para
+// el alumno que entra a hacer su repaso. Antes competían con el contenido
+// desde el encabezado.
+function buildProfHub(unlocked){
+  const accesos = unlocked
+    ? `<button class="hub-card hub-act" onclick="openAccess()">
+         <span class="hub-em">✨</span>
+         <b>Accesos a los prompts</b>
+         <span>Genera el enlace de un colega que aportó</span>
+       </button>` : '';
+  return `<section class="prof-hub">
+    <div class="hub-head">
+      <span class="hub-title">Para profesores</span>
+      <span class="hub-sub">Material de la capacitación y herramientas del curso</span>
+    </div>
+    <div class="hub-grid">
+      <a class="hub-card" href="/demo/presentacion.html">
+        <span class="hub-em">🎓</span>
+        <b>Más allá de la pizarra</b>
+        <span>La capacitación: Slides, Gemini y Notebook</span>
+      </a>
+      <a class="hub-card" href="/prompts">
+        <span class="hub-em">💬</span>
+        <b>Prompts para clases</b>
+        <span>Instrucciones listas para copiar y pegar</span>
+      </a>
+      <a class="hub-card" href="/demo/">
+        <span class="hub-em">▶</span>
+        <b>Conoce la plataforma</b>
+        <span>Qué hace cada parte, módulo por módulo</span>
+      </a>
+      ${accesos}
+    </div>
+  </section>`;
 }
 
 // ═══════════════════════════════════════════════════════════

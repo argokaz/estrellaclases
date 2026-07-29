@@ -2321,12 +2321,13 @@ function renderPanel(gradeId){
                          'julio','agosto','septiembre','octubre','noviembre','diciembre'];
     const monthMap = {};
     pastItems.forEach(item=>{
-      const cal = CALENDAR.find(c=>c.session===item.sdata.n);
-      const key = cal ? cal.date.slice(0,7) : 'unknown';
+      const d = sessionDate(item.sdata.n, gradeId);
+      const key = d ? d.slice(0,7) : 'unknown';
       if(!monthMap[key]) monthMap[key]=[];
       monthMap[key].push(item);
     });
-    const monthKeys = Object.keys(monthMap).sort();
+    // Lo más reciente arriba: al volver, la clase que interesa es la última.
+    const monthKeys = Object.keys(monthMap).sort().reverse();
 
     html += `<details class="past-section">
       <summary class="past-section-toggle">
@@ -2360,7 +2361,7 @@ function renderPanel(gradeId){
         <div class="month-body">
           <div class="done-grid">`;
 
-      items.forEach(item=>{
+      items.slice().reverse().forEach(item=>{
         html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, unlocked, true, item.isAutoCompleted);
       });
 

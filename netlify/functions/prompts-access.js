@@ -63,6 +63,18 @@ const PREMIUM = {
   },
   {
    "c": "crear",
+   "t": "Explicar paso a paso",
+   "p": "Cuándo: un procedimiento que siempre se les traba.",
+   "x": "Explica cómo resolver [PROBLEMA O PROCEDIMIENTO] para alumnos de [GRADO].\nDivide la explicación en pasos numerados.\nEn cada paso, explica qué se hace y por qué se hace.\nIncluye un ejemplo resuelto y un error común que deberían evitar."
+  },
+  {
+   "c": "crear",
+   "t": "Ejemplos que sí conectan",
+   "p": "Cuándo: el ejemplo del libro les queda lejos.",
+   "x": "Explica [CONCEPTO] con [5] ejemplos cotidianos adecuados para alumnos de [GRADO].\nUsa situaciones cercanas a su realidad y evita ejemplos abstractos.\nSiempre que se pueda, usa ejemplos relacionados con Perú o con el contexto local.\nDespués de cada ejemplo, explica en dos líneas cómo se relaciona con el concepto."
+  },
+  {
+   "c": "crear",
    "t": "Analogías para explicar",
    "p": "Cuándo: necesitas otra entrada al mismo concepto.",
    "x": "Crea [3] analogías sencillas para explicar [CONCEPTO] a alumnos de [GRADO].\nPara cada analogía indica:\n- Qué representa cada elemento.\n- En qué ayuda la comparación.\n- En qué punto deja de ser exacta.\nEvita analogías que puedan generar una idea equivocada."
@@ -129,6 +141,12 @@ const PREMIUM = {
   },
   {
    "c": "adaptar",
+   "t": "Cambia solo lo marcado",
+   "p": "El más seguro: evita que te reescriba todo el documento.",
+   "x": "Te compartiré un texto. Modifica únicamente lo que esté entre corchetes o claramente marcado.\nNo reescribas, resumas ni cambies ninguna otra parte.\nMantén el formato y el tono original.\nAl terminar, indícame brevemente qué cambiaste."
+  },
+  {
+   "c": "adaptar",
    "t": "Tres niveles de dificultad",
    "p": "Cuándo: el aula va a ritmos distintos.",
    "x": "Crea tres versiones de esta actividad sobre [TEMA]:\n1. Una versión básica.\n2. Una versión intermedia.\n3. Una versión avanzada.\nMantén el mismo objetivo en las tres.\nIndica claramente qué cambia entre cada nivel."
@@ -138,6 +156,12 @@ const PREMIUM = {
    "t": "Adaptar sin tocar el contenido",
    "p": "Cuándo: el material es correcto pero está mal calibrado.",
    "x": "Adapta este material para alumnos de [GRADO].\nNo cambies los conceptos, datos ni objetivos.\nModifica únicamente: complejidad del vocabulario, longitud de las oraciones, cantidad de ejemplos y claridad de las instrucciones.\nIndica cualquier parte que no pueda simplificarse sin perder precisión."
+  },
+  {
+   "c": "adaptar",
+   "t": "Material para el que faltó",
+   "p": "Cuándo: alguien no vino y no quieres repetir la clase en el recreo.",
+   "x": "Un alumno de [GRADO] faltó a la clase de [TEMA].\nEscríbele una explicación de una página para que se ponga al día solo.\nIncluye: qué vimos, un ejemplo y 3 preguntas para que compruebe si entendió.\nHáblale directamente a él, en un tono cercano."
   },
   {
    "c": "adaptar",
@@ -198,6 +222,12 @@ const PREMIUM = {
    "t": "Más ejercicios como este",
    "p": "Cuándo: tienes un ejercicio bueno y necesitas diez iguales.",
    "x": "Este es un ejercicio que uso con [GRADO]:\n[PEGA AQUÍ TU EJERCICIO]\nHazme [8] ejercicios parecidos, del mismo nivel, cambiando los números y las situaciones.\nPon las respuestas al final, separadas."
+  },
+  {
+   "c": "evaluar",
+   "t": "Retroalimentación de un trabajo",
+   "p": "Cuándo: quieres devolver algo más útil que \"bien\" o \"mejorar\".",
+   "x": "Revisa el siguiente trabajo de un alumno de [GRADO] usando estos criterios: [CRITERIOS].\n[PEGA AQUÍ EL TRABAJO]\nNo cambies su texto.\nSeñala: dos aspectos logrados, dos que podrían mejorar y una recomendación concreta para el siguiente intento.\nUsa un tono respetuoso y específico. No inventes información sobre el alumno."
   },
   {
    "c": "evaluar",
@@ -264,6 +294,12 @@ const PREMIUM = {
    "t": "Programación de la unidad",
    "p": "Cuándo: hay que entregar la planificación del bimestre.",
    "x": "Ayúdame a armar la programación de una unidad de [CURSO] para [GRADO] sobre [TEMA GENERAL].\nSon [8] sesiones de [45] minutos.\nPara cada sesión: el tema del día, qué deben lograr y una actividad.\nDime también qué evalúo y en qué sesión."
+  },
+  {
+   "c": "trucos",
+   "t": "Pedir otra versión",
+   "p": "Cuándo: te sirve, pero no del todo.",
+   "x": "Está bien encaminado, pero:\n- Hazlo más [corto / simple / concreto].\n- Cambia [LO QUE NO TE GUSTÓ].\n- Mantén [LO QUE SÍ TE GUSTÓ].\nDame la versión corregida completa."
   },
   {
    "c": "trucos",

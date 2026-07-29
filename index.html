@@ -678,6 +678,20 @@ button{font-family:inherit;cursor:pointer;}
 .teacher-btn.violet:hover{background:rgba(139,92,246,.3);}
 
 
+
+/* ── SESIONES FUTURAS, PLEGADAS ── */
+.future-fold{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;margin-top:1.1rem;}
+.future-fold>summary{list-style:none;cursor:pointer;padding:.85rem 1.05rem;
+  display:flex;align-items:center;gap:.6rem;}
+.future-fold>summary::-webkit-details-marker{display:none;}
+.future-fold>summary:hover{background:var(--surface);}
+.future-fold .ff-t{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:var(--fs-base);}
+.future-fold .ff-n{flex:1;font-size:var(--fs-xs);color:var(--text-muted);}
+.future-fold .ff-fl{color:var(--text-muted);transition:transform .2s;}
+.future-fold[open] .ff-fl{transform:rotate(180deg);}
+.future-fold .future-grid{padding:0 1.05rem 1.05rem;}
+
 /* ── RANKING: la tarjeta con más peso del panel ── */
 .rank-card{background:var(--lilac);border:1px solid #b49ae8;border-radius:var(--radius);
   padding:1rem 1.1rem 1.1rem;margin:0 0 1.1rem;}
@@ -2176,7 +2190,7 @@ function tryUnlock(){
   if(input.value === CORRECT_PW){
     localStorage.setItem(PASS_KEY, '1');
     updateLogoutBtn();
-    renderPanel(currentGrade);
+    repintar();
   } else {
     input.value = '';
     input.classList.add('shake');
@@ -2190,6 +2204,8 @@ function tryUnlock(){
 function lock(){
   localStorage.removeItem(PASS_KEY);
   updateLogoutBtn();
+  // En la consola, salir devuelve al muro; no a la vista del alumno.
+  if(ES_CONSOLA){ pedirClave(); return; }
   renderPanel(currentGrade);
 }
 
@@ -2371,12 +2387,17 @@ function renderPanel(gradeId){
 
     const rest = nextItem ? futureItems.slice(1) : futureItems;
     if(rest.length){
-      html += `<div class="section-label sl-future">📅 Sesiones futuras <span class="sl-count">${rest.length}</span></div>`;
-      html += `<div class="future-grid">`;
+      html += `<details class="future-fold">
+        <summary>
+          <span class="ff-t">📅 Sesiones futuras</span>
+          <span class="ff-n">${rest.length} planificadas</span>
+          <span class="ff-fl">▾</span>
+        </summary>
+        <div class="future-grid">`;
       rest.forEach(item=>{
         html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, true);
       });
-      html += `</div>`;
+      html += `</div></details>`;
     }
 
     if(!futureItems.length && !todayItem){
@@ -3469,6 +3490,15 @@ async function syncEvalsFromBlobs(){
 const GRADE_LABEL_SHORT = {all:'Todos los salones', prim6:'6.° Primaria', sec2:'2.° Secundaria',
                            sec3:'3.° Secundaria', sec4:'4.° Secundaria', sec5:'5.° Secundaria'};
 
+
+/** Repinta la superficie que toca. Nunca pisa el muro de contraseña:
+ *  loadShifts y demás terminan async y borraban el formulario a medio llenar. */
+function repintar(){
+  if(ES_CONSOLA && !isUnlocked()) return;   // el muro se queda
+  if(ES_CONSOLA){ renderConsola(currentGrade); return; }
+  renderPanel(currentGrade);
+}
+
 /** Trae los aplazamientos del backend. Si falla, se queda con la copia local. */
 async function loadShifts(){
   try{
@@ -3478,7 +3508,7 @@ async function loadShifts(){
     if(Array.isArray(d.shifts)){
       SHIFTS = d.shifts;
       localStorage.setItem('cal_shifts', JSON.stringify(SHIFTS));
-      renderPanel(currentGrade);
+      repintar();
     }
   }catch(_){ /* sin red: seguimos con lo que hay en localStorage */ }
 }
@@ -3497,7 +3527,7 @@ async function saveShifts(){
     SHIFTS = d.shifts || SHIFTS;
     localStorage.setItem('cal_shifts', JSON.stringify(SHIFTS));
     if(st) st.textContent = '✅ Guardado. Todos verán las fechas nuevas.';
-    renderSchedulePanel(); renderPanel(currentGrade);
+    renderSchedulePanel(); repintar();
   }catch(e){
     // No decimos "listo" si no se guardó: la profesora reprogramaría a ciegas.
     if(st) st.textContent = '⚠️ No se pudo guardar (' + e.message + '). Vuelve a intentar.';
@@ -3819,7 +3849,7 @@ function panelDespues(it, gradeId){
     <div class="cns-acts">
       <button class="cns-act primaria" onclick="openResults(${it.sd.n}, '${gradeId}')">
         <span class="a-em">📊</span><b>Ver quién rindió</b><span>Notas de la evaluación, una por alumno</span></button>
-      <button class="cns-act" onclick="openTasksPanel(${it.sd.n}, '${gradeId}')">
+      <button class="cns-act" onclick="openTasks(${it.sd.n}, '${gradeId}')">
         <span class="a-em">📬</span><b>Ver entregas</b><span>Quién entregó y quién falta</span></button>
       <button class="cns-act" onclick="openRankingModal('${gradeId}')">
         <span class="a-em">🏆</span><b>Ranking del mes</b><span>Notas más puntos de participación</span></button>

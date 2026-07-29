@@ -84,34 +84,37 @@ button{font-family:inherit;cursor:pointer;}
 .site-header p{font-size:var(--fs-sm);color:var(--text-dim);margin:.35rem 0 0;position:relative;}
 
 /* ── GRADE TABS ──────────────────────────────────────────── */
+/* ── SELECTOR DE AULA ──
+   Pastillas, no pestañas: la barra con divisorias y subrayado se leía
+   como una tabla sobre el papel blanco. Cada aula conserva su color,
+   que es identidad en todo el sistema. */
 .grade-tabs{
-  display:flex;overflow-x:auto;
+  display:flex;gap:.4rem;overflow-x:auto;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
+  padding:.85rem 1rem;
+  background:transparent;
 }
 .grade-tabs::-webkit-scrollbar{display:none;}
 .gtab{
   --gaccent:var(--accent);
   flex:0 0 auto;
+  display:inline-flex;align-items:center;gap:.4rem;
   color:var(--text-muted);
-  background:transparent;
-  padding:.85rem 1.2rem;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:100px;
+  padding:.5rem 1rem;
   font-size:var(--fs-sm);font-weight:600;
-  border-bottom:2px solid transparent;
-  border-right:1px solid var(--border);
-  white-space:nowrap;
-  transition:color .15s,background .15s,border-bottom-color .15s;
+  white-space:nowrap;cursor:pointer;font-family:inherit;
+  transition:color .15s,background .15s,border-color .15s;
   -webkit-tap-highlight-color:transparent;
 }
-.gtab:hover{color:var(--text);background:var(--surface);}
+.gtab:hover{color:var(--text);border-color:var(--line-strong);}
 .gtab.active{
   color:var(--text);
-  font-weight:800;
-  border-bottom-color:var(--gaccent);
-  background:color-mix(in srgb, var(--gaccent) 9%, transparent);
   font-weight:700;
+  border-color:var(--gaccent);
+  background:color-mix(in srgb, var(--gaccent) 12%, #fff);
 }
 
 /* ── PROGRESS BAR ────────────────────────────────────────── */
@@ -1201,11 +1204,13 @@ button{font-family:inherit;cursor:pointer;}
 /* — selector de aula — */
 .cns-aulas{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:.9rem;scrollbar-width:none;}
 .cns-aulas::-webkit-scrollbar{display:none;}
-.cns-aula-btn{flex-shrink:0;background:#fff;border:1px solid var(--border);color:var(--text-muted);
-  border-radius:100px;padding:.4rem .95rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;
+.cns-aula-btn{--gaccent:var(--accent);flex-shrink:0;display:inline-flex;align-items:center;gap:.4rem;
+  background:#fff;border:1px solid var(--border);color:var(--text-muted);
+  border-radius:100px;padding:.45rem 1rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;
   font-family:inherit;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
 .cns-aula-btn:hover{color:var(--text);border-color:var(--line-strong);}
-.cns-aula-btn.on{background:#000;border-color:#000;color:#fff;}
+.cns-aula-btn.on{color:var(--text);font-weight:700;border-color:var(--gaccent);
+  background:color-mix(in srgb, var(--gaccent) 12%, #fff);}
 
 /* — los tres momentos — */
 .cns-momentos{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.1rem;}
@@ -3761,7 +3766,7 @@ function renderConsola(gradeId){
     </div>
 
     <div class="cns-aulas">${GRADE_ORDER.map(id=>
-      `<button class="cns-aula-btn${id===gradeId?' on':''}" onclick="irAula('${id}')">${GRADES[id].emoji} ${GRADES[id].label}</button>`
+      `<button class="cns-aula-btn${id===gradeId?' on':''}" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="irAula('${id}')">${GRADES[id].emoji} ${GRADES[id].label}</button>`
     ).join('')}</div>
 
     <div class="cns-momentos">

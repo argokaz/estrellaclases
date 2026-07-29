@@ -494,13 +494,13 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(23px,3.6vw,54px);font-
     52%{opacity:1;transform:none}90%{opacity:1;transform:none}97%,100%{opacity:0}}
 
   /* — DEMO GEMINI: escribes, responde — */
-  .s.on .gm-mask{animation:gmMask 12s steps(28,end) infinite both}
-  @keyframes gmMask{0%{transform:translateX(0)}30%{transform:translateX(268px)}92%{transform:translateX(268px)}
+  /* el recorrido (180px) es exactamente el ancho del texto: si se cambia la frase, hay que remedirlo */
+  .s.on .gm-mask{animation:gmMask 12s steps(36,end) infinite both}
+  @keyframes gmMask{0%{transform:translateX(0)}30%,92%{transform:translateX(180px)}
     93%,100%{transform:translateX(0)}}
-  .s.on .gm-cur{animation:gmCur 12s linear infinite both,gmBlink .8s steps(2,end) infinite}
-  @keyframes gmCur{0%{transform:translateX(0);opacity:1}30%{transform:translateX(268px);opacity:1}
-    34%,92%{opacity:0}93%,100%{transform:translateX(0);opacity:1}}
-  @keyframes gmBlink{50%{opacity:.15}}
+  .s.on .gm-cur{animation:gmCur 12s steps(36,end) infinite both}
+  @keyframes gmCur{0%{transform:translateX(0);opacity:1}30%{transform:translateX(180px);opacity:1}
+    31%,92%{transform:translateX(180px);opacity:0}93%,100%{transform:translateX(0);opacity:1}}
   .s.on .gm-send{animation:gmSend 12s linear infinite both}
   @keyframes gmSend{0%,31%{fill:rgba(163,230,53,.25)}35%,44%{fill:#a3e635}48%,100%{fill:rgba(163,230,53,.25)}}
   .s.on .gm-ln{animation:gmLn 12s ease-out infinite both}
@@ -558,6 +558,33 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
     <div class="hw"><div class="n">✓</div><b>Deciden en el momento</b><p>Cambian de ejemplo sin pensarlo.</p></div>
   </div>
   <p class="gain" style="width:min(72vw,880px);text-align:left">🎓 Hoy no hablamos de <b>cómo enseñar</b>. Hablamos de <b>cómo preparar</b>.</p>
+</section>
+
+<!-- NUEVA · LA IA NO ES ENEMIGA -->
+<section class="s" style="--glow:#a3e635">
+  <h2>La IA no viene por tu trabajo.</h2>
+  <p class="lead" style="max-width:46ch">Viene a hacer <b>la parte aburrida</b>: tipear, ordenar, dar formato, repetir.</p>
+  <div class="duo" style="margin-top:2.6%">
+    <div class="pn b" style="background:rgba(248,113,113,.05);border-top-color:rgba(248,113,113,.5)">
+      <h3 style="color:#f87171">Lo que NO puede hacer</h3>
+      <ul>
+        <li>Conocer a tus alumnos</li>
+        <li>Saber quién está mal hoy</li>
+        <li>Elegir el ejemplo que a ellos les llega</li>
+        <li>Decidir qué vale la pena enseñar</li>
+      </ul>
+    </div>
+    <div class="pn a">
+      <h3>Lo que sí hace bien</h3>
+      <ul>
+        <li>Escribir el borrador</li>
+        <li>Ordenar y dar formato</li>
+        <li>Hacer diez versiones de algo</li>
+        <li>Leer 40 páginas en un minuto</li>
+      </ul>
+    </div>
+  </div>
+  <p class="gain" style="width:min(76vw,940px);text-align:left">🤝 <b>Es una aliada, no una rival</b> — siempre que sepas pedirle bien. Eso es lo que vamos a aprender.</p>
 </section>
 
 <!-- 4 · LO QUE CAMBIÓ -->
@@ -816,7 +843,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
     <rect x="0" y="0" width="340" height="210" rx="10" fill="#0a0e15" stroke="rgba(255,255,255,.14)"/>
     <rect x="16" y="16" width="308" height="34" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(251,191,36,.35)"/>
     <text x="28" y="37" font-family="Inter" font-size="10" fill="#e7e9ee">Hazme 5 preguntas del ciclo del agua</text>
-    <rect class="gm-mask" x="26" y="18" width="290" height="30" fill="#10141b"/>
+    <rect class="gm-mask" x="26" y="18" width="290" height="30" fill="#161a21"/>
     <rect class="gm-cur" x="27" y="24" width="1.6" height="18" fill="var(--gold)"/>
     <rect class="gm-send" x="292" y="24" width="20" height="18" rx="5" fill="rgba(163,230,53,.25)"/>
     <path d="M298,33 h8 M303,30 l3,3 l-3,3" stroke="#0a0e15" stroke-width="1.6" stroke-linecap="round" fill="none"/>
@@ -873,6 +900,64 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
     <div class="prompt"><span class="ph">Cambia solo lo marcado</span>Soy profesor de <em>[curso]</em>. Necesito <em>[qué cosa]</em> sobre <em>[tema]</em> para alumnos de <em>[grado]</em>.<br>
     Que sean <em>[cuántos]</em>, con palabras sencillas.<br>
     No inventes datos y avísame qué debo revisar.</div>
+  </div>
+</section>
+
+<!-- PROMPT DESTACADO 1 -->
+<section class="s" style="--glow:#fbbf24">
+  <span class="eyebrow"><i>Útil</i> Para copiar hoy</span>
+  <h2 style="margin-top:.6%">Tu separata, convertida en diapositivas</h2>
+  <div class="promptwrap">
+    <div class="prompt"><span class="ph">Adjunta el documento y escribe</span>Convierte el documento adjunto en una presentación para alumnos de <em>[GRADO]</em>.<br>
+    Crea <em>[10]</em> diapositivas. Cada una: un título, una idea principal y una sugerencia de imagen.<br>
+    Usa poco texto y conserva los datos importantes.<br>
+    <em>No agregues información que no aparezca en el documento.</em></div>
+  </div>
+</section>
+
+<!-- PROMPT DESTACADO 2 -->
+<section class="s" style="--glow:#fbbf24">
+  <span class="eyebrow"><i>Útil</i> Para copiar hoy</span>
+  <h2 style="margin-top:.6%">Alternativas falsas que sí engañan</h2>
+  <div class="promptwrap">
+    <div class="prompt"><span class="ph">Pega tus preguntas y escribe</span>Para cada una de estas preguntas, crea tres alternativas incorrectas <em>pero creíbles</em>.<br>
+    Deben ser <em>errores que de verdad comete</em> un alumno de <em>[GRADO]</em>.<br>
+    Que la correcta no se note por ser más larga o estar mejor redactada.<br>
+    Explica brevemente por qué cada alternativa es incorrecta.</div>
+  </div>
+  <p class="dcap">El que más mejora una prueba de alternativas.</p>
+</section>
+
+<!-- PROMPT DESTACADO 3 -->
+<section class="s" style="--glow:#f87171">
+  <span class="eyebrow"><i>Útil</i> Para copiar hoy</span>
+  <h2 style="margin-top:.6%">Qué debo verificar antes de usarlo</h2>
+  <div class="promptwrap">
+    <div class="prompt"><span class="ph">Úsalo antes de llevar cualquier material al aula</span>Revisa este material e indícame qué afirmaciones debería verificar antes de usarlo en clase.<br>
+    Fíjate en <em>fechas, nombres, cifras, definiciones y citas</em>.<br>
+    <em>No supongas que algo es correcto solo porque está escrito.</em><br>
+    Ponlo en una tabla.</div>
+  </div>
+</section>
+
+<!-- LA WEB DE PROMPTS -->
+<section class="s" style="--glow:#a3e635">
+  <h2>Y hay 48 más, esperándote.</h2>
+  <p class="lead" style="max-width:44ch">Todos listos para copiar, ordenados por lo que necesitas hacer.</p>
+  <div class="stage" style="margin-top:2.2%;gap:clamp(18px,3.4vw,54px)">
+    <div style="background:#fff;border-radius:14px;padding:clamp(9px,1.1vw,15px);line-height:0;box-shadow:0 18px 44px rgba(0,0,0,.55)">
+      <svg viewBox="-2 -2 37 37" style="width:clamp(96px,13vw,168px);height:auto;display:block" role="img" aria-label="Código QR a clases.estrellavizcarra.com/prompts"><rect x="-2" y="-2" width="37" height="37" fill="#fff"/><path d="M0 0h7v1h-7zM8 0h2v1h-2zM13 0h2v1h-2zM16 0h4v1h-4zM23 0h1v1h-1zM26 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM10 1h2v1h-2zM18 1h1v1h-1zM21 1h4v1h-4zM26 1h1v1h-1zM32 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM12 2h1v1h-1zM14 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM22 2h2v1h-2zM26 2h1v1h-1zM28 2h3v1h-3zM32 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM15 3h4v1h-4zM22 3h3v1h-3zM26 3h1v1h-1zM28 3h3v1h-3zM32 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM11 4h2v1h-2zM14 4h2v1h-2zM17 4h4v1h-4zM22 4h2v1h-2zM26 4h1v1h-1zM28 4h3v1h-3zM32 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM11 5h2v1h-2zM15 5h1v1h-1zM18 5h3v1h-3zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h7v1h-7zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h2v1h-2zM16 7h2v1h-2zM21 7h1v1h-1zM24 7h1v1h-1zM1 8h1v1h-1zM3 8h1v1h-1zM5 8h6v1h-6zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM21 8h2v1h-2zM24 8h4v1h-4zM29 8h2v1h-2zM32 8h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM17 9h1v1h-1zM20 9h2v1h-2zM24 9h4v1h-4zM32 9h1v1h-1zM0 10h2v1h-2zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM18 10h2v1h-2zM21 10h1v1h-1zM25 10h4v1h-4zM30 10h1v1h-1zM32 10h1v1h-1zM0 11h2v1h-2zM3 11h1v1h-1zM7 11h1v1h-1zM11 11h4v1h-4zM16 11h1v1h-1zM18 11h2v1h-2zM21 11h1v1h-1zM23 11h1v1h-1zM26 11h1v1h-1zM28 11h2v1h-2zM32 11h1v1h-1zM2 12h3v1h-3zM6 12h1v1h-1zM12 12h3v1h-3zM18 12h1v1h-1zM20 12h2v1h-2zM24 12h1v1h-1zM26 12h1v1h-1zM29 12h1v1h-1zM0 13h1v1h-1zM3 13h3v1h-3zM7 13h3v1h-3zM11 13h3v1h-3zM15 13h2v1h-2zM18 13h1v1h-1zM22 13h1v1h-1zM26 13h1v1h-1zM28 13h5v1h-5zM2 14h2v1h-2zM5 14h3v1h-3zM10 14h1v1h-1zM14 14h1v1h-1zM20 14h2v1h-2zM23 14h1v1h-1zM25 14h2v1h-2zM29 14h1v1h-1zM31 14h1v1h-1zM2 15h2v1h-2zM5 15h1v1h-1zM9 15h1v1h-1zM15 15h4v1h-4zM21 15h1v1h-1zM23 15h2v1h-2zM26 15h2v1h-2zM31 15h1v1h-1zM1 16h1v1h-1zM3 16h1v1h-1zM6 16h1v1h-1zM10 16h2v1h-2zM14 16h1v1h-1zM17 16h7v1h-7zM26 16h1v1h-1zM28 16h1v1h-1zM31 16h1v1h-1zM2 17h1v1h-1zM9 17h2v1h-2zM12 17h5v1h-5zM18 17h1v1h-1zM23 17h3v1h-3zM27 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM1 18h1v1h-1zM3 18h1v1h-1zM5 18h4v1h-4zM10 18h2v1h-2zM15 18h3v1h-3zM20 18h2v1h-2zM25 18h1v1h-1zM30 18h3v1h-3zM0 19h2v1h-2zM7 19h1v1h-1zM9 19h5v1h-5zM15 19h1v1h-1zM17 19h3v1h-3zM21 19h1v1h-1zM23 19h1v1h-1zM26 19h2v1h-2zM32 19h1v1h-1zM5 20h2v1h-2zM9 20h7v1h-7zM18 20h1v1h-1zM20 20h2v1h-2zM23 20h3v1h-3zM27 20h1v1h-1zM31 20h1v1h-1zM5 21h1v1h-1zM8 21h1v1h-1zM12 21h1v1h-1zM14 21h4v1h-4zM20 21h2v1h-2zM24 21h3v1h-3zM29 21h1v1h-1zM31 21h2v1h-2zM0 22h4v1h-4zM6 22h2v1h-2zM13 22h1v1h-1zM16 22h5v1h-5zM22 22h1v1h-1zM25 22h2v1h-2zM28 22h2v1h-2zM32 22h1v1h-1zM1 23h1v1h-1zM3 23h2v1h-2zM10 23h2v1h-2zM13 23h2v1h-2zM17 23h1v1h-1zM19 23h1v1h-1zM21 23h4v1h-4zM27 23h1v1h-1zM29 23h1v1h-1zM0 24h1v1h-1zM5 24h5v1h-5zM11 24h4v1h-4zM17 24h2v1h-2zM21 24h1v1h-1zM23 24h6v1h-6zM8 25h1v1h-1zM13 25h4v1h-4zM19 25h2v1h-2zM23 25h2v1h-2zM28 25h2v1h-2zM31 25h2v1h-2zM0 26h7v1h-7zM8 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM16 26h1v1h-1zM18 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM8 27h1v1h-1zM11 27h3v1h-3zM15 27h1v1h-1zM18 27h5v1h-5zM24 27h1v1h-1zM28 27h1v1h-1zM0 28h1v1h-1zM2 28h3v1h-3zM6 28h1v1h-1zM12 28h2v1h-2zM15 28h1v1h-1zM17 28h3v1h-3zM21 28h2v1h-2zM24 28h6v1h-6zM31 28h2v1h-2zM0 29h1v1h-1zM2 29h3v1h-3zM6 29h1v1h-1zM8 29h3v1h-3zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h3v1h-3zM21 29h2v1h-2zM26 29h1v1h-1zM28 29h1v1h-1zM31 29h1v1h-1zM0 30h1v1h-1zM2 30h3v1h-3zM6 30h1v1h-1zM9 30h3v1h-3zM16 30h1v1h-1zM20 30h4v1h-4zM28 30h3v1h-3zM32 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM8 31h2v1h-2zM11 31h2v1h-2zM14 31h2v1h-2zM17 31h2v1h-2zM21 31h1v1h-1zM23 31h2v1h-2zM0 32h7v1h-7zM9 32h1v1h-1zM11 32h2v1h-2zM14 32h2v1h-2zM20 32h2v1h-2zM24 32h3v1h-3zM28 32h1v1h-1zM31 32h1v1h-1z" fill="#0a0c11"/></svg>
+    </div>
+    <div style="text-align:left">
+      <div style="font-family:'Space Grotesk';font-weight:800;font-size:clamp(13px,1.7vw,26px);color:var(--lime);letter-spacing:-.01em;margin-bottom:.5em">clases.estrellavizcarra.com<span style="opacity:.6">/prompts</span></div>
+      <ul class="steps plain" style="margin-top:0">
+        <li>📚 Crear materiales</li>
+        <li>🔀 Adaptar contenidos</li>
+        <li>✏️ Evaluar y retroalimentar</li>
+        <li>🔍 Revisar y verificar</li>
+      </ul>
+      <p class="tiny" style="margin-top:1.2em">Escanea el código y guárdala en tu celular.</p>
+    </div>
   </div>
 </section>
 
@@ -940,7 +1025,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
 <nav class="nav">
   <button class="nb" id="prev" aria-label="Anterior">← Atrás</button>
   <div class="dots" id="dots"></div>
-  <span id="count">1 / 28</span>
+  <span id="count">1 / 33</span>
   <button class="nb" id="next" aria-label="Siguiente">Siguiente →</button>
   <button class="nb g" id="auto" aria-label="Reproducir solo">▶ Auto</button>
 </nav>
@@ -1019,7 +1104,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
 
   // ── auto-play ──
   // pantallas que muestran: cortas · pantallas que explican: tiempo para leer
-  var DUR=[6500,6500,8000,8000,6500,10000,8000,6500,8000,13000,8000,8000,6500,8000,13000,8000,6500,8000,13000,10000,8000,10000,8000,8000,6500,10000,8000,6500];
+  var DUR=[6500,6500,8000,11000,8000,6500,11000,8000,6500,8000,13000,8000,8000,6500,8000,13000,8000,6500,8000,13000,11000,8000,11000,11000,11000,11000,11000,8000,8000,6500,11000,8000,6500];
   var btn=document.getElementById('auto');
   function tick(){
     timer=setTimeout(function(){

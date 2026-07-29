@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prompts para profesores · Asunción School</title>
+<meta name="description" content="Instrucciones listas para copiar y pegar en Gemini o ChatGPT: preparar clases, hacer preguntas, adaptar textos, corregir y ahorrar tiempo.">
+<meta name="theme-color" content="#0a0c11">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0c11; --ink2:#0f1219; --ink3:#151922;
+  --lime:#a3e635; --lime2:#d3f184; --limeInk:#131a02;
+  --paper:#e7e9ee; --muted:#9aa2b1; --dim:#656d7d;
+  --gold:#fbbf24; --line:rgba(255,255,255,.09);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink); color:var(--paper); font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.5; padding-bottom:64px;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 1px,transparent 1px 78px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 78px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* ── HERO ── */
+.hero{position:relative;padding:clamp(46px,8vw,96px) 0 clamp(26px,4vw,44px);overflow:hidden}
+.hero::before{content:'';position:absolute;width:56%;height:150%;border-radius:50%;top:-42%;right:-12%;pointer-events:none;
+  background:radial-gradient(circle,rgba(163,230,53,.14) 0%,transparent 65%)}
+.hero>*{position:relative}
+.kick{display:inline-flex;align-items:center;gap:.45em;background:rgba(163,230,53,.1);border:1px solid rgba(163,230,53,.32);
+  color:var(--lime);border-radius:100px;padding:.34em 1em;font-size:13px;font-weight:700;
+  font-family:'Space Grotesk',sans-serif;letter-spacing:.04em;margin-bottom:1.1em}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,5.6vw,62px);font-weight:800;line-height:1.04;letter-spacing:-.03em}
+.sub{font-size:clamp(15px,1.7vw,21px);color:var(--muted);max-width:56ch;margin-top:.85em}
+.sub b{color:var(--paper);font-weight:600}
+.how3{display:flex;gap:clamp(10px,1.5vw,20px);margin-top:clamp(20px,3vw,34px);flex-wrap:wrap}
+.h3c{flex:1 1 220px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-top:2px solid var(--lime);
+  border-radius:12px;padding:14px 16px}
+.h3c b{display:block;font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:.25em}
+.h3c span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.h3c i{font-style:normal;color:var(--lime);font-family:'Space Grotesk',sans-serif;font-weight:800;margin-right:.4em}
+
+/* ── CONTROLES ── */
+.tools{position:sticky;top:0;z-index:30;background:rgba(10,12,17,.93);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:clamp(20px,3vw,34px)}
+.searchbox{position:relative;margin-bottom:10px}
+#q{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:11px;color:var(--paper);
+  font-family:inherit;font-size:15px;padding:11px 40px 11px 38px;outline:none}
+#q:focus{border-color:rgba(163,230,53,.5)}
+#q::placeholder{color:var(--dim)}
+.searchbox .mg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
+#clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);
+  cursor:pointer;font-size:17px;padding:4px 8px;display:none}
+#clr:hover{color:var(--paper)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);
+  border-radius:100px;padding:.44em 1em;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:background .18s,color .18s,border-color .18s;white-space:nowrap}
+.chip:hover{color:var(--paper);border-color:rgba(255,255,255,.22)}
+.chip.on{background:var(--lime);border-color:var(--lime);color:var(--limeInk)}
+
+/* ── LISTA ── */
+.cat{margin-bottom:clamp(26px,4vw,46px)}
+.cat h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,2.4vw,29px);font-weight:800;letter-spacing:-.02em;
+  margin-bottom:.7em;display:flex;align-items:center;gap:.45em}
+.cat h2 small{font-size:13px;font-weight:600;color:var(--dim);font-family:'Inter';letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:clamp(12px,1.6vw,20px)}
+.card{background:linear-gradient(158deg,rgba(255,255,255,.045),rgba(255,255,255,.022));
+  border:1px solid var(--line);border-radius:14px;padding:clamp(15px,1.8vw,22px);display:flex;flex-direction:column}
+.card h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(15px,1.65vw,19px);font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.when{font-size:13px;color:var(--dim);margin-top:.4em;line-height:1.4}
+pre{background:#070a0f;border:1px solid var(--line);border-top:2px solid rgba(163,230,53,.42);border-radius:10px;
+  padding:13px 14px;margin-top:13px;font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.55;
+  color:var(--paper);white-space:pre-wrap;word-break:break-word;flex:1}
+pre mark{background:rgba(163,230,53,.14);color:var(--lime2);border-radius:4px;padding:0 .25em;font-weight:600}
+.copy{margin-top:11px;align-self:flex-start;background:rgba(163,230,53,.11);border:1px solid rgba(163,230,53,.4);
+  color:var(--lime);border-radius:100px;padding:.5em 1.15em;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:13.5px;cursor:pointer;transition:background .18s,color .18s}
+.copy:hover{background:var(--lime);color:var(--limeInk)}
+.copy.ok{background:var(--lime);color:var(--limeInk);border-color:var(--lime)}
+#empty{display:none;text-align:center;padding:50px 20px;color:var(--muted)}
+#empty b{display:block;font-family:'Space Grotesk',sans-serif;font-size:19px;color:var(--paper);margin-bottom:.4em}
+
+/* ── GUARDAR ── */
+.save{margin-top:clamp(34px,5vw,64px);background:linear-gradient(158deg,#0c1017,#12171f);
+  border:1px solid var(--line);border-top:2px solid var(--lime);border-radius:18px;
+  padding:clamp(22px,3.4vw,44px);display:grid;grid-template-columns:1fr auto;gap:clamp(20px,3.4vw,48px);align-items:center}
+.save h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(21px,2.7vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.save p{color:var(--muted);margin-top:.6em;font-size:clamp(14px,1.5vw,17px);max-width:40ch}
+.qrbox{text-align:center}
+.qrcard{background:#fff;border-radius:14px;padding:12px;display:inline-block;line-height:0;
+  box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.qrcard svg{display:block;width:clamp(120px,15vw,168px);height:auto}
+.qrbox .url{font-family:'Space Grotesk',sans-serif;font-size:12.5px;color:var(--lime);margin-top:.75em;letter-spacing:.01em;word-break:break-all}
+.steps{list-style:none;counter-reset:s;margin-top:1.4em;display:flex;flex-direction:column;gap:.5em}
+.steps li{position:relative;padding-left:2.1em;font-size:clamp(13.5px,1.4vw,16px);color:var(--muted);line-height:1.45}
+.steps li b{color:var(--paper);font-weight:600}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:.02em;width:1.5em;height:1.5em;
+  border-radius:50%;display:grid;place-items:center;background:rgba(163,230,53,.13);border:1px solid rgba(163,230,53,.42);
+  color:var(--lime);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8em}
+.androw{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,40px);align-items:center;
+  margin-top:clamp(20px,3vw,36px);padding-top:clamp(20px,3vw,32px);border-top:1px solid var(--line);grid-column:1/-1}
+.androw .cap{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(14px,1.6vw,19px);margin-bottom:.5em}
+.phone-demo{width:clamp(150px,19vw,210px);height:auto;display:block}
+
+/* ── PIE ── */
+footer{margin-top:clamp(34px,5vw,60px);padding-top:24px;border-top:1px solid var(--line);
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+footer a{color:var(--lime);text-decoration:none;font-weight:600;font-size:14.5px}
+footer a:hover{text-decoration:underline}
+footer span{font-size:13px;color:var(--dim)}
+
+/* ── AVISO COPIADO ── */
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,90px);background:var(--lime);color:var(--limeInk);
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;padding:.7em 1.4em;border-radius:100px;
+  box-shadow:0 12px 34px rgba(0,0,0,.5);z-index:80;transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
+#toast.on{transform:translate(-50%,0)}
+
+@media(max-width:760px){
+  .save{grid-template-columns:1fr;text-align:left}
+  .qrbox{justify-self:start}
+  .androw{grid-template-columns:1fr;gap:16px}
+  .grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .card{transition:border-color .2s,transform .2s}
+  .card:hover{border-color:rgba(163,230,53,.3);transform:translateY(-2px)}
+  /* — cómo guardar en Android — */
+  .an-menu{animation:anMenu 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:top right}
+  @keyframes anMenu{0%,14%{opacity:0;transform:scale(.7)}20%,52%{opacity:1;transform:none}58%,100%{opacity:0;transform:scale(.7)}}
+  .an-tap{animation:anTap 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
+  @keyframes anTap{0%,6%{opacity:0;transform:scale(.4)}10%{opacity:.85;transform:scale(1)}
+    16%{opacity:0;transform:scale(1.5)}30%{opacity:0;transform:scale(.4)}
+    34%{opacity:.85;transform:scale(1)}40%{opacity:0;transform:scale(1.5)}100%{opacity:0}}
+  .an-tap.t2{animation-name:anTap2}
+  @keyframes anTap2{0%,30%{opacity:0;transform:scale(.4)}36%{opacity:.85;transform:scale(1)}
+    44%,100%{opacity:0;transform:scale(1.6)}}
+  .an-hl{animation:anHl 13s ease-in-out infinite both}
+  @keyframes anHl{0%,32%{opacity:0}38%,52%{opacity:1}58%,100%{opacity:0}}
+  .an-home{animation:anHome 13s ease-in-out infinite both}
+  @keyframes anHome{0%,58%{opacity:0}66%,94%{opacity:1}98%,100%{opacity:0}}
+  .an-page{animation:anPage 13s ease-in-out infinite both}
+  @keyframes anPage{0%,56%{opacity:1}62%,94%{opacity:0}98%,100%{opacity:1}}
+  .an-icon{animation:anIcon 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
+  @keyframes anIcon{0%,64%{opacity:0;transform:scale(.3)}72%{opacity:1;transform:scale(1)}
+    94%{opacity:1;transform:scale(1)}98%,100%{opacity:0}}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <span class="kick">✨ Para usar en Gemini, ChatGPT o Copilot</span>
+  <h1>Prompts para profesores</h1>
+  <p class="sub">Instrucciones listas para <b>copiar y pegar</b>. Cambia lo que está resaltado por lo tuyo y listo. <b>No hay que aprender nada nuevo</b>: es escribirle a la computadora lo que necesitas, con palabras normales.</p>
+  <div class="how3">
+    <div class="h3c"><b><i>1</i>Copia</b><span>Toca el botón de copiar del prompt que necesites.</span></div>
+    <div class="h3c"><b><i>2</i>Cámbialo</b><span>Reemplaza lo resaltado: tu curso, tu grado, tu tema.</span></div>
+    <div class="h3c"><b><i>3</i>Pégalo</b><span>En Gemini o ChatGPT. Si no te gusta, pide otra versión.</span></div>
+  </div>
+</header>
+
+<div class="tools">
+  <div class="searchbox">
+    <span class="mg">🔎</span>
+    <input id="q" type="search" placeholder="Buscar: examen, rúbrica, padres, actividad…" autocomplete="off">
+    <button id="clr" aria-label="Limpiar búsqueda">✕</button>
+  </div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<main id="list"></main>
+<div id="empty"><b>No encontramos nada con esa palabra</b>Prueba con otra, o toca "Todos" para ver la lista completa.</div>
+
+<section class="save" id="guardar">
+  <div>
+    <h2>Guarda esta página en tu celular</h2>
+    <p>Así la tienes a un toque cuando estés preparando tu clase, sin buscarla de nuevo.</p>
+    <ol class="steps">
+      <li>Abre <b>clases.estrellavizcarra.com/prompts</b> en tu celular, o escanea el código.</li>
+      <li>Toca los <b>tres puntitos ⋮</b> de arriba a la derecha.</li>
+      <li>Elige <b>"Agregar a pantalla principal"</b>.</li>
+      <li>Listo: te queda como una aplicación más.</li>
+    </ol>
+  </div>
+  <div class="qrbox">
+    <div class="qrcard"><svg viewBox="-2 -2 37 37" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Código QR a clases.estrellavizcarra.com/prompts"><rect x="-2" y="-2" width="37" height="37" fill="#fff"/><path d="M0 0h7v1h-7zM8 0h2v1h-2zM13 0h2v1h-2zM16 0h4v1h-4zM23 0h1v1h-1zM26 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM10 1h2v1h-2zM18 1h1v1h-1zM21 1h4v1h-4zM26 1h1v1h-1zM32 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM12 2h1v1h-1zM14 2h1v1h-1zM16 2h1v1h-1zM18 2h1v1h-1zM20 2h1v1h-1zM22 2h2v1h-2zM26 2h1v1h-1zM28 2h3v1h-3zM32 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h1v1h-1zM11 3h1v1h-1zM15 3h4v1h-4zM22 3h3v1h-3zM26 3h1v1h-1zM28 3h3v1h-3zM32 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM11 4h2v1h-2zM14 4h2v1h-2zM17 4h4v1h-4zM22 4h2v1h-2zM26 4h1v1h-1zM28 4h3v1h-3zM32 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM11 5h2v1h-2zM15 5h1v1h-1zM18 5h3v1h-3zM24 5h1v1h-1zM26 5h1v1h-1zM32 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h7v1h-7zM8 7h1v1h-1zM10 7h1v1h-1zM12 7h2v1h-2zM16 7h2v1h-2zM21 7h1v1h-1zM24 7h1v1h-1zM1 8h1v1h-1zM3 8h1v1h-1zM5 8h6v1h-6zM12 8h1v1h-1zM14 8h1v1h-1zM16 8h1v1h-1zM21 8h2v1h-2zM24 8h4v1h-4zM29 8h2v1h-2zM32 8h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM17 9h1v1h-1zM20 9h2v1h-2zM24 9h4v1h-4zM32 9h1v1h-1zM0 10h2v1h-2zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM12 10h1v1h-1zM14 10h1v1h-1zM18 10h2v1h-2zM21 10h1v1h-1zM25 10h4v1h-4zM30 10h1v1h-1zM32 10h1v1h-1zM0 11h2v1h-2zM3 11h1v1h-1zM7 11h1v1h-1zM11 11h4v1h-4zM16 11h1v1h-1zM18 11h2v1h-2zM21 11h1v1h-1zM23 11h1v1h-1zM26 11h1v1h-1zM28 11h2v1h-2zM32 11h1v1h-1zM2 12h3v1h-3zM6 12h1v1h-1zM12 12h3v1h-3zM18 12h1v1h-1zM20 12h2v1h-2zM24 12h1v1h-1zM26 12h1v1h-1zM29 12h1v1h-1zM0 13h1v1h-1zM3 13h3v1h-3zM7 13h3v1h-3zM11 13h3v1h-3zM15 13h2v1h-2zM18 13h1v1h-1zM22 13h1v1h-1zM26 13h1v1h-1zM28 13h5v1h-5zM2 14h2v1h-2zM5 14h3v1h-3zM10 14h1v1h-1zM14 14h1v1h-1zM20 14h2v1h-2zM23 14h1v1h-1zM25 14h2v1h-2zM29 14h1v1h-1zM31 14h1v1h-1zM2 15h2v1h-2zM5 15h1v1h-1zM9 15h1v1h-1zM15 15h4v1h-4zM21 15h1v1h-1zM23 15h2v1h-2zM26 15h2v1h-2zM31 15h1v1h-1zM1 16h1v1h-1zM3 16h1v1h-1zM6 16h1v1h-1zM10 16h2v1h-2zM14 16h1v1h-1zM17 16h7v1h-7zM26 16h1v1h-1zM28 16h1v1h-1zM31 16h1v1h-1zM2 17h1v1h-1zM9 17h2v1h-2zM12 17h5v1h-5zM18 17h1v1h-1zM23 17h3v1h-3zM27 17h1v1h-1zM29 17h1v1h-1zM31 17h1v1h-1zM1 18h1v1h-1zM3 18h1v1h-1zM5 18h4v1h-4zM10 18h2v1h-2zM15 18h3v1h-3zM20 18h2v1h-2zM25 18h1v1h-1zM30 18h3v1h-3zM0 19h2v1h-2zM7 19h1v1h-1zM9 19h5v1h-5zM15 19h1v1h-1zM17 19h3v1h-3zM21 19h1v1h-1zM23 19h1v1h-1zM26 19h2v1h-2zM32 19h1v1h-1zM5 20h2v1h-2zM9 20h7v1h-7zM18 20h1v1h-1zM20 20h2v1h-2zM23 20h3v1h-3zM27 20h1v1h-1zM31 20h1v1h-1zM5 21h1v1h-1zM8 21h1v1h-1zM12 21h1v1h-1zM14 21h4v1h-4zM20 21h2v1h-2zM24 21h3v1h-3zM29 21h1v1h-1zM31 21h2v1h-2zM0 22h4v1h-4zM6 22h2v1h-2zM13 22h1v1h-1zM16 22h5v1h-5zM22 22h1v1h-1zM25 22h2v1h-2zM28 22h2v1h-2zM32 22h1v1h-1zM1 23h1v1h-1zM3 23h2v1h-2zM10 23h2v1h-2zM13 23h2v1h-2zM17 23h1v1h-1zM19 23h1v1h-1zM21 23h4v1h-4zM27 23h1v1h-1zM29 23h1v1h-1zM0 24h1v1h-1zM5 24h5v1h-5zM11 24h4v1h-4zM17 24h2v1h-2zM21 24h1v1h-1zM23 24h6v1h-6zM8 25h1v1h-1zM13 25h4v1h-4zM19 25h2v1h-2zM23 25h2v1h-2zM28 25h2v1h-2zM31 25h2v1h-2zM0 26h7v1h-7zM8 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM16 26h1v1h-1zM18 26h1v1h-1zM24 26h1v1h-1zM26 26h1v1h-1zM28 26h4v1h-4zM0 27h1v1h-1zM6 27h1v1h-1zM8 27h1v1h-1zM11 27h3v1h-3zM15 27h1v1h-1zM18 27h5v1h-5zM24 27h1v1h-1zM28 27h1v1h-1zM0 28h1v1h-1zM2 28h3v1h-3zM6 28h1v1h-1zM12 28h2v1h-2zM15 28h1v1h-1zM17 28h3v1h-3zM21 28h2v1h-2zM24 28h6v1h-6zM31 28h2v1h-2zM0 29h1v1h-1zM2 29h3v1h-3zM6 29h1v1h-1zM8 29h3v1h-3zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h3v1h-3zM21 29h2v1h-2zM26 29h1v1h-1zM28 29h1v1h-1zM31 29h1v1h-1zM0 30h1v1h-1zM2 30h3v1h-3zM6 30h1v1h-1zM9 30h3v1h-3zM16 30h1v1h-1zM20 30h4v1h-4zM28 30h3v1h-3zM32 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM8 31h2v1h-2zM11 31h2v1h-2zM14 31h2v1h-2zM17 31h2v1h-2zM21 31h1v1h-1zM23 31h2v1h-2zM0 32h7v1h-7zM9 32h1v1h-1zM11 32h2v1h-2zM14 32h2v1h-2zM20 32h2v1h-2zM24 32h3v1h-3zM28 32h1v1h-1zM31 32h1v1h-1z" fill="#0a0c11"/></svg></div>
+    <div class="url">clases.estrellavizcarra.com/prompts</div>
+  </div>
+
+  <div class="androw">
+    <svg class="phone-demo" viewBox="0 0 150 260" aria-hidden="true">
+      <rect x="2" y="2" width="146" height="256" rx="20" fill="#1b1f28" stroke="rgba(255,255,255,.14)"/>
+      <rect x="8" y="8" width="134" height="244" rx="15" fill="#0d1117"/>
+      <!-- barra del navegador -->
+      <rect x="8" y="8" width="134" height="26" rx="15" fill="#161b24"/>
+      <rect x="8" y="24" width="134" height="10" fill="#161b24"/>
+      <rect x="18" y="15" width="88" height="12" rx="6" fill="rgba(255,255,255,.08)"/>
+      <text x="24" y="24" font-family="Inter" font-size="6" fill="#9aa2b1">clases.estrellavizcarra…</text>
+      <circle cx="126" cy="17" r="1.5" fill="#e7e9ee"/>
+      <circle cx="126" cy="21" r="1.5" fill="#e7e9ee"/>
+      <circle cx="126" cy="25" r="1.5" fill="#e7e9ee"/>
+      <!-- contenido de la página -->
+      <g class="an-page">
+        <rect x="16" y="44" width="76" height="9" rx="4" fill="rgba(163,230,53,.5)"/>
+        <rect x="16" y="60" width="110" height="5" rx="2.5" fill="rgba(255,255,255,.14)"/>
+        <rect x="16" y="70" width="94" height="5" rx="2.5" fill="rgba(255,255,255,.14)"/>
+        <rect x="16" y="86" width="118" height="34" rx="7" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/>
+        <rect x="24" y="94" width="56" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+        <rect x="24" y="104" width="88" height="4" rx="2" fill="rgba(255,255,255,.12)"/>
+        <rect x="16" y="128" width="118" height="34" rx="7" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/>
+        <rect x="24" y="136" width="48" height="5" rx="2.5" fill="rgba(255,255,255,.22)"/>
+        <rect x="24" y="146" width="92" height="4" rx="2" fill="rgba(255,255,255,.12)"/>
+      </g>
+      <!-- menú desplegable -->
+      <g class="an-menu">
+        <rect x="58" y="32" width="82" height="86" rx="8" fill="#232833" stroke="rgba(255,255,255,.16)"/>
+        <text x="66" y="46" font-family="Inter" font-size="6.4" fill="#c7ccd6">Nueva pestaña</text>
+        <text x="66" y="60" font-family="Inter" font-size="6.4" fill="#c7ccd6">Favoritos</text>
+        <rect class="an-hl" x="61" y="65" width="76" height="21" rx="5" fill="rgba(163,230,53,.22)" stroke="var(--lime)" stroke-width=".8"/>
+        <text x="66" y="74" font-family="Inter" font-size="6.4" font-weight="700" fill="#d3f184">Agregar a pantalla</text>
+        <text x="66" y="82" font-family="Inter" font-size="6.4" font-weight="700" fill="#d3f184">principal</text>
+        <text x="66" y="101" font-family="Inter" font-size="6.4" fill="#c7ccd6">Traducir…</text>
+        <text x="66" y="112" font-family="Inter" font-size="6.4" fill="#c7ccd6">Configuración</text>
+      </g>
+      <!-- pantalla de inicio -->
+      <g class="an-home">
+        <rect x="8" y="8" width="134" height="244" rx="15" fill="#101722"/>
+        <text x="75" y="34" font-family="Space Grotesk" font-size="16" font-weight="700" fill="rgba(255,255,255,.5)" text-anchor="middle">9:41</text>
+        <g opacity=".28">
+          <rect x="22" y="52" width="26" height="26" rx="7" fill="#4285f4"/>
+          <rect x="62" y="52" width="26" height="26" rx="7" fill="#34a853"/>
+          <rect x="102" y="52" width="26" height="26" rx="7" fill="#ea4335"/>
+          <rect x="22" y="96" width="26" height="26" rx="7" fill="#fbbc04"/>
+        </g>
+        <g class="an-icon">
+          <rect x="62" y="96" width="26" height="26" rx="7" fill="#a3e635"/>
+          <text x="75" y="114" font-family="Space Grotesk" font-size="15" font-weight="800" fill="#131a02" text-anchor="middle">✨</text>
+          <text x="75" y="132" font-family="Inter" font-size="6" fill="#e7e9ee" text-anchor="middle">Prompts</text>
+        </g>
+      </g>
+      <!-- toques -->
+      <circle class="an-tap" cx="126" cy="21" r="9" fill="none" stroke="var(--lime)" stroke-width="2"/>
+      <circle class="an-tap t2" cx="99" cy="74" r="9" fill="none" stroke="var(--lime)" stroke-width="2"/>
+    </svg>
+    <div>
+      <div class="cap">Así se ve en Android</div>
+      <p style="color:var(--muted);font-size:clamp(13.5px,1.4vw,16px);max-width:44ch">Tres puntitos <b style="color:var(--paper)">⋮</b> → <b style="color:var(--paper)">Agregar a pantalla principal</b>. Te queda un ícono igual que el de cualquier app.</p>
+      <p style="color:var(--dim);font-size:13px;margin-top:.7em">En iPhone es parecido: toca el botón de compartir <b style="color:var(--muted)">⬆</b> y luego "Añadir a pantalla de inicio".</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="display:flex;gap:16px;flex-wrap:wrap">
+    <a href="/demo/presentacion.html">← Volver a la capacitación</a>
+    <a href="/">Plataforma de clases</a>
+  </div>
+  <span>Asunción School · Computación 2026</span>
+</footer>
+
+</div>
+
+<div id="toast">✓ Copiado</div>
+
+<script>
+const CATS = [
+  {id:'crear',   nom:'Crear materiales',       em:'📚'},
+  {id:'adaptar', nom:'Adaptar contenidos',     em:'🔀'},
+  {id:'evaluar', nom:'Evaluar y retroalimentar', em:'✏️'},
+  {id:'revisar', nom:'Revisar y verificar',    em:'🔍'},
+  {id:'tiempo',  nom:'Ahorrar tiempo',         em:'⏱️'},
+  {id:'trucos',  nom:'Trucos que sirven siempre', em:'✨'}
+];
+
+const PROMPTS = [
+/* ═══ CREAR MATERIALES ═══ */
+{c:'crear', d:1, t:'La plantilla que sirve para todo', p:'Si solo te llevas una, que sea esta. Cambia lo marcado y pide lo que necesites.',
+ x:`Soy profesor de [CURSO O ÁREA].
+Necesito [TIPO DE MATERIAL] sobre [TEMA] para alumnos de [GRADO O EDAD].
+Crea [CANTIDAD] elementos, con palabras claras y adecuadas para su nivel.
+Usa como referencia [DOCUMENTO, TEXTO O FUENTE].
+Incluye [PREGUNTAS, EJEMPLOS, ACTIVIDADES U OTROS REQUISITOS].
+No inventes datos, no agregues información fuera de las fuentes y avísame qué debo revisar.`},
+
+{c:'crear', d:1, t:'Armar la presentación de una clase', p:'Cuándo: empiezas un tema y no quieres partir de una pantalla en blanco.',
+ x:`Soy profesor de [CURSO] y voy a dictar el tema [TEMA] a alumnos de [GRADO], de [EDAD] años.
+Hazme una presentación de [10] diapositivas.
+Cada diapositiva: un título corto, una idea principal en una frase y qué imagen sugieres.
+Incluye una pregunta para abrir la clase y una actividad final de 5 minutos.
+Usa palabras sencillas. No inventes datos y avísame qué debo verificar.`},
+
+{c:'crear', d:1, t:'Convertir un documento en diapositivas', p:'Cuándo: ya tienes la separata y quieres proyectarla.',
+ x:`Convierte el documento adjunto en una presentación para alumnos de [GRADO].
+Crea [CANTIDAD] diapositivas.
+Cada diapositiva debe tener un título, una idea principal y una sugerencia de imagen.
+Usa poco texto y conserva los datos importantes.
+No agregues información que no aparezca en el documento.`},
+
+{c:'crear', d:1, t:'Explicar paso a paso', p:'Cuándo: un procedimiento que siempre se les traba.',
+ x:`Explica cómo resolver [PROBLEMA O PROCEDIMIENTO] para alumnos de [GRADO].
+Divide la explicación en pasos numerados.
+En cada paso, explica qué se hace y por qué se hace.
+Incluye un ejemplo resuelto y un error común que deberían evitar.`},
+
+{c:'crear', d:1, t:'Ejemplos que sí conectan', p:'Cuándo: el ejemplo del libro les queda lejos.',
+ x:`Explica [CONCEPTO] con [5] ejemplos cotidianos adecuados para alumnos de [GRADO].
+Usa situaciones cercanas a su realidad y evita ejemplos abstractos.
+Siempre que se pueda, usa ejemplos relacionados con Perú o con el contexto local.
+Después de cada ejemplo, explica en dos líneas cómo se relaciona con el concepto.`},
+
+{c:'crear', d:1, t:'Analogías para explicar', p:'Cuándo: necesitas otra entrada al mismo concepto.',
+ x:`Crea [3] analogías sencillas para explicar [CONCEPTO] a alumnos de [GRADO].
+Para cada analogía indica:
+- Qué representa cada elemento.
+- En qué ayuda la comparación.
+- En qué punto deja de ser exacta.
+Evita analogías que puedan generar una idea equivocada.`},
+
+{c:'crear', d:1, t:'Un caso para resolver', p:'Cuándo: quieres que apliquen, no que repitan.',
+ x:`Crea un caso práctico sobre [TEMA] para alumnos de [GRADO].
+El caso debe incluir una situación creíble del Perú de hoy, información suficiente para analizarla y [3] preguntas.
+Máximo 12 líneas. No des la respuesta dentro del caso.
+Al final, agrega una guía de respuestas solo para el profesor.`},
+
+{c:'crear', d:1, t:'Comparar dos conceptos', p:'Cuándo: los confunden entre sí una y otra vez.',
+ x:`Compara [CONCEPTO A] y [CONCEPTO B] para alumnos de [GRADO].
+Preséntalo en una tabla con: definición, características, similitudes, diferencias y un ejemplo de cada uno.
+Usa lenguaje claro y evita simplificaciones incorrectas.`},
+
+{c:'crear', d:1, t:'Línea de tiempo', p:'Cuándo: hay que ordenar hechos y fechas.',
+ x:`Usa las fuentes adjuntas para crear una línea de tiempo sobre [TEMA].
+Incluye [8] acontecimientos importantes.
+Para cada uno indica: fecha, qué ocurrió y por qué fue importante.
+Ordénalos cronológicamente y señala cualquier fecha que yo deba verificar.`},
+
+{c:'crear', d:1, t:'Glosario de palabras nuevas', p:'Cuándo: el tema trae vocabulario que no manejan.',
+ x:`Crea un glosario de [10] términos importantes sobre [TEMA] para alumnos de [GRADO].
+Para cada término: una definición sencilla, un ejemplo y una palabra relacionada.
+Usa únicamente los términos que aparecen en el material adjunto.`},
+
+{c:'crear', d:1, t:'Actividades para el aula', p:'Cuándo: te sobra media clase o quieres cortar la explicación.',
+ x:`Soy profesor de [CURSO] y trabajo el tema [TEMA] con alumnos de [GRADO].
+Propón [3] actividades que puedan hacerse en [15] minutos.
+Para cada una incluye: objetivo, materiales, instrucciones tal como se las digo, tiempo aproximado y resultado esperado.
+Usa recursos fáciles de conseguir: cuaderno, pizarra y nada más.`},
+
+{c:'crear', d:1, t:'Ficha de trabajo', p:'Cuándo: necesitas algo para imprimir o copiar a Docs.',
+ x:`Convierte este contenido en una ficha de trabajo para alumnos de [GRADO]:
+[PEGA AQUÍ EL CONTENIDO]
+Incluye: una introducción breve, instrucciones claras, [6] ejercicios y un espacio de reflexión final.
+Usa un formato que pueda copiarse fácilmente a Word o Google Docs.`},
+
+{c:'crear', d:1, t:'La pregunta con la que abrir', p:'Cuándo: quieres enganchar en el primer minuto.',
+ x:`Crea [5] preguntas breves para introducir el tema [TEMA] a alumnos de [GRADO].
+Las preguntas deben conectar el tema con cosas que ellos ya saben o han vivido.
+Evita preguntas que exijan conocer la explicación completa de antemano.
+Que den ganas de opinar, no de quedarse callados.`},
+
+{c:'crear', d:1, t:'Plan de una clase de 45 minutos', p:'Cuándo: tienes el tema pero no el orden de la hora.',
+ x:`Arma el plan de una clase de [45] minutos sobre [TEMA] para [GRADO].
+Divídela en inicio, desarrollo, práctica y cierre.
+Dime cuántos minutos va cada parte, qué hago yo y qué hacen los alumnos.
+Deja tiempo para preguntas.`},
+
+{c:'crear', d:1, t:'Debate con roles', p:'Cuándo: el tema tiene más de un lado.',
+ x:`Arma un debate de aula sobre [TEMA] para [GRADO], de [20] minutos.
+Dame [4] roles con su postura y 3 argumentos cada uno.
+Incluye las reglas del debate y 3 preguntas mías para cuando se traben.`},
+
+{c:'crear', d:1, t:'Juego de repaso', p:'Cuándo: última clase antes del examen.',
+ x:`Diseña un juego de repaso de [TEMA] para [GRADO], para jugar en el aula en [20] minutos.
+Explícame las reglas en 5 pasos, qué necesito y cómo se gana.
+Incluye 12 preguntas del juego con sus respuestas.`},
+
+/* ═══ ADAPTAR CONTENIDOS ═══ */
+{c:'adaptar', d:1, t:'Cambia solo lo marcado', p:'El más seguro: evita que te reescriba todo el documento.',
+ x:`Te compartiré un texto. Modifica únicamente lo que esté entre corchetes o claramente marcado.
+No reescribas, resumas ni cambies ninguna otra parte.
+Mantén el formato y el tono original.
+Al terminar, indícame brevemente qué cambiaste.`},
+
+{c:'adaptar', d:1, t:'Simplificar una explicación', p:'Cuándo: la lectura está muy densa para el grado.',
+ x:`Reescribe este contenido para alumnos de [GRADO O EDAD]:
+[PEGA AQUÍ EL TEXTO]
+Mantén las ideas importantes, pero usa palabras más sencillas y oraciones más cortas.
+Explica cualquier palabra difícil.
+No elimines datos esenciales ni agregues información nueva.`},
+
+{c:'adaptar', d:1, t:'Tres niveles de dificultad', p:'Cuándo: el aula va a ritmos distintos.',
+ x:`Crea tres versiones de esta actividad sobre [TEMA]:
+1. Una versión básica.
+2. Una versión intermedia.
+3. Una versión avanzada.
+Mantén el mismo objetivo en las tres.
+Indica claramente qué cambia entre cada nivel.`},
+
+{c:'adaptar', d:1, t:'Adaptar sin tocar el contenido', p:'Cuándo: el material es correcto pero está mal calibrado.',
+ x:`Adapta este material para alumnos de [GRADO].
+No cambies los conceptos, datos ni objetivos.
+Modifica únicamente: complejidad del vocabulario, longitud de las oraciones, cantidad de ejemplos y claridad de las instrucciones.
+Indica cualquier parte que no pueda simplificarse sin perder precisión.`},
+
+{c:'adaptar', d:1, t:'Material para el que faltó', p:'Cuándo: alguien no vino y no quieres repetir la clase en el recreo.',
+ x:`Un alumno de [GRADO] faltó a la clase de [TEMA].
+Escríbele una explicación de una página para que se ponga al día solo.
+Incluye: qué vimos, un ejemplo y 3 preguntas para que compruebe si entendió.
+Háblale directamente a él, en un tono cercano.`},
+
+{c:'adaptar', d:1, t:'El mismo tema para otro grado', p:'Cuándo: dictas lo mismo en dos salones distintos.',
+ x:`Tengo este material preparado para [GRADO A]:
+[PEGA AQUÍ TU MATERIAL]
+Adáptalo para [GRADO B]. Ajusta el vocabulario, los ejemplos y la dificultad.
+Dime en una lista qué cambiaste y por qué.`},
+
+{c:'adaptar', d:1, t:'De lectura larga a guía de estudio', p:'Cuándo: tienes un PDF de 20 páginas y 45 minutos de clase.',
+ x:`Convierte este texto en una guía de estudio para [GRADO]:
+[PEGA AQUÍ EL TEXTO O SÚBELO]
+La guía debe tener: 5 ideas principales, las palabras nuevas con su significado en una línea y 5 preguntas de repaso.
+Usa solo lo que dice el texto. No agregues información de afuera.`},
+
+{c:'adaptar', d:1, t:'Resumen de repaso', p:'Cuándo: la semana antes del examen.',
+ x:`Crea un resumen de repaso sobre [TEMA] para alumnos de [GRADO].
+Debe poder leerse en [5] minutos.
+Incluye los conceptos principales, ejemplos breves y cinco preguntas de autoevaluación.
+No introduzcas contenido que no esté en las fuentes.`},
+
+{c:'adaptar', d:1, t:'Reciclar una clase del año pasado', p:'Cuándo: ya lo dictaste y no quieres rehacerlo.',
+ x:`Usa este material de una clase anterior y crea:
+- Una presentación breve.
+- Una ficha de repaso.
+- Cinco preguntas.
+- Una actividad de aplicación.
+Mantén los mismos conceptos y objetivos.
+No agregues información que no aparezca en el material original.`},
+
+/* ═══ EVALUAR Y RETROALIMENTAR ═══ */
+{c:'evaluar', d:1, t:'Cuestionario completo', p:'Cuándo: necesitas una evaluación y no tienes tiempo de armarla.',
+ x:`Crea un cuestionario de [10] preguntas sobre [TEMA] para alumnos de [GRADO].
+Incluye preguntas de opción múltiple, verdadero o falso y respuesta corta.
+Añade la respuesta correcta y una explicación breve de cada una.
+Evita preguntas ambiguas y verifica que solo exista una respuesta correcta.`},
+
+{c:'evaluar', d:1, t:'Preguntas a partir de una lectura', p:'Cuándo: quieres evaluar exactamente lo que leyeron.',
+ x:`Usa únicamente la lectura adjunta.
+Crea [8] preguntas para alumnos de [GRADO].
+Incluye preguntas de respuesta directa, de comprensión y de análisis.
+Añade una respuesta sugerida para cada una.
+No preguntes por información que no aparezca en el texto.`},
+
+{c:'evaluar', d:1, t:'Alternativas falsas que sí engañan', p:'El que más mejora una prueba de alternativas.',
+ x:`Para cada una de estas preguntas, crea tres alternativas incorrectas pero creíbles:
+[PEGA AQUÍ TUS PREGUNTAS]
+Deben representar errores comunes que de verdad comete un alumno de [GRADO].
+No hagas que la respuesta correcta sea evidente por su longitud o su redacción.
+Explica brevemente por qué cada alternativa es incorrecta.`},
+
+{c:'evaluar', d:1, t:'Examen con tres niveles', p:'Cuándo: quieres que apruebe el que estudió y se exija el que va adelante.',
+ x:`Prepara una evaluación de [TEMA] para [GRADO] con 12 preguntas, en tres bloques:
+- 4 fáciles (que apruebe quien estudió lo básico)
+- 5 intermedias
+- 3 difíciles
+Indica el puntaje de cada bloque sobre 20.`},
+
+{c:'evaluar', d:1, t:'Rúbrica para calificar', p:'Cuándo: quieres calificar parejo y poder explicar la nota.',
+ x:`Crea una rúbrica para evaluar [TRABAJO, EXPOSICIÓN O PROYECTO] de alumnos de [GRADO].
+Usa [4] criterios y [4] niveles de desempeño.
+Describe cada nivel con comportamientos observables y concretos.
+Evita criterios vagos como "bueno", "regular" o "malo".
+El total debe sumar 20 puntos.`},
+
+{c:'evaluar', d:1, t:'Preguntas de cierre', p:'Cuándo: quieres saber en dos minutos si entendieron.',
+ x:`Crea [3] preguntas breves para comprobar la comprensión del tema [TEMA] en [GRADO].
+Deben poder responderse en menos de [2] minutos.
+Incluye una pregunta de concepto, una de aplicación y una de reflexión.
+Añade respuestas sugeridas.`},
+
+{c:'evaluar', d:1, t:'Más ejercicios como este', p:'Cuándo: tienes un ejercicio bueno y necesitas diez iguales.',
+ x:`Este es un ejercicio que uso con [GRADO]:
+[PEGA AQUÍ TU EJERCICIO]
+Hazme [8] ejercicios parecidos, del mismo nivel, cambiando los números y las situaciones.
+Pon las respuestas al final, separadas.`},
+
+{c:'evaluar', d:1, t:'Retroalimentación de un trabajo', p:'Cuándo: quieres devolver algo más útil que "bien" o "mejorar".',
+ x:`Revisa el siguiente trabajo de un alumno de [GRADO] usando estos criterios: [CRITERIOS].
+[PEGA AQUÍ EL TRABAJO]
+No cambies su texto.
+Señala: dos aspectos logrados, dos que podrían mejorar y una recomendación concreta para el siguiente intento.
+Usa un tono respetuoso y específico. No inventes información sobre el alumno.`},
+
+{c:'evaluar', d:1, t:'Corregir sin borrarle la voz', p:'Cuándo: corriges redacción y no quieres que suene a otra persona.',
+ x:`Corrige únicamente ortografía, puntuación y errores gramaticales de este texto:
+[PEGA AQUÍ EL TEXTO DEL ALUMNO]
+Mantén las ideas, el vocabulario y la manera de expresarse del alumno.
+No mejores el contenido ni agregues información.
+Después, enumera los principales tipos de errores que encontraste.`},
+
+{c:'evaluar', d:1, t:'Comparar dos trabajos', p:'Cuándo: dos respuestas parecidas y hay que sustentar la nota.',
+ x:`Compara estas dos respuestas usando los siguientes criterios: [CRITERIOS].
+[PEGA AQUÍ LAS DOS RESPUESTAS]
+Indica qué hace bien cada una, qué le falta a cada una, y cuál responde mejor a la consigna y por qué.
+No evalúes aspectos que no estén en los criterios.`},
+
+{c:'evaluar', d:1, t:'Explicarle por qué está mal', p:'Cuándo: repite el error porque no entiende el porqué.',
+ x:`Un alumno de [GRADO] respondió esto en [TEMA]:
+[PEGA AQUÍ LA RESPUESTA]
+Explícale en 3 líneas por qué no es correcto, de forma que entienda el razonamiento y no solo la respuesta buena.
+Sin regañarlo.`},
+
+{c:'evaluar', d:1, t:'Dónde se equivoca todo el salón', p:'Cuándo: corregiste 30 pruebas y quieres ver el patrón.',
+ x:`Estas son las respuestas equivocadas más comunes de mi salón en [TEMA]:
+[PEGA AQUÍ LOS ERRORES]
+Dime qué idea están entendiendo mal por debajo de cada error.
+Sugiéreme cómo volver a explicarlo para corregir eso.`},
+
+/* ═══ REVISAR Y VERIFICAR ═══ */
+{c:'revisar', d:1, t:'Qué debo verificar antes de usarlo', p:'Úsalo siempre antes de llevar un material al aula.',
+ x:`Revisa este material e identifica las afirmaciones que debería verificar antes de usarlo en clase:
+[PEGA AQUÍ EL MATERIAL]
+Presta especial atención a fechas, nombres, cifras, definiciones, citas y explicaciones científicas o históricas.
+No supongas que algo es correcto solo porque aparece escrito.
+Organiza las observaciones en una tabla.`},
+
+{c:'revisar', d:1, t:'Revisar una evaluación antes de aplicarla', p:'Cuándo: la prueba ya está lista y quieres una segunda opinión.',
+ x:`Revisa esta evaluación para alumnos de [GRADO]:
+[PEGA AQUÍ LA EVALUACIÓN]
+No cambies todavía el contenido. Primero identifica:
+- Preguntas confusas.
+- Respuestas ambiguas.
+- Errores de redacción.
+- Contenido repetido.
+- Preguntas demasiado fáciles o difíciles.
+- Preguntas que no podrían responderse con el material entregado.
+Presenta primero la lista de observaciones y después una versión corregida.`},
+
+{c:'revisar', d:1, t:'¿Se entiende mi consigna?', p:'Cuándo: siempre te preguntan lo mismo al dar una tarea.',
+ x:`Analiza esta consigna desde la perspectiva de un alumno de [GRADO]:
+[PEGA AQUÍ LA CONSIGNA]
+Identifica qué partes podrían resultar ambiguas o incompletas.
+Indica qué preguntas podría hacerse el alumno al leerla.
+Después, dame una versión más clara sin cambiar el objetivo original.`},
+
+{c:'revisar', d:1, t:'Instrucciones que sí se siguen', p:'Cuándo: la actividad es buena pero se pierden en el camino.',
+ x:`Reescribe estas instrucciones para alumnos de [GRADO]:
+[PEGA AQUÍ LAS INSTRUCCIONES]
+Organízalas en pasos numerados. Usa verbos de acción y oraciones breves.
+Conserva todos los requisitos importantes.
+Señala cualquier parte que todavía pueda prestarse a confusión.`},
+
+{c:'revisar', d:1, t:'Trabaja solo con mi material', p:'Para que no te mezcle cosas de internet.',
+ x:`Responde usando únicamente el documento que te adjunté.
+Si la respuesta no está ahí, dime "no está en el documento" en vez de completarlo por tu cuenta.`},
+
+/* ═══ AHORRAR TIEMPO ═══ */
+{c:'tiempo', d:1, t:'Mensaje para los padres', p:'Cuándo: hay que avisar algo y no sabes cómo redactarlo.',
+ x:`Escribe un mensaje breve para los padres de [GRADO] sobre [ASUNTO].
+Tono respetuoso y claro, sin sonar a circular de oficina.
+Máximo 6 líneas. Que quede claro qué tienen que hacer ellos y para cuándo.`},
+
+{c:'tiempo', d:1, t:'Resumir un documento largo', p:'Cuándo: te llegó algo extenso y necesitas lo que te toca.',
+ x:`Resume esto en media página:
+[PEGA AQUÍ EL TEXTO]
+Dime: los 3 puntos principales, qué me toca hacer a mí y para cuándo.
+Si algo no queda claro en el texto, dímelo en vez de suponerlo.`},
+
+{c:'tiempo', d:1, t:'Programación de la unidad', p:'Cuándo: hay que entregar la planificación del bimestre.',
+ x:`Ayúdame a armar la programación de una unidad de [CURSO] para [GRADO] sobre [TEMA GENERAL].
+Son [8] sesiones de [45] minutos.
+Para cada sesión: el tema del día, qué deben lograr y una actividad.
+Dime también qué evalúo y en qué sesión.`},
+
+/* ═══ TRUCOS ═══ */
+{c:'trucos', d:1, t:'Que te pregunte antes de responder', p:'El truco que más mejora los resultados.',
+ x:`Antes de responder, hazme 3 preguntas para entender bien lo que necesito.
+Recién después de mis respuestas, hazme [LO QUE PIDES].`},
+
+{c:'trucos', d:1, t:'Pedir otra versión', p:'Cuándo: te sirve, pero no del todo.',
+ x:`Está bien encaminado, pero:
+- Hazlo más [corto / simple / concreto].
+- Cambia [LO QUE NO TE GUSTÓ].
+- Mantén [LO QUE SÍ TE GUSTÓ].
+Dame la versión corregida completa.`},
+
+{c:'trucos', d:1, t:'Que marque lo que hay que revisar', p:'Para no llevarte un dato inventado al aula.',
+ x:`Al final de tu respuesta, agrega una lista de los datos, fechas o cifras que yo debería verificar antes de usarlos con mis alumnos.
+Si no estás seguro de algo, dilo en vez de inventarlo.`}
+];
+
+
+var list=document.getElementById('list'), chips=document.getElementById('chips'),
+    q=document.getElementById('q'), clr=document.getElementById('clr'),
+    empty=document.getElementById('empty'), toast=document.getElementById('toast');
+var filtro='todos', busca='';
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function marca(s){return esc(s).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')}
+
+// chips de categoría
+var todos=document.createElement('button');
+todos.className='chip on'; todos.textContent='Todos'; todos.dataset.c='todos';
+chips.appendChild(todos);
+CATS.forEach(function(c){
+  var b=document.createElement('button');
+  b.className='chip'; b.dataset.c=c.id; b.textContent=c.em+' '+c.nom;
+  chips.appendChild(b);
+});
+chips.addEventListener('click',function(e){
+  var b=e.target.closest('.chip'); if(!b)return;
+  [].forEach.call(chips.children,function(x){x.classList.remove('on')});
+  b.classList.add('on'); filtro=b.dataset.c; render();
+});
+
+function render(){
+  var t=busca.trim().toLowerCase();
+  list.innerHTML='';
+  var total=0;
+  CATS.forEach(function(cat){
+    if(filtro!=='todos'&&filtro!==cat.id)return;
+    var items=PROMPTS.filter(function(p){
+      if(p.c!==cat.id)return false;
+      if(!t)return true;
+      return (p.t+' '+p.p+' '+p.x).toLowerCase().indexOf(t)>-1;
+    });
+    if(!items.length)return;
+    total+=items.length;
+    var sec=document.createElement('section');
+    sec.className='cat';
+    var h=document.createElement('h2');
+    h.innerHTML=cat.em+' '+esc(cat.nom)+' <small>'+items.length+'</small>';
+    sec.appendChild(h);
+    var g=document.createElement('div'); g.className='grid';
+    items.forEach(function(p){
+      var c=document.createElement('article'); c.className='card';
+      c.innerHTML='<h3>'+esc(p.t)+'</h3><p class="when">'+esc(p.p)+'</p>'+
+                  '<pre>'+marca(p.x)+'</pre>'+
+                  '<button class="copy">📋 Copiar</button>';
+      c.querySelector('.copy').addEventListener('click',function(){copiar(p.x,this)});
+      g.appendChild(c);
+    });
+    sec.appendChild(g);
+    list.appendChild(sec);
+  });
+  empty.style.display=total?'none':'block';
+}
+
+function copiar(txt,btn){
+  function ok(){
+    btn.classList.add('ok'); btn.textContent='✓ Copiado';
+    toast.classList.add('on');
+    setTimeout(function(){btn.classList.remove('ok');btn.textContent='📋 Copiar'},1800);
+    setTimeout(function(){toast.classList.remove('on')},1600);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok,function(){fallback(txt,ok)});
+  } else fallback(txt,ok);
+}
+function fallback(txt,ok){
+  var ta=document.createElement('textarea');
+  ta.value=txt; ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,txt.length);
+  try{document.execCommand('copy');ok();}catch(e){}
+  document.body.removeChild(ta);
+}
+
+q.addEventListener('input',function(){
+  busca=q.value; clr.style.display=busca?'block':'none'; render();
+});
+clr.addEventListener('click',function(){q.value='';busca='';clr.style.display='none';q.focus();render()});
+
+render();
+</script>
+</body>
+</html>

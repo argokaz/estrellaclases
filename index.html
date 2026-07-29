@@ -1073,11 +1073,11 @@ button{font-family:inherit;cursor:pointer;}
 /* ── RANKING MODAL ─────────────────────────────────────────── */
 .ranking-overlay{display:none;position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.10);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
 .ranking-overlay.open{display:flex;}
-.ranking-panel{background:#0f1a30;border:1px solid var(--border);border-radius:20px;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.10);}
+.ranking-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.10);}
 .ranking-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;}
 .ranking-panel-hdr h2{margin:0;font-size:1rem;font-weight:800;color:#92400e;}
 .ranking-panel-hdr-right{display:flex;align-items:center;gap:.7rem;}
-.ranking-mes-sel{background:#1a2240;border:1px solid var(--border);color:var(--text);padding:.28rem .6rem;border-radius:8px;font-size:.82rem;cursor:pointer;}
+.ranking-mes-sel{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.28rem .6rem;border-radius:8px;font-size:.82rem;cursor:pointer;}
 .ranking-close-btn{background:var(--surface-2);border:none;color:var(--text);border-radius:8px;padding:.3rem .7rem;cursor:pointer;font-size:.9rem;}
 .ranking-close-btn:hover{background:var(--line-soft);}
 .ranking-scroll{overflow-y:auto;flex:1;}
@@ -1104,7 +1104,7 @@ button{font-family:inherit;cursor:pointer;}
 /* ── ROSTER EDITOR ─────────────────────────────────────────── */
 .roster-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.10);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
 .roster-overlay.open{display:flex;}
-.roster-panel{background:#0f1a30;border:1px solid var(--border);border-radius:20px;width:100%;max-width:820px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.10);}
+.roster-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:820px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.10);}
 .roster-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;gap:.6rem;}
 .roster-panel-hdr h2{margin:0;font-size:.95rem;font-weight:800;color:#14532d;flex:1;}
 .roster-hdr-btn{background:var(--surface-2);border:none;color:var(--text);border-radius:8px;padding:.3rem .75rem;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
@@ -1135,8 +1135,8 @@ button{font-family:inherit;cursor:pointer;}
 .roster-status{font-size:.8rem;color:var(--text-muted);min-height:1.2em;}
 .bonus-form-title{font-size:.75rem;font-weight:700;color:#92400e;text-transform:uppercase;margin-bottom:.7rem;letter-spacing:.05em;}
 .bonus-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:flex-end;}
-.bonus-inp{background:#1a2240;border:1px solid var(--border);color:var(--text);padding:.38rem .65rem;border-radius:8px;font-size:.83rem;flex:1;min-width:110px;}
-.bonus-inp option,.bonus-inp optgroup{background:#1a2240;}
+.bonus-inp{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:.38rem .65rem;border-radius:8px;font-size:.83rem;flex:1;min-width:110px;}
+.bonus-inp option,.bonus-inp optgroup{background:var(--surface);}
 .bonus-counter-row{display:flex;align-items:center;justify-content:center;gap:1rem;margin:.6rem 0 .3rem;}
 .bonus-cnt-btn{width:48px;height:48px;border:none;border-radius:12px;font-size:1.2rem;font-weight:900;cursor:pointer;transition:transform .1s,background .15s;line-height:1;}
 .bonus-cnt-btn:active{transform:scale(.9);}
@@ -1154,6 +1154,133 @@ button{font-family:inherit;cursor:pointer;}
 .ranking-panel-footer{border-top:1px solid var(--border);padding:.6rem;text-align:center;flex-shrink:0;}
 .ranking-panel-footer a{font-size:.78rem;color:var(--text-muted);text-decoration:none;}
 .ranking-panel-footer a:hover{color:#92400e;}
+
+/* ══════════════════════════════════════════════════════════
+   CONSOLA DE LA PROFESORA  (/profe)
+   El trabajo docente tiene tres momentos distintos y no se
+   mezclan: preparar, dictar, revisar. La consola se abre en el
+   que toca según el día y deja los otros a un clic.
+   ══════════════════════════════════════════════════════════ */
+.consola{max-width:1000px;margin:0 auto;padding:0 1rem 3rem;}
+
+/* — cabecera — */
+.cns-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;padding:1.1rem 0 .9rem;}
+.cns-id{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;}
+.cns-id h1{font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:800;letter-spacing:-.4px;}
+.cns-id .cns-aula{font-size:var(--fs-sm);color:var(--text-muted);}
+.cns-tools{display:flex;gap:.4rem;flex-wrap:wrap;}
+.cns-tool{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:9px;
+  padding:.45rem .8rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:inherit;
+  transition:background .15s,border-color .15s;}
+.cns-tool:hover{background:var(--surface);border-color:var(--line-strong);}
+
+/* — selector de aula — */
+.cns-aulas{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:.9rem;scrollbar-width:none;}
+.cns-aulas::-webkit-scrollbar{display:none;}
+.cns-aula-btn{flex-shrink:0;background:#fff;border:1px solid var(--border);color:var(--text-muted);
+  border-radius:100px;padding:.4rem .95rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;
+  font-family:inherit;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
+.cns-aula-btn:hover{color:var(--text);border-color:var(--line-strong);}
+.cns-aula-btn.on{background:#000;border-color:#000;color:#fff;}
+
+/* — los tres momentos — */
+.cns-momentos{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1.1rem;}
+.cns-mom{position:relative;text-align:left;background:#fff;border:1px solid var(--border);
+  border-radius:var(--radius);padding:.8rem .9rem;cursor:pointer;font-family:inherit;
+  transition:background .16s,border-color .16s,transform .16s;}
+.cns-mom:hover{border-color:var(--line-strong);transform:translateY(-1px);}
+.cns-mom .m-cuando{display:block;font-size:var(--fs-xs);color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.06em;font-weight:700;margin-bottom:.2rem;}
+.cns-mom .m-que{display:block;font-family:'Space Grotesk',sans-serif;font-size:var(--fs-base);
+  font-weight:700;color:var(--text);line-height:1.2;}
+.cns-mom .m-nota{display:block;font-size:var(--fs-xs);color:var(--text-muted);margin-top:.25rem;line-height:1.35;}
+.cns-mom .m-pin{position:absolute;top:.7rem;right:.8rem;font-size:var(--fs-xs);font-weight:700;
+  background:var(--gold);color:#fff;border-radius:100px;padding:.1rem .5rem;}
+.cns-mom.on{background:var(--lime);border-color:#a8c97a;}
+.cns-mom.on .m-cuando{color:#2d4a0a;}
+.cns-mom.on .m-nota{color:#3f5410;}
+.cns-mom.dur.on{background:var(--lilac);border-color:#b49ae8;}
+.cns-mom.dur.on .m-cuando{color:#2e1065;}
+.cns-mom.dur.on .m-nota{color:#4c1d95;}
+.cns-mom.des.on{background:var(--mint);border-color:#9fcfae;}
+.cns-mom.des.on .m-cuando{color:#065f46;}
+.cns-mom.des.on .m-nota{color:#065f46;}
+
+/* — panel del momento activo — */
+.cns-panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.15rem 1.2rem 1.25rem;margin-bottom:1.1rem;}
+.cns-h{display:flex;align-items:baseline;justify-content:space-between;gap:.8rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.cns-h h2{font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.3px;}
+.cns-h .cns-fecha{font-size:var(--fs-sm);color:var(--text-muted);}
+
+/* acciones grandes del momento */
+.cns-acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.55rem;}
+.cns-act{display:block;text-align:left;background:var(--surface);border:1px solid var(--border);
+  border-radius:11px;padding:.85rem .95rem;text-decoration:none;color:inherit;cursor:pointer;
+  font-family:inherit;transition:background .15s,border-color .15s;}
+.cns-act:hover{background:var(--surface-2);border-color:var(--line-strong);}
+.cns-act .a-em{display:block;font-size:1.2rem;line-height:1;margin-bottom:.4rem;}
+.cns-act b{display:block;font-size:var(--fs-base);font-weight:700;margin-bottom:.15rem;}
+.cns-act span:not(.a-em){display:block;font-size:var(--fs-xs);color:var(--text-muted);line-height:1.4;}
+.cns-act.primaria{background:#000;border-color:#000;}
+.cns-act.primaria b{color:#fff;}
+.cns-act.primaria span:not(.a-em){color:rgba(255,255,255,.72);}
+.cns-act.primaria:hover{background:#222;}
+
+/* cifras del momento "después" */
+.cns-cifras{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;margin-bottom:.9rem;}
+.cns-cifra{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:.75rem .85rem;}
+.cns-cifra .v{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:800;
+  line-height:1;letter-spacing:-.5px;}
+.cns-cifra .k{display:block;font-size:var(--fs-xs);color:var(--text-muted);margin-top:.3rem;line-height:1.3;}
+.cns-cifra.alerta{background:#fff5f5;border-color:#f6c9c9;}
+.cns-cifra.alerta .v{color:#b91c1c;}
+
+/* — el año, plegable — */
+.cns-anio{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.cns-anio>summary{list-style:none;cursor:pointer;padding:.9rem 1.1rem;display:flex;align-items:center;
+  justify-content:space-between;gap:.7rem;}
+.cns-anio>summary::-webkit-details-marker{display:none;}
+.cns-anio>summary:hover{background:var(--surface);}
+.cns-anio-t{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:var(--fs-base);}
+.cns-anio-n{font-size:var(--fs-xs);color:var(--text-muted);}
+.cns-anio-fl{color:var(--text-muted);transition:transform .2s;}
+.cns-anio[open] .cns-anio-fl{transform:rotate(180deg);}
+.cns-anio-body{padding:0 1.1rem 1rem;}
+
+/* fila compacta por sesión: 32 sesiones caben sin abrumar */
+.ses-fila{display:flex;align-items:center;gap:.7rem;padding:.5rem .1rem;border-top:1px solid var(--line-soft);
+  font-size:var(--fs-sm);}
+.ses-fila:first-child{border-top:none;}
+.ses-n{flex-shrink:0;width:2ch;text-align:right;font-family:'Space Grotesk',sans-serif;
+  font-weight:700;color:var(--text-muted);}
+.ses-punto{flex-shrink:0;width:.5rem;height:.5rem;border-radius:50%;background:var(--line-strong);}
+.ses-fila.dictada .ses-punto{background:#15803d;}
+.ses-fila.hoy .ses-punto{background:var(--gold);box-shadow:0 0 0 3px rgba(255,61,139,.18);}
+.ses-tema{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ses-fila.dictada .ses-tema{color:var(--text-muted);}
+.ses-fecha{flex-shrink:0;font-size:var(--fs-xs);color:var(--text-muted);}
+.ses-links{display:flex;gap:.3rem;flex-shrink:0;}
+.ses-links a{font-size:var(--fs-xs);color:var(--text-muted);text-decoration:none;
+  border:1px solid var(--border);border-radius:6px;padding:.15rem .45rem;}
+.ses-links a:hover{color:var(--text);border-color:var(--line-strong);background:var(--surface);}
+
+@media(max-width:700px){
+  .cns-momentos{grid-template-columns:1fr;}
+  .ses-fecha{display:none;}
+}
+@media(max-width:520px){
+  .ses-links{display:none;}
+  .cns-acts{grid-template-columns:1fr;}
+}
+
+/* En la consola manda su propia cabecera: el andamiaje del alumno estorba */
+body.modo-consola .site-header,
+body.modo-consola .grade-tabs,
+body.modo-consola .progress-bar-wrap,
+body.modo-consola .logout-btn{display:none!important;}
+body.modo-consola{background:var(--bg2);}
 </style>
 </head>
 <body>
@@ -2102,6 +2229,7 @@ function render(){
 
 function switchGrade(gradeId){
   currentGrade = gradeId;
+  if(ES_CONSOLA){ renderConsola(gradeId); return; }
   document.querySelectorAll('.gtab').forEach((t,i)=>{
     t.classList.toggle('active', GRADE_ORDER[i]===gradeId);
   });
@@ -2151,21 +2279,7 @@ function renderPanel(gradeId){
 
   let html = `<div class="panel active" id="panel-${gradeId}">`;
 
-  // ── 1. TEACHER BAR — visible solo en modo profesor ─────────
-  if(unlocked){
-    html += `<div class="teacher-bar">
-      <div class="teacher-bar-info">
-        <span class="teacher-badge">🔓 Modo Profesor</span>
-        <span class="teacher-grade">${g.label}</span>
-      </div>
-      <div class="teacher-bar-actions">
-        <button class="teacher-btn blue" onclick="openSyncConnect()">📡 Conectar</button>
-        <button class="teacher-btn green" onclick="openRosterEditor('${gradeId}')">📋 Alumnos</button>
-        <button class="teacher-btn" onclick="openResults(null, '${gradeId}')">📊 Resultados</button>
-        <button class="teacher-btn gold" onclick="openSchedule()">🗓️ Fechas</button>
-      </div>
-    </div>`;
-  }
+  // Las herramientas de la profesora viven en /profe, no aquí.
 
   // ── 2. HERO: clase de hoy o última clase — la puerta de entrada del alumno ──
   const lastPast = pastItems.length ? pastItems[pastItems.length-1] : null;
@@ -2298,12 +2412,7 @@ function renderPanel(gradeId){
 // el alumno que entra a hacer su repaso. Antes competían con el contenido
 // desde el encabezado.
 function buildProfHub(unlocked){
-  const accesos = unlocked
-    ? `<button class="hub-card hub-act" onclick="openAccess()">
-         <span class="hub-em">✨</span>
-         <b>Accesos a los prompts</b>
-         <span>Genera el enlace de un colega que aportó</span>
-       </button>` : '';
+  const accesos = '';
   return `<section class="prof-hub">
     <div class="hub-head">
       <span class="hub-title">Para profesores</span>
@@ -2324,6 +2433,11 @@ function buildProfHub(unlocked){
         <span class="hub-em">▶</span>
         <b>Conoce la plataforma</b>
         <span>Qué hace cada parte, módulo por módulo</span>
+      </a>
+      <a class="hub-card hub-act" href="/profe">
+        <span class="hub-em">🔑</span>
+        <b>Consola de la profesora</b>
+        <span>Proyectar, premiar y revisar · con contraseña</span>
       </a>
       ${accesos}
     </div>
@@ -3559,12 +3673,247 @@ async function anularAcceso(code){
   }
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// CONSOLA DE LA PROFESORA  (/profe)
+// ═══════════════════════════════════════════════════════════
+// El trabajo docente tiene tres momentos que no se mezclan:
+// preparar la clase, dictarla y revisar lo que dejó. La consola
+// abre en el que toca según el día y deja los otros a un clic.
+// /profe la sirve netlify.toml; ?profe=1 es el respaldo si el rewrite falla
+const ES_CONSOLA = /^\/profe\/?$/.test(location.pathname) || new URLSearchParams(location.search).has('profe');
+let momentoActivo = null;   // 'antes' | 'durante' | 'despues'
+
+/** El momento que toca hoy: viernes es día de clase. */
+function momentoDelDia(items){
+  if(items.hoy) return 'durante';
+  // recién dictada (mismo día o el siguiente): toca revisar
+  const ultima = items.pasadas[items.pasadas.length-1];
+  if(ultima && ultima.daysAgo <= 2) return 'despues';
+  return 'antes';
+}
+
+function renderConsola(gradeId){
+  currentGrade = gradeId;
+  const g = GRADES[gradeId];
+  const hoyStr = todayStr();
+
+  const todas = g.sessions.map(sd=>{
+    const d = sessionDate(sd.n, gradeId);
+    const past = d && d < hoyStr;
+    return {sd, fecha:d, past, hoy: d===hoyStr, daysAgo: past?daysSince(d):0};
+  });
+  const items = {
+    pasadas: todas.filter(i=>i.past),
+    hoy: todas.find(i=>i.hoy) || null,
+    futuras: todas.filter(i=>!i.past && !i.hoy)
+  };
+  const proxima = items.hoy || items.futuras[0] || null;
+  const ultima  = items.pasadas[items.pasadas.length-1] || null;
+
+  if(!momentoActivo) momentoActivo = momentoDelDia(items);
+
+  const dictadas = items.pasadas.length + (items.hoy?1:0);
+  const pct = Math.round(dictadas/TOTAL*100);
+
+  let html = `<div class="consola">
+    <div class="cns-top">
+      <div class="cns-id">
+        <h1>Consola de clase</h1>
+        <span class="cns-aula">${dictadas} de ${TOTAL} clases dictadas · ${pct}%</span>
+      </div>
+      <div class="cns-tools">
+        <button class="cns-tool" onclick="openRosterEditor('${gradeId}')">Alumnos</button>
+        <button class="cns-tool" onclick="openSchedule()">Fechas</button>
+        <button class="cns-tool" onclick="openAccess()">Accesos</button>
+        <button class="cns-tool" onclick="lock()">Salir</button>
+      </div>
+    </div>
+
+    <div class="cns-aulas">${GRADE_ORDER.map(id=>
+      `<button class="cns-aula-btn${id===gradeId?' on':''}" onclick="irAula('${id}')">${GRADES[id].emoji} ${GRADES[id].label}</button>`
+    ).join('')}</div>
+
+    <div class="cns-momentos">
+      ${momBtn('antes','ant','Antes de clase','Preparar', proxima?('Sesión '+proxima.sd.n+' · '+fmtDate(proxima.fecha).replace('Viernes ','')):'Sin próxima')}
+      ${momBtn('durante','dur','En clase','Proyectar y premiar', items.hoy?'Hoy toca clase':'Cuando estés en el aula')}
+      ${momBtn('despues','des','Después','Revisar lo que dejó', ultima?('Sesión '+ultima.sd.n+' · hace '+ultima.daysAgo+'d'):'Aún sin clases')}
+    </div>`;
+
+  html += `<section class="cns-panel">`;
+  if(momentoActivo==='antes')   html += panelAntes(proxima, gradeId);
+  if(momentoActivo==='durante') html += panelDurante(items.hoy || proxima, gradeId);
+  if(momentoActivo==='despues') html += panelDespues(ultima, gradeId);
+  html += `</section>`;
+
+  // El año completo, plegado: 32 sesiones no pueden ocupar la pantalla
+  html += `<details class="cns-anio">
+    <summary>
+      <span><span class="cns-anio-t">El año completo</span>
+        <span class="cns-anio-n"> · ${TOTAL} sesiones, ${dictadas} dictadas</span></span>
+      <span class="cns-anio-fl">▾</span>
+    </summary>
+    <div class="cns-anio-body">${filasAnio(todas, gradeId)}</div>
+  </details>`;
+
+  html += `</div>`;
+  document.getElementById('main').innerHTML = html;
+  if(momentoActivo==='despues' && ultima) cargarCifras(gradeId, ultima.sd.n);
+}
+
+function momBtn(id, cls, cuando, que, nota){
+  const on = momentoActivo===id;
+  return `<button class="cns-mom ${cls}${on?' on':''}" onclick="verMomento('${id}')">
+    <span class="m-cuando">${cuando}</span>
+    <span class="m-que">${que}</span>
+    <span class="m-nota">${nota}</span>
+  </button>`;
+}
+function verMomento(m){ momentoActivo = m; renderConsola(currentGrade); }
+function irAula(id){ momentoActivo = momentoActivo || null; renderConsola(id); }
+
+function panelAntes(it, gradeId){
+  if(!it) return `<div class="cns-h"><h2>No quedan clases por dictar</h2></div>`;
+  const n = String(it.sd.n).padStart(2,'0');
+  return `<div class="cns-h">
+      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
+      <span class="cns-fecha">${fmtDate(it.fecha)}</span>
+    </div>
+    <div class="cns-acts">
+      <a class="cns-act primaria" href="/slides/notas-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📋</span><b>Leer las notas</b><span>Qué decir y qué hacer, pantalla por pantalla</span></a>
+      <a class="cns-act" href="/slides/sesion-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📽️</span><b>Ver la presentación</b><span>Revisarla antes de proyectarla</span></a>
+      <a class="cns-act" href="/slides/repaso-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📝</span><b>Guía de repaso</b><span>Lo que verán en casa</span></a>
+      <a class="cns-act" href="/slides/tarea-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📎</span><b>La tarea</b><span>Qué se les pide esta semana</span></a>
+    </div>`;
+}
+
+function panelDurante(it, gradeId){
+  if(!it) return `<div class="cns-h"><h2>No hay clase que proyectar</h2></div>`;
+  const n = String(it.sd.n).padStart(2,'0');
+  return `<div class="cns-h">
+      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
+      <span class="cns-fecha">${fmtDate(it.fecha)}</span>
+    </div>
+    <div class="cns-acts">
+      <a class="cns-act primaria" href="/slides/sesion-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📽️</span><b>Proyectar</b><span>Abre la clase en la pantalla grande</span></a>
+      <button class="cns-act" onclick="openSyncConnect()">
+        <span class="a-em">📡</span><b>Conectar mi teléfono</b><span>Con el código que muestra el proyector</span></button>
+      <a class="cns-act" href="/slides/notas-${n}-${gradeId}.html" target="_blank">
+        <span class="a-em">📱</span><b>Mis notas</b><span>Ahí también se dan los puntos de participación</span></a>
+    </div>`;
+}
+
+function panelDespues(it, gradeId){
+  if(!it) return `<div class="cns-h"><h2>Todavía no hay clases dictadas</h2></div>`;
+  const n = String(it.sd.n).padStart(2,'0');
+  return `<div class="cns-h">
+      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
+      <span class="cns-fecha">Dictada ${fmtDate(it.fecha).toLowerCase()}</span>
+    </div>
+    <div class="cns-cifras" id="cns-cifras"><div class="cns-cifra"><span class="v">·</span><span class="k">Cargando…</span></div></div>
+    <div class="cns-acts">
+      <button class="cns-act primaria" onclick="openResults(${it.sd.n}, '${gradeId}')">
+        <span class="a-em">📊</span><b>Ver quién rindió</b><span>Notas de la evaluación, una por alumno</span></button>
+      <button class="cns-act" onclick="openTasksPanel(${it.sd.n}, '${gradeId}')">
+        <span class="a-em">📬</span><b>Ver entregas</b><span>Quién entregó y quién falta</span></button>
+      <button class="cns-act" onclick="openRankingModal('${gradeId}')">
+        <span class="a-em">🏆</span><b>Ranking del mes</b><span>Notas más puntos de participación</span></button>
+    </div>`;
+}
+
+function filasAnio(todas, gradeId){
+  return todas.map(i=>{
+    const n = String(i.sd.n).padStart(2,'0');
+    const cls = i.hoy ? 'hoy' : (i.past ? 'dictada' : '');
+    const links = READY_SESSIONS.has(i.sd.n)
+      ? `<span class="ses-links">
+           <a href="/slides/sesion-${n}-${gradeId}.html" target="_blank" title="Presentación">Deck</a>
+           <a href="/slides/notas-${n}-${gradeId}.html" target="_blank" title="Notas">Notas</a>
+         </span>` : '';
+    return `<div class="ses-fila ${cls}">
+      <span class="ses-n">${i.sd.n}</span>
+      <span class="ses-punto"></span>
+      <span class="ses-tema">${i.sd.title}</span>
+      <span class="ses-fecha">${fmtDate(i.fecha).replace('Viernes ','')}</span>
+      ${links}
+    </div>`;
+  }).join('');
+}
+
+/** Cifras del "después": cuántos rindieron y cuántos entregaron. */
+async function cargarCifras(gradeId, sesion){
+  const cont = document.getElementById('cns-cifras');
+  if(!cont) return;
+  const pw = CORRECT_PW, nn = String(sesion).padStart(2,'0');
+  try{
+    const [rRes, rTar] = await Promise.all([
+      fetch(`/.netlify/functions/get-results?pw=${encodeURIComponent(pw)}&session=${nn}`).then(r=>r.json()).catch(()=>null),
+      fetch(`/.netlify/functions/get-tasks?pw=${encodeURIComponent(pw)}&session=${nn}&grado=${gradeId}`).then(r=>r.json()).catch(()=>null)
+    ]);
+    const evals = Array.isArray(rRes) ? rRes.filter(x=>(x.grado||x.grade)===gradeId) : [];
+    const notas = evals.map(e=>+e.score).filter(n=>!isNaN(n));
+    const prom = notas.length ? (notas.reduce((a,b)=>a+b,0)/notas.length).toFixed(1) : '—';
+    const entregadas = rTar && Array.isArray(rTar.submitted) ? rTar.submitted.length : 0;
+    const pendientes = rTar && Array.isArray(rTar.pending) ? rTar.pending.length : 0;
+    cont.innerHTML =
+      `<div class="cns-cifra"><span class="v">${evals.length}</span><span class="k">rindieron la evaluación</span></div>
+       <div class="cns-cifra"><span class="v">${prom}</span><span class="k">nota promedio</span></div>
+       <div class="cns-cifra"><span class="v">${entregadas}</span><span class="k">tareas entregadas</span></div>
+       <div class="cns-cifra${pendientes?' alerta':''}"><span class="v">${pendientes}</span><span class="k">sin entregar</span></div>`;
+  }catch(e){
+    cont.innerHTML = `<div class="cns-cifra"><span class="v">—</span><span class="k">No se pudieron cargar los datos</span></div>`;
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
 // ═══════════════════════════════════════════════════════════
 updateLogoutBtn();
-render();
+arrancar();
 loadShifts();
+
+// En /profe manda la consola; en la raíz, la vista del alumno.
+function arrancar(){
+  if(ES_CONSOLA){
+    document.body.classList.add('modo-consola');
+    if(!isUnlocked()){ pedirClave(); return; }
+  }
+  render();
+}
+
+/** Muro propio de /profe: sin contraseña no se ve nada de la consola. */
+function pedirClave(){
+  document.getElementById('main').innerHTML =
+    '<div class="consola">' +
+      '<div class="lock-wall" style="margin-top:3rem">' +
+        '<div class="lock-icon-big">&#128273;</div>' +
+        '<h3>Consola de la profesora</h3>' +
+        '<p>Ingresa tu contraseña para entrar.</p>' +
+        '<input id="pass-input" class="lock-input" type="password" placeholder="Contraseña" ' +
+          'autocomplete="current-password" onkeydown="if(event.key===\'Enter\') entrarConsola()">' +
+        '<button class="lock-btn" onclick="entrarConsola()">Entrar</button>' +
+        '<div class="lock-err" id="lock-err">Contraseña incorrecta. Inténtalo de nuevo.</div>' +
+      '</div>' +
+    '</div>';
+  setTimeout(function(){ var i=document.getElementById('pass-input'); if(i) i.focus(); }, 80);
+}
+function entrarConsola(){
+  var inp = document.getElementById('pass-input');
+  var err = document.getElementById('lock-err');
+  if(inp.value.trim() === CORRECT_PW){
+    localStorage.setItem(PASS_KEY, '1');
+    sessionStorage.setItem('nota_pw', CORRECT_PW);
+    updateLogoutBtn();
+    render();
+  } else {
+    err.style.display = 'block'; inp.value = ''; inp.focus();
+  }
+}
 </script>
 
 <!-- ── ACCESOS A LOS PROMPTS ──────────────────────────────── -->

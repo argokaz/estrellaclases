@@ -369,7 +369,7 @@ footer{flex-direction:column;align-items:flex-start;gap:.35rem}
 <div id="toast">✓ Copiado</div>
 
 <script>
-const WHATSAPP = ''; // pon aquí tu número (formato internacional, sin + ni espacios)
+const WHATSAPP = '51923828655'; // pon aquí tu número (formato internacional, sin + ni espacios)
 let CATS = [], PROMPTS = [], filtro = 'todos', busca = '';
 
 const list=document.getElementById('list'), chips=document.getElementById('chips'),
@@ -511,7 +511,7 @@ function pintarCodigos(codes){
   const c=document.getElementById('adm-list');
   if(!codes.length){ c.innerHTML='<p style="color:var(--dim);font-size:13.5px">Todavía no generaste ninguno.</p>'; return; }
   c.innerHTML = codes.slice().reverse().map(function(k){
-    const url = location.origin+'/prompts/todos/?k='+k.code;
+    const url = location.origin+'/p/'+k.code;
     return '<div class="adm-item"><code>'+esc(k.code)+'</code>'+
       '<span class="who">'+esc(k.nombre||'—')+(k.usos?' · '+k.usos+' entradas':'')+'</span>'+
       '<button class="lnk" onclick="copiarLink(\''+k.code+'\',this)">Copiar enlace</button>'+
@@ -519,7 +519,7 @@ function pintarCodigos(codes){
   }).join('');
 }
 window.copiarLink=function(code,btn){
-  copiar(location.origin+'/prompts/todos/?k='+code, btn);
+  copiar(location.origin+'/p/'+code, btn);
   btn.textContent='✓ Copiado';
   setTimeout(function(){btn.textContent='Copiar enlace'},1600);
 };

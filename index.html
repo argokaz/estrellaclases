@@ -682,6 +682,35 @@ button{font-family:inherit;cursor:pointer;}
 
 .teacher-btn.gold{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4);color:#fbbf24;}
 .teacher-btn.gold:hover{background:rgba(245,158,11,.28);}
+.teacher-btn.violet{background:rgba(139,92,246,.16);border-color:rgba(139,92,246,.42);color:#c4b5fd;}
+.teacher-btn.violet:hover{background:rgba(139,92,246,.3);}
+
+/* ── ACCESOS A LOS PROMPTS ── */
+.acc-intro{font-size:.85rem;color:#94a3b8;line-height:1.5;margin-bottom:1rem;}
+.acc-new{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.6rem;}
+.acc-new input{flex:1 1 200px;background:#0a0e17;border:1px solid rgba(255,255,255,.14);color:#e2e8f0;
+  border-radius:9px;padding:.55rem .7rem;font-size:.9rem;font-family:inherit;}
+.acc-new button{background:#a3e635;color:#131a02;border:none;border-radius:9px;padding:.55rem 1.2rem;
+  font-weight:700;font-size:.88rem;cursor:pointer;font-family:inherit;}
+.acc-new button:hover{background:#d3f184;}
+.acc-fresh{background:rgba(163,230,53,.1);border:1px solid rgba(163,230,53,.4);border-radius:11px;
+  padding:.8rem .9rem;margin-bottom:.9rem;display:none;}
+.acc-fresh.on{display:block;}
+.acc-fresh .lbl{font-size:.72rem;color:#a3e635;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+.acc-fresh .url{font-family:'Space Grotesk',monospace;font-size:.92rem;color:#e2e8f0;word-break:break-all;margin:.35rem 0 .6rem;}
+.acc-fresh button{background:#a3e635;color:#131a02;border:none;border-radius:8px;padding:.42rem 1rem;
+  font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit;margin-right:.4rem;}
+.acc-fresh button.wsp{background:#25d366;color:#052e16;}
+.acc-item{display:flex;align-items:center;justify-content:space-between;gap:.5rem;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:.5rem .65rem;margin-bottom:.35rem;
+  font-size:.82rem;flex-wrap:wrap;}
+.acc-item code{font-family:'Space Grotesk',monospace;font-weight:700;color:#c4b5fd;letter-spacing:.05em;}
+.acc-item .who{color:#94a3b8;flex:1;min-width:80px;}
+.acc-item button{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#94a3b8;
+  border-radius:7px;padding:.28rem .6rem;font-size:.76rem;cursor:pointer;font-family:inherit;}
+.acc-item button:hover{color:#e2e8f0;}
+.acc-item button.cp{background:rgba(163,230,53,.13);border-color:rgba(163,230,53,.4);color:#a3e635;}
+.acc-empty{font-size:.85rem;color:#64748b;padding:.5rem 0;}
 
 /* ── REPROGRAMAR CLASES ── */
 .sched-overlay{display:none;position:fixed;inset:0;z-index:520;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
@@ -2101,6 +2130,7 @@ function renderPanel(gradeId){
         <button class="teacher-btn green" onclick="openRosterEditor('${gradeId}')">📋 Alumnos</button>
         <button class="teacher-btn" onclick="openResults(null, '${gradeId}')">📊 Resultados</button>
         <button class="teacher-btn gold" onclick="openSchedule()">🗓️ Fechas</button>
+        <button class="teacher-btn violet" onclick="openAccess()">✨ Accesos a prompts</button>
       </div>
     </div>`;
   }
@@ -3321,12 +3351,136 @@ function removeShift(id){
 }
 
 // ═══════════════════════════════════════════════════════════
+// ACCESOS A LOS PROMPTS — enlaces mágicos para colegas
+// ═══════════════════════════════════════════════════════════
+// Se usa desde el modo profesora: la contraseña ya está puesta, así que
+// no se vuelve a pedir. El enlace corto (/p/CODIGO) lo resuelve netlify.toml.
+const WSP_PROF = '51923828655';
+let ACC_LAST = '';
+
+async function accApi(payload){
+  const r = await fetch('/.netlify/functions/prompts-access',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(Object.assign({pw: CORRECT_PW}, payload))
+  });
+  const d = await r.json();
+  if(!r.ok || d.error) throw new Error(d.error || 'error');
+  return d;
+}
+
+function openAccess(){
+  document.getElementById('acc-overlay').classList.add('active');
+  document.getElementById('acc-fresh').classList.remove('on');
+  document.getElementById('acc-status').textContent = 'Cargando…';
+  accApi({action:'list'})
+    .then(d=>{ document.getElementById('acc-status').textContent=''; pintarAccesos(d.codes); })
+    .catch(e=>{ document.getElementById('acc-status').textContent = '⚠️ ' + e.message; });
+}
+function closeAccess(){ document.getElementById('acc-overlay').classList.remove('active'); }
+
+function linkDe(code){ return location.origin + '/p/' + code; }
+
+function pintarAccesos(codes){
+  const c = document.getElementById('acc-list');
+  if(!codes || !codes.length){ c.innerHTML = '<p class="acc-empty">Todavía no entregaste ninguno.</p>'; return; }
+  c.innerHTML = codes.slice().reverse().map(k=>`
+    <div class="acc-item">
+      <code>${k.code}</code>
+      <span class="who">${k.nombre ? k.nombre : '—'}${k.usos ? ' · entró '+k.usos+(k.usos===1?' vez':' veces') : ' · sin usar'}</span>
+      <button class="cp" onclick="copiarUno('${k.code}',this)">Copiar</button>
+      <button onclick="anularAcceso('${k.code}')">Anular</button>
+    </div>`).join('');
+}
+
+async function crearAcceso(){
+  const nombre = document.getElementById('acc-name').value.trim();
+  const st = document.getElementById('acc-status');
+  st.textContent = 'Generando…';
+  try{
+    const d = await accApi({action:'create', nombre});
+    ACC_LAST = d.code;
+    document.getElementById('acc-name').value = '';
+    document.getElementById('acc-fresh-url').textContent = linkDe(d.code);
+    document.getElementById('acc-fresh').classList.add('on');
+    st.textContent = '';
+    pintarAccesos(d.codes);
+  }catch(e){
+    // Si no se guardó, decirlo: un enlace que no existe deja al colega afuera.
+    st.textContent = '⚠️ No se pudo generar (' + e.message + ').';
+  }
+}
+
+function copiarTexto(txt, btn, okTxt){
+  const listo = ()=>{ if(btn){ const o=btn.textContent; btn.textContent = okTxt||'✓ Copiado';
+    setTimeout(()=>{btn.textContent=o;},1600); } };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(listo, ()=>copiaManual(txt,listo));
+  } else copiaManual(txt, listo);
+}
+function copiaManual(txt, cb){
+  const ta=document.createElement('textarea');
+  ta.value=txt; ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,txt.length);
+  try{ document.execCommand('copy'); cb(); }catch(_){}
+  document.body.removeChild(ta);
+}
+function copiarAcceso(){ copiarTexto(linkDe(ACC_LAST), event.target); }
+function copiarUno(code, btn){ copiarTexto(linkDe(code), btn); }
+
+function mandarWsp(){
+  const msg = '¡Hola! Acá está tu acceso a los 48 prompts 👇\n' + linkDe(ACC_LAST) +
+              '\n\nÁbrelo del celular y te queda guardado. Cualquier duda, escríbeme.';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+async function anularAcceso(code){
+  if(!confirm('¿Anular ' + code + '? Quien lo tenga dejará de entrar.')) return;
+  try{
+    const d = await accApi({action:'revoke', code});
+    pintarAccesos(d.codes);
+  }catch(e){
+    document.getElementById('acc-status').textContent = '⚠️ No se pudo anular (' + e.message + ').';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
 // ═══════════════════════════════════════════════════════════
 updateLogoutBtn();
 render();
 loadShifts();
 </script>
+
+<!-- ── ACCESOS A LOS PROMPTS ──────────────────────────────── -->
+<div class="sched-overlay" id="acc-overlay" onclick="if(event.target===this)closeAccess()">
+  <div class="sched-panel">
+    <div class="sched-hdr">
+      <h2>✨ Accesos a los prompts</h2>
+      <button onclick="closeAccess()">Cerrar</button>
+    </div>
+    <div class="sched-body">
+      <p class="acc-intro">Cuando un colega te yapee, genera su enlace aquí y mándaselo.
+        Cada enlace es de una persona: puedes ver cuántas veces entró y anularlo cuando quieras.</p>
+
+      <div class="acc-new">
+        <input id="acc-name" type="text" placeholder="¿Para quién? (ej. Miguel, Matemática)" maxlength="60">
+        <button onclick="crearAcceso()">Generar enlace</button>
+      </div>
+
+      <div class="acc-fresh" id="acc-fresh">
+        <div class="lbl">Enlace listo para mandar</div>
+        <div class="url" id="acc-fresh-url"></div>
+        <button onclick="copiarAcceso()">📋 Copiar</button>
+        <button class="wsp" onclick="mandarWsp()">💬 Mandar por WhatsApp</button>
+      </div>
+
+      <div class="sched-status" id="acc-status"></div>
+      <div class="sched-sec">Enlaces entregados</div>
+      <div id="acc-list"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ── REPROGRAMAR CLASES ─────────────────────────────────── -->
 <div class="sched-overlay" id="sched-overlay" onclick="if(event.target===this)closeSchedule()">

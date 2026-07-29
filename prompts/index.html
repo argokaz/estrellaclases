@@ -215,14 +215,15 @@ footer{flex-direction:column;align-items:flex-start;gap:.35rem}
 /* pago */
 .pay{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,3.2vw,44px);align-items:center;
   margin-top:clamp(24px,3.4vw,42px);padding-top:clamp(22px,3vw,34px);border-top:1px solid rgba(255,255,255,.1)}
-.yape{background:#6d2c91;border-radius:20px;padding:clamp(12px,1.5vw,18px);text-align:center;
-  box-shadow:0 18px 46px rgba(109,44,145,.45)}
-.yape img{display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:12px;background:#fff}
-.yape-fb{width:clamp(150px,17vw,210px);aspect-ratio:1;border-radius:12px;background:#fff;color:#6d2c91;
+/* la imagen del QR ya trae su propio marco morado: el contenedor no debe añadir otro */
+.yape{text-align:center}
+.yape img{display:block;width:clamp(180px,21vw,260px);height:auto;border-radius:18px;
+  box-shadow:0 18px 46px rgba(109,44,145,.5)}
+.yape-fb{width:clamp(180px,21vw,260px);aspect-ratio:1;border-radius:18px;background:#fff;color:#6d2c91;box-shadow:0 18px 46px rgba(109,44,145,.5);
   display:none;flex-direction:column;align-items:center;justify-content:center;gap:.4em;padding:1em;text-align:center}
 .yape-fb b{font-family:'Space Grotesk',sans-serif;font-size:15px}
 .yape-fb span{font-size:12px;line-height:1.4;color:#8b5aa8}
-.yape-cap{color:#f0e2fa;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;margin-top:.7em;letter-spacing:.02em}
+.yape-cap{color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;margin-top:.7em;letter-spacing:.02em}
 
 .price{font-family:'Space Grotesk',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1;
   font-size:clamp(30px,4.4vw,54px)}
@@ -313,7 +314,7 @@ footer{flex-direction:column;align-items:flex-start;gap:.35rem}
 
     <div class="pay">
       <div class="yape">
-        <img src="yape.png" alt="Código QR de Yape para el aporte"
+        <img src="yape.jpg" alt="Código QR de Yape para el aporte"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="yape-fb">
           <b>Escríbeme</b>
@@ -473,7 +474,7 @@ const PROMPTS = [{"c":"crear","t":"La plantilla que sirve para todo","p":"Si sol
 const LOCKED = [{"t":"Convertir un documento en diapositivas","c":"crear"},{"t":"Analogías para explicar","c":"crear"},{"t":"Un caso para resolver","c":"crear"},{"t":"Comparar dos conceptos","c":"crear"},{"t":"Línea de tiempo","c":"crear"},{"t":"Glosario de palabras nuevas","c":"crear"},{"t":"Actividades para el aula","c":"crear"},{"t":"Ficha de trabajo","c":"crear"},{"t":"La pregunta con la que abrir","c":"crear"},{"t":"Plan de una clase de 45 minutos","c":"crear"},{"t":"Debate con roles","c":"crear"},{"t":"Juego de repaso","c":"crear"},{"t":"Tres niveles de dificultad","c":"adaptar"},{"t":"Adaptar sin tocar el contenido","c":"adaptar"},{"t":"El mismo tema para otro grado","c":"adaptar"},{"t":"De lectura larga a guía de estudio","c":"adaptar"},{"t":"Resumen de repaso","c":"adaptar"},{"t":"Reciclar una clase del año pasado","c":"adaptar"},{"t":"Preguntas a partir de una lectura","c":"evaluar"},{"t":"Alternativas falsas que sí engañan","c":"evaluar"},{"t":"Examen con tres niveles","c":"evaluar"},{"t":"Rúbrica para calificar","c":"evaluar"},{"t":"Preguntas de cierre","c":"evaluar"},{"t":"Más ejercicios como este","c":"evaluar"},{"t":"Corregir sin borrarle la voz","c":"evaluar"},{"t":"Comparar dos trabajos","c":"evaluar"},{"t":"Explicarle por qué está mal","c":"evaluar"},{"t":"Dónde se equivoca todo el salón","c":"evaluar"},{"t":"Revisar una evaluación antes de aplicarla","c":"revisar"},{"t":"¿Se entiende mi consigna?","c":"revisar"},{"t":"Instrucciones que sí se siguen","c":"revisar"},{"t":"Trabaja solo con mi material","c":"revisar"},{"t":"Mensaje para los padres","c":"tiempo"},{"t":"Resumir un documento largo","c":"tiempo"},{"t":"Programación de la unidad","c":"tiempo"},{"t":"Que marque lo que hay que revisar","c":"trucos"}];
 
 // Cambia este número por el tuyo (formato internacional, sin + ni espacios).
-const WHATSAPP = '';
+const WHATSAPP = '51923828655';
 
 
 

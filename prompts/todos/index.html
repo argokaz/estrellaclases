@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Los 48 prompts · Acceso completo</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0c11">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0c11; --ink2:#0f1219; --ink3:#151922;
+  --lime:#a3e635; --lime2:#d3f184; --limeInk:#131a02;
+  --paper:#e7e9ee; --muted:#9aa2b1; --dim:#656d7d;
+  --gold:#fbbf24; --line:rgba(255,255,255,.09);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink); color:var(--paper); font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased; line-height:1.5; padding-bottom:64px;
+  background-image:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.014) 0 1px,transparent 1px 78px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.014) 0 1px,transparent 1px 78px);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* ── HERO ── */
+.hero{position:relative;padding:clamp(46px,8vw,96px) 0 clamp(26px,4vw,44px);overflow:hidden}
+.hero::before{content:'';position:absolute;width:56%;height:150%;border-radius:50%;top:-42%;right:-12%;pointer-events:none;
+  background:radial-gradient(circle,rgba(163,230,53,.14) 0%,transparent 65%)}
+.hero>*{position:relative}
+.kick{display:inline-flex;align-items:center;gap:.45em;background:rgba(163,230,53,.1);border:1px solid rgba(163,230,53,.32);
+  color:var(--lime);border-radius:100px;padding:.34em 1em;font-size:13px;font-weight:700;
+  font-family:'Space Grotesk',sans-serif;letter-spacing:.04em;margin-bottom:1.1em}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(31px,5.6vw,62px);font-weight:800;line-height:1.04;letter-spacing:-.03em}
+.sub{font-size:clamp(15px,1.7vw,21px);color:var(--muted);max-width:56ch;margin-top:.85em}
+.sub b{color:var(--paper);font-weight:600}
+.how3{display:flex;gap:clamp(10px,1.5vw,20px);margin-top:clamp(20px,3vw,34px);flex-wrap:wrap}
+.h3c{flex:1 1 220px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-top:2px solid var(--lime);
+  border-radius:12px;padding:14px 16px}
+.h3c b{display:block;font-family:'Space Grotesk',sans-serif;font-size:15px;margin-bottom:.25em}
+.h3c span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.h3c i{font-style:normal;color:var(--lime);font-family:'Space Grotesk',sans-serif;font-weight:800;margin-right:.4em}
+
+/* ── CONTROLES ── */
+.tools{position:sticky;top:0;z-index:30;background:rgba(10,12,17,.93);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);padding:12px 0;margin-bottom:clamp(20px,3vw,34px)}
+.searchbox{position:relative;margin-bottom:10px}
+#q{width:100%;background:var(--ink2);border:1px solid var(--line);border-radius:11px;color:var(--paper);
+  font-family:inherit;font-size:15px;padding:11px 40px 11px 38px;outline:none}
+#q:focus{border-color:rgba(163,230,53,.5)}
+#q::placeholder{color:var(--dim)}
+.searchbox .mg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:15px;pointer-events:none}
+#clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--dim);
+  cursor:pointer;font-size:17px;padding:4px 8px;display:none}
+#clr:hover{color:var(--paper)}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--muted);
+  border-radius:100px;padding:.44em 1em;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:background .18s,color .18s,border-color .18s;white-space:nowrap}
+.chip:hover{color:var(--paper);border-color:rgba(255,255,255,.22)}
+.chip.on{background:var(--lime);border-color:var(--lime);color:var(--limeInk)}
+
+/* ── LISTA ── */
+.cat{margin-bottom:clamp(26px,4vw,46px)}
+.cat h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,2.4vw,29px);font-weight:800;letter-spacing:-.02em;
+  margin-bottom:.7em;display:flex;align-items:center;gap:.45em}
+.cat h2 small{font-size:13px;font-weight:600;color:var(--dim);font-family:'Inter';letter-spacing:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:clamp(12px,1.6vw,20px)}
+.card{background:linear-gradient(158deg,rgba(255,255,255,.045),rgba(255,255,255,.022));
+  border:1px solid var(--line);border-radius:14px;padding:clamp(15px,1.8vw,22px);display:flex;flex-direction:column}
+.card h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(15px,1.65vw,19px);font-weight:700;line-height:1.2;letter-spacing:-.01em}
+.when{font-size:13px;color:var(--dim);margin-top:.4em;line-height:1.4}
+pre{background:#070a0f;border:1px solid var(--line);border-top:2px solid rgba(163,230,53,.42);border-radius:10px;
+  padding:13px 14px;margin-top:13px;font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.55;
+  color:var(--paper);white-space:pre-wrap;word-break:break-word;flex:1}
+pre mark{background:rgba(163,230,53,.14);color:var(--lime2);border-radius:4px;padding:0 .25em;font-weight:600}
+.copy{margin-top:11px;align-self:flex-start;background:rgba(163,230,53,.11);border:1px solid rgba(163,230,53,.4);
+  color:var(--lime);border-radius:100px;padding:.5em 1.15em;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  font-size:13.5px;cursor:pointer;transition:background .18s,color .18s}
+.copy:hover{background:var(--lime);color:var(--limeInk)}
+.copy.ok{background:var(--lime);color:var(--limeInk);border-color:var(--lime)}
+#empty{display:none;text-align:center;padding:50px 20px;color:var(--muted)}
+#empty b{display:block;font-family:'Space Grotesk',sans-serif;font-size:19px;color:var(--paper);margin-bottom:.4em}
+
+/* ── GUARDAR ── */
+.save{margin-top:clamp(34px,5vw,64px);background:linear-gradient(158deg,#0c1017,#12171f);
+  border:1px solid var(--line);border-top:2px solid var(--lime);border-radius:18px;
+  padding:clamp(22px,3.4vw,44px);display:grid;grid-template-columns:1fr auto;gap:clamp(20px,3.4vw,48px);align-items:center}
+.save h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(21px,2.7vw,34px);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.save p{color:var(--muted);margin-top:.6em;font-size:clamp(14px,1.5vw,17px);max-width:40ch}
+.qrbox{text-align:center}
+.qrcard{background:#fff;border-radius:14px;padding:12px;display:inline-block;line-height:0;
+  box-shadow:0 16px 40px rgba(0,0,0,.5)}
+.qrcard svg{display:block;width:clamp(120px,15vw,168px);height:auto}
+.qrbox .url{font-family:'Space Grotesk',sans-serif;font-size:12.5px;color:var(--lime);margin-top:.75em;letter-spacing:.01em;word-break:break-all}
+.steps{list-style:none;counter-reset:s;margin-top:1.4em;display:flex;flex-direction:column;gap:.5em}
+.steps li{position:relative;padding-left:2.1em;font-size:clamp(13.5px,1.4vw,16px);color:var(--muted);line-height:1.45}
+.steps li b{color:var(--paper);font-weight:600}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:.02em;width:1.5em;height:1.5em;
+  border-radius:50%;display:grid;place-items:center;background:rgba(163,230,53,.13);border:1px solid rgba(163,230,53,.42);
+  color:var(--lime);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.8em}
+.androw{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,40px);align-items:center;
+  margin-top:clamp(20px,3vw,36px);padding-top:clamp(20px,3vw,32px);border-top:1px solid var(--line);grid-column:1/-1}
+.androw .cap{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(14px,1.6vw,19px);margin-bottom:.5em}
+.phone-demo{width:clamp(150px,19vw,210px);height:auto;display:block}
+
+/* ── PIE ── */
+footer{margin-top:clamp(34px,5vw,60px);padding-top:24px;border-top:1px solid var(--line);
+  display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+footer a{color:var(--lime);text-decoration:none;font-weight:600;font-size:14.5px}
+footer a:hover{text-decoration:underline}
+footer span{font-size:13px;color:var(--dim)}
+
+/* ── AVISO COPIADO ── */
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,90px);background:var(--lime);color:var(--limeInk);
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;padding:.7em 1.4em;border-radius:100px;
+  box-shadow:0 12px 34px rgba(0,0,0,.5);z-index:80;transition:transform .35s cubic-bezier(.22,1,.36,1);pointer-events:none}
+#toast.on{transform:translate(-50%,0)}
+
+@media(max-width:760px){
+  .save{grid-template-columns:1fr;text-align:left}
+  .qrbox{justify-self:start}
+  .androw{grid-template-columns:1fr;gap:16px}
+  .grid{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .card{transition:border-color .2s,transform .2s}
+  .card:hover{border-color:rgba(163,230,53,.3);transform:translateY(-2px)}
+  /* — cómo guardar en Android — */
+  .an-menu{animation:anMenu 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:top right}
+  @keyframes anMenu{0%,14%{opacity:0;transform:scale(.7)}20%,52%{opacity:1;transform:none}58%,100%{opacity:0;transform:scale(.7)}}
+  .an-tap{animation:anTap 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
+  @keyframes anTap{0%,6%{opacity:0;transform:scale(.4)}10%{opacity:.85;transform:scale(1)}
+    16%{opacity:0;transform:scale(1.5)}30%{opacity:0;transform:scale(.4)}
+    34%{opacity:.85;transform:scale(1)}40%{opacity:0;transform:scale(1.5)}100%{opacity:0}}
+  .an-tap.t2{animation-name:anTap2}
+  @keyframes anTap2{0%,30%{opacity:0;transform:scale(.4)}36%{opacity:.85;transform:scale(1)}
+    44%,100%{opacity:0;transform:scale(1.6)}}
+  .an-hl{animation:anHl 13s ease-in-out infinite both}
+  @keyframes anHl{0%,32%{opacity:0}38%,52%{opacity:1}58%,100%{opacity:0}}
+  .an-home{animation:anHome 13s ease-in-out infinite both}
+  @keyframes anHome{0%,58%{opacity:0}66%,94%{opacity:1}98%,100%{opacity:0}}
+  .an-page{animation:anPage 13s ease-in-out infinite both}
+  @keyframes anPage{0%,56%{opacity:1}62%,94%{opacity:0}98%,100%{opacity:1}}
+  .an-icon{animation:anIcon 13s ease-in-out infinite both;transform-box:fill-box;transform-origin:center}
+  @keyframes anIcon{0%,64%{opacity:0;transform:scale(.3)}72%{opacity:1;transform:scale(1)}
+    94%{opacity:1;transform:scale(1)}98%,100%{opacity:0}}
+}
+
+/* ── ENLACES ÚTILES ── */
+.links-sec{margin-top:clamp(30px,4.5vw,56px)}
+.links-sec h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,2.4vw,29px);font-weight:800;
+  letter-spacing:-.02em;margin-bottom:.8em}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:clamp(10px,1.4vw,18px)}
+.lk{display:block;background:rgba(255,255,255,.045);border:1px solid var(--line);border-top:2px solid var(--lime);
+  border-radius:13px;padding:clamp(13px,1.6vw,22px);text-decoration:none;color:inherit;
+  transition:background .2s,border-color .2s,transform .2s}
+.lk:hover{background:rgba(163,230,53,.08);border-color:rgba(163,230,53,.4);transform:translateY(-2px)}
+.lk .em{display:block;font-size:clamp(17px,2vw,26px);line-height:1;margin-bottom:.32em}
+.lk b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15.5px;margin-bottom:.2em}
+.lk .u{display:block;font-family:'Space Grotesk',sans-serif;font-size:12.5px;color:var(--lime);word-break:break-all;margin-bottom:.3em}
+.lk .d{display:block;font-size:13px;color:var(--muted);line-height:1.4}
+.herr{display:flex;align-items:center;gap:.6em;flex-wrap:wrap;margin-top:1.3em;font-size:13.5px;color:var(--dim)}
+.herr a{color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:1px}
+.herr a:hover{color:var(--lime);border-color:var(--lime)}
+footer{flex-direction:column;align-items:flex-start;gap:.35rem}
+
+/* ═══════ BLOQUE DE ACCESO COMPLETO ═══════ */
+.pitch{position:relative;margin-top:clamp(38px,5.5vw,72px);border-radius:20px;overflow:hidden;
+  background:linear-gradient(158deg,#12101c 0%,#1a1226 45%,#140f1e 100%);
+  border:1px solid rgba(163,230,53,.18);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.pitch::before{content:'';position:absolute;width:60%;height:120%;border-radius:50%;top:-30%;right:-16%;
+  background:radial-gradient(circle,rgba(163,230,53,.13) 0%,transparent 66%);pointer-events:none}
+.pitch::after{content:'';position:absolute;width:46%;height:90%;border-radius:50%;bottom:-30%;left:-12%;
+  background:radial-gradient(circle,rgba(139,92,246,.14) 0%,transparent 66%);pointer-events:none}
+.pitch>*{position:relative;z-index:1}
+.pitch-in{padding:clamp(24px,3.6vw,52px)}
+
+.pitch-kick{display:inline-flex;align-items:center;gap:.45em;background:rgba(163,230,53,.12);
+  border:1px solid rgba(163,230,53,.4);color:var(--lime);border-radius:100px;padding:.34em 1em;
+  font-size:12.5px;font-weight:700;font-family:'Space Grotesk',sans-serif;letter-spacing:.04em}
+.pitch h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,4vw,48px);font-weight:800;
+  line-height:1.06;letter-spacing:-.03em;margin-top:.5em}
+.pitch h2 span{color:var(--lime)}
+.pitch-sub{font-size:clamp(15px,1.7vw,20px);color:var(--muted);max-width:52ch;margin-top:.7em;line-height:1.5}
+.pitch-sub b{color:var(--paper);font-weight:600}
+
+/* rejilla de títulos bloqueados */
+.locked{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px;
+  margin-top:clamp(20px,2.6vw,32px)}
+.lock{display:flex;align-items:center;gap:.5em;background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:.6em .75em;font-size:13.5px;
+  color:#8b93a3;position:relative;overflow:hidden}
+.lock i{font-style:normal;flex-shrink:0;opacity:.5;font-size:12px}
+.lock span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lock::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 55%,rgba(18,16,28,.92) 100%);pointer-events:none}
+.locked-more{grid-column:1/-1;text-align:center;color:var(--lime);font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:14px;padding:.7em}
+
+/* qué incluye */
+.incl{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(10px,1.4vw,18px);
+  margin-top:clamp(22px,3vw,36px)}
+.inc{background:rgba(255,255,255,.045);border:1px solid var(--line);border-top:2px solid var(--lime);
+  border-radius:13px;padding:clamp(14px,1.6vw,22px)}
+.inc .em{display:block;font-size:clamp(19px,2.2vw,28px);line-height:1;margin-bottom:.35em}
+.inc b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;margin-bottom:.25em}
+.inc span{font-size:13.5px;color:var(--muted);line-height:1.45}
+
+/* pago */
+.pay{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,3.2vw,44px);align-items:center;
+  margin-top:clamp(24px,3.4vw,42px);padding-top:clamp(22px,3vw,34px);border-top:1px solid rgba(255,255,255,.1)}
+.yape{background:#6d2c91;border-radius:20px;padding:clamp(12px,1.5vw,18px);text-align:center;
+  box-shadow:0 18px 46px rgba(109,44,145,.45)}
+.yape img{display:block;width:clamp(150px,17vw,210px);height:auto;border-radius:12px;background:#fff}
+.yape-fb{width:clamp(150px,17vw,210px);aspect-ratio:1;border-radius:12px;background:#fff;color:#6d2c91;
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:.4em;padding:1em;text-align:center}
+.yape-fb b{font-family:'Space Grotesk',sans-serif;font-size:15px}
+.yape-fb span{font-size:12px;line-height:1.4;color:#8b5aa8}
+.yape-cap{color:#f0e2fa;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;margin-top:.7em;letter-spacing:.02em}
+
+.price{font-family:'Space Grotesk',sans-serif;font-weight:800;letter-spacing:-.02em;line-height:1;
+  font-size:clamp(30px,4.4vw,54px)}
+.price small{display:block;font-size:clamp(13px,1.5vw,17px);font-weight:600;color:var(--lime);letter-spacing:0;margin-top:.4em}
+.price-note{font-size:14px;color:var(--muted);margin-top:.9em;line-height:1.5;max-width:38ch}
+.steps3{list-style:none;counter-reset:p;margin-top:1.3em;display:flex;flex-direction:column;gap:.55em}
+.steps3 li{position:relative;padding-left:2.2em;font-size:14.5px;color:var(--muted);line-height:1.45}
+.steps3 li b{color:var(--paper);font-weight:600}
+.steps3 li::before{counter-increment:p;content:counter(p);position:absolute;left:0;top:0;width:1.55em;height:1.55em;
+  border-radius:50%;display:grid;place-items:center;background:rgba(163,230,53,.14);
+  border:1px solid rgba(163,230,53,.45);color:var(--lime);font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:.82em}
+.pitch-cta{display:inline-flex;align-items:center;gap:.5em;background:var(--lime);color:var(--limeInk);
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15.5px;padding:.72em 1.5em;border-radius:100px;
+  text-decoration:none;margin-top:1.2em;box-shadow:0 10px 30px rgba(163,230,53,.24);
+  transition:transform .18s,box-shadow .18s}
+.pitch-cta:hover{transform:translateY(-2px);box-shadow:0 14px 38px rgba(163,230,53,.34)}
+.pitch-foot{margin-top:1.1em;font-size:13px;color:var(--dim);line-height:1.5}
+.pitch-foot a{color:var(--lime);text-decoration:none}
+.pitch-foot a:hover{text-decoration:underline}
+
+.free-note{margin:clamp(18px,2.4vw,28px) 0 0;padding:.85em 1.05em;border-radius:11px;
+  background:rgba(163,230,53,.07);border-top:2px solid rgba(163,230,53,.45);
+  font-size:14.5px;color:var(--lime2);line-height:1.45}
+.free-note b{color:var(--lime)}
+
+@media(max-width:700px){
+  .pay{grid-template-columns:1fr}
+  .yape{justify-self:center}
+  .locked{grid-template-columns:1fr}
+}
+
+/* ═══════ PUERTA DE ACCESO ═══════ */
+.gate{max-width:520px;margin:clamp(50px,9vw,110px) auto;text-align:center}
+.gate .em{font-size:clamp(38px,6vw,64px);line-height:1;margin-bottom:.3em}
+.gate h1{font-size:clamp(26px,4.2vw,44px)}
+.gate p{color:var(--muted);margin-top:.7em;font-size:16px;line-height:1.55}
+.gate-form{display:flex;gap:8px;margin-top:1.6em;flex-wrap:wrap;justify-content:center}
+.gate-form input{flex:1 1 220px;background:var(--ink2);border:1px solid var(--line);color:var(--paper);
+  border-radius:11px;padding:.78rem .9rem;font-size:17px;font-family:'Space Grotesk',sans-serif;
+  font-weight:700;letter-spacing:.08em;text-align:center;text-transform:uppercase;outline:none}
+.gate-form input:focus{border-color:rgba(163,230,53,.55)}
+.gate-form button{background:var(--lime);color:var(--limeInk);border:none;border-radius:11px;
+  padding:.78rem 1.5rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15.5px;cursor:pointer}
+.gate-form button:hover{background:var(--lime2)}
+.gate-msg{margin-top:1em;font-size:14.5px;min-height:1.4em;color:var(--muted)}
+.gate-msg.err{color:#f87171}
+.gate-alt{margin-top:2.2em;padding-top:1.6em;border-top:1px solid var(--line);font-size:14.5px;color:var(--dim)}
+.gate-alt a{color:var(--lime);text-decoration:none;font-weight:600}
+.gate-alt a:hover{text-decoration:underline}
+.welcome{background:rgba(163,230,53,.08);border:1px solid rgba(163,230,53,.3);border-radius:13px;
+  padding:.9em 1.15em;margin-bottom:1.4em;font-size:15px;color:var(--lime2)}
+.welcome b{color:var(--lime)}
+.welcome a{color:var(--lime);font-weight:600}
+.wsp-band{display:flex;align-items:center;gap:clamp(12px,2vw,26px);flex-wrap:wrap;justify-content:space-between;
+  background:linear-gradient(158deg,#0d2318,#0f2d1d);border:1px solid rgba(37,211,102,.3);
+  border-top:2px solid #25d366;border-radius:15px;padding:clamp(16px,2vw,26px);margin-top:clamp(28px,4vw,48px)}
+.wsp-band h3{font-family:'Space Grotesk',sans-serif;font-size:clamp(17px,2vw,23px);font-weight:800;letter-spacing:-.01em}
+.wsp-band p{color:var(--muted);font-size:14.5px;margin-top:.3em;max-width:46ch;line-height:1.5}
+.wsp-band a{background:#25d366;color:#052e16;border-radius:100px;padding:.68em 1.4em;text-decoration:none;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;white-space:nowrap;flex-shrink:0}
+.wsp-band a:hover{background:#4ade80}
+/* panel de códigos (solo la profesora) */
+.adm{margin-top:clamp(28px,4vw,48px);background:rgba(255,255,255,.03);border:1px solid var(--line);
+  border-radius:15px;padding:clamp(16px,2vw,26px);display:none}
+.adm.on{display:block}
+.adm h3{font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:.7em}
+.adm-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1em}
+.adm-row input{flex:1 1 180px;background:var(--ink2);border:1px solid var(--line);color:var(--paper);
+  border-radius:9px;padding:.55rem .7rem;font-size:14.5px;font-family:inherit}
+.adm-row button{background:var(--lime);color:var(--limeInk);border:none;border-radius:9px;padding:.55rem 1.1rem;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;cursor:pointer}
+.adm-item{display:flex;align-items:center;justify-content:space-between;gap:.6em;background:rgba(255,255,255,.04);
+  border:1px solid var(--line);border-radius:9px;padding:.5em .7em;margin-bottom:.35em;font-size:13.5px;flex-wrap:wrap}
+.adm-item code{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--lime);letter-spacing:.06em}
+.adm-item .who{color:var(--muted);flex:1}
+.adm-item button{background:rgba(255,255,255,.07);border:1px solid var(--line);color:var(--muted);
+  border-radius:7px;padding:.28em .6em;font-size:12.5px;cursor:pointer;font-family:inherit}
+.adm-item button:hover{color:var(--paper)}
+.adm-item .lnk{background:rgba(163,230,53,.12);border-color:rgba(163,230,53,.4);color:var(--lime)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="gate">
+    <div class="gate">
+      <div class="em">🔑</div>
+      <h1>Tu acceso a los 48</h1>
+      <p>Pega el código que te mandé, o abre directo el enlace que te llegó.</p>
+      <form class="gate-form" id="gate-form">
+        <input id="code" type="text" placeholder="AULA-XXXXXX" autocomplete="off" spellcheck="false" maxlength="16">
+        <button type="submit">Entrar</button>
+      </form>
+      <div class="gate-msg" id="gate-msg"></div>
+      <div class="gate-alt">¿Todavía no tienes acceso? <a href="../#acceso">Míralo aquí</a> — son 12 prompts gratis y el resto con un aporte voluntario.</div>
+    </div>
+  </div>
+
+  <div id="app" style="display:none">
+    <header class="hero">
+      <span class="kick">🔓 Acceso completo</span>
+      <h1>Los 48 prompts</h1>
+      <p class="sub">Todo listo para copiar. Cambia lo resaltado por lo tuyo y pégalo en Gemini o ChatGPT.</p>
+      <div class="welcome" id="welcome"></div>
+    </header>
+    <div class="tools">
+      <div class="searchbox">
+        <span class="mg">🔎</span>
+        <input id="q" type="search" placeholder="Buscar: rúbrica, examen, padres, actividad…" autocomplete="off">
+        <button id="clr" aria-label="Limpiar búsqueda">✕</button>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <main id="list"></main>
+    <div id="empty"><b>No encontramos nada con esa palabra</b>Prueba con otra, o toca "Todos".</div>
+
+    <div class="wsp-band">
+      <div>
+        <h3>💬 El canal de WhatsApp</h3>
+        <p>Ahí resuelvo dudas y voy soltando los prompts nuevos. Si aún no estás dentro, escríbeme y te agrego.</p>
+      </div>
+      <a id="wsp-link" href="#">Pedir que me agreguen</a>
+    </div>
+
+    <div class="adm" id="adm">
+      <h3>🔧 Códigos de acceso</h3>
+      <div class="adm-row">
+        <input id="adm-name" type="text" placeholder="Para quién es (ej. Miguel, Matemática)">
+        <button onclick="crearCodigo()">Generar enlace</button>
+      </div>
+      <div id="adm-list"></div>
+    </div>
+
+    <footer style="margin-top:2.4rem">
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <a href="/prompts">← Página pública</a>
+        <a href="/demo/presentacion.html">Capacitación</a>
+        <a href="/">Plataforma de clases</a>
+      </div>
+      <span>Asunción School · Computación 2026</span>
+    </footer>
+  </div>
+</div>
+
+<div id="toast">✓ Copiado</div>
+
+<script>
+const WHATSAPP = ''; // pon aquí tu número (formato internacional, sin + ni espacios)
+let CATS = [], PROMPTS = [], filtro = 'todos', busca = '';
+
+const list=document.getElementById('list'), chips=document.getElementById('chips'),
+      q=document.getElementById('q'), clr=document.getElementById('clr'),
+      empty=document.getElementById('empty'), toast=document.getElementById('toast');
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function marca(s){return esc(s).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')}
+
+// ── Puerta ────────────────────────────────────────────────────────────────
+const params = new URLSearchParams(location.search);
+const guardado = localStorage.getItem('prompts_code') || '';
+const inicial = (params.get('k') || guardado || '').trim().toUpperCase();
+
+document.getElementById('gate-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  canjear(document.getElementById('code').value.trim().toUpperCase());
+});
+
+async function canjear(code){
+  const msg = document.getElementById('gate-msg');
+  if(!code){ msg.textContent='Escribe tu código.'; msg.className='gate-msg err'; return; }
+  msg.className='gate-msg'; msg.textContent='Verificando…';
+  try{
+    const r = await fetch('/.netlify/functions/prompts-access',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({code})
+    });
+    const d = await r.json();
+    if(!r.ok || d.error){ msg.textContent = d.error || 'No pudimos validar el código.'; msg.className='gate-msg err'; return; }
+    localStorage.setItem('prompts_code', code);
+    CATS = d.CATS; PROMPTS = d.PROMPTS;
+    abrir(d.nombre);
+  }catch(_){
+    msg.textContent = 'Sin conexión. Revisa tu internet y vuelve a intentar.';
+    msg.className='gate-msg err';
+  }
+}
+
+function abrir(nombre){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+  const w = document.getElementById('welcome');
+  w.innerHTML = (nombre ? '<b>Hola, '+esc(nombre)+'.</b> ' : '<b>Listo.</b> ')
+    + 'Gracias por el aporte 💚 Este enlace queda guardado en este dispositivo: la próxima entras directo.';
+  const wl = document.getElementById('wsp-link');
+  if(WHATSAPP){
+    wl.href='https://wa.me/'+WHATSAPP+'?text='+encodeURIComponent('Hola! Ya tengo mi acceso a los prompts, agrégame al canal por favor.');
+  } else {
+    wl.removeAttribute('href'); wl.style.background='rgba(37,211,102,.18)'; wl.style.color='#4ade80';
+    wl.textContent='Escríbeme y te agrego';
+  }
+  construirChips();
+  render();
+  if(history.replaceState) history.replaceState(null,'',location.pathname);
+}
+
+// ── Lista ─────────────────────────────────────────────────────────────────
+function construirChips(){
+  chips.innerHTML='';
+  const t=document.createElement('button');
+  t.className='chip on'; t.textContent='Todos'; t.dataset.c='todos';
+  chips.appendChild(t);
+  CATS.forEach(function(c){
+    const b=document.createElement('button');
+    b.className='chip'; b.dataset.c=c.id; b.textContent=c.em+' '+c.nom;
+    chips.appendChild(b);
+  });
+  chips.addEventListener('click',function(e){
+    const b=e.target.closest('.chip'); if(!b)return;
+    [].forEach.call(chips.children,function(x){x.classList.remove('on')});
+    b.classList.add('on'); filtro=b.dataset.c; render();
+  });
+}
+
+function render(){
+  const t=busca.trim().toLowerCase();
+  list.innerHTML=''; let total=0;
+  CATS.forEach(function(cat){
+    if(filtro!=='todos'&&filtro!==cat.id)return;
+    const items=PROMPTS.filter(function(p){
+      if(p.c!==cat.id)return false;
+      if(!t)return true;
+      return (p.t+' '+p.p+' '+p.x).toLowerCase().indexOf(t)>-1;
+    });
+    if(!items.length)return;
+    total+=items.length;
+    const sec=document.createElement('section'); sec.className='cat';
+    const h=document.createElement('h2');
+    h.innerHTML=cat.em+' '+esc(cat.nom)+' <small>'+items.length+'</small>';
+    sec.appendChild(h);
+    const g=document.createElement('div'); g.className='grid';
+    items.forEach(function(p){
+      const c=document.createElement('article'); c.className='card';
+      c.innerHTML='<h3>'+esc(p.t)+'</h3><p class="when">'+esc(p.p)+'</p>'+
+                  '<pre>'+marca(p.x)+'</pre><button class="copy">📋 Copiar</button>';
+      c.querySelector('.copy').addEventListener('click',function(){copiar(p.x,this)});
+      g.appendChild(c);
+    });
+    sec.appendChild(g); list.appendChild(sec);
+  });
+  empty.style.display=total?'none':'block';
+}
+
+function copiar(txt,btn){
+  function ok(){
+    btn.classList.add('ok'); btn.textContent='✓ Copiado';
+    toast.classList.add('on');
+    setTimeout(function(){btn.classList.remove('ok');btn.textContent='📋 Copiar'},1800);
+    setTimeout(function(){toast.classList.remove('on')},1600);
+  }
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok,function(){fallback(txt,ok)});
+  } else fallback(txt,ok);
+}
+function fallback(txt,ok){
+  const ta=document.createElement('textarea');
+  ta.value=txt; ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,txt.length);
+  try{document.execCommand('copy');ok();}catch(e){}
+  document.body.removeChild(ta);
+}
+
+q.addEventListener('input',function(){busca=q.value; clr.style.display=busca?'block':'none'; render();});
+clr.addEventListener('click',function(){q.value='';busca='';clr.style.display='none';q.focus();render()});
+
+// ── Panel de códigos (se abre con ?admin y la contraseña) ─────────────────
+async function adminApi(payload){
+  const r = await fetch('/.netlify/functions/prompts-access',{
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(Object.assign({pw: sessionStorage.getItem('adm_pw')||''}, payload))
+  });
+  const d = await r.json();
+  if(!r.ok || d.error) throw new Error(d.error||'error');
+  return d;
+}
+function pintarCodigos(codes){
+  const c=document.getElementById('adm-list');
+  if(!codes.length){ c.innerHTML='<p style="color:var(--dim);font-size:13.5px">Todavía no generaste ninguno.</p>'; return; }
+  c.innerHTML = codes.slice().reverse().map(function(k){
+    const url = location.origin+'/prompts/todos/?k='+k.code;
+    return '<div class="adm-item"><code>'+esc(k.code)+'</code>'+
+      '<span class="who">'+esc(k.nombre||'—')+(k.usos?' · '+k.usos+' entradas':'')+'</span>'+
+      '<button class="lnk" onclick="copiarLink(\''+k.code+'\',this)">Copiar enlace</button>'+
+      '<button onclick="anular(\''+k.code+'\')">Anular</button></div>';
+  }).join('');
+}
+window.copiarLink=function(code,btn){
+  copiar(location.origin+'/prompts/todos/?k='+code, btn);
+  btn.textContent='✓ Copiado';
+  setTimeout(function(){btn.textContent='Copiar enlace'},1600);
+};
+window.crearCodigo=async function(){
+  const nombre=document.getElementById('adm-name').value.trim();
+  try{
+    const d=await adminApi({action:'create', nombre});
+    document.getElementById('adm-name').value='';
+    pintarCodigos(d.codes);
+  }catch(e){ alert('No se pudo generar: '+e.message); }
+};
+window.anular=async function(code){
+  if(!confirm('¿Anular '+code+'? Quien lo tenga dejará de entrar.')) return;
+  try{ const d=await adminApi({action:'revoke', code}); pintarCodigos(d.codes); }
+  catch(e){ alert('No se pudo anular: '+e.message); }
+};
+async function abrirAdmin(){
+  const pw = prompt('Contraseña de profesora:');
+  if(!pw) return;
+  sessionStorage.setItem('adm_pw', pw);
+  try{
+    const d=await adminApi({action:'list'});
+    document.getElementById('adm').classList.add('on');
+    pintarCodigos(d.codes);
+  }catch(e){ alert('No se pudo abrir: '+e.message); }
+}
+
+// ── Arranque ──────────────────────────────────────────────────────────────
+if(inicial){ canjear(inicial); }
+if(params.has('admin')){
+  // El panel se pinta cuando ya entró con un código válido
+  const t=setInterval(function(){
+    if(document.getElementById('app').style.display!=='none'){ clearInterval(t); abrirAdmin(); }
+  },400);
+  setTimeout(function(){clearInterval(t)},15000);
+}
+
+</script>
+</body>
+</html>

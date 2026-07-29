@@ -672,6 +672,55 @@ button{font-family:inherit;cursor:pointer;}
 .teacher-btn.green:hover{background:rgba(34,197,94,.28);}
 .teacher-btn.blue{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4);color:#d3f184;}
 .teacher-btn.blue:hover{background:rgba(96,165,250,.28);}
+/* ── ENLACES DEL HEADER ── */
+.header-links{position:relative;z-index:2;display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.85rem;}
+.header-links a{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#cbd5e1;
+  border-radius:100px;padding:.32rem .78rem;font-size:.76rem;font-weight:600;text-decoration:none;
+  transition:background .18s,color .18s,border-color .18s;white-space:nowrap;}
+.header-links a:hover{background:rgba(163,230,53,.14);border-color:rgba(163,230,53,.4);color:#a3e635;}
+@media(max-width:520px){.header-links a{font-size:.72rem;padding:.3rem .65rem;}}
+
+.teacher-btn.gold{background:rgba(245,158,11,.15);border-color:rgba(245,158,11,.4);color:#fbbf24;}
+.teacher-btn.gold:hover{background:rgba(245,158,11,.28);}
+
+/* ── REPROGRAMAR CLASES ── */
+.sched-overlay{display:none;position:fixed;inset:0;z-index:520;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
+.sched-overlay.active{display:flex;}
+.sched-panel{background:#0f1420;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:620px;
+  max-height:88vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.65);}
+.sched-hdr{display:flex;align-items:center;justify-content:space-between;gap:.6rem;padding:1rem 1.15rem;
+  border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;background:#0f1420;z-index:2;}
+.sched-hdr h2{font-size:1.02rem;margin:0;}
+.sched-hdr button{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#e2e8f0;
+  border-radius:8px;padding:.32rem .7rem;cursor:pointer;font-size:.86rem;}
+.sched-body{padding:1.05rem 1.15rem 1.3rem;}
+.sched-intro{font-size:.85rem;color:#94a3b8;line-height:1.5;margin-bottom:1rem;}
+.sched-form{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.85rem;}
+.sched-form label{display:block;font-size:.74rem;color:#64748b;margin-bottom:.25rem;text-transform:uppercase;letter-spacing:.04em;}
+.sched-form select,.sched-form input{width:100%;background:#0a0e17;border:1px solid rgba(255,255,255,.14);color:#e2e8f0;
+  border-radius:8px;padding:.5rem .6rem;font-size:.88rem;font-family:inherit;}
+.sched-form .full{grid-column:1/-1;}
+.sched-apply{width:100%;background:#f59e0b;color:#1a1206;border:none;border-radius:9px;padding:.62rem;
+  font-weight:700;font-size:.92rem;cursor:pointer;font-family:inherit;}
+.sched-apply:hover{background:#fbbf24;}
+.sched-status{font-size:.82rem;color:#94a3b8;min-height:1.2em;margin-top:.5rem;text-align:center;}
+.sched-sec{margin-top:1.25rem;font-size:.76rem;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
+.sched-empty{font-size:.85rem;color:#64748b;padding:.5rem 0;}
+.sched-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:.55rem .7rem;margin-bottom:.4rem;font-size:.85rem;}
+.sched-item b{color:#e2e8f0;}
+.sched-item span{color:#94a3b8;}
+.sched-item em{display:block;color:#64748b;font-style:normal;font-size:.78rem;margin-top:.15rem;}
+.sched-del{background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.35);color:#f87171;border-radius:7px;
+  padding:.3rem .6rem;cursor:pointer;font-size:.78rem;flex-shrink:0;font-family:inherit;}
+.sched-del:hover{background:rgba(239,68,68,.26);}
+.sched-prev-row{display:flex;align-items:center;gap:.6rem;font-size:.84rem;padding:.3rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);}
+.sched-prev-row span{color:#64748b;min-width:5.4em;}
+.sched-prev-row b{color:#e2e8f0;font-weight:600;}
+.sched-prev-row em{font-style:normal;color:#f59e0b;font-size:.76rem;}
+.sched-prev-row.fuera b{color:#f87171;}
+@media(max-width:520px){.sched-form{grid-template-columns:1fr;}}
 /* ── Sync-connect modal ──────────────────────────────────── */
 #sync-connect-modal{display:none;position:fixed;inset:0;z-index:9999;
   background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
@@ -1048,6 +1097,11 @@ button{font-family:inherit;cursor:pointer;}
   <h1>Computación 2026<span class="h1-dot">.</span></h1>
   <p>Asunción School · Viernes · Prof. Estrella Vizcarra</p>
   <button class="prof-access" id="prof-access" onclick="goToUnlock()">🔑 Modo profesora</button>
+  <div class="header-links">
+    <a href="/demo/presentacion.html">🎓 Para profesores: más allá de la pizarra</a>
+    <a href="/prompts">✨ Prompts para clases</a>
+    <a href="/demo/">▶ Conoce la plataforma</a>
+  </div>
 </header>
 
 <button class="logout-btn" id="logout-btn" onclick="lock()">🔓 Logout</button>
@@ -1076,35 +1130,36 @@ const CALENDAR = [
   {date:'2026-07-03', session:8},
   {date:'2026-07-10', session:9},
   {date:'2026-07-17', session:10},
-  {date:'2026-07-24', session:11, note:'Semana de identidad nacional · Fiestas Patrias'},
-  {date:'2026-07-31', session:12, note:'Semana de gestión Minedu · Confirmar con dirección'},
-  {date:'2026-08-07', session:13, note:'Semana de gestión Minedu · Confirmar con dirección'},
-  {date:'2026-08-14', session:14},
-  {date:'2026-08-21', session:15},
-  {date:'2026-08-28', session:16, note:'Previo a Santa Rosa de Lima'},
-  {date:'2026-09-04', session:17},
-  {date:'2026-09-11', session:18},
-  {date:'2026-09-18', session:19},
-  {date:'2026-09-25', session:20},
-  {date:'2026-10-02', session:21},
-  {date:'2026-10-09', session:22, note:'Posterior al Combate de Angamos'},
-  {date:'2026-10-16', session:23, note:'Semana de gestión Minedu · Confirmar con dirección'},
-  {date:'2026-10-23', session:24},
-  {date:'2026-10-30', session:25},
-  {date:'2026-11-06', session:26},
-  {date:'2026-11-13', session:27},
-  {date:'2026-11-20', session:28},
-  {date:'2026-11-27', session:29},
-  {date:'2026-12-04', session:30, note:'Previo a Inmaculada Concepción y Batalla de Ayacucho'},
-  {date:'2026-12-11', session:31},
-  {date:'2026-12-18', session:32},
+  // ── Vacaciones de medio año: no hubo clase el 24 ni el 31 de julio ──
+  {date:'2026-08-07', session:11, note:'Regreso de vacaciones'},
+  {date:'2026-08-14', session:12},
+  {date:'2026-08-21', session:13},
+  {date:'2026-08-28', session:14, note:'Previo a Santa Rosa de Lima'},
+  {date:'2026-09-04', session:15},
+  {date:'2026-09-11', session:16},
+  {date:'2026-09-18', session:17},
+  {date:'2026-09-25', session:18},
+  {date:'2026-10-02', session:19},
+  {date:'2026-10-09', session:20, note:'Posterior al Combate de Angamos'},
+  {date:'2026-10-16', session:21, note:'Semana de gestión Minedu · Confirmar con dirección'},
+  {date:'2026-10-23', session:22},
+  {date:'2026-10-30', session:23},
+  {date:'2026-11-06', session:24},
+  {date:'2026-11-13', session:25},
+  {date:'2026-11-20', session:26},
+  {date:'2026-11-27', session:27},
+  {date:'2026-12-04', session:28, note:'Previo a Inmaculada Concepción y Batalla de Ayacucho'},
+  {date:'2026-12-11', session:29},
+  {date:'2026-12-18', session:30, note:'Última clase del año escolar'},
+  {date:'2026-12-25', session:31, note:'⚠️ Cae en Navidad — pendiente de reubicar'},
+  {date:'2027-01-01', session:32, note:'⚠️ Cae en Año Nuevo — pendiente de reubicar'},
 ];
 
 const TOTAL = 32;
 
 function blockFor(dateStr){
-  if(dateStr <= '2026-07-31') return 'II';
-  if(dateStr <= '2026-10-16') return 'III';
+  if(dateStr <= '2026-07-17') return 'II';
+  if(dateStr <= '2026-10-30') return 'III';
   return 'IV';
 }
 function fmtDate(iso){
@@ -1113,11 +1168,49 @@ function fmtDate(iso){
   return `Viernes ${parseInt(d)} de ${months[parseInt(m)-1]}`;
 }
 
-// Build SESSION_DATE lookup  {sessionNum -> {block, dateLabel, note}}
-const SESSION_DATE = {};
-CALENDAR.forEach(c=>{
-  SESSION_DATE[c.session] = {block:blockFor(c.date), dateLabel:fmtDate(c.date), note:c.note||''};
-});
+// ═══════════════════════════════════════════════════════════
+// APLAZAMIENTOS  — "no hubo clase, corre todo una semana"
+// ═══════════════════════════════════════════════════════════
+// Cada shift aplaza una sesión y TODAS las siguientes:
+//   {id, from:13, weeks:1, grade:'all'|'prim6'|…, reason:''}
+// Se guardan en el backend (schedule.js) para que el aula entera vea lo mismo,
+// con copia en localStorage para pintar sin esperar la red.
+let SHIFTS = [];
+try { SHIFTS = JSON.parse(localStorage.getItem('cal_shifts')||'[]'); } catch(_){ SHIFTS = []; }
+
+function addDaysISO(iso, days){
+  const t = new Date(iso+'T00:00:00Z').getTime() + days*86400000;
+  return new Date(t).toISOString().slice(0,10);
+}
+/** Días de atraso acumulados que le tocan a esta sesión en este grado. */
+function shiftDays(session, gradeId){
+  let d = 0;
+  SHIFTS.forEach(s=>{
+    if(session >= s.from && (s.grade === 'all' || s.grade === gradeId)) d += s.weeks*7;
+  });
+  return d;
+}
+/** Fecha real de una sesión para un grado, ya con los aplazamientos aplicados. */
+function sessionDate(session, gradeId){
+  const base = CALENDAR.find(c=>c.session===session);
+  if(!base) return '';
+  const d = shiftDays(session, gradeId);
+  return d ? addDaysISO(base.date, d) : base.date;
+}
+/** Reemplaza al viejo SESSION_DATE[n]: ahora la fecha depende del grado. */
+function calInfo(session, gradeId){
+  const base = CALENDAR.find(c=>c.session===session) || {};
+  const date = sessionDate(session, gradeId);
+  if(!date) return {block:'', dateLabel:'', note:'', date:''};
+  const movida = date !== base.date;
+  return {
+    block: blockFor(date),
+    dateLabel: fmtDate(date),
+    note: base.note || '',
+    date,
+    movida
+  };
+}
 
 // ═══════════════════════════════════════════════════════════
 // CROSS-GRADE FOCUS  (index = session number)
@@ -1968,7 +2061,8 @@ function renderPanel(gradeId){
   //   isFuture= date > today  (requiere contraseña)
   const allItems = g.sessions.map(sdata=>{
     const calEntry     = CALENDAR.find(c=>c.session===sdata.n);
-    const d            = calEntry ? calEntry.date : '';
+    // La fecha efectiva depende del grado: un salón puede ir corrido respecto al resto
+    const d            = sessionDate(sdata.n, gradeId);
     const isPast       = d && d < today;
     const isToday      = d && d === today;
     const isDone       = done.has(sdata.n);
@@ -2006,6 +2100,7 @@ function renderPanel(gradeId){
         <button class="teacher-btn blue" onclick="openSyncConnect()">📡 Conectar</button>
         <button class="teacher-btn green" onclick="openRosterEditor('${gradeId}')">📋 Alumnos</button>
         <button class="teacher-btn" onclick="openResults(null, '${gradeId}')">📊 Resultados</button>
+        <button class="teacher-btn gold" onclick="openSchedule()">🗓️ Fechas</button>
       </div>
     </div>`;
   }
@@ -2023,7 +2118,7 @@ function renderPanel(gradeId){
   // ── CLASE DE HOY (tarjeta completa) — solo profesora; el hero cubre al alumno ──
   if(todayItem && unlocked){
     html += `<div class="section-label sl-today">🗓️ Clase de hoy</div>`;
-    html += buildCard(todayItem.sdata, SESSION_DATE[todayItem.sdata.n], done, gradeId, false, unlocked, false, false, true);
+    html += buildCard(todayItem.sdata, calInfo(todayItem.sdata.n, gradeId), done, gradeId, false, unlocked, false, false, true);
   }
 
   // ── CLASES PASADAS — acordeón colapsado, sub-menús por mes ──
@@ -2075,7 +2170,7 @@ function renderPanel(gradeId){
           <div class="done-grid">`;
 
       items.forEach(item=>{
-        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, unlocked, true, item.isAutoCompleted);
+        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, unlocked, true, item.isAutoCompleted);
       });
 
       html += `</div></div></details>`;
@@ -2092,10 +2187,10 @@ function renderPanel(gradeId){
 
     if(nextItem && !todayItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
-      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
+      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, true);
     } else if(nextItem && todayItem){
       html += `<div class="section-label sl-next">🎯 Próxima clase</div>`;
-      html += buildCard(nextItem.sdata, SESSION_DATE[nextItem.sdata.n], done, gradeId, true, true);
+      html += buildCard(nextItem.sdata, calInfo(nextItem.sdata.n, gradeId), done, gradeId, true, true);
     }
 
     const rest = nextItem ? futureItems.slice(1) : futureItems;
@@ -2103,7 +2198,7 @@ function renderPanel(gradeId){
       html += `<div class="section-label sl-future">📅 Sesiones futuras <span class="sl-count">${rest.length}</span></div>`;
       html += `<div class="future-grid">`;
       rest.forEach(item=>{
-        html += buildCard(item.sdata, SESSION_DATE[item.sdata.n], done, gradeId, false, true);
+        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, true);
       });
       html += `</div>`;
     }
@@ -2141,7 +2236,7 @@ function buildWeekHero(todayItem, lastPast, nextItem, gradeId){
   // Curso aún sin clases: solo anuncio de la próxima
   if(!featured){
     if(!nextItem) return '';
-    const cal = SESSION_DATE[nextItem.sdata.n] || {};
+    const cal = calInfo(nextItem.sdata.n, gradeId);
     return `<div class="week-hero">
       <div class="week-hero-top"><span class="week-hero-kicker">Próxima clase</span>
       <span class="week-hero-date">${cal.dateLabel||''}</span></div>
@@ -2150,7 +2245,7 @@ function buildWeekHero(todayItem, lastPast, nextItem, gradeId){
   }
 
   const n   = featured.sdata.n;
-  const cal = SESSION_DATE[n] || {};
+  const cal = calInfo(n, gradeId);
   const isToday = !!todayItem;
   const repasoUrl = REPASO_SESSIONS.has(n) ? `slides/repaso-${pad(n)}-${gradeId}.html` : '';
   const tareaUrl  = TASK_SESSIONS.has(n)   ? `slides/tarea-${pad(n)}-${gradeId}.html`  : '';
@@ -2165,7 +2260,7 @@ function buildWeekHero(todayItem, lastPast, nextItem, gradeId){
 
   let nextLine = '';
   if(nextItem){
-    const ncal = SESSION_DATE[nextItem.sdata.n] || {};
+    const ncal = calInfo(nextItem.sdata.n, gradeId);
     nextLine = `<div class="week-hero-next">📅 Próxima clase: <strong>${ncal.dateLabel||''}</strong> · ${nextItem.sdata.title}</div>`;
   }
 
@@ -3110,11 +3205,182 @@ async function syncEvalsFromBlobs(){
 }
 
 // ═══════════════════════════════════════════════════════════
+// REPROGRAMAR CLASES — panel de aplazamientos
+// ═══════════════════════════════════════════════════════════
+const GRADE_LABEL_SHORT = {all:'Todos los salones', prim6:'6.° Primaria', sec2:'2.° Secundaria',
+                           sec3:'3.° Secundaria', sec4:'4.° Secundaria', sec5:'5.° Secundaria'};
+
+/** Trae los aplazamientos del backend. Si falla, se queda con la copia local. */
+async function loadShifts(){
+  try{
+    const r = await fetch('/.netlify/functions/schedule', {cache:'no-store'});
+    if(!r.ok) return;
+    const d = await r.json();
+    if(Array.isArray(d.shifts)){
+      SHIFTS = d.shifts;
+      localStorage.setItem('cal_shifts', JSON.stringify(SHIFTS));
+      renderPanel(currentGrade);
+    }
+  }catch(_){ /* sin red: seguimos con lo que hay en localStorage */ }
+}
+
+async function saveShifts(){
+  const pw = localStorage.getItem(PASS_KEY)==='1' ? CORRECT_PW : '';
+  const st = document.getElementById('sched-status');
+  if(st) st.textContent = 'Guardando…';
+  try{
+    const r = await fetch('/.netlify/functions/schedule',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({pw, shifts:SHIFTS})
+    });
+    const d = await r.json();
+    if(!r.ok || d.error) throw new Error(d.error||'error');
+    SHIFTS = d.shifts || SHIFTS;
+    localStorage.setItem('cal_shifts', JSON.stringify(SHIFTS));
+    if(st) st.textContent = '✅ Guardado. Todos verán las fechas nuevas.';
+    renderSchedulePanel(); renderPanel(currentGrade);
+  }catch(e){
+    // No decimos "listo" si no se guardó: la profesora reprogramaría a ciegas.
+    if(st) st.textContent = '⚠️ No se pudo guardar (' + e.message + '). Vuelve a intentar.';
+  }
+}
+
+function openSchedule(){
+  document.getElementById('sched-overlay').classList.add('active');
+  renderSchedulePanel();
+}
+function closeSchedule(){
+  document.getElementById('sched-overlay').classList.remove('active');
+}
+
+function renderSchedulePanel(){
+  // Selector de sesión: muestra la fecha vigente de cada una
+  const sel = document.getElementById('sched-from');
+  if(sel && !sel.dataset.filled){
+    sel.innerHTML = CALENDAR.map(c=>{
+      const d = sessionDate(c.session,'prim6');
+      return `<option value="${c.session}">Sesión ${String(c.session).padStart(2,'0')} — ${fmtDate(d).replace('Viernes ','')}</option>`;
+    }).join('');
+    sel.dataset.filled = '1';
+    const hoy = todayStr();
+    const prox = CALENDAR.find(c=> sessionDate(c.session,'prim6') >= hoy);
+    if(prox) sel.value = prox.session;
+  }
+
+  const cont = document.getElementById('sched-list');
+  if(!SHIFTS.length){
+    cont.innerHTML = `<p class="sched-empty">No hay clases aplazadas. El calendario va según lo planificado.</p>`;
+  } else {
+    cont.innerHTML = SHIFTS.slice().sort((a,b)=>a.from-b.from).map(s=>`
+      <div class="sched-item">
+        <div>
+          <b>Desde la sesión ${String(s.from).padStart(2,'0')}</b>
+          <span>· ${s.weeks} semana${s.weeks>1?'s':''} · ${GRADE_LABEL_SHORT[s.grade]||s.grade}</span>
+          ${s.reason?`<em>${s.reason}</em>`:''}
+        </div>
+        <button class="sched-del" onclick="removeShift('${s.id}')">Quitar</button>
+      </div>`).join('');
+  }
+
+  // Vista previa: cómo quedan las próximas sesiones con lo aplicado
+  const prev = document.getElementById('sched-preview');
+  const hoy = todayStr();
+  const gid = document.getElementById('sched-grade')?.value || 'all';
+  const gradoPrev = gid === 'all' ? 'prim6' : gid;
+  const proximas = CALENDAR.filter(c=> sessionDate(c.session, gradoPrev) >= hoy).slice(0,5);
+  prev.innerHTML = proximas.length
+    ? proximas.map(c=>{
+        const info = calInfo(c.session, gradoPrev);
+        const fuera = info.date >= '2026-12-20';
+        return `<div class="sched-prev-row${fuera?' fuera':''}">
+          <span>Sesión ${String(c.session).padStart(2,'0')}</span>
+          <b>${info.dateLabel}</b>
+          ${fuera?'<em>⚠️ fuera del año escolar</em>':(info.movida?'<em>movida</em>':'')}
+        </div>`;
+      }).join('')
+    : '<p class="sched-empty">No quedan sesiones por dictar.</p>';
+}
+
+function addShift(){
+  const from   = parseInt(document.getElementById('sched-from').value,10);
+  const weeks  = parseInt(document.getElementById('sched-weeks').value,10);
+  const grade  = document.getElementById('sched-grade').value;
+  const reason = document.getElementById('sched-reason').value.trim();
+  if(!from || !weeks) return;
+  SHIFTS.push({
+    id: String(Date.now())+Math.random().toString(36).slice(2,7),
+    from, weeks, grade, reason, ts: Date.now()
+  });
+  document.getElementById('sched-reason').value = '';
+  saveShifts();
+}
+
+function removeShift(id){
+  SHIFTS = SHIFTS.filter(s=>s.id!==id);
+  saveShifts();
+}
+
+// ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
 // ═══════════════════════════════════════════════════════════
 updateLogoutBtn();
 render();
+loadShifts();
 </script>
+
+<!-- ── REPROGRAMAR CLASES ─────────────────────────────────── -->
+<div class="sched-overlay" id="sched-overlay" onclick="if(event.target===this)closeSchedule()">
+  <div class="sched-panel">
+    <div class="sched-hdr">
+      <h2>🗓️ Aplazar clases</h2>
+      <button onclick="closeSchedule()">Cerrar</button>
+    </div>
+    <div class="sched-body">
+      <p class="sched-intro">Si no se dictó una clase, corre esa sesión y todas las que siguen.
+        Puedes hacerlo para <b>todos los salones</b> o para <b>uno solo</b>, si un aula se atrasó.
+        El cambio lo ven también los alumnos.</p>
+
+      <div class="sched-form">
+        <div class="full">
+          <label for="sched-from">Correr desde la sesión</label>
+          <select id="sched-from" onchange="renderSchedulePanel()"></select>
+        </div>
+        <div>
+          <label for="sched-weeks">Cuántas semanas</label>
+          <select id="sched-weeks" onchange="renderSchedulePanel()">
+            <option value="1">1 semana</option>
+            <option value="2">2 semanas</option>
+            <option value="3">3 semanas</option>
+            <option value="4">4 semanas</option>
+          </select>
+        </div>
+        <div>
+          <label for="sched-grade">A qué salón</label>
+          <select id="sched-grade" onchange="renderSchedulePanel()">
+            <option value="all">Todos los salones</option>
+            <option value="prim6">🟢 6.° Primaria</option>
+            <option value="sec2">🔵 2.° Secundaria</option>
+            <option value="sec3">🟠 3.° Secundaria</option>
+            <option value="sec4">🟣 4.° Secundaria</option>
+            <option value="sec5">🔴 5.° Secundaria</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="sched-reason">Motivo (opcional)</label>
+          <input id="sched-reason" type="text" placeholder="Feriado, actuación, suspensión…" maxlength="120">
+        </div>
+      </div>
+      <button class="sched-apply" onclick="addShift()">Aplazar</button>
+      <div class="sched-status" id="sched-status"></div>
+
+      <div class="sched-sec">Cómo quedan las próximas clases</div>
+      <div id="sched-preview"></div>
+
+      <div class="sched-sec">Aplazamientos activos</div>
+      <div id="sched-list"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ── ROSTER EDITOR MODAL ────────────────────────────────── -->
 <div class="roster-overlay" id="roster-overlay" onclick="if(event.target===this)closeRosterEditor()">
@@ -3180,8 +3446,8 @@ render();
       <button class="results-session-tab" data-session="08" onclick="loadResults('08')">Sesión 08 — 3 julio</button>
       <button class="results-session-tab" data-session="09" onclick="loadResults('09')">Sesión 09 — 10 julio</button>
       <button class="results-session-tab" data-session="10" onclick="loadResults('10')">Sesión 10 — 17 julio</button>
-      <button class="results-session-tab" data-session="11" onclick="loadResults('11')">Sesión 11 — 24 julio</button>
-      <button class="results-session-tab" data-session="12" onclick="loadResults('12')">Sesión 12 — 31 julio</button>
+      <button class="results-session-tab" data-session="11" onclick="loadResults('11')">Sesión 11 — 7 agosto</button>
+      <button class="results-session-tab" data-session="12" onclick="loadResults('12')">Sesión 12 — 14 agosto</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

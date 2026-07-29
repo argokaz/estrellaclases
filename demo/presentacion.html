@@ -523,6 +523,30 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(23px,3.6vw,54px);font-
   .sect .big{font-size:clamp(48px,18vw,90px)}
   .sect .txt p{max-width:none}
 }
+
+/* ── ENLACES ÚTILES (cierre) ── */
+.links{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(9px,1.3vw,18px);
+  width:100%;max-width:min(80vw,1080px);margin-top:2.8%;text-align:left}
+.lk{display:block;background:rgba(255,255,255,.045);border:1px solid var(--line);border-top:2px solid var(--lime);
+  border-radius:13px;padding:clamp(11px,1.4vw,24px);text-decoration:none;color:inherit;
+  transition:background .2s,border-color .2s,transform .2s}
+.lk:hover{background:rgba(163,230,53,.08);border-color:rgba(163,230,53,.4);transform:translateY(-2px)}
+.lk .em{display:block;font-size:clamp(15px,1.8vw,27px);line-height:1;margin-bottom:.3em}
+.lk b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(11px,1.3vw,20px);margin-bottom:.22em}
+.lk .u{display:block;font-family:'Space Grotesk',sans-serif;font-size:clamp(8.5px,1vw,14px);color:var(--lime);
+  word-break:break-all;margin-bottom:.28em}
+.lk .d{display:block;font-size:clamp(8.5px,1vw,14px);color:var(--muted);line-height:1.35}
+.herr{display:flex;align-items:center;gap:.6em;flex-wrap:wrap;justify-content:center;margin-top:2.4%;
+  font-size:clamp(9px,1.05vw,15px);color:var(--dim)}
+.herr a{color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:1px}
+.herr a:hover{color:var(--lime);border-color:var(--lime)}
+@media (prefers-reduced-motion: no-preference){
+  .s.on .lk{animation:up .5s cubic-bezier(.22,1,.36,1) both}
+  .s.on .lk:nth-child(1){animation-delay:.2s} .s.on .lk:nth-child(2){animation-delay:.28s}
+  .s.on .lk:nth-child(3){animation-delay:.36s} .s.on .lk:nth-child(4){animation-delay:.44s}
+  .s.on .herr{animation:up .45s .54s cubic-bezier(.22,1,.36,1) both}
+}
+@media(max-width:820px){.links{grid-template-columns:1fr;max-width:100%}}
 </style>
 </head>
 <body>
@@ -1014,9 +1038,43 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
 <section class="s">
   <h1 style="font-size:clamp(26px,4.6vw,68px)">Ustedes ya saben enseñar.</h1>
   <p class="lead" style="margin-top:1.8%;max-width:38ch">Esto solo les ahorra el trabajo de <b>preparar</b>.</p>
-  <div class="ctarow">
-    <a class="cta" href="index.html">Ver la plataforma de clases →</a>
-    <a class="cta ghost" href="/">Ir al inicio</a>
+</section>
+
+<!-- 29 · ENLACES ÚTILES -->
+<section class="s" style="--glow:#a3e635">
+  <h2>Todo queda a un clic</h2>
+  <p class="lead" style="max-width:44ch">Guarda esta pantalla. Aquí está todo lo que vimos hoy.</p>
+  <div class="links">
+    <a class="lk" href="/prompts">
+      <span class="em">✨</span>
+      <b>Los 48 prompts</b>
+      <span class="u">clases.estrellavizcarra.com/prompts</span>
+      <span class="d">Listos para copiar y pegar.</span>
+    </a>
+    <a class="lk" href="/">
+      <span class="em">🏫</span>
+      <b>Plataforma de clases</b>
+      <span class="u">clases.estrellavizcarra.com</span>
+      <span class="d">Sesiones, repasos, tareas y notas.</span>
+    </a>
+    <a class="lk" href="index.html">
+      <span class="em">▶</span>
+      <b>Cómo funciona la plataforma</b>
+      <span class="u">clases.estrellavizcarra.com/demo</span>
+      <span class="d">El recorrido completo, módulo por módulo.</span>
+    </a>
+    <a class="lk" href="https://estrellavizcarra.com">
+      <span class="em">🌐</span>
+      <b>Sitio de la profesora</b>
+      <span class="u">estrellavizcarra.com</span>
+      <span class="d">Proyectos y contacto.</span>
+    </a>
+  </div>
+  <div class="herr">
+    <span>Herramientas de hoy:</span>
+    <a href="https://slides.google.com">Google Slides</a>
+    <a href="https://gemini.google.com">Gemini</a>
+    <a href="https://notebooklm.google.com">Gemini Notebook</a>
   </div>
 </section>
 
@@ -1025,7 +1083,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
 <nav class="nav">
   <button class="nb" id="prev" aria-label="Anterior">← Atrás</button>
   <div class="dots" id="dots"></div>
-  <span id="count">1 / 33</span>
+  <span id="count">1 / 34</span>
   <button class="nb" id="next" aria-label="Siguiente">Siguiente →</button>
   <button class="nb g" id="auto" aria-label="Reproducir solo">▶ Auto</button>
 </nav>
@@ -1104,7 +1162,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpa
 
   // ── auto-play ──
   // pantallas que muestran: cortas · pantallas que explican: tiempo para leer
-  var DUR=[6500,6500,8000,11000,8000,6500,11000,8000,6500,8000,13000,8000,8000,6500,8000,13000,8000,6500,8000,13000,11000,8000,11000,11000,11000,11000,11000,8000,8000,6500,11000,8000,6500];
+  var DUR=[6500,6500,8000,11000,8000,6500,11000,8000,6500,8000,13000,8000,8000,6500,8000,13000,8000,6500,8000,13000,11000,8000,11000,11000,11000,11000,11000,8000,8000,6500,11000,8000,6500,12000];
   var btn=document.getElementById('auto');
   function tick(){
     timer=setTimeout(function(){

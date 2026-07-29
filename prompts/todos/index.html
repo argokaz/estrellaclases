@@ -389,24 +389,40 @@ document.getElementById('gate-form').addEventListener('submit', function(e){
   canjear(document.getElementById('code').value.trim().toUpperCase());
 });
 
+/** Devuelve el formulario cuando el enlace directo no funcionó. */
+function mostrarFormulario(error){
+  var g=document.querySelector('.gate');
+  if(!g) return;
+  g.innerHTML='<div class=\'em\'>🔑</div><h1>Tu acceso a los 48</h1>' +
+    '<p>Pega el código que te mandé, o abre directo el enlace que te llegó.</p>' +
+    '<form class=\'gate-form\' id=\'gate-form\'>' +
+      '<input id=\'code\' type=\'text\' placeholder=\'AULA-XXXXXX\' autocomplete=\'off\' spellcheck=\'false\' maxlength=\'16\'>' +
+      '<button type=\'submit\'>Entrar</button>' +
+    '</form>' +
+    '<div class=\'gate-msg err\' id=\'gate-msg\'>'+error+'</div>' +
+    '<div class=\'gate-alt\'>¿Todavía no tienes acceso? <a href=\'../#acceso\'>Míralo aquí</a> — son 6 prompts abiertos y el resto por S/ 10.</div>';
+  document.getElementById('gate-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    canjear(document.getElementById('code').value.trim().toUpperCase());
+  });
+}
+
 async function canjear(code){
+  // Con enlace directo el formulario no está en pantalla, así que msg puede no existir.
   const msg = document.getElementById('gate-msg');
-  if(!code){ msg.textContent='Escribe tu código.'; msg.className='gate-msg err'; return; }
-  msg.className='gate-msg'; msg.textContent='Verificando…';
+  if(!code){ mostrarFormulario('Escribe tu código.'); return; }
+  if(msg){ msg.className='gate-msg'; msg.textContent='Verificando…'; }
   try{
     const r = await fetch('/.netlify/functions/prompts-access',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({code})
     });
     const d = await r.json();
-    if(!r.ok || d.error){ msg.textContent = d.error || 'No pudimos validar el código.'; msg.className='gate-msg err'; return; }
+    if(!r.ok || d.error){ mostrarFormulario(d.error || 'No pudimos validar el código.'); return; }
     localStorage.setItem('prompts_code', code);
     CATS = d.CATS; PROMPTS = d.PROMPTS;
     abrir(d.nombre);
-  }catch(_){
-    msg.textContent = 'Sin conexión. Revisa tu internet y vuelve a intentar.';
-    msg.className='gate-msg err';
-  }
+  }catch(_){ mostrarFormulario('Sin conexión. Revisa tu internet y vuelve a intentar.'); }
 }
 
 function abrir(nombre){
@@ -548,7 +564,13 @@ async function abrirAdmin(){
 }
 
 // ── Arranque ──────────────────────────────────────────────────────────────
-if(inicial){ canjear(inicial); }
+if(inicial){
+  // Con enlace mágico se entra directo: el formulario solo aparece si falla.
+  var g=document.querySelector('.gate');
+  if(g) g.innerHTML='<div class=\'em\'>🔓</div><h1>Abriendo tu acceso…</h1>' +
+    '<p>Un segundo, estamos validando tu enlace.</p>';
+  canjear(inicial);
+}
 if(params.has('admin')){
   // El panel se pinta cuando ya entró con un código válido
   const t=setInterval(function(){

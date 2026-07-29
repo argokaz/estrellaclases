@@ -191,14 +191,15 @@ button{font-family:inherit;cursor:pointer;}
 
 /* ── ACCESO PROFESORA EN HEADER ──────────────────────────── */
 .prof-access{
-  background:var(--surface);border:1px solid var(--border);
-  color:var(--text-dim);border-radius:100px;
+  background:#fff;border:1px solid var(--line-strong);
+  color:var(--text);border-radius:100px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:.3rem;
   padding:.34rem .85rem;
   font-size:var(--fs-xs);font-weight:600;
   position:absolute;top:14px;right:14px;z-index:2;
   transition:color .15s,border-color .15s;
 }
-.prof-access:hover{color:var(--text-muted);border-color:var(--line-strong);}
+.prof-access:hover{background:#000;color:#fff;border-color:#000;}
 
 /* Separador de herramientas de profesora dentro de la tarjeta */
 .foot-teacher{
@@ -682,6 +683,9 @@ button{font-family:inherit;cursor:pointer;}
 
 
 
+
+.aun-no{display:inline-flex;align-items:center;font-size:var(--fs-xs);color:var(--text-muted);
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;}
 /* ── SESIONES FUTURAS, PLEGADAS ── */
 .future-fold{background:#fff;border:1px solid var(--border);border-radius:var(--radius);
   overflow:hidden;margin-top:1.1rem;}
@@ -1309,6 +1313,46 @@ body.modo-consola .grade-tabs,
 body.modo-consola .progress-bar-wrap,
 body.modo-consola .logout-btn{display:none!important;}
 body.modo-consola{background:var(--bg2);}
+
+/* ── NAVEGADOR DE SEMANA ──
+   Los tres momentos valen para cualquier semana, así que tiene que quedar
+   sin dudas cuál se está mirando y cómo volver a la actual. */
+.sem-nav{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;
+  background:#fff;border:1px solid var(--line-strong);border-radius:var(--radius);
+  padding:.75rem .85rem;margin-bottom:.85rem;}
+.sem-nav.es-hoy{background:var(--lime);border-color:#a8c97a;}
+.sem-fl{flex-shrink:0;width:2.2rem;height:2.2rem;border-radius:50%;
+  background:var(--surface);border:1px solid var(--border);color:var(--text);
+  font-size:1.25rem;line-height:1;cursor:pointer;font-family:inherit;
+  display:grid;place-items:center;transition:background .15s,border-color .15s;}
+.sem-fl:hover:not(:disabled){background:#000;border-color:#000;color:#fff;}
+.sem-fl:disabled{opacity:.3;cursor:default;}
+.sem-nav.es-hoy .sem-fl{background:rgba(255,255,255,.75);border-color:#c4d99a;}
+.sem-centro{flex:1;min-width:0;text-align:center;}
+.sem-eti{display:block;font-size:.68rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:.15rem;}
+.sem-nav.es-hoy .sem-eti{color:#2d4a0a;}
+.sem-tit{display:block;font-family:'Space Grotesk',sans-serif;font-weight:800;
+  font-size:var(--fs-base);line-height:1.2;letter-spacing:-.2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sem-fecha{display:block;font-size:var(--fs-xs);color:var(--text-muted);margin-top:.12rem;}
+.sem-nav.es-hoy .sem-fecha{color:#3f5410;}
+.sem-hoy{flex:1 1 100%;background:#000;color:#fff;border:none;border-radius:9px;
+  padding:.5rem;font-size:var(--fs-xs);font-weight:700;cursor:pointer;font-family:inherit;}
+.sem-hoy:hover{background:#333;}
+
+/* la lista del año pasa a ser navegable */
+.ses-fila{width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--line-soft);
+  font-family:inherit;cursor:pointer;}
+.ses-fila:hover{background:var(--surface);}
+.ses-fila.activa{background:color-mix(in srgb, var(--accent) 12%, #fff);}
+.ses-fila.activa .ses-tema{font-weight:700;color:var(--text);}
+
+.cns-vacio{font-size:var(--fs-sm);color:var(--text-muted);line-height:1.5;}
+
+@media(max-width:560px){
+  .sem-tit{font-size:var(--fs-sm);white-space:normal;}
+}
 </style>
 </head>
 <body>
@@ -1316,6 +1360,7 @@ body.modo-consola{background:var(--bg2);}
 <header class="site-header">
   <h1>Computación 2026<span class="h1-dot">.</span></h1>
   <p>Asunción School · Viernes · Prof. Estrella Vizcarra</p>
+  <a class="prof-access" href="/profe">🔑 Soy la profesora</a>
 </header>
 
 <button class="logout-btn" id="logout-btn" onclick="lock()">🔓 Logout</button>
@@ -2225,7 +2270,9 @@ function lock(){
 function updateLogoutBtn(){
   const btn = document.getElementById('logout-btn');
   if(!btn) return;
-  btn.classList.toggle('visible', isUnlocked());
+  // Solo en la consola: la vista del alumno ya no tiene modo docente que cerrar,
+  // y el botón se encimaba con el acceso de la profesora.
+  btn.classList.toggle('visible', isUnlocked() && ES_CONSOLA);
 }
 
 function todayStr(){
@@ -2411,7 +2458,7 @@ function renderPanel(gradeId){
         </summary>
         <div class="future-grid">`;
       rest.forEach(item=>{
-        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, false);
+        html += buildCard(item.sdata, calInfo(item.sdata.n, gradeId), done, gradeId, false, false, false, false, false, false);
       });
       html += `</div></details>`;
     }
@@ -2525,7 +2572,7 @@ function goToUnlock(){
   if(inp){ inp.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>inp.focus(), 450); }
 }
 
-function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPastCard=false, isAutoCompleted=false, isToday=false){
+function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPastCard=false, isAutoCompleted=false, isToday=false, materialVisible=true){
   const {n, title, cover, act, evidence, tools, mat, ai} = sdata;
   const {block, dateLabel, note} = cal_info;
   const isDone = done.has(n);
@@ -2550,9 +2597,11 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
   const btnClass = isDone ? 'unmark' : 'mark';
   const btnText  = isDone ? '↩ Desmarcar sesión' : '✓ Marcar como realizada';
   const pad = x => String(x).padStart(2,'0');
-  const slideUrl  = READY_SESSIONS.has(n)  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
+  // Una clase que todavía no toca muestra su tema, nunca su material: el alumno
+  // no abre la presentación del mes que viene antes de que se dicte.
+  const slideUrl  = (materialVisible && READY_SESSIONS.has(n))  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
   const notasUrl  = READY_SESSIONS.has(n)  ? `slides/notas-${pad(n)}-${gradeId}.html`   : '';
-  const repasoUrl = REPASO_SESSIONS.has(n) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
+  const repasoUrl = (materialVisible && REPASO_SESSIONS.has(n)) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
   const slideBtn  = slideUrl
     ? `<a href="${slideUrl}"  target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
   const notasBtn  = (notasUrl && unlocked)
@@ -2561,7 +2610,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
     ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
   const resultsBtn = (repasoUrl && unlocked)
     ? `<button class="results-card-btn" onclick="openResults(${n}, '${gradeId}')">📊 Resultados</button>` : '';
-  const tareaUrl     = TASK_SESSIONS.has(n) ? `slides/tarea-${pad(n)}-${gradeId}.html` : '';
+  const tareaUrl     = (materialVisible && TASK_SESSIONS.has(n)) ? `slides/tarea-${pad(n)}-${gradeId}.html` : '';
   const tareaBtn     = tareaUrl
     ? `<a href="${tareaUrl}" target="_blank" class="tarea-btn">📎 Entregar tarea</a>` : '';
   const tasksViewBtn = (tareaUrl && unlocked)
@@ -2630,7 +2679,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
       </div>
     </div>
     <div class="card-foot">
-      <div class="foot-actions">${repasoBtn}${tareaBtn}${slideBtn}${teacherTools}</div>
+      <div class="foot-actions">${repasoBtn}${tareaBtn}${slideBtn}${teacherTools}${!materialVisible ? '<span class="aun-no">🗓️ El material se abre la semana de la clase</span>' : ''}</div>
       ${checkBtnHtml}
     </div>
   </div>`;
@@ -3727,6 +3776,8 @@ function momentoDelDia(items){
   return 'antes';
 }
 
+let sesionActiva = null;    // número de sesión que se está mirando
+
 function renderConsola(gradeId){
   currentGrade = gradeId;
   const g = GRADES[gradeId];
@@ -3737,18 +3788,26 @@ function renderConsola(gradeId){
     const past = d && d < hoyStr;
     return {sd, fecha:d, past, hoy: d===hoyStr, daysAgo: past?daysSince(d):0};
   });
-  const items = {
-    pasadas: todas.filter(i=>i.past),
-    hoy: todas.find(i=>i.hoy) || null,
-    futuras: todas.filter(i=>!i.past && !i.hoy)
-  };
-  const proxima = items.hoy || items.futuras[0] || null;
-  const ultima  = items.pasadas[items.pasadas.length-1] || null;
 
-  if(!momentoActivo) momentoActivo = momentoDelDia(items);
+  // La sesión "de esta semana": la de hoy, o la próxima que toca
+  const deEstaSemana = todas.find(i=>i.hoy) || todas.find(i=>!i.past) || todas[todas.length-1];
+  if(sesionActiva === null) sesionActiva = deEstaSemana.sd.n;
 
-  const dictadas = items.pasadas.length + (items.hoy?1:0);
+  const idx = todas.findIndex(i=>i.sd.n===sesionActiva);
+  const it  = todas[idx] || deEstaSemana;
+  const esLaDeHoy = it.sd.n === deEstaSemana.sd.n;
+
+  // El momento se elige solo según en qué punto está la sesión que miras
+  if(!momentoActivo || momentoActivo === '__auto'){
+    momentoActivo = it.hoy ? 'durante' : (it.past ? 'despues' : 'antes');
+  }
+
+  const dictadas = todas.filter(i=>i.past).length + (todas.find(i=>i.hoy)?1:0);
   const pct = Math.round(dictadas/TOTAL*100);
+
+  const estado = it.hoy ? 'Hoy toca esta clase'
+    : it.past ? ('Dictada hace ' + it.daysAgo + (it.daysAgo===1?' día':' días'))
+    : 'Todavía no se dicta';
 
   let html = `<div class="consola">
     <div class="cns-top">
@@ -3769,20 +3828,30 @@ function renderConsola(gradeId){
       `<button class="cns-aula-btn${id===gradeId?' on':''}" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="irAula('${id}')">${GRADES[id].emoji} ${GRADES[id].label}</button>`
     ).join('')}</div>
 
+    <div class="sem-nav${esLaDeHoy?' es-hoy':''}">
+      <button class="sem-fl" onclick="irSesion(-1)" ${idx<=0?'disabled':''} title="Semana anterior" aria-label="Semana anterior">‹</button>
+      <div class="sem-centro">
+        <span class="sem-eti">${esLaDeHoy ? 'ESTA SEMANA' : (it.past ? 'SEMANA PASADA' : 'SEMANA FUTURA')}</span>
+        <span class="sem-tit">Sesión ${it.sd.n} · ${it.sd.title}</span>
+        <span class="sem-fecha">${fmtDate(it.fecha)} · ${estado}</span>
+      </div>
+      <button class="sem-fl" onclick="irSesion(1)" ${idx>=todas.length-1?'disabled':''} title="Semana siguiente" aria-label="Semana siguiente">›</button>
+      ${esLaDeHoy ? '' : '<button class="sem-hoy" onclick="volverAEstaSemana()">↺ Volver a esta semana</button>'}
+    </div>
+
     <div class="cns-momentos">
-      ${momBtn('antes','ant','Antes de clase','Preparar', proxima?('Sesión '+proxima.sd.n+' · '+fmtDate(proxima.fecha).replace('Viernes ','')):'Sin próxima')}
-      ${momBtn('durante','dur','En clase','Proyectar y premiar', items.hoy?'Hoy toca clase':'Cuando estés en el aula')}
-      ${momBtn('despues','des','Después','Revisar lo que dejó', ultima?('Sesión '+ultima.sd.n+' · hace '+ultima.daysAgo+'d'):'Aún sin clases')}
+      ${momBtn('antes','ant','Antes de clase','Preparar','Notas, presentación y material')}
+      ${momBtn('durante','dur','En clase','Proyectar y premiar','Pantalla grande y puntos')}
+      ${momBtn('despues','des','Después','Revisar lo que dejó','Notas, entregas y ranking')}
     </div>`;
 
   html += `<section class="cns-panel">`;
-  if(momentoActivo==='antes')   html += panelAntes(proxima, gradeId);
-  if(momentoActivo==='durante') html += panelDurante(items.hoy || proxima, gradeId);
-  if(momentoActivo==='despues') html += panelDespues(ultima, gradeId);
+  if(momentoActivo==='antes')   html += panelAntes(it, gradeId);
+  if(momentoActivo==='durante') html += panelDurante(it, gradeId);
+  if(momentoActivo==='despues') html += panelDespues(it, gradeId);
   html += `</section>`;
 
-  // El año completo, plegado: 32 sesiones no pueden ocupar la pantalla
-  html += `<details class="cns-anio">
+  html += `<details class="cns-anio" open>
     <summary>
       <span><span class="cns-anio-t">El año completo</span>
         <span class="cns-anio-n"> · ${TOTAL} sesiones, ${dictadas} dictadas</span></span>
@@ -3793,7 +3862,7 @@ function renderConsola(gradeId){
 
   html += `</div>`;
   document.getElementById('main').innerHTML = html;
-  if(momentoActivo==='despues' && ultima) cargarCifras(gradeId, ultima.sd.n);
+  if(momentoActivo==='despues') cargarCifras(gradeId, it.sd.n);
 }
 
 function momBtn(id, cls, cuando, que, nota){
@@ -3805,13 +3874,38 @@ function momBtn(id, cls, cuando, que, nota){
   </button>`;
 }
 function verMomento(m){ momentoActivo = m; renderConsola(currentGrade); }
-function irAula(id){ momentoActivo = momentoActivo || null; renderConsola(id); }
+function irAula(id){ renderConsola(id); }
+
+/** Mueve la semana que se está mirando y deja que el momento se recalcule. */
+function irSesion(delta){
+  const g = GRADES[currentGrade];
+  const nums = g.sessions.map(s=>s.n);
+  const i = nums.indexOf(sesionActiva);
+  const j = Math.max(0, Math.min(nums.length-1, i + delta));
+  sesionActiva = nums[j];
+  momentoActivo = '__auto';
+  renderConsola(currentGrade);
+}
+function volverAEstaSemana(){
+  sesionActiva = null;
+  momentoActivo = '__auto';
+  renderConsola(currentGrade);
+}
+/** Salta a una sesión concreta desde la lista del año. */
+function verSesion(n){
+  sesionActiva = n;
+  momentoActivo = '__auto';
+  renderConsola(currentGrade);
+  document.querySelector('.sem-nav').scrollIntoView({behavior:'smooth', block:'center'});
+}
 
 function panelAntes(it, gradeId){
-  if(!it) return `<div class="cns-h"><h2>No quedan clases por dictar</h2></div>`;
   const n = String(it.sd.n).padStart(2,'0');
+  if(!READY_SESSIONS.has(it.sd.n))
+    return `<div class="cns-h"><h2>Esta sesión todavía no tiene material</h2></div>
+      <p class="cns-vacio">Cuando se genere, aquí aparecerán las notas, la presentación, el repaso y la tarea.</p>`;
   return `<div class="cns-h">
-      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
+      <h2>Preparar la sesión ${it.sd.n}</h2>
       <span class="cns-fecha">${fmtDate(it.fecha)}</span>
     </div>
     <div class="cns-acts">
@@ -3827,10 +3921,11 @@ function panelAntes(it, gradeId){
 }
 
 function panelDurante(it, gradeId){
-  if(!it) return `<div class="cns-h"><h2>No hay clase que proyectar</h2></div>`;
   const n = String(it.sd.n).padStart(2,'0');
+  if(!READY_SESSIONS.has(it.sd.n))
+    return `<div class="cns-h"><h2>Esta sesión todavía no tiene presentación</h2></div>`;
   return `<div class="cns-h">
-      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
+      <h2>Dictar la sesión ${it.sd.n}</h2>
       <span class="cns-fecha">${fmtDate(it.fecha)}</span>
     </div>
     <div class="cns-acts">
@@ -3844,11 +3939,12 @@ function panelDurante(it, gradeId){
 }
 
 function panelDespues(it, gradeId){
-  if(!it) return `<div class="cns-h"><h2>Todavía no hay clases dictadas</h2></div>`;
-  const n = String(it.sd.n).padStart(2,'0');
+  if(!it.past && !it.hoy)
+    return `<div class="cns-h"><h2>Esta clase todavía no se dicta</h2></div>
+      <p class="cns-vacio">Cuando pase, aquí verás quién rindió, quién entregó y cómo quedó el ranking.</p>`;
   return `<div class="cns-h">
-      <h2>Sesión ${it.sd.n} · ${it.sd.title}</h2>
-      <span class="cns-fecha">Dictada ${fmtDate(it.fecha).toLowerCase()}</span>
+      <h2>Lo que dejó la sesión ${it.sd.n}</h2>
+      <span class="cns-fecha">${fmtDate(it.fecha)}</span>
     </div>
     <div class="cns-cifras" id="cns-cifras"><div class="cns-cifra"><span class="v">·</span><span class="k">Cargando…</span></div></div>
     <div class="cns-acts">
@@ -3863,20 +3959,14 @@ function panelDespues(it, gradeId){
 
 function filasAnio(todas, gradeId){
   return todas.map(i=>{
-    const n = String(i.sd.n).padStart(2,'0');
     const cls = i.hoy ? 'hoy' : (i.past ? 'dictada' : '');
-    const links = READY_SESSIONS.has(i.sd.n)
-      ? `<span class="ses-links">
-           <a href="/slides/sesion-${n}-${gradeId}.html" target="_blank" title="Presentación">Deck</a>
-           <a href="/slides/notas-${n}-${gradeId}.html" target="_blank" title="Notas">Notas</a>
-         </span>` : '';
-    return `<div class="ses-fila ${cls}">
+    const act = i.sd.n===sesionActiva ? ' activa' : '';
+    return `<button class="ses-fila ${cls}${act}" onclick="verSesion(${i.sd.n})">
       <span class="ses-n">${i.sd.n}</span>
       <span class="ses-punto"></span>
       <span class="ses-tema">${i.sd.title}</span>
       <span class="ses-fecha">${fmtDate(i.fecha).replace('Viernes ','')}</span>
-      ${links}
-    </div>`;
+    </button>`;
   }).join('');
 }
 

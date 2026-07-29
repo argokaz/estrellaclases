@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Más allá de la pizarra · Escuela Estrella</title>
+<meta name="description" content="Cómo dar el salto de la pizarra a herramientas digitales sin morir en el intento. Para profesores de Asunción School.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0a0c11;--ink2:#0f1219;--lime:#a3e635;--lime2:#d3f184;--limeInk:#131a02;
+  --paper:#e7e9ee;--muted:#9aa2b1;--dim:#656d7d;--gold:#fbbf24;--line:rgba(255,255,255,.09);
+}
+html,body{height:100%}
+body{background:var(--ink);color:var(--paper);font-family:'Inter',system-ui,sans-serif;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;overflow:hidden;-webkit-font-smoothing:antialiased}
+.deck{position:relative;width:100vw;height:56.25vw;max-height:100dvh;max-width:177.78dvh;perspective:1500px}
+@media(max-width:820px){.deck{height:100dvh;max-width:100vw}}
+.s{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:1;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;padding:5% 6% 8%;text-align:center;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 1px,transparent 1px 78px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 78px),
+    linear-gradient(158deg,#080a0e 0%,var(--ink2) 55%,#12161f 100%)}
+.s.on{opacity:1;pointer-events:auto;z-index:2}
+.s::before{content:'';position:absolute;width:64%;height:64%;border-radius:50%;top:-22%;right:-14%;pointer-events:none;
+  background:radial-gradient(circle,color-mix(in srgb,var(--glow,var(--lime)) 15%,transparent) 0%,transparent 64%)}
+.s>*{position:relative;z-index:1;max-width:100%}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,74px);font-weight:800;line-height:1.03;letter-spacing:-.03em}
+h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3.5vw,52px);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:.5em}
+.lead{font-size:clamp(14px,1.7vw,25px);line-height:1.5;color:var(--muted);max-width:36ch;margin:0 auto}
+.lead b{color:var(--paper);font-weight:600}
+.acc{color:var(--lime)}
+.tiny{font-size:clamp(10px,1.05vw,15px);color:var(--dim)}
+.tag{display:inline-flex;align-items:center;gap:.45em;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.36);
+  color:var(--gold);border-radius:100px;padding:.3em 1em;font-size:clamp(10px,1.05vw,14px);font-weight:700;
+  font-family:'Space Grotesk',sans-serif;letter-spacing:.04em}
+.three{display:flex;gap:clamp(10px,2vw,30px);justify-content:center;margin-top:3%;width:100%;max-width:min(80vw,1000px)}
+.pane{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:2.4% 2%;
+  display:flex;flex-direction:column;align-items:center;gap:.5em;text-align:center}
+.pane .h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(11px,1.35vw,20px)}
+.pane .p{font-size:clamp(9px,1.08vw,15px);color:var(--muted);line-height:1.45}
+.rows{display:flex;flex-direction:column;gap:.55em;width:100%;max-width:min(76vw,920px);margin-top:2.4%;text-align:left}
+.row{display:flex;align-items:flex-start;gap:.85em;padding:.66em .95em;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
+.row .ic{font-size:clamp(13px,1.5vw,22px);flex-shrink:0;line-height:1.3}
+.row .tx{font-size:clamp(10.5px,1.24vw,18px);line-height:1.4}
+.row .tx b{font-family:'Space Grotesk',sans-serif;font-weight:700;display:block}
+.row .tx span{color:var(--muted);font-size:.93em}
+.cta{display:inline-flex;align-items:center;gap:.5em;background:var(--lime);color:var(--limeInk);
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(13px,1.5vw,21px);
+  padding:.66em 1.5em;border-radius:100px;text-decoration:none;border:none;cursor:pointer;
+  box-shadow:0 10px 34px rgba(163,230,53,.26);transition:transform .18s,box-shadow .18s}
+.cta:hover{transform:translateY(-2px)}
+.cta.ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(255,255,255,.24);box-shadow:none}
+.cta.ghost:hover{border-color:var(--lime);color:var(--lime)}
+.ctarow{display:flex;gap:.7em;justify-content:center;flex-wrap:wrap;margin-top:2.8%}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:center;
+  gap:clamp(8px,1.4vw,20px);padding:.5rem 1rem;background:rgba(6,8,12,.72);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.nb{background:var(--lime);color:var(--limeInk);border:none;border-radius:100px;padding:.36em 1.05em;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(11px,1.15vw,16px);transition:transform .15s}
+.nb:hover:not(:disabled){transform:translateY(-1px)}
+.nb:disabled{opacity:.2;cursor:default}
+.nb.g{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.nb.g:hover{color:var(--lime);border-color:var(--lime)}
+#count{font-family:'Space Grotesk',monospace;font-size:clamp(10px,1.05vw,15px);color:var(--muted);min-width:4em;text-align:center;letter-spacing:.08em}
+.dots{display:flex;gap:.3rem;justify-content:center}
+.dt{width:clamp(19px,2.3vw,36px);height:clamp(3px,.4vw,5px);border-radius:100px;background:rgba(255,255,255,.2);cursor:pointer;
+  transition:background .22s,transform .22s cubic-bezier(.22,1,.36,1);border:none;padding:0;transform:scaleX(.55)}
+.dt.on{background:var(--lime);transform:scaleX(1)}
+#rail{position:fixed;top:0;left:0;right:0;height:3px;z-index:61;background:rgba(255,255,255,.06)}
+#rail i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--lime),var(--lime2));transition:transform .5s cubic-bezier(.22,1,.36,1);box-shadow:0 1px 10px rgba(163,230,53,.42)}
+.dr{fill:none;stroke:var(--lime);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1}
+@media(max-width:820px){.three{flex-direction:column}.rows{max-width:92vw}.s{padding:8% 5% 12%}}
+@media (prefers-reduced-motion: no-preference){
+  .s::before{animation:orb 16s ease-in-out infinite}
+  @keyframes orb{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-2%,3%,0) scale(1.12)}}
+  .s.fwd{animation:eF .6s cubic-bezier(.22,1,.36,1) both}
+  .s.bwd{animation:eB .6s cubic-bezier(.22,1,.36,1) both}
+  @keyframes eF{from{opacity:0;transform:translateX(3.5%) scale(.978)}to{opacity:1;transform:none}}
+  @keyframes eB{from{opacity:0;transform:translateX(-3.5%) scale(.978)}to{opacity:1;transform:none}}
+  .s.on h1,.s.on h2{animation:up .6s .04s cubic-bezier(.22,1,.36,1) both}
+  .s.on .lead{animation:up .5s .2s cubic-bezier(.22,1,.36,1) both}
+  .s.on .tag{animation:pop .5s .02s cubic-bezier(.22,1,.36,1) both}
+  .s.on svg.art{animation:rise .7s .14s cubic-bezier(.22,1,.36,1) both}
+  .s.on .ctarow{animation:up .5s .36s cubic-bezier(.22,1,.36,1) both}
+  .s.on .pane:nth-child(1){animation:up .5s .2s cubic-bezier(.22,1,.36,1) both}
+  .s.on .pane:nth-child(2){animation:up .5s .32s cubic-bezier(.22,1,.36,1) both}
+  .s.on .pane:nth-child(3){animation:up .5s .44s cubic-bezier(.22,1,.36,1) both}
+  .s.on .row:nth-child(1){animation:up .45s .2s cubic-bezier(.22,1,.36,1) both}
+  .s.on .row:nth-child(2){animation:up .45s .29s cubic-bezier(.22,1,.36,1) both}
+  .s.on .row:nth-child(3){animation:up .45s .38s cubic-bezier(.22,1,.36,1) both}
+  .s.on .row:nth-child(4){animation:up .45s .47s cubic-bezier(.22,1,.36,1) both}
+  @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes rise{from{opacity:0;transform:translateY(3%) scale(.985)}to{opacity:1;transform:none}}
+  @keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+  .s.on .kw{display:inline-block;animation:kw .6s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(.05s + var(--i)*.075s)}
+  @keyframes kw{from{opacity:0;transform:translateY(.5em) rotate(1.2deg)}to{opacity:1;transform:none}}
+  .s.on .dr{animation:draw 1.2s .3s cubic-bezier(.4,0,.2,1) both}
+  .s.on .dr.d2{animation-delay:.6s}
+  .s.on .dr.d3{animation-delay:.9s}
+  .s.on .dr.d4{animation-delay:1.2s}
+  @keyframes draw{to{stroke-dashoffset:0}}
+}
+</style>
+</head>
+<body>
+<!--
+THESIS: La fase 2 enseña el salto, no el catálogo de apps: cada herramienta entra por el problema de aula que resuelve. Refuso la lista de "10 apps para docentes".
+OWN-WORLD: Mismo mundo tinta+lima del sistema en producción; SVG lineal dibujado a mano alzada como material propio de esta pieza.
+STORY: El profesor entiende que puede dar un paso a la vez, cree que no necesita ser experto, y elige su primer cambio para el próximo bimestre.
+FIRST VIEWPORT: Título a escala completa sobre una pizarra dibujándose y desbordándose hacia una pantalla.
+FORM: Continuación narrativa de la demo (fase 2, primer tramo).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+-->
+<div id="rail"><i></i></div>
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="s" style="--glow:#a3e635">
+  <h1>Más allá de la pizarra.</h1>
+  <p class="lead" style="margin-top:1.8%">No se trata de dejar de enseñar como enseñas. Se trata de <b>que lo que ya haces bien llegue más lejos</b>.</p>
+  <svg class="art" viewBox="0 0 420 150" style="width:min(58vw,660px);margin-top:2.6%;overflow:visible" aria-hidden="true">
+    <rect class="dr" pathLength="1" x="12" y="18" width="180" height="112" rx="6" style="stroke:rgba(255,255,255,.3)"/>
+    <path class="dr d2" pathLength="1" d="M34,54 H150 M34,74 H120 M34,94 H164" style="stroke:rgba(255,255,255,.22)"/>
+    <path class="dr d3" pathLength="1" d="M200,74 H268" style="stroke:var(--lime)"/>
+    <path class="dr d3" pathLength="1" d="M254,62 l14,12 l-14,12" style="stroke:var(--lime)"/>
+    <rect class="dr d4" pathLength="1" x="280" y="18" width="128" height="86" rx="8" style="stroke:var(--lime)"/>
+    <path class="dr d4" pathLength="1" d="M330,104 v14 M310,122 h48" style="stroke:var(--lime)"/>
+    <circle cx="344" cy="60" r="13" fill="none" stroke="var(--gold)" stroke-width="2" opacity=".85"/>
+    <path d="M338,60 l5,5 l9,-10" fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round"/>
+  </svg>
+  <p class="tiny" style="margin-top:2.4%">Para profesores de Asunción School · Prof. Estrella Vizcarra</p>
+</section>
+
+<!-- 2 -->
+<section class="s" style="--glow:#60a5fa">
+  <h2>La pizarra no está mal. Tiene techo.</h2>
+  <p class="lead">Todo lo que escribes se borra al final de la hora. Nadie puede repasarlo, nadie sabe quién entendió, y tú te enteras del problema recién en el examen.</p>
+  <div class="three">
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">🧽</div><div class="h">Se borra</div><div class="p">El alumno que faltó, o el que no copió a tiempo, lo perdió para siempre.</div></div>
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">🤫</div><div class="h">No sabes quién entendió</div><div class="p">Los que preguntan son siempre los mismos cinco.</div></div>
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">⏰</div><div class="h">Te enteras tarde</div><div class="p">El examen te dice lo que debiste saber hace tres semanas.</div></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="s" style="--glow:#c084fc">
+  <h2>Tres saltos, no cien apps.</h2>
+  <p class="lead">Cada herramienta entra por el problema que resuelve. Si no resuelve uno tuyo, no la instales.</p>
+  <div class="three">
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">📽️</div><div class="h">Mostrar</div><div class="p">Que lo que explicas quede: visible, guardado y repasable en casa.</div></div>
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">✋</div><div class="h">Participar</div><div class="p">Que todos respondan, no solo los cinco de siempre.</div></div>
+    <div class="pane"><div style="font-size:clamp(19px,2.6vw,40px)">📊</div><div class="h">Saber</div><div class="p">Enterarte hoy de quién se está quedando, no en el examen.</div></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="s" style="--glow:#fb923c">
+  <h2>Empieza por una sola cosa.</h2>
+  <p class="lead">El error más común es querer cambiar todo en una semana. <b>Un cambio por bimestre</b> es suficiente y es sostenible.</p>
+  <div class="rows">
+    <div class="row"><span class="ic">1️⃣</span><span class="tx"><b>Este bimestre: que tu clase quede grabada en algún lado</b><span>Tus slides publicados y una guía de repaso por sesión. Nada más.</span></span></div>
+    <div class="row"><span class="ic">2️⃣</span><span class="tx"><b>El siguiente: que todos respondan</b><span>Una pregunta con puntos por participar. Ahí verás quién estaba callado pero sí sabía.</span></span></div>
+    <div class="row"><span class="ic">3️⃣</span><span class="tx"><b>El tercero: que la nota se registre sola</b><span>Una evaluación corta al final de cada sesión, que se guarda sin que la revises a mano.</span></span></div>
+    <div class="row"><span class="ic">4️⃣</span><span class="tx"><b>Y recién ahí: lo demás</b><span>Tareas digitales, ranking, seguimiento por alumno. Cuando lo anterior ya sea costumbre.</span></span></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="s" style="--glow:#a3e635">
+  <span class="tag">✍️ Este tramo sigue creciendo</span>
+  <h2 style="margin-top:1.4%">Lo que viene en esta guía.</h2>
+  <p class="lead">Talleres cortos, uno por herramienta, con la clase ya armada para que la uses tal cual.</p>
+  <div class="rows">
+    <div class="row"><span class="ic">🎨</span><span class="tx"><b>Canva para clase</b><span>Afiches, infografías y material que no parece hecho a las apuradas.</span></span></div>
+    <div class="row"><span class="ic">📋</span><span class="tx"><b>Formularios que se corrigen solos</b><span>Diagnósticos y salidas rápidas sin llevarte nada a casa.</span></span></div>
+    <div class="row"><span class="ic">🤖</span><span class="tx"><b>IA sin hacer trampa</b><span>Cómo usarla tú para preparar, y cómo enseñarles a usarla con criterio.</span></span></div>
+    <div class="row"><span class="ic">📱</span><span class="tx"><b>El celular como aliado</b><span>Convertir el aparato que peleas en la herramienta que usan para aprender.</span></span></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="s" style="--glow:#a3e635">
+  <h1 style="font-size:clamp(25px,4.4vw,64px)">No tienes que saber de tecnología.</h1>
+  <p class="lead" style="margin-top:1.8%">Tienes que saber enseñar — y eso ya lo haces. <b>Lo demás lo armamos juntos.</b></p>
+  <div class="ctarow">
+    <a class="cta" href="index.html">Ver la demostración →</a>
+    <a class="cta ghost" href="/">Entrar a la plataforma</a>
+  </div>
+</section>
+
+</div>
+<nav class="nav">
+  <button class="nb" id="prev">← Atrás</button>
+  <div class="dots" id="dots"></div>
+  <span id="count">1 / 6</span>
+  <button class="nb" id="next">Siguiente →</button>
+  <button class="nb g" id="auto">▶ Auto</button>
+</nav>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.s'));
+  var N=slides.length,cur=0,initialized=false,timer=null;
+  var dots=document.getElementById('dots'),rail=document.querySelector('#rail i');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  slides.forEach(function(_,i){var b=document.createElement('button');b.className='dt'+(i===0?' on':'');
+    b.setAttribute('aria-label','Ir a la pantalla '+(i+1));b.onclick=function(){stopAuto();go(i);};dots.appendChild(b);});
+  var allDots=[].slice.call(dots.children);
+  function go(n){
+    var dir=n>cur?1:-1;
+    slides[cur].classList.remove('on','fwd','bwd');allDots[cur].classList.remove('on');
+    cur=Math.max(0,Math.min(N-1,n));
+    var s=slides[cur];s.classList.remove('fwd','bwd');s.classList.add('on');
+    if(initialized&&!reduce){void s.offsetWidth;s.classList.add(dir>=0?'fwd':'bwd');}
+    allDots[cur].classList.add('on');
+    document.getElementById('count').textContent=(cur+1)+' / '+N;
+    document.getElementById('prev').disabled=cur===0;
+    document.getElementById('next').disabled=cur===N-1;
+    rail.style.transform='scaleX('+((cur+1)/N)+')';
+  }
+  function move(d){go(cur+d);}
+  document.querySelectorAll('h1,h2').forEach(function(t){
+    var idx=0;
+    [].slice.call(t.childNodes).forEach(function(node){
+      if(node.nodeType===3){
+        var frag=document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function(part){
+          if(!part)return;
+          if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));return;}
+          var w=document.createElement('span');w.className='kw';w.style.setProperty('--i',idx++);w.textContent=part;frag.appendChild(w);
+        });
+        t.replaceChild(frag,node);
+      }else if(node.nodeType===1){node.classList.add('kw');node.style.setProperty('--i',idx++);}
+    });
+  });
+  var DUR=[7000,8500,8000,9500,9000,9000];
+  var btn=document.getElementById('auto');
+  function tick(){timer=setTimeout(function(){if(cur>=N-1){stopAuto();return;}move(1);tick();},DUR[cur]||8000);}
+  function startAuto(){btn.classList.add('playing');btn.textContent='❚❚ Pausa';if(cur>=N-1)go(0);tick();}
+  function stopAuto(){clearTimeout(timer);timer=null;btn.classList.remove('playing');btn.textContent='▶ Auto';}
+  btn.onclick=function(){timer?stopAuto():startAuto();};
+  document.getElementById('prev').onclick=function(){stopAuto();move(-1);};
+  document.getElementById('next').onclick=function(){stopAuto();move(1);};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();stopAuto();move(1);}
+    if(e.key==='ArrowLeft'){e.preventDefault();stopAuto();move(-1);}
+  });
+  var tx=0,deck=document.getElementById('deck');
+  deck.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  deck.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>42){stopAuto();move(dx<0?1:-1);}});
+  go(0);initialized=true;
+})();
+</script>
+</body>
+</html>

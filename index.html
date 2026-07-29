@@ -761,6 +761,14 @@ button{font-family:inherit;cursor:pointer;}
 .acc-item button:hover{color:var(--text);}
 .acc-item button.cp{background:rgba(163,230,53,.13);border-color:rgba(163,230,53,.4);color:#365314;}
 .acc-empty{font-size:.85rem;color:var(--text-muted);padding:.5rem 0;}
+/* En pantalla angosta la fila se desarmaba: código y nombre toman su
+   propia línea y los dos botones quedan juntos abajo. */
+@media(max-width:560px){
+  .acc-item{gap:.35rem .5rem;}
+  .acc-item code{flex:1 1 100%;}
+  .acc-item .who{flex:1 1 100%;min-width:0;}
+  .acc-item button{flex:1 1 auto;}
+}
 
 /* ── REPROGRAMAR CLASES ── */
 .sched-overlay{display:none;position:fixed;inset:0;z-index:520;background:rgba(0,0,0,.10);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
@@ -1119,8 +1127,9 @@ button{font-family:inherit;cursor:pointer;}
 .roster-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.10);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;}
 .roster-overlay.open{display:flex;}
 .roster-panel{background:var(--card);border:1px solid var(--border);border-radius:20px;width:100%;max-width:820px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.10);}
-.roster-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;gap:.6rem;}
-.roster-panel-hdr h2{margin:0;font-size:.95rem;font-weight:800;color:#14532d;flex:1;}
+.roster-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0;gap:.6rem;flex-wrap:wrap;}
+.roster-panel-hdr h2{margin:0;font-size:.95rem;font-weight:800;color:#14532d;flex:1 1 100%;}
+@media(min-width:520px){.roster-panel-hdr h2{flex:1 1 auto;}}
 .roster-hdr-btn{background:var(--surface-2);border:none;color:var(--text);border-radius:8px;padding:.3rem .75rem;font-size:.8rem;font-weight:600;cursor:pointer;white-space:nowrap;}
 .roster-hdr-btn:hover{background:var(--line-soft);}
 .roster-hdr-btn.green{background:rgba(34,197,94,.18);color:#14532d;border:1px solid rgba(34,197,94,.35);}
@@ -3743,9 +3752,9 @@ function renderConsola(gradeId){
         <span class="cns-aula">${dictadas} de ${TOTAL} clases dictadas · ${pct}%</span>
       </div>
       <div class="cns-tools">
-        <button class="cns-tool" onclick="openRosterEditor('${gradeId}')">Alumnos</button>
-        <button class="cns-tool" onclick="openSchedule()">Fechas</button>
-        <button class="cns-tool" onclick="openAccess()">Accesos</button>
+        <button class="cns-tool" onclick="openRosterEditor('${gradeId}')" title="Ver y editar la lista de alumnos del aula">👥 Alumnos</button>
+        <button class="cns-tool" onclick="openSchedule()" title="Aplazar clases si no se dictó alguna">🗓️ Aplazar clases</button>
+        <button class="cns-tool" onclick="openAccess()" title="Generar el enlace de acceso a los prompts para un colega">✨ Enlaces de prompts</button>
         <a class="cns-tool" href="/" style="text-decoration:none">Ver como alumno</a>
         <button class="cns-tool" onclick="lock()">Salir</button>
       </div>

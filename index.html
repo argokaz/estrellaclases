@@ -89,7 +89,7 @@ button{font-family:inherit;cursor:pointer;}
    como una tabla sobre el papel blanco. Cada aula conserva su color,
    que es identidad en todo el sistema. */
 .grade-tabs{
-  display:flex;gap:.4rem;overflow-x:auto;
+  display:flex;gap:.45rem;overflow-x:auto;align-items:center;
   scrollbar-width:none;-webkit-overflow-scrolling:touch;
   padding:.85rem 1rem;
   background:transparent;
@@ -699,6 +699,30 @@ button{font-family:inherit;cursor:pointer;}
 .future-fold[open] .ff-fl{transform:rotate(180deg);}
 .future-fold .future-grid{padding:0 1.05rem 1.05rem;}
 
+
+/* ── ELEGIR SALÓN: lo primero que ve un alumno ── */
+.aula-pick{max-width:760px;margin:clamp(24px,6vw,64px) auto;text-align:center;padding:0 1rem;}
+.aula-pick h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,4vw,38px);font-weight:800;
+  letter-spacing:-.5px;margin-bottom:.35rem;}
+.aula-pick p{color:var(--text-muted);font-size:var(--fs-base);margin-bottom:1.6rem;}
+.aula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;}
+.aula-card{display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  background:#fff;border:2px solid var(--border);border-radius:16px;
+  padding:1.4rem .8rem;cursor:pointer;font-family:inherit;
+  transition:border-color .16s,background .16s,transform .16s;}
+.aula-card:hover{border-color:var(--gaccent);background:color-mix(in srgb,var(--gaccent) 8%,#fff);transform:translateY(-2px);}
+.aula-card .aula-em{font-size:2.2rem;line-height:1;}
+.aula-card b{font-family:'Space Grotesk',sans-serif;font-size:var(--fs-base);font-weight:700;color:var(--text);}
+
+/* la pestaña activa del selector superior pesa más: es dónde estás */
+.gtab.active{box-shadow:0 2px 0 0 var(--gaccent) inset, 0 0 0 1px var(--gaccent);}
+.gtab-cambiar{flex-shrink:0;background:none;border:none;color:var(--text-muted);
+  font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:inherit;
+  text-decoration:underline;text-underline-offset:3px;padding:.5rem .6rem;white-space:nowrap;}
+.gtab-cambiar:hover{color:var(--text);}
+@media(max-width:520px){
+  .aula-grid{grid-template-columns:repeat(2,1fr);}
+}
 /* ── RANKING: la tarjeta con más peso del panel ── */
 .rank-card{background:var(--lilac);border:1px solid #b49ae8;border-radius:var(--radius);
   padding:1rem 1.1rem 1.1rem;margin:0 0 1.1rem;}
@@ -2294,13 +2318,50 @@ function daysSince(dateStr){
 // Acento visual de cada grado (mismo sistema que decks/repasos/tareas)
 const GRADE_ACCENTS = {prim6:'#15803d', sec2:'#1d4ed8', sec3:'#c2410c', sec4:'#7c3aed', sec5:'#b91c1c'};
 
+const MI_AULA = 'mi_aula';
+
 function render(){
   const tabs = document.getElementById('grade-tabs');
   tabs.innerHTML = GRADE_ORDER.map(id=>{
     const g = GRADES[id];
-    return `<button class="gtab" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="switchGrade('${id}')">${g.emoji} ${g.label}</button>`;
-  }).join('');
-  switchGrade(GRADE_ORDER[0]);
+    return `<button class="gtab" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="elegirAula('${id}')">${g.emoji} ${g.label}</button>`;
+  }).join('') + '<button class="gtab-cambiar" onclick="cambiarAula()">Cambiar de salón</button>';
+
+  if(ES_CONSOLA){ switchGrade(GRADE_ORDER[0]); return; }
+
+  // El alumno entra a SU salón: se le pregunta una vez y se recuerda.
+  const guardada = localStorage.getItem(MI_AULA);
+  if(guardada && GRADES[guardada]){ switchGrade(guardada); return; }
+  pedirAula();
+}
+
+/** Primera visita: elegir salón antes de ver nada, para no entrar al equivocado. */
+function pedirAula(){
+  document.getElementById('grade-tabs').style.display = 'none';
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('main').innerHTML = `
+    <section class="aula-pick">
+      <h2>¿En qué salón estás?</h2>
+      <p>Elígelo una vez y la página se abrirá siempre en el tuyo.</p>
+      <div class="aula-grid">${GRADE_ORDER.map(id=>{
+        const g = GRADES[id];
+        return `<button class="aula-card" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="elegirAula('${id}')">
+          <span class="aula-em">${g.emoji}</span>
+          <b>${g.label}</b>
+        </button>`;
+      }).join('')}</div>
+    </section>`;
+}
+
+function elegirAula(id){
+  try{ localStorage.setItem(MI_AULA, id); }catch(_){}
+  document.getElementById('grade-tabs').style.display = '';
+  switchGrade(id);
+}
+
+function cambiarAula(){
+  try{ localStorage.removeItem(MI_AULA); }catch(_){}
+  pedirAula();
 }
 
 function switchGrade(gradeId){
@@ -3066,31 +3127,77 @@ function buildRankingPlaceholder(gradeId, unlocked){
 }
 
 // Trae el top 3 del mes y lo pinta dentro de la tarjeta del ranking.
-async function cargarPodio(gradeId){
-  const cont = document.getElementById('rank-podium-'+gradeId);
-  if(!cont) return;
-  const mes = new Date().toISOString().slice(0,7);
+// ── Podio del ranking, con caché ──────────────────────────────────────────
+// Pedirlo en cada render dejaba el podio en blanco unos segundos, también al
+// cambiar de aula. Ahora se pinta al instante desde la copia guardada y se
+// refresca en segundo plano, y solo si la copia ya tiene más de un minuto.
+const RANK_FRESCO = 60 * 1000;
+
+function rankKey(gradeId, mes){ return 'rank-' + gradeId + '-' + mes; }
+
+function rankLeer(gradeId, mes){
   try{
-    const r = await fetch('/.netlify/functions/get-ranking?grado='+gradeId+'&mes='+mes);
-    const d = await r.json();
-    const top = (d.ranking||[]).filter(a=>a.total>0).slice(0,3);
-    if(!top.length){
-      cont.innerHTML = '<div class="rank-empty">Todavía no hay puntos este mes. La primera evaluación abre la tabla.</div>';
-      return;
-    }
-    const medallas = ['🥇','🥈','🥉'];
-    const max = top[0].total || 1;
-    cont.innerHTML = top.map((a,i)=>`
+    const raw = localStorage.getItem(rankKey(gradeId, mes));
+    if(!raw) return null;
+    const d = JSON.parse(raw);
+    return (d && Array.isArray(d.top)) ? d : null;
+  }catch(_){ return null; }
+}
+
+function rankGuardar(gradeId, mes, top){
+  try{ localStorage.setItem(rankKey(gradeId, mes), JSON.stringify({top, ts: Date.now()})); }catch(_){}
+}
+
+function pintarPodio(gradeId, top){
+  const cont = document.getElementById('rank-podium-' + gradeId);
+  if(!cont) return;
+  if(!top.length){
+    cont.innerHTML = '<div class="rank-empty">Todavía no hay puntos este mes. La primera evaluación abre la tabla.</div>';
+    return;
+  }
+  const medallas = ['🥇','🥈','🥉'];
+  const max = top[0].total || 1;
+  cont.innerHTML = top.map((a,i)=>`
       <div class="rank-row">
         <span class="rank-pos">${medallas[i]}</span>
         <span class="rank-name">${a.nombre}</span>
         <span class="rank-bar"><i style="width:${Math.round((a.total/max)*100)}%"></i></span>
         <span class="rank-pts">${a.total}</span>
       </div>`).join('');
+}
+
+async function cargarPodio(gradeId){
+  const cont = document.getElementById('rank-podium-' + gradeId);
+  if(!cont) return;
+  const mes = new Date().toISOString().slice(0,7);
+
+  // 1. lo guardado se pinta ya, sin esperar a la red
+  const cache = rankLeer(gradeId, mes);
+  if(cache) pintarPodio(gradeId, cache.top);
+
+  // 2. si es reciente, no se vuelve a pedir
+  if(cache && (Date.now() - cache.ts) < RANK_FRESCO) return;
+
+  // 3. refresco en segundo plano; solo repinta si algo cambió
+  try{
+    const r = await fetch('/.netlify/functions/get-ranking?grado=' + gradeId + '&mes=' + mes);
+    const d = await r.json();
+    const top = (d.ranking || []).filter(a => a.total > 0).slice(0,3);
+    const igual = cache && JSON.stringify(cache.top) === JSON.stringify(top);
+    rankGuardar(gradeId, mes, top);
+    if(!igual) pintarPodio(gradeId, top);
   }catch(e){
-    cont.innerHTML = '<div class="rank-empty">No se pudo cargar el podio. Revisa tu conexión.</div>';
+    // sin red y sin copia previa: se dice; con copia, se deja lo que ya se ve
+    if(!cache) cont.innerHTML = '<div class="rank-empty">No se pudo cargar el podio. Revisa tu conexión.</div>';
   }
 }
+
+/** Fuerza el refresco: se usa tras dar un punto o al cerrar la tabla completa. */
+function invalidarPodio(gradeId){
+  const mes = new Date().toISOString().slice(0,7);
+  try{ localStorage.removeItem(rankKey(gradeId, mes)); }catch(_){}
+}
+
 
 function openRankingModal(gradeId){
   const overlay=document.getElementById('ranking-overlay');

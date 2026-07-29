@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Más allá de la pizarra · Google Slides, Gemini y Gemini Notebook</title>
-<meta name="description" content="Capacitación docente: cómo usar Google Slides, Gemini y Gemini Notebook para convertir los materiales que ya tienes en presentaciones, guías, audios y actividades.">
+<meta name="description" content="Capacitación docente: qué hace Google Slides, Gemini Notebook y Gemini, con demostraciones, para preparar materiales de clase más rápido.">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -435,14 +435,102 @@ h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(23px,3.6vw,54px);font-
   .ficha{grid-template-columns:1fr;max-width:100%}
   .promptwrap{max-width:100%}
 }
+
+/* ═══════ PORTADA DE SECCIÓN ═══════ */
+.sect{display:flex;align-items:center;gap:clamp(14px,2.4vw,40px);text-align:left}
+.sect .big{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(56px,12vw,190px);
+  line-height:.82;letter-spacing:-.05em;color:transparent;-webkit-text-stroke:2px rgba(163,230,53,.5)}
+.sect .txt h2{margin-bottom:.2em}
+.sect .txt p{color:var(--muted);font-size:clamp(11px,1.35vw,21px);line-height:1.4;max-width:24ch}
+
+/* ═══════ DEMOS ANIMADAS ═══════ */
+.demo{width:min(64vw,860px);margin-top:2.4%;overflow:visible}
+.demo.tall{width:min(58vw,760px)}
+.dcap{margin-top:1.6%;font-size:clamp(9px,1.05vw,15px);color:var(--dim);letter-spacing:.02em}
+
+/* fortalezas bajo una demo */
+.forte{display:flex;gap:clamp(8px,1.4vw,22px);width:100%;max-width:min(80vw,1060px);margin-top:2.4%;text-align:left}
+.ft{flex:1;display:flex;gap:.55em;align-items:flex-start;background:rgba(255,255,255,.04);
+  border:1px solid var(--line);border-radius:11px;padding:clamp(9px,1.15vw,20px)}
+.ft .fi{font-size:clamp(13px,1.6vw,24px);line-height:1;flex-shrink:0}
+.ft b{display:block;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(10px,1.2vw,18px);margin-bottom:.18em}
+.ft span{font-size:clamp(8.5px,1vw,15px);line-height:1.38;color:var(--muted)}
+
+@media (prefers-reduced-motion: no-preference){
+  .s.on .demo{animation:rise .7s .14s cubic-bezier(.22,1,.36,1) both}
+  .s.on .ft{animation:up .45s cubic-bezier(.22,1,.36,1) both}
+  .s.on .ft:nth-child(1){animation-delay:.34s}
+  .s.on .ft:nth-child(2){animation-delay:.42s}
+  .s.on .ft:nth-child(3){animation-delay:.5s}
+  .s.on .sect .big{animation:up .6s .02s cubic-bezier(.22,1,.36,1) both}
+
+  /* — DEMO SLIDES: la diapositiva se arma — */
+  .s.on .sl-el{animation:slEl 11s linear infinite both}
+  .s.on .sl-el.e2{animation-name:slE2}
+  .s.on .sl-el.e3{animation-name:slE3}
+  .s.on .sl-el.e4{animation-name:slE4}
+  @keyframes slEl{0%,4%{opacity:0;transform:translateY(7px)}12%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+  @keyframes slE2{0%,18%{opacity:0;transform:translateY(7px)}27%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+  @keyframes slE3{0%,33%{opacity:0;transform:translateY(7px)}42%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+  @keyframes slE4{0%,48%{opacity:0;transform:translateY(7px)}57%,88%{opacity:1;transform:none}96%,100%{opacity:0;transform:none}}
+  .s.on .sl-thumb{animation:slTh 11s linear infinite both}
+  @keyframes slTh{0%,60%{opacity:0;transform:scale(.9)}70%,88%{opacity:1;transform:none}96%,100%{opacity:0}}
+
+  /* — DEMO NOTEBOOK: fuentes entran, recursos salen — */
+  /* transform-box:fill-box — sin esto el scale() de un <g> SVG toma origen en (0,0) del lienzo y descoloca las cajas */
+  .nb-doc,.nb-out,.sl-thumb{transform-box:fill-box;transform-origin:center}
+  .s.on .nb-doc{animation:nbDoc 12s ease-in-out infinite both}
+  .s.on .nb-doc.d2{animation-delay:-11.3s}
+  .s.on .nb-doc.d3{animation-delay:-10.6s}
+  @keyframes nbDoc{0%{opacity:0;transform:translateX(-14px)}6%{opacity:1;transform:translateX(0)}
+    20%{opacity:1;transform:translateX(0)}30%{opacity:0;transform:translateX(74px) scale(.5)}100%{opacity:0}}
+  .s.on .nb-book{animation:nbBook 12s ease-in-out infinite both}
+  @keyframes nbBook{0%,26%{transform:none}32%{transform:scale(1.06)}40%,100%{transform:none}}
+  .s.on .nb-out{animation:nbOut 12s ease-in-out infinite both}
+  .s.on .nb-out.o2{animation-delay:-11.4s}
+  .s.on .nb-out.o3{animation-delay:-10.8s}
+  .s.on .nb-out.o4{animation-delay:-10.2s}
+  @keyframes nbOut{0%,42%{opacity:0;transform:translateX(-16px) scale(.85)}
+    52%{opacity:1;transform:none}90%{opacity:1;transform:none}97%,100%{opacity:0}}
+
+  /* — DEMO GEMINI: escribes, responde — */
+  .s.on .gm-mask{animation:gmMask 12s steps(28,end) infinite both}
+  @keyframes gmMask{0%{transform:translateX(0)}30%{transform:translateX(268px)}92%{transform:translateX(268px)}
+    93%,100%{transform:translateX(0)}}
+  .s.on .gm-cur{animation:gmCur 12s linear infinite both,gmBlink .8s steps(2,end) infinite}
+  @keyframes gmCur{0%{transform:translateX(0);opacity:1}30%{transform:translateX(268px);opacity:1}
+    34%,92%{opacity:0}93%,100%{transform:translateX(0);opacity:1}}
+  @keyframes gmBlink{50%{opacity:.15}}
+  .s.on .gm-send{animation:gmSend 12s linear infinite both}
+  @keyframes gmSend{0%,31%{fill:rgba(163,230,53,.25)}35%,44%{fill:#a3e635}48%,100%{fill:rgba(163,230,53,.25)}}
+  .s.on .gm-ln{animation:gmLn 12s ease-out infinite both}
+  .s.on .gm-ln.l2{animation-delay:-11.5s}
+  .s.on .gm-ln.l3{animation-delay:-11s}
+  .s.on .gm-ln.l4{animation-delay:-10.5s}
+  @keyframes gmLn{0%,44%{opacity:0;transform:translateY(6px)}52%{opacity:1;transform:none}
+    90%{opacity:1;transform:none}96%,100%{opacity:0}}
+  .s.on .gm-think{animation:gmThink 12s linear infinite both}
+  @keyframes gmThink{0%,34%{opacity:0}38%,46%{opacity:1}50%,100%{opacity:0}}
+}
+@media (prefers-reduced-motion: reduce){
+  .sl-el,.nb-doc,.nb-out,.gm-ln,.sl-thumb{opacity:1}
+  .gm-mask,.gm-cur{display:none}
+}
+@media(max-width:820px){
+  .demo,.demo.tall{width:100%}
+  .forte{flex-direction:column;max-width:100%}
+  .sect{flex-direction:column;align-items:flex-start;gap:10px}
+  .sect .big{font-size:clamp(48px,18vw,90px)}
+  .sect .txt p{max-width:none}
+}
 </style>
 </head>
 <body>
 <!--
-THESIS: El profesor ya sabe enseñar; esta pieza habla del trabajo de PREPARAR, nunca del de enseñar. Rechaza el tono de "modernízate" que domina la categoría.
-OWN-WORLD: mismo mundo tinta+lima del deck de plataforma — es la segunda parte de la misma sesión, no otra marca.
-STORY: el profesor reconoce su propia experiencia en la pantalla 2, entiende el cambio de entorno sin sentirse culpado, aprende a dar instrucciones, y sale con un recurso hecho.
-PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, "los alumnos se aburren por culpa del método".
+THESIS: El profesor ya sabe enseñar; esta pieza habla del trabajo de PREPARAR. Muestra cada herramienta funcionando antes de explicarla.
+OWN-WORLD: mismo mundo tinta+lima de la plataforma. Tres secciones numeradas, una por herramienta, cada una con su demo animada.
+LEGIBILIDAD: pensada para proyector — pocas palabras, tipografía grande, una idea por pantalla.
+PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, culpar al método por la falta de atención.
 -->
 
 <div id="rail"><i></i></div>
@@ -451,493 +539,400 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, "los 
 <!-- 1 · PORTADA -->
 <section class="s on">
   <h1>Más allá de la pizarra</h1>
-  <p class="lead" style="margin-top:1.8%;max-width:44ch">Google Slides, Gemini y Gemini Notebook <b>para complementar nuestras clases</b>.</p>
-  <div class="stage">
-    <svg viewBox="0 0 460 150" style="width:min(52vw,660px);overflow:visible" aria-hidden="true">
-      <rect x="14" y="16" width="180" height="112" rx="7" fill="rgba(255,255,255,.035)" stroke="rgba(255,255,255,.18)"/>
-      <g class="dr" style="stroke:rgba(255,255,255,.42)">
-        <path pathLength="1" d="M36,48 H150"/><path pathLength="1" class="d2" d="M36,68 H126"/><path pathLength="1" class="d3" d="M36,88 H160"/>
-      </g>
-      <text x="104" y="145" font-family="Inter" font-size="9" fill="#656d7d" text-anchor="middle">lo que ya preparas</text>
-      <g class="dr d2" style="stroke:var(--lime);stroke-width:2">
-        <path pathLength="1" d="M206,72 H252"/><path pathLength="1" d="M240,64 l10,8 l-10,8"/>
-      </g>
-      <rect x="266" y="16" width="180" height="112" rx="7" fill="rgba(163,230,53,.07)" stroke="rgba(163,230,53,.4)"/>
-      <g font-family="Inter" font-size="9" fill="#d3f184">
-        <rect x="282" y="32" width="70" height="26" rx="5" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)"/>
-        <text x="317" y="48" text-anchor="middle">📊 slides</text>
-        <rect x="360" y="32" width="70" height="26" rx="5" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)"/>
-        <text x="395" y="48" text-anchor="middle">🔊 audio</text>
-        <rect x="282" y="66" width="70" height="26" rx="5" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)"/>
-        <text x="317" y="82" text-anchor="middle">❓ preguntas</text>
-        <rect x="360" y="66" width="70" height="26" rx="5" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)"/>
-        <text x="395" y="82" text-anchor="middle">📄 guía</text>
-        <rect x="282" y="100" width="148" height="20" rx="5" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.3)"/>
-        <text x="356" y="114" text-anchor="middle">🎬 video de repaso</text>
-      </g>
-      <text x="356" y="145" font-family="Inter" font-size="9" fill="#a3e635" text-anchor="middle">en varios formatos</text>
-    </svg>
-  </div>
-  <p class="tiny" style="margin-top:2%">Asunción School · Capacitación docente · 2026</p>
+  <p class="lead" style="margin-top:1.8%;max-width:36ch">Tres herramientas de Google para <b>preparar tus clases más rápido</b>.</p>
+  <p class="tiny" style="margin-top:3%">Asunción School · Capacitación docente · 2026</p>
 </section>
 
-<!-- 2 · APERTURA -->
+<!-- 2 · HALAGO -->
 <section class="s">
-  <h2>Empecemos por lo que no vamos a cambiar.</h2>
-  <p class="lead" style="max-width:48ch"><b>Ustedes ya saben enseñar.</b> Conocen sus cursos, sus alumnos y sus aulas.</p>
-  <div class="how">
-    <div class="hw"><div class="n">✓</div><b>Saben cuándo falta un ejemplo</b><p>Y saben cuál poner, porque conocen al grupo que tienen delante.</p></div>
-    <div class="hw"><div class="n">✓</div><b>Saben cuándo algo funciona</b><p>Lo ven en las caras antes de que nadie levante la mano.</p></div>
-    <div class="hw"><div class="n">✓</div><b>Saben cuándo cambiar de rumbo</b><p>Y lo hacen en el momento, sin plan previo.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🎓 <b>Hoy hablamos de preparar materiales</b>, no de cómo enseñar.</p>
+  <h2>Ustedes ya saben enseñar.</h2>
+  <p class="lead" style="max-width:40ch">Conocen sus cursos, sus alumnos y sus aulas. <b>Eso no lo da ninguna herramienta.</b></p>
 </section>
 
-<!-- 3 · QUÉ SÍ CAMBIÓ -->
+<!-- 3 · LO QUE YA TIENEN -->
+<section class="s">
+  <h2>Lo más difícil ya está resuelto.</h2>
+  <div class="how">
+    <div class="hw"><div class="n">✓</div><b>Saben el tema</b><p>Y saben explicarlo de tres maneras distintas.</p></div>
+    <div class="hw"><div class="n">✓</div><b>Leen el aula</b><p>Ven en las caras si entendieron o no.</p></div>
+    <div class="hw"><div class="n">✓</div><b>Deciden en el momento</b><p>Cambian de ejemplo sin pensarlo.</p></div>
+  </div>
+  <p class="gain" style="width:min(72vw,880px);text-align:left">🎓 Hoy no hablamos de <b>cómo enseñar</b>. Hablamos de <b>cómo preparar</b>.</p>
+</section>
+
+<!-- 4 · LO QUE CAMBIÓ -->
 <section class="s" style="--glow:#60a5fa">
-  <span class="eyebrow"><i>01</i> El contexto</span>
-  <h2 style="margin-top:.6%">Lo que sí cambió es el entorno.</h2>
-  <p class="lead" style="max-width:52ch">Llegan al aula desde pantallas diseñadas para <b>capturar y retener su atención</b>.</p>
+  <h2>Lo que cambió está afuera del aula.</h2>
   <div class="how">
-    <div class="hw soft"><div class="n">📱</div><b>Estímulo constante</b><p>Algo nuevo cada pocos segundos, sin pausas ni tiempos muertos.</p></div>
-    <div class="hw soft"><div class="n">⚡</div><b>Respuesta inmediata</b><p>Cada acción devuelve algo al instante: un like, un punto, un sonido.</p></div>
-    <div class="hw soft"><div class="n">👆</div><b>Todo a un toque</b><p>Si algo no engancha en tres segundos, se pasa al siguiente.</p></div>
+    <div class="hw soft"><div class="n">📱</div><b>Algo nuevo cada segundo</b><p>Sin pausas ni tiempos muertos.</p></div>
+    <div class="hw soft"><div class="n">⚡</div><b>Premio inmediato</b><p>Un like, un punto, un sonido.</p></div>
+    <div class="hw soft"><div class="n">👆</div><b>Si aburre, se pasa</b><p>En tres segundos, al siguiente video.</p></div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🧠 <b>Sostener la atención cuesta más que hace diez años</b>, y eso habla del contraste con lo de afuera, no de nuestras clases.</p>
+  <p class="gain" style="width:min(72vw,880px);text-align:left">🧠 Por eso <b>sostener la atención cuesta más que antes</b>.</p>
 </section>
 
-<!-- 4 · LA SALIDA NO ES COMPETIR -->
+<!-- 5 · NO COMPETIR -->
 <section class="s" style="--glow:#60a5fa">
-  <h2>Pero no hace falta competir con el celular.</h2>
-  <p class="lead" style="max-width:50ch">Ninguna clase gana esa carrera. Lo que sí ayuda: <b>momentos donde el alumno haga algo</b>.</p>
+  <h2>No hay que competir con el celular.</h2>
+  <p class="lead" style="max-width:40ch">Solo ayuda tener a mano <b>momentos donde el alumno haga algo</b>: mirar, responder, resolver.</p>
+</section>
+
+<!-- 6 · EL PLAN -->
+<section class="s" style="--glow:#a3e635">
+  <span class="eyebrow"><i>Hoy</i> El plan</span>
+  <h2 style="margin-top:.6%">Qué vas a hacer en esta sesión</h2>
   <div class="how">
-    <div class="hw soft"><div class="n">👁️</div><b>Mirar</b><p>Una imagen que analizar, un mapa, una comparación en pantalla.</p></div>
-    <div class="hw soft"><div class="n">✋</div><b>Responder o elegir</b><p>Una pregunta antes de dar la respuesta. Un verdadero o falso.</p></div>
-    <div class="hw soft"><div class="n">🔧</div><b>Aplicar</b><p>Un caso corto, un ejercicio, algo que resolver en parejas.</p></div>
+    <div class="hw"><div class="n">1</div><b>Conocer tres herramientas</b><p>Vas a ver cada una funcionando en pantalla.</p></div>
+    <div class="hw"><div class="n">2</div><b>Probarlas con un tema tuyo</b><p>Uno que dictes en las próximas semanas.</p></div>
+    <div class="hw"><div class="n">3</div><b>Salir con algo hecho</b><p>Una presentación y un material de repaso.</p></div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🎯 <b>Cada profesor decide en qué momentos esto suma</b> — y probablemente ya lo hace.</p>
+  <p class="gain" style="width:min(72vw,880px);text-align:left">✅ Nadie evalúa aquí cómo enseñas. <b>Solo vamos a preparar material.</b></p>
 </section>
 
-<!-- 5 · QUÉ VEREMOS -->
+<!-- 7 · LAS TRES -->
 <section class="s">
-  <span class="eyebrow"><i>02</i> Las herramientas</span>
-  <h2 style="margin-top:.6%">Tres herramientas, un mismo propósito.</h2>
+  <h2>Las tres, en una línea</h2>
   <div class="how">
-    <div class="hw"><div class="n">📊</div><b>Google Slides</b><p>La guía visual que acompaña su explicación en el proyector.</p></div>
-    <div class="hw"><div class="n">✨</div><b>Gemini</b><p>Redacta, organiza y propone alternativas a partir de sus indicaciones.</p></div>
-    <div class="hw"><div class="n">📚</div><b>Gemini Notebook</b><p>Trabaja sobre los documentos que usted mismo carga.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">⏱️ <b>El propósito:</b> convertir más rápido lo que ya tienen preparado en materiales listos para usar.</p>
-</section>
-
-<!-- 6 · QUIÉN APORTA QUÉ -->
-<section class="s">
-  <h2>Quién aporta qué.</h2>
-  <div class="duo">
-    <div class="pn a">
-      <h3>El profesor aporta</h3>
-      <ul>
-        <li>El conocimiento del tema</li>
-        <li>El contexto del colegio y del aula</li>
-        <li>Los objetivos de la clase</li>
-        <li>Los ejemplos que sí conectan</li>
-        <li>La sensibilidad para adaptar la explicación</li>
-        <li>El criterio para revisar</li>
-        <li>La decisión final sobre qué se usa</li>
-      </ul>
-    </div>
-    <div class="pn b">
-      <h3>La IA puede ayudar con</h3>
-      <ul>
-        <li>Organizar y redactar</li>
-        <li>Resumir documentos largos</li>
-        <li>Armar un diseño inicial</li>
-        <li>Proponer varias alternativas</li>
-        <li>Adaptar el lenguaje a otro grado</li>
-        <li>Generar preguntas y actividades</li>
-        <li>Pasar un contenido a otro formato</li>
-      </ul>
-    </div>
+    <div class="hw"><div class="n">📊</div><b>Google Slides</b><p>Hace las diapositivas que proyectas.</p></div>
+    <div class="hw soft"><div class="n">📚</div><b>Gemini Notebook</b><p>Lee <b>tus</b> documentos y los convierte en materiales.</p></div>
+    <div class="hw warm"><div class="n">✨</div><b>Gemini</b><p>Escribe y organiza lo que le pidas.</p></div>
   </div>
 </section>
 
-<!-- 7 · FRASE -->
-<section class="s">
-  <h1 style="font-size:clamp(24px,4.2vw,62px);max-width:20ch">El profesor dirige. La IA propone, ejecuta y acelera.</h1>
-</section>
-
-<!-- 8 · SLIDES CONVIVE -->
-<section class="s">
-  <span class="eyebrow"><i>03</i> Google Slides</span>
-  <h2 style="margin-top:.6%">La presentación no viene a ocupar el lugar de nada.</h2>
-  <p class="lead" style="max-width:52ch">Convive con la explicación oral, la pizarra, los libros, las fichas y los experimentos.</p>
-  <p class="gain" style="width:min(72vw,880px);text-align:left;margin-top:3%">📽️ <b>La diapositiva acompaña al profesor.</b> No tiene que contener todo lo que el profesor va a decir.</p>
-</section>
-
-<!-- 9 · PARA QUÉ SIRVE BIEN -->
-<section class="s">
-  <span class="eyebrow"><i>03</i> Google Slides</span>
-  <h2 style="margin-top:.6%">Dónde rinde de verdad</h2>
-  <div class="areas">
-    <div class="ar"><span class="em">🖼️</span><b>Lo difícil de dibujar</b><p>Una célula, un mapa, una obra, una máquina.</p></div>
-    <div class="ar"><span class="em">📐</span><b>Un paso a paso</b><p>Un procedimiento partido en varias pantallas.</p></div>
-    <div class="ar"><span class="em">⚖️</span><b>Comparar dos cosas</b><p>Lado a lado, sin borrar la mitad del pizarrón.</p></div>
-    <div class="ar"><span class="em">📋</span><b>La consigna a la vista</b><p>Las instrucciones quedan proyectadas toda la actividad.</p></div>
-    <div class="ar"><span class="em">🕰️</span><b>Una línea de tiempo</b><p>Con fechas y saltos que se leen de un vistazo.</p></div>
-    <div class="ar"><span class="em">🎬</span><b>Un video corto</b><p>Incrustado en el momento en que hace falta.</p></div>
-    <div class="ar"><span class="em">📤</span><b>Compartir después</b><p>El mismo material queda disponible tras la clase.</p></div>
-    <div class="ar"><span class="em">♻️</span><b>Reutilizar el próximo año</b><p>Una copia editable, no un pizarrón que se borró.</p></div>
-  </div>
-</section>
-
-<!-- 10 · DISTRIBUIR MEJOR -->
-<section class="s">
-  <span class="eyebrow"><i>03</i> Google Slides</span>
-  <h2 style="margin-top:.6%">Sugerencias sobre el espacio visual</h2>
-  <p class="lead" style="max-width:52ch">Ustedes ya saben qué explicar. Esto es solo sobre <b>cómo repartirlo en la pantalla</b>.</p>
-  <div class="how">
-    <div class="hw"><div class="n">1</div><b>Una idea por diapositiva</b><p>Si hay dos, probablemente sean dos diapositivas.</p></div>
-    <div class="hw"><div class="n">2</div><b>Un título que anticipe</b><p>Que diga la idea, no solo el tema: "Por qué llueve", no "La lluvia".</p></div>
-    <div class="hw"><div class="n">3</div><b>Texto grande y con contraste</b><p>Pensando en quien está sentado en la última carpeta.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">✍️ No se trata de poner menos contenido, sino de repartirlo para que acompañe mejor la explicación.</p>
-</section>
-
-<!-- 11 · GEMINI EN SLIDES -->
-<section class="s">
-  <span class="eyebrow"><i>04</i> Gemini en Google Slides</span>
-  <h2 style="margin-top:.6%">De la diapositiva en blanco al primer borrador.</h2>
-  <p class="lead" style="max-width:52ch">Podemos pedirle a Gemini <b>una primera versión</b> a partir de nuestras instrucciones y materiales.</p>
-  <p class="tiny" style="margin-top:2.6%">Función en despliegue: puede variar según la cuenta, el plan, el idioma y el país. Conviene verificarla antes de la clase.</p>
-</section>
-
-<!-- 12 · EL FLUJO -->
-<section class="s">
-  <span class="eyebrow"><i>04</i> Gemini en Google Slides</span>
-  <h2 style="margin-top:.6%">Cómo es el trabajo real</h2>
-  <div class="how">
-    <div class="hw"><div class="n">1</div><b>Usted describe</b><p>Tema, curso, grado, qué necesita, cuántas diapositivas, qué documentos usar.</p></div>
-    <div class="hw"><div class="n">2</div><b>Gemini genera</b><p>Una presentación editable, con la estructura y el texto inicial.</p></div>
-    <div class="hw"><div class="n">3</div><b>Usted personaliza</b><p>Corrige datos, cambia ejemplos, ajusta el lenguaje y borra lo que sobra.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🖊️ <b>Gemini prepara el borrador. Usted lo convierte en material suyo.</b> El paso 3 es donde está el valor.</p>
-</section>
-
-<!-- 13 · LA PRIMERA RESPUESTA -->
+<!-- 8 · SECCIÓN 1 -->
 <section class="s" style="--glow:#fbbf24">
-  <h2>La primera respuesta casi nunca es la que sirve.</h2>
-  <p class="lead" style="max-width:48ch">Y está bien que así sea: la herramienta no conoce su curso hasta que usted se lo cuenta.</p>
-  <div class="how">
-    <div class="hw warm"><div class="n">1</div><b>Pedimos algo general</b><p>Y sale algo genérico, con datos sin verificar.</p></div>
-    <div class="hw warm"><div class="n">2</div><b>Le damos contexto</b><p>Grado, fuentes, formato, qué evitar.</p></div>
-    <div class="hw warm"><div class="n">3</div><b>Volvemos a pedir</b><p>Las veces que haga falta. Se puede conversar con ella.</p></div>
+  <div class="sect">
+    <div class="big">01</div>
+    <div class="txt">
+      <h2>Google Slides</h2>
+      <p>La pantalla que acompaña tu explicación.</p>
+    </div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">💬 El valor no está en aceptar lo primero que salga. Está en saber guiar la herramienta hasta algo que realmente sirva.</p>
 </section>
 
-<!-- 14 · QUÉ ES UN PROMPT -->
+<!-- 9 · QUÉ ES SLIDES -->
 <section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Un <span class="acc">prompt</span> es la instrucción que le damos.</h2>
-  <p class="lead" style="max-width:46ch"><b>Mientras más clara sea la instrucción, más útil será el resultado.</b></p>
-  <p class="tiny" style="margin-top:2.6%">Se le habla como se le explicaría a un practicante nuevo, sin términos técnicos de por medio.</p>
+  <span class="eyebrow"><i>01</i> Google Slides</span>
+  <h2 style="margin-top:.6%">Es el "PowerPoint" de Google.</h2>
+  <p class="lead" style="max-width:44ch">Se abre en el navegador, se guarda solo y <b>no hay que instalar nada</b>.</p>
+  <div class="forte">
+    <div class="ft"><span class="fi">💾</span><div><b>Nunca se pierde</b><span>Se guarda solo mientras escribes.</span></div></div>
+    <div class="ft"><span class="fi">🔗</span><div><b>Se comparte con un link</b><span>Tus alumnos lo abren desde el celular.</span></div></div>
+    <div class="ft"><span class="fi">♻️</span><div><b>Sirve el otro año</b><span>Haces una copia y la editas.</span></div></div>
+  </div>
 </section>
 
-<!-- 15 · NIVEL 1 -->
+<!-- 10 · DEMO SLIDES -->
 <section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Primer intento</h2>
-  <div class="promptwrap">
-    <div class="prompt weak"><span class="ph">Instrucción muy general</span>Haz una presentación sobre el ciclo del agua.</div>
-  </div>
-  <p class="lead" style="max-width:52ch;margin-top:2.4%">Sale algo, pero <b>no sabemos para qué grado, cuántas diapositivas, con qué fuentes ni con qué nivel de lenguaje</b>.</p>
+  <span class="eyebrow"><i>01</i> Google Slides</span>
+  <h2 style="margin-top:.6%">Así se arma una diapositiva</h2>
+  <svg class="demo" viewBox="0 0 400 220" aria-hidden="true">
+    <rect x="0" y="0" width="400" height="220" rx="10" fill="#0d1117" stroke="rgba(255,255,255,.15)"/>
+    <path d="M0,10 a10,10 0 0 1 10,-10 h380 a10,10 0 0 1 10,10 v12 h-400 z" fill="rgba(255,255,255,.06)"/>
+    <circle cx="14" cy="11" r="3" fill="rgba(255,255,255,.22)"/>
+    <circle cx="24" cy="11" r="3" fill="rgba(255,255,255,.22)"/>
+    <circle cx="34" cy="11" r="3" fill="rgba(255,255,255,.22)"/>
+    <text x="200" y="15" font-family="Inter" font-size="8.5" fill="#9aa2b1" text-anchor="middle">Google Slides · Ciencia y Tecnología</text>
+    <rect x="8" y="30" width="62" height="182" rx="6" fill="rgba(255,255,255,.03)"/>
+    <rect x="15" y="36" width="48" height="27" rx="3" fill="rgba(163,230,53,.16)" stroke="var(--lime)" stroke-width="1.2"/>
+    <rect class="sl-thumb" x="15" y="70" width="48" height="27" rx="3" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.14)"/>
+    <rect class="sl-thumb" x="15" y="104" width="48" height="27" rx="3" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.14)"/>
+    <rect x="80" y="30" width="310" height="182" rx="6" fill="#fbfcfe"/>
+    <g class="sl-el">
+      <text x="100" y="66" font-family="Space Grotesk" font-size="19" font-weight="700" fill="#0d2a5a">El ciclo del agua</text>
+      <rect x="100" y="74" width="64" height="3.5" rx="2" fill="#4285f4"/>
+    </g>
+    <g class="sl-el e2">
+      <rect x="248" y="94" width="122" height="98" rx="6" fill="#e8f2fe" stroke="#c3ddfb"/>
+      <circle cx="278" cy="122" r="12" fill="#fbbf24"/>
+      <ellipse cx="330" cy="124" rx="24" ry="12" fill="#9ec5f5"/>
+      <ellipse cx="316" cy="118" rx="14" ry="10" fill="#b9d6f8"/>
+      <path d="M312,142 v14 M328,140 v16 M344,143 v13" stroke="#4285f4" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M258,176 h104" stroke="#4285f4" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    </g>
+    <g class="sl-el e3">
+      <circle cx="106" cy="110" r="3.4" fill="#4285f4"/>
+      <text x="118" y="114" font-family="Inter" font-size="11" fill="#293445">El sol calienta el agua</text>
+    </g>
+    <g class="sl-el e4">
+      <circle cx="106" cy="140" r="3.4" fill="#4285f4"/>
+      <text x="118" y="144" font-family="Inter" font-size="11" fill="#293445">El vapor sube y forma nubes</text>
+    </g>
+  </svg>
+  <p class="dcap">Escribes el título, pegas una imagen y agregas dos ideas. Nada más.</p>
 </section>
 
-<!-- 16 · NIVEL 2 -->
+<!-- 11 · PARA QUÉ SIRVE -->
 <section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Segundo intento</h2>
-  <div class="promptwrap">
-    <div class="prompt mid"><span class="ph">Con algo de contexto</span>Haz una presentación de <em>diez diapositivas</em> sobre el ciclo del agua para <em>primero de secundaria</em>.</div>
+  <span class="eyebrow"><i>01</i> Google Slides</span>
+  <h2 style="margin-top:.6%">Dónde te ahorra trabajo</h2>
+  <div class="areas g3">
+    <div class="ar"><span class="em">🖼️</span><b>Lo que no se puede dibujar</b><p>Un mapa, una célula, un cuadro.</p></div>
+    <div class="ar"><span class="em">📐</span><b>Un paso a paso</b><p>Una pantalla por cada paso.</p></div>
+    <div class="ar"><span class="em">📋</span><b>La consigna a la vista</b><p>Queda proyectada toda la actividad.</p></div>
   </div>
-  <p class="lead" style="max-width:52ch;margin-top:2.4%">Mejor: ya sabe el grado y la extensión. Todavía le faltan <b>las fuentes y los criterios</b>.</p>
+  <p class="gain" style="width:min(72vw,880px);text-align:left">📽️ La diapositiva <b>acompaña</b> lo que dices. No tiene que decirlo todo.</p>
 </section>
 
-<!-- 17 · NIVEL 3 -->
+<!-- 12 · UNA IDEA -->
 <section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Tercer intento</h2>
-  <div class="promptwrap">
-    <div class="prompt"><span class="ph">Instrucción completa</span>Crea una presentación de <em>diez diapositivas</em> sobre el ciclo del agua para <em>estudiantes de primero de secundaria</em>.<br>
-    Usa únicamente <em>el PDF adjunto</em>. Explica evaporación, condensación, precipitación y acumulación.<br>
-    Incluye una pregunta inicial, <em>un ejemplo con el clima de nuestra comunidad</em>, tres preguntas de repaso y una actividad final.<br>
-    Poco texto por diapositiva, títulos claros y una sugerencia de imagen por sección.<br>
-    <em>No inventes información</em> y señala los datos que deba verificar.</div>
-  </div>
-  <p class="tiny" style="margin-top:1.8%">La IA no adivina lo que necesitamos. Hay que describírselo.</p>
-</section>
-
-<!-- 18 · LA FÓRMULA -->
-<section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Una fórmula fácil de recordar</h2>
-  <div class="formula">
-    <span class="fx">CONTEXTO</span><span class="fp">+</span>
-    <span class="fx">OBJETIVO</span><span class="fp">+</span>
-    <span class="fx">FUENTES</span><span class="fp">+</span>
-    <span class="fx">FORMATO</span><span class="fp">+</span>
-    <span class="fx">CRITERIOS</span>
-  </div>
-  <p class="lead" style="max-width:50ch;margin-top:3%">Si la instrucción tiene estas cinco partes, el resultado suele servir <b>desde el primer intento</b>.</p>
-</section>
-
-<!-- 19 · LA FÓRMULA CON EJEMPLOS -->
-<section class="s">
-  <h2>Qué va en cada parte</h2>
-  <div class="areas" style="grid-template-columns:repeat(5,1fr);max-width:min(90vw,1280px)">
-    <div class="ar"><span class="em">👤</span><b>Contexto</b><p>"Soy profesor de Ciencia y Tecnología de 2.° de secundaria."</p></div>
-    <div class="ar"><span class="em">🎯</span><b>Objetivo</b><p>"Necesito explicar las etapas del ciclo del agua."</p></div>
-    <div class="ar"><span class="em">📎</span><b>Fuentes</b><p>"Usa únicamente el PDF y la guía que adjunto."</p></div>
-    <div class="ar"><span class="em">📐</span><b>Formato</b><p>"Diez diapositivas: título, idea principal y sugerencia visual."</p></div>
-    <div class="ar"><span class="em">✅</span><b>Criterios</b><p>"Lenguaje sencillo, tres preguntas, no inventes datos."</p></div>
-  </div>
-</section>
-
-<!-- 20 · PLANTILLA -->
-<section class="s">
-  <span class="eyebrow"><i>05</i> Dar instrucciones</span>
-  <h2 style="margin-top:.6%">Una plantilla para reutilizar</h2>
-  <div class="promptwrap">
-    <div class="prompt"><span class="ph">Copien esto y cambien lo que está marcado</span>Soy profesor de <em>[curso]</em> y preparo material para estudiantes de <em>[grado o edad]</em>.<br>
-    El tema es <em>[tema]</em>. Necesito que puedan <em>[objetivo]</em>.<br>
-    Usa como referencia <em>[documentos o fuentes]</em>.<br>
-    Crea <em>[tipo de material]</em> con <em>[cantidad o extensión]</em>.<br>
-    Incluye <em>[preguntas, ejemplos, actividades, imágenes]</em>. Usa un lenguaje <em>[nivel o estilo]</em>. Evita <em>[lo que no debe aparecer]</em>.<br>
-    No inventes información y señala cualquier contenido que deba verificar.</div>
-  </div>
-</section>
-
-<!-- 21 · NO DESDE CERO -->
-<section class="s" style="--glow:#c084fc">
-  <span class="eyebrow"><i>06</i> Sus propios materiales</span>
-  <h2 style="margin-top:.6%">No siempre hay que empezar desde cero.</h2>
-  <p class="lead" style="max-width:50ch">Casi todo lo que ya tienen guardado <b>puede servir de fuente</b>.</p>
-  <div class="areas">
-    <div class="ar"><span class="em">📕</span><b>Libros y separatas</b><p>Un capítulo, una lectura, el texto del curso.</p></div>
-    <div class="ar"><span class="em">📄</span><b>PDF y documentos</b><p>Guías, fichas, artículos, material oficial.</p></div>
-    <div class="ar"><span class="em">📊</span><b>Presentaciones anteriores</b><p>La del año pasado, la de otro grado.</p></div>
-    <div class="ar"><span class="em">📝</span><b>Apuntes y planificaciones</b><p>Sus propias notas, rúbricas y programaciones.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">♻️ <b>La IA puede darle una segunda vida a materiales que ya prepararon</b> — algunos, hace años.</p>
-</section>
-
-<!-- 22 · QUÉ PEDIRLE -->
-<section class="s" style="--glow:#c084fc">
-  <h2>Qué se le puede pedir a partir de eso</h2>
-  <div class="areas">
-    <div class="ar"><span class="em">📊</span><b>Una presentación</b><p>Con la estructura del documento ya ordenada.</p></div>
-    <div class="ar"><span class="em">📋</span><b>Un resumen o glosario</b><p>Los conceptos principales y sus definiciones.</p></div>
-    <div class="ar"><span class="em">❓</span><b>Preguntas y cuestionarios</b><p>De comprensión, opción múltiple o para debatir.</p></div>
-    <div class="ar"><span class="em">🔀</span><b>Otra versión</b><p>El mismo tema para otro grado, o con lenguaje más simple.</p></div>
-    <div class="ar"><span class="em">🕰️</span><b>Una cronología</b><p>Los hechos del texto puestos en orden.</p></div>
-    <div class="ar"><span class="em">⚖️</span><b>Una tabla comparativa</b><p>Dos conceptos, dos autores, dos procesos.</p></div>
-    <div class="ar"><span class="em">✏️</span><b>Una ficha de trabajo</b><p>Lista para imprimir o proyectar.</p></div>
-    <div class="ar"><span class="em">👥</span><b>Una actividad grupal</b><p>Con consigna, tiempos y pasos.</p></div>
-  </div>
-</section>
-
-<!-- 23 · GEMINI NOTEBOOK -->
-<section class="s" style="--glow:#60a5fa">
-  <span class="eyebrow"><i>07</i> Gemini Notebook</span>
-  <h2 style="margin-top:.6%">Gemini Notebook</h2>
-  <p class="lead" style="max-width:52ch">El nuevo nombre de <b>NotebookLM</b>: un espacio donde se reúnen los materiales de un tema y <b>se conversa con ellos</b>.</p>
-  <p class="tiny" style="margin-top:2.4%">Acepta PDF, documentos, presentaciones, páginas web, videos de YouTube, audios e imágenes.</p>
-</section>
-
-<!-- 24 · LA DIFERENCIA -->
-<section class="s" style="--glow:#60a5fa">
-  <h2>Cuál usar para qué</h2>
-  <div class="how">
-    <div class="hw"><div class="n">✨</div><b>Gemini</b><p>Para idear, redactar, reescribir y pedir alternativas. Conversa de cualquier tema.</p></div>
-    <div class="hw"><div class="n">📊</div><b>Slides con Gemini</b><p>Para armar la presentación: genera las diapositivas y las deja editables.</p></div>
-    <div class="hw soft"><div class="n">📚</div><b>Gemini Notebook</b><p>Para trabajar sobre un conjunto de documentos que usted eligió.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">📌 <b>La diferencia clave:</b> Notebook responde con sus documentos, no con todo internet.</p>
-</section>
-
-<!-- 25 · UN CONTENIDO, VARIOS FORMATOS -->
-<section class="s" style="--glow:#60a5fa">
-  <span class="eyebrow"><i>07</i> Gemini Notebook</span>
-  <h2 style="margin-top:.6%">Una misma lectura, muchos formatos</h2>
-  <div class="areas">
-    <div class="ar"><span class="em">📊</span><b>Presentación</b><p>Las ideas del texto en diapositivas.</p></div>
-    <div class="ar"><span class="em">📄</span><b>Guía de estudio</b><p>Para repartir o compartir por Drive.</p></div>
-    <div class="ar"><span class="em">🔊</span><b>Resumen en audio</b><p>Para escuchar camino a casa.</p></div>
-    <div class="ar"><span class="em">🎬</span><b>Resumen en video</b><p>Otra entrada al mismo tema.</p></div>
-    <div class="ar"><span class="em">❓</span><b>Cuestionario</b><p>Preguntas sacadas de las fuentes.</p></div>
-    <div class="ar"><span class="em">🗺️</span><b>Mapa mental</b><p>Los conceptos y cómo se relacionan.</p></div>
-    <div class="ar"><span class="em">📈</span><b>Infografía</b><p>Un resumen visual de una página.</p></div>
-    <div class="ar"><span class="em">🔤</span><b>Versión simplificada</b><p>El mismo contenido, otro nivel de lectura.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🔁 No estamos creando ocho clases distintas. <b>Es el mismo contenido en varios formatos.</b></p>
-</section>
-
-<!-- 26 · AUDIOS Y VIDEOS -->
-<section class="s" style="--glow:#60a5fa">
-  <h2>Audios y videos de repaso</h2>
+  <span class="eyebrow"><i>01</i> Google Slides</span>
+  <h2 style="margin-top:.6%">Un solo consejo: una idea por pantalla</h2>
   <div class="duo">
+    <div class="pn b" style="background:rgba(248,113,113,.05);border-top-color:rgba(248,113,113,.5)">
+      <h3 style="color:#f87171">Cuesta leer</h3>
+      <ul style="gap:.2em">
+        <li style="padding-left:0">El ciclo del agua consta de cuatro etapas: la evaporación, que ocurre cuando el sol calienta el agua de los ríos y mares…</li>
+      </ul>
+      <p class="tiny" style="margin-top:.8em">Ocho renglones en pantalla. Nadie los lee desde atrás.</p>
+    </div>
     <div class="pn a">
-      <h3>🔊 Para qué sirve un audio</h3>
+      <h3>Se lee de un vistazo</h3>
       <ul>
-        <li>Repasar antes de un examen</li>
-        <li>Ponerse al día quien faltó</li>
-        <li>Introducir el tema antes de la clase</li>
-        <li>Recapitular después</li>
-        <li>Otra vía para quien aprende escuchando</li>
+        <li style="font-size:clamp(13px,1.7vw,26px);color:var(--paper);padding-left:0;font-family:'Space Grotesk';font-weight:700">1. El sol calienta el agua</li>
       </ul>
-    </div>
-    <div class="pn b">
-      <h3>🎬 Para qué sirve un video</h3>
-      <ul>
-        <li>Presentar el tema desde otro formato</li>
-        <li>Resumir un documento largo</li>
-        <li>Reforzar una lectura</li>
-        <li>Dejar material para revisar en casa</li>
-        <li>Mostrar los conceptos clave juntos</li>
-      </ul>
+      <p class="tiny" style="margin-top:.8em">Lo demás lo dices tú, que para eso estás ahí.</p>
     </div>
   </div>
-  <p class="tiny" style="margin-top:2%">El audio y el video no reemplazan la explicación: ofrecen otra forma de volver a ella. Los generados por IA pueden traer errores, así que se revisan antes de compartirlos.</p>
 </section>
 
-<!-- 27 · ACTIVIDADES -->
-<section class="s">
-  <span class="eyebrow"><i>08</i> Actividades y preguntas</span>
-  <h2 style="margin-top:.6%">Preparar más rápido lo que ya hacen.</h2>
-  <p class="lead" style="max-width:52ch">Ya forman parte de sus clases. Cambia <b>el tiempo que toma prepararlas</b>.</p>
-  <div class="areas">
-    <div class="ar"><span class="em">❓</span><b>Preguntas de comprensión</b><p>Sobre una lectura o una explicación.</p></div>
-    <div class="ar"><span class="em">🔘</span><b>Opción múltiple</b><p>Con distractores que tienen sentido.</p></div>
-    <div class="ar"><span class="em">⚖️</span><b>Verdadero o falso</b><p>Rápidas, para el cierre de la clase.</p></div>
-    <div class="ar"><span class="em">🧩</span><b>Casos y situaciones</b><p>Para analizar en grupo.</p></div>
-    <div class="ar"><span class="em">🔢</span><b>Secuencias desordenadas</b><p>Para ordenar un procedimiento.</p></div>
-    <div class="ar"><span class="em">❌</span><b>Ejemplos con error</b><p>Encontrar qué está mal y por qué.</p></div>
-    <div class="ar"><span class="em">🎫</span><b>Tickets de salida</b><p>Una pregunta antes de salir del aula.</p></div>
-    <div class="ar"><span class="em">👥</span><b>Trabajo en parejas</b><p>Con consigna y tiempo definidos.</p></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🎓 <b>La IA propone. El profesor elige lo que sirve para su grupo.</b></p>
-</section>
-
-<!-- 28 · EJEMPLOS POR ÁREA -->
-<section class="s">
-  <h2>Un ejemplo por área</h2>
-  <div class="areas">
-    <div class="ar"><span class="em">📖</span><b>Comunicación</b><p>Adaptar un texto a otro nivel de lectura y sacar preguntas de la obra.</p></div>
-    <div class="ar"><span class="em">🔢</span><b>Matemática</b><p>Generar ejercicios parecidos y problemas con situaciones cotidianas.</p></div>
-    <div class="ar"><span class="em">🔬</span><b>Ciencia y Tecnología</b><p>Ordenar un proceso en pasos y preparar preguntas para un experimento.</p></div>
-    <div class="ar"><span class="em">🌎</span><b>Ciencias Sociales</b><p>Líneas de tiempo y cuadros de causas y consecuencias.</p></div>
-    <div class="ar"><span class="em">💬</span><b>Idiomas</b><p>Diálogos, prácticas de vocabulario y audios de conversación.</p></div>
-    <div class="ar"><span class="em">💼</span><b>Educación para el Trabajo</b><p>Casos de negocio, perfiles de cliente y fichas de proyecto.</p></div>
-    <div class="ar"><span class="em">🎨</span><b>Arte</b><p>Comparar movimientos y preparar preguntas de observación.</p></div>
-    <div class="ar"><span class="em">🏃</span><b>Educación Física</b><p>Secuencias de movimiento, reglas resumidas e infografías.</p></div>
+<!-- 13 · SECCIÓN 2 -->
+<section class="s" style="--glow:#60a5fa">
+  <div class="sect">
+    <div class="big" style="-webkit-text-stroke-color:rgba(96,165,250,.55)">02</div>
+    <div class="txt">
+      <h2>Gemini Notebook</h2>
+      <p>Tu cuaderno de materiales, que además responde.</p>
+    </div>
   </div>
 </section>
 
-<!-- 29 · DEMOSTRACIÓN -->
-<section class="s" style="--glow:#a3e635">
-  <span class="eyebrow"><i>09</i> Demostración</span>
-  <h2 style="margin-top:.6%">Un solo tema, de punta a punta.</h2>
-  <p class="lead" style="max-width:50ch">Vamos a seguir <b>el ciclo del agua</b> a través de las tres herramientas, partiendo de un material que ya existe.</p>
-  <div class="how">
-    <div class="hw"><div class="n">1</div><b>El material de siempre</b><p>Una lectura, una guía o una presentación de otro año.</p></div>
-    <div class="hw"><div class="n">2</div><b>Entra a Notebook</b><p>Le pedimos conceptos principales, resumen y una estructura.</p></div>
-    <div class="hw"><div class="n">3</div><b>Sale la presentación</b><p>Y de ahí, el audio y el cuestionario de repaso.</p></div>
+<!-- 14 · QUÉ ES NOTEBOOK -->
+<section class="s" style="--glow:#60a5fa">
+  <span class="eyebrow"><i>02</i> Gemini Notebook</span>
+  <h2 style="margin-top:.6%">Le das tus documentos. Trabaja con esos.</h2>
+  <p class="lead" style="max-width:46ch">Subes la separata, el PDF o la lectura del curso, y le haces preguntas <b>sobre eso</b>.</p>
+  <div class="forte">
+    <div class="ft"><span class="fi">🎯</span><div><b>No inventa de internet</b><span>Responde con lo que tú subiste.</span></div></div>
+    <div class="ft"><span class="fi">🔊</span><div><b>Hace audios y videos</b><span>De tu propia lectura, para repasar.</span></div></div>
+    <div class="ft"><span class="fi">📄</span><div><b>Lee lo largo por ti</b><span>Un PDF de 40 páginas, resumido.</span></div></div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">📦 <b>Partimos de un material que ya existe</b>, en lugar de una pantalla en blanco.</p>
+  <p class="tiny" style="margin-top:1.8%">Antes se llamaba NotebookLM. Es lo mismo, con nombre nuevo.</p>
 </section>
 
-<!-- 30 · LA REVISIÓN -->
-<section class="s" style="--glow:#a3e635">
-  <span class="eyebrow"><i>09</i> Demostración</span>
-  <h2 style="margin-top:.6%">La parte que no se puede saltar</h2>
-  <p class="lead" style="max-width:50ch">Aquí es donde <b>la experiencia del profesor convierte un resultado genérico en material propio</b>.</p>
-  <div class="how">
-    <div class="hw"><div class="n">✂️</div><b>Qué se acorta</b><p>El texto que sobra en pantalla y las diapositivas repetidas.</p></div>
-    <div class="hw"><div class="n">🔁</div><b>Qué se cambia</b><p>El ejemplo genérico por uno de nuestra comunidad.</p></div>
-    <div class="hw"><div class="n">➕</div><b>Qué se agrega</b><p>Lo que solo sabe quien ya dictó ese tema veinte veces.</p></div>
+<!-- 15 · DEMO NOTEBOOK -->
+<section class="s" style="--glow:#60a5fa">
+  <span class="eyebrow"><i>02</i> Gemini Notebook</span>
+  <h2 style="margin-top:.6%">Entra tu material, salen recursos</h2>
+  <svg class="demo" viewBox="0 0 440 200" aria-hidden="true">
+    <text x="46" y="14" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#9aa2b1" text-anchor="middle" letter-spacing="1.2">LO QUE SUBES</text>
+    <g class="nb-doc">
+      <rect x="10" y="30" width="72" height="36" rx="5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+      <rect x="18" y="40" width="14" height="17" rx="2" fill="#ef4444"/>
+      <text x="38" y="53" font-family="Inter" font-size="9" fill="#e7e9ee">Lectura.pdf</text>
+    </g>
+    <g class="nb-doc d2">
+      <rect x="10" y="76" width="72" height="36" rx="5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+      <rect x="18" y="86" width="14" height="17" rx="2" fill="#4285f4"/>
+      <text x="38" y="99" font-family="Inter" font-size="9" fill="#e7e9ee">Guía.doc</text>
+    </g>
+    <g class="nb-doc d3">
+      <rect x="10" y="122" width="72" height="36" rx="5" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)"/>
+      <rect x="18" y="132" width="14" height="17" rx="2" fill="#f4b400"/>
+      <text x="38" y="145" font-family="Inter" font-size="9" fill="#e7e9ee">Clase 2025</text>
+    </g>
+    <g class="nb-book" style="transform-origin:170px 95px">
+      <rect x="128" y="52" width="84" height="88" rx="8" fill="rgba(96,165,250,.13)" stroke="#60a5fa" stroke-width="1.6"/>
+      <rect x="128" y="52" width="9" height="88" rx="4" fill="rgba(96,165,250,.32)"/>
+      <text x="176" y="90" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#bfdbfe" text-anchor="middle">Gemini</text>
+      <text x="176" y="104" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#bfdbfe" text-anchor="middle">Notebook</text>
+    </g>
+    <text x="340" y="14" font-family="Space Grotesk" font-size="9" font-weight="700" fill="#a3e635" text-anchor="middle" letter-spacing="1.2">LO QUE TE DEVUELVE</text>
+    <g class="nb-out">
+      <rect x="248" y="28" width="90" height="34" rx="6" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.42)"/>
+      <text x="293" y="49" font-family="Inter" font-size="9.5" fill="#d3f184" text-anchor="middle">🔊  Audio de repaso</text>
+    </g>
+    <g class="nb-out o2">
+      <rect x="248" y="68" width="90" height="34" rx="6" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.42)"/>
+      <text x="293" y="89" font-family="Inter" font-size="9.5" fill="#d3f184" text-anchor="middle">📄  Guía de estudio</text>
+    </g>
+    <g class="nb-out o3">
+      <rect x="352" y="28" width="80" height="34" rx="6" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.42)"/>
+      <text x="392" y="49" font-family="Inter" font-size="9.5" fill="#d3f184" text-anchor="middle">❓  Preguntas</text>
+    </g>
+    <g class="nb-out o4">
+      <rect x="352" y="68" width="80" height="34" rx="6" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.42)"/>
+      <text x="392" y="89" font-family="Inter" font-size="9.5" fill="#d3f184" text-anchor="middle">🗺️  Mapa</text>
+    </g>
+    <g class="nb-out o3">
+      <rect x="248" y="108" width="184" height="34" rx="6" fill="rgba(163,230,53,.1)" stroke="rgba(163,230,53,.42)"/>
+      <text x="340" y="129" font-family="Inter" font-size="9.5" fill="#d3f184" text-anchor="middle">📊  Presentación lista para editar</text>
+    </g>
+    <path d="M92,95 H120" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <path d="M220,95 H242" stroke="rgba(163,230,53,.45)" stroke-width="1.5" stroke-dasharray="3 3"/>
+  </svg>
+  <p class="dcap">La misma lectura de siempre, convertida en cinco materiales distintos.</p>
+</section>
+
+<!-- 16 · EJEMPLO SENCILLO -->
+<section class="s" style="--glow:#60a5fa">
+  <span class="eyebrow"><i>02</i> Gemini Notebook</span>
+  <h2 style="margin-top:.6%">Un ejemplo de verdad</h2>
+  <p class="lead" style="max-width:46ch">Subes <b>la separata del ciclo del agua</b> que ya usas. Y le escribes:</p>
+  <div class="promptwrap" style="max-width:min(64vw,780px)">
+    <div class="prompt"><span class="ph">Le escribes esto</span>Hazme <em>cinco preguntas de repaso</em> para segundo de secundaria, solo con lo que dice esta separata.</div>
+  </div>
+  <p class="tiny" style="margin-top:1.8%">Eso es todo: no hay más pasos.</p>
+</section>
+
+<!-- 17 · SECCIÓN 3 -->
+<section class="s" style="--glow:#fbbf24">
+  <div class="sect">
+    <div class="big" style="-webkit-text-stroke-color:rgba(251,191,36,.55)">03</div>
+    <div class="txt">
+      <h2>Gemini</h2>
+      <p>El que escribe, ordena y propone.</p>
+    </div>
   </div>
 </section>
 
-<!-- 31 · QUÉ REVISAR SIEMPRE -->
+<!-- 18 · QUÉ ES GEMINI -->
+<section class="s" style="--glow:#fbbf24">
+  <span class="eyebrow"><i>03</i> Gemini</span>
+  <h2 style="margin-top:.6%">Le escribes lo que necesitas.</h2>
+  <p class="lead" style="max-width:44ch">Como si le pidieras algo a un practicante nuevo: <b>con palabras normales</b>.</p>
+  <div class="forte">
+    <div class="ft"><span class="fi">✍️</span><div><b>Redacta y ordena</b><span>Un texto, una lista, un cuadro.</span></div></div>
+    <div class="ft"><span class="fi">🔄</span><div><b>Te da otra versión</b><span>"Más simple", "más corto", "para 5.°".</span></div></div>
+    <div class="ft"><span class="fi">💬</span><div><b>Puedes corregirle</b><span>Le dices qué cambiar y lo rehace.</span></div></div>
+  </div>
+</section>
+
+<!-- 19 · DEMO GEMINI -->
+<section class="s" style="--glow:#fbbf24">
+  <span class="eyebrow"><i>03</i> Gemini</span>
+  <h2 style="margin-top:.6%">Le escribes, te responde</h2>
+  <svg class="demo tall" viewBox="0 0 340 210" aria-hidden="true">
+    <rect x="0" y="0" width="340" height="210" rx="10" fill="#0a0e15" stroke="rgba(255,255,255,.14)"/>
+    <rect x="16" y="16" width="308" height="34" rx="8" fill="rgba(255,255,255,.05)" stroke="rgba(251,191,36,.35)"/>
+    <text x="28" y="37" font-family="Inter" font-size="10" fill="#e7e9ee">Hazme 5 preguntas del ciclo del agua</text>
+    <rect class="gm-mask" x="26" y="18" width="290" height="30" fill="#10141b"/>
+    <rect class="gm-cur" x="27" y="24" width="1.6" height="18" fill="var(--gold)"/>
+    <rect class="gm-send" x="292" y="24" width="20" height="18" rx="5" fill="rgba(163,230,53,.25)"/>
+    <path d="M298,33 h8 M303,30 l3,3 l-3,3" stroke="#0a0e15" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <g class="gm-think">
+      <circle cx="28" cy="66" r="2.6" fill="#fbbf24"/><circle cx="37" cy="66" r="2.6" fill="#fbbf24" opacity=".6"/><circle cx="46" cy="66" r="2.6" fill="#fbbf24" opacity=".3"/>
+    </g>
+    <g class="gm-ln">
+      <rect x="16" y="76" width="308" height="26" rx="6" fill="rgba(255,255,255,.045)"/>
+      <text x="28" y="93" font-family="Inter" font-size="9.5" fill="#e7e9ee">1 · ¿Qué le pasa al agua cuando el sol la calienta?</text>
+    </g>
+    <g class="gm-ln l2">
+      <rect x="16" y="108" width="308" height="26" rx="6" fill="rgba(255,255,255,.045)"/>
+      <text x="28" y="125" font-family="Inter" font-size="9.5" fill="#e7e9ee">2 · ¿Cómo se forman las nubes?</text>
+    </g>
+    <g class="gm-ln l3">
+      <rect x="16" y="140" width="308" height="26" rx="6" fill="rgba(255,255,255,.045)"/>
+      <text x="28" y="157" font-family="Inter" font-size="9.5" fill="#e7e9ee">3 · ¿Por qué llueve?</text>
+    </g>
+    <g class="gm-ln l4">
+      <text x="28" y="186" font-family="Inter" font-size="9" fill="#656d7d">…y dos más</text>
+      <rect x="216" y="174" width="108" height="18" rx="9" fill="rgba(163,230,53,.12)" stroke="rgba(163,230,53,.4)"/>
+      <text x="270" y="186" font-family="Inter" font-size="8.5" fill="#a3e635" text-anchor="middle">Hazlas más fáciles ↻</text>
+    </g>
+  </svg>
+  <p class="dcap">Si no te gusta el resultado, le pides otra versión. Las veces que quieras.</p>
+</section>
+
+<!-- 20 · MAL VS BIEN -->
+<section class="s" style="--glow:#fbbf24">
+  <span class="eyebrow"><i>03</i> Gemini</span>
+  <h2 style="margin-top:.6%">Mientras más le cuentas, mejor sale</h2>
+  <div class="promptwrap">
+    <div class="prompt weak" style="margin-bottom:.8em"><span class="ph">Le pides poco</span>Haz preguntas del ciclo del agua.</div>
+    <div class="prompt"><span class="ph">Le cuentas más</span>Haz <em>cinco preguntas</em> del ciclo del agua para <em>segundo de secundaria</em>, con <em>palabras sencillas</em>, y <em>no inventes datos</em>.</div>
+  </div>
+</section>
+
+<!-- 21 · LA FÓRMULA -->
+<section class="s" style="--glow:#fbbf24">
+  <h2>Lo que nunca debe faltar</h2>
+  <div class="formula">
+    <span class="fx">PARA QUIÉN</span><span class="fp">+</span>
+    <span class="fx">QUÉ QUIERES</span><span class="fp">+</span>
+    <span class="fx">CUÁNTO</span><span class="fp">+</span>
+    <span class="fx">QUÉ EVITAR</span>
+  </div>
+  <p class="lead" style="max-width:40ch;margin-top:3%">Con esas cuatro cosas, <b>casi siempre sale bien a la primera</b>.</p>
+</section>
+
+<!-- 22 · PLANTILLA -->
+<section class="s" style="--glow:#fbbf24">
+  <h2>Una plantilla para copiar</h2>
+  <div class="promptwrap" style="max-width:min(70vw,860px)">
+    <div class="prompt"><span class="ph">Cambia solo lo marcado</span>Soy profesor de <em>[curso]</em>. Necesito <em>[qué cosa]</em> sobre <em>[tema]</em> para alumnos de <em>[grado]</em>.<br>
+    Que sean <em>[cuántos]</em>, con palabras sencillas.<br>
+    No inventes datos y avísame qué debo revisar.</div>
+  </div>
+</section>
+
+<!-- 23 · REVISAR -->
 <section class="s" style="--glow:#f87171">
-  <span class="eyebrow"><i>10</i> Cuidados</span>
-  <h2 style="margin-top:.6%">La IA también se equivoca.</h2>
-  <p class="lead" style="max-width:48ch">Puede inventar un dato con total seguridad. Por eso hay cosas que siempre se revisan.</p>
-  <div class="rows" style="max-width:min(80vw,1000px);margin-top:2.4%">
-    <div class="row"><span class="ic">📅</span><span class="tx"><b>Fechas, nombres y cifras</b> <span>· lo más fácil de inventar sin que se note</span></span></div>
-    <div class="row"><span class="ic">🧮</span><span class="tx"><b>Operaciones y resultados</b> <span>· conviene rehacerlos aunque parezcan correctos</span></span></div>
-    <div class="row"><span class="ic">📚</span><span class="tx"><b>Definiciones y citas</b> <span>· que coincidan con el material oficial del curso</span></span></div>
-    <div class="row"><span class="ic">🎚️</span><span class="tx"><b>El nivel para ese grado</b> <span>· suele quedar muy simple o muy difícil</span></span></div>
-  </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🔍 <b>Generar es rápido. Revisar sigue siendo indispensable.</b></p>
-</section>
-
-<!-- 32 · PRIVACIDAD -->
-<section class="s" style="--glow:#f87171">
-  <span class="eyebrow"><i>10</i> Cuidados</span>
-  <h2 style="margin-top:.6%">Cuidemos la información</h2>
+  <h2>Siempre revisa esto</h2>
   <div class="how">
-    <div class="hw"><div class="n">🙈</div><b>Sin datos de alumnos</b><p>Nada de nombres completos junto a notas, ni informes médicos o psicológicos.</p></div>
-    <div class="hw"><div class="n">🎭</div><b>Ejemplos anonimizados</b><p>"Un alumno de segundo" funciona igual de bien para el caso.</p></div>
-    <div class="hw"><div class="n">🏫</div><b>Cuenta institucional</b><p>Cuando esté disponible, y revisando los permisos de cada documento.</p></div>
+    <div class="hw"><div class="n">📅</div><b>Fechas y nombres</b><p>Es lo que más inventa, y con toda seguridad.</p></div>
+    <div class="hw"><div class="n">🧮</div><b>Los números</b><p>Rehaz la operación aunque se vea bien.</p></div>
+    <div class="hw"><div class="n">🎚️</div><b>El nivel</b><p>Suele salir muy fácil o muy difícil.</p></div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">🔒 Podemos aprovechar estas herramientas <b>sin dejar de cuidar la información</b> de nuestros alumnos y del colegio.</p>
+  <p class="gain" style="width:min(72vw,880px);text-align:left">🔍 <b>Ella genera rápido. Tú sigues siendo quien aprueba.</b></p>
 </section>
 
-<!-- 33 · DISPONIBILIDAD -->
+<!-- 24 · PRIVACIDAD -->
+<section class="s" style="--glow:#f87171">
+  <h2>Cuida los datos de tus alumnos</h2>
+  <div class="how">
+    <div class="hw"><div class="n">🙈</div><b>Sin nombres con notas</b><p>Ni informes médicos ni psicológicos.</p></div>
+    <div class="hw"><div class="n">🎭</div><b>Di "un alumno de 2.°"</b><p>Funciona igual para el ejemplo.</p></div>
+    <div class="hw"><div class="n">🏫</div><b>Usa la cuenta del colegio</b><p>Cuando esté disponible.</p></div>
+  </div>
+</section>
+
+<!-- 25 · SI NO TE APARECE -->
 <section class="s">
-  <h2>Puede que no se vea igual en su cuenta.</h2>
-  <p class="lead" style="max-width:52ch">Dependen del plan, el idioma y la fase de despliegue. <b>Es normal que a uno le aparezca y a otro no.</b></p>
-  <p class="gain" style="width:min(72vw,880px);text-align:left;margin-top:3%">🧭 Lo importante es entender el proceso: <b>sirve igual en cualquier herramienta parecida</b>, y estas cambian de nombre cada pocos meses.</p>
+  <h2>Si no te aparece igual, es normal.</h2>
+  <p class="lead" style="max-width:44ch">Google activa estas funciones por partes. <b>Lo que aprendes hoy sirve igual</b> cuando te llegue.</p>
 </section>
 
-<!-- 34 · ACTIVIDAD -->
+<!-- 26 · ACTIVIDAD -->
 <section class="s" style="--glow:#a3e635">
-  <span class="eyebrow"><i>11</i> Ahora ustedes</span>
-  <h2 style="margin-top:.6%">Con una clase suya, de verdad.</h2>
-  <p class="lead" style="max-width:50ch">Elijan un tema que van a dictar <b>en las próximas dos semanas</b>.</p>
+  <span class="eyebrow"><i>Ahora</i> Te toca</span>
+  <h2 style="margin-top:.6%">Elige un tema que dictes pronto</h2>
   <div class="ficha">
-    <div><b>Curso:</b> ______________________</div>
-    <div><b>Grado:</b> ______________________</div>
-    <div><b>Tema:</b> ______________________</div>
-    <div><b>Duración:</b> ___________________</div>
-    <div><b>Material que ya tengo:</b> ________</div>
-    <div><b>Recurso que necesito:</b> _________</div>
-    <div><b>Qué debe respetar:</b> ___________</div>
-    <div><b>Qué voy a revisar yo:</b> _________</div>
+    <div><b>Curso:</b> _____________________</div>
+    <div><b>Grado:</b> _____________________</div>
+    <div><b>Tema:</b> _____________________</div>
+    <div><b>Material que ya tengo:</b> ______</div>
   </div>
 </section>
 
-<!-- 35 · CON QUÉ SALE HOY -->
+<!-- 27 · CON QUÉ SALES -->
 <section class="s" style="--glow:#a3e635">
-  <h2>Con qué sale cada uno hoy</h2>
+  <h2>Con qué sales hoy</h2>
   <div class="how">
-    <div class="hw"><div class="n">1</div><b>Un prompt suyo</b><p>Guardado y listo para reutilizar cambiando el tema.</p></div>
-    <div class="hw"><div class="n">2</div><b>Una presentación breve</b><p>Sobre un tema real de su curso, ya revisada por usted.</p></div>
-    <div class="hw"><div class="n">3</div><b>Un recurso de repaso</b><p>Tres preguntas y un audio, una guía o un cuestionario.</p></div>
+    <div class="hw"><div class="n">1</div><b>Una presentación</b><p>De un tema real tuyo, ya revisada.</p></div>
+    <div class="hw"><div class="n">2</div><b>Cinco preguntas</b><p>Listas para el repaso.</p></div>
+    <div class="hw"><div class="n">3</div><b>Una instrucción guardada</b><p>Para reutilizar cambiando el tema.</p></div>
   </div>
-  <p class="gain" style="width:min(76vw,940px);text-align:left">✅ Aquí no se evalúa a nadie: <b>la idea es salir con algo que sirva el lunes.</b></p>
 </section>
 
-<!-- 36 · CIERRE -->
+<!-- 28 · CIERRE -->
 <section class="s">
   <h1 style="font-size:clamp(26px,4.6vw,68px)">Ustedes ya saben enseñar.</h1>
-  <p class="lead" style="margin-top:1.8%;max-width:42ch">Ahora cuentan con más herramientas para <b>convertir sus ideas en recursos</b>.</p>
+  <p class="lead" style="margin-top:1.8%;max-width:38ch">Esto solo les ahorra el trabajo de <b>preparar</b>.</p>
   <div class="ctarow">
     <a class="cta" href="index.html">Ver la plataforma de clases →</a>
     <a class="cta ghost" href="/">Ir al inicio</a>
   </div>
-  <p class="tiny" style="margin-top:2.6%">Cada profesor decide cuándo usarla, para qué, y qué conservar, cambiar o descartar.</p>
 </section>
 
 </div>
@@ -945,7 +940,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, "los 
 <nav class="nav">
   <button class="nb" id="prev" aria-label="Anterior">← Atrás</button>
   <div class="dots" id="dots"></div>
-  <span id="count">1 / 36</span>
+  <span id="count">1 / 28</span>
   <button class="nb" id="next" aria-label="Siguiente">Siguiente →</button>
   <button class="nb g" id="auto" aria-label="Reproducir solo">▶ Auto</button>
 </nav>
@@ -1024,7 +1019,7 @@ PROHIBIDO: pizarra vs diapositiva, tradicional vs moderno, profesor vs IA, "los 
 
   // ── auto-play ──
   // pantallas que muestran: cortas · pantallas que explican: tiempo para leer
-  var DUR=[7000,9000,9000,9000,9000,9000,7000,7000,12000,9000,9000,9000,9000,7000,9000,9000,9000,9000,9000,12000,9000,12000,9000,9000,12000,9000,12000,12000,9000,9000,9000,9000,7000,9000,9000,7000];
+  var DUR=[6500,6500,8000,8000,6500,10000,8000,6500,8000,13000,8000,8000,6500,8000,13000,8000,6500,8000,13000,10000,8000,10000,8000,8000,6500,10000,8000,6500];
   var btn=document.getElementById('auto');
   function tick(){
     timer=setTimeout(function(){

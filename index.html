@@ -3010,6 +3010,7 @@ async function descargarLibreta(btn){
     const hoy = n0.getFullYear() + '-' + String(n0.getMonth()+1).padStart(2,'0') + '-' + String(n0.getDate()).padStart(2,'0');
     const wb  = XLSX.utils.book_new();
     const resumen = [];
+    const PENA = d.penalizacion ?? 2;   // puntos que cuesta cada práctica no rendida
 
     // ── Una hoja por aula: alumnos en filas, clases en columnas ──────────
     GRADE_ORDER.forEach(gid=>{
@@ -3023,10 +3024,12 @@ async function descargarLibreta(btn){
 
       const aoa = [
         ['Notas de ' + label + ' — Computación 2026'],
-        ['Cada columna es una clase. La nota va de 0 a 20. «' + VACIO + '» = no rindió esa evaluación.'],
+        ['Cada columna es una clase. La nota va de 0 a 20. «' + VACIO + '» = no rindió esa práctica.'],
+        ['Cada práctica sin rendir descuenta ' + PENA + ' puntos: el «Promedio final» ya lleva ese descuento aplicado.'],
         [],
         ['N°','Alumno', ...ses.map(s=>'S'+s+' · '+fechaCorta(sessionDate(parseInt(s), gid))),
-         'Evaluaciones rendidas','Promedio','Nivel','Puntos de participación','Tareas entregadas']
+         'Prácticas rendidas','Sin rendir','Descuento (−' + PENA + ' c/u)',
+         'Promedio de lo rendido','Promedio final','Nivel','Puntos de participación','Tareas entregadas']
       ];
 
       alumnos.forEach((a,i)=>{
@@ -3034,8 +3037,11 @@ async function descargarLibreta(btn){
           i+1, a.nombre,
           ...ses.map(s => a.notas[s] ? a.notas[s].score : VACIO),
           a.rendidas,
+          a.faltantes || 0,
+          a.descuento ? -a.descuento : 0,
           a.promedio == null ? VACIO : a.promedio,
-          nivelDe(a.promedio),
+          a.promedioFinal == null ? VACIO : a.promedioFinal,
+          a.rendidas ? nivelDe(a.promedioFinal) : (a.practicas ? 'No rindió ninguna' : 'Sin evaluaciones'),
           a.puntos || 0,
           a.tareas || 0
         ]);
@@ -3046,22 +3052,29 @@ async function descargarLibreta(btn){
         const n = alumnos.map(a=>a.notas[s]).filter(Boolean).map(x=>x.score);
         return n.length ? Math.round(n.reduce((x,y)=>x+y,0)/n.length*10)/10 : VACIO;
       });
-      const conProm = alumnos.filter(a=>a.promedio != null).map(a=>a.promedio);
-      const promAula = conProm.length ? Math.round(conProm.reduce((x,y)=>x+y,0)/conProm.length*10)/10 : null;
+      const media = arr => arr.length ? Math.round(arr.reduce((x,y)=>x+y,0)/arr.length*10)/10 : null;
+      const conProm  = alumnos.filter(a=>a.promedio != null).map(a=>a.promedio);
+      const promAula = media(conProm);
+      const finAula  = media(alumnos.filter(a=>a.promedioFinal != null).map(a=>a.promedioFinal));
+      const faltasAula = alumnos.reduce((s,a)=>s+(a.faltantes||0),0);
       aoa.push([]);
-      aoa.push(['','Promedio del salón', ...promSesion, '', promAula == null ? VACIO : promAula, '', '', '']);
+      aoa.push(['','Promedio del salón', ...promSesion, '', faltasAula, '',
+                promAula == null ? VACIO : promAula, finAula == null ? VACIO : finAula, '', '', '']);
 
       const ws = XLSX.utils.aoa_to_sheet(aoa);
       ws['!cols'] = [{wch:5},{wch:30}, ...ses.map(()=>({wch:13})),
-                     {wch:12},{wch:10},{wch:20},{wch:14},{wch:14}];
+                     {wch:12},{wch:11},{wch:15},{wch:16},{wch:15},{wch:20},{wch:14},{wch:14}];
       XLSX.utils.book_append_sheet(wb, ws, label);
 
-      const mejor = [...alumnos].filter(a=>a.promedio != null).sort((a,b)=>b.promedio-a.promedio)[0];
+      // El "mejor" del salón se mide por la nota que cuenta: la final
+      const mejor = [...alumnos].filter(a=>a.rendidas).sort((a,b)=>b.promedioFinal-a.promedioFinal)[0];
       resumen.push([
         label, alumnos.length, conProm.length,
         alumnos.reduce((s,a)=>s+a.rendidas,0),
+        faltasAula,
         promAula == null ? VACIO : promAula,
-        mejor ? mejor.nombre + ' (' + mejor.promedio + ')' : VACIO
+        finAula == null ? VACIO : finAula,
+        mejor ? mejor.nombre + ' (' + mejor.promedioFinal + ')' : VACIO
       ]);
     });
 
@@ -3073,13 +3086,17 @@ async function descargarLibreta(btn){
       [],
       [plural(d.totales.alumnos,'alumno') + ' · ' + plural(d.totales.evaluaciones,'evaluación registrada','evaluaciones registradas') + ' · ' + plural(d.sesiones.length,'clase') + ' con evaluación'],
       [],
-      ['Aula','Alumnos','Rindieron alguna','Evaluaciones registradas','Promedio del salón','Mejor promedio'],
+      ['Aula','Alumnos','Rindieron alguna','Prácticas rendidas','Prácticas sin rendir',
+       'Promedio de lo rendido','Promedio final del salón','Mejor promedio final'],
       ...resumen,
       [],
       ['Cómo leer esta libreta'],
       ['Abajo hay una pestaña por salón: ahí están los alumnos en filas y las clases en columnas.'],
-      ['El número de cada casilla es la nota de esa evaluación, sobre 20.'],
-      ['«' + VACIO + '» significa que ese alumno no rindió esa evaluación.'],
+      ['El número de cada casilla es la nota de esa práctica, sobre 20.'],
+      ['«' + VACIO + '» significa que ese alumno no rindió esa práctica.'],
+      ['Cada práctica sin rendir descuenta ' + PENA + ' puntos. La nota que cuenta es «Promedio final»:'],
+      ['   Promedio final = promedio de lo que rindió − (' + PENA + ' × prácticas sin rendir), sin bajar de 0.'],
+      ['Solo cuentan como práctica las clases en las que algún compañero del salón sí rindió.'],
       ['«Puntos de participación» son los puntos extra ganados en clase. No entran en el promedio.'],
       ['La pestaña «Detalle» tiene una fila por evaluación, con la fecha y hora exactas.'],
     ];
@@ -3090,7 +3107,7 @@ async function descargarLibreta(btn){
         : ' evaluaciones que no calzaron con ningún alumno de la lista.')]);
     }
     const wsP = XLSX.utils.aoa_to_sheet(portada);
-    wsP['!cols'] = [{wch:34},{wch:11},{wch:18},{wch:24},{wch:19},{wch:30}];
+    wsP['!cols'] = [{wch:34},{wch:11},{wch:18},{wch:19},{wch:20},{wch:22},{wch:23},{wch:28}];
     XLSX.utils.book_append_sheet(wb, wsP, 'Resumen');
     // La portada se arma al final pero se lee primero
     wb.SheetNames.unshift(wb.SheetNames.pop());

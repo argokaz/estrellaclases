@@ -16,6 +16,7 @@ const { supabase } = require("./_supabase");
 
 const TEACHER_PW     = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);   // la profesora como test user
+const PENALIZACION   = 2;   // puntos que se descuentan del promedio por práctica no rendida
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -128,8 +129,27 @@ exports.handler = async (event) => {
         tareas:    a.tareas,
       });
     }
+    /**
+     * Castigo por práctica no rendida: −2 puntos del promedio por cada una.
+     * "Práctica del salón" = sesión en la que ALGÚN compañero rindió; así una
+     * clase que nunca tuvo evaluación no penaliza a nadie, y el que faltó a la
+     * evaluación de una clase que sí se tomó carga con su descuento.
+     */
     for (const g of Object.keys(aulas)) {
       aulas[g].sort((x, y) => x.nombre.localeCompare(y.nombre, "es"));
+
+      const practicas = [...new Set(aulas[g].flatMap(a => Object.keys(a.notas)))].sort();
+      for (const a of aulas[g]) {
+        a.practicas  = practicas.length;
+        a.faltantes  = practicas.filter(s => !a.notas[s]).length;
+        a.descuento  = a.faltantes * PENALIZACION;
+        // Sin ninguna práctica rendida no hay promedio del que descontar: la
+        // nota es 0, no un vacío — faltar a todas no puede quedar mejor que
+        // rendir mal. Si el salón todavía no tuvo evaluaciones, no hay nota.
+        a.promedioFinal = a.rendidas
+          ? Math.max(0, redondea(a.promedio - a.descuento))
+          : (practicas.length ? 0 : null);
+      }
     }
 
     const sesiones = [...new Set(evals.map(e => e.sesion))].sort();
@@ -140,6 +160,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         ok: true,
         generado: new Date().toISOString(),
+        penalizacion: PENALIZACION,
         sesiones,
         aulas,
         detalle,

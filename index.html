@@ -4359,33 +4359,6 @@ async function cargarCifras(gradeId, sesion){
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
 // ═══════════════════════════════════════════════════════════
-// ── Rescate de evaluaciones pendientes ────────────────────────────────────
-// El outbox de las guías de repaso solo se vacía si el alumno vuelve a abrir
-// UNA GUÍA. Si el envío falló y el alumno solo entra al dashboard, la nota se
-// quedaba esperando en su navegador. Aquí también se drena: cualquier visita
-// a la web, desde el mismo dispositivo, termina de guardarla.
-(function rescatarPendientes(){
-  var CAJA = 'evalOutboxV2';
-  var pend; try{ pend = JSON.parse(localStorage.getItem(CAJA) || '[]'); }catch(_){ return; }
-  if(!Array.isArray(pend) || !pend.length) return;
-
-  var quedan = pend.slice();
-  (function siguiente(i){
-    if(i >= pend.length){
-      try{ localStorage.setItem(CAJA, JSON.stringify(quedan)); }catch(_){}
-      return;
-    }
-    fetch('/.netlify/functions/submit-eval', {
-      method:'POST', headers:{'Content-Type':'application/json'}, body: pend[i].p
-    })
-      // Solo se saca de la cola con respuesta buena del servidor. Un fallo de
-      // red la deja donde está para el próximo intento.
-      .then(function(r){ if(r.ok) quedan = quedan.filter(function(x){ return x.k !== pend[i].k; }); })
-      .catch(function(){})
-      .then(function(){ siguiente(i+1); });
-  })(0);
-})();
-
 updateLogoutBtn();
 arrancar();
 loadShifts();

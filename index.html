@@ -2966,6 +2966,175 @@ function exportXLSX(){
 }
 
 // ═══════════════════════════════════════════════════════════
+// LIBRETA COMPLETA — todas las notas del año en un Excel
+// ═══════════════════════════════════════════════════════════
+// El export de arriba baja UNA sesión. Esto baja el año entero, con una hoja
+// por aula: alumnos en filas, clases en columnas. Es la vista que la profesora
+// necesita para llenar registros o hablar con un padre, sin ir sesión por sesión.
+
+const MESES_CORTOS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+function fechaCorta(iso){
+  if(!iso) return '';
+  const [,m,d] = iso.split('-');
+  return parseInt(d) + ' ' + MESES_CORTOS[parseInt(m)-1];
+}
+function fechaLarga(iso){
+  const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const [y,m,d] = iso.split('-');
+  return parseInt(d) + ' de ' + meses[parseInt(m)-1] + ' de ' + y;
+}
+/** Mismos cortes que usa el panel de resultados, para que nadie vea dos criterios. */
+function nivelDe(prom){
+  if(prom == null) return 'Sin evaluaciones';
+  return prom>=18 ? 'Excelente' : prom>=14 ? 'Bueno' : prom>=10 ? 'En proceso' : 'Necesita refuerzo';
+}
+const VACIO = '—';
+function plural(n, uno, muchos){ return n + ' ' + (n===1 ? uno : (muchos || uno+'s')); }
+
+async function descargarLibreta(btn){
+  // En las tarjetas del panel el rótulo va dentro de un <b>: se cambia solo ese
+  // texto para no desarmar la tarjeta mientras se prepara el archivo.
+  const et    = btn ? (btn.querySelector('b') || btn) : null;
+  const texto = et ? et.innerHTML : '';
+  if(btn){ btn.disabled = true; et.innerHTML = '⏳ Preparando…'; }
+  try{
+    const res = await fetch('/.netlify/functions/get-libreta?pw=' + encodeURIComponent(CORRECT_PW));
+    if(!res.ok) throw new Error('El servidor respondió ' + res.status);
+    const d = await res.json();
+    if(d.error) throw new Error(d.error);
+    if(!d.totales || !d.totales.evaluaciones) throw new Error('Todavía no hay ninguna evaluación registrada.');
+
+    // Fecha local, no UTC: en Perú toISOString() ya adelanta al día siguiente
+    // desde las 7 p.m., y el archivo saldría fechado mañana.
+    const n0  = new Date();
+    const hoy = n0.getFullYear() + '-' + String(n0.getMonth()+1).padStart(2,'0') + '-' + String(n0.getDate()).padStart(2,'0');
+    const wb  = XLSX.utils.book_new();
+    const resumen = [];
+
+    // ── Una hoja por aula: alumnos en filas, clases en columnas ──────────
+    GRADE_ORDER.forEach(gid=>{
+      const alumnos = d.aulas[gid] || [];
+      if(!alumnos.length) return;
+
+      // Solo las clases donde este salón tiene alguna nota: si no, salen
+      // treinta columnas vacías y la hoja se vuelve ilegible.
+      const ses = [...new Set(alumnos.flatMap(a=>Object.keys(a.notas)))].sort();
+      const label = GRADE_LABELS_MAP[gid] || gid;
+
+      const aoa = [
+        ['Notas de ' + label + ' — Computación 2026'],
+        ['Cada columna es una clase. La nota va de 0 a 20. «' + VACIO + '» = no rindió esa evaluación.'],
+        [],
+        ['N°','Alumno', ...ses.map(s=>'S'+s+' · '+fechaCorta(sessionDate(parseInt(s), gid))),
+         'Evaluaciones rendidas','Promedio','Nivel','Puntos de participación','Tareas entregadas']
+      ];
+
+      alumnos.forEach((a,i)=>{
+        aoa.push([
+          i+1, a.nombre,
+          ...ses.map(s => a.notas[s] ? a.notas[s].score : VACIO),
+          a.rendidas,
+          a.promedio == null ? VACIO : a.promedio,
+          nivelDe(a.promedio),
+          a.puntos || 0,
+          a.tareas || 0
+        ]);
+      });
+
+      // Cierre del aula: cómo le fue al salón en cada clase
+      const promSesion = ses.map(s=>{
+        const n = alumnos.map(a=>a.notas[s]).filter(Boolean).map(x=>x.score);
+        return n.length ? Math.round(n.reduce((x,y)=>x+y,0)/n.length*10)/10 : VACIO;
+      });
+      const conProm = alumnos.filter(a=>a.promedio != null).map(a=>a.promedio);
+      const promAula = conProm.length ? Math.round(conProm.reduce((x,y)=>x+y,0)/conProm.length*10)/10 : null;
+      aoa.push([]);
+      aoa.push(['','Promedio del salón', ...promSesion, '', promAula == null ? VACIO : promAula, '', '', '']);
+
+      const ws = XLSX.utils.aoa_to_sheet(aoa);
+      ws['!cols'] = [{wch:5},{wch:30}, ...ses.map(()=>({wch:13})),
+                     {wch:12},{wch:10},{wch:20},{wch:14},{wch:14}];
+      XLSX.utils.book_append_sheet(wb, ws, label);
+
+      const mejor = [...alumnos].filter(a=>a.promedio != null).sort((a,b)=>b.promedio-a.promedio)[0];
+      resumen.push([
+        label, alumnos.length, conProm.length,
+        alumnos.reduce((s,a)=>s+a.rendidas,0),
+        promAula == null ? VACIO : promAula,
+        mejor ? mejor.nombre + ' (' + mejor.promedio + ')' : VACIO
+      ]);
+    });
+
+    // ── Portada: el estado del año de un vistazo, y cómo leer el resto ───
+    const portada = [
+      ['Libreta de notas — Computación 2026'],
+      ['Asunción School · Prof. Estrella Vizcarra'],
+      ['Descargada el ' + fechaLarga(hoy)],
+      [],
+      [plural(d.totales.alumnos,'alumno') + ' · ' + plural(d.totales.evaluaciones,'evaluación registrada','evaluaciones registradas') + ' · ' + plural(d.sesiones.length,'clase') + ' con evaluación'],
+      [],
+      ['Aula','Alumnos','Rindieron alguna','Evaluaciones registradas','Promedio del salón','Mejor promedio'],
+      ...resumen,
+      [],
+      ['Cómo leer esta libreta'],
+      ['Abajo hay una pestaña por salón: ahí están los alumnos en filas y las clases en columnas.'],
+      ['El número de cada casilla es la nota de esa evaluación, sobre 20.'],
+      ['«' + VACIO + '» significa que ese alumno no rindió esa evaluación.'],
+      ['«Puntos de participación» son los puntos extra ganados en clase. No entran en el promedio.'],
+      ['La pestaña «Detalle» tiene una fila por evaluación, con la fecha y hora exactas.'],
+    ];
+    if(d.sinAsignar && d.sinAsignar.length){
+      const k = d.sinAsignar.length;
+      portada.push(['⚠️ La pestaña «Por revisar» tiene ' + k + (k===1
+        ? ' evaluación que no calzó con ningún alumno de la lista.'
+        : ' evaluaciones que no calzaron con ningún alumno de la lista.')]);
+    }
+    const wsP = XLSX.utils.aoa_to_sheet(portada);
+    wsP['!cols'] = [{wch:34},{wch:11},{wch:18},{wch:24},{wch:19},{wch:30}];
+    XLSX.utils.book_append_sheet(wb, wsP, 'Resumen');
+    // La portada se arma al final pero se lee primero
+    wb.SheetNames.unshift(wb.SheetNames.pop());
+
+    // ── Detalle: una fila por evaluación, para filtrar y ordenar ─────────
+    const det = (d.detalle||[]).map(r=>({
+      'Alumno': r.nombre,
+      'Aula': GRADE_LABELS_MAP[r.grado] || r.grado,
+      'Sesión': 'S' + r.sesion,
+      'Fecha de la clase': fechaCorta(sessionDate(parseInt(r.sesion), r.grado)),
+      'Nota (0-20)': r.score,
+      'Correctas': r.correctas ?? VACIO,
+      'De un total de': r.total ?? 10,
+      'Nivel': nivelDe(r.score),
+      'Rendida el': r.fecha ? new Date(r.fecha).toLocaleString('es-PE',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : VACIO
+    }));
+    if(det.length){
+      const wsD = XLSX.utils.json_to_sheet(det);
+      wsD['!cols'] = [{wch:30},{wch:16},{wch:9},{wch:17},{wch:12},{wch:11},{wch:14},{wch:20},{wch:20}];
+      wsD['!autofilter'] = {ref: wsD['!ref']};
+      XLSX.utils.book_append_sheet(wb, wsD, 'Detalle');
+    }
+
+    if(d.sinAsignar && d.sinAsignar.length){
+      const wsR = XLSX.utils.json_to_sheet(d.sinAsignar.map(r=>({
+        'Nombre que escribió el alumno': r.nombre,
+        'Aula': GRADE_LABELS_MAP[r.grado] || r.grado,
+        'Sesión': 'S' + r.sesion,
+        'Nota': r.score,
+        'Fecha': r.fecha || VACIO
+      })));
+      wsR['!cols'] = [{wch:34},{wch:16},{wch:9},{wch:9},{wch:14}];
+      XLSX.utils.book_append_sheet(wb, wsR, 'Por revisar');
+    }
+
+    XLSX.writeFile(wb, 'notas-computacion-' + hoy + '.xlsx');
+  }catch(err){
+    alert('No se pudo bajar la libreta.\n\n' + err.message);
+  }finally{
+    if(btn){ btn.disabled = false; et.innerHTML = texto; }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
 // ENTREGAS DE TAREAS
 // ═══════════════════════════════════════════════════════════
 let _currentTasksGrade = null;
@@ -3891,6 +4060,7 @@ function renderConsola(gradeId){
       </div>
       <div class="cns-tools">
         <button class="cns-tool" onclick="openRosterEditor('${gradeId}')" title="Ver y editar la lista de alumnos del aula">👥 Alumnos</button>
+        <button class="cns-tool" onclick="descargarLibreta(this)" title="Baja un Excel con las notas de todos los alumnos, de todas las clases dictadas">📗 Descargar notas</button>
         <button class="cns-tool" onclick="openSchedule()" title="Aplazar clases si no se dictó alguna">🗓️ Aplazar clases</button>
         <button class="cns-tool" onclick="openAccess()" title="Generar el enlace de acceso a los prompts para un colega">✨ Enlaces de prompts</button>
         <a class="cns-tool" href="/" style="text-decoration:none">Ver como alumno</a>
@@ -4028,6 +4198,8 @@ function panelDespues(it, gradeId){
         <span class="a-em">📬</span><b>Ver entregas</b><span>Quién entregó y quién falta</span></button>
       <button class="cns-act" onclick="openRankingModal('${gradeId}')">
         <span class="a-em">🏆</span><b>Ranking del mes</b><span>Notas más puntos de participación</span></button>
+      <button class="cns-act" onclick="descargarLibreta(this)">
+        <span class="a-em">📗</span><b>Descargar todas las notas</b><span>Un Excel con el año completo, salón por salón</span></button>
     </div>`;
 }
 
@@ -4248,7 +4420,8 @@ function entrarConsola(){
     <div class="results-panel-header">
       <h2 id="results-panel-title">📊 Resultados de alumnos</h2>
       <div class="results-header-actions">
-        <button class="results-export-btn" onclick="exportXLSX()">⬇ Exportar Excel</button>
+        <button class="results-export-btn" onclick="exportXLSX()">⬇ Exportar esta sesión</button>
+        <button class="results-export-btn" onclick="descargarLibreta(this)" title="Todas las notas de todos los salones, de todo el año">📗 Todas las notas</button>
         <button class="results-close-btn" onclick="closeResultsPanel()">✕ Cerrar</button>
       </div>
     </div>

@@ -36,7 +36,9 @@ exports.handler = async (event) => {
     // Join evaluaciones → alumnos para obtener nombre y grado
     let query = db
       .from("evaluaciones")
-      .select("id, sesion, score, correctas, total, fecha, nombre_raw, alumno_id, alumnos(nombre, grado)")
+      // `grado` de la propia evaluación: sin él, una nota sin dueño se queda
+      // sin salón ("—") y el botón de asignar no sabe qué lista pedir.
+      .select("id, sesion, score, correctas, total, fecha, nombre_raw, alumno_id, grado, alumnos(nombre, grado)")
       .order("fecha", { ascending: false });
 
     if (session) query = query.eq("sesion", session);

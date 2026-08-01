@@ -121,7 +121,52 @@ exports.handler = async (event) => {
       return ok({ ok: true, ...reporte });
     }
 
-    return err(400, 'action debe ser "inspeccionar" o "fusionar"');
+    // ── Asignar una evaluación sin dueño al alumno que le corresponde ────────
+    // Contraparte de submit-eval: cuando un alumno escribe mal su nombre, la
+    // nota se guarda sin alumno_id. Esto la pone donde va, conservando el mejor
+    // intento si el alumno ya tenía nota en esa sesión.
+    if (b.action === "asignar") {
+      const alumno = await cargar(db, b.alumno);
+      if (!alumno) return err(404, "Alumno no encontrado");
+
+      const { data: ev, error: evErr } = await db
+        .from("evaluaciones")
+        .select("id, sesion, score, alumno_id")
+        .eq("id", b.evaluacion)
+        .maybeSingle();
+      if (evErr) throw new Error("lookup evaluación: " + evErr.message);
+      if (!ev)   return err(404, "Evaluación no encontrada");
+
+      const { data: yaTiene, error: ytErr } = await db
+        .from("evaluaciones")
+        .select("id, score")
+        .eq("alumno_id", alumno.id)
+        .eq("sesion", ev.sesion)
+        .limit(1);
+      if (ytErr) throw new Error("lookup nota existente: " + ytErr.message);
+      const suya = yaTiene && yaTiene[0];
+
+      if (suya) {
+        // Ya tenía nota en esa sesión: se queda la mejor y la suelta se borra
+        if (ev.score > suya.score) {
+          const { error } = await db.from("evaluaciones")
+            .update({ score: ev.score }).eq("id", suya.id);
+          if (error) throw new Error("actualizar nota: " + error.message);
+        }
+        const { error: delErr } = await db.from("evaluaciones").delete().eq("id", ev.id);
+        if (delErr) throw new Error("borrar duplicada: " + delErr.message);
+        return ok({ ok: true, alumno: alumno.nombre, sesion: ev.sesion,
+          resultado: ev.score > suya.score ? "se quedó la mejor (" + ev.score + ")" : "ya tenía una mejor (" + suya.score + ")" });
+      }
+
+      const { error } = await db.from("evaluaciones")
+        .update({ alumno_id: alumno.id, grado: alumno.grado })
+        .eq("id", ev.id);
+      if (error) throw new Error("asignar evaluación: " + error.message);
+      return ok({ ok: true, alumno: alumno.nombre, sesion: ev.sesion, resultado: "asignada (" + ev.score + ")" });
+    }
+
+    return err(400, 'action debe ser "inspeccionar", "fusionar" o "asignar"');
   } catch (e) {
     console.error("admin-roster error:", e.message);
     return err(500, e.message);

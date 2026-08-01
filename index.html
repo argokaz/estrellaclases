@@ -833,7 +833,7 @@ button{font-family:inherit;cursor:pointer;}
 .scm-title{font-size:1.15rem;font-weight:800;color:#3f6212;margin-bottom:.3rem;}
 .scm-sub{font-size:.82rem;color:var(--text-muted);margin-bottom:1.4rem;line-height:1.5;}
 .scm-input{width:100%;background:var(--surface-2);border:2px solid rgba(96,165,250,.4);
-  border-radius:12px;color:#fff;font-size:2.4rem;font-weight:900;text-align:center;
+  border-radius:12px;color:var(--text);font-size:2.4rem;font-weight:900;text-align:center;
   letter-spacing:.35em;padding:.55rem .5rem;font-family:monospace;
   text-transform:uppercase;outline:none;margin-bottom:1.1rem;}
 .scm-input:focus{border-color:#1d4ed8;}
@@ -908,7 +908,7 @@ button{font-family:inherit;cursor:pointer;}
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:22px;gap:12px;flex-wrap:wrap;
 }
-.tasks-panel-header h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#fff;}
+.tasks-panel-header h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--text);}
 .tasks-close-btn{
   background:var(--surface-2);border:1px solid var(--border);
   color:var(--text-muted);border-radius:8px;padding:.45rem 1rem;
@@ -935,7 +935,7 @@ button{font-family:inherit;cursor:pointer;}
   border-radius:10px;padding:13px 16px;
 }
 .tasks-item-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
-.tasks-item-name{font-weight:700;color:#fff;font-size:15px;}
+.tasks-item-name{font-weight:700;color:var(--text);font-size:15px;}
 .tasks-item-grade{
   font-size:12px;font-weight:600;color:var(--text-muted);
   background:var(--surface-2);border-radius:5px;padding:2px 7px;
@@ -972,7 +972,7 @@ button{font-family:inherit;cursor:pointer;}
   margin-bottom:22px;gap:12px;flex-wrap:wrap;
 }
 .results-panel-header h2{
-  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:var(--text);
 }
 .results-header-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
 .results-session-tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;}
@@ -988,7 +988,7 @@ button{font-family:inherit;cursor:pointer;}
   padding:14px 20px;flex:1;min-width:110px;
 }
 .res-stat-val{
-  font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:#fff;
+  font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--text);
 }
 .res-stat-label{font-size:12px;color:var(--text-muted);margin-top:3px;}
 .results-table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
@@ -1028,7 +1028,7 @@ button{font-family:inherit;cursor:pointer;}
   border-radius:8px;padding:.35rem .9rem;font-size:14px;cursor:pointer;font-family:inherit;
   transition:background .15s,color .15s;
 }
-.results-close-btn:hover{background:var(--surface);color:#fff;}
+.results-close-btn:hover{background:var(--surface);color:var(--text);}
 .results-export-btn{
   background:transparent;border:1px solid var(--border);color:var(--text-muted);
   border-radius:8px;padding:.35rem .9rem;font-size:13px;font-weight:600;
@@ -1045,6 +1045,30 @@ button{font-family:inherit;cursor:pointer;}
   background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.6);
   color:#b91c1c;
 }
+/* ── Nota guardada sin dueño ──
+   Tiene que saltar a la vista: la nota existe, pero mientras nadie le ponga
+   nombre no cuenta en el promedio de ningún alumno. */
+.fila-suelta{background:#fff7ed;}
+.fila-suelta td{border-top:1px solid #fdba74;border-bottom:1px solid #fdba74;}
+.res-asignar{
+  display:block;margin-top:6px;background:#f59e0b;color:#3b2200;border:none;
+  border-radius:8px;padding:5px 11px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;transition:filter .15s;
+}
+.res-asignar:hover{filter:brightness(1.08);}
+.res-asignar:disabled{opacity:.65;cursor:default;}
+.asig-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center;}
+.asig-sel{
+  flex:1 1 190px;min-width:0;padding:6px 8px;border:1px solid var(--line-strong);
+  border-radius:8px;font-family:inherit;font-size:13px;background:#fff;color:var(--text);
+}
+.asig-ok,.asig-no{
+  border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:inherit;
+}
+.asig-ok{background:var(--accent);color:#fff;}
+.asig-no{background:var(--surface-2);color:var(--text-muted);}
+
 .grade-group-label{
   background:var(--surface);
   font-size:12px;font-weight:700;color:var(--text-muted);
@@ -2893,8 +2917,14 @@ function renderResults(data, session){
       const count = sorted.filter(x=>x.grado===r.grado).length;
       groupRow = `<tr><td colspan="7" class="grade-group-label">📚 ${gl} &nbsp;·&nbsp; ${count} alumno${count===1?'':'s'}</td></tr>`;
     }
-    return groupRow + `<tr id="row-${encodeURIComponent(r._key||'')}">
-      <td><strong style="color:#fff">${r.nombre}</strong></td>
+    // Nota guardada sin dueño: el alumno escribió un nombre que no está en la
+    // lista. La nota existe; falta ponerle nombre. Se marca para que salte a la
+    // vista, porque si nadie la asigna se queda fuera de su promedio.
+    const suelta = r.sinAsignar
+      ? `<button class="res-asignar" onclick="asignarSuelta('${(r._key||'').replace(/'/g,"\\'")}','${(r.nombre||'').replace(/'/g,"\\'")}','${r.grado}')">✋ Sin asignar — ponerle nombre</button>`
+      : '';
+    return groupRow + `<tr id="row-${encodeURIComponent(r._key||'')}"${r.sinAsignar?' class="fila-suelta"':''}>
+      <td><strong>${r.nombre}</strong>${suelta}</td>
       <td style="color:var(--text-muted);font-size:13px">${gl}</td>
       <td class="res-score-cell">${r.score}<sub> /20</sub></td>
       <td style="color:var(--text-muted)">${r.correctas ?? r.correct ?? '?'} / ${r.total ?? 10}</td>
@@ -2913,6 +2943,74 @@ function renderResults(data, session){
       <tbody>${rows}</tbody>
     </table>
   </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// NOTAS SUELTAS — evaluaciones guardadas sin dueño
+// ═══════════════════════════════════════════════════════════
+// Cuando un alumno escribe un nombre que no está en la lista, submit-eval
+// guarda la nota igual pero sin alumno_id. Aquí se le pone nombre. Sin esto,
+// la nota existe pero no entra en el promedio de nadie.
+/** La sesión que está mirando el panel de resultados. */
+function sesionDeResultados(){
+  const act = document.querySelector('.results-session-tab.active');
+  return act ? act.dataset.session : '02';
+}
+
+async function asignarSuelta(evalId, escrito, grado){
+  const row = document.getElementById('row-' + encodeURIComponent(evalId));
+  const btn = row && row.querySelector('.res-asignar');
+  if(!btn) return;
+  btn.disabled = true; btn.textContent = 'Cargando la lista…';
+
+  let alumnos = [];
+  try{
+    const d = await fetch('/.netlify/functions/get-roster?grado=' + grado).then(r=>r.json());
+    alumnos = (d.alumnos || []).map(a=>a.nombre).filter(n=>n.toLowerCase() !== 'estrella vizcarra');
+  }catch(_){}
+  if(!alumnos.length){
+    btn.disabled = false; btn.textContent = '⚠️ No se pudo cargar la lista — reintentar';
+    return;
+  }
+
+  // Deja preseleccionado el más parecido a lo que escribió el alumno
+  const tk = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()
+                   .split(/[^a-z0-9]+/).filter(w=>w.length>2);
+  const esc = tk(escrito);
+  let mejor = alumnos[0], mejorN = -1;
+  alumnos.forEach(n=>{ const t = tk(n); const c = esc.filter(w=>t.includes(w)).length;
+    if(c > mejorN){ mejorN = c; mejor = n; } });
+
+  const wrap = document.createElement('div');
+  wrap.className = 'asig-wrap';
+  wrap.innerHTML = '<select class="asig-sel">' +
+      alumnos.map(n=>`<option${n===mejor?' selected':''}>${n}</option>`).join('') +
+    '</select><button class="asig-ok">Asignar</button><button class="asig-no">Cancelar</button>';
+  btn.replaceWith(wrap);
+
+  const ses = sesionDeResultados();
+  wrap.querySelector('.asig-no').onclick = ()=> renderResults(_resultsCache[ses] || [], ses);
+  wrap.querySelector('.asig-ok').onclick = async ()=>{
+    const nombre = wrap.querySelector('.asig-sel').value;
+    const ok = wrap.querySelector('.asig-ok');
+    ok.disabled = true; ok.textContent = '…';
+    try{
+      const alumnoId = (await fetch('/.netlify/functions/get-roster?grado=' + grado).then(r=>r.json()))
+        .alumnos.find(a=>a.nombre === nombre).id;
+      const res = await fetch('/.netlify/functions/admin-roster', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({pw: CORRECT_PW, action:'asignar', evaluacion: evalId, alumno: alumnoId})
+      });
+      const d = await res.json();
+      if(!res.ok || d.error) throw new Error(d.error || ('Error ' + res.status));
+      delete _resultsCache[ses];
+      loadResults(ses);
+      invalidarPodio(grado);
+    }catch(e){
+      ok.disabled = false; ok.textContent = 'Asignar';
+      alert('No se pudo asignar: ' + e.message);
+    }
+  };
 }
 
 async function deleteResult(key, nombre){
@@ -4261,6 +4359,33 @@ async function cargarCifras(gradeId, sesion){
 // ═══════════════════════════════════════════════════════════
 // INIT — va al final para que todos los const estén listos
 // ═══════════════════════════════════════════════════════════
+// ── Rescate de evaluaciones pendientes ────────────────────────────────────
+// El outbox de las guías de repaso solo se vacía si el alumno vuelve a abrir
+// UNA GUÍA. Si el envío falló y el alumno solo entra al dashboard, la nota se
+// quedaba esperando en su navegador. Aquí también se drena: cualquier visita
+// a la web, desde el mismo dispositivo, termina de guardarla.
+(function rescatarPendientes(){
+  var CAJA = 'evalOutboxV2';
+  var pend; try{ pend = JSON.parse(localStorage.getItem(CAJA) || '[]'); }catch(_){ return; }
+  if(!Array.isArray(pend) || !pend.length) return;
+
+  var quedan = pend.slice();
+  (function siguiente(i){
+    if(i >= pend.length){
+      try{ localStorage.setItem(CAJA, JSON.stringify(quedan)); }catch(_){}
+      return;
+    }
+    fetch('/.netlify/functions/submit-eval', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: pend[i].p
+    })
+      // Solo se saca de la cola con respuesta buena del servidor. Un fallo de
+      // red la deja donde está para el próximo intento.
+      .then(function(r){ if(r.ok) quedan = quedan.filter(function(x){ return x.k !== pend[i].k; }); })
+      .catch(function(){})
+      .then(function(){ siguiente(i+1); });
+  })(0);
+})();
+
 updateLogoutBtn();
 arrancar();
 loadShifts();

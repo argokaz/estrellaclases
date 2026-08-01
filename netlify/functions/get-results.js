@@ -52,6 +52,9 @@ exports.handler = async (event) => {
       _key:      ev.id,           // UUID para borrar
       nombre:    ev.alumnos?.nombre || ev.nombre_raw || "—",
       nombre_raw: ev.nombre_raw || null,   // lo que tipeó el alumno — permite auditar asignaciones
+      // Sin alumno_id: la nota se guardó pero no calzó con nadie del roster.
+      // La profesora la ve marcada y la asigna; así ninguna evaluación se pierde.
+      sinAsignar: !ev.alumno_id,
       grado:     ev.alumnos?.grado  || ev.grado || "—",
       sesion:    ev.sesion,
       score:     ev.score,

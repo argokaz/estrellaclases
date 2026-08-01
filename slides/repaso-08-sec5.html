@@ -482,7 +482,7 @@ function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,c
     sending=true;var it=b[0];
     _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
       .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
-      .then(function(d){if(d&&d.rechazado){dequeue(it.p);sending=false;showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}if(d&&d.ok===false)throw 0;
+      .then(function(d){if(d&&d.sinAsignar){showChip('⚠️ '+(d.mensaje||'Guardamos tu resultado, pero tu nombre no está en la lista de tu salón'),'#b45309');return;}if(d&&d.rechazado){dequeue(it.p);sending=false;showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}if(d&&d.ok===false)throw 0;
         dequeue(it.p);sending=false;clearProgress();
         showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
         if(readBox().length)setTimeout(flushOutbox,500);
@@ -499,7 +499,7 @@ function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,c
         enqueue(o.body);
         showChip('⏳ Guardando tu resultado…','#1d4ed8');
         return _f(u,o).then(function(r){
-          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){if(d&&d.rechazado){showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
+          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){if(d&&d.sinAsignar){showChip('⚠️ '+(d.mensaje||'Guardamos tu resultado, pero tu nombre no está en la lista de tu salón'),'#b45309');return;}if(d&&d.rechazado){showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
           else{setTimeout(flushOutbox,1500);}
           return r;
         }).catch(function(e){setTimeout(flushOutbox,1500);throw e;});

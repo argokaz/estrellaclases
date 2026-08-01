@@ -76,24 +76,61 @@ exports.handler = async (event) => {
     // findBestPerson: exacto > subset > ancla — NUNCA "primer match gana"
     const alumno = findBestPerson(normBuscado, alumnos, a => a.nombre);
 
-    // ── 2. Sin coincidencia: NO se crea un alumno nuevo ───────────────────────
-    // Antes sí se creaba, y por ahí entraron "Shadow Haunter", "Ewen", "Roman
-    // Riquelme" y otros 15 registros que no eran alumnos (limpieza 31 jul 2026).
-    // El roster lo maneja la profesora desde 👥 Alumnos; aquí solo se reconoce
-    // a quien ya está en la lista de su salón.
-    // Responde 200 con rechazado:true — un 4xx haría que el outbox del repaso
-    // reintente cada 8 s para siempre, y el alumno vería "Guardando…" sin fin.
+    // ── 2. Sin coincidencia: se guarda la nota, NO se crea el alumno ──────────
+    // Antes se creaba un alumno con cualquier texto, y por ahí entraron "Shadow
+    // Haunter", "Ewen" y otros 15 registros falsos (limpieza 31 jul 2026).
+    //
+    // Pero tirar el envío tampoco: un alumno real que escribe mal su nombre
+    // perdería la nota que acaba de sacar. La evaluación se guarda SIN DUEÑO,
+    // con el nombre tal cual lo escribió, y la profesora la asigna desde
+    // 📊 Resultados. Se pierde la asignación automática, nunca la nota.
     if (!alumno) {
       if (!alumnos || !alumnos.length) throw new Error("Roster vacío para " + grado);
+
+      // limit(1) y no maybeSingle: si por lo que sea hay dos sin asignar con el
+      // mismo nombre, maybeSingle lanzaría error y el cliente reintentaría sin fin
+      const { data: previas, error: hErr } = await db
+        .from("evaluaciones")
+        .select("id, score")
+        .is("alumno_id", null)
+        .eq("grado", grado)
+        .eq("sesion", sesId)
+        .eq("nombre_raw", nombre)
+        .order("score", { ascending: false })
+        .limit(1);
+      if (hErr) throw new Error("lookup evaluación sin asignar: " + hErr.message);
+      const previa = previas && previas[0];
+
+      if (!previa) {
+        const { error } = await db.from("evaluaciones").insert({
+          alumno_id:  null,
+          grado,
+          sesion:     sesId,
+          score,
+          correctas:  correctas ?? null,
+          total:      total ?? 10,
+          fecha:      fechaStr,
+          nombre_raw: nombre,
+        });
+        if (error) throw new Error("insert evaluación sin asignar: " + error.message);
+      } else if (score > previa.score) {
+        const { error } = await db.from("evaluaciones")
+          .update({ score, correctas: correctas ?? null, fecha: fechaStr })
+          .eq("id", previa.id);
+        if (error) throw new Error("update evaluación sin asignar: " + error.message);
+      }
+
+      // ok:true a propósito: el resultado YA está guardado, así que el outbox
+      // del repaso debe soltarlo. El aviso es para que el alumno avise, no para
+      // que reintente.
       return {
         statusCode: 200,
         headers: CORS,
         body: JSON.stringify({
-          ok: false,
-          rechazado: true,
-          motivo: "nombre_no_reconocido",
-          mensaje: "No encontramos «" + nombreNorm + "» en la lista de tu salón. " +
-                   "Escribe tu nombre y apellidos completos, o avísale a la profesora.",
+          ok: true,
+          sinAsignar: true,
+          mensaje: "Guardamos tu resultado, pero «" + nombreNorm + "» no figura en la lista de tu salón. " +
+                   "Avísale a la profesora para que lo ponga a tu nombre.",
         }),
       };
     }

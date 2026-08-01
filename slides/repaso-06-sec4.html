@@ -125,7 +125,7 @@ try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Conte
     sending=true;var it=b[0];
     _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
       .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
-      .then(function(d){if(d&&d.ok===false)throw 0;
+      .then(function(d){if(d&&d.rechazado){dequeue(it.p);sending=false;showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}if(d&&d.ok===false)throw 0;
         dequeue(it.p);sending=false;clearProgress();
         showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
         if(readBox().length)setTimeout(flushOutbox,500);
@@ -142,7 +142,7 @@ try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Conte
         enqueue(o.body);
         showChip('⏳ Guardando tu resultado…','#1d4ed8');
         return _f(u,o).then(function(r){
-          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
+          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){if(d&&d.rechazado){showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
           else{setTimeout(flushOutbox,1500);}
           return r;
         }).catch(function(e){setTimeout(flushOutbox,1500);throw e;});
@@ -190,6 +190,92 @@ try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Conte
       if(any&&typeof updateAnswered==='function')updateAnswered();
     }catch(e){}
   })();
+})();
+</script>
+<script>
+/* ── Candado de identidad — solo nombres de la lista del salón ───────────────
+   Hasta jul 2026 el gate aceptaba cualquier texto y submit-eval creaba un
+   alumno nuevo con él: así entraron "Shadow Haunter", "Ewen" y compañía a la
+   lista de 6.° y 3.°. Ahora el nombre tiene que reconocerse contra el roster
+   ANTES de empezar, y se guarda con la forma exacta de la lista.
+   El servidor también rechaza los desconocidos: esto es para que el alumno se
+   entere antes de rendir, no después.
+   Envuelve al startEval existente en vez de reescribirlo porque conviven tres
+   variantes del gate; este bloque va al final del body, con todo ya parseado. */
+(function(){
+  if(window.__candadoNombre) return; window.__candadoNombre = true;
+
+  var LISTA = null;   // null = todavía no cargó → no bloquear a nadie
+
+  var gk = document.getElementById('eval-grade-key');
+  var grado = gk ? gk.dataset.grade : '';
+  if(grado){
+    fetch('/.netlify/functions/get-roster?grado=' + grado)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if(d && d.alumnos && d.alumnos.length) LISTA = d.alumnos.map(function(a){ return a.nombre; }); })
+      .catch(function(){});
+  }
+
+  function norm(s){
+    return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+      .replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+  }
+  function partes(s){
+    return norm(s).split(' ').filter(function(w){ return w.length > 2; });
+  }
+
+  /** Nombre canónico de la lista · false si no está · null si no hay lista. */
+  function buscar(nombre){
+    if(!LISTA || !LISTA.length) return null;
+    var n = norm(nombre);
+    for(var i=0;i<LISTA.length;i++) if(norm(LISTA[i]) === n) return LISTA[i];
+    var p = partes(nombre);
+    if(p.length < 2) return false;                 // un solo nombre no alcanza
+    var cand = LISTA.filter(function(oficial){
+      var op = partes(oficial);
+      for(var i=0;i<p.length;i++) if(op.indexOf(p[i]) < 0) return false;
+      return true;
+    });
+    return cand.length === 1 ? cand[0] : false;    // ambiguo → que escriba completo
+  }
+
+  function quitarAviso(){
+    var b = document.getElementById('gate-aviso');
+    if(b && b.parentNode) b.parentNode.removeChild(b);
+  }
+  function aviso(nombre){
+    var inp = document.getElementById('gate-nombre');
+    if(inp){ inp.classList.add('err'); }
+    quitarAviso();
+    var b = document.createElement('div');
+    b.id = 'gate-aviso';
+    /* opaco y con color propio: las guías conviven en tema claro (papel) y
+       oscuro (índigo), y un fondo translúcido se volvía ilegible en uno de los dos */
+    b.style.cssText = 'margin-top:14px;padding:14px 16px;border-radius:14px;text-align:left;' +
+      'background:#fee2e2;border:2px solid #dc2626;color:#7f1d1d;' +
+      'font-size:14.5px;line-height:1.55;font-weight:500';
+    b.innerHTML = 'No encontramos <b>' + (nombre||'') + '</b> en la lista de tu salón.<br>' +
+      'Escribe tu <b>nombre y apellidos completos</b>, tal como figuran en la lista. ' +
+      'Si recién te matriculaste, avísale a la profesora para que te agregue.';
+    var host = (inp && inp.parentNode) || document.getElementById('eval-gate-wrap') || document.body;
+    host.appendChild(b);
+    if(inp) inp.focus();
+  }
+
+  var original = window.startEval;
+  if(typeof original !== 'function') return;
+  window.startEval = function(){
+    var inp = document.getElementById('gate-nombre');
+    var escrito = (inp ? inp.value : '').trim();
+    if(escrito){
+      var oficial = buscar(escrito);
+      if(oficial === false){ aviso(escrito); return; }
+      if(oficial && inp) inp.value = oficial;       // se guarda como está en la lista
+    }
+    quitarAviso();
+    if(inp) inp.classList.remove('err');
+    return original.apply(this, arguments);
+  };
 })();
 </script>
 </body></html>

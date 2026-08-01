@@ -63,37 +63,40 @@ exports.handler = async (event) => {
     const db = supabase();
 
     // ── 1. Buscar alumno existente (fuzzy sobre lista pequeña del grado) ──────
-    const { data: alumnos } = await db
+    // ⚠️ El error de esta consulta NO se puede ignorar: si falla la red o la
+    //    RLS, `alumnos` viene vacío, nadie calza y rechazaríamos a un alumno
+    //    real. Con throw → 500 → la red de seguridad del cliente reintenta.
+    const { data: alumnos, error: rosterErr } = await db
       .from("alumnos")
       .select("id, nombre")
       .eq("grado", grado);
+    if (rosterErr) throw new Error("leer roster: " + rosterErr.message);
 
     const normBuscado = normalize(nombreNorm);
     // findBestPerson: exacto > subset > ancla — NUNCA "primer match gana"
-    let alumno = findBestPerson(normBuscado, alumnos, a => a.nombre);
+    const alumno = findBestPerson(normBuscado, alumnos, a => a.nombre);
 
-    // ── 2. Crear alumno si no existe ──────────────────────────────────────────
+    // ── 2. Sin coincidencia: NO se crea un alumno nuevo ───────────────────────
+    // Antes sí se creaba, y por ahí entraron "Shadow Haunter", "Ewen", "Roman
+    // Riquelme" y otros 15 registros que no eran alumnos (limpieza 31 jul 2026).
+    // El roster lo maneja la profesora desde 👥 Alumnos; aquí solo se reconoce
+    // a quien ya está en la lista de su salón.
+    // Responde 200 con rechazado:true — un 4xx haría que el outbox del repaso
+    // reintente cada 8 s para siempre, y el alumno vería "Guardando…" sin fin.
     if (!alumno) {
-      const { data: nuevo, error } = await db
-        .from("alumnos")
-        .insert({ nombre: nombreNorm, grado })
-        .select("id, nombre")
-        .single();
-
-      if (error) {
-        // Podría ser conflicto de unicidad (race condition) — refetch con fuzzy,
-        // NO con ilike exacto (acentos/typos harían fallar el recheck)
-        const { data: refetch } = await db
-          .from("alumnos")
-          .select("id, nombre")
-          .eq("grado", grado);
-        alumno = findBestPerson(normBuscado, refetch, a => a.nombre);
-      } else {
-        alumno = nuevo;
-      }
+      if (!alumnos || !alumnos.length) throw new Error("Roster vacío para " + grado);
+      return {
+        statusCode: 200,
+        headers: CORS,
+        body: JSON.stringify({
+          ok: false,
+          rechazado: true,
+          motivo: "nombre_no_reconocido",
+          mensaje: "No encontramos «" + nombreNorm + "» en la lista de tu salón. " +
+                   "Escribe tu nombre y apellidos completos, o avísale a la profesora.",
+        }),
+      };
     }
-
-    if (!alumno) throw new Error("No se pudo crear o encontrar el alumno");
 
     // ── 3. Upsert evaluación (conservar el score más alto) ────────────────────
     // maybeSingle: 0 filas → null sin error; error real (red/RLS) → throw

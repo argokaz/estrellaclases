@@ -456,7 +456,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #15803d;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#15803d;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-prim6-13';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'prim6',session:'13'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-prim6-13';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'prim6',session:'13'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=18;let cur=0;
 const dots=document.getElementById('dots');
@@ -592,67 +592,91 @@ let lastBonusId=null;
 })();
 </script>
 <script>
-/* ═══ Piezas interactivas S13 — ruleta y verdadero/falso ═══
+/* ═══ Piezas interactivas — ruleta y verdadero/falso ═══
    Solo tocan el interior de su propia diapositiva: ni goTo, ni el poll de
-   sync, ni la celebración. Se pueden quitar sin romper nada más. */
+   sync, ni la celebración.
+   La ruleta gira de dos formas: tocándola en el proyector, o desde el control
+   remoto de la profesora (notas → sync → este deck llama a girarHacia). */
 (function(){
-  /* Lista de respaldo: si el proyector se queda sin internet, la ruleta
-     igual funciona con el salón completo. */
-  var RESPALDO=['Aldahir Antonio Huerta Quispe','Bastian Adriano Aliaga Llamccaya','Camila Crousillat Raffo','Darenka Alessia Rios Palomino','Evhan Sthefano Lopez Ortiz','Gianluca Frank Paulino Inga','Ian Sebastian Imer Chavez Rojas','Joaquin Leonardo Arquiñego Arango','Liam Aaron Reyes Carranza','Liam Valentino Ramos Santos','Luana Gabriela Ramos Ore','Mateo Valentino Cordova Calle','Matias Jesus Carbonell Pacheco','Samira Ayelen Calle Sierra','Taiz Alejandra Spigno Basurto','Vasco Mateo Muñoz Acevedo','Wollff Alejandro Concha Quiroz'];
+  var GRADO='prim6';
+  var RESPALDO=["Aldahir Antonio Huerta Quispe","Bastian Adriano Aliaga Llamccaya","Camila Crousillat Raffo","Darenka Alessia Rios Palomino","Evhan Sthefano Lopez Ortiz","Gianluca Frank Paulino Inga","Ian Sebastian Imer Chavez Rojas","Joaquin Leonardo Arquiñego Arango","Liam Aaron Reyes Carranza","Liam Valentino Ramos Santos","Luana Gabriela Ramos Ore","Mateo Valentino Cordova Calle","Matias Jesus Carbonell Pacheco","Samira Ayelen Calle Sierra","Taiz Alejandra Spigno Basurto","Vasco Mateo Muñoz Acevedo","Wollff Alejandro Concha Quiroz"];
   var nombres=RESPALDO.slice();
 
   /* Etiqueta corta para que quepa en el sector; si dos comparten el primer
-     nombre (hay dos Liam), se agrega el segundo. */
+     nombre, se agrega el segundo. */
   function corto(n,todos){
     var p=n.split(/\s+/);
     var repes=todos.filter(function(o){return o.split(/\s+/)[0]===p[0];}).length;
     return repes>1&&p[1]?p[0]+' '+p[1]:p[0];
   }
+  function norm(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
 
-  var COLORES=['#dceeb1','#ffffff'];
+  var COLORES=['var(--pas)','#ffffff'];
   function pintar(svg){
     var n=nombres.length,a=360/n,r=140,cx=150,cy=150,out='';
+    var fs=n>22?9:(n>16?11:13);
     for(var i=0;i<n;i++){
       var a1=(i*a-90)*Math.PI/180,a2=((i+1)*a-90)*Math.PI/180;
       var x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
       out+='<path class="ruleta-sec" fill="'+COLORES[i%2]+'" d="M'+cx+','+cy+' L'+x1.toFixed(1)+','+y1.toFixed(1)+' A'+r+','+r+' 0 0 1 '+x2.toFixed(1)+','+y2.toFixed(1)+' Z"/>';
       var am=i*a+a/2-90;
-      out+='<text class="ruleta-txt" x="'+(cx+95)+'" y="'+(cy+3)+'" font-size="11" text-anchor="middle"'
+      out+='<text class="ruleta-txt" x="'+(cx+95)+'" y="'+(cy+3)+'" font-size="'+fs+'" text-anchor="middle"'
         +' transform="rotate('+am.toFixed(2)+' '+cx+' '+cy+')">'+corto(nombres[i],nombres)+'</text>';
     }
     out+='<circle class="ruleta-centro" cx="'+cx+'" cy="'+cy+'" r="26"/><text x="'+cx+'" y="'+(cy+7)+'" font-size="20" text-anchor="middle">🎡</text>';
     svg.innerHTML=out;
   }
-  function pintarTodas(){document.querySelectorAll('.ruleta').forEach(pintar);}
+  function pintarTodas(){[].forEach.call(document.querySelectorAll('.ruleta'),pintar);}
   pintarTodas();
 
   /* El roster manda: si la profesora agrega o quita a alguien, la ruleta se
      entera sola. Si falla la red, se queda con la lista de respaldo. */
-  fetch('/.netlify/functions/get-roster?grado=prim6')
+  fetch('/.netlify/functions/get-roster?grado='+GRADO)
     .then(function(r){return r.ok?r.json():null;})
     .then(function(d){
       if(!d||!d.alumnos||!d.alumnos.length)return;
       var vivos=d.alumnos.map(function(a){return a.nombre;})
-        .filter(function(n){return n.toLowerCase()!=='estrella vizcarra';});
+        .filter(function(n){return norm(n)!=='estrella vizcarra';});
       if(vivos.length){nombres=vivos;pintarTodas();}
     }).catch(function(){});
 
   var vueltas=0;
-  window.girarRuleta=function(btn){
-    var zona=btn.closest('[data-ruleta]');
-    var svg=zona.querySelector('.ruleta'),out=zona.querySelector('.ruleta-out');
-    btn.disabled=true;out.textContent='…';
-    var i=Math.floor(Math.random()*nombres.length);
+  /* Se elige primero al ganador y DESPUÉS el ángulo que lo deja bajo la aguja:
+     así lo que se anuncia es siempre lo que muestra la rueda. */
+  function girar(zona,i){
+    if(!zona)return;
+    var svg=zona.querySelector('.ruleta'),out=zona.querySelector('.ruleta-out'),btn=zona.querySelector('.ruleta-btn');
+    if(!svg)return;
+    if(btn){btn.disabled=true;}
+    out.textContent='…';
     var a=360/nombres.length;
-    /* Se elige primero al ganador y DESPUÉS el ángulo que lo deja bajo la
-       aguja: así lo que se anuncia es siempre lo que muestra la rueda. */
     vueltas+=5;
-    var giro=vueltas*360-(i*a+a/2);
-    svg.style.transform='rotate('+giro+'deg)';
+    svg.style.transform='rotate('+(vueltas*360-(i*a+a/2))+'deg)';
     setTimeout(function(){
       out.textContent='🎉 '+nombres[i];
-      btn.disabled=false;btn.textContent='🎡 Otra vez';
+      if(btn){btn.disabled=false;btn.textContent='🎡 Otra vez';}
     },4300);
+  }
+
+  window.girarRuleta=function(btn){
+    girar(btn.closest('[data-ruleta]'),Math.floor(Math.random()*nombres.length));
+  };
+
+  /* La llama el poll cuando la profesora gira desde sus notas. */
+  window.girarHacia=function(nombre){
+    var zonas=[].slice.call(document.querySelectorAll('[data-ruleta]'));
+    if(!zonas.length)return;
+    var activa=zonas.filter(function(z){return z.closest('.slide').classList.contains('active');})[0]||zonas[0];
+    var i=-1;
+    for(var k=0;k<nombres.length;k++){if(norm(nombres[k])===norm(nombre)){i=k;break;}}
+    if(i<0){
+      /* Nombre que este deck no tiene en su lista (roster recién cambiado):
+         se anuncia igual, sin inventar un sector que no le corresponde. */
+      var out=activa.querySelector('.ruleta-out');
+      if(out)out.textContent='🎉 '+nombre;
+      return;
+    }
+    girar(activa,i);
   };
 
   window.vfPick=function(el){

@@ -34,6 +34,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .bw-inp::placeholder{color:var(--muted);}
 .bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+.rw-btn{background:#f59e0b!important;color:#241500!important}
 </style></head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 13 · 6.° Primaria</div><div class="top-bar-meta">Slides: una idea por diapositiva · Viernes 21 de agosto 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
@@ -49,13 +50,15 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 Respuestas que buscas: "tenía mucha letra", "no se veía", "hablaba mucho". Ahí ya tienes el tema de la clase dicho por ellos.
 
 ⭐ Bonus: +1 a quien dé una razón clara, no solo "era fea".</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Gira 2 o 3 veces si el ambiente está frío. El botón dice "Otra vez" después del primer giro. Si un alumno no quiere hablar, gira de nuevo sin insistir.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
   <div class="bw-row">
+    <button onclick="girarRemota('c3')" class="bw-btn rw-btn">🎡 Girar</button>
     <select id="bw-nombre-c3" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c3','bw-msg-c3')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c3" class="bw-msg"> </p>
+</div>  <p id="bw-msg-c3" class="bw-msg"> </p>
 </div>
 </div>
 </div>
@@ -95,13 +98,15 @@ Por qué las otras están mal: A junta todo y nadie lo lee; C no es presentació
 La idea que se queda: qué es un volcán (o de qué sale la lava). Lo importante es que justifiquen.
 
 ⭐ Bonus: +1 a quien diga qué sobra Y por qué.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Gira la ruleta para elegir. Si el alumno se traba, pídele solo UNA cosa que quitaría; con eso ya basta para el punto.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
   <div class="bw-row">
+    <button onclick="girarRemota('c8')" class="bw-btn rw-btn">🎡 Girar</button>
     <select id="bw-nombre-c8" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c8','bw-msg-c8')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c8" class="bw-msg"> </p>
+</div>  <p id="bw-msg-c8" class="bw-msg"> </p>
 </div>
 </div>
 </div>
@@ -173,13 +178,15 @@ A (achicar la letra) es justo el error que cometen siempre.
 Ejemplos que funcionan: "El recreo es para jugar", "Mi recreo favorito".
 
 ⭐ Bonus: +1 a cada título de 5 palabras o menos que se entienda.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Cuenten las palabras EN VOZ ALTA con toda la clase, con los dedos. Gira 3 o 4 veces: es rápido y participan varios.</p>
-<div class="bw">
-  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent,#22c55e);margin-bottom:.3em">⭐ Participación en clase</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
   <div class="bw-row">
+    <button onclick="girarRemota('c15')" class="bw-btn rw-btn">🎡 Girar</button>
     <select id="bw-nombre-c15" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c15','bw-msg-c15')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c15" class="bw-msg"> </p>
+</div>  <p id="bw-msg-c15" class="bw-msg"> </p>
 </div>
 </div>
 </div>
@@ -350,5 +357,30 @@ async function darBonus(selId,msgId){
   document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
   window.addEventListener('pagehide',beaconAll);
 })();
+</script>
+<script>
+/* ═══ Ruleta desde el control remoto ═══
+   La profesora gira desde el teléfono y la rueda del proyector obedece: se
+   elige aquí al alumno, se manda por sync y el deck lo hace girar hasta él.
+   El elegido queda puesto en el selector, así darle el punto es un toque más
+   (y ese +1 usa el mismo camino de siempre, con su celebración en pantalla). */
+function girarRemota(id){
+  var sel=document.getElementById('bw-nombre-'+id);
+  var msg=document.getElementById('bw-msg-'+id);
+  if(!sel||!msg)return;
+  var nombres=[].slice.call(sel.options).map(function(o){return o.value;}).filter(Boolean);
+  if(!nombres.length){msg.textContent='⏳ La lista de alumnos aún no carga';return;}
+  var nombre=nombres[Math.floor(Math.random()*nombres.length)];
+  sel.value=nombre;
+  if(syncActive&&syncRoom){
+    msg.textContent='🎡 Girando… '+nombre;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({room:syncRoom,ruleta:{nombre:nombre,ts:Date.now()}})})
+      .then(function(){msg.textContent='🎉 '+nombre+' — dale +1 si participa';})
+      .catch(function(){msg.textContent='🎉 '+nombre+' (no llegó a la pantalla)';});
+  }else{
+    msg.textContent='🎉 '+nombre+' · conecta 📡 Sync para verla girar en la pantalla';
+  }
+}
 </script>
 </body></html>

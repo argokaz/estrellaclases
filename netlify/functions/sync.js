@@ -51,9 +51,9 @@ exports.handler = async (event) => {
     let body;
     try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
 
-    const { room, slide, bonus, grade, session } = body;
+    const { room, slide, bonus, grade, session, ruleta } = body;
     if (!room || room.length > 8) return res(400, { error: "bad params" });
-    if (typeof slide !== "number" && !bonus && !grade) return res(400, { error: "bad params" });
+    if (typeof slide !== "number" && !bonus && !grade && !ruleta) return res(400, { error: "bad params" });
 
     // Leer estado actual y mergear — todos los campos son independientes
     let current = { slide: -1 };
@@ -64,6 +64,9 @@ exports.handler = async (event) => {
 
     if (typeof slide === "number") current.slide = slide;
     if (bonus && bonus.nombre) current.bonus = { nombre: bonus.nombre, ts: bonus.ts || Date.now() };
+    // La profesora gira la ruleta desde sus notas; el proyector la ve girar en
+    // el siguiente poll. El ts hace que cada giro dispare una sola vez.
+    if (ruleta && ruleta.nombre) current.ruleta = { nombre: ruleta.nombre, ts: ruleta.ts || Date.now() };
     if (grade)   current.grade   = grade;
     if (session) current.session = session;
     current.ts = Date.now();

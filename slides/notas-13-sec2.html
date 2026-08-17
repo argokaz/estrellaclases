@@ -39,6 +39,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .vw-row label{flex:1;display:flex;align-items:center;gap:.3em;font-size:.75em;font-weight:800;color:var(--muted)}
 .vw-n{width:100%;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.4em .3em;color:var(--text);font-size:.9em;text-align:center;outline:none}
 .vw-btn{width:100%;margin-top:.2em}
+.bw-res{font-size:.85em;font-weight:700;color:var(--text);margin-top:.45em;line-height:1.45}
+.bw-res:empty{display:none}
 </style></head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 13 · 2.° Secundaria</div><div class="top-bar-meta">Canva: afiche informativo · Viernes 21 de agosto 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
@@ -61,6 +63,7 @@ Lo que buscas: "tenía mucho texto", "no se entendía de lejos", "la foto era ll
     <select id="bw-nombre-c3" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c3','bw-msg-c3')" class="bw-btn">+1</button>
   </div>
+  <p id="res-c3" class="bw-res"></p>
   <p id="bw-msg-c3" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -96,6 +99,7 @@ La lista de proyectos y los organizadores son detalles; el logo del colegio nunc
     <label>D<input id="vw-d-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
   </div>
   <button onclick="mostrarVoto('c6')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-res-c6" class="bw-res"></p>
   <p id="vw-msg-c6" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -117,6 +121,7 @@ Lo que se evalúa es que justifiquen, no el orden exacto.
     <select id="bw-nombre-c8" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c8','bw-msg-c8')" class="bw-btn">+1</button>
   </div>
+  <p id="res-c8" class="bw-res"></p>
   <p id="bw-msg-c8" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -146,6 +151,7 @@ Lo que se evalúa es que justifiquen, no el orden exacto.
     <label>D<input id="vw-d-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
   </div>
   <button onclick="mostrarVoto('c10')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-res-c10" class="bw-res"></p>
   <p id="vw-msg-c10" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -197,6 +203,7 @@ Es justo el error que van a cometer en la tarea, así que insiste.
     <label>D<input id="vw-d-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
   </div>
   <button onclick="mostrarVoto('c14')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-res-c14" class="bw-res"></p>
   <p id="vw-msg-c14" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -214,6 +221,7 @@ Ejemplos que funcionan: "Recicla hoy, respira mejor mañana", "Tu botella tiene 
     <select id="bw-nombre-c15" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
     <button onclick="darBonus('bw-nombre-c15','bw-msg-c15')" class="bw-btn">+1</button>
   </div>
+  <p id="res-c15" class="bw-res"></p>
   <p id="bw-msg-c15" class="bw-msg"> </p>
 </div></div>
 </div>
@@ -399,6 +407,10 @@ function girarRemota(id){
   if(!nombres.length){msg.textContent='⏳ La lista de alumnos aún no carga';return;}
   var nombre=nombres[Math.floor(Math.random()*nombres.length)];
   sel.value=nombre;
+  /* El resultado va en su propia línea: el +1 reescribe bw-msg y lo borraba
+     a los 3,5 s, justo cuando la profesora quería recordar a quién le tocó. */
+  var res=document.getElementById('res-'+id);
+  if(res) res.textContent='🎡 Le tocó a: '+nombre;
   if(syncActive&&syncRoom){
     msg.textContent='🎡 Girando… '+nombre;
     fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
@@ -423,21 +435,20 @@ function mostrarVoto(id){
     if(!isNaN(n)&&n>=0) ops.push({t:L.toUpperCase(), n:n});
   });
   if(ops.length<2){ msg.textContent='⚠️ Escribe al menos dos conteos'; return; }
-  if(!syncActive||!syncRoom){ msg.textContent='⚠️ Conecta 📡 Sync para mostrarla en la pantalla'; return; }
+  /* El conteo se calcula y se muestra ANTES de enviar: las manos las contó
+     ella, así que el resultado es suyo aunque el sync esté caído. */
+  var total=ops.reduce(function(s,o){return s+o.n;},0);
+  var top=ops.slice().sort(function(a,b){return b.n-a.n;})[0];
+  var res=document.getElementById('vw-res-'+id);
+  if(res) res.innerHTML='📊 '+ops.map(function(o){return o.t+': <b>'+o.n+'</b>';}).join(' · ')
+    +' — mayoría <b>'+top.t+'</b> ('+top.n+' de '+total+')';
+  if(!syncActive||!syncRoom){ msg.textContent='⚠️ Conecta 📡 Sync para mostrarla también en la pantalla'; return; }
   var card=document.getElementById('vw-msg-'+id).closest('.card');
   var titulo=card?card.querySelector('.card-title').textContent.trim():'';
   msg.textContent='Enviando…';
   fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({room:syncRoom,votacion:{pregunta:'¿Qué votó la clase? · '+titulo,opciones:ops,ts:Date.now()}})})
-    .then(function(){
-      /* El resultado se queda EN LAS NOTAS: la profesora mira su teléfono, no
-         la pantalla, y necesita el conteo a la vista para conducir el debate. */
-      var total=ops.reduce(function(s,o){return s+o.n;},0);
-      var top=ops.slice().sort(function(a,b){return b.n-a.n;})[0];
-      var detalle=ops.map(function(o){return o.t+': '+o.n;}).join(' · ');
-      msg.innerHTML='📊 <b>'+detalle+'</b> — mayoría <b>'+top.t+'</b> ('+top.n+' de '+total+')'
-        +'<br>Pide que alguien de la minoría defienda su respuesta.';
-    })
+    .then(function(){msg.textContent='📺 En la pantalla — pide que alguien de la minoría defienda su respuesta';})
     .catch(function(){msg.textContent='❌ No llegó a la pantalla';});
 }
 </script>

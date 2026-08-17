@@ -1554,6 +1554,15 @@ const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
 // ── Añadir el número de sesión aquí cuando exista página de entrega de tarea ──
 const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12]);
 
+// ── Sesiones publicadas solo para algunos salones ──
+// La S13 se rehízo primero para 6.° primaria (clase mucho más interactiva). Los
+// demás salones la verán cuando se genere su material; hasta entonces sus
+// botones seguirían apuntando a archivos que no existen.
+const SOLO_AULA = { 13: new Set(['prim6']) };
+function hayMaterial(set, n, gradeId){
+  return set.has(n) || !!(SOLO_AULA[n] && SOLO_AULA[n].has(gradeId));
+}
+
 // ═══════════════════════════════════════════════════════════
 // CURRICULUM DATA  — 5 grados × 32 sesiones
 // ═══════════════════════════════════════════════════════════
@@ -2589,10 +2598,10 @@ function buildWeekHero(todayItem, lastPast, nextItem, gradeId){
   const n   = featured.sdata.n;
   const cal = calInfo(n, gradeId);
   const isToday = !!todayItem;
-  const repasoUrl = REPASO_SESSIONS.has(n) ? `slides/repaso-${pad(n)}-${gradeId}.html` : '';
-  const tareaUrl  = TASK_SESSIONS.has(n)   ? `slides/tarea-${pad(n)}-${gradeId}.html`  : '';
-  const slideUrl  = READY_SESSIONS.has(n)  ? `slides/sesion-${pad(n)}-${gradeId}.html` : '';
-  const notasUrl  = READY_SESSIONS.has(n)  ? `slides/notas-${pad(n)}-${gradeId}.html`  : '';
+  const repasoUrl = hayMaterial(REPASO_SESSIONS, n, gradeId) ? `slides/repaso-${pad(n)}-${gradeId}.html` : '';
+  const tareaUrl  = hayMaterial(TASK_SESSIONS, n, gradeId)   ? `slides/tarea-${pad(n)}-${gradeId}.html`  : '';
+  const slideUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/sesion-${pad(n)}-${gradeId}.html` : '';
+  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/notas-${pad(n)}-${gradeId}.html`  : '';
 
   let actions = '';
   if(repasoUrl) actions += `<a href="${repasoUrl}" target="_blank" class="hero-btn repaso">📝 Hacer la guía de repaso</a>`;
@@ -2650,9 +2659,9 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
   const pad = x => String(x).padStart(2,'0');
   // Una clase que todavía no toca muestra su tema, nunca su material: el alumno
   // no abre la presentación del mes que viene antes de que se dicte.
-  const slideUrl  = (materialVisible && READY_SESSIONS.has(n))  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
-  const notasUrl  = READY_SESSIONS.has(n)  ? `slides/notas-${pad(n)}-${gradeId}.html`   : '';
-  const repasoUrl = (materialVisible && REPASO_SESSIONS.has(n)) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
+  const slideUrl  = (materialVisible && hayMaterial(READY_SESSIONS, n, gradeId))  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
+  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/notas-${pad(n)}-${gradeId}.html`   : '';
+  const repasoUrl = (materialVisible && hayMaterial(REPASO_SESSIONS, n, gradeId)) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
   const slideBtn  = slideUrl
     ? `<a href="${slideUrl}"  target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
   const notasBtn  = (notasUrl && unlocked)
@@ -2661,7 +2670,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
     ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
   const resultsBtn = (repasoUrl && unlocked)
     ? `<button class="results-card-btn" onclick="openResults(${n}, '${gradeId}')">📊 Resultados</button>` : '';
-  const tareaUrl     = (materialVisible && TASK_SESSIONS.has(n)) ? `slides/tarea-${pad(n)}-${gradeId}.html` : '';
+  const tareaUrl     = (materialVisible && hayMaterial(TASK_SESSIONS, n, gradeId)) ? `slides/tarea-${pad(n)}-${gradeId}.html` : '';
   const tareaBtn     = tareaUrl
     ? `<a href="${tareaUrl}" target="_blank" class="tarea-btn">📎 Entregar tarea</a>` : '';
   const tasksViewBtn = (tareaUrl && unlocked)
@@ -4260,7 +4269,7 @@ function verSesion(n){
 
 function panelAntes(it, gradeId){
   const n = String(it.sd.n).padStart(2,'0');
-  if(!READY_SESSIONS.has(it.sd.n))
+  if(!hayMaterial(READY_SESSIONS, it.sd.n, gradeId))
     return `<div class="cns-h"><h2>Esta sesión todavía no tiene material</h2></div>
       <p class="cns-vacio">Cuando se genere, aquí aparecerán las notas, la presentación, el repaso y la tarea.</p>`;
   return `<div class="cns-h">
@@ -4281,7 +4290,7 @@ function panelAntes(it, gradeId){
 
 function panelDurante(it, gradeId){
   const n = String(it.sd.n).padStart(2,'0');
-  if(!READY_SESSIONS.has(it.sd.n))
+  if(!hayMaterial(READY_SESSIONS, it.sd.n, gradeId))
     return `<div class="cns-h"><h2>Esta sesión todavía no tiene presentación</h2></div>`;
   return `<div class="cns-h">
       <h2>Dictar la sesión ${it.sd.n}</h2>
@@ -4553,6 +4562,7 @@ function entrarConsola(){
       <button class="results-session-tab" data-session="10" onclick="loadResults('10')">Sesión 10 — 17 julio</button>
       <button class="results-session-tab" data-session="11" onclick="loadResults('11')">Sesión 11 — 7 agosto</button>
       <button class="results-session-tab" data-session="12" onclick="loadResults('12')">Sesión 12 — 14 agosto</button>
+      <button class="results-session-tab" data-session="13" onclick="loadResults('13')">Sesión 13 — 21 agosto</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

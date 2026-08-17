@@ -1473,7 +1473,7 @@ const CALENDAR = [
   {date:'2027-01-01', session:32, note:'⚠️ Cae en Año Nuevo — pendiente de reubicar'},
 ];
 
-const TOTAL = 32;
+const TOTAL = 30;
 
 function blockFor(dateStr){
   if(dateStr <= '2026-07-17') return 'II';
@@ -1573,13 +1573,13 @@ const AI_SESSIONS  = new Set([7,8,25]);
 const SEC_SESSIONS = new Set([15,16]);
 
 // ── Añadir el número de sesión aquí cada vez que se publiquen nuevas diapositivas ──
-const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
+const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // ── Añadir el número de sesión aquí cuando exista guía de repaso ──
-const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
+const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // ── Añadir el número de sesión aquí cuando exista página de entrega de tarea ──
-const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]);
+const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]);
 
 // ── Sesiones publicadas solo para algunos salones ──
 // Sirve cuando una sesión se publica primero para un salón: sin esto, los otros
@@ -1714,23 +1714,15 @@ const GRADES = {
     cover:'Portada, índice, páginas internas, consistencia visual y lectura en pantalla.',
     act:'Maquetar 3–4 páginas', evidence:'Revista en borrador',
     tools:'Canva / Slides', mat:'M28', ai:''},
-   {n:29, title:'Revisión con IA y pares',
-    cover:'Revisar ortografía, claridad, fuentes, imágenes y permisos.',
-    act:'Checklist de revisión cruzada', evidence:'Revista corregida',
-    tools:'Docs / Canva / IA', mat:'M29',
+   {n:29, title:'Revisión final y exposición breve',
+    cover:'Revisar con IA y con un compañero, y exponer 1 minuto al salón. (Fusión de las sesiones 29 y 30 del plan original.)',
+    act:'Revisión cruzada + exposición de 1 minuto', evidence:'Revista corregida y exposición practicada',
+    tools:'Docs / Canva / IA · aula', mat:'M29',
     ai:'Usar IA para revisar ortografía y claridad. Comparar sugerencias de IA con las de un compañero. ¿Coinciden?'},
-   {n:30, title:'Exposición breve del producto',
-    cover:'Preparar explicación: qué hice, qué aprendí, qué problema resolví.',
-    act:'Ensayo de exposición de 2 minutos', evidence:'Guion de exposición',
-    tools:'Slides / aula', mat:'M30', ai:''},
-   {n:31, title:'Portafolio final',
-    cover:'Seleccionar mejores evidencias y escribir reflexión sobre aprendizaje digital.',
-    act:'Armar portafolio individual', evidence:'Portafolio digital',
-    tools:'Drive / Sites opcional', mat:'M31', ai:''},
-   {n:32, title:'Muestra final y compromiso digital',
-    cover:'Presentar trabajos destacados, autoevaluarse y fijar reglas personales para las vacaciones.',
-    act:'Galería de proyectos del aula', evidence:'Revista / portafolio final',
-    tools:'Aula / Drive', mat:'M32', ai:''},
+   {n:30, title:'Portafolio final y muestra con compromiso digital 🎓',
+    cover:'Reunir el año en un portafolio, mostrar lo mejor en 1 minuto y decir un compromiso digital. Última clase del año. (Fusión de las sesiones 31 y 32 del plan original.)',
+    act:'Portafolio + muestra final con compromiso', evidence:'Portafolio digital y compromiso dicho en voz alta',
+    tools:'Drive / Sites · Aula', mat:'M30', ai:''},
   ]
  },
  sec2:{
@@ -1853,22 +1845,14 @@ const GRADES = {
     cover:'Problema, proceso, solución, aprendizaje y límites.',
     act:'Ensayo de pitch de 3 minutos', evidence:'Guion de exposición',
     tools:'Slides', mat:'M28', ai:''},
-   {n:29, title:'Sustentación final',
-    cover:'Presentar producto y responder preguntas.',
-    act:'Exposición grupal ante el aula', evidence:'Producto final',
-    tools:'Aula / proyector', mat:'M29', ai:''},
-   {n:30, title:'Autoevaluación digital',
-    cover:'Qué aprendí, qué me costó, cómo usé IA y qué haría distinto.',
-    act:'Ficha de reflexión', evidence:'Autoevaluación',
-    tools:'Forms / Docs', mat:'M30', ai:''},
-   {n:31, title:'Portafolio de evidencias',
-    cover:'Organizar mejores trabajos, enlaces, capturas y breve explicación.',
-    act:'Armar carpeta/portafolio', evidence:'Portafolio',
-    tools:'Drive / Sites', mat:'M31', ai:''},
-   {n:32, title:'Muestra final y reglas personales',
-    cover:'Compartir proyectos destacados y compromisos de uso responsable.',
-    act:'Galería digital', evidence:'Muestra final',
-    tools:'Aula / Drive', mat:'M32', ai:''},
+   {n:29, title:'Sustentación final y autoevaluación digital',
+    cover:'Sustentar el proyecto ante el aula y autoevaluarse con honestidad. (Fusión de las sesiones 29 y 30 del plan original.)',
+    act:'Sustentación individual + autoevaluación', evidence:'Producto final y autoevaluación',
+    tools:'Aula / proyector · Forms / Docs', mat:'M29', ai:''},
+   {n:30, title:'Portafolio de evidencias y muestra con reglas personales 🎓',
+    cover:'Armar el portafolio de evidencias del año, mostrar lo mejor en 1 minuto y decir reglas personales de uso. Última clase del año. (Fusión de las sesiones 31 y 32 del plan original.)',
+    act:'Portafolio + muestra final con reglas personales', evidence:'Portafolio de evidencias y reglas dichas en voz alta',
+    tools:'Drive / Sites · Aula', mat:'M30', ai:''},
   ]
  },
  sec3:{
@@ -1990,22 +1974,14 @@ const GRADES = {
     cover:'Explicar problema, solución, herramienta, datos, IA usada y aprendizaje.',
     act:'Ensayo de exposición', evidence:'Pitch',
     tools:'Slides', mat:'M28', ai:''},
-   {n:29, title:'Sustentación de proyecto',
-    cover:'Presentar producto y responder preguntas.',
-    act:'Expo final ante el aula', evidence:'Producto final',
-    tools:'Aula / proyector', mat:'M29', ai:''},
-   {n:30, title:'Bitácora de aprendizaje',
-    cover:'Registrar aprendizajes, errores, soluciones y mejoras futuras.',
-    act:'Bitácora individual', evidence:'Reflexión',
-    tools:'Docs / Forms', mat:'M30', ai:''},
-   {n:31, title:'Portafolio digital',
-    cover:'Ordenar evidencias con explicación breve de cada producto.',
-    act:'Crear portafolio', evidence:'Portafolio',
-    tools:'Drive / Sites', mat:'M31', ai:''},
-   {n:32, title:'Muestra y compromisos',
-    cover:'Galería de proyectos y reglas para usar IA el siguiente año.',
-    act:'Muestra final del aula', evidence:'Galería digital',
-    tools:'Aula / Drive', mat:'M32', ai:''},
+   {n:29, title:'Sustentación de proyecto y bitácora de aprendizaje',
+    cover:'Sustentar el video ante el aula y reconstruir el proceso del año en una bitácora reflexiva. (Fusión de las sesiones 29 y 30 del plan original.)',
+    act:'Sustentación individual + bitácora', evidence:'Producto final y bitácora de aprendizaje',
+    tools:'Aula / proyector · Docs / Forms', mat:'M29', ai:''},
+   {n:30, title:'Portafolio digital y muestra de compromisos 🎓',
+    cover:'Reunir todo el proceso de producción en un portafolio, mostrar la evolución en 1 minuto y decir un compromiso. Última clase del año. (Fusión de las sesiones 31 y 32 del plan original.)',
+    act:'Portafolio + muestra final con compromiso', evidence:'Portafolio digital y compromiso dicho en voz alta',
+    tools:'Drive / Sites · Aula', mat:'M30', ai:''},
   ]
  },
  sec4:{
@@ -2127,22 +2103,14 @@ const GRADES = {
     cover:'Presentar problema, datos, solución, límites e impacto.',
     act:'Ensayo de 4 minutos', evidence:'Pitch',
     tools:'Slides', mat:'M28', ai:''},
-   {n:29, title:'Sustentación final',
-    cover:'Exponer proyecto y defender decisiones.',
-    act:'Presentación final', evidence:'Proyecto final',
-    tools:'Aula / proyector', mat:'M29', ai:''},
-   {n:30, title:'Reflexión ética',
-    cover:'Qué aprendí sobre tecnología, IA, fuentes, sesgos y responsabilidad.',
-    act:'Ensayo corto de reflexión', evidence:'Reflexión',
-    tools:'Docs', mat:'M30', ai:''},
-   {n:31, title:'Portafolio académico',
-    cover:'Ordenar informe, sitio, piezas, datos y reflexión.',
-    act:'Publicar/organizar portafolio', evidence:'Portafolio',
-    tools:'Drive / Sites', mat:'M31', ai:''},
-   {n:32, title:'Muestra de proyectos',
-    cover:'Galería final, retroalimentación y compromisos de uso responsable.',
-    act:'Muestra del aula', evidence:'Galería',
-    tools:'Aula / Drive', mat:'M32', ai:''},
+   {n:29, title:'Sustentación final y reflexión ética',
+    cover:'Sustentar el proyecto ante el aula y reflexionar sobre a quién afecta. (Fusión de las sesiones 29 y 30 del plan original.)',
+    act:'Sustentación individual + reflexión ética', evidence:'Proyecto final y reflexión ética',
+    tools:'Aula / proyector · Docs', mat:'M29', ai:''},
+   {n:30, title:'Portafolio académico y muestra de proyectos 🎓',
+    cover:'Reunir fuentes, informe y sitio en un portafolio, mostrar una conclusión sostenida en 1 minuto y decir un compromiso académico. Última clase del año. (Fusión de las sesiones 31 y 32 del plan original.)',
+    act:'Portafolio + muestra final con compromiso', evidence:'Portafolio académico y compromiso dicho en voz alta',
+    tools:'Drive / Sites · Aula', mat:'M30', ai:''},
   ]
  },
  sec5:{
@@ -2266,22 +2234,14 @@ const GRADES = {
     cover:'Exponer producto final y defender decisiones con evidencia.',
     act:'Sustentación', evidence:'Proyecto final',
     tools:'Aula / proyector', mat:'M28', ai:''},
-   {n:29, title:'Simulación de entrevista',
-    cover:'Responder sobre habilidades, proyectos, errores, aprendizaje y metas.',
-    act:'Entrevista simulada', evidence:'Rúbrica de entrevista',
-    tools:'Aula', mat:'M29', ai:''},
-   {n:30, title:'Autoevaluación de egreso',
-    cover:'Identificar habilidades digitales logradas y plan personal de mejora.',
-    act:'Ficha de cierre', evidence:'Autoevaluación',
-    tools:'Forms / Docs', mat:'M30', ai:''},
-   {n:31, title:'Entrega de portafolio final',
-    cover:'Organizar enlaces, permisos, evidencias, CV, video y reflexión.',
-    act:'Entrega final', evidence:'Portafolio final',
-    tools:'Sites / Drive', mat:'M31', ai:''},
-   {n:32, title:'Muestra final y transición',
-    cover:'Galería de productos, recomendaciones para siguiente etapa y compromiso digital.',
-    act:'Muestra final del año', evidence:'Galería final',
-    tools:'Aula / Drive', mat:'M32', ai:''},
+   {n:29, title:'Simulación de entrevista y autoevaluación de egreso',
+    cover:'Practicar preguntas de entrevista con la estructura STAR y autoevaluar todo el año de Computación. (Fusión de las sesiones 29 y 30 del plan original.)',
+    act:'Entrevista simulada + autoevaluación de egreso', evidence:'Respuestas STAR y autoevaluación',
+    tools:'Aula · Forms / Docs', mat:'M29', ai:''},
+   {n:30, title:'Entrega de portafolio final y muestra de transición 🎓',
+    cover:'Reunir lo mejor del proyecto del curso, conectarlo con el futuro y decir un compromiso de salida. Última clase del curso. (Fusión de las sesiones 31 y 32 del plan original.)',
+    act:'Portafolio final + muestra de transición', evidence:'Portafolio de transición y compromiso dicho en voz alta',
+    tools:'Sites / Drive · Aula', mat:'M30', ai:''},
   ]
  },
 };
@@ -4642,6 +4602,8 @@ function entrarConsola(){
       <button class="results-session-tab" data-session="26" onclick="loadResults('26')">Sesión 26 — 20 noviembre</button>
       <button class="results-session-tab" data-session="27" onclick="loadResults('27')">Sesión 27 — 27 noviembre</button>
       <button class="results-session-tab" data-session="28" onclick="loadResults('28')">Sesión 28 — 4 diciembre</button>
+      <button class="results-session-tab" data-session="29" onclick="loadResults('29')">Sesión 29 — 11 diciembre</button>
+      <button class="results-session-tab" data-session="30" onclick="loadResults('30')">Sesión 30 — 18 diciembre (última)</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

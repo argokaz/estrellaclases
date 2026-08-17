@@ -1546,19 +1546,19 @@ const AI_SESSIONS  = new Set([7,8,25]);
 const SEC_SESSIONS = new Set([15,16]);
 
 // ── Añadir el número de sesión aquí cada vez que se publiquen nuevas diapositivas ──
-const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
 
 // ── Añadir el número de sesión aquí cuando exista guía de repaso ──
-const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
 
 // ── Añadir el número de sesión aquí cuando exista página de entrega de tarea ──
-const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12]);
+const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13]);
 
 // ── Sesiones publicadas solo para algunos salones ──
-// La S13 se rehízo primero para 6.° primaria (clase mucho más interactiva). Los
-// demás salones la verán cuando se genere su material; hasta entonces sus
-// botones seguirían apuntando a archivos que no existen.
-const SOLO_AULA = { 13: new Set(['prim6']) };
+// Sirve cuando una sesión se publica primero para un salón: sin esto, los otros
+// cuatro mostrarían botones que apuntan a archivos que no existen. (La S13 pasó
+// por aquí unas horas, hasta que se generó para los cinco salones.)
+const SOLO_AULA = {};
 function hayMaterial(set, n, gradeId){
   return set.has(n) || !!(SOLO_AULA[n] && SOLO_AULA[n].has(gradeId));
 }

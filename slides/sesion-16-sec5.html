@@ -269,6 +269,30 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 .vt-n{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(16px,2.2vw,38px);
   color:#141310;min-width:2.4em;text-align:left}
 .vt-pie{font-size:clamp(12px,1.5vw,24px);color:#5a5750;margin-top:3%;opacity:.75}
+
+/* ── Diapositiva final de tarea ── */
+.tarea-caja{background:#fff;border:1px solid #e2ded6;border-top:3px solid var(--acc);
+  border-radius:clamp(10px,1.3vw,20px);padding:2.4% 3.2%;max-width:84%;margin-top:2%;
+  box-shadow:0 6px 18px rgba(30,25,15,.07);text-align:left}
+.tarea-tit{font-family:'Space Grotesk',sans-serif;font-size:clamp(18px,2.6vw,44px);
+  font-weight:800;color:#0a0a0a;margin-bottom:.5em}
+.tarea-lista{margin:0;padding:0}
+.tarea-lista li{list-style:none;padding-left:1.3em;position:relative;margin:.35em 0;
+  font-size:clamp(14px,1.85vw,31px);color:#26251f;line-height:1.4}
+.tarea-lista li::before{content:'▸';position:absolute;left:0;color:var(--acc)}
+.tarea-plazo{display:flex;align-items:center;gap:.6em;background:var(--pas);
+  border:1px solid color-mix(in srgb,var(--acc) 35%,transparent);border-radius:100px;
+  padding:.5em 1.4em;margin-top:2.2%}
+.tarea-plazo-em{font-size:clamp(18px,2.4vw,38px);line-height:1}
+.tarea-plazo-tx{font-size:clamp(15px,2.1vw,35px);color:var(--pasInk);font-weight:600}
+.tarea-plazo-tx b{font-weight:800}
+.tarea-aviso{font-size:clamp(14px,1.9vw,32px);color:#0a0a0a;margin-top:2%;max-width:84%;line-height:1.45}
+.tarea-como{font-size:clamp(12px,1.55vw,26px);color:#5a5750;margin-top:1.4%}
+@media (prefers-reduced-motion: no-preference){
+  .slide.active .tarea-caja{animation:pIn .45s .12s ease both}
+  .slide.active .tarea-plazo{animation:pIn .45s .3s ease both}
+  .slide.active .tarea-aviso{animation:fUp .45s .45s ease both}
+}
 </style></head>
 <body>
 <div class="deck-wrap" id="deck"><div class="slide active">
@@ -468,17 +492,34 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-sm" style="margin-top:2.5%;opacity:.75">Tarea: sesión de estudio con IA documentada · Entrega antes del viernes 18 de septiembre</p>
 <p class="podio-tit">🏆 Los que más participaron hoy</p>
 <div class="podio-hoy"></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">16 · 19</div><h2 class="t-h1">📌 La tarea de hoy</h2><div class="line"></div>
+<div class="tarea-caja">
+  <p class="tarea-tit">🧠 Una sesión de estudio con IA, documentada</p>
+  <ul class="tarea-lista">
+    <li>Los <strong>pedidos que hiciste</strong> (de explicación o práctica, no de entrega)</li>
+    <li>Un dato que la IA te dio y <strong>cómo lo comprobaste</strong> en otra fuente</li>
+    <li>Tu <strong>explicación del tema escrita por ti</strong>, sin mirar la conversación</li>
+  </ul>
+</div>
+<div class="tarea-plazo">
+  <span class="tarea-plazo-em">🗓️</span>
+  <span class="tarea-plazo-tx">Entrega antes del <b>viernes 18 de septiembre</b></span>
+</div>
+<p class="tarea-aviso">⚠️ <b>La tarea se revisa y cuenta para tu nota.</b> La profesora ve quién entregó y quién no.</p>
+<p class="tarea-como">Se entrega desde <b>clases.estrellavizcarra.com</b> → tu salón → <b>📎 Entregar tarea</b></p>
 </div></div>
 <nav class="nav">
   <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
   <div class="dots" id="dots"></div>
-  <span id="counter">1 / 18</span>
+  <span id="counter">1 / 19</span>
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #b91c1c;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#b91c1c;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
 <script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-sec5-16';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec5',session:'16'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
-const total=18;let cur=0;
+const total=19;let cur=0;
 const dots=document.getElementById('dots');
 slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
 const allDots=[...dots.querySelectorAll('.dot')];

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sesión 15 · 6.° Primaria · 4 sep 2026</title>
+<style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--acc:#15803d;--acc2:#15803d;--accInk:#ffffff;--pas:#dceeb1;--pasInk:#22340a;--g1:#ffffff;--g2:#ffffff;--g3:#ffffff}
+body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:'Inter','Segoe UI',system-ui,sans-serif;overflow:hidden}
+.deck-wrap{position:relative;width:100vw;height:56.25vw;max-height:100vh;max-width:177.78vh;perspective:1400px}
+/* ── SLIDE BASE: gradiente vivo + grid técnico ── */
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;z-index:1;flex-direction:column;justify-content:center;align-items:center;padding:4% 6%;text-align:center;
+  background:
+    repeating-linear-gradient(90deg,rgba(0,0,0,.028) 0 1px,transparent 1px 64px),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.028) 0 1px,transparent 1px 64px),
+    #ffffff;
+}
+.slide.active{opacity:1;pointer-events:auto;z-index:2}
+/* aurora — dos orbes suaves en deriva lenta */
+.slide::before{content:'';position:absolute;width:78%;height:78%;background:radial-gradient(circle,var(--pas) 0%,transparent 66%);opacity:.75;border-radius:50%;top:-24%;right:-14%;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;width:62%;height:62%;background:radial-gradient(circle,var(--pas) 0%,transparent 70%);opacity:.5;border-radius:50%;bottom:-18%;left:-10%;pointer-events:none;z-index:0}
+.slide>*{position:relative;z-index:1}
+/* ── CHROME de slide ── */
+.brand{position:absolute;top:3%;right:3%;font-family:'Space Grotesk',sans-serif;font-size:clamp(9px,1vw,15px);font-weight:700;color:#9a958c;letter-spacing:.14em;text-transform:uppercase}
+.snum{position:absolute;top:3%;left:3%;font-family:'Space Grotesk',monospace;font-size:clamp(9px,1vw,15px);color:#a8a29a;font-weight:600;letter-spacing:.1em}
+/* ── TIPOGRAFÍA ── */
+.t-super{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6.2vw,96px);font-weight:800;line-height:1.04;letter-spacing:-.02em;color:#0a0a0a}
+.t-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,4.2vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.015em;color:#0a0a0a}
+.t-h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3vw,50px);font-weight:700;line-height:1.2;color:#0a0a0a}
+.t-body{font-size:clamp(17px,2.35vw,40px);line-height:1.5;color:#26251f}
+.t-sm{font-size:clamp(15px,1.95vw,33px);line-height:1.45;color:#4a4842}
+.accent{color:var(--acc)}
+/* línea con destello viajero */
+.line{width:46%;height:2px;background:linear-gradient(90deg,transparent,#1a1a1a 16%,#1a1a1a 84%,transparent);border-radius:2px;margin:2% auto;opacity:.28;position:relative;overflow:visible}
+.line::after{content:'';position:absolute;top:50%;left:0;width:11px;height:11px;margin-top:-5.5px;border-radius:50%;background:var(--acc);box-shadow:0 3px 10px color-mix(in srgb,var(--acc) 45%,transparent)}
+/* ── CARDS ── */
+.cards{display:flex;gap:2%;justify-content:center;align-items:stretch;width:100%;flex-wrap:wrap;margin-top:2.5%}
+.c3,.c4{background:#fff;border:1px solid #e2ded6;border-top:3px solid var(--acc);border-radius:clamp(10px,1.4vw,22px);text-align:center;box-shadow:0 6px 18px rgba(30,25,15,.07)}
+.c3{padding:2.6% 2.6%;flex:1;min-width:28%;max-width:32%;display:flex;flex-direction:column;justify-content:center}
+.c4{padding:2% 2%;flex:1;min-width:20%;max-width:26%;display:flex;flex-direction:column;justify-content:center}
+.big-em{font-size:clamp(28px,4.5vw,72px);line-height:1.2}
+.list{text-align:left;width:100%;max-width:82%}
+.list li{margin:.5em 0;list-style:none;padding-left:1.2em;position:relative;font-size:clamp(17px,2.3vw,38px);color:#26251f;line-height:1.38}
+.list li::before{content:'▸';position:absolute;left:0;color:var(--acc)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3%;width:100%;max-width:90%;text-align:left;align-items:stretch;margin-top:2.5%}
+.box{background:#fff;border:1px solid #e2ded6;border-top:3px solid var(--acc);box-shadow:0 6px 18px rgba(30,25,15,.07);border-radius:clamp(10px,1.3vw,20px);padding:3.4% 3.6%;display:flex;flex-direction:column;justify-content:center}
+.highlight{background:var(--pas);border:1px solid color-mix(in srgb,var(--acc) 30%,transparent);border-top:3px solid var(--acc);color:var(--pasInk);border-radius:clamp(10px,1.3vw,20px);padding:2.6% 3.4%;max-width:86%;margin-top:2.6%}
+/* bonus con brillo en barrido */
+.bonus-bar{background:linear-gradient(110deg,var(--pas) 30%,#fff8dc 50%,var(--pas) 70%);background-size:220% 100%;border:1px solid color-mix(in srgb,var(--acc) 35%,transparent);border-radius:clamp(8px,1.1vw,16px);padding:1.5% 3%;margin-top:2%;max-width:88%;display:flex;align-items:center;gap:1.5%}
+.bonus-icon{font-size:clamp(18px,2.8vw,46px)}
+.bonus-text{font-size:clamp(12px,1.6vw,26px);line-height:1.5;text-align:left;color:var(--pasInk)}
+/* ── QUIZ ── */
+.quiz-opts{display:flex;flex-direction:column;gap:.55em;width:100%;max-width:82%;margin-top:1.5%}
+.qopt{background:#fff;border:1px solid #e2ded6;box-shadow:0 4px 12px rgba(30,25,15,.06);border-radius:clamp(10px,1.2vw,18px);padding:.72em 1.3em;font-size:clamp(16px,2.15vw,36px);color:#141310;cursor:pointer;transition:transform .16s,background .16s,border-color .16s;text-align:left;display:flex;align-items:center;gap:.7em}
+.qopt:hover{background:#fbfaf7;border-color:var(--acc);transform:translateX(.35em)}
+.qopt.correct{background:var(--pas);border-color:var(--acc);border-width:2px}
+.qopt.wrong{background:#fbe9e9;border-color:#c94141}
+.qletter{font-family:'Space Grotesk',sans-serif;font-weight:800;color:var(--acc);min-width:1.6em}
+.qopt.wrong .qletter{color:#a32020}
+/* ── FOCO: una sola idea, a la escala que merece ── */
+.foco{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,5vw,84px);font-weight:800;
+  line-height:1.08;letter-spacing:-.02em;color:#0a0a0a;max-width:16ch;margin:0 auto}
+.foco .accent{display:inline}
+.foco-pie{font-size:clamp(14px,1.8vw,30px);color:#5a5750;margin-top:3%}
+/* ── NAV ── */
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;gap:1rem;padding:.5rem 1rem;z-index:99;backdrop-filter:blur(10px);border-top:1px solid #e2ded6}
+.nav button{background:#141310;color:#fff;border:none;border-radius:100px;padding:.42rem 1.2rem;font-size:clamp(12px,1.4vw,20px);font-weight:800;cursor:pointer;transition:opacity .15s,transform .15s;font-family:'Space Grotesk',sans-serif}
+.nav button:hover:not(:disabled){transform:translateY(-1px)}
+.nav button:disabled{opacity:.22;cursor:default}
+.nav #counter{color:#4a4842;font-family:'Space Grotesk',monospace;font-size:clamp(12px,1.3vw,18px);font-weight:600;min-width:4em;text-align:center;letter-spacing:.08em}
+.dots{display:flex;gap:.35rem;flex-wrap:wrap;justify-content:center;max-width:40%}
+.dot{width:clamp(14px,1.6vw,24px);height:clamp(4px,.5vw,7px);border-radius:100px;background:#cfcabf;cursor:pointer;transition:background .2s,width .2s}
+.dot.active{background:var(--acc);width:clamp(22px,2.6vw,38px)}
+/* ── RAIL DE PROGRESO ── */
+#rail{position:fixed;top:0;left:0;right:0;height:3px;z-index:100;background:#e2ded6}
+#rail i{display:block;height:100%;width:0;background:var(--acc);transition:width .45s cubic-bezier(.22,1,.36,1)}
+/* ── SVG decorativo de esquinas ── */
+.deco{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.dp{fill:none;stroke:var(--acc);stroke-width:1.6;vector-effect:non-scaling-stroke;opacity:.28;stroke-dasharray:1;stroke-dashoffset:1;stroke-linecap:round}
+.dcirc{fill:var(--acc);opacity:0}
+/* ── Polvo estelar de fondo (capa por slide, detrás del contenido) ── */
+.stars{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.star{position:absolute;top:0;border-radius:50%;background:var(--acc);
+  opacity:calc(var(--o) * .28);transform:translateY(var(--rest,40vh))}
+/* ═══ MOVIMIENTO (todo tras prefers-reduced-motion) ═══ */
+@media (prefers-reduced-motion: no-preference){
+  .slide::before{animation:orbA 14s ease-in-out infinite}
+  .slide::after{animation:orbA 18s ease-in-out infinite reverse}
+  @keyframes orbA{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-2%,3%,0) scale(1.12)}}
+  /* la línea hace UN barrido al entrar y se detiene (sin ida-y-vuelta perpetua) */
+  .slide.active .line::after{animation:lineSweep 1.5s cubic-bezier(.22,1,.36,1) .2s both}
+  @keyframes lineSweep{0%{left:2%;opacity:0}18%{opacity:1}82%{opacity:1}100%{left:96%;opacity:0}}
+  /* polvo estelar: cae muy lento con titileo tenue; solo anima en la slide activa */
+  .slide.active .star{animation:fall linear infinite}
+  .slide:not(.active) .star{animation:none}
+  @keyframes fall{0%{transform:translateY(-10vh) translateX(0);opacity:0}10%{opacity:var(--o)}50%{opacity:calc(var(--o) * .45)}90%{opacity:var(--o)}100%{transform:translateY(112vh) translateX(var(--dx));opacity:0}}
+  .bonus-bar{animation:shimmer 3.6s linear infinite}
+  @keyframes shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+  /* transiciones por tipo de slide */
+  .slide.enter-fwd{animation:eFwd .55s cubic-bezier(.22,1,.36,1) both}
+  .slide.enter-back{animation:eBack .55s cubic-bezier(.22,1,.36,1) both}
+  .slide.s-cards.enter-fwd{animation:eRise .6s cubic-bezier(.22,1,.36,1) both}
+  .slide.s-split.enter-fwd{animation:eWide .55s cubic-bezier(.22,1,.36,1) both}
+  .slide.s-quiz.enter-fwd{animation:eSpring .6s cubic-bezier(.34,1.56,.64,1) both}
+  .slide.s-close.enter-fwd{animation:eSoft .8s ease both}
+  .slide.s-title.enter-back{animation:eSoft .6s ease both}
+  @keyframes eFwd{from{opacity:0;transform:translateX(4%) scale(.975)}to{opacity:1;transform:none}}
+  @keyframes eBack{from{opacity:0;transform:translateX(-4%) scale(.975)}to{opacity:1;transform:none}}
+  @keyframes eRise{from{opacity:0;transform:translateY(4.5%) rotateX(7deg) scale(.985)}to{opacity:1;transform:none}}
+  @keyframes eWide{from{opacity:0;transform:scaleX(.94)}to{opacity:1;transform:none}}
+  @keyframes eSpring{from{opacity:0;transform:scale(.9) rotate(-.6deg)}to{opacity:1;transform:none}}
+  @keyframes eSoft{from{opacity:0;transform:scale(1.035)}to{opacity:1;transform:none}}
+  /* coreografía interna */
+  .slide.active .t-h1{animation:fUpBig .5s .07s ease both}
+  .slide.active .t-h2{animation:fUp .45s .1s ease both}
+  .slide.active .t-body{animation:fUp .45s .2s ease both}
+  .slide.active .t-sm{animation:fUp .4s .24s ease both}
+  .slide.active .line{animation:lGrow .45s .1s ease both}
+  .slide.active .c3:nth-child(1),.slide.active .c4:nth-child(1){animation:cardIn .5s .16s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .c3:nth-child(2),.slide.active .c4:nth-child(2){animation:cardIn .5s .27s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .c3:nth-child(3),.slide.active .c4:nth-child(3){animation:cardIn .5s .38s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .c3:nth-child(4),.slide.active .c4:nth-child(4){animation:cardIn .5s .49s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .list li:nth-child(1){animation:fUp .38s .18s ease both}
+  .slide.active .list li:nth-child(2){animation:fUp .38s .28s ease both}
+  .slide.active .list li:nth-child(3){animation:fUp .38s .38s ease both}
+  .slide.active .list li:nth-child(4){animation:fUp .38s .48s ease both}
+  .slide.active .list li:nth-child(5){animation:fUp .38s .58s ease both}
+  .slide.active .highlight{animation:pIn .45s .28s ease both}
+  .slide.active .two>.box:nth-child(1){animation:boxL .5s .14s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .two>.box:nth-child(2){animation:boxR .5s .26s cubic-bezier(.22,1,.36,1) both}
+  .slide.active .big-em{animation:pIn .5s .04s ease both}
+  .slide.active .quiz-opts .qopt:nth-child(1){animation:optIn .4s .18s ease both}
+  .slide.active .quiz-opts .qopt:nth-child(2){animation:optIn .4s .3s ease both}
+  .slide.active .quiz-opts .qopt:nth-child(3){animation:optIn .4s .42s ease both}
+  .slide.active .quiz-opts .qopt:nth-child(4){animation:optIn .4s .54s ease both}
+  .slide.active .bonus-bar{animation:pIn .45s .55s ease both}
+  /* título cinético palabra a palabra */
+  .slide.active .t-super .kw{display:inline-block;animation:kwIn .55s cubic-bezier(.22,1,.36,1) both;animation-delay:calc(.06s + var(--i)*.085s)}
+  @keyframes kwIn{from{opacity:0;transform:translateY(.55em) rotate(1.5deg)}to{opacity:1;transform:none}}
+  /* SVG que se dibuja al activar */
+  .slide.active .dp{animation:draw 1s cubic-bezier(.4,0,.2,1) both}
+  .slide.active .dp2{animation-delay:.22s}
+  .slide.active .dcirc{animation:dotPop .4s 1s ease both}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes dotPop{from{opacity:0;transform:scale(0)}to{opacity:.55;transform:scale(1)}}
+  @keyframes fUpBig{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  @keyframes fUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes lGrow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:.7}}
+  @keyframes pIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+  @keyframes cardIn{from{opacity:0;transform:translateY(9%) rotateX(9deg)}to{opacity:1;transform:none}}
+  @keyframes boxL{from{opacity:0;transform:translateX(-5%)}to{opacity:1;transform:none}}
+  @keyframes boxR{from{opacity:0;transform:translateX(5%)}to{opacity:1;transform:none}}
+  @keyframes optIn{from{opacity:0;transform:translateX(-3%)}to{opacity:1;transform:none}}
+  .qopt.correct{animation:okPulse .5s ease 1}
+  @keyframes okPulse{0%{transform:scale(1)}40%{transform:scale(1.025)}100%{transform:scale(1)}}
+}
+/* ── Celebration splash (ids y keyframes intactos — usados por JS) ── */
+#celeb{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.9);backdrop-filter:blur(10px);cursor:pointer;overflow:hidden;display:none;}
+#celeb-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+#celeb-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4%;gap:.8vw;}
+.ca{font-size:clamp(48px,8vw,110px);animation:cBounce .65s cubic-bezier(.34,1.56,.64,1) both;line-height:1;}
+.cs{font-size:clamp(18px,2.8vw,46px);font-weight:700;color:rgba(255,255,255,.85);}
+.cn{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,6.2vw,96px);font-weight:800;color:#fbbf24;animation:cSlide .55s .15s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 60px rgba(251,191,36,.35);max-width:90%;word-break:break-word;}
+.cp{font-size:clamp(13px,2vw,32px);color:rgba(255,255,255,.6);}
+.ct{font-size:clamp(10px,1.3vw,20px);color:rgba(255,255,255,.2);margin-top:2vw;}
+@keyframes cBounce{0%{transform:scale(0);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
+@keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}/* ═══ PIEZAS INTERACTIVAS ═══
+   Son niños de 11-12 que se distraen: cada pieza tiene que moverse, responder
+   al toque y caber en una pantalla de proyector vista desde la última fila. */
+
+/* ── Ruleta de nombres ── */
+.ruleta-zona{display:flex;align-items:center;justify-content:center;gap:4%;width:100%;margin-top:1.5%}
+.ruleta-caja{position:relative;width:clamp(150px,23vw,330px);flex-shrink:0}
+.ruleta-aguja{position:absolute;top:-4%;left:50%;transform:translateX(-50%);font-size:clamp(20px,2.6vw,40px);
+  color:var(--acc);z-index:3;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.ruleta{width:100%;height:auto;display:block;border-radius:50%;
+  box-shadow:0 8px 26px rgba(30,25,15,.16);transition:transform 4.2s cubic-bezier(.16,.9,.24,1)}
+.ruleta-sec{stroke:#fff;stroke-width:1.2}
+.ruleta-txt{font-family:'Inter',sans-serif;font-weight:700;fill:#1c1a15}
+.ruleta-centro{fill:#fff;stroke:var(--acc);stroke-width:2.5}
+.ruleta-lado{flex:1;max-width:46%;text-align:left}
+.ruleta-btn{background:#141310;color:#fff;border:none;border-radius:100px;
+  padding:.5em 1.5em;font-family:'Space Grotesk',sans-serif;font-size:clamp(14px,1.8vw,30px);
+  font-weight:800;cursor:pointer;transition:transform .15s,opacity .15s}
+.ruleta-btn:hover:not(:disabled){transform:translateY(-2px)}
+.ruleta-btn:disabled{opacity:.4;cursor:default}
+.ruleta-out{font-family:'Space Grotesk',sans-serif;font-size:clamp(19px,3.1vw,52px);font-weight:800;
+  color:var(--acc);line-height:1.15;margin-top:.4em;min-height:1.2em}
+.ruleta-pie{font-size:clamp(13px,1.6vw,27px);color:#5a5750;margin-top:.3em}
+
+/* ── Verdadero o falso ── */
+.vf-lista{display:flex;flex-direction:column;gap:.5em;width:100%;max-width:84%;margin-top:2%}
+.vf-item{background:#fff;border:1px solid #e2ded6;border-left:4px solid var(--acc);
+  border-radius:clamp(9px,1.1vw,16px);padding:.6em 1.1em;font-size:clamp(15px,2.05vw,34px);
+  color:#141310;cursor:pointer;text-align:left;display:flex;align-items:center;gap:.7em;
+  box-shadow:0 4px 12px rgba(30,25,15,.06);transition:transform .16s,background .16s}
+.vf-item:hover{transform:translateX(.3em)}
+.vf-marca{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:1.1em;min-width:1.4em;opacity:0;transition:opacity .2s}
+.vf-item.abierto .vf-marca{opacity:1}
+.vf-item.abierto.v{background:var(--pas);border-left-color:var(--acc)}
+.vf-item.abierto.f{background:#fbe9e9;border-left-color:#c94141}
+
+/* ── Demos SVG ── */
+.demo{width:100%;max-width:86%;margin-top:2%}
+.demo svg{width:100%;height:auto;display:block}
+.dm-marco{fill:#fff;stroke:#d9d4ca;stroke-width:2;rx:8}
+.dm-linea{fill:#c9c4ba}
+.dm-tit{fill:#141310}
+.dm-ok{fill:#15803d}
+.dm-mal{fill:#c94141}
+.demo-pie{font-size:clamp(13px,1.65vw,27px);color:#5a5750;margin-top:1.2%}
+@media (prefers-reduced-motion: no-preference){
+  /* Cada demo arranca SOLO cuando su slide está activa: si corrieran siempre,
+     los niños llegarían a la diapositiva con la animación ya terminada. */
+  .slide.active .dm-cae{animation:dmCae .42s ease both}
+  .slide.active .dm-cae:nth-of-type(1){animation-delay:.25s}
+  .slide.active .dm-cae:nth-of-type(2){animation-delay:.4s}
+  .slide.active .dm-cae:nth-of-type(3){animation-delay:.55s}
+  .slide.active .dm-cae:nth-of-type(4){animation-delay:.7s}
+  .slide.active .dm-cae:nth-of-type(5){animation-delay:.85s}
+  .slide.active .dm-cae:nth-of-type(6){animation-delay:1s}
+  .slide.active .dm-cae:nth-of-type(7){animation-delay:1.15s}
+  @keyframes dmCae{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .slide.active .dm-crece{animation:dmCrece 2.6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:left center}
+  @keyframes dmCrece{from{transform:scale(.42)}to{transform:scale(1)}}
+  .slide.active .dm-late{animation:dmLate 1.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  @keyframes dmLate{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .slide.active .dm-borroso{animation:dmBorroso 3s ease-in-out infinite}
+  @keyframes dmBorroso{0%,100%{opacity:.28}50%{opacity:.1}}
+  .slide.active .dm-dibuja{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s .3s cubic-bezier(.4,0,.2,1) both}
+  .slide.active .dm-sale{animation:pIn .5s .5s ease both}
+}
+
+/* ── Ruleta: cuántos faltan por participar ── */
+.ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
+
+/* ── Podio del día (diapositiva de cierre) ── */
+.podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
+.podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
+  border-left:4px solid var(--acc);border-radius:clamp(8px,1vw,14px);padding:.45em 1em;
+  box-shadow:0 4px 12px rgba(30,25,15,.06)}
+.podio-pos{font-size:clamp(18px,2.4vw,38px);line-height:1}
+.podio-nom{flex:1;text-align:left;font-size:clamp(14px,1.9vw,32px);font-weight:700;color:#141310}
+.podio-pts{font-family:'Space Grotesk',sans-serif;font-size:clamp(15px,2.1vw,34px);font-weight:800;color:var(--acc)}
+.podio-vacio{font-size:clamp(13px,1.7vw,28px);color:#5a5750;opacity:.8}
+.podio-tit{font-size:clamp(13px,1.6vw,26px);font-weight:800;color:var(--acc);letter-spacing:.06em;text-transform:uppercase;margin-top:2%}
+@media (prefers-reduced-motion: no-preference){
+  .slide.active .podio-fila{animation:pIn .45s ease both}
+  .slide.active .podio-fila:nth-child(2){animation-delay:.12s}
+  .slide.active .podio-fila:nth-child(3){animation-delay:.24s}
+}
+
+/* ── Votación a mano alzada (overlay sobre el proyector) ── */
+#votacion{position:fixed;inset:0;z-index:9998;background:rgba(255,255,255,.97);
+  display:none;flex-direction:column;align-items:center;justify-content:center;padding:4% 6%;cursor:pointer}
+#votacion.abierta{display:flex}
+.vt-preg{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,3.2vw,54px);font-weight:800;
+  color:#0a0a0a;text-align:center;max-width:80%;margin-bottom:3%}
+.vt-barras{width:100%;max-width:76%;display:flex;flex-direction:column;gap:1.1em}
+.vt-fila{display:flex;align-items:center;gap:1em}
+.vt-eti{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(16px,2.2vw,36px);
+  color:var(--acc);min-width:2.2em;text-align:right}
+.vt-riel{flex:1;height:clamp(26px,3.4vw,58px);background:#f1efe9;border-radius:100px;overflow:hidden}
+.vt-barra{height:100%;width:0;background:var(--acc);border-radius:100px;
+  transition:width 1.1s cubic-bezier(.22,1,.36,1)}
+.vt-n{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(16px,2.2vw,38px);
+  color:#141310;min-width:2.4em;text-align:left}
+.vt-pie{font-size:clamp(12px,1.5vw,24px);color:#5a5750;margin-top:3%;opacity:.75}
+</style></head>
+<body>
+<div class="deck-wrap" id="deck"><div class="slide active">
+<div class="brand">Asunción School</div><div class="snum">15 · 1</div><p class="t-sm accent">Viernes 4 de septiembre · 6.° Primaria</p><div class="line"></div>
+<h1 class="t-super">🔒 Una contraseña que <span class="accent">nadie</span> adivine</h1>
+<p class="t-body" style="margin-top:2%">Y que tú sí puedas recordar. Las dos cosas a la vez.</p>
+<p class="t-sm" style="margin-top:3%;opacity:.7">Profa. Estrella Vizcarra</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 2</div><h2 class="t-h1">¿Qué haremos hoy? 🗓️</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🧩</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Larga y rara</p><p class="t-sm" style="opacity:.8">Mientras más larga, más difícil de adivinar</p></div>
+<div class="c3"><div class="big-em">🤐</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Solo tuya</p><p class="t-sm" style="opacity:.8">Ni al mejor amigo se le presta</p></div>
+<div class="c3"><div class="big-em">🚪</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Una por puerta</p><p class="t-sm" style="opacity:.8">La misma llave para todo es peligrosa</p></div>
+</div>
+<p class="t-sm" style="margin-top:2.5%;opacity:.75">¡Habrá ruleta! Si sale tu nombre, te toca hablar. ⭐ Los puntos suman al ranking.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 3</div><h2 class="t-h1">🎡 ¡Empezamos!</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1%;font-weight:700">A quien le toque: sin decir tu contraseña, cuéntanos <span class="accent">cómo la inventaste</span>. ¿Es tu nombre? ¿Tu equipo? ¿Tu fecha de cumpleaños?</p>
+<div class="ruleta-zona" data-ruleta>
+  <div class="ruleta-caja"><div class="ruleta-aguja">▼</div><svg class="ruleta" viewBox="0 0 300 300"></svg></div>
+  <div class="ruleta-lado">
+    <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
+    <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
+    <p class="ruleta-pie">Nunca digas tu contraseña en voz alta, ni en broma.</p>
+  </div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien explique su método sin revelar la contraseña</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 4</div><h2 class="t-h1">Fácil de adivinar vs difícil 🔍</h2><div class="line"></div>
+<div class="demo">
+<svg viewBox="0 0 620 210" aria-hidden="true">
+  <rect class="dm-marco" x="8" y="14" width="290" height="182"/>
+  <text class="dm-tit" x="26" y="44" font-size="14" font-weight="800">Contraseñas comunes</text>
+  <rect class="dm-linea dm-cae" x="26" y="58" width="200" height="7" rx="3"/>
+  <rect class="dm-linea dm-cae" x="26" y="72" width="190" height="7" rx="3"/>
+  <rect class="dm-linea dm-cae" x="26" y="86" width="210" height="7" rx="3"/>
+  <rect class="dm-linea dm-cae" x="26" y="100" width="185" height="7" rx="3"/>
+  <rect class="dm-linea dm-cae" x="26" y="114" width="205" height="7" rx="3"/>
+  <rect class="dm-linea dm-cae" x="26" y="128" width="180" height="7" rx="3"/>
+  <text class="dm-mal dm-late" x="153" y="180" font-size="20" text-anchor="middle">✗ Se adivinan en segundos</text>
+  <rect class="dm-marco" x="322" y="14" width="290" height="182"/>
+  <text class="dm-tit dm-sale" x="467" y="92" font-size="22" font-weight="800" text-anchor="middle">perro-azul-72-luna</text>
+  <text class="dm-ok dm-late" x="467" y="176" font-size="20" text-anchor="middle">✓ Larga y rara</text>
+</svg>
+</div>
+<p class="demo-pie">Las de la izquierda son las que más se usan en el mundo — y por eso son las primeras que alguien prueba.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 5</div><div class="foco">Larga <span class="accent">gana</span> a complicada</div>
+<p class="foco-pie">Cuatro palabras que solo tú unirías valen más que "Ab#3" repetido.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas contraseñas es más segura?</p>
+<div class="quiz-opts" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>123456</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>mimascota</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>perro-azul-72-luna</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>tu nombre y el año</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 7</div><h2 class="t-h1">El truco de las 4 palabras 🧩</h2><div class="line"></div>
+<div class="two" style="margin-top:2.5%">
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Cómo se arma</p><p class="t-sm" style="opacity:.85">Piensa cuatro cosas que solo tú juntarías: un animal, un color, un número y algo del cielo. Únelas con guiones.</p></div>
+<div class="box"><p class="t-sm accent" style="font-weight:800;margin-bottom:.5em">Por qué funciona</p><p class="t-sm" style="opacity:.85">Es larguísima, así que es dificilísima de adivinar. Y como armaste la historia tú, no se te olvida.</p></div>
+</div>
+<div class="highlight" style="margin-top:2.5%"><p class="t-body" style="font-weight:700">Ejemplo (¡no lo uses!): <strong>tortuga-verde-15-estrella</strong></p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 8</div><h2 class="t-h1">🎡 Reto: arma una contraseña</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1%;font-weight:700">A quien le toque: inventa una contraseña de <span class="accent">4 palabras</span> ahí mismo. Que no tenga nada que ver contigo — y que después NO uses de verdad.</p>
+<div class="ruleta-zona" data-ruleta>
+  <div class="ruleta-caja"><div class="ruleta-aguja">▼</div><svg class="ruleta" viewBox="0 0 300 300"></svg></div>
+  <div class="ruleta-lado">
+    <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
+    <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
+    
+  </div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien arme una de 4 palabras que nadie relacione con él</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 9</div><h2 class="t-h1">Una llave por puerta 🚪</h2><div class="line"></div>
+<div class="demo">
+<svg viewBox="0 0 620 150" aria-hidden="true">
+  <rect class="dm-marco dm-cae" x="12" y="30" width="176" height="80"/>
+  <text class="dm-tit dm-cae" x="100" y="62" font-size="15" font-weight="800" text-anchor="middle">Correo</text>
+  <text x="100" y="86" font-size="12" fill="#5a5750" text-anchor="middle">una contraseña</text>
+  <rect class="dm-marco dm-cae" x="217" y="30" width="176" height="80"/>
+  <text class="dm-tit dm-cae" x="305" y="62" font-size="15" font-weight="800" text-anchor="middle">Juegos</text>
+  <text x="305" y="86" font-size="12" fill="#5a5750" text-anchor="middle">otra distinta</text>
+  <rect class="dm-marco dm-cae" x="422" y="30" width="176" height="80"/>
+  <text class="dm-tit dm-cae" x="510" y="62" font-size="15" font-weight="800" text-anchor="middle">Colegio</text>
+  <text x="510" y="86" font-size="12" fill="#5a5750" text-anchor="middle">otra más</text>
+  <path class="dm-dibuja" d="M192,70 L212,70" pathLength="1" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round"/>
+  <path class="dm-dibuja" d="M397,70 L417,70" pathLength="1" fill="none" stroke="var(--acc)" stroke-width="3" stroke-linecap="round"/>
+</svg>
+</div>
+<p class="demo-pie">Si usas la misma en todo y alguien la descubre en un sitio, <strong>abre todos los demás</strong>.</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">Tu mejor amigo te pide tu contraseña para entrar a tu cuenta un ratito. ¿Qué haces?</p>
+<div class="quiz-opts" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Se la doy, es mi amigo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Se la doy y luego la cambio</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>No se la doy: la contraseña no se presta</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Se la digo en voz baja</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 11</div><h2 class="t-h1">Señales de alerta 🚨</h2><div class="line"></div>
+<div class="highlight" style="margin-bottom:2%"><p class="t-body" style="font-weight:700">Nadie de verdad te va a pedir tu contraseña. <strong>Nadie.</strong></p></div>
+<ul class="list" style="margin-top:2%">
+<li>Un mensaje que dice que <span class="accent">ganaste algo</span> y pide tu contraseña</li>
+<li>Una página <span class="accent">parecida</span> a la del colegio pero con dirección rara</li>
+<li>Alguien que te apura: <span class="accent">"rápido, dímela"</span></li>
+<li>Un juego que pide tu <span class="accent">correo y contraseña</span> para darte monedas</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
+<p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
+<div class="vf-lista">
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Una contraseña larga es más segura que una corta con símbolos</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Puedo usar la misma contraseña en todos lados si es buena</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Si alguien vio mi contraseña, hay que cambiarla ese mismo día</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Está bien anotarla en un papel pegado a la computadora</div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 con los pulgares antes de destapar</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 13</div><h2 class="t-h1">¿Dónde la guardo? 🗝️</h2><div class="line"></div>
+<div class="demo">
+<svg viewBox="0 0 620 170" aria-hidden="true">
+  <rect x="8" y="12" width="290" height="146" rx="8" fill="#ffffff" stroke="#d9d4ca" stroke-width="2"/>
+  <text class="dm-tit" x="153" y="70" font-size="19" font-weight="800" text-anchor="middle">Pegada a la pantalla</text>
+  <text x="153" y="126" font-size="13" text-anchor="middle" fill="#c94141" font-weight="700">✗ La ve cualquiera</text>
+  <rect x="322" y="12" width="290" height="146" rx="8" fill="var(--pas)" stroke="var(--acc)" stroke-width="2"/>
+  <text class="dm-tit" x="467" y="70" font-size="19" font-weight="800" text-anchor="middle">En tu cabeza (o con tus papás)</text>
+  <text x="467" y="126" font-size="13" text-anchor="middle" fill="var(--acc)" font-weight="700">✓ Solo tú la sabes</text>
+</svg>
+</div>
+<p class="demo-pie">Si te cuesta recordarla, díselo a tus papás y que la guarden ellos. <strong>A un compañero, nunca.</strong></p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1.5%;font-weight:700">Te llega un mensaje: "¡Ganaste 1000 monedas! Escribe tu correo y contraseña aquí". ¿Qué haces?</p>
+<div class="quiz-opts" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Escribo mis datos, son monedas gratis</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Se lo reenvío a mis amigos</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>No escribo nada y le aviso a un adulto</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Escribo solo el correo, sin la contraseña</div>
+</div>
+<p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 15</div><h2 class="t-h1">🎡 Reto relámpago</h2><div class="line"></div>
+<p class="t-body" style="margin-top:1%;font-weight:700">A quien le toque: di una señal de que un mensaje es <span class="accent">trampa</span>. Una sola, la que más te sirva a ti.</p>
+<div class="ruleta-zona" data-ruleta>
+  <div class="ruleta-caja"><div class="ruleta-aguja">▼</div><svg class="ruleta" viewBox="0 0 300 300"></svg></div>
+  <div class="ruleta-lado">
+    <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
+    <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
+    <p class="ruleta-pie">Anota las señales en la pizarra mientras salen.</p>
+  </div>
+</div>
+<div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a cada señal distinta que digan</p></div>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 16</div><h2 class="t-h1">✅ Mi lista de cuenta segura</h2><div class="line"></div>
+<ul class="list" style="margin-top:2%">
+<li>¿Mi contraseña tiene <span class="accent">4 palabras</span> o más?</li>
+<li>¿Es <span class="accent">distinta</span> a la de otras cuentas?</li>
+<li>¿No se la dije <span class="accent">a nadie</span>?</li>
+<li>¿No está <span class="accent">anotada</span> donde alguien la vea?</li>
+<li>¿Sé a <span class="accent">qué adulto avisar</span> si pasa algo raro?</li>
+</ul>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 17</div><h2 class="t-h1">🎯 Tu misión de hoy</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">1️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Inventa el método</p><p class="t-sm" style="opacity:.8">Cuatro palabras que solo tú juntarías</p></div>
+<div class="c3"><div class="big-em">2️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Escribe el ejemplo</p><p class="t-sm" style="opacity:.8">Uno de práctica, NO el que vas a usar</p></div>
+<div class="c3"><div class="big-em">3️⃣</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Escribe las señales</p><p class="t-sm" style="opacity:.8">Cómo reconocer un mensaje trampa</p></div>
+</div>
+<p class="t-sm" style="margin-top:2.5%;opacity:.75">Trabajo <strong>individual</strong> · 12 minutos · Nunca escribas tu contraseña real</p>
+</div>
+<div class="slide">
+<div class="brand">Asunción School</div><div class="snum">15 · 18</div><h2 class="t-h1">🚀 Para recordar</h2><div class="line"></div>
+<div class="cards" style="margin-top:2%">
+<div class="c3"><div class="big-em">🧩</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">4 palabras</p><p class="t-sm" style="opacity:.8">Larga gana a complicada</p></div>
+<div class="c3"><div class="big-em">🤐</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">No se presta</p><p class="t-sm" style="opacity:.8">Ni al mejor amigo</p></div>
+<div class="c3"><div class="big-em">🚪</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Una por puerta</p><p class="t-sm" style="opacity:.8">Distinta en cada cuenta</p></div>
+</div>
+<p class="t-sm" style="margin-top:2.5%;opacity:.75">Tarea: guía de cuenta segura · Entrega antes del viernes 11 de septiembre</p>
+<p class="podio-tit">🏆 Los que más participaron hoy</p>
+<div class="podio-hoy"></div>
+</div></div>
+<nav class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
+  <div class="dots" id="dots"></div>
+  <span id="counter">1 / 18</span>
+  <button id="btn-next" onclick="go(1)">Sig →</button>
+</nav>
+<div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #15803d;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#15803d;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-prim6-15';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'prim6',session:'15'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
+const total=18;let cur=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{const d=document.createElement('span');d.className='dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dots.appendChild(d);});
+const allDots=[...dots.querySelectorAll('.dot')];
+function goTo(n){const dir=n>cur?1:-1;slides[cur].classList.remove('active','enter-fwd','enter-back');allDots[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));const s=slides[cur];s.classList.remove('enter-fwd','enter-back');s.classList.add('active');if(initialized){void s.offsetWidth;s.classList.add(dir>=0?'enter-fwd':'enter-back');}allDots[cur].classList.add('active');document.getElementById('counter').textContent=(cur+1)+' / '+total;document.getElementById('btn-prev').disabled=cur===0;document.getElementById('btn-next').disabled=cur===total-1;}
+function go(d){goTo(cur+d);}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();go(1);}if(e.key==='ArrowLeft'){e.preventDefault();go(-1);}});
+let tx=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+function quizPick(el){
+  const opts=el.closest('.quiz-opts').querySelectorAll('.qopt');
+  const fb=el.closest('.slide').querySelector('.quiz-feedback');
+  opts.forEach(o=>o.classList.remove('correct','wrong'));
+  if(el.dataset.correct==='true'){el.classList.add('correct');if(fb){fb.textContent='✅ ¡Correcto!';fb.style.color='#4ade80';}}
+  else{el.classList.add('wrong');const right=[...opts].find(o=>o.dataset.correct==='true');if(right)right.classList.add('correct');if(fb){fb.textContent='Respuesta correcta señalada en verde.';fb.style.color='#fbbf24';}}
+}
+goTo(0);initialized=true;
+function showCeleb(nombre){
+  document.getElementById('celeb-name').textContent=nombre||'¡Alumno!';
+  spawnConfetti();
+  const el=document.getElementById('celeb');
+  el.style.display='block';
+  ['.ca','.cn'].forEach(sel=>{const e=el.querySelector(sel);if(e){e.style.animation='none';void e.offsetWidth;e.style.animation='';}});
+  clearTimeout(window._cT);window._cT=setTimeout(closeCeleb,5500);
+}
+function closeCeleb(){
+  const el=document.getElementById('celeb');
+  el.style.transition='opacity .4s';el.style.opacity='0';
+  setTimeout(()=>{el.style.display='none';el.style.opacity='';el.style.transition='';},420);
+}
+function spawnConfetti(){
+  const w=document.getElementById('celeb-wrap');w.innerHTML='';
+  const cols=['#fbbf24','#f97316','#22c55e','#60a5fa','#a78bfa','#f472b6','#fff','#fb7185'];
+  for(let i=0;i<72;i++){
+    const d=document.createElement('div');
+    const c=cols[i%cols.length];const sz=6+Math.random()*11;
+    const h=Math.random()>.55?sz:sz*.35;const r=Math.random()>.55?'50%':'2px';
+    d.style.cssText='position:absolute;left:'+Math.random()*100+'%;top:-15px;width:'+sz+'px;height:'+h+'px;background:'+c+';border-radius:'+r+';animation:cDrop '+(1.8+Math.random()*2.2)+'s '+(Math.random()*.9)+'s linear both;';
+    w.appendChild(d);
+  }
+}
+const DECK_GRADE='prim6';
+const DECK_SESSION='15';
+let lastBonusId=null;
+(async function pollBonus(){
+  try{
+    const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());
+    if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}}
+  }catch(e){}
+  setTimeout(pollBonus,2000);
+})();
+</script>
+<div id="celeb" onclick="closeCeleb()">
+  <div id="celeb-wrap"></div>
+  <div id="celeb-body">
+    <div class="ca">🎉</div>
+    <p class="cs">¡Felicitaciones!</p>
+    <p class="cn" id="celeb-name"></p>
+    <p class="cp">⭐ +1 punto de participación</p>
+    <p class="ct">Toca para continuar</p>
+  </div>
+</div>
+<script>
+/* ═══ Capa de presentación v2 (solo visual — no toca sync ni goTo) ═══ */
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var N=slides.length;
+  /* 1. Clasificador: tipo de slide → transición propia */
+  slides.forEach(function(s,i){
+    if(i===0)s.classList.add('s-title');
+    else if(i===N-1)s.classList.add('s-close');
+    else if(s.querySelector('.quiz-opts'))s.classList.add('s-quiz');
+    else if(s.querySelector('.two'))s.classList.add('s-split');
+    else if(s.querySelector('.cards'))s.classList.add('s-cards');
+  });
+  /* 2. Título cinético: partir .t-super en palabras (preserva spans internos) */
+  document.querySelectorAll('.t-super').forEach(function(t){
+    var idx=0;
+    [].slice.call(t.childNodes).forEach(function(node){
+      if(node.nodeType===3){
+        var frag=document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(function(part){
+          if(!part)return;
+          if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part));return;}
+          var w=document.createElement('span');w.className='kw';w.style.setProperty('--i',idx++);w.textContent=part;
+          frag.appendChild(w);
+        });
+        t.replaceChild(frag,node);
+      }else if(node.nodeType===1){
+        node.classList.add('kw');node.style.setProperty('--i',idx++);
+      }
+    });
+  });
+  /* 3. SVG decorativo por slide: esquinas que se dibujan al activarse */
+  var SVG='<svg class="deco" viewBox="0 0 1000 562" preserveAspectRatio="none" aria-hidden="true">'
+    +'<path class="dp dp1" pathLength="1" d="M28,150 L28,34 Q28,26 36,26 L170,26"/>'
+    +'<path class="dp dp2" pathLength="1" d="M972,412 L972,528 Q972,536 964,536 L830,536"/>'
+    +'<circle class="dcirc" cx="28" cy="176" r="4"/>'
+    +'</svg>';
+  slides.forEach(function(s){s.insertAdjacentHTML('afterbegin',SVG);});
+  /* 3b. Polvo estelar: capa de partículas por slide (caen lento; solo animan
+     en la slide activa por el CSS, así no consumen en las ocultas) */
+  var STAR_N=13;
+  slides.forEach(function(s){
+    var layer=document.createElement('div');layer.className='stars';
+    for(var i=0;i<STAR_N;i++){
+      var st=document.createElement('i');st.className='star';
+      var sz=(2+Math.random()*2).toFixed(1);
+      var dur=(20+Math.random()*16).toFixed(1);
+      st.style.left=(Math.random()*100).toFixed(2)+'%';
+      st.style.width=st.style.height=sz+'px';
+      st.style.setProperty('--o',(0.10+Math.random()*0.20).toFixed(2));
+      st.style.setProperty('--dx',((Math.random()*2-1)*22).toFixed(0)+'px');
+      st.style.setProperty('--rest',(8+Math.random()*84).toFixed(0)+'vh');
+      st.style.animationDuration=dur+'s';
+      st.style.animationDelay='-'+(Math.random()*dur).toFixed(1)+'s';
+      layer.appendChild(st);
+    }
+    s.insertBefore(layer,s.firstChild);
+  });
+  /* 4. Rail de progreso (lee el contador — sin tocar goTo) */
+  var rail=document.createElement('div');rail.id='rail';rail.innerHTML='<i></i>';
+  document.body.appendChild(rail);
+  var fill=rail.firstChild,counter=document.getElementById('counter');
+  function upd(){
+    var m=(counter.textContent||'').match(/(\d+)\s*\/\s*(\d+)/);
+    if(m)fill.style.width=(100*parseInt(m[1],10)/parseInt(m[2],10))+'%';
+  }
+  new MutationObserver(upd).observe(counter,{childList:true,characterData:true,subtree:true});
+  upd();
+})();
+</script>
+<script>
+/* ═══ Piezas interactivas — ruleta y verdadero/falso ═══
+   Solo tocan el interior de su propia diapositiva: ni goTo, ni el poll de
+   sync, ni la celebración.
+   La ruleta gira de dos formas: tocándola en el proyector, o desde el control
+   remoto de la profesora (notas → sync → este deck llama a girarHacia). */
+(function(){
+  var GRADO='prim6';
+  var RESPALDO=["Aldahir Antonio Huerta Quispe","Bastian Adriano Aliaga Llamccaya","Camila Crousillat Raffo","Darenka Alessia Rios Palomino","Evhan Sthefano Lopez Ortiz","Gianluca Frank Paulino Inga","Ian Sebastian Imer Chavez Rojas","Joaquin Leonardo Arquiñego Arango","Liam Aaron Reyes Carranza","Liam Valentino Ramos Santos","Luana Gabriela Ramos Ore","Mateo Valentino Cordova Calle","Matias Jesus Carbonell Pacheco","Samira Ayelen Calle Sierra","Taiz Alejandra Spigno Basurto","Vasco Mateo Muñoz Acevedo","Wollff Alejandro Concha Quiroz"];
+  var nombres=RESPALDO.slice();
+
+  /* Etiqueta corta para que quepa en el sector; si dos comparten el primer
+     nombre, se agrega el segundo. */
+  function corto(n,todos){
+    var p=n.split(/\s+/);
+    var repes=todos.filter(function(o){return o.split(/\s+/)[0]===p[0];}).length;
+    return repes>1&&p[1]?p[0]+' '+p[1]:p[0];
+  }
+  function norm(s){return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim();}
+
+  var COLORES=['var(--pas)','#ffffff'];
+  function pintar(svg){
+    var n=nombres.length,a=360/n,r=140,cx=150,cy=150,out='';
+    var fs=n>22?9:(n>16?11:13);
+    for(var i=0;i<n;i++){
+      var a1=(i*a-90)*Math.PI/180,a2=((i+1)*a-90)*Math.PI/180;
+      var x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+      out+='<path class="ruleta-sec" fill="'+COLORES[i%2]+'" d="M'+cx+','+cy+' L'+x1.toFixed(1)+','+y1.toFixed(1)+' A'+r+','+r+' 0 0 1 '+x2.toFixed(1)+','+y2.toFixed(1)+' Z"/>';
+      var am=i*a+a/2-90;
+      out+='<text class="ruleta-txt" x="'+(cx+95)+'" y="'+(cy+3)+'" font-size="'+fs+'" text-anchor="middle"'
+        +' transform="rotate('+am.toFixed(2)+' '+cx+' '+cy+')">'+corto(nombres[i],nombres)+'</text>';
+    }
+    out+='<circle class="ruleta-centro" cx="'+cx+'" cy="'+cy+'" r="26"/><text x="'+cx+'" y="'+(cy+7)+'" font-size="20" text-anchor="middle">🎡</text>';
+    svg.innerHTML=out;
+  }
+  function pintarTodas(){[].forEach.call(document.querySelectorAll('.ruleta'),pintar);}
+  pintarTodas();
+
+  /* El roster manda: si la profesora agrega o quita a alguien, la ruleta se
+     entera sola. Si falla la red, se queda con la lista de respaldo. */
+  fetch('/.netlify/functions/get-roster?grado='+GRADO)
+    .then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(!d||!d.alumnos||!d.alumnos.length)return;
+      var vivos=d.alumnos.map(function(a){return a.nombre;})
+        .filter(function(n){return norm(n)!=='estrella vizcarra';});
+      if(vivos.length){nombres=vivos;pintarTodas();}
+    }).catch(function(){});
+
+  var vueltas=0;
+  /* Se elige primero al ganador y DESPUÉS el ángulo que lo deja bajo la aguja:
+     así lo que se anuncia es siempre lo que muestra la rueda. */
+  function girar(zona,i){
+    if(!zona)return;
+    var svg=zona.querySelector('.ruleta'),out=zona.querySelector('.ruleta-out'),btn=zona.querySelector('.ruleta-btn');
+    if(!svg)return;
+    if(btn){btn.disabled=true;}
+    out.textContent='…';
+    var a=360/nombres.length;
+    vueltas+=5;
+    svg.style.transform='rotate('+(vueltas*360-(i*a+a/2))+'deg)';
+    setTimeout(function(){
+      out.textContent='🎉 '+nombres[i];
+      if(btn){btn.disabled=false;btn.textContent='🎡 Otra vez';}
+      pintarRestantes();
+    },4300);
+  }
+
+  /* ── Sin repetición ──────────────────────────────────────────────────
+     Con 17 alumnos y 3 giros, el azar puro repite a alguien mientras otros
+     no salen nunca — que es justo lo que la ruleta venía a evitar. Se lleva
+     la cuenta de quién ya participó y solo se reinicia cuando pasaron todos. */
+  var yaSalieron=[];
+  function siguienteIndice(){
+    var libres=[];
+    for(var i=0;i<nombres.length;i++) if(yaSalieron.indexOf(norm(nombres[i]))<0) libres.push(i);
+    if(!libres.length){ yaSalieron=[]; for(var j=0;j<nombres.length;j++) libres.push(j); }
+    var i=libres[Math.floor(Math.random()*libres.length)];
+    yaSalieron.push(norm(nombres[i]));
+    return i;
+  }
+  function pintarRestantes(){
+    var quedan=nombres.length-yaSalieron.length;
+    [].forEach.call(document.querySelectorAll('.ruleta-quedan'),function(el){
+      el.textContent=quedan===0?'¡Pasaron todos! La ruleta vuelve a empezar'
+        :('Faltan '+quedan+' de '+nombres.length+' por participar');
+    });
+  }
+
+  window.girarRuleta=function(btn){
+    girar(btn.closest('[data-ruleta]'),siguienteIndice());
+  };
+
+  /* La llama el poll cuando la profesora gira desde sus notas. */
+  window.girarHacia=function(nombre){
+    var zonas=[].slice.call(document.querySelectorAll('[data-ruleta]'));
+    if(!zonas.length)return;
+    var activa=zonas.filter(function(z){return z.closest('.slide').classList.contains('active');})[0]||zonas[0];
+    var i=-1;
+    for(var k=0;k<nombres.length;k++){if(norm(nombres[k])===norm(nombre)){i=k;break;}}
+    if(i<0){
+      /* Nombre que este deck no tiene en su lista (roster recién cambiado):
+         se anuncia igual, sin inventar un sector que no le corresponde. */
+      var out=activa.querySelector('.ruleta-out');
+      if(out)out.textContent='🎉 '+nombre;
+      return;
+    }
+    /* Girar desde el control remoto también consume el turno, si no la lista
+       de "quién falta" se desincroniza entre la pantalla y el teléfono. */
+    if(yaSalieron.indexOf(norm(nombre))<0) yaSalieron.push(norm(nombre));
+    girar(activa,i);
+  };
+
+  /* ── Podio del día ────────────────────────────────────────────────────
+     Lleva la cuenta de los puntos que se dieron EN ESTA CLASE (los que pasan
+     por la celebración) y los muestra en la diapositiva de cierre. El ranking
+     del mes ya existe en el dashboard; esto es el de hoy, que es el que mueve
+     a esta edad. Si el proyector se recarga, la cuenta del día vuelve a cero. */
+  var puntosHoy={};
+  window.registrarPunto=function(nombre){
+    if(!nombre)return;
+    var k=norm(nombre);
+    if(!puntosHoy[k]) puntosHoy[k]={nombre:nombre,n:0};
+    puntosHoy[k].n++;
+    pintarPodio();
+  };
+  function pintarPodio(){
+    var cajas=document.querySelectorAll('.podio-hoy');
+    if(!cajas.length)return;
+    var top=Object.keys(puntosHoy).map(function(k){return puntosHoy[k];})
+      .sort(function(a,b){return b.n-a.n;}).slice(0,3);
+    var medallas=['🥇','🥈','🥉'];
+    var html=top.length
+      ? top.map(function(a,i){return '<div class="podio-fila"><span class="podio-pos">'+medallas[i]+'</span>'
+          +'<span class="podio-nom">'+a.nombre+'</span><span class="podio-pts">'+a.n+'</span></div>';}).join('')
+      : '<p class="podio-vacio">Los puntos de hoy aparecerán aquí 👀</p>';
+    [].forEach.call(cajas,function(c){c.innerHTML=html;});
+  }
+  pintarPodio();
+
+  window.vfPick=function(el){
+    if(el.classList.contains('abierto'))return;
+    var esV=el.dataset.vf==='v';
+    el.classList.add('abierto',esV?'v':'f');
+    el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+})();
+</script>
+<script>
+/* ═══ Votación a mano alzada ═══
+   La profesora cuenta las manos y tipea los números en su teléfono; aquí se
+   dibujan las barras a pantalla completa. Ningún alumno necesita dispositivo,
+   que es lo que hace que funcione hasta en el salón de 32.
+   Vive en un overlay: así no hay que tocar el diseño de ninguna diapositiva. */
+(function(){
+  var el=document.createElement('div');
+  el.id='votacion';
+  el.innerHTML='<p class="vt-preg"></p><div class="vt-barras"></div>'
+    +'<p class="vt-pie">Toca para cerrar</p>';
+  el.onclick=function(){el.classList.remove('abierta');};
+  document.body.appendChild(el);
+
+  window.mostrarVotacion=function(v){
+    if(!v||!v.opciones||!v.opciones.length)return;
+    var total=v.opciones.reduce(function(s,o){return s+(o.n||0);},0)||1;
+    el.querySelector('.vt-preg').textContent=v.pregunta||'¿Qué opina la clase?';
+    el.querySelector('.vt-barras').innerHTML=v.opciones.map(function(o){
+      return '<div class="vt-fila"><span class="vt-eti">'+(o.t||'')+'</span>'
+        +'<span class="vt-riel"><i class="vt-barra" data-w="'+Math.round(o.n/total*100)+'"></i></span>'
+        +'<span class="vt-n">'+(o.n||0)+'</span></div>';
+    }).join('');
+    el.classList.add('abierta');
+    /* Las barras crecen desde 0 en el siguiente frame: el crecimiento es lo que
+       hace que la clase mire la pantalla. */
+    requestAnimationFrame(function(){
+      [].forEach.call(el.querySelectorAll('.vt-barra'),function(b){b.style.width=b.dataset.w+'%';});
+    });
+  };
+})();
+</script>
+</body></html>

@@ -623,7 +623,7 @@ let lastBonusId=null;
    remoto de la profesora (notas → sync → este deck llama a girarHacia). */
 (function(){
   var GRADO='prim6';
-  var RESPALDO=["Aldahir Antonio Huerta Quispe","Bastian Adriano Aliaga Llamccaya","Camila Crousillat Raffo","Darenka Alessia Rios Palomino","Evhan Sthefano Lopez Ortiz","Gianluca Frank Paulino Inga","Ian Sebastian Imer Chavez Rojas","Joaquin Leonardo Arquiñego Arango","Liam Aaron Reyes Carranza","Liam Valentino Ramos Santos","Luana Gabriela Ramos Ore","Mateo Valentino Cordova Calle","Matias Jesus Carbonell Pacheco","Samira Ayelen Calle Sierra","Taiz Alejandra Spigno Basurto","Vasco Mateo Muñoz Acevedo","Wollff Alejandro Concha Quiroz"];
+  var RESPALDO=["Aldahir Antonio Huerta Quispe", "Bastian Adriano Aliaga Llamccaya", "Camila Crousillat Raffo", "Darenka Alessia Rios Palomino", "Evhan Sthefano Lopez Ortiz", "Gianluca Frank Paulino Inga", "Ian Sebastian Imer Chavez Rojas", "Joaquin Leonardo Arquiñego Arango", "Liam Aaron Reyes Carranza", "Liam Valentino Ramos Santos", "Luana Gabriela Ramos Ore", "Mateo Valentino Cordova Calle", "Matias Jesus Carbonell Pacheco", "Samira Ayelen Calle Sierra", "Taiz Alejandra Spigno Basurto", "Vasco Mateo Muñoz Acevedo", "Wollff Alejandro Concha Quiroz"];
   var nombres=RESPALDO.slice();
 
   /* Etiqueta corta para que quepa en el sector; si dos comparten el primer
@@ -760,6 +760,40 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+})();
+</script>
+<script>
+/* ═══ Votación a mano alzada ═══
+   La profesora cuenta las manos y tipea los números en su teléfono; aquí se
+   dibujan las barras a pantalla completa. Ningún alumno necesita dispositivo,
+   que es lo que hace que funcione hasta en el salón de 32.
+   Vive en un overlay: así no hay que tocar el diseño de ninguna diapositiva. */
+(function(){
+  var el=document.createElement('div');
+  el.id='votacion';
+  el.innerHTML='<p class="vt-preg"></p><div class="vt-barras"></div>'
+    +'<p class="vt-pie">Toca para cerrar</p>';
+  el.onclick=function(){el.classList.remove('abierta');};
+  document.body.appendChild(el);
+
+  window.mostrarVotacion=function(v){
+    if(!v||!v.opciones||!v.opciones.length)return;
+    var total=v.opciones.reduce(function(s,o){return s+(o.n||0);},0)||1;
+    el.querySelector('.vt-preg').textContent=v.pregunta||'¿Qué opina la clase?';
+    el.querySelector('.vt-barras').innerHTML=v.opciones.map(function(o){
+      return '<div class="vt-fila"><span class="vt-eti">'+(o.t||'')+'</span>'
+        +'<span class="vt-riel"><i class="vt-barra" data-w="'+Math.round(o.n/total*100)+'"></i></span>'
+        +'<span class="vt-n">'+(o.n||0)+'</span></div>';
+    }).join('');
+    el.classList.add('abierta');
+    /* El ancho se aplica de forma SÍNCRONA tras forzar un reflow. Con
+       requestAnimationFrame las barras se quedaban en cero si el navegador no
+       pintaba ese frame a tiempo (ventana en segundo plano, proyector lento):
+       se veía el riel vacío y nunca se llenaba. El reflow fija el punto de
+       partida en 0 y la transición igual anima. */
+    void el.offsetWidth;
+    [].forEach.call(el.querySelectorAll('.vt-barra'),function(b){b.style.width=b.dataset.w+'%';});
   };
 })();
 </script>

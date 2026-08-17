@@ -792,11 +792,13 @@ let lastBonusId=null;
         +'<span class="vt-n">'+(o.n||0)+'</span></div>';
     }).join('');
     el.classList.add('abierta');
-    /* Las barras crecen desde 0 en el siguiente frame: el crecimiento es lo que
-       hace que la clase mire la pantalla. */
-    requestAnimationFrame(function(){
-      [].forEach.call(el.querySelectorAll('.vt-barra'),function(b){b.style.width=b.dataset.w+'%';});
-    });
+    /* El ancho se aplica de forma SÍNCRONA tras forzar un reflow. Con
+       requestAnimationFrame las barras se quedaban en cero si el navegador no
+       pintaba ese frame a tiempo (ventana en segundo plano, proyector lento):
+       se veía el riel vacío y nunca se llenaba. El reflow fija el punto de
+       partida en 0 y la transición igual anima. */
+    void el.offsetWidth;
+    [].forEach.call(el.querySelectorAll('.vt-barra'),function(b){b.style.width=b.dataset.w+'%';});
   };
 })();
 </script>

@@ -424,7 +424,15 @@ function mostrarVoto(id){
   msg.textContent='Enviando…';
   fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({room:syncRoom,votacion:{pregunta:'¿Qué votó la clase? · '+titulo,opciones:ops,ts:Date.now()}})})
-    .then(function(){msg.textContent='📊 En la pantalla — pide que alguien de la minoría defienda su respuesta';})
+    .then(function(){
+      /* El resultado se queda EN LAS NOTAS: la profesora mira su teléfono, no
+         la pantalla, y necesita el conteo a la vista para conducir el debate. */
+      var total=ops.reduce(function(s,o){return s+o.n;},0);
+      var top=ops.slice().sort(function(a,b){return b.n-a.n;})[0];
+      var detalle=ops.map(function(o){return o.t+': '+o.n;}).join(' · ');
+      msg.innerHTML='📊 <b>'+detalle+'</b> — mayoría <b>'+top.t+'</b> ('+top.n+' de '+total+')'
+        +'<br>Pide que alguien de la minoría defienda su respuesta.';
+    })
     .catch(function(){msg.textContent='❌ No llegó a la pantalla';});
 }
 </script>

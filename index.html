@@ -1231,6 +1231,17 @@ button{font-family:inherit;cursor:pointer;}
 .cns-id{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;}
 .cns-id h1{font-family:'Space Grotesk',sans-serif;font-size:1.45rem;font-weight:800;letter-spacing:-.4px;}
 .cns-id .cns-aula{font-size:var(--fs-sm);color:var(--text-muted);}
+/* ── Avance de creación de material ──
+   Responde de un vistazo "¿hasta qué sesión está hecho?", que antes obligaba
+   a entrar sesión por sesión. */
+.mat-barra{margin-top:.5rem;max-width:460px;}
+.mat-riel{height:6px;background:var(--surface-2);border-radius:100px;overflow:hidden;}
+.mat-riel i{display:block;height:100%;background:var(--accent);border-radius:100px;
+  transition:width .5s cubic-bezier(.22,1,.36,1);}
+.mat-txt{display:block;margin-top:.3rem;font-size:var(--fs-xs);color:var(--text-muted);line-height:1.5;}
+.mat-txt b{color:var(--text);}
+.mat-dim{color:var(--text-dim);}
+.mat-hueco{display:inline-block;margin-left:.4rem;color:#b45309;font-weight:700;}
 .cns-tools{display:flex;gap:.4rem;flex-wrap:wrap;}
 .cns-tool{background:#fff;border:1px solid var(--border);color:var(--text);border-radius:9px;
   padding:.45rem .8rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:inherit;
@@ -1546,13 +1557,13 @@ const AI_SESSIONS  = new Set([7,8,25]);
 const SEC_SESSIONS = new Set([15,16]);
 
 // ── Añadir el número de sesión aquí cada vez que se publiquen nuevas diapositivas ──
-const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
 // ── Añadir el número de sesión aquí cuando exista guía de repaso ──
-const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
 // ── Añadir el número de sesión aquí cuando exista página de entrega de tarea ──
-const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
 
 // ── Sesiones publicadas solo para algunos salones ──
 // Sirve cuando una sesión se publica primero para un salón: sin esto, los otros
@@ -4181,6 +4192,7 @@ function renderConsola(gradeId){
       <div class="cns-id">
         <h1>Consola de clase</h1>
         <span class="cns-aula">${dictadas} de ${TOTAL} clases dictadas · ${pct}%</span>
+        ${barraMaterial(gradeId)}
       </div>
       <div class="cns-tools">
         <button class="cns-tool" onclick="openRosterEditor('${gradeId}')" title="Ver y editar la lista de alumnos del aula">👥 Alumnos</button>
@@ -4231,6 +4243,23 @@ function renderConsola(gradeId){
   html += `</div>`;
   document.getElementById('main').innerHTML = html;
   if(momentoActivo==='despues') cargarCifras(gradeId, it.sd.n);
+}
+
+/** Hasta dónde llega el material ya creado, para este salón.
+    Sin esto había que abrir sesión por sesión para saber dónde se quedó. */
+function barraMaterial(gradeId){
+  const listas = [];
+  for(let n = 1; n <= TOTAL; n++) if(hayMaterial(READY_SESSIONS, n, gradeId)) listas.push(n);
+  const hasta = listas.length ? Math.max(...listas) : 0;
+  const huecos = hasta - listas.length;   // sesiones sueltas sin material por debajo del tope
+  const pct = Math.round(hasta / TOTAL * 100);
+  const fecha = hasta ? fmtDate(sessionDate(hasta, gradeId)).replace('Viernes ','') : '';
+  return `<div class="mat-barra" title="Material creado: presentación, notas, repaso y tarea">
+    <div class="mat-riel"><i style="width:${pct}%"></i></div>
+    <span class="mat-txt">📚 Material listo hasta la <b>sesión ${hasta}</b>${fecha ? ' · ' + fecha : ''}
+      <span class="mat-dim">(${listas.length} de ${TOTAL})</span>${
+      huecos ? `<span class="mat-hueco">⚠️ ${huecos} sin material por debajo</span>` : ''}</span>
+  </div>`;
 }
 
 function momBtn(id, cls, cuando, que, nota){
@@ -4565,6 +4594,7 @@ function entrarConsola(){
       <button class="results-session-tab" data-session="13" onclick="loadResults('13')">Sesión 13 — 21 agosto</button>
       <button class="results-session-tab" data-session="14" onclick="loadResults('14')">Sesión 14 — 28 agosto</button>
       <button class="results-session-tab" data-session="15" onclick="loadResults('15')">Sesión 15 — 4 septiembre</button>
+      <button class="results-session-tab" data-session="16" onclick="loadResults('16')">Sesión 16 — 11 septiembre</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

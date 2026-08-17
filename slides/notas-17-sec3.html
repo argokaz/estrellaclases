@@ -1,0 +1,437 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Notas 17 · 3.° Secundaria · 18 sep 2026</title><style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#fb923c;--bg:#0d1117;--bg2:#161b22;--border:rgba(255,255,255,.08);--text:#e6edf3;--muted:#8b949e;--dim:#484f58;--radius:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;padding-bottom:80px}
+.top-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;gap:.5rem;position:sticky;top:0;z-index:50}
+.top-bar-title{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent)}
+.top-bar-meta{font-size:.75rem;color:var(--muted)}
+.cards-wrap{padding:.75rem;max-width:680px;margin:0 auto}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.6rem;overflow:hidden}
+.card-header{display:flex;align-items:center;justify-content:space-between;padding:.65rem .9rem;cursor:pointer;gap:.5rem;user-select:none}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.ch-left{display:flex;align-items:center;gap:.6rem}
+.card-num{font-size:.7rem;font-weight:800;background:var(--accent);color:#000;border-radius:5px;padding:2px 7px;flex-shrink:0}
+.card-title{font-size:.92rem;font-weight:700;color:var(--text)}
+.card-time{font-size:.72rem;color:var(--muted);flex-shrink:0}
+.card-arrow{font-size:.8rem;color:var(--dim);transition:transform .2s;flex-shrink:0}
+.card.open .card-arrow{transform:rotate(180deg)}
+.card-body{display:none;padding:.6rem .9rem .85rem;border-top:1px solid var(--border)}
+.card.open .card-body{display:block}
+.section-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3rem;margin-top:.65rem}
+.section-lbl:first-child{margin-top:0}
+.notes-text{font-size:.88rem;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.mech-text{font-size:.85rem;line-height:1.65;color:var(--muted);white-space:pre-wrap}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem .75rem;z-index:99}
+.nav-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.4rem 1rem;font-size:.82rem;font-weight:800;cursor:pointer}
+.nav-btn:disabled{opacity:.25;cursor:default}
+#ncounter{color:var(--text);font-size:.82rem;font-weight:700;min-width:3.5em;text-align:center}
+.bw{margin-top:.85em;padding:.6em .75em;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;}
+.bw-row{display:flex;gap:.5em;margin-top:.4em;align-items:center;}
+.bw-inp{flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.45em .7em;color:var(--text,#f0f0f0);font-size:.85em;outline:none;}
+.bw-sel{appearance:none;-webkit-appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .7em center;padding-right:2.2em;}
+.bw-sel option{background:#1a1a1a;color:#f0f0f0;}
+.bw-inp:focus{border-color:var(--accent);}
+.bw-inp::placeholder{color:var(--muted);}
+.bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
+.rw-btn{background:#f59e0b!important;color:#241500!important}
+.vw-row{display:flex;gap:.4em;margin:.4em 0}
+.vw-row label{flex:1;display:flex;align-items:center;gap:.3em;font-size:.75em;font-weight:800;color:var(--muted)}
+.vw-n{width:100%;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.4em .3em;color:var(--text);font-size:.9em;text-align:center;outline:none}
+.vw-btn{width:100%;margin-top:.2em}
+</style></head>
+<body>
+<div class="top-bar"><div><div class="top-bar-title">Sesión 17 · 3.° Secundaria</div><div class="top-bar-meta">Google Sites: página educativa · Viernes 18 de septiembre 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
+<div class="cards-wrap">
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 3 metas: objetivo, orden y comprobación. Enlaza con S14 (proyecto educativo en Scratch): mismo criterio, otro formato.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta quién sigue tutoriales en internet para aprender algo. Casi todos: ahí está el modelo.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">3</span><span class="card-title">🎡 Arrancamos</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Primer giro. Buscas el recurso: ejemplos, pasos numerados, poder repetir, ver el error.
+
+⭐ Bonus: +1 a quien nombre el recurso concreto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Gira 2 o 3 veces. Sus respuestas son la lista de requisitos de la clase.</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
+  <div class="bw-row">
+    <button onclick="girarRemota('c3')" class="bw-btn rw-btn">🎡 Girar</button>
+    <select id="bw-nombre-c3" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c3','bw-msg-c3')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c3" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">4</span><span class="card-title">Apuntes vs página educativa</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Los apuntes están escritos para quien ya estuvo en la clase. Publicarlos no es enseñar.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pídeles que abran un apunte suyo y lo lean como si no hubieran ido a esa clase. Se dan cuenta solos.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">5</span><span class="card-title">Escribe para quien no estuvo</span></div><span class="card-time">2 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">La frase de la clase, y el criterio con el que se corrige toda la tarea.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pausa de 3 segundos.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">6</span><span class="card-title">🧩 Quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Correcta: B — el objetivo concreto.
+
+"Bienvenidos" y la portada gastan la atención sin dar razón para quedarse.
+
+⭐ Bonus: +1 al primero que responda correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Muestra el conteo con la votación del teléfono antes de destapar.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c6" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c6','bw-msg-c6')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c6" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c6')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c6" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">7</span><span class="card-title">El orden que enseña</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">De lo simple a lo complejo, un paso por bloque. El lector nuevo no puede saltar a la sección 4.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta por dónde empezarían a explicar fracciones a alguien que nunca las vio.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">8</span><span class="card-title">🎡 Reto: ordena la página</span></div><span class="card-time">5 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Orden razonable: para qué sirve → definición → ejemplo resuelto → error típico → ejercicio.
+
+Lo que se evalúa es que piensen en quien no sabe nada.
+
+⭐ Bonus: +1 a quien justifique desde el lector nuevo.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Gira y deja que la clase discuta: hay más de un orden defendible.</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
+  <div class="bw-row">
+    <button onclick="girarRemota('c8')" class="bw-btn rw-btn">🎡 Girar</button>
+    <select id="bw-nombre-c8" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c8','bw-msg-c8')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c8" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">9</span><span class="card-title">Explicar vs mostrar</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">"Es fácil" no enseña y desanima a quien no está entendiendo. El ejemplo resuelto sí.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta cómo se sintieron alguna vez que les dijeron "esto es obvio". La respuesta emocional fija la regla.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">10</span><span class="card-title">🧩 Quiz relámpago</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Correcta: B — un ejercicio o pregunta con su respuesta.
+
+⭐ Bonus: +1 al primero que responda correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Rápido. Prepara la diapositiva 13.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c10" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c10','bw-msg-c10')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c10" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c10')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c10" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">11</span><span class="card-title">Lo que arruina la página</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">"Bienvenidos", apuntes sin adaptar, "es fácil", sin ejemplos y sin comprobación.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pídeles que reconozcan cuál cometieron en el sitio de la S15.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">12</span><span class="card-title">⚡ Verdadero o falso</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">V (el objetivo desde el inicio) · F (publicar apuntes no basta) · V (el ejemplo enseña más) · F ("es fácil" desanima).
+
+⭐ Bonus: +1 a quien acierte las 4.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pulgares todos a la vez contando 3, 2, 1, y recién ahí destapas.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c12" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c12','bw-msg-c12')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c12" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">13</span><span class="card-title">El error típico también enseña</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Anticipar dónde se traba el lector es lo que más distingue a una buena página educativa.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregúntales cuál es el error típico del tema que eligieron. Si no lo saben, todavía no dominan el tema.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">14</span><span class="card-title">🧩 Último quiz</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Correcta: B — falta un ejemplo resuelto paso a paso.
+
+⭐ Bonus: +1 al primero que responda correctamente.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Si eligen "más teoría", ese es justo el reflejo que hay que corregir.</p>
+<div class="bw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">⭐ Participación en clase</p>
+  <div class="bw-row">
+    <select id="bw-nombre-c14" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c14','bw-msg-c14')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c14" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c14')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c14" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">15</span><span class="card-title">🎡 Reto relámpago</span></div><span class="card-time">4 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Objetivo con la forma "al terminar, sabrás…".
+
+Buenos: "…sabrás calcular el área de un triángulo". Malos: "…entenderás la geometría".
+
+⭐ Bonus: +1 a cada objetivo concreto.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Gira 3 o 4 veces. Anota los objetivos: son el punto de partida de la tarea.</p>
+<div class="bw rw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">🎡 Ruleta en la pantalla grande</p>
+  <div class="bw-row">
+    <button onclick="girarRemota('c15')" class="bw-btn rw-btn">🎡 Girar</button>
+    <select id="bw-nombre-c15" class="bw-inp bw-sel"><option value="">— Selecciona alumno —</option></select>
+    <button onclick="darBonus('bw-nombre-c15','bw-msg-c15')" class="bw-btn">+1</button>
+  </div>
+  <p id="bw-msg-c15" class="bw-msg"> </p>
+</div></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">16</span><span class="card-title">✅ Antes de publicar</span></div><span class="card-time">2 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 5 comprobaciones. La del error típico es la que más eleva la calidad.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que la copien.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">17</span><span class="card-title">🎯 Trabajo de hoy</span></div><span class="card-time">15 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Individual: tema que dominen, objetivo escrito y un ejemplo resuelto con el error típico.
+
+Qué revisar mientras circulas:
+- El objetivo es comprobable ✓
+- El ejemplo está resuelto paso a paso ✓
+- Menciona el error típico ✓</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Que un compañero lea la página sin ayuda y diga dónde se trabó. Es la mejor corrección posible.</p></div>
+</div>
+<div class="card">
+  <div class="card-header"><div class="ch-left"><span class="card-num">18</span><span class="card-title">🚀 Para recordar</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
+  <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Ticket de salida: "¿para quién se escribe una página educativa?" (para quien no estuvo). Recuerda la tarea: entrega antes del viernes 25 de septiembre.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pregunta a 3 alumnos al azar, de preferencia a los que no participaron hoy.</p></div>
+</div>
+</div>
+<div id="sync-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;"><div style="background:#161b22;border:1px solid rgba(255,255,255,.12);border-radius:16px;width:100%;max-width:320px;padding:1.5rem;text-align:center;"><p style="font-size:.85rem;font-weight:700;color:#e6edf3;margin-bottom:1rem;">Código del proyector</p><input id="sync-code-inp" maxlength="4" autocomplete="off" spellcheck="false" style="width:100%;text-align:center;font-size:2.2rem;font-weight:900;letter-spacing:.3em;background:#0d1117;border:2px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;padding:.5rem;font-family:monospace;text-transform:uppercase;outline:none;" /><p id="sync-status" style="font-size:.78rem;color:#8b949e;margin:.6rem 0;min-height:1.2em;"></p><button onclick="startSync()" style="background:#fb923c;color:#000;border:none;border-radius:8px;padding:.55rem 1.4rem;font-size:.9rem;font-weight:800;cursor:pointer;width:100%;">Conectar</button><button onclick="closeSyncOverlay()" style="margin-top:.5rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:#8b949e;border-radius:8px;padding:.4rem 1rem;font-size:.8rem;cursor:pointer;width:100%;">Cancelar</button></div></div>
+<nav class="nav-bar"><button class="nav-btn" id="btn-prev" disabled>← Ant</button><span id="ncounter">1 / 17</span><button class="nav-btn" id="btn-next">Sig →</button></nav>
+<script>const cards=[...document.querySelectorAll('.card')];let cur=0;
+let syncRoom='',syncActive=false,syncBusy=false,lastPosted=-1,pendingSlide=null;
+const API='/.netlify/functions/sync';
+function openCard(n){cards.forEach((c,i)=>c.classList.toggle('open',i===n));cur=n;document.getElementById('ncounter').textContent=(n+1)+' / '+cards.length;document.getElementById('btn-prev').disabled=n===0;document.getElementById('btn-next').disabled=n===cards.length-1;cards[n].scrollIntoView({behavior:'smooth',block:'nearest'});if(syncActive&&n!==lastPosted){lastPosted=n;postSlide(n);}}
+cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>openCard(i));});
+document.getElementById('btn-prev').addEventListener('click',()=>{if(cur>0)openCard(cur-1);});
+document.getElementById('btn-next').addEventListener('click',()=>{if(cur<cards.length-1)openCard(cur+1);});
+openCard(0);
+function openSyncOverlay(){document.getElementById('sync-overlay').style.display='flex';document.getElementById('sync-code-inp').focus();}
+function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
+function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();const st=document.getElementById('sync-status');if(code.length!==4){st.textContent='Ingresa 4 caracteres';return;}st.textContent='Verificando sala…';fetch(API+'?room='+code+'&_='+Date.now()).then(r=>r.json()).then(d=>{if(!d||((typeof d.slide!=='number'||d.slide<0)&&!d.grade)){st.textContent='❌ Sala no encontrada. Revisa el código del proyector.';return;}syncRoom=code;syncActive=true;lastPosted=cur;st.textContent='✅ Conectado';postSlide(cur);setTimeout(closeSyncOverlay,700);}).catch(()=>{st.textContent='❌ Sin conexión. Intenta de nuevo.';});}
+async function postSlide(idx){pendingSlide=idx;if(!syncActive||syncBusy)return;syncBusy=true;try{while(pendingSlide!==null&&syncActive){const t=pendingSlide;pendingSlide=null;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:t})});}catch(e){}}}finally{syncBusy=false;}}
+setInterval(function(){if(syncActive&&!syncBusy)postSlide(cur);},4000); // keepalive: reenvía posición actual — autorrepara posts perdidos o recargas del proyector
+const NOTA_GRADE='sec3';const NOTA_SESSION='17';
+let bwPw=sessionStorage.getItem('nota_pw')||'';
+(async function bwInit(){
+  try{
+    const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);
+    const d=await r.json();
+    if(d.found){
+      const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
+      document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});
+    }
+  }catch(e){}
+})();
+async function darBonus(selId,msgId){
+  selId=selId||'bw-nombre';msgId=msgId||'bw-msg';
+  const inp=document.getElementById(selId);
+  const msg=document.getElementById(msgId);
+  const nombre=inp.value.trim();
+  if(!nombre){msg.textContent='⚠️ Escribe un nombre';return;}
+  if(!bwPw){bwPw=prompt('Contraseña de profesora:')||'';if(bwPw)sessionStorage.setItem('nota_pw',bwPw);}
+  if(!bwPw)return;
+  msg.textContent='Guardando…';
+  try{
+    const res=await fetch('/.netlify/functions/add-bonus',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:bwPw,nombre,grado:NOTA_GRADE,puntos:1,razon:'Quiz S'+NOTA_SESSION})});
+    const d=await res.json();
+    if(d.ok){msg.textContent='✅ +1 a '+nombre;inp.value='';
+    if(typeof syncRoom!=='undefined'&&syncRoom){
+      fetch('/.netlify/functions/sync',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({room:syncRoom,bonus:{nombre,ts:Date.now()}})}).catch(()=>{});
+    }}
+    else if(res.status===401){bwPw='';sessionStorage.removeItem('nota_pw');msg.textContent='❌ Contraseña incorrecta';}
+    else{msg.textContent='❌ '+(d.error||'Alumno no encontrado');}
+  }catch(e){msg.textContent='❌ Sin conexión';}
+  setTimeout(()=>{const _m=document.getElementById(msgId);if(_m)_m.textContent=' ';},3500);
+}
+(function(){const _r=new URLSearchParams(window.location.search).get('room');if(!_r||_r.length<4)return;const _code=_r.slice(0,6).toUpperCase();const _inp=document.getElementById('sync-code-inp');if(_inp)_inp.value=_code;let _n=0;(function _try(){_n++;if(typeof startSync==='function')startSync();setTimeout(()=>{if(syncActive){const _t=document.createElement('div');_t.textContent='📡 Sync conectado · '+_code;_t.style.cssText='position:fixed;top:1rem;left:50%;transform:translateX(-50%);background:#fb923c;color:#000;padding:.55rem 1.2rem;border-radius:10px;font-weight:800;z-index:9999;font-size:.85rem;box-shadow:0 4px 16px rgba(0,0,0,.4);white-space:nowrap;pointer-events:none;';document.body.appendChild(_t);setTimeout(()=>_t.remove(),4000);}else if(_n<5){_try();}},1400);})();})();
+</script><script>
+/* ═══ Failsafe universal de datos v1 — ninguna acción del alumno se pierde ═══
+   Cubre submit-eval, submit-task y add-bonus. Cola persistente en localStorage,
+   reintentos indefinidos (cada 8s + al volver la conexión + al cargar cualquier
+   página), sendBeacon al cerrar, e inyección de 'fecha' (nonce) para que
+   reintentar un bonus NUNCA lo duplique. Nunca descarta un envío hasta que el
+   servidor responda ok. Si algo queda atascado >25s, avisa de forma visible. */
+(function(){
+  if(window.__dataFailsafe) return; window.__dataFailsafe=true;
+  var EPS=['/.netlify/functions/submit-eval','/.netlify/functions/submit-task','/.netlify/functions/add-bonus'];
+  var BONUS='/.netlify/functions/add-bonus';
+  var OUTBOX='dataOutboxV1';
+  var _f=window.fetch.bind(window);
+
+  /* ── chip de estado ── */
+  var chip=null,chipT=null;
+  function showChip(txt,bg,ms){
+    if(!chip){chip=document.createElement('div');chip.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s;';document.body.appendChild(chip);}
+    chip.style.background=bg;chip.textContent=txt;chip.style.opacity='1';clearTimeout(chipT);
+    if(ms)chipT=setTimeout(function(){chip.style.opacity='0';},ms);
+  }
+  /* ── banner de atascado (aviso fuerte) ── */
+  var banner=null;
+  function showStuck(on){
+    if(on){
+      if(!banner){banner=document.createElement('div');banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99998;background:#b91c1c;color:#fff;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:.6rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.3);';banner.textContent='⚠️ Un resultado aún no se ha guardado. No cierres esta página; si tarda, avísale a la profesora.';document.body.appendChild(banner);}
+      banner.style.display='block';
+    } else if(banner){banner.style.display='none';}
+  }
+
+  /* ── cola persistente ── */
+  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function keyOf(ep,payload){try{var p=JSON.parse(payload);
+    if(ep.indexOf('add-bonus')>-1) return 'bonus|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.fecha||'');
+    return ep+'|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');
+  }catch(e){return ep+'|'+payload.length;}}
+  function enqueue(ep,payload){var k=keyOf(ep,payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,ep:ep,p:payload,t:Date.now()});writeBox(b);}
+  function dequeue(k){writeBox(readBox().filter(function(it){return it.k!==k;}));}
+
+  /* ── normaliza el body: inyecta fecha (nonce) si es bonus y no la trae ── */
+  function withNonce(ep,body){
+    if(ep.indexOf('add-bonus')===-1) return body;
+    try{var p=JSON.parse(body);if(!p.fecha){p.fecha=new Date().toISOString();return JSON.stringify(p);}}catch(e){}
+    return body;
+  }
+
+  /* ── reenvío de la cola ── */
+  var sending=false;
+  function flush(){
+    if(sending)return;var b=readBox();if(!b.length){showStuck(false);return;}
+    // ¿algo atascado > 25s?
+    var stuck=b.some(function(it){return Date.now()-it.t>25000;});showStuck(stuck);
+    sending=true;var it=b[0];
+    _f(it.ep,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
+      .then(function(d){if(d&&d.ok===false)throw 0;
+        dequeue(it.k);sending=false;
+        showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
+        if(readBox().length)setTimeout(flush,400); else showStuck(false);
+      })
+      .catch(function(){sending=false;
+        showChip('📡 Guardando… no cierres esta página todavía','#b45309');
+      });
+  }
+
+  /* ── interceptar los POST de escritura ── */
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string' && o && o.body){
+        var ep=null;for(var i=0;i<EPS.length;i++){if(u.indexOf(EPS[i])>-1){ep=EPS[i];break;}}
+        if(ep){
+          var body=withNonce(ep,o.body);
+          var o2={};for(var k in o)o2[k]=o[k];o2.body=body;
+          enqueue(ep,body);showChip('⏳ Guardando tu resultado…','#1d4ed8');
+          return _f(u,o2).then(function(r){
+            if(r&&r.ok){dequeue(keyOf(ep,body));r.clone().json().then(function(d){showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Guardado en el sistema','#15803d',7000);});showStuck(false);}
+            else{setTimeout(flush,1200);}
+            return r;
+          }).catch(function(e){setTimeout(flush,1200);throw e;});
+        }
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+
+  /* ── disparadores ── */
+  setInterval(flush,8000);
+  window.addEventListener('online',flush);
+  setTimeout(flush,1500); // reintenta pendientes de visitas anteriores
+
+  /* ── último recurso al cerrar ── */
+  function beaconAll(){var b=readBox();if(!b.length||!navigator.sendBeacon)return;
+    for(var i=0;i<b.length;i++){try{navigator.sendBeacon(b[i].ep,new Blob([b[i].p],{type:'text/plain'}));}catch(e){}}}
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
+  window.addEventListener('pagehide',beaconAll);
+})();
+</script>
+<script>
+/* ═══ Ruleta desde el control remoto ═══
+   La profesora gira desde el teléfono y la rueda del proyector obedece: se
+   elige aquí al alumno, se manda por sync y el deck lo hace girar hasta él.
+   El elegido queda puesto en el selector, así darle el punto es un toque más
+   (y ese +1 usa el mismo camino de siempre, con su celebración en pantalla). */
+function girarRemota(id){
+  var sel=document.getElementById('bw-nombre-'+id);
+  var msg=document.getElementById('bw-msg-'+id);
+  if(!sel||!msg)return;
+  var nombres=[].slice.call(sel.options).map(function(o){return o.value;}).filter(Boolean);
+  if(!nombres.length){msg.textContent='⏳ La lista de alumnos aún no carga';return;}
+  var nombre=nombres[Math.floor(Math.random()*nombres.length)];
+  sel.value=nombre;
+  if(syncActive&&syncRoom){
+    msg.textContent='🎡 Girando… '+nombre;
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({room:syncRoom,ruleta:{nombre:nombre,ts:Date.now()}})})
+      .then(function(){msg.textContent='🎉 '+nombre+' — dale +1 si participa';})
+      .catch(function(){msg.textContent='🎉 '+nombre+' (no llegó a la pantalla)';});
+  }else{
+    msg.textContent='🎉 '+nombre+' · conecta 📡 Sync para verla girar en la pantalla';
+  }
+}
+
+/* ═══ Votación a mano alzada — control remoto ═══
+   Se cuentan las manos, se tipean los números y el proyector dibuja las barras.
+   La pregunta que se manda es el título de la tarjeta abierta, así la profesora
+   no tiene que escribirla otra vez en el teléfono. */
+function mostrarVoto(id){
+  var msg=document.getElementById('vw-msg-'+id);
+  var letras=['a','b','c','d'], ops=[];
+  letras.forEach(function(L){
+    var el=document.getElementById('vw-'+L+'-'+id);
+    var n=parseInt(el&&el.value,10);
+    if(!isNaN(n)&&n>=0) ops.push({t:L.toUpperCase(), n:n});
+  });
+  if(ops.length<2){ msg.textContent='⚠️ Escribe al menos dos conteos'; return; }
+  if(!syncActive||!syncRoom){ msg.textContent='⚠️ Conecta 📡 Sync para mostrarla en la pantalla'; return; }
+  var card=document.getElementById('vw-msg-'+id).closest('.card');
+  var titulo=card?card.querySelector('.card-title').textContent.trim():'';
+  msg.textContent='Enviando…';
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({room:syncRoom,votacion:{pregunta:'¿Qué votó la clase? · '+titulo,opciones:ops,ts:Date.now()}})})
+    .then(function(){
+      /* El resultado se queda EN LAS NOTAS: la profesora mira su teléfono, no
+         la pantalla, y necesita el conteo a la vista para conducir el debate. */
+      var total=ops.reduce(function(s,o){return s+o.n;},0);
+      var top=ops.slice().sort(function(a,b){return b.n-a.n;})[0];
+      var detalle=ops.map(function(o){return o.t+': '+o.n;}).join(' · ');
+      msg.innerHTML='📊 <b>'+detalle+'</b> — mayoría <b>'+top.t+'</b> ('+top.n+' de '+total+')'
+        +'<br>Pide que alguien de la minoría defienda su respuesta.';
+    })
+    .catch(function(){msg.textContent='❌ No llegó a la pantalla';});
+}
+</script>
+</body></html>

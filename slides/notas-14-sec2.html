@@ -35,6 +35,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
 .rw-btn{background:#f59e0b!important;color:#241500!important}
+.vw-row{display:flex;gap:.4em;margin:.4em 0}
+.vw-row label{flex:1;display:flex;align-items:center;gap:.3em;font-size:.75em;font-weight:800;color:var(--muted)}
+.vw-n{width:100%;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:.4em .3em;color:var(--text);font-size:.9em;text-align:center;outline:none}
+.vw-btn{width:100%;margin-top:.2em}
 </style></head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 14 · 2.° Secundaria</div><div class="top-bar-meta">Infografía sencilla · Viernes 28 de agosto 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
@@ -80,6 +84,17 @@ Las otras tres son temas, no preguntas: no se pueden responder con datos.
     <button onclick="darBonus('bw-nombre-c6','bw-msg-c6')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c6" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c6" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c6')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c6" class="bw-msg"> </p>
 </div></div>
 </div>
 <div class="card">
@@ -121,6 +136,17 @@ Es el error más común: querer meterlo todo.
     <button onclick="darBonus('bw-nombre-c10','bw-msg-c10')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c10" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c10" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c10')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c10" class="bw-msg"> </p>
 </div></div>
 </div>
 <div class="card">
@@ -157,6 +183,17 @@ Es el error más común: querer meterlo todo.
     <button onclick="darBonus('bw-nombre-c14','bw-msg-c14')" class="bw-btn">+1</button>
   </div>
   <p id="bw-msg-c14" class="bw-msg"> </p>
+</div>
+<div class="bw vw">
+  <p style="font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.3em">✋ Votación a mano alzada</p>
+  <div class="vw-row">
+    <label>A<input id="vw-a-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>B<input id="vw-b-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>C<input id="vw-c-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+    <label>D<input id="vw-d-c14" class="vw-n" type="number" min="0" max="99" inputmode="numeric" placeholder="0"></label>
+  </div>
+  <button onclick="mostrarVoto('c14')" class="bw-btn vw-btn">📊 Mostrar en la pantalla</button>
+  <p id="vw-msg-c14" class="bw-msg"> </p>
 </div></div>
 </div>
 <div class="card">
@@ -367,6 +404,29 @@ function girarRemota(id){
   }else{
     msg.textContent='🎉 '+nombre+' · conecta 📡 Sync para verla girar en la pantalla';
   }
+}
+
+/* ═══ Votación a mano alzada — control remoto ═══
+   Se cuentan las manos, se tipean los números y el proyector dibuja las barras.
+   La pregunta que se manda es el título de la tarjeta abierta, así la profesora
+   no tiene que escribirla otra vez en el teléfono. */
+function mostrarVoto(id){
+  var msg=document.getElementById('vw-msg-'+id);
+  var letras=['a','b','c','d'], ops=[];
+  letras.forEach(function(L){
+    var el=document.getElementById('vw-'+L+'-'+id);
+    var n=parseInt(el&&el.value,10);
+    if(!isNaN(n)&&n>=0) ops.push({t:L.toUpperCase(), n:n});
+  });
+  if(ops.length<2){ msg.textContent='⚠️ Escribe al menos dos conteos'; return; }
+  if(!syncActive||!syncRoom){ msg.textContent='⚠️ Conecta 📡 Sync para mostrarla en la pantalla'; return; }
+  var card=document.getElementById('vw-msg-'+id).closest('.card');
+  var titulo=card?card.querySelector('.card-title').textContent.trim():'';
+  msg.textContent='Enviando…';
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({room:syncRoom,votacion:{pregunta:'¿Qué votó la clase? · '+titulo,opciones:ops,ts:Date.now()}})})
+    .then(function(){msg.textContent='📊 En la pantalla — pide que alguien de la minoría defienda su respuesta';})
+    .catch(function(){msg.textContent='❌ No llegó a la pantalla';});
 }
 </script>
 </body></html>

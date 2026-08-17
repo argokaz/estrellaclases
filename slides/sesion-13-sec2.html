@@ -229,6 +229,25 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   .slide.active .dm-dibuja{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s .3s cubic-bezier(.4,0,.2,1) both}
   .slide.active .dm-sale{animation:pIn .5s .5s ease both}
 }
+
+/* ── Ruleta: cuántos faltan por participar ── */
+.ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
+
+/* ── Podio del día (diapositiva de cierre) ── */
+.podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
+.podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
+  border-left:4px solid var(--acc);border-radius:clamp(8px,1vw,14px);padding:.45em 1em;
+  box-shadow:0 4px 12px rgba(30,25,15,.06)}
+.podio-pos{font-size:clamp(18px,2.4vw,38px);line-height:1}
+.podio-nom{flex:1;text-align:left;font-size:clamp(14px,1.9vw,32px);font-weight:700;color:#141310}
+.podio-pts{font-family:'Space Grotesk',sans-serif;font-size:clamp(15px,2.1vw,34px);font-weight:800;color:var(--acc)}
+.podio-vacio{font-size:clamp(13px,1.7vw,28px);color:#5a5750;opacity:.8}
+.podio-tit{font-size:clamp(13px,1.6vw,26px);font-weight:800;color:var(--acc);letter-spacing:.06em;text-transform:uppercase;margin-top:2%}
+@media (prefers-reduced-motion: no-preference){
+  .slide.active .podio-fila{animation:pIn .45s ease both}
+  .slide.active .podio-fila:nth-child(2){animation-delay:.12s}
+  .slide.active .podio-fila:nth-child(3){animation-delay:.24s}
+}
 </style></head>
 <body>
 <div class="deck-wrap" id="deck"><div class="slide active">
@@ -254,6 +273,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <div class="ruleta-lado">
     <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
     <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
     <p class="ruleta-pie">La ruleta elige sola. Nadie se queda sin turno.</p>
   </div>
 </div>
@@ -313,6 +333,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <div class="ruleta-lado">
     <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
     <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
     
   </div>
 </div>
@@ -392,6 +413,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <div class="ruleta-lado">
     <button class="ruleta-btn" onclick="girarRuleta(this)">🎡 ¡Girar!</button>
     <p class="ruleta-out">—</p>
+    <p class="ruleta-quedan"></p>
     <p class="ruleta-pie">Cuenten las palabras en voz alta con la clase.</p>
   </div>
 </div>
@@ -424,6 +446,8 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="c3"><div class="big-em">🎨</div><p class="t-sm accent" style="font-weight:700;margin:.5em 0">Contraste</p><p class="t-sm" style="opacity:.8">La prueba de los 3 metros</p></div>
 </div>
 <p class="t-sm" style="margin-top:2.5%;opacity:.75">Tarea: afiche informativo terminado · Entrega antes del viernes 28 de agosto</p>
+<p class="podio-tit">🏆 Los que más participaron hoy</p>
+<div class="podio-hoy"></div>
 </div></div>
 <nav class="nav">
   <button id="btn-prev" onclick="go(-1)" disabled>← Ant</button>
@@ -432,7 +456,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #1d4ed8;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#1d4ed8;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-sec2-13';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec2',session:'13'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-sec2-13';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec2',session:'13'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=18;let cur=0;
 const dots=document.getElementById('dots');
@@ -482,7 +506,7 @@ let lastBonusId=null;
 (async function pollBonus(){
   try{
     const r=await fetch('/.netlify/functions/get-bonus-signal?grado='+DECK_GRADE+'&_='+Date.now());
-    if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);}}
+    if(r.ok){const d=await r.json();if(d.bonus&&d.bonus.id&&d.bonus.id!==lastBonusId){lastBonusId=d.bonus.id;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}}
   }catch(e){}
   setTimeout(pollBonus,2000);
 })();
@@ -631,11 +655,33 @@ let lastBonusId=null;
     setTimeout(function(){
       out.textContent='🎉 '+nombres[i];
       if(btn){btn.disabled=false;btn.textContent='🎡 Otra vez';}
+      pintarRestantes();
     },4300);
   }
 
+  /* ── Sin repetición ──────────────────────────────────────────────────
+     Con 17 alumnos y 3 giros, el azar puro repite a alguien mientras otros
+     no salen nunca — que es justo lo que la ruleta venía a evitar. Se lleva
+     la cuenta de quién ya participó y solo se reinicia cuando pasaron todos. */
+  var yaSalieron=[];
+  function siguienteIndice(){
+    var libres=[];
+    for(var i=0;i<nombres.length;i++) if(yaSalieron.indexOf(norm(nombres[i]))<0) libres.push(i);
+    if(!libres.length){ yaSalieron=[]; for(var j=0;j<nombres.length;j++) libres.push(j); }
+    var i=libres[Math.floor(Math.random()*libres.length)];
+    yaSalieron.push(norm(nombres[i]));
+    return i;
+  }
+  function pintarRestantes(){
+    var quedan=nombres.length-yaSalieron.length;
+    [].forEach.call(document.querySelectorAll('.ruleta-quedan'),function(el){
+      el.textContent=quedan===0?'¡Pasaron todos! La ruleta vuelve a empezar'
+        :('Faltan '+quedan+' de '+nombres.length+' por participar');
+    });
+  }
+
   window.girarRuleta=function(btn){
-    girar(btn.closest('[data-ruleta]'),Math.floor(Math.random()*nombres.length));
+    girar(btn.closest('[data-ruleta]'),siguienteIndice());
   };
 
   /* La llama el poll cuando la profesora gira desde sus notas. */
@@ -652,8 +698,38 @@ let lastBonusId=null;
       if(out)out.textContent='🎉 '+nombre;
       return;
     }
+    /* Girar desde el control remoto también consume el turno, si no la lista
+       de "quién falta" se desincroniza entre la pantalla y el teléfono. */
+    if(yaSalieron.indexOf(norm(nombre))<0) yaSalieron.push(norm(nombre));
     girar(activa,i);
   };
+
+  /* ── Podio del día ────────────────────────────────────────────────────
+     Lleva la cuenta de los puntos que se dieron EN ESTA CLASE (los que pasan
+     por la celebración) y los muestra en la diapositiva de cierre. El ranking
+     del mes ya existe en el dashboard; esto es el de hoy, que es el que mueve
+     a esta edad. Si el proyector se recarga, la cuenta del día vuelve a cero. */
+  var puntosHoy={};
+  window.registrarPunto=function(nombre){
+    if(!nombre)return;
+    var k=norm(nombre);
+    if(!puntosHoy[k]) puntosHoy[k]={nombre:nombre,n:0};
+    puntosHoy[k].n++;
+    pintarPodio();
+  };
+  function pintarPodio(){
+    var cajas=document.querySelectorAll('.podio-hoy');
+    if(!cajas.length)return;
+    var top=Object.keys(puntosHoy).map(function(k){return puntosHoy[k];})
+      .sort(function(a,b){return b.n-a.n;}).slice(0,3);
+    var medallas=['🥇','🥈','🥉'];
+    var html=top.length
+      ? top.map(function(a,i){return '<div class="podio-fila"><span class="podio-pos">'+medallas[i]+'</span>'
+          +'<span class="podio-nom">'+a.nombre+'</span><span class="podio-pts">'+a.n+'</span></div>';}).join('')
+      : '<p class="podio-vacio">Los puntos de hoy aparecerán aquí 👀</p>';
+    [].forEach.call(cajas,function(c){c.innerHTML=html;});
+  }
+  pintarPodio();
 
   window.vfPick=function(el){
     if(el.classList.contains('abierto'))return;

@@ -51,9 +51,9 @@ exports.handler = async (event) => {
     let body;
     try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
 
-    const { room, slide, bonus, grade, session, ruleta } = body;
+    const { room, slide, bonus, grade, session, ruleta, votacion } = body;
     if (!room || room.length > 8) return res(400, { error: "bad params" });
-    if (typeof slide !== "number" && !bonus && !grade && !ruleta) return res(400, { error: "bad params" });
+    if (typeof slide !== "number" && !bonus && !grade && !ruleta && !votacion) return res(400, { error: "bad params" });
 
     // Leer estado actual y mergear — todos los campos son independientes
     let current = { slide: -1 };
@@ -67,6 +67,18 @@ exports.handler = async (event) => {
     // La profesora gira la ruleta desde sus notas; el proyector la ve girar en
     // el siguiente poll. El ts hace que cada giro dispare una sola vez.
     if (ruleta && ruleta.nombre) current.ruleta = { nombre: ruleta.nombre, ts: ruleta.ts || Date.now() };
+    // Votación a mano alzada: la profesora cuenta las manos y las tipea; el
+    // proyector dibuja las barras. Se guarda tal cual y el ts la dispara.
+    if (votacion && Array.isArray(votacion.opciones)) {
+      current.votacion = {
+        pregunta: String(votacion.pregunta || '').slice(0, 120),
+        opciones: votacion.opciones.slice(0, 4).map(o => ({
+          t: String(o.t || '').slice(0, 40),
+          n: Math.max(0, Math.min(999, Number(o.n) || 0)),
+        })),
+        ts: votacion.ts || Date.now(),
+      };
+    }
     if (grade)   current.grade   = grade;
     if (session) current.session = session;
     current.ts = Date.now();

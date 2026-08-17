@@ -1333,6 +1333,22 @@ button{font-family:inherit;cursor:pointer;}
 .ses-punto{flex-shrink:0;width:.5rem;height:.5rem;border-radius:50%;background:var(--line-strong);}
 .ses-fila.dictada .ses-punto{background:#15803d;}
 .ses-fila.hoy .ses-punto{background:var(--gold);box-shadow:0 0 0 3px rgba(255,61,139,.18);}
+.ses-fila.lista .ses-punto{background:#fff;border:2px solid var(--accent);}
+.ses-fila.sinmat .ses-punto{background:transparent;border:2px dashed var(--line-strong);}
+.ses-etq{flex-shrink:0;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;}
+.ses-fila.lista .ses-etq{color:var(--accent);}
+.ses-fila.sinmat .ses-etq{color:var(--text-dim);font-weight:600;}
+.ses-tope{display:flex;align-items:center;gap:.6rem;margin:.15rem 0 .05rem;}
+.ses-tope::before,.ses-tope::after{content:'';flex:1;height:2px;background:var(--accent);opacity:.35;}
+.ses-tope span{font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:800;color:var(--accent);}
+.cns-anio-leyenda{display:flex;flex-wrap:wrap;gap:.2rem 1rem;padding:.5rem 0 .2rem;
+  font-size:var(--fs-xs);color:var(--text-muted);}
+.cns-anio-leyenda span{display:inline-flex;align-items:center;gap:.35rem;}
+.cns-anio-leyenda .lg{display:inline-block;width:.5rem;height:.5rem;border-radius:50%;background:var(--line-strong);}
+.cns-anio-leyenda .lg-dictada{background:#15803d;}
+.cns-anio-leyenda .lg-hoy{background:var(--gold);}
+.cns-anio-leyenda .lg-lista{background:#fff;border:2px solid var(--accent);}
+.cns-anio-leyenda .lg-sinmat{background:transparent;border:2px dashed var(--line-strong);}
 .ses-tema{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .ses-fila.dictada .ses-tema{color:var(--text-muted);}
 .ses-fecha{flex-shrink:0;font-size:var(--fs-xs);color:var(--text-muted);}
@@ -1557,13 +1573,13 @@ const AI_SESSIONS  = new Set([7,8,25]);
 const SEC_SESSIONS = new Set([15,16]);
 
 // ── Añadir el número de sesión aquí cada vez que se publiquen nuevas diapositivas ──
-const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
+const READY_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
 
 // ── Añadir el número de sesión aquí cuando exista guía de repaso ──
-const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
+const REPASO_SESSIONS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
 
 // ── Añadir el número de sesión aquí cuando exista página de entrega de tarea ──
-const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]);
+const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]);
 
 // ── Sesiones publicadas solo para algunos salones ──
 // Sirve cuando una sesión se publica primero para un salón: sin esto, los otros
@@ -4237,6 +4253,12 @@ function renderConsola(gradeId){
         <span class="cns-anio-n"> · ${TOTAL} sesiones, ${dictadas} dictadas</span></span>
       <span class="cns-anio-fl">▾</span>
     </summary>
+    <div class="cns-anio-leyenda">
+      <span><i class="lg lg-dictada"></i> dictada</span>
+      <span><i class="lg lg-hoy"></i> hoy</span>
+      <span><i class="lg lg-lista"></i> preparada, sin dictar</span>
+      <span><i class="lg lg-sinmat"></i> sin material</span>
+    </div>
     <div class="cns-anio-body">${filasAnio(todas, gradeId)}</div>
   </details>`;
 
@@ -4357,15 +4379,28 @@ function panelDespues(it, gradeId){
 }
 
 function filasAnio(todas, gradeId){
+  /* El punto ya no dice solo "dictada o no": también dice si la clase existe.
+     Sin esto las 32 filas futuras se veían idénticas en gris y no había forma
+     de saber hasta dónde hay material preparado. */
+  const conMat = todas.filter(i=>hayMaterial(READY_SESSIONS, i.sd.n, gradeId)).map(i=>i.sd.n);
+  const tope = conMat.length ? Math.max(...conMat) : 0;
   return todas.map(i=>{
-    const cls = i.hoy ? 'hoy' : (i.past ? 'dictada' : '');
+    const mat = hayMaterial(READY_SESSIONS, i.sd.n, gradeId);
+    const cls = i.hoy ? 'hoy' : (i.past ? 'dictada' : (mat ? 'lista' : 'sinmat'));
     const act = i.sd.n===sesionActiva ? ' activa' : '';
-    return `<button class="ses-fila ${cls}${act}" onclick="verSesion(${i.sd.n})">
+    const tip = i.hoy ? 'Hoy toca esta clase'
+      : i.past ? 'Clase ya dictada'
+      : mat ? 'Material listo: presentación, notas, repaso y tarea'
+      : 'Todavía sin material';
+    const raya = (i.sd.n===tope && tope < TOTAL)
+      ? `<div class="ses-tope"><span>📚 material listo hasta aquí</span></div>` : '';
+    return `<button class="ses-fila ${cls}${act}" onclick="verSesion(${i.sd.n})" title="${tip}">
       <span class="ses-n">${i.sd.n}</span>
       <span class="ses-punto"></span>
       <span class="ses-tema">${i.sd.title}</span>
+      <span class="ses-etq">${mat ? (i.past||i.hoy ? '' : 'lista') : 'sin material'}</span>
       <span class="ses-fecha">${fmtDate(i.fecha).replace('Viernes ','')}</span>
-    </button>`;
+    </button>${raya}`;
   }).join('');
 }
 
@@ -4602,6 +4637,7 @@ function entrarConsola(){
       <button class="results-session-tab" data-session="21" onclick="loadResults('21')">Sesión 21 — 16 octubre</button>
       <button class="results-session-tab" data-session="22" onclick="loadResults('22')">Sesión 22 — 23 octubre</button>
       <button class="results-session-tab" data-session="23" onclick="loadResults('23')">Sesión 23 — 30 octubre</button>
+      <button class="results-session-tab" data-session="24" onclick="loadResults('24')">Sesión 24 — 6 noviembre</button>
     </div>
 
     <div class="results-summary" id="results-summary" style="display:none">

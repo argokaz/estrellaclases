@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarea S14 — 5.° Secundaria | Asunción School</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+:root{--accent:#f87171;--accent2:#ef4444;--brand:#7f1d1d;--grad:linear-gradient(135deg,#450a0a,#7f1d1d);--badge-bg:#fecaca;--badge-c:#7f1d1d;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg-alt:#f8fafc;--radius:12px;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.8}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:780px;margin:0 auto;padding:44px 48px}
+@media(max-width:640px){.page-wrap{padding:24px 18px}}
+.doc-header{border-bottom:3px solid var(--accent);padding-bottom:18px;margin-bottom:28px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--accent2);margin-top:3px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:2}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:var(--brand);margin-bottom:4px}
+.doc-subtitle{font-size:15px;color:var(--muted);margin-bottom:28px}
+.task-card{background:var(--grad);border-radius:18px;padding:30px 34px;margin-bottom:28px;color:#fff;position:relative;overflow:hidden;}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.08) 0%,transparent 65%);pointer-events:none;}
+.task-badge{display:inline-flex;align-items:center;gap:6px;background:var(--badge-bg);color:var(--badge-c);font-weight:900;font-size:12px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:4px 12px;margin-bottom:12px;}
+.task-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+.task-desc{font-size:16px;opacity:.92;line-height:1.7;margin-bottom:14px;}
+.task-items{list-style:none;padding:0;display:flex;flex-direction:column;gap:7px;}
+.task-items li{display:flex;align-items:flex-start;gap:10px;font-size:15.5px;line-height:1.55;}
+.task-items li::before{content:'✓';background:rgba(255,255,255,.2);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px;flex-shrink:0;}
+.task-deadline{margin-top:16px;font-size:13px;background:rgba(0,0,0,.2);border-radius:8px;padding:9px 13px;display:flex;align-items:center;gap:8px;}
+.tutorial-wrap{background:#fffbeb;border:2px solid #fde68a;border-radius:18px;padding:26px 30px;margin-bottom:28px;}
+.tutorial-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:#78350f;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.step{display:flex;align-items:flex-start;gap:12px;padding:11px 15px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
+.step-num{background:#f59e0b;color:#fff;border-radius:50%;width:28px;height:28px;min-width:28px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;margin-top:2px;}
+.step-text{font-size:15px;color:#44403c;line-height:1.5;}
+.step-text strong{color:#78350f;}
+.warn-box{background:#fef3c7;border:2px solid #f59e0b;border-radius:11px;padding:14px 18px;display:flex;gap:12px;align-items:flex-start;}
+.warn-icon{font-size:1.5rem;flex-shrink:0;line-height:1.2}
+.warn-text{font-size:14px;color:#78350f;line-height:1.6;}
+.warn-text strong{display:block;margin-bottom:3px;font-size:14.5px;}
+.tut-note{background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:10px;padding:14px 18px;margin-top:12px;font-size:14px;color:#1e40af;line-height:1.6;}
+.tut-note strong{display:inline;color:#1e3a8a;}
+.form-section{border:2px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:28px;background:var(--bg-alt);}
+.form-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--brand);margin-bottom:22px;display:flex;align-items:center;gap:8px;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-size:14px;font-weight:700;color:var(--text);margin-bottom:7px;}
+.form-input{width:100%;border:2px solid var(--border);border-radius:10px;padding:13px 15px;font-size:16px;font-family:inherit;outline:none;color:var(--text);transition:border-color .2s;background:#fff;}
+.form-input:focus{border-color:var(--accent);}
+.form-input.err{border-color:#ef4444;background:#fef2f2;}
+.form-hint{font-size:13px;color:var(--muted);margin-top:5px;}
+.form-textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;resize:vertical;min-height:76px;outline:none;color:var(--text);transition:border-color .2s;background:#fff;line-height:1.65;}
+.form-textarea:focus{border-color:var(--accent);}
+.submit-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px;font-size:17px;font-weight:700;transition:opacity .15s,transform .15s;box-shadow:0 4px 16px rgba(248,113,113,.28);margin-top:4px;}
+.submit-btn:hover:not(:disabled){opacity:.88;transform:translateY(-1px);}
+.submit-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed;box-shadow:none;}
+.err-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:9px;padding:11px 15px;font-size:14px;color:#b91c1c;margin-top:10px;display:none;}
+.err-msg.show{display:block;}
+.confirm-card{background:#fef2f2;border:2px solid #fecaca;border-radius:18px;padding:36px;text-align:center;display:none;}
+.confirm-card.show{display:block;}
+.confirm-icon{font-size:3.5rem;margin-bottom:14px;}
+.confirm-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--brand);margin-bottom:8px;}
+.confirm-sub{font-size:15px;color:#991b1b;margin-bottom:18px;line-height:1.65;}
+.confirm-link-box{background:#fff;border:1.5px solid #fecaca;border-radius:9px;padding:11px 14px;font-size:13px;color:var(--muted);word-break:break-all;margin-bottom:18px;text-align:left;}
+.confirm-link-box a{color:var(--accent2);font-weight:600;}
+.resubmit-btn{background:transparent;border:2px solid #fecaca;color:#991b1b;border-radius:9px;padding:9px 20px;font-size:14px;font-weight:700;font-family:inherit;transition:all .15s;}
+.resubmit-btn:hover{border-color:var(--accent);color:var(--accent2);}
+.tut-svg{width:100%;height:auto;display:block;border-radius:12px;margin-bottom:14px;}
+details.tut-text{margin-bottom:14px;background:#fff;border:1px solid #fde68a;border-radius:11px;}
+details.tut-text summary{cursor:pointer;padding:12px 16px;font-weight:700;color:#78350f;font-size:14.5px;list-style:none;display:flex;align-items:center;gap:8px;}
+details.tut-text summary::-webkit-details-marker{display:none;}
+details.tut-text summary::after{content:'▾';margin-left:auto;transition:transform .2s;}
+details.tut-text[open] summary::after{transform:rotate(180deg);}
+details.tut-text .steps{padding:0 14px 14px;margin-bottom:0;}
+.ac-wrap{position:relative;}
+.ac-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:2px solid var(--accent);border-radius:10px;max-height:230px;overflow-y:auto;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.15);display:none;}
+.ac-list.open{display:block;}
+.ac-item{padding:11px 15px;font-size:15.5px;cursor:pointer;border-bottom:1px solid #f1f5f9;color:var(--text);}
+.ac-item:last-child{border-bottom:none;}
+.ac-item:hover,.ac-item.sel{background:#f1f5f9;}
+.tut-note{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:10px 13px;font-size:13.5px;line-height:1.55;color:#78350f;margin:0 0 14px}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Profesora Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>5.° Secundaria 🔴</div>
+    <div>Sesión 14 &nbsp;·&nbsp; Viernes 28 de agosto de 2026</div>
+  </div>
+</div>
+
+<div class="doc-title">📎 Entrega de Tarea — Sesión 14</div>
+<div class="doc-subtitle">Presentación personal de 1 minuto · Google Docs / cámara</div>
+
+<div class="task-card">
+  <div class="task-badge">📋 Tu misión</div>
+  <div class="task-title">🎤 Tu presentación de un minuto</div>
+  <div class="task-desc">Escribe en un <strong>Google Docs</strong> el guion de tu presentación de un minuto y grábate diciéndola. El enlace del video va dentro del documento.</div>
+  <ul class="task-items">
+    <li>Guion de <strong>150 palabras o menos</strong> (usa el contador del Doc)</li>
+    <li>Una <strong>idea principal</strong> sostenida por <strong>dos hechos concretos</strong></li>
+    <li>Un cierre que diga <strong>qué buscas</strong></li>
+    <li>El <strong>enlace al video</strong> (Drive, con permiso de lector) pegado dentro del documento</li>
+  </ul>
+  <div class="task-deadline">📅 &nbsp; Entrega antes de la próxima clase · Viernes 4 de septiembre</div>
+</div>
+
+<div class="tutorial-wrap">
+  <div class="tutorial-title">📤 ¿Cómo publicar y compartir tu Google Sites?</div>
+  <p class="tut-note">⚠️ El video va en <strong>Drive</strong>, compartido como «cualquiera con el enlace · lector», y el enlace pegado dentro del documento. Si el video no abre desde otra cuenta, la entrega queda incompleta.</p>
+  <svg class="tut-svg" viewBox="0 0 600 432" xmlns="http://www.w3.org/2000/svg" font-family="Inter,Arial,sans-serif" role="img" aria-label="Animación: cómo compartir tu trabajo en Google Docs">
+    <rect x="10" y="10" width="580" height="380" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+    <path d="M10 24 a14 14 0 0 1 14-14 h552 a14 14 0 0 1 14 14 v42 h-580 z" fill="#f8fafc"/>
+    <line x1="10" y1="66" x2="590" y2="66" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="28" y="22" width="30" height="34" rx="5" fill="#4285f4"/>
+    <rect x="34" y="30" width="18" height="2.5" rx="1" fill="#fff"/>
+    <rect x="34" y="36" width="18" height="2.5" rx="1" fill="#fff"/>
+    <rect x="34" y="42" width="12" height="2.5" rx="1" fill="#fff"/>
+    <text x="70" y="38" font-size="15" font-weight="700" fill="#1e293b">Mi minuto</text>
+    <text x="70" y="54" font-size="11" fill="#94a3b8">Google Docs</text>
+    <rect x="470" y="23" width="100" height="32" rx="16" fill="#1a73e8"/>
+    <text x="520" y="44" font-size="13.5" font-weight="700" fill="#fff" text-anchor="middle">Publicar</text>
+    <g fill="#e2e8f0"><rect x="60" y="92" width="480" height="180" rx="8"/></g>
+    <g><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.18;0.22;0.97;1"/>
+      <rect x="120" y="96" width="360" height="230" rx="14" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="140" y="124" font-size="15" font-weight="700" fill="#333">Publicar en la Web</text>
+      <text x="140" y="150" font-size="11.5" font-weight="700" fill="#5f6368">DIRECCIÓN WEB</text>
+      <rect x="140" y="160" width="290" height="34" rx="8" fill="#f8fafc" stroke="#dadce0" stroke-width="1"/>
+      <text x="152" y="182" font-size="11" fill="#80868b">sites.google.com/view/mi-portafolio</text>
+      <g>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0" keyTimes="0;0.50;0.52;1"/>
+        <rect x="140" y="208" width="150" height="32" rx="16" fill="#1a73e8"/>
+        <text x="215" y="229" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Publicar</text>
+      </g>
+      <g>
+        <animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1" keyTimes="0;0.50;0.52;1"/>
+        <rect x="140" y="208" width="180" height="32" rx="16" fill="#e6f4ea"/>
+        <text x="152" y="229" font-size="13" font-weight="700" fill="#137333">✅ Sitio publicado</text>
+      </g>
+      <rect x="140" y="256" width="148" height="32" rx="16" fill="#fff" stroke="#dadce0" stroke-width="1.5"/>
+      <text x="214" y="277" font-size="13" font-weight="700" fill="#1a73e8" text-anchor="middle">🔗 Copiar enlace</text>
+    </g>
+    <g><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.72;0.75;0.90;0.93;1"/>
+      <rect x="195" y="342" width="210" height="28" rx="7" fill="#202124"/>
+      <text x="300" y="361" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">✅ Enlace copiado</text>
+    </g>
+    <circle cx="520" cy="40" r="0" fill="none" stroke="#1a73e8" stroke-width="3"><animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;22;0;0" keyTimes="0;0.13;0.14;0.20;0.21;1"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.13;0.14;0.20;0.21;1"/></circle>
+    <circle cx="215" cy="224" r="0" fill="none" stroke="#1a73e8" stroke-width="3"><animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;18;0;0" keyTimes="0;0.40;0.41;0.47;0.48;1"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.40;0.41;0.47;0.48;1"/></circle>
+    <circle cx="214" cy="272" r="0" fill="none" stroke="#1a73e8" stroke-width="3"><animate attributeName="r" dur="12s" repeatCount="indefinite" values="0;0;5;18;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/><animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;0.8;0;0;0" keyTimes="0;0.65;0.66;0.72;0.73;1"/></circle>
+    <g><animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" values="300 250;520 40;520 40;215 224;215 224;214 272;214 272;300 250" keyTimes="0;0.12;0.20;0.34;0.44;0.58;0.72;1"/><path d="M0 0 L0 17 L5 13.5 L8 20 L10.5 19 L7.5 12.5 L13 12 Z" fill="#1e293b" stroke="#fff" stroke-width="1.4"/></g>
+    <g font-size="16" font-weight="700" text-anchor="middle">
+      <text x="300" y="420" fill="#92400e">1️⃣ Haz clic en "Publicar" arriba a la derecha<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.20;0.22;0.98;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">2️⃣ Elige tu dirección web y confirma<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.22;0.24;0.50;0.52;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">3️⃣ Copia el enlace de tu sitio publicado<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.52;0.54;0.72;0.74;1"/></text>
+      <text x="300" y="420" fill="#92400e" opacity="0">4️⃣ ¡Pega el enlace en el formulario! 👇<animate attributeName="opacity" dur="12s" repeatCount="indefinite" values="0;0;1;1;0;0" keyTimes="0;0.74;0.76;0.96;0.98;1"/></text>
+    </g>
+  </svg>
+  <details class="tut-text">
+    <summary>📖 ¿Prefieres leer los pasos? Toca aquí</summary>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-text">Abre tu documento en <strong>Google Docs</strong></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-text">Haz clic en el botón azul <strong>"Publicar"</strong> arriba a la derecha</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Elige tu dirección web (ej: sites.google.com/view/tu-nombre) y confirma</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Cuando diga <strong>"Sitio publicado"</strong>, haz clic en <strong>"Copiar enlace"</strong></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">¡Pega el enlace en el formulario de abajo! 👇</div></div>
+    </div>
+  </details>
+  <div class="tut-note"><strong>💡 Sites se comparte diferente a Docs.</strong> No uses el botón "Compartir" — usa <strong>"Publicar"</strong>. Ese botón convierte tu sitio en una página web visible para cualquiera con el enlace, sin permisos de edición.</div>
+  <div class="warn-box" style="margin-top:12px">
+    <div class="warn-icon">⚠️</div>
+    <div class="warn-text"><strong>Si no publicas el sitio, la profesora no podrá verlo.</strong> Mientras esté sin publicar, solo tú puedes verlo en modo edición.</div>
+  </div>
+</div>
+
+<div class="form-section" id="form-section">
+  <div class="form-title">📬 Enviar mi tarea</div>
+  <div class="form-group">
+    <label class="form-label" for="inp-nombre">Tu nombre y apellido</label>
+    <div class="ac-wrap">
+      <input id="inp-nombre" class="form-input" type="text" placeholder="Escribe tu nombre completo…" maxlength="80" autocomplete="off">
+      <div class="ac-list" id="ac-list"></div>
+    </div>
+    <div class="form-hint">Empieza a escribir y elige tu nombre de la lista.</div>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="inp-link">Link de tu Google Docs</label>
+    <input id="inp-link" class="form-input" type="url" placeholder="https://docs.google.com/document/d/…">
+    <div class="form-hint">Pega el enlace publicado copiado en el Paso 4.</div>
+  </div>
+  <div class="form-group">
+    <label class="form-label" for="inp-comment">Comentario para la profesora <span style="font-weight:400;color:var(--muted)">(opcional)</span></label>
+    <textarea id="inp-comment" class="form-textarea" placeholder="¿Cuál es tu idea principal? ¿Cuánto duró tu grabación?"></textarea>
+  </div>
+  <button class="submit-btn" id="submit-btn" onclick="enviarTarea()">📤 Enviar tarea →</button>
+  <div class="err-msg" id="err-msg"></div>
+</div>
+
+<div class="confirm-card" id="confirm-card">
+  <div class="confirm-icon">🎉</div>
+  <div class="confirm-title" id="confirm-title">¡Tarea entregada!</div>
+  <div class="confirm-sub" id="confirm-sub">La profesora ya puede ver tu portafolio. ¡Excelente forma de cerrar tu trayectoria!</div>
+  <div class="confirm-link-box" id="confirm-link-box"></div>
+  <button class="resubmit-btn" onclick="mostrarForm()">✏️ Actualizar el link</button>
+</div>
+</div>
+
+<script>
+const GRADE='sec5', SESION='14';
+let ROSTER=[];
+fetch('/.netlify/functions/get-roster?grado='+GRADE).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.alumnos)ROSTER=d.alumnos.map(a=>a.nombre);}).catch(()=>{});
+const acInput=document.getElementById('inp-nombre');
+const acList=document.getElementById('ac-list');
+const acNorm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+let acSel=-1;
+function acRender(){const q=acNorm(acInput.value.trim());const matches=(q?ROSTER.filter(n=>acNorm(n).includes(q)):ROSTER).slice(0,8);if(!matches.length||(matches.length===1&&acNorm(matches[0])===q)){acList.classList.remove('open');return;}acSel=-1;acList.innerHTML=matches.map(n=>'<div class="ac-item">'+n+'</div>').join('');acList.querySelectorAll('.ac-item').forEach(el=>{el.addEventListener('mousedown',e=>{e.preventDefault();acInput.value=el.textContent;acList.classList.remove('open');});});acList.classList.add('open');}
+acInput.addEventListener('input',acRender);acInput.addEventListener('focus',acRender);acInput.addEventListener('blur',()=>setTimeout(()=>acList.classList.remove('open'),150));
+acInput.addEventListener('keydown',e=>{const items=[...acList.querySelectorAll('.ac-item')];if(!acList.classList.contains('open')||!items.length)return;if(e.key==='ArrowDown'){e.preventDefault();acSel=Math.min(acSel+1,items.length-1);}else if(e.key==='ArrowUp'){e.preventDefault();acSel=Math.max(acSel-1,0);}else if(e.key==='Enter'){e.preventDefault();const pick=acSel>=0?items[acSel]:(items.length===1?items[0]:null);if(pick)acInput.value=pick.textContent;acList.classList.remove('open');return;}else if(e.key==='Escape'){acList.classList.remove('open');return;}else return;items.forEach((el,i)=>el.classList.toggle('sel',i===acSel));});
+function mostrarForm(){document.getElementById('confirm-card').classList.remove('show');document.getElementById('form-section').style.display='';}
+function enviarTarea(){const nombre=document.getElementById('inp-nombre').value.trim();const link=document.getElementById('inp-link').value.trim();const comment=document.getElementById('inp-comment').value.trim();const errEl=document.getElementById('err-msg');const btn=document.getElementById('submit-btn');errEl.classList.remove('show');if(nombre.split(/\s+/).filter(Boolean).length<2){errEl.textContent='⚠️ Escribe tu nombre Y apellido completo.';errEl.classList.add('show');document.getElementById('inp-nombre').focus();return;}if(!link.startsWith('http')){errEl.textContent='⚠️ El link debe comenzar con "https://…". Cópialo desde Google Docs (último paso).';errEl.classList.add('show');document.getElementById('inp-link').focus();return;}btn.disabled=true;btn.textContent='⏳ Enviando…';fetch('/.netlify/functions/submit-task',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre,grado:GRADE,sesion:SESION,drive_link:link,comentario:comment})}).then(r=>r.json()).then(d=>{if(!d.ok)throw new Error(d.error||'Error desconocido');document.getElementById('form-section').style.display='none';const cc=document.getElementById('confirm-card');cc.classList.add('show');document.getElementById('confirm-title').textContent='¡Tarea entregada, '+d.nombre+'!';document.getElementById('confirm-link-box').innerHTML='🔗 <a href="'+link+'" target="_blank" rel="noopener">Ver mi portafolio</a>';window.scrollTo({top:0,behavior:'smooth'});}).catch(err=>{btn.disabled=false;btn.textContent='📤 Enviar tarea →';errEl.textContent='❌ '+(err.message||'No se pudo enviar. Intenta de nuevo.');errEl.classList.add('show');});}
+</script>
+<script>
+/* ═══ Failsafe universal de datos v1 — ninguna acción del alumno se pierde ═══
+   Cubre submit-eval, submit-task y add-bonus. Cola persistente en localStorage,
+   reintentos indefinidos (cada 8s + al volver la conexión + al cargar cualquier
+   página), sendBeacon al cerrar, e inyección de 'fecha' (nonce) para que
+   reintentar un bonus NUNCA lo duplique. Nunca descarta un envío hasta que el
+   servidor responda ok. Si algo queda atascado >25s, avisa de forma visible. */
+(function(){
+  if(window.__dataFailsafe) return; window.__dataFailsafe=true;
+  var EPS=['/.netlify/functions/submit-eval','/.netlify/functions/submit-task','/.netlify/functions/add-bonus'];
+  var BONUS='/.netlify/functions/add-bonus';
+  var OUTBOX='dataOutboxV1';
+  var _f=window.fetch.bind(window);
+
+  /* ── chip de estado ── */
+  var chip=null,chipT=null;
+  function showChip(txt,bg,ms){
+    if(!chip){chip=document.createElement('div');chip.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s;';document.body.appendChild(chip);}
+    chip.style.background=bg;chip.textContent=txt;chip.style.opacity='1';clearTimeout(chipT);
+    if(ms)chipT=setTimeout(function(){chip.style.opacity='0';},ms);
+  }
+  /* ── banner de atascado (aviso fuerte) ── */
+  var banner=null;
+  function showStuck(on){
+    if(on){
+      if(!banner){banner=document.createElement('div');banner.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99998;background:#b91c1c;color:#fff;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:.6rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.3);';banner.textContent='⚠️ Un resultado aún no se ha guardado. No cierres esta página; si tarda, avísale a la profesora.';document.body.appendChild(banner);}
+      banner.style.display='block';
+    } else if(banner){banner.style.display='none';}
+  }
+
+  /* ── cola persistente ── */
+  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function keyOf(ep,payload){try{var p=JSON.parse(payload);
+    if(ep.indexOf('add-bonus')>-1) return 'bonus|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.fecha||'');
+    return ep+'|'+(p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');
+  }catch(e){return ep+'|'+payload.length;}}
+  function enqueue(ep,payload){var k=keyOf(ep,payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,ep:ep,p:payload,t:Date.now()});writeBox(b);}
+  function dequeue(k){writeBox(readBox().filter(function(it){return it.k!==k;}));}
+
+  /* ── normaliza el body: inyecta fecha (nonce) si es bonus y no la trae ── */
+  function withNonce(ep,body){
+    if(ep.indexOf('add-bonus')===-1) return body;
+    try{var p=JSON.parse(body);if(!p.fecha){p.fecha=new Date().toISOString();return JSON.stringify(p);}}catch(e){}
+    return body;
+  }
+
+  /* ── reenvío de la cola ── */
+  var sending=false;
+  function flush(){
+    if(sending)return;var b=readBox();if(!b.length){showStuck(false);return;}
+    // ¿algo atascado > 25s?
+    var stuck=b.some(function(it){return Date.now()-it.t>25000;});showStuck(stuck);
+    sending=true;var it=b[0];
+    _f(it.ep,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
+      .then(function(d){if(d&&d.ok===false)throw 0;
+        dequeue(it.k);sending=false;
+        showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
+        if(readBox().length)setTimeout(flush,400); else showStuck(false);
+      })
+      .catch(function(){sending=false;
+        showChip('📡 Guardando… no cierres esta página todavía','#b45309');
+      });
+  }
+
+  /* ── interceptar los POST de escritura ── */
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string' && o && o.body){
+        var ep=null;for(var i=0;i<EPS.length;i++){if(u.indexOf(EPS[i])>-1){ep=EPS[i];break;}}
+        if(ep){
+          var body=withNonce(ep,o.body);
+          var o2={};for(var k in o)o2[k]=o[k];o2.body=body;
+          enqueue(ep,body);showChip('⏳ Guardando tu resultado…','#1d4ed8');
+          return _f(u,o2).then(function(r){
+            if(r&&r.ok){dequeue(keyOf(ep,body));r.clone().json().then(function(d){showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Guardado en el sistema','#15803d',7000);});showStuck(false);}
+            else{setTimeout(flush,1200);}
+            return r;
+          }).catch(function(e){setTimeout(flush,1200);throw e;});
+        }
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+
+  /* ── disparadores ── */
+  setInterval(flush,8000);
+  window.addEventListener('online',flush);
+  setTimeout(flush,1500); // reintenta pendientes de visitas anteriores
+
+  /* ── último recurso al cerrar ── */
+  function beaconAll(){var b=readBox();if(!b.length||!navigator.sendBeacon)return;
+    for(var i=0;i<b.length;i++){try{navigator.sendBeacon(b[i].ep,new Blob([b[i].p],{type:'text/plain'}));}catch(e){}}}
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
+  window.addEventListener('pagehide',beaconAll);
+})();
+</script>
+</body></html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Repaso S27 — 3.° Secundaria | Asunción School</title>
+<style>
+/* ═══ Guía de repaso v3 (overhaul jul 2026) — documento claro, identidad de grado ═══
+   Tema claro para lectura; el grade-color es la identidad; la firma del sistema
+   (lima --lime) aparece en el eyebrow. Mismas clases que la versión previa. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+:root{--brand:#7c2d12;--accent:#fb923c;--accent2:#ea580c;--teal:#0d9488;--emerald:#059669;--amber:#d97706;--rose:#e11d48;--gold:#b45309;--text:#141a22;--muted:#5b6472;--dim:#94a3b8;--border:#e7ebf0;--bg-alt:#f7f9fb;--bg-quiz:#f0fdf4;--ok-bg:#dcfce7;--ok-b:#86efac;--ok-t:#15803d;--err-bg:#fee2e2;--err-b:#fca5a5;--err-t:#b91c1c;--hint-bg:#fef9c3;--hint-b:#fde047;--hint-t:#713f12;--lime:#4d7c0f;--radius:14px;--soft:0 1px 2px rgba(16,24,40,.04),0 6px 20px rgba(16,24,40,.05);}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fbfcfe;line-height:1.75;-webkit-text-size-adjust:100%}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:860px;margin:0 auto;padding:40px 48px 72px}
+@media(max-width:640px){.page-wrap{padding:22px 18px 56px}}
+/* ── Cabecera del documento ── */
+.doc-header{position:relative;border-radius:20px;overflow:hidden;padding:26px 30px;margin-bottom:34px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000) 0%,var(--brand) 60%,color-mix(in srgb,var(--brand) 78%,var(--accent)) 100%);
+  color:#fff;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;box-shadow:var(--soft)}
+.doc-header::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 90% at 92% 0%,color-mix(in srgb,var(--accent) 34%,transparent),transparent 60%)}
+.doc-header>*{position:relative;z-index:1}
+.doc-header .school{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.doc-header .teacher{font-size:14px;font-weight:600;color:rgba(255,255,255,.82);margin-top:6px}
+.doc-header .meta{text-align:right;font-size:12.5px;color:rgba(255,255,255,.72);line-height:1.9;font-weight:500}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:31px;font-weight:800;letter-spacing:-.01em;color:var(--brand);margin:2px 0 6px}
+.doc-subtitle{font-size:16px;color:var(--muted);margin-bottom:8px}
+/* ── Secciones ── */
+.section{margin-bottom:46px}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;letter-spacing:-.01em;color:var(--brand);margin-bottom:22px;padding-bottom:12px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:12px;line-height:1.2;position:relative}
+.section-title::after{content:'';position:absolute;left:0;bottom:-2px;width:56px;height:2px;background:var(--accent);border-radius:2px}
+.concept-list{display:flex;flex-direction:column;gap:14px}
+.concept-block{display:flex;gap:18px;align-items:flex-start;padding:20px 24px;border-radius:var(--radius);background:#fff;border:1px solid var(--border);border-left:4px solid var(--accent);box-shadow:var(--soft);transition:transform .16s,box-shadow .16s}
+.concept-block:hover{transform:translateY(-1px);box-shadow:0 2px 4px rgba(16,24,40,.05),0 10px 28px rgba(16,24,40,.08)}
+.cb-icon{font-size:1.9rem;line-height:1;flex-shrink:0;margin-top:2px}
+.cb-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--brand);margin-bottom:5px}
+.cb-text{font-size:15.5px;line-height:1.7;color:var(--text)}
+.gloss-v2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gloss-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--soft)}
+.gloss-term{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--accent2);margin-bottom:5px}
+.gloss-def{font-size:14.5px;color:var(--muted);line-height:1.6}
+@media(max-width:560px){.gloss-v2{grid-template-columns:1fr}}
+.practice-details{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--soft)}
+.practice-summary{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;cursor:pointer;background:#fff;list-style:none;user-select:none;gap:16px}
+.practice-summary::-webkit-details-marker{display:none}
+.practice-summary:hover{background:var(--bg-alt)}
+.ps-left{display:flex;flex-direction:column;gap:4px}
+.ps-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--brand);display:flex;align-items:center;gap:10px}
+.ps-hint{font-size:14px;color:var(--muted)}
+.ps-arrow{font-size:20px;color:var(--accent);transition:transform .25s;flex-shrink:0}
+details[open] .ps-arrow{transform:rotate(180deg)}
+.practice-content{padding:24px;border-top:1px solid var(--border);background:var(--bg-alt)}
+.practice-invite{display:flex;gap:14px;align-items:flex-start;background:color-mix(in srgb,var(--accent) 8%,#fff);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);border-radius:12px;padding:16px 20px;margin-bottom:22px;font-size:15.5px;color:var(--brand);line-height:1.7}
+.practice-invite-icon{font-size:1.7rem;flex-shrink:0}
+.ex{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px;box-shadow:var(--soft)}
+.ex-num{display:inline-block;background:var(--accent);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;border-radius:6px;padding:3px 10px;margin-bottom:10px}
+.ex h4{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--brand)}
+.ex p,.ex li{font-size:15.5px;line-height:1.7}
+.tf-tbl{width:100%;border-collapse:collapse}
+.tf-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:12.5px;text-align:left;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.tf-tbl th:first-child{border-top-left-radius:9px}.tf-tbl th:last-child{border-top-right-radius:9px}
+.tf-row td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:15.5px;vertical-align:middle}
+.tf-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:7px 20px;font-size:15px;font-weight:700;transition:all .15s}
+.tf-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.tf-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.tf-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.tf-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.tf-btns{display:flex;gap:8px;flex-wrap:wrap}
+/* ── Práctica: juego de clasificación (cls-*) ── */
+.cls-tbl{width:100%;border-collapse:collapse}
+.cls-tbl th{background:var(--brand);color:#fff;padding:10px 14px;font-size:12.5px;text-align:left;font-family:'Space Grotesk',sans-serif;font-weight:600}
+.cls-tbl th:first-child{border-top-left-radius:9px}.cls-tbl th:last-child{border-top-right-radius:9px}
+.cls-row td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:15.5px;vertical-align:middle}
+.cls-btns{display:flex;gap:8px;flex-wrap:wrap}
+.cls-btn{border:1.5px solid var(--border);background:#fff;border-radius:8px;padding:6px 16px;font-size:14px;font-weight:600;color:var(--muted);transition:all .15s}
+.cls-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.cls-btn.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t)}
+.cls-btn.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.cls-btn.reveal{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);opacity:.7}
+.cls-res{font-size:12px;padding:3px 9px;border-radius:5px;font-weight:700;display:none}
+.cls-res.ok{background:var(--ok-bg);color:var(--ok-t);display:inline-block}
+.cls-res.err{background:var(--err-bg);color:var(--err-t);display:inline-block}
+/* ── Práctica: pregunta abierta con respuesta modelo (model-*/txt-area) ── */
+.txt-area{width:100%;border:1.5px solid var(--border);border-radius:11px;padding:12px 14px;font-family:inherit;font-size:16px;resize:vertical;min-height:90px;outline:none;color:var(--text);transition:border-color .2s,box-shadow .2s;line-height:1.7}
+.txt-area:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 16%,transparent)}
+.model-btn{margin-top:10px;background:transparent;border:1.5px solid var(--hint-b);color:var(--hint-t);border-radius:9px;padding:7px 16px;font-size:14px;font-weight:600;transition:all .15s}
+.model-btn:hover{background:var(--hint-bg)}
+.model-box{display:none;margin-top:10px;background:var(--hint-bg);border:1px solid var(--hint-b);border-radius:11px;padding:16px 20px;font-size:15.5px;color:var(--hint-t);line-height:1.7}
+.model-box.open{display:block}
+.model-box strong{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+/* ── CTA de examen ── */
+.exam-cta-section{position:relative;text-align:center;padding:44px 28px 46px;margin:44px 0 8px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 14%,#fff),color-mix(in srgb,var(--accent) 6%,#fff));
+  border:2px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:22px;
+  box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 18%,transparent)}
+.exam-cta-tag{display:inline-block;background:var(--accent);color:#fff;border-radius:100px;
+  padding:5px 16px;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:800;
+  letter-spacing:.09em;text-transform:uppercase;margin-bottom:18px}
+.exam-cta-icon{font-size:3.4rem;margin-bottom:14px;line-height:1}
+.exam-cta-title{font-family:'Space Grotesk',sans-serif;font-size:31px;font-weight:800;color:var(--brand);margin-bottom:12px;letter-spacing:-.5px;line-height:1.15}
+.exam-cta-sub{font-size:16.5px;color:var(--text);opacity:.85;margin-bottom:30px;line-height:1.6;max-width:440px;margin-left:auto;margin-right:auto}
+.exam-cta-btn{background:var(--accent);color:#fff;border:none;border-radius:100px;
+  padding:21px 54px;font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:800;
+  letter-spacing:-.2px;cursor:pointer;transition:transform .16s,box-shadow .16s,background .16s;
+  box-shadow:0 10px 28px color-mix(in srgb,var(--accent) 42%,transparent)}
+@media (prefers-reduced-motion: no-preference){
+  .exam-cta-btn{animation:ctaLatido 2.8s ease-in-out infinite}
+  @keyframes ctaLatido{0%,88%,100%{transform:scale(1)}94%{transform:scale(1.035)}}
+}
+@media(max-width:520px){
+  .exam-cta-section{padding:34px 18px 36px;margin:34px 0 8px}
+  .exam-cta-title{font-size:25px}
+  .exam-cta-btn{width:100%;padding:19px 24px;font-size:19px}
+}
+.exam-cta-btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px color-mix(in srgb,var(--accent) 50%,transparent)}
+/* ── Banner de evaluación (identidad de grado, ya NO índigo genérico) ── */
+.eval-banner{background:linear-gradient(140deg,color-mix(in srgb,var(--brand) 92%,#000) 0%,var(--brand) 55%,var(--accent2) 130%);border-radius:20px;padding:30px 34px;margin-bottom:30px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--soft)}
+.eval-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 88% 20%,color-mix(in srgb,var(--accent) 40%,transparent),transparent 60%);pointer-events:none}
+.eval-banner>*{position:relative;z-index:1}
+.eval-badge{display:inline-flex;align-items:center;gap:6px;background:#fbbf24;color:#3a2a05;font-weight:800;font-size:12.5px;letter-spacing:.5px;text-transform:uppercase;border-radius:100px;padding:5px 14px;margin-bottom:14px;font-family:'Space Grotesk',sans-serif}
+.eval-banner-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;line-height:1.1;margin-bottom:10px}
+.eval-banner-sub{font-size:15.5px;opacity:.9;margin-bottom:18px;line-height:1.6}
+.eval-banner-warn{display:flex;align-items:flex-start;gap:10px;background:rgba(0,0,0,.24);border-radius:12px;padding:14px 18px;font-size:14.5px;line-height:1.6}
+.eval-gate-wrap{display:flex;justify-content:center;margin-bottom:26px}
+.eval-gate{background:#fff;border:1px solid var(--border);border-radius:18px;padding:34px 30px;text-align:center;max-width:480px;width:100%;box-shadow:var(--soft)}
+.gate-icon{font-size:2.8rem;margin-bottom:12px}
+.gate-h{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:800;color:var(--brand);margin-bottom:10px}
+.gate-p{font-size:15.5px;color:var(--muted);margin-bottom:24px;line-height:1.7}
+.gate-label{display:block;font-size:13px;font-weight:700;color:var(--brand);margin-bottom:8px;text-align:left;text-transform:uppercase;letter-spacing:.04em}
+.gate-input{width:100%;border:2px solid var(--border);border-radius:11px;padding:14px 16px;font-size:17px;font-family:inherit;outline:none;margin-bottom:16px;color:var(--text);transition:border-color .2s,box-shadow .2s;text-align:center}
+.gate-input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 18%,transparent)}
+.gate-input.err{border-color:var(--err-t);background:var(--err-bg)}
+.gate-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px;font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;transition:opacity .15s,transform .15s}
+.gate-btn:hover{opacity:.94;transform:translateY(-1px)}
+.eval-body{display:none}
+.eval-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:13px 18px;margin-bottom:20px;box-shadow:var(--soft)}
+.eval-top span{font-size:14.5px;color:var(--muted)}
+.eval-top strong{color:var(--brand)}
+.eval-answered{font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--accent2)}
+.eval-q{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:14px;transition:border-color .2s,box-shadow .2s;box-shadow:var(--soft)}
+.eval-q.done-ok{border-color:var(--ok-b);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok-b) 30%,transparent)}
+.eval-q.done-err{border-color:var(--err-b);box-shadow:0 0 0 3px color-mix(in srgb,var(--err-b) 26%,transparent)}
+.eval-q-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
+.eval-q-num{background:var(--brand);color:#fff;border-radius:50%;width:32px;height:32px;min-width:32px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;flex-shrink:0}
+.eval-q-num.ok{background:var(--ok-t)}
+.eval-q-num.err{background:var(--err-t)}
+.eval-q-text{font-size:16.5px;font-weight:600;color:var(--text);line-height:1.5;padding-top:4px}
+.eval-opts{display:flex;flex-direction:column;gap:8px;padding-left:6px}
+.eval-opt{display:flex;align-items:flex-start;gap:10px;font-size:15.5px;cursor:pointer;padding:11px 14px;border-radius:10px;border:1px solid var(--border);transition:background .12s,border-color .12s;user-select:none;line-height:1.55}
+.eval-opt:hover{background:var(--bg-alt);border-color:color-mix(in srgb,var(--accent) 40%,var(--border))}
+.eval-opt input[type=radio]{margin-top:3px;accent-color:var(--accent);flex-shrink:0;width:17px;height:17px}
+.eval-opt.correct{background:var(--ok-bg);border-color:var(--ok-b);color:var(--ok-t);font-weight:600}
+.eval-opt.wrong{background:var(--err-bg);border-color:var(--err-b);color:var(--err-t)}
+.eval-submit-wrap{text-align:center;margin-top:26px;padding-top:22px;border-top:1px solid var(--border)}
+.eval-submit-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px 52px;font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;transition:opacity .15s,transform .15s}
+.eval-submit-btn:not(:disabled):hover{transform:translateY(-1px)}
+.eval-submit-btn:disabled{background:var(--border);color:var(--muted);cursor:not-allowed}
+.eval-hint{font-size:13.5px;color:var(--muted);margin-top:10px}
+.result-wrap{margin-top:28px}
+.result-card{border-radius:18px;padding:36px 28px;text-align:center;box-shadow:var(--soft)}
+.result-card.ok{background:var(--ok-bg);border:1px solid var(--ok-b)}
+.result-card.good{background:#f0fdf4;border:1px solid #bbf7d0}
+.result-card.warn{background:var(--hint-bg);border:1px solid var(--hint-b)}
+.result-card.low{background:var(--err-bg);border:1px solid var(--err-b)}
+.res-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:12px}
+.res-name{font-family:'Space Grotesk',sans-serif;font-size:27px;font-weight:800;color:var(--brand);margin-bottom:5px}
+.res-info{font-size:14px;color:var(--muted);margin-bottom:22px}
+.res-score{font-family:'Space Grotesk',sans-serif;font-size:74px;font-weight:800;color:var(--brand);line-height:1;margin-bottom:5px}
+.res-score sub{font-size:26px;font-weight:400;color:var(--muted);vertical-align:super}
+.res-bar{height:12px;background:rgba(0,0,0,.08);border-radius:6px;overflow:hidden;margin:18px 0 14px}
+.res-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.res-level{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:800;margin-bottom:8px}
+.res-level.ok{color:var(--ok-t)}.res-level.good{color:var(--accent2)}.res-level.warn{color:var(--gold)}.res-level.low{color:var(--err-t)}
+.res-detail{font-size:14.5px;color:var(--muted)}
+.already-box{background:var(--ok-bg);border:1px solid var(--ok-b);border-radius:14px;padding:18px 22px;font-size:15.5px;color:var(--ok-t);margin-bottom:20px;text-align:center;line-height:1.7}
+.exam-mode-bar{background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000),var(--brand));color:#fff;border-radius:12px;padding:13px 22px;margin-bottom:30px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-size:14.5px;font-weight:600}
+.review-banner{background:color-mix(in srgb,var(--accent) 8%,#fff);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:14px;padding:20px 24px;margin-top:24px;text-align:center;font-size:15.5px;color:var(--brand);line-height:1.7}
+.name-confirm-card{background:#fff;border:2px solid var(--accent);border-radius:18px;padding:32px 28px;text-align:center;max-width:480px;width:100%;margin:0 auto;box-shadow:var(--soft)}
+.confirm-emoji{font-size:3.2rem;margin-bottom:12px}
+.confirm-question{font-size:16.5px;color:var(--muted);margin-bottom:14px;font-weight:600}
+.confirm-name-big{font-family:'Space Grotesk',sans-serif;font-size:27px;font-weight:800;color:var(--brand);margin-bottom:24px;line-height:1.2;word-break:break-word}
+.gate-btn-sec{width:100%;background:transparent;border:1.5px solid var(--border);color:var(--muted);border-radius:12px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.gate-btn-sec:hover{border-color:var(--accent);color:var(--brand)}
+.exam-who-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;background:linear-gradient(135deg,color-mix(in srgb,var(--brand) 92%,#000),var(--brand));border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);border-radius:12px;padding:14px 18px;margin-bottom:22px}
+.exam-who-name{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:800;color:#fff}
+.exam-who-grade{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:2px}
+.exam-who-change{background:none;border:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.8);border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.exam-who-change:hover{border-color:var(--accent);color:#fff}
+/* ── Movimiento sutil (respeta reduced-motion) ── */
+@media (prefers-reduced-motion:no-preference){
+  .doc-header,#study-content>.section,.exam-cta-section{animation:rIn .5s cubic-bezier(.22,1,.36,1) both}
+  #study-content>.section:nth-child(2){animation-delay:.05s}
+  #study-content>.section:nth-child(3){animation-delay:.1s}
+  @keyframes rIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+}
+
+.eval-aviso{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--accent) 16%,#fff),color-mix(in srgb,var(--accent) 7%,#fff));
+  border:2px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:18px;
+  padding:20px 22px;margin:0 0 30px}
+.eval-aviso-ic{font-size:2.1rem;line-height:1;flex-shrink:0}
+.eval-aviso-tx{flex:1;min-width:220px}
+.eval-aviso-tx b{display:block;font-family:'Space Grotesk',sans-serif;font-size:18px;
+  font-weight:800;color:var(--brand);margin-bottom:4px;letter-spacing:-.2px}
+.eval-aviso-tx span{display:block;font-size:15px;color:var(--text);opacity:.85;line-height:1.55}
+.eval-aviso-btn{flex-shrink:0;background:var(--accent);color:#fff;border:none;border-radius:100px;
+  padding:14px 26px;font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;white-space:nowrap;transition:transform .16s,box-shadow .16s;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--accent) 38%,transparent)}
+.eval-aviso-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px color-mix(in srgb,var(--accent) 48%,transparent)}
+@media(max-width:560px){
+  .eval-aviso{padding:18px}
+  .eval-aviso-btn{width:100%}
+}
+
+.exam-cta-section.destacar{animation:ctaDestacar 1.8s ease}
+@keyframes ctaDestacar{0%,100%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 18%,transparent)}
+  30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Prof. Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div>3.° Secundaria</div>
+    <div>Sesión 27 &nbsp;·&nbsp; Viernes 27 de noviembre de 2026</div>
+  </div>
+</div>
+<div class="doc-title">📝 Guía de Repaso — Sesión 27</div>
+<div class="doc-subtitle">Proyecto final: Iteración final · Herramienta elegida</div>
+<div class="eval-aviso">
+  <span class="eval-aviso-ic">📌</span>
+  <div class="eval-aviso-tx">
+    <b>La evaluación es obligatoria</b>
+    <span>Todos los alumnos deben rendirla. Repasa esta guía y, cuando estés listo, baja hasta el final o entra directo.</span>
+  </div>
+  <button class="eval-aviso-btn" onclick="irAEvaluacion()">Ir a la evaluación →</button>
+</div>
+<div id="study-content">
+<div class="section"><div class="section-title">📖 Lo que aprendimos hoy</div><div class="concept-list">
+<div class="concept-block" style="border-left-color:#22c55e"><div class="cb-icon">📋</div><div class="cb-body"><div class="cb-title">Solo lo del testeo</div><div class="cb-text">No hay tiempo para perfeccionar todo. Se arregla lo que <strong>confundió a más de un compañero</strong>, no lo que a ti se te ocurre.</div></div></div>
+<div class="concept-block" style="border-left-color:#16a34a"><div class="cb-icon">🔀</div><div class="cb-body"><div class="cb-title">Cada hallazgo apunta a un lugar</div><div class="cb-text">Si nadie entendió el mensaje, el problema está en la apertura o el guion. Si se distrajeron en una escena, esa se recorta.</div></div></div>
+<div class="concept-block" style="border-left-color:#059669"><div class="cb-icon">🔍</div><div class="cb-body"><div class="cb-title">Revisa entero antes de exportar</div><div class="cb-text">La versión que exportas hoy es la que se entrega. Se revisa completa, de corrido, antes de exportar — no después.</div></div></div>
+<div class="concept-block" style="border-left-color:#0d9488"><div class="cb-icon">🚫</div><div class="cb-body"><div class="cb-title">Nada nuevo, nada de más</div><div class="cb-text">Escenas fuera de la escaleta, cambiar el mensaje, retocar lo que nadie mencionó: eso no es iterar, es distraerse.</div></div></div>
+<div class="concept-block" style="border-left-color:#d97706"><div class="cb-icon">🔒</div><div class="cb-body"><div class="cb-title">Nombre claro, calidad final</div><div class="cb-text">Un archivo con tu nombre y tema, exportado en la calidad más alta, no la de prueba que usaste para trabajar rápido.</div></div></div>
+</div></div>
+<div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2">
+<div class="gloss-card"><div class="gloss-term">Iteración final</div><div class="gloss-def">El último ciclo de arreglos antes de entregar.</div></div>
+<div class="gloss-card"><div class="gloss-term">Hallazgo</div><div class="gloss-def">Lo que reveló el testeo con compañeros.</div></div>
+<div class="gloss-card"><div class="gloss-term">Escaleta</div><div class="gloss-def">La tabla de escenas del video.</div></div>
+<div class="gloss-card"><div class="gloss-term">Exportar</div><div class="gloss-def">Generar el archivo final del video.</div></div>
+<div class="gloss-card"><div class="gloss-term">Calidad de prueba</div><div class="gloss-def">La usada para trabajar rápido, no para entregar.</div></div>
+<div class="gloss-card"><div class="gloss-term">Versión final</div><div class="gloss-def">El archivo que se entrega como definitivo.</div></div>
+</div></div>
+<div class="section"><details class="practice-details">
+  <summary class="practice-summary"><div class="ps-left"><div class="ps-title">✏️ Ejercicios de práctica</div><div class="ps-hint">Practica antes de la evaluación — sin límite de intentos</div></div><span class="ps-arrow">▾</span></summary>
+  <div class="practice-content">
+    <div class="practice-invite"><div class="practice-invite-icon">💡</div><div><strong>Practica aquí primero.</strong><br>Feedback inmediato y puedes intentarlo cuantas veces quieras. Cuando estés listo, baja a la <strong>Evaluación</strong>.</div></div>
+    <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody>
+<tr class="tf-row"><td>Se arregla lo que el testeo mostró que falla, no lo que se te ocurre.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Si nadie entendió el mensaje, el problema está en la apertura o el guion.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
+<tr class="tf-row"><td>Conviene retocar todo lo que se pueda, aunque nadie lo haya mencionado.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>La versión exportada hoy puede cambiarse después sin avisar.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+</tbody></table></div>
+  </div>
+</details></div>
+</div>
+<div id="exam-cta" class="exam-cta-section">
+  <span class="exam-cta-tag">Última parte</span>
+  <div class="exam-cta-icon">🎯</div>
+  <div class="exam-cta-title">¿Listo para la evaluación?</div>
+  <p class="exam-cta-sub">Cuando hagas clic, el material de estudio se ocultará.<br>Tendrás <strong>un solo intento</strong>. Asegúrate de haber repasado bien.</p>
+  <button class="exam-cta-btn" onclick="enterExamMode()">✅ Comenzar Evaluación &rarr;</button>
+</div>
+<div class="eval-section" id="eval-section" style="display:none">
+  <span id="eval-grade-key" data-grade="sec3" data-session="27" style="display:none"></span>
+  <div class="eval-banner">
+    <div class="eval-badge">⚡ OBLIGATORIO</div>
+    <div class="eval-banner-title">🎯 Evaluación de la Clase</div>
+    <div class="eval-banner-sub">10 preguntas · 2 puntos cada una · <strong>Total: 20 puntos</strong> · 3.° Secundaria</div>
+    <div class="eval-banner-warn">⚠️&nbsp; Tienes <strong>un solo intento</strong> por alumno. Lee cada pregunta con calma.</div>
+  </div>
+  <div id="eval-gate-wrap">
+    <div class="eval-gate-wrap"><div class="eval-gate">
+      <div class="gate-icon">📝</div>
+      <div class="gate-h">Antes de comenzar</div>
+      <p class="gate-p">Escribe tu nombre y apellido para registrar tu resultado.<br>Esta evaluación tiene <strong>un solo intento</strong>.</p>
+      <label class="gate-label">Nombre</label>
+      <datalist id="alumnos-gate-dl"></datalist>
+      <input id="gate-nombre" class="gate-input" type="text" list="alumnos-gate-dl" placeholder="Tu nombre y apellido completo…" maxlength="80" autocomplete="off" onkeydown="if(event.key==='Enter') startEval(document.getElementById('eval-grade-key')?.dataset?.grade||'')">
+      <button class="gate-btn" onclick="startEval('sec3')">Comenzar evaluación →</button>
+    </div></div>
+  </div>
+  <div id="eval-body" class="eval-body">
+    <div id="exam-who-bar" class="exam-who-bar" style="display:none">
+      <div><div class="exam-who-name" id="exam-who-name"></div><div class="exam-who-grade">3.° Secundaria · Sesión 27</div></div>
+      <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
+    </div>
+    <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 3.° Secundaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué se arregla primero?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Lo que se te ocurrió recién</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Los efectos visuales</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Lo que confundió a más de un compañero</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) La música</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">Si nadie entendió el mensaje principal, ¿qué se revisa?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) La apertura o el guion</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) La música</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Los subtítulos</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) El color</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Dos compañeros se distrajeron en la misma escena. ¿Qué se hace?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Se agrega música ahí</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Se ignora</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Se agranda la escena</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Se recorta o se acorta</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Terminaste de arreglar. ¿Qué haces antes de exportar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Exporto directo</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Veo el video entero de corrido</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Le pregunto a un compañero</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Cambio la música</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">Exportaste en baja calidad para probar. ¿Sirve para entregar?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Sí, se ve casi igual</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) No, hay que exportar en la calidad final</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Solo si nadie se queja</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Depende del tamaño</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué NO se hace en la iteración final?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Exportar en calidad final</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Revisar el audio</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Agregar escenas que no estaban en la escaleta</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Ver el video entero</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">Un nombre de archivo como "video final (2) (1)"…</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Es lo recomendado</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Ayuda a encontrarlo</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Es obligatorio</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Confunde y hay que evitarlo</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Cada arreglo de la iteración final debe…</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Venir de un hallazgo específico del testeo</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Mejorar el color</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Ser una idea nueva</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Durar poco</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Cuándo se cambia la versión ya exportada como final?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Cuando se quiera</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) No se cambia sin avisar, es la que se entrega</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Cada semana</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Solo si se pide</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Retocar detalles que nadie mencionó en el testeo…</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Ahorra tiempo</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Mejora el video siempre</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Es lo prioritario</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Distrae del tiempo que hace falta para lo importante</span></label></div></div>
+<div id="eval-submit-wrap" class="eval-submit-wrap">
+      <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
+      <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
+    </div>
+    <div id="eval-result-wrap" class="result-wrap" style="display:none"></div>
+  </div>
+</div>
+</div>
+<script>
+function tfPick(btn,chosen,correct){const row=btn.closest('.tf-row');if(row.dataset.done)return;row.dataset.done='1';const ok=chosen===correct;row.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add(ok?'correct':'reveal');});btn.classList.add(ok?'correct':'wrong');}
+function enterExamMode(){if(!confirm('¿Estás listo para comenzar?\nEl material de estudio se ocultará durante el examen.'))return;document.getElementById('study-content').style.display='none';document.getElementById('exam-cta').style.display='none';const ev=document.getElementById('eval-section');ev.style.display='block';ev.insertAdjacentHTML('afterbegin','<div class="exam-mode-bar">🔒 Modo Examen — el material de estudio está oculto</div>');window.scrollTo({top:0,behavior:'smooth'});}
+let _name='',_grade='',_session='';
+function startEval(grade){const inpN=document.getElementById('gate-nombre');const _rawName=(inpN?inpN.value:'').trim();const name=_rawName.split(/\s+/).map((w,i)=>{const l=w.toLowerCase();return(i>0&&['de','del','y','e','el','la','los','las'].includes(l))?l:l.charAt(0).toUpperCase()+l.slice(1);}).join(' ');if(inpN)inpN.value=name;if(name.split(/\s+/).filter(s=>s).length<2){if(inpN){inpN.classList.add('err');inpN.setAttribute('placeholder','Escribe tu nombre Y apellido…');inpN.focus();}return;}if(inpN)inpN.classList.remove('err');_name=name;_grade=grade;const gkEl=document.getElementById('eval-grade-key');_session=gkEl?gkEl.dataset.session:'00';const gw=document.getElementById('eval-gate-wrap');gw.innerHTML=`<div class="eval-gate-wrap"><div class="name-confirm-card"><div class="confirm-emoji">👤</div><div class="confirm-question">¿Eres tú quien va a rendir el examen?</div><div class="confirm-name-big">${name}</div><button class="gate-btn" style="margin-bottom:10px" onclick="confirmarIdentidad()">✅ Sí, soy yo — comenzar</button><button class="gate-btn-sec" onclick="location.reload()">✏️ No soy yo, cambiar nombre</button></div></div>`;}
+function _nameKey(n){return(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function confirmarIdentidad(){const nk=_nameKey(_name);const lsKey='eval-'+_session+'-'+_grade+'-'+nk;const saved=localStorage.getItem(lsKey);if(saved){try{const r=JSON.parse(saved);document.getElementById('eval-gate-wrap').innerHTML='<div class="already-box">✅ <strong>'+_name+'</strong>, ya completaste esta evaluación.<br>Puntaje registrado: <strong>'+r.score+'/20</strong>. Solo se permite un intento.</div>';showResult(r);}catch(e){}return;}document.getElementById('eval-gate-wrap').style.display='none';const body=document.getElementById('eval-body');if(body)body.style.display='block';const banner=document.getElementById('exam-who-bar');if(banner){banner.style.display='flex';document.getElementById('exam-who-name').textContent=_name;}document.getElementById('eval-student-name').textContent=_name;updateAnswered();}
+function updateAnswered(){const qs=document.querySelectorAll('.eval-q');let ans=0;qs.forEach((_,i)=>{if(document.querySelector('input[name="eq'+(i+1)+'"]:checked'))ans++;});document.getElementById('eval-answered').textContent=ans+' / '+qs.length+' respondidas';const btn=document.getElementById('eval-submit-btn');if(btn)btn.disabled=(ans<qs.length);}
+function submitEval(){if(!confirm('¿Confirmas el envío? No podrás cambiar tus respuestas después.'))return;const qs=document.querySelectorAll('.eval-q');let correct=0;const respuestas=[];qs.forEach((q,i)=>{const cv=q.dataset.correct;const sel=document.querySelector('input[name="eq'+(i+1)+'"]:checked');const sv=sel?sel.value:null;const ok=sv===cv;if(ok)correct++;respuestas.push(sv||'—');q.querySelectorAll('input[type=radio]').forEach(r=>r.disabled=true);q.querySelectorAll('.eval-opt').forEach(opt=>{const v=opt.querySelector('input').value;if(v===cv)opt.classList.add('correct');else if(v===sv&&!ok)opt.classList.add('wrong');});const num=q.querySelector('.eval-q-num');num.classList.add(ok?'ok':'err');q.classList.add(ok?'done-ok':'done-err');});const score=correct*2;const fecha=new Date().toISOString();const result={name:_name,grade:_grade,score,correct,total:qs.length,date:new Date().toLocaleDateString('es-PE',{year:'numeric',month:'long',day:'numeric'})};const _nk=_nameKey(_name);localStorage.setItem('eval-'+_session+'-'+_grade+'-'+_nk,JSON.stringify(result));fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:_name,grado:_grade,sesion:'27',score,correctas:correct,total:qs.length,fecha,respuestas})}).catch(()=>{});document.getElementById('eval-submit-wrap').style.display='none';showResult(result);}
+function showResult(r){const pct=Math.round(r.score/20*100);const [emoji,label,cls]=r.score>=18?['🏆','Excelente','ok']:r.score>=14?['⭐','Bueno','good']:r.score>=10?['📈','En proceso','warn']:['📚','Necesita refuerzo','low'];const el=document.getElementById('eval-result-wrap');el.style.display='block';el.innerHTML=`<div class="result-card ${cls}"><div class="res-label">📊 Resultado · Sesión 27 · Asunción School</div><div class="res-name">${r.name}</div><div class="res-info">${r.grade} &nbsp;·&nbsp; ${r.date}</div><div class="res-score">${r.score}<sub> / 20</sub></div><div class="res-bar"><div class="res-bar-fill" style="width:${pct}%"></div></div><div class="res-level ${cls}">${emoji} ${label} &nbsp;·&nbsp; ${pct}%</div><div class="res-detail">${r.correct} de ${r.total} correctas · 2 pts c/u</div></div><div class="review-banner">📖 <strong>¿Qué puedes mejorar?</strong> El material de estudio está arriba — repasa los conceptos de las preguntas que no salieron bien.</div>`;const study=document.getElementById('study-content');const cta=document.getElementById('exam-cta');if(study)study.style.display='block';if(cta)cta.style.display='none';}
+(function(){const gkEl=document.getElementById('eval-grade-key');if(!gkEl)return;const grade=gkEl.dataset.grade;function fillDl(names){const dl=document.getElementById('alumnos-gate-dl');if(dl&&names.length)dl.innerHTML=names.map(n=>'<option value="'+n+'">').join('');}fetch('/.netlify/functions/get-roster?grado='+grade).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.found&&d.alumnos&&d.alumnos.length){fillDl(d.alumnos.map(a=>a.nombre));}}).catch(()=>{});})();
+</script>
+<script>
+/* === Red de seguridad de envío v2 — no se pierde ninguna evaluación ===
+   1) Outbox persistente en localStorage: si el POST falla o el alumno cierra
+      la pestaña, el resultado queda guardado localmente y se reenvía solo
+      (cada 8s mientras la página esté abierta, al volver la conexión, y al
+      abrir CUALQUIER guía de repaso después).
+   2) Chip de estado visible: el alumno VE si su resultado ya se guardó.
+   3) sendBeacon al ocultar/cerrar la página como último recurso.
+   4) Autosave del progreso del examen: las respuestas marcadas se restauran
+      si la página se recarga antes de enviar (TTL 6 h).
+   El upsert del backend es idempotente (conserva el mejor score), así que
+   reenviar un mismo resultado varias veces es seguro. */
+(function(){
+  if(window.__evalNetInstalled) return; window.__evalNetInstalled=true;
+  var EP='/.netlify/functions/submit-eval';
+  var OUTBOX='evalOutboxV2';
+  var _f=window.fetch.bind(window);
+
+  /* ── chip de estado ── */
+  var chip=null,chipTimer=null;
+  function showChip(txt,bg,autoHideMs){
+    if(!chip){chip=document.createElement('div');chip.style.cssText='position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s;';document.body.appendChild(chip);}
+    chip.style.background=bg;chip.textContent=txt;chip.style.opacity='1';
+    clearTimeout(chipTimer);
+    if(autoHideMs)chipTimer=setTimeout(function(){chip.style.opacity='0';},autoHideMs);
+  }
+
+  /* ── outbox persistente ── */
+  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function keyOf(payload){try{var p=JSON.parse(payload);return (p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');}catch(e){return 'x'+payload.length;}}
+  function enqueue(payload){var k=keyOf(payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,p:payload,t:Date.now()});writeBox(b);}
+  function dequeue(payload){var k=keyOf(payload);writeBox(readBox().filter(function(it){return it.k!==k;}));}
+
+  function clearProgress(){try{localStorage.removeItem(PKEY);}catch(e){}}
+
+  /* ── reenvío del outbox ── */
+  var sending=false;
+  function flushOutbox(){
+    if(sending)return;var b=readBox();if(!b.length)return;
+    sending=true;var it=b[0];
+    _f(EP,{method:'POST',headers:{'Content-Type':'application/json'},body:it.p})
+      .then(function(r){if(!r.ok)throw 0;return r.json().catch(function(){return{ok:true};});})
+      .then(function(d){if(d&&d.sinAsignar){showChip('⚠️ '+(d.mensaje||'Guardamos tu resultado, pero tu nombre no está en la lista de tu salón'),'#b45309');return;}if(d&&d.rechazado){dequeue(it.p);sending=false;showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}if(d&&d.ok===false)throw 0;
+        dequeue(it.p);sending=false;clearProgress();
+        showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);
+        if(readBox().length)setTimeout(flushOutbox,500);
+      })
+      .catch(function(){sending=false;
+        showChip('📡 Guardando tu resultado… no cierres esta página todavía','#b45309');
+      });
+  }
+
+  /* ── interceptar el POST de submitEval ── */
+  window.fetch=function(u,o){
+    try{
+      if(typeof u==='string'&&u.indexOf(EP)>-1&&o&&o.body){
+        enqueue(o.body);
+        showChip('⏳ Guardando tu resultado…','#1d4ed8');
+        return _f(u,o).then(function(r){
+          if(r&&r.ok){dequeue(o.body);clearProgress();r.clone().json().then(function(d){if(d&&d.sinAsignar){showChip('⚠️ '+(d.mensaje||'Guardamos tu resultado, pero tu nombre no está en la lista de tu salón'),'#b45309');return;}if(d&&d.rechazado){showChip('⚠️ '+(d.mensaje||'Tu nombre no está en la lista de tu salón'),'#b91c1c');return;}showChip('✅ Guardado en el sistema'+(d&&d.alumno?' · '+d.alumno:''),'#15803d',7000);}).catch(function(){showChip('✅ Resultado guardado en el sistema','#15803d',7000);});}
+          else{setTimeout(flushOutbox,1500);}
+          return r;
+        }).catch(function(e){setTimeout(flushOutbox,1500);throw e;});
+      }
+    }catch(e){}
+    return _f(u,o);
+  };
+
+  /* ── disparadores de reenvío ── */
+  setInterval(flushOutbox,8000);
+  window.addEventListener('online',flushOutbox);
+  setTimeout(flushOutbox,1500); // al cargar: reenvía pendientes de sesiones anteriores
+
+  /* ── último recurso al cerrar ── */
+  function beaconAll(){
+    var b=readBox();if(!b.length||!navigator.sendBeacon)return;
+    for(var i=0;i<b.length;i++){try{navigator.sendBeacon(EP,new Blob([b[i].p],{type:'text/plain'}));}catch(e){}}
+    /* no vaciamos el outbox: el upsert es idempotente y así confirmamos en la próxima visita */
+  }
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')beaconAll();});
+  window.addEventListener('pagehide',beaconAll);
+
+  /* ── autosave/restore del progreso del examen ── */
+  var PKEY='evalProgress-'+location.pathname.split('/').pop();
+  document.addEventListener('change',function(ev){
+    var t=ev.target;
+    if(!t||t.type!=='radio'||!/^eq\d+$/.test(t.name||''))return;
+    try{
+      var sel={};
+      var checked=document.querySelectorAll('.eval-q input[type=radio]:checked');
+      for(var i=0;i<checked.length;i++)sel[checked[i].name]=checked[i].value;
+      localStorage.setItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
+    }catch(e){}
+  },true);
+  (function restoreProgress(){
+    try{
+      var raw=localStorage.getItem(PKEY);if(!raw)return;
+      var st=JSON.parse(raw);
+      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){localStorage.removeItem(PKEY);return;}
+      var any=false;
+      for(var name in st.sel){
+        var inp=document.querySelector('input[name="'+name+'"][value="'+st.sel[name]+'"]');
+        if(inp&&!inp.disabled&&!inp.checked){inp.checked=true;any=true;}
+      }
+      if(any&&typeof updateAnswered==='function')updateAnswered();
+    }catch(e){}
+  })();
+})();
+
+/** Lleva al bloque de evaluación del final; el examen sigue empezando con su propio botón. */
+function irAEvaluacion(){
+  var c = document.getElementById('exam-cta');
+  if(!c) return;
+  c.scrollIntoView({behavior:'smooth', block:'center'});
+  c.classList.add('destacar');
+  setTimeout(function(){ c.classList.remove('destacar'); }, 1800);
+}
+</script>
+<script>
+/* ── Candado de identidad — solo nombres de la lista del salón ───────────────
+   Hasta jul 2026 el gate aceptaba cualquier texto y submit-eval creaba un
+   alumno nuevo con él: así entraron "Shadow Haunter", "Ewen" y compañía a la
+   lista de 6.° y 3.°. Ahora el nombre tiene que reconocerse contra el roster
+   ANTES de empezar, y se guarda con la forma exacta de la lista.
+   El servidor también rechaza los desconocidos: esto es para que el alumno se
+   entere antes de rendir, no después.
+   Envuelve al startEval existente en vez de reescribirlo porque conviven tres
+   variantes del gate; este bloque va al final del body, con todo ya parseado. */
+(function(){
+  if(window.__candadoNombre) return; window.__candadoNombre = true;
+
+  var LISTA = null;   // null = todavía no cargó → no bloquear a nadie
+
+  var gk = document.getElementById('eval-grade-key');
+  var grado = gk ? gk.dataset.grade : '';
+  if(grado){
+    fetch('/.netlify/functions/get-roster?grado=' + grado)
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if(d && d.alumnos && d.alumnos.length) LISTA = d.alumnos.map(function(a){ return a.nombre; }); })
+      .catch(function(){});
+  }
+
+  function norm(s){
+    return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
+      .replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+  }
+  function partes(s){
+    return norm(s).split(' ').filter(function(w){ return w.length > 2; });
+  }
+
+  /** Nombre canónico de la lista · false si no está · null si no hay lista. */
+  function buscar(nombre){
+    if(!LISTA || !LISTA.length) return null;
+    var n = norm(nombre);
+    for(var i=0;i<LISTA.length;i++) if(norm(LISTA[i]) === n) return LISTA[i];
+    var p = partes(nombre);
+    if(p.length < 2) return false;                 // un solo nombre no alcanza
+    var cand = LISTA.filter(function(oficial){
+      var op = partes(oficial);
+      for(var i=0;i<p.length;i++) if(op.indexOf(p[i]) < 0) return false;
+      return true;
+    });
+    return cand.length === 1 ? cand[0] : false;    // ambiguo → que escriba completo
+  }
+
+  function quitarAviso(){
+    var b = document.getElementById('gate-aviso');
+    if(b && b.parentNode) b.parentNode.removeChild(b);
+  }
+  function aviso(nombre){
+    var inp = document.getElementById('gate-nombre');
+    if(inp){ inp.classList.add('err'); }
+    quitarAviso();
+    var b = document.createElement('div');
+    b.id = 'gate-aviso';
+    /* opaco y con color propio: las guías conviven en tema claro (papel) y
+       oscuro (índigo), y un fondo translúcido se volvía ilegible en uno de los dos */
+    b.style.cssText = 'margin-top:14px;padding:14px 16px;border-radius:14px;text-align:left;' +
+      'background:#fee2e2;border:2px solid #dc2626;color:#7f1d1d;' +
+      'font-size:14.5px;line-height:1.55;font-weight:500';
+    b.innerHTML = 'No encontramos <b>' + (nombre||'') + '</b> en la lista de tu salón.<br>' +
+      'Escribe tu <b>nombre y apellidos completos</b>, tal como figuran en la lista. ' +
+      'Si recién te matriculaste, avísale a la profesora para que te agregue.';
+    var host = (inp && inp.parentNode) || document.getElementById('eval-gate-wrap') || document.body;
+    host.appendChild(b);
+    if(inp) inp.focus();
+  }
+
+  var original = window.startEval;
+  if(typeof original !== 'function') return;
+  window.startEval = function(){
+    var inp = document.getElementById('gate-nombre');
+    var escrito = (inp ? inp.value : '').trim();
+    if(escrito){
+      var oficial = buscar(escrito);
+      if(oficial === false){ aviso(escrito); return; }
+      if(oficial && inp) inp.value = oficial;       // se guarda como está en la lista
+    }
+    quitarAviso();
+    if(inp) inp.classList.remove('err');
+    return original.apply(this, arguments);
+  };
+})();
+</script>
+</body>
+</html>

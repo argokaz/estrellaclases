@@ -4,10 +4,12 @@
  * POST /.netlify/functions/submit-task
  * Body: { nombre, grado, sesion, drive_link, comentario? }
  *
- * Busca el alumno canónico en Supabase (fuzzy match).
+ * Busca el alumno canónico en Supabase (ID canónico cuando está disponible;
+ * fuzzy match solo como compatibilidad con envíos antiguos).
  * Si existe la entrega (alumno_id + sesion) → actualiza.
  * Si no existe → inserta.
- * Si el alumno no está en el roster → inserta igual (sin alumno_id).
+ * Si el alumno no está en el roster → conserva la entrega sin alumno_id y la
+ * marca para revisión; nunca se presenta como entrega identificada.
  */
 
 const { supabase }  = require('./_supabase');
@@ -27,7 +29,7 @@ exports.handler = async (event) => {
   let body = {};
   try { body = JSON.parse(event.body || '{}'); } catch {}
 
-  const { nombre, grado, sesion, drive_link, comentario } = body;
+  const { nombre, grado, sesion, drive_link, comentario, alumno_id } = body;
 
   if (!nombre || !grado || !sesion || !drive_link) {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Faltan campos: nombre, grado, sesion, drive_link' }) };
@@ -40,9 +42,26 @@ exports.handler = async (event) => {
   const nombreClean = titleCase(nombre.trim());
   const sesionPad   = String(sesion).padStart(2, '0');
 
-  const { data: alumnos } = await db.from('alumnos').select('id, nombre').eq('grado', grado);
+  let alumnos;
+  try {
+    const roster = await db.from('alumnos').select('id, nombre').eq('grado', grado);
+    if (roster.error) throw new Error('leer roster: ' + roster.error.message);
+    alumnos = roster.data;
+    if (!alumnos || !alumnos.length) throw new Error('Roster vacío para ' + grado);
+  } catch (err) {
+    console.error('submit-task roster error:', err.message);
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };
+  }
+
   const normNombre = normalize(nombreClean);
-  const matched    = findBestPerson(normNombre, alumnos, a => a.nombre); // exacto > subset > ancla
+  const byId = alumno_id ? alumnos.find(a => String(a.id) === String(alumno_id)) : null;
+  if (alumno_id && !byId) {
+    return { statusCode: 409, headers: CORS, body: JSON.stringify({ ok: false, identidadInvalida: true, error: 'Actualiza la lista de alumnos e inténtalo de nuevo.' }) };
+  }
+  if (byId && normalize(byId.nombre) !== normNombre) {
+    return { statusCode: 409, headers: CORS, body: JSON.stringify({ ok: false, identidadInvalida: true, error: 'El nombre no coincide con la identidad seleccionada.' }) };
+  }
+  const matched = byId || findBestPerson(normNombre, alumnos, a => a.nombre); // exacto > subset > ancla
 
   const payload = {
     grado,
@@ -68,7 +87,8 @@ exports.handler = async (event) => {
     } else {
       const r = await db.from('tareas').select('id')
         .eq('grado', grado).eq('sesion', sesionPad).eq('nombre_raw', nombreClean).maybeSingle();
-      if (!r.error) existing = r.data; // si falla el lookup, insertamos igual (no bloquear)
+      if (r.error) throw new Error('lookup tarea sin asignar: ' + r.error.message);
+      existing = r.data;
     }
 
     if (existing) {
@@ -87,7 +107,13 @@ exports.handler = async (event) => {
     return {
       statusCode: 200,
       headers: CORS,
-      body: JSON.stringify({ ok: true, nombre: nombreClean, matched: !!matched }),
+      body: JSON.stringify({
+        ok: true,
+        nombre: matched ? matched.nombre : nombreClean,
+        matched: !!matched,
+        requiereRevision: !matched,
+        mensaje: matched ? undefined : 'La entrega quedó guardada, pero falta vincularla a un alumno del roster.',
+      }),
     };
   } catch (err) {
     console.error('submit-task error:', err.message);

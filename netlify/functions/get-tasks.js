@@ -5,6 +5,7 @@
  *
  * Devuelve:
  *   { submitted: [{alumno_id, nombre_raw, grado, drive_link, comentario, fecha}],
+ *     unassigned: [{...}],                 ← guardadas, pero sin alumno confirmado
  *     pending:   [nombre, ...],          ← del roster que NO entregó
  *     total_roster: N }
  *
@@ -57,6 +58,10 @@ exports.handler = async (event) => {
   }
 
   const submittedIds = new Set((tasks || []).filter(t => t.alumno_id).map(t => t.alumno_id));
+  const unassigned = (tasks || []).filter(t => !t.alumno_id).map(t => ({
+    ...t,
+    requiereRevision: true,
+  }));
   const pending = (roster || [])
     .filter(a => !submittedIds.has(a.id))
     .map(a => ({ nombre: a.nombre, grado: a.grado }));
@@ -69,6 +74,7 @@ exports.handler = async (event) => {
       grado:        grado || 'all',
       sesion:       sesionPad,
       submitted:    tasks || [],
+      unassigned,
       pending,
       total_roster: (roster || []).length,
     }),

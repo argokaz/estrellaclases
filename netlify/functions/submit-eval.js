@@ -30,7 +30,7 @@ exports.handler = async (event) => {
   try { data = JSON.parse(event.body); }
   catch { return { statusCode: 400, headers: CORS, body: '{"error":"Bad JSON"}' }; }
 
-  const { nombre, grado, sesion, correctas, total, fecha } = data;
+  const { nombre, grado, sesion, correctas, total, fecha, alumno_id } = data;
   let { score } = data;
   if (!nombre || !grado || !sesion || typeof score !== "number") {
     return { statusCode: 400, headers: CORS, body: '{"error":"Missing required fields"}' };
@@ -73,8 +73,26 @@ exports.handler = async (event) => {
     if (rosterErr) throw new Error("leer roster: " + rosterErr.message);
 
     const normBuscado = normalize(nombreNorm);
+    // Las páginas nuevas envían el id canónico que obtuvieron del roster.
+    // Se verifica contra el mismo roster antes de usarlo. Los envíos antiguos
+    // siguen funcionando con fuzzy match para no perder colas ya existentes.
+    const alumnoPorId = alumno_id
+      ? alumnos.find(a => String(a.id) === String(alumno_id))
+      : null;
+    if (alumno_id && !alumnoPorId) {
+      const err = new Error("Identidad de alumno no válida para " + grado);
+      err.statusCode = 409;
+      err.identidadInvalida = true;
+      throw err;
+    }
+    if (alumnoPorId && normalize(alumnoPorId.nombre) !== normBuscado) {
+      const err = new Error("El nombre no coincide con la identidad seleccionada");
+      err.statusCode = 409;
+      err.identidadInvalida = true;
+      throw err;
+    }
     // findBestPerson: exacto > subset > ancla — NUNCA "primer match gana"
-    const alumno = findBestPerson(normBuscado, alumnos, a => a.nombre);
+    const alumno = alumnoPorId || findBestPerson(normBuscado, alumnos, a => a.nombre);
 
     // ── 2. Sin coincidencia: se guarda la nota, NO se crea el alumno ──────────
     // Antes se creaba un alumno con cualquier texto, y por ahí entraron "Shadow
@@ -173,6 +191,10 @@ exports.handler = async (event) => {
 
   } catch (err) {
     console.error("submit-eval error:", err.message);
-    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };
+    return {
+      statusCode: err.statusCode || 500,
+      headers: CORS,
+      body: JSON.stringify({ error: err.message, identidadInvalida: !!err.identidadInvalida }),
+    };
   }
 };

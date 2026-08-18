@@ -54,12 +54,13 @@ exports.handler = async (event) => {
   try {
     const db = supabase();
 
-    // Las tareas pueden no existir todavía como tabla; no deben tumbar la libreta.
+    // Si falla tareas, la libreta debe fallar completa: una libreta parcial es
+    // más peligrosa que un error visible porque puede registrar faltantes falsos.
     const [alumnos, evals, bonuses, tareas] = await Promise.all([
       traerTodo(db, "alumnos",      "id, nombre, grado"),
       traerTodo(db, "evaluaciones", "alumno_id, grado, sesion, score, correctas, total, fecha, nombre_raw"),
-      traerTodo(db, "bonuses",      "alumno_id, puntos, mes").catch(() => []),
-      traerTodo(db, "tareas",       "alumno_id, sesion, grado, fecha").catch(() => []),
+      traerTodo(db, "bonuses",      "alumno_id, puntos, mes"),
+      traerTodo(db, "tareas",       "alumno_id, sesion, grado, fecha"),
     ]);
 
     const porAlumno = new Map();
@@ -73,6 +74,14 @@ exports.handler = async (event) => {
     }
 
     const sinAsignar = [];   // evaluaciones que nunca se ligaron a un alumno del roster
+    const tareasSinAsignar = (tareas || [])
+      .filter(t => !t.alumno_id)
+      .map(t => ({
+        nombre: t.nombre_raw || "—",
+        grado: t.grado || "—",
+        sesion: t.sesion,
+        fecha: t.fecha,
+      }));
     const detalle    = [];
 
     for (const ev of evals) {
@@ -165,9 +174,11 @@ exports.handler = async (event) => {
         aulas,
         detalle,
         sinAsignar,
+        tareasSinAsignar,
         totales: {
           alumnos:      porAlumno.size,
           evaluaciones: detalle.length,
+          tareasSinAsignar: tareasSinAsignar.length,
         },
       }),
     };

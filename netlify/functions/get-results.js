@@ -69,6 +69,9 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: CORS, body: JSON.stringify(results) };
   } catch (err) {
     console.error("get-results error:", err.message);
-    return { statusCode: 200, headers: CORS, body: "[]" };
+    // Un error de base de datos NO equivale a "no hay resultados". Devolver
+    // [] ocultaba caídas y podía hacer que la profesora creyera que se habían
+    // perdido las notas.
+    return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: "No se pudieron leer las evaluaciones: " + err.message }) };
   }
 };

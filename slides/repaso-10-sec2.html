@@ -198,11 +198,12 @@ let evalName='',evalStarted=false,roster=[];
 function acFilter(){const val=document.getElementById('gate-nombre').value.trim().toLowerCase();const list=document.getElementById('ac-list');if(!val||!roster.length){list.style.display='none';return;}const matches=roster.filter(n=>n.toLowerCase().includes(val)).slice(0,8);if(!matches.length){list.style.display='none';return;}list.innerHTML=matches.map(n=>`<div class="ac-item" onclick="selectAc(this.textContent)">${n}</div>`).join('');list.style.display='block';}
 function selectAc(name){document.getElementById('gate-nombre').value=name;document.getElementById('ac-list').style.display='none';}
 function acKey(e){const list=document.getElementById('ac-list');const items=[...list.querySelectorAll('.ac-item')];let idx=items.findIndex(i=>i.classList.contains('active'));if(e.key==='ArrowDown'){e.preventDefault();if(idx<items.length-1){if(idx>=0)items[idx].classList.remove('active');items[idx+1].classList.add('active');}}else if(e.key==='ArrowUp'){e.preventDefault();if(idx>0){items[idx].classList.remove('active');items[idx-1].classList.add('active');}}else if(e.key==='Enter'){e.preventDefault();const active=list.querySelector('.active');if(active)selectAc(active.textContent);else startEval();}else if(e.key==='Escape'){list.style.display='none';}}
-function startEval(){document.getElementById('ac-list').style.display='none';const name=document.getElementById('gate-nombre').value.trim();if(!name){alert('Escribe tu nombre primero');return;}const nameKey=name.toLowerCase().replace(/[^a-z0-9]+/g,'-');if(localStorage.getItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey)){alert('Ya completaste esta evaluación, '+name+'. Solo se permite un intento.');return;}evalName=name;document.getElementById('identity-name-display').textContent=name;document.getElementById('identity-confirm').style.display='block';document.querySelector('.gate-btn').disabled=true;}
+function startEval(){document.getElementById('ac-list').style.display='none';const name=document.getElementById('gate-nombre').value.trim();if(!name){alert('Escribe tu nombre primero');return;}const nameKey=name.toLowerCase().replace(/[^a-z0-9]+/g,'-');if(window.__safeGetItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey)){alert('Ya completaste esta evaluación, '+name+'. Solo se permite un intento.');return;}evalName=name;document.getElementById('identity-name-display').textContent=name;document.getElementById('identity-confirm').style.display='block';document.querySelector('.gate-btn').disabled=true;}
 function confirmarIdentidad(){document.getElementById('gate-section').style.display='none';const bar=document.getElementById('exam-who-bar');bar.style.display='flex';document.getElementById('who-name').textContent=evalName;document.getElementById('exam-section').style.display='block';evalStarted=true;}
 function resetGate(){document.getElementById('identity-confirm').style.display='none';document.querySelector('.gate-btn').disabled=false;document.getElementById('gate-nombre').value='';evalName='';if(!evalStarted){document.getElementById('gate-section').style.display='block';}else{document.getElementById('exam-who-bar').style.display='none';document.getElementById('exam-section').style.display='none';document.getElementById('gate-section').style.display='block';evalStarted=false;}}
-async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=correctas*2;for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');localStorage.setItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=correctas>=8?'¡Excelente dominio de fórmulas! 🌟':correctas>=6?'¡Bien! Sigue practicando en Sheets 💪':'Repasa las fórmulas y sus diferencias 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
-</script><script>
+async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];const respuestas={};for(const q of qs){const sel=document.querySelector(`input[name="${q}"]:checked`);if(!sel){alert('Responde todas las preguntas antes de enviar');return;}respuestas[q]=sel.value;}let correctas=0;for(const q of qs){if(respuestas[q]===CORRECT[q])correctas++;}const score=correctas*2;for(const q of qs){const opts=document.querySelectorAll(`input[name="${q}"]`);opts.forEach(opt=>{opt.disabled=true;const lbl=opt.closest('.exam-opt');if(opt.value===CORRECT[q])lbl.classList.add('opt-correct');else if(opt.checked)lbl.classList.add('opt-wrong');});}document.getElementById('submit-btn').disabled=true;const nameKey=evalName.toLowerCase().replace(/[^a-z0-9]+/g,'-');window.__safeSetItem('eval-'+SESSION+'-'+GRADE+'-'+nameKey,'1');const rb=document.getElementById('result-box');document.getElementById('result-score').textContent=correctas+'/10';document.getElementById('result-msg').textContent=correctas>=8?'¡Excelente dominio de fórmulas! 🌟':correctas>=6?'¡Bien! Sigue practicando en Sheets 💪':'Repasa las fórmulas y sus diferencias 📚';rb.style.display='block';rb.scrollIntoView({behavior:'smooth',block:'center'});try{await fetch('/.netlify/functions/submit-eval',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nombre:evalName,grado:GRADE,sesion:SESSION,score,correctas,total:10,fecha:new Date().toISOString(),respuestas})});}catch(e){}}
+</script><script src="/assets/data-safety.js"></script>
+<script>
 /* === Red de seguridad de envío v2 — no se pierde ninguna evaluación ===
    1) Outbox persistente en localStorage: si el POST falla o el alumno cierra
       la pestaña, el resultado queda guardado localmente y se reenvía solo
@@ -230,13 +231,13 @@ async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q
   }
 
   /* ── outbox persistente ── */
-  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
-  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function readBox(){try{return JSON.parse(window.__safeGetItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{window.__safeSetItem(OUTBOX,JSON.stringify(b));}catch(e){}}
   function keyOf(payload){try{var p=JSON.parse(payload);return (p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');}catch(e){return 'x'+payload.length;}}
   function enqueue(payload){var k=keyOf(payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,p:payload,t:Date.now()});writeBox(b);}
   function dequeue(payload){var k=keyOf(payload);writeBox(readBox().filter(function(it){return it.k!==k;}));}
 
-  function clearProgress(){try{localStorage.removeItem(PKEY);}catch(e){}}
+  function clearProgress(){try{window.__safeRemoveItem(PKEY);}catch(e){}}
 
   /* ── reenvío del outbox ── */
   var sending=false;
@@ -294,14 +295,14 @@ async function submitEval(){const qs=['q1','q2','q3','q4','q5','q6','q7','q8','q
       var sel={};
       var checked=document.querySelectorAll('.eval-q input[type=radio]:checked');
       for(var i=0;i<checked.length;i++)sel[checked[i].name]=checked[i].value;
-      localStorage.setItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
+      window.__safeSetItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
     }catch(e){}
   },true);
   (function restoreProgress(){
     try{
-      var raw=localStorage.getItem(PKEY);if(!raw)return;
+      var raw=window.__safeGetItem(PKEY);if(!raw)return;
       var st=JSON.parse(raw);
-      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){localStorage.removeItem(PKEY);return;}
+      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){window.__safeRemoveItem(PKEY);return;}
       var any=false;
       for(var name in st.sel){
         var inp=document.querySelector('input[name="'+name+'"][value="'+st.sel[name]+'"]');

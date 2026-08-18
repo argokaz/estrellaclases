@@ -486,7 +486,7 @@ function startEval(){
   evalNombre = titleCase(raw);
   const nk = nameKey(evalNombre);
   const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
-  const prev = localStorage.getItem(lsKey);
+  const prev = window.__safeGetItem(lsKey);
   if(prev){
     const d = JSON.parse(prev);
     alert('Ya completaste esta evaluación con ' + d.score + '/20. Solo se permite un intento.');
@@ -560,7 +560,7 @@ async function submitEval(){
   const score = correctas * 2;
   const nk = nameKey(evalNombre);
   const lsKey = 'eval-' + SESSION + '-' + GRADE + '-' + nk;
-  localStorage.setItem(lsKey, JSON.stringify({score, correctas, fecha: new Date().toISOString()}));
+  window.__safeSetItem(lsKey, JSON.stringify({score, correctas, fecha: new Date().toISOString()}));
 
   // Show score
   const sb = document.getElementById('score-box');
@@ -586,6 +586,7 @@ async function submitEval(){
 }
 
 </script>
+<script src="/assets/data-safety.js"></script>
 <script>
 /* === Red de seguridad de envío v2 — no se pierde ninguna evaluación ===
    1) Outbox persistente en localStorage: si el POST falla o el alumno cierra
@@ -614,13 +615,13 @@ async function submitEval(){
   }
 
   /* ── outbox persistente ── */
-  function readBox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
-  function writeBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+  function readBox(){try{return JSON.parse(window.__safeGetItem(OUTBOX)||'[]');}catch(e){return [];}}
+  function writeBox(b){try{window.__safeSetItem(OUTBOX,JSON.stringify(b));}catch(e){}}
   function keyOf(payload){try{var p=JSON.parse(payload);return (p.nombre||'')+'|'+(p.grado||'')+'|'+(p.sesion||'');}catch(e){return 'x'+payload.length;}}
   function enqueue(payload){var k=keyOf(payload);var b=readBox().filter(function(it){return it.k!==k;});b.push({k:k,p:payload,t:Date.now()});writeBox(b);}
   function dequeue(payload){var k=keyOf(payload);writeBox(readBox().filter(function(it){return it.k!==k;}));}
 
-  function clearProgress(){try{localStorage.removeItem(PKEY);}catch(e){}}
+  function clearProgress(){try{window.__safeRemoveItem(PKEY);}catch(e){}}
 
   /* ── reenvío del outbox ── */
   var sending=false;
@@ -678,14 +679,14 @@ async function submitEval(){
       var sel={};
       var checked=document.querySelectorAll('.eval-q input[type=radio]:checked');
       for(var i=0;i<checked.length;i++)sel[checked[i].name]=checked[i].value;
-      localStorage.setItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
+      window.__safeSetItem(PKEY,JSON.stringify({sel:sel,t:Date.now()}));
     }catch(e){}
   },true);
   (function restoreProgress(){
     try{
-      var raw=localStorage.getItem(PKEY);if(!raw)return;
+      var raw=window.__safeGetItem(PKEY);if(!raw)return;
       var st=JSON.parse(raw);
-      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){localStorage.removeItem(PKEY);return;}
+      if(!st||!st.sel||(Date.now()-(st.t||0))>6*3600*1000){window.__safeRemoveItem(PKEY);return;}
       var any=false;
       for(var name in st.sel){
         var inp=document.querySelector('input[name="'+name+'"][value="'+st.sel[name]+'"]');

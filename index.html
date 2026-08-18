@@ -1488,11 +1488,17 @@ function fmtDate(iso){
 // APLAZAMIENTOS  — "no hubo clase, corre todo una semana"
 // ═══════════════════════════════════════════════════════════
 // Cada shift aplaza una sesión y TODAS las siguientes:
-//   {id, from:13, weeks:1, grade:'all'|'prim6'|…, reason:''}
+//   {id, from:13, weeks:1, until:27, grade:'all'|'prim6'|…, reason:''}
 // Se guardan en el backend (schedule.js) para que el aula entera vea lo mismo,
 // con copia en localStorage para pintar sin esperar la red.
 let SHIFTS = [];
 try { SHIFTS = JSON.parse(localStorage.getItem('cal_shifts')||'[]'); } catch(_){ SHIFTS = []; }
+
+// S26 y S27 de sec4 se dictan juntas el 27 de noviembre por el aplazamiento
+// de una semana. S27 conserva sus archivos como referencia, pero no aparece
+// como una clase adicional en el recorrido del aula.
+const MERGED_SESSIONS = { sec4: { 27: 26 } };
+function isMergedSession(session, gradeId){ return !!(MERGED_SESSIONS[gradeId] && MERGED_SESSIONS[gradeId][session]); }
 
 function addDaysISO(iso, days){
   const t = new Date(iso+'T00:00:00Z').getTime() + days*86400000;
@@ -1502,12 +1508,15 @@ function addDaysISO(iso, days){
 function shiftDays(session, gradeId){
   let d = 0;
   SHIFTS.forEach(s=>{
-    if(session >= s.from && (s.grade === 'all' || s.grade === gradeId)) d += s.weeks*7;
+    const hasta = s.until == null ? Infinity : s.until;
+    if(session >= s.from && session <= hasta && (s.grade === 'all' || s.grade === gradeId)) d += s.weeks*7;
   });
   return d;
 }
 /** Fecha real de una sesión para un grado, ya con los aplazamientos aplicados. */
 function sessionDate(session, gradeId){
+  const fusionadaEn = MERGED_SESSIONS[gradeId]?.[session];
+  if(fusionadaEn) return sessionDate(fusionadaEn, gradeId);
   const base = CALENDAR.find(c=>c.session===session);
   if(!base) return '';
   const d = shiftDays(session, gradeId);
@@ -2089,14 +2098,14 @@ const GRADES = {
     act:'Trabajo por equipos', evidence:'Prototipo avanzado',
     tools:'Sites / Canva / Forms', mat:'M25',
     ai:'Usar IA para revisar claridad del informe y diseño del sitio. Documentar qué cambios aceptaron y cuáles rechazaron.'},
-   {n:26, title:'Revisión por pares',
-    cover:'Evaluar claridad, evidencia, diseño, fuentes e IA declarada.',
-    act:'Rúbrica cruzada', evidence:'Feedback',
-    tools:'Forms / Docs', mat:'M26', ai:''},
-   {n:27, title:'Iteración final',
-    cover:'Corregir informe, sitio, diseño y exposición.',
-    act:'Mejoras finales', evidence:'Producto casi final',
-    tools:'Herramientas elegidas', mat:'M27', ai:''},
+   {n:26, title:'Revisión por pares + iteración final',
+    cover:'Revisar con una pauta, decidir qué comentarios aplicar y verificar informe, sitio, diseño y fuentes. (Fusión de S26+S27 para recuperar el desfase de sec4.)',
+    act:'Rúbrica cruzada + mejoras verificadas', evidence:'Feedback y versión final',
+    tools:'Forms / Docs / herramientas elegidas', mat:'M26', ai:''},
+   {n:27, title:'Fusionada con S26',
+    cover:'Esta sesión no se dicta por separado: su revisión e iteración final se trabajan juntas en S26.',
+    act:'Contenido integrado en S26', evidence:'—',
+    tools:'—', mat:'M27', ai:''},
    {n:28, title:'Pitch con evidencia',
     cover:'Presentar problema, datos, solución, límites e impacto.',
     act:'Ensayo de 4 minutos', evidence:'Pitch',
@@ -2371,7 +2380,7 @@ function renderPanel(gradeId){
   //   isPast  = date < today  (clases pasadas, van al acordeón)
   //   isToday = date === today (clase del día, destacada)
   //   isFuture= date > today  (requiere contraseña)
-  const allItems = g.sessions.map(sdata=>{
+  const allItems = g.sessions.filter(sdata=>!isMergedSession(sdata.n, gradeId)).map(sdata=>{
     const calEntry     = CALENDAR.find(c=>c.session===sdata.n);
     // La fecha efectiva depende del grado: un salón puede ir corrido respecto al resto
     const d            = sessionDate(sdata.n, gradeId);
@@ -3969,7 +3978,7 @@ function renderSchedulePanel(){
       <div class="sched-item">
         <div>
           <b>Desde la sesión ${String(s.from).padStart(2,'0')}</b>
-          <span>· ${s.weeks} semana${s.weeks>1?'s':''} · ${GRADE_LABEL_SHORT[s.grade]||s.grade}</span>
+          <span>· ${s.weeks} semana${s.weeks>1?'s':''}${s.until ? ` · hasta S${String(s.until).padStart(2,'0')}` : ''} · ${GRADE_LABEL_SHORT[s.grade]||s.grade}</span>
           ${s.reason?`<em>${s.reason}</em>`:''}
         </div>
         <button class="sched-del" onclick="removeShift('${s.id}')">Quitar</button>
@@ -3981,7 +3990,7 @@ function renderSchedulePanel(){
   const hoy = todayStr();
   const gid = document.getElementById('sched-grade')?.value || 'all';
   const gradoPrev = gid === 'all' ? 'prim6' : gid;
-  const proximas = CALENDAR.filter(c=> sessionDate(c.session, gradoPrev) >= hoy).slice(0,5);
+  const proximas = CALENDAR.filter(c=> !isMergedSession(c.session, gradoPrev) && sessionDate(c.session, gradoPrev) >= hoy).slice(0,5);
   prev.innerHTML = proximas.length
     ? proximas.map(c=>{
         const info = calInfo(c.session, gradoPrev);
@@ -4135,7 +4144,7 @@ function renderConsola(gradeId){
   const g = GRADES[gradeId];
   const hoyStr = todayStr();
 
-  const todas = g.sessions.map(sd=>{
+  const todas = g.sessions.filter(sd=>!isMergedSession(sd.n, gradeId)).map(sd=>{
     const d = sessionDate(sd.n, gradeId);
     const past = d && d < hoyStr;
     return {sd, fecha:d, past, hoy: d===hoyStr, daysAgo: past?daysSince(d):0};

@@ -6,7 +6,7 @@
  * POST /.netlify/functions/schedule            ← {pw, shifts:[...]}  (solo profesora)
  *
  * Un "shift" aplaza una sesión y todas las siguientes:
- *   {id, from: 13, weeks: 1, grade: 'all'|'prim6'|…, reason: '', ts}
+ *   {id, from: 13, weeks: 1, until: 27, grade: 'all'|'prim6'|…, reason: '', ts}
  *
  * Se guarda la LISTA COMPLETA en cada POST (el cliente manda el estado final),
  * así quitar un aplazamiento es simplemente mandar la lista sin él.
@@ -40,11 +40,13 @@ function limpiar(lista) {
       id: String(s.id || "").slice(0, 40) || String(Date.now()) + Math.random().toString(36).slice(2, 7),
       from: parseInt(s.from, 10),
       weeks: parseInt(s.weeks, 10),
+      until: s.until == null || s.until === "" ? null : parseInt(s.until, 10),
       grade: GRADES.includes(s.grade) ? s.grade : "all",
       reason: String(s.reason || "").slice(0, 120),
       ts: Number(s.ts) || Date.now(),
     }))
-    .filter((s) => s.from >= 1 && s.from <= 32 && s.weeks >= 1 && s.weeks <= 12)
+    .filter((s) => s.from >= 1 && s.from <= 32 && s.weeks >= 1 && s.weeks <= 12
+      && (s.until == null || (s.until >= s.from && s.until <= 32)))
     .slice(0, 40);
 }
 

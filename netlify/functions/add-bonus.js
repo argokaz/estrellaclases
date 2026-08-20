@@ -48,7 +48,8 @@ exports.handler = async (event) => {
     const { data: alumnos } = await db
       .from("alumnos")
       .select("id, nombre")
-      .eq("grado", grado);
+      .eq("grado", grado)
+      .is("deleted_at", null);
 
     const normSearch = normalize(nombre);
     const alumno = findBestPerson(normSearch, alumnos, a => a.nombre); // exacto > subset > ancla
@@ -60,7 +61,7 @@ exports.handler = async (event) => {
     // Idempotencia: si ya existe un bonus de este alumno con la misma fecha
     // (nonce), fue un reintento → responder ok sin duplicar.
     const { data: dupe } = await db.from("bonuses")
-      .select("id").eq("alumno_id", alumno.id).eq("fecha", fechaStr).maybeSingle();
+      .select("id").eq("alumno_id", alumno.id).eq("fecha", fechaStr).is("deleted_at", null).maybeSingle();
     if (dupe) return { statusCode: 200, headers: CORS, body: '{"ok":true,"dedupe":true}' };
 
     const { error } = await db.from("bonuses").insert({

@@ -949,10 +949,27 @@ button{font-family:inherit;cursor:pointer;}
   border-radius:6px;padding:4px 10px;transition:background .15s;
 }
 .tasks-item-link:hover{background:rgba(16,185,129,.2);}
+.tasks-item-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:8px;}
+.tasks-delete-btn,.tasks-assign-btn{
+  border-radius:7px;padding:5px 10px;font:600 12px/1.2 inherit;cursor:pointer;
+  min-height:32px;transition:background .15s,border-color .15s;
+}
+.tasks-delete-btn{background:#fff5f5;border:1px solid #f3b7b7;color:#991b1b;}
+.tasks-delete-btn:hover{background:#fee2e2;border-color:#ef4444;}
+.tasks-assign-btn{background:#fff7ed;border:1px solid #fdba74;color:#9a3412;}
+.tasks-assign-btn:hover{background:#ffedd5;border-color:#f97316;}
+.tasks-inline-assign{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:8px;}
+.tasks-inline-assign select{flex:1;min-width:210px;border:1px solid var(--border);border-radius:8px;padding:7px;background:#fff;color:var(--text);font:inherit;}
 .tasks-pending-list{display:flex;flex-wrap:wrap;gap:7px;}
 .tasks-pending-chip{
   background:var(--surface-2);border:1px solid var(--border);
   color:var(--text-muted);border-radius:20px;padding:4px 13px;font-size:13px;
+}
+@media(max-width:600px){
+  .tasks-overlay.open{padding:0;}
+  .tasks-panel{min-height:100dvh;border-radius:0;padding:20px 16px;}
+  .tasks-stat-pct{margin-left:0;flex-basis:100%;}
+  .tasks-item-date{margin-left:0;flex-basis:100%;}
 }
 
 /* ── RESULTS MODAL ──────────────────────────────────────── */
@@ -1247,6 +1264,41 @@ button{font-family:inherit;cursor:pointer;}
   padding:.45rem .8rem;font-size:var(--fs-xs);font-weight:600;cursor:pointer;font-family:inherit;
   transition:background .15s,border-color .15s;}
 .cns-tool:hover{background:var(--surface);border-color:var(--line-strong);}
+.cns-health{display:grid;grid-template-columns:minmax(160px,1fr) repeat(4,minmax(90px,.55fr));
+  gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;margin-bottom:.9rem;}
+.cns-health-cell{background:#fff;padding:.7rem .8rem;min-width:0;}
+.cns-health-cell strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.05rem;color:var(--text);}
+.cns-health-cell span{display:block;font-size:var(--fs-xs);color:var(--text-muted);margin-top:.18rem;line-height:1.35;}
+.cns-health-main{display:flex;align-items:center;gap:.55rem;}
+.cns-health-dot{width:.65rem;height:.65rem;border-radius:50%;background:#94a3b8;flex:0 0 auto;}
+.cns-health.ok .cns-health-dot{background:#15803d;}
+.cns-health.warn .cns-health-dot{background:#d97706;}
+.cns-health.error .cns-health-dot{background:#b91c1c;}
+.cns-health-refresh{margin-top:.35rem;background:none;border:0;padding:0;color:#1d4ed8;font:600 var(--fs-xs)/1 inherit;cursor:pointer;text-decoration:underline;}
+@media(max-width:760px){.cns-health{grid-template-columns:1fr 1fr}.cns-health-cell:first-child{grid-column:1/-1;}}
+
+.trash-overlay{display:none;position:fixed;inset:0;z-index:2400;background:rgba(0,0,0,.18);backdrop-filter:blur(6px);padding:24px 16px;overflow:auto;}
+.trash-overlay.open{display:flex;align-items:flex-start;justify-content:center;}
+.trash-panel{width:100%;max-width:720px;background:var(--bg2);border:1px solid var(--border);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.16);overflow:hidden;}
+.trash-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--border);background:#fff;}
+.trash-header h2{font:800 20px/1.2 'Space Grotesk',sans-serif;}
+.trash-body{padding:16px 20px 22px;}
+.trash-intro{font-size:13px;color:var(--text-muted);line-height:1.5;margin-bottom:12px;}
+.trash-list{display:flex;flex-direction:column;gap:8px;}
+.trash-item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.trash-item strong{display:block;color:var(--text);font-size:14px;}
+.trash-item span{display:block;color:var(--text-muted);font-size:12px;margin-top:3px;}
+.trash-restore{border:1px solid #86efac;background:#f0fdf4;color:#166534;border-radius:8px;padding:7px 11px;font:700 12px/1.2 inherit;cursor:pointer;}
+.trash-restore:hover{background:#dcfce7;border-color:#22c55e;}
+.trash-empty{padding:28px;text-align:center;color:var(--text-muted);font-size:14px;}
+.undo-toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:3000;display:flex;align-items:center;gap:12px;max-width:min(92vw,620px);background:#172033;color:#fff;border-radius:12px;padding:11px 12px 11px 16px;box-shadow:0 14px 38px rgba(15,23,42,.28);font-size:14px;}
+.undo-toast button{border:1px solid rgba(255,255,255,.35);background:#fff;color:#172033;border-radius:8px;padding:7px 11px;font:800 13px/1 inherit;cursor:pointer;white-space:nowrap;}
+
+:where(button,a,input,select,textarea,summary):focus-visible{outline:3px solid #2563eb;outline-offset:3px;}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
+}
 
 /* — selector de aula — */
 .cns-aulas{display:flex;gap:.35rem;overflow-x:auto;padding-bottom:.5rem;margin-bottom:.9rem;scrollbar-width:none;}
@@ -2833,11 +2885,13 @@ function openResults(session, gradeId){
     ? '📊 Resultados — ' + (GRADE_LABELS_MAP[gradeId] || gradeId)
     : '📊 Resultados de alumnos';
   document.getElementById('results-overlay').classList.add('open');
+  focusDialog('results-overlay');
   const ses = session ? String(session).padStart(2,'0') : '02';
   loadResults(ses);
 }
 function closeResultsPanel(){
   document.getElementById('results-overlay').classList.remove('open');
+  returnDialogFocus();
 }
 function closeResultsOnBg(e){
   if(e.target === document.getElementById('results-overlay')) closeResultsPanel();
@@ -3016,15 +3070,58 @@ async function asignarSuelta(evalId, escrito, grado){
   };
 }
 
+let _undoTimer = null;
+function showUndoToast(deletion, message){
+  document.querySelector('.undo-toast')?.remove();
+  clearTimeout(_undoTimer);
+  const toast = document.createElement('div');
+  toast.className = 'undo-toast';
+  toast.setAttribute('role','status');
+  toast.setAttribute('aria-live','polite');
+  const text = document.createElement('span');
+  text.textContent = message || 'Elemento enviado a la papelera.';
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = 'Deshacer';
+  button.onclick = ()=> restoreDeletion(deletion.deletion_id, button);
+  toast.append(text, button);
+  document.body.appendChild(toast);
+  _undoTimer = setTimeout(()=>toast.remove(), 12000);
+}
+
+async function restoreDeletion(deletionId, button){
+  if(button){ button.disabled = true; button.textContent = 'Restaurando...'; }
+  try{
+    const res = await fetch('/.netlify/functions/trash',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:CORRECT_PW,action:'restore',deletion_id:deletionId})
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+    document.querySelector('.undo-toast')?.remove();
+    _resultsCache = {};
+    sessionStorage.removeItem('roster-cache-' + (_rosterGrade||''));
+    if(document.getElementById('results-overlay')?.classList.contains('open')) loadResults(sesionDeResultados());
+    if(document.getElementById('tasks-overlay')?.classList.contains('open')) loadTasks();
+    if(document.getElementById('roster-overlay')?.classList.contains('open')) loadRosterEditor(true);
+    if(document.getElementById('trash-overlay')?.classList.contains('open')) loadTrash();
+    loadSystemHealth(true);
+  }catch(error){
+    if(button){ button.disabled = false; button.textContent = 'Deshacer'; }
+    alert('No se pudo restaurar: ' + error.message);
+  }
+}
+
 async function deleteResult(key, nombre){
-  if(!confirm(`¿Borrar el resultado de "${nombre}"?\nEsto también libera su intento para que pueda volver a rendir.`)) return;
+  if(!confirm(`¿Enviar el resultado de "${nombre}" a la papelera?\nPodrás restaurarlo después.`)) return;
   try {
     const res = await fetch('/.netlify/functions/delete-result', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ pw: CORRECT_PW, key })
     });
-    if(!res.ok) throw new Error('Error ' + res.status);
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
     // Remove row from DOM immediately
     const rowId = 'row-' + encodeURIComponent(key);
     const row = document.getElementById(rowId);
@@ -3036,8 +3133,10 @@ async function deleteResult(key, nombre){
       _resultsCache[session] = _resultsCache[session].filter(r => r._key !== key);
       renderResults(_resultsCache[session], session); // renderResults uses _currentResultsGrade internally
     }
+    showUndoToast(data.deletion, 'Resultado archivado.');
+    loadSystemHealth(true);
   } catch(err) {
-    alert('Error al borrar: ' + err.message);
+    alert('Error al archivar: ' + err.message);
   }
 }
 
@@ -3266,10 +3365,12 @@ function openTasks(session, gradeId){
     ? '📬 Entregas — ' + (GRADE_LABELS_MAP[gradeId] || gradeId) + ' · Sesión ' + _currentTasksSession
     : '📬 Entregas de tareas · Sesión ' + _currentTasksSession;
   document.getElementById('tasks-overlay').classList.add('open');
+  focusDialog('tasks-overlay');
   loadTasks();
 }
 function closeTasksPanel(){
   document.getElementById('tasks-overlay').classList.remove('open');
+  returnDialogFocus();
 }
 function closeTasksOnBg(e){
   if(e.target === document.getElementById('tasks-overlay')) closeTasksPanel();
@@ -3312,15 +3413,18 @@ function renderTasks(data){
       const gl = GRADE_LABELS_MAP[t.grado] || t.grado;
       const rawDate = t.fecha ? new Date(t.fecha) : null;
       const fechaStr = rawDate ? rawDate.toLocaleDateString('es-PE',{day:'2-digit',month:'short'}) + ' ' + rawDate.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}) : '—';
-      const comentario = t.comentario ? `<div class="tasks-item-comment">"${t.comentario}"</div>` : '';
-      html += `<div class="tasks-item">
+      const comentario = t.comentario ? `<div class="tasks-item-comment">"${escHtml(t.comentario)}"</div>` : '';
+      html += `<div class="tasks-item" data-task-id="${escHtml(t.id||'')}">
         <div class="tasks-item-top">
-          <span class="tasks-item-name">${t.nombre_raw || '—'}</span>
-          <span class="tasks-item-grade">${gl}</span>
+          <span class="tasks-item-name">${escHtml(t.nombre_raw || '—')}</span>
+          <span class="tasks-item-grade">${escHtml(gl)}</span>
           <span class="tasks-item-date">${fechaStr}</span>
         </div>
         ${comentario}
-        <a href="${t.drive_link}" target="_blank" rel="noopener" class="tasks-item-link">🔗 Ver archivo</a>
+        <div class="tasks-item-actions">
+          <a href="${escHtml(t.drive_link)}" target="_blank" rel="noopener" class="tasks-item-link">🔗 Ver archivo</a>
+          <button class="tasks-delete-btn" onclick="deleteTask('${t.id}',this)">Enviar a papelera</button>
+        </div>
       </div>`;
     });
     html += `</div>`;
@@ -3332,11 +3436,15 @@ function renderTasks(data){
       const gl = GRADE_LABELS_MAP[t.grado] || t.grado;
       const rawDate = t.fecha ? new Date(t.fecha) : null;
       const fechaStr = rawDate ? rawDate.toLocaleDateString('es-PE',{day:'2-digit',month:'short'}) + ' ' + rawDate.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}) : '—';
-      const comentario = t.comentario ? `<div class="tasks-item-comment">"${t.comentario}"</div>` : '';
-      html += `<div class="tasks-item" style="border-color:#f59e0b;background:#fff7ed">
-        <div class="tasks-item-top"><span class="tasks-item-name">${t.nombre_raw || '—'}</span><span class="tasks-item-grade">${gl}</span><span class="tasks-item-date">${fechaStr}</span></div>
+      const comentario = t.comentario ? `<div class="tasks-item-comment">"${escHtml(t.comentario)}"</div>` : '';
+      html += `<div class="tasks-item" data-task-id="${escHtml(t.id||'')}" style="border-color:#f59e0b;background:#fff7ed">
+        <div class="tasks-item-top"><span class="tasks-item-name">${escHtml(t.nombre_raw || '—')}</span><span class="tasks-item-grade">${escHtml(gl)}</span><span class="tasks-item-date">${fechaStr}</span></div>
         <div style="font-size:12px;color:#92400e;margin:.25rem 0">Guardada, pero todavía no cuenta para ningún alumno.</div>
-        ${comentario}<a href="${t.drive_link}" target="_blank" rel="noopener" class="tasks-item-link">🔗 Ver archivo</a>
+        ${comentario}<div class="tasks-item-actions">
+          <a href="${escHtml(t.drive_link)}" target="_blank" rel="noopener" class="tasks-item-link">🔗 Ver archivo</a>
+          <button class="tasks-assign-btn" onclick="asignarTareaSuelta('${t.id}','${t.grado}',this)">Asignar alumno</button>
+          <button class="tasks-delete-btn" onclick="deleteTask('${t.id}',this)">Enviar a papelera</button>
+        </div>
       </div>`;
     });
     html += `</div>`;
@@ -3358,6 +3466,122 @@ function renderTasks(data){
 
   content.innerHTML = html;
 }
+
+async function deleteTask(taskId, button){
+  const item = button && button.closest('.tasks-item');
+  const name = item?.querySelector('.tasks-item-name')?.textContent || 'esta tarea';
+  if(!confirm(`¿Enviar la tarea de "${name}" a la papelera?\nPodrás restaurarla después.`)) return;
+  if(button){ button.disabled = true; button.textContent = 'Archivando...'; }
+  try{
+    const res = await fetch('/.netlify/functions/delete-task',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:CORRECT_PW,key:taskId})
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
+    item?.remove();
+    showUndoToast(data.deletion, 'Tarea archivada.');
+    await loadTasks();
+    loadSystemHealth(true);
+  }catch(error){
+    if(button){ button.disabled = false; button.textContent = 'Enviar a papelera'; }
+    alert('No se pudo archivar: ' + error.message);
+  }
+}
+
+async function asignarTareaSuelta(taskId, grado, button){
+  const item = button.closest('.tasks-item');
+  button.disabled = true; button.textContent = 'Cargando lista...';
+  try{
+    const rosterRes = await fetch('/.netlify/functions/get-roster?grado=' + encodeURIComponent(grado));
+    const roster = await rosterRes.json();
+    const students = roster.alumnos || [];
+    if(!students.length) throw new Error('No se pudo cargar el roster');
+    const wrap = document.createElement('div');
+    wrap.className = 'tasks-inline-assign';
+    const select = document.createElement('select');
+    select.setAttribute('aria-label','Alumno para esta tarea');
+    students.forEach(student=>{
+      const option = document.createElement('option');
+      option.value = student.id; option.textContent = student.nombre;
+      select.appendChild(option);
+    });
+    const confirmButton = document.createElement('button');
+    confirmButton.className = 'tasks-assign-btn'; confirmButton.textContent = 'Confirmar asignación';
+    const cancelButton = document.createElement('button');
+    cancelButton.className = 'tasks-delete-btn'; cancelButton.textContent = 'Cancelar';
+    cancelButton.onclick = ()=>{ wrap.remove(); button.disabled = false; button.textContent = 'Asignar alumno'; };
+    confirmButton.onclick = async ()=>{
+      confirmButton.disabled = true; confirmButton.textContent = 'Guardando...';
+      try{
+        const res = await fetch('/.netlify/functions/admin-roster',{
+          method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({pw:CORRECT_PW,action:'asignar-tarea',tarea:taskId,alumno:select.value})
+        });
+        const data = await res.json().catch(()=>({}));
+        if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+        if(data.deletion) showUndoToast(data.deletion,'Entrega duplicada combinada y archivada.');
+        await loadTasks();
+        loadSystemHealth(true);
+      }catch(error){ confirmButton.disabled=false;confirmButton.textContent='Confirmar asignación';alert('No se pudo asignar: '+error.message); }
+    };
+    wrap.append(select,confirmButton,cancelButton);
+    item.appendChild(wrap);
+  }catch(error){
+    button.disabled = false; button.textContent = 'Asignar alumno';
+    alert(error.message);
+  }
+}
+
+let _dialogReturnFocus = null;
+function focusDialog(overlayId){
+  _dialogReturnFocus = document.activeElement;
+  setTimeout(()=>document.querySelector('#'+overlayId+' [tabindex="-1"]')?.focus(),0);
+}
+function returnDialogFocus(){
+  if(_dialogReturnFocus && typeof _dialogReturnFocus.focus === 'function') _dialogReturnFocus.focus();
+  _dialogReturnFocus = null;
+}
+
+function openTrash(){
+  document.getElementById('trash-overlay').classList.add('open');
+  focusDialog('trash-overlay');
+  loadTrash();
+}
+function closeTrash(){
+  document.getElementById('trash-overlay').classList.remove('open');
+  returnDialogFocus();
+}
+async function loadTrash(){
+  const content = document.getElementById('trash-content');
+  content.className = 'trash-empty'; content.textContent = 'Cargando papelera...';
+  try{
+    const res = await fetch('/.netlify/functions/trash?pw=' + encodeURIComponent(CORRECT_PW),{cache:'no-store'});
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+    const items = data.items || [];
+    if(!items.length){ content.className='trash-empty';content.textContent='La papelera está vacía.';return; }
+    const typeLabel = {alumno:'Alumno',evaluacion:'Evaluación',tarea:'Tarea',bonus:'Participación'};
+    content.className = 'trash-list';
+    content.innerHTML = items.map(item=>{
+      const details = item.details || {};
+      const parts = [typeLabel[item.entity_type]||item.entity_type];
+      if(details.grado) parts.push(GRADE_LABELS_MAP[details.grado]||details.grado);
+      if(details.sesion) parts.push('Sesión '+details.sesion);
+      if(item.entity_type==='alumno') parts.push((details.evaluaciones||0)+' evaluaciones, '+(details.tareas||0)+' tareas, '+(details.bonuses||0)+' puntos registrados');
+      const when = new Date(item.deleted_at).toLocaleString('es-PE',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+      return `<div class="trash-item"><div><strong>${escHtml(item.label)}</strong><span>${escHtml(parts.join(' | '))}<br>Archivado: ${escHtml(when)}</span></div><button class="trash-restore" onclick="restoreDeletion('${item.id}',this)">Restaurar</button></div>`;
+    }).join('');
+  }catch(error){ content.className='trash-empty';content.textContent='No se pudo cargar la papelera: '+error.message; }
+}
+
+document.addEventListener('keydown',event=>{
+  if(event.key!=='Escape') return;
+  if(document.getElementById('trash-overlay')?.classList.contains('open')) return closeTrash();
+  if(document.getElementById('tasks-overlay')?.classList.contains('open')) return closeTasksPanel();
+  if(document.getElementById('results-overlay')?.classList.contains('open')) return closeResultsPanel();
+  if(document.getElementById('roster-overlay')?.classList.contains('open')) return closeRosterEditor();
+});
 
 // ═══════════════════════════════════════════════════════════
 // RANKING MENSUAL
@@ -3707,6 +3931,7 @@ async function openRosterEditor(gradeId){
   const g = GRADES[gradeId];
   document.getElementById('roster-title').textContent = `📋 Alumnos — ${g.label}`;
   document.getElementById('roster-overlay').classList.add('open');
+  focusDialog('roster-overlay');
   document.body.style.overflow = 'hidden';
   document.getElementById('roster-status').textContent = '';
   await loadRosterEditor();
@@ -3715,6 +3940,7 @@ async function openRosterEditor(gradeId){
 function closeRosterEditor(){
   document.getElementById('roster-overlay').classList.remove('open');
   document.body.style.overflow = '';
+  returnDialogFocus();
 }
 
 async function loadRosterEditor(force=false){
@@ -3807,10 +4033,28 @@ function addRosterRow(){
   markDirty();
 }
 
-function deleteRosterRow(i){
-  _rosterData.splice(i, 1);
-  renderRosterList();
-  markDirty();
+async function deleteRosterRow(i){
+  const student = _rosterData[i];
+  if(!student?.id){
+    _rosterData.splice(i,1);renderRosterList();markDirty();return;
+  }
+  if(!confirm(`¿Archivar a "${student.nombre}"?\nSus evaluaciones, tareas y puntos también irán a la papelera y podrán restaurarse.`)) return;
+  const statusEl = document.getElementById('roster-status');
+  statusEl.textContent = 'Archivando alumno...';
+  try{
+    const res = await fetch('/.netlify/functions/delete-alumno',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pw:CORRECT_PW,id:student.id})
+    });
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
+    _rosterData.splice(i,1);
+    sessionStorage.removeItem('roster-cache-' + _rosterGrade);
+    renderRosterList();
+    statusEl.textContent = 'Alumno enviado a la papelera';
+    showUndoToast(data.deletion,'Alumno y su historial fueron archivados.');
+    loadSystemHealth(true);
+  }catch(error){ statusEl.textContent = 'No se pudo archivar: ' + error.message; }
 }
 
 function mergeSelected(){
@@ -3859,6 +4103,7 @@ function mergeSelected(){
 async function saveRoster(){
   // Recoger valores actuales de los inputs — preservar historial y variantes
   const alumnos = [...document.querySelectorAll('.roster-inp')].map((inp,i)=>({
+    id:        _rosterData[i]?.id || undefined,
     nombre:    inp.value.trim(),
     sesiones:  _rosterData[i]?.sesiones  || 0,
     avg:       _rosterData[i]?.avg       || 0,
@@ -4201,10 +4446,19 @@ function renderConsola(gradeId){
         <button class="cns-tool" onclick="descargarLibreta(this)" title="Baja un Excel con las notas de todos los alumnos, de todas las clases dictadas">📗 Descargar notas</button>
         <button class="cns-tool" onclick="openSchedule()" title="Aplazar clases si no se dictó alguna">🗓️ Aplazar clases</button>
         <button class="cns-tool" onclick="openAccess()" title="Generar el enlace de acceso a los prompts para un colega">✨ Enlaces de prompts</button>
+        <button class="cns-tool" onclick="openTrash()" title="Restaurar alumnos, evaluaciones o tareas archivadas">🗑️ Papelera</button>
         <a class="cns-tool" href="/" style="text-decoration:none">Ver como alumno</a>
         <button class="cns-tool" onclick="lock()">Salir</button>
       </div>
     </div>
+
+    <section class="cns-health" id="cns-health" aria-live="polite" aria-label="Estado del sistema">
+      <div class="cns-health-cell cns-health-main"><i class="cns-health-dot" aria-hidden="true"></i><div><strong id="health-state">Comprobando</strong><span id="health-checked">Conectando con la base de datos</span><button class="cns-health-refresh" onclick="loadSystemHealth(true)">Actualizar estado</button></div></div>
+      <div class="cns-health-cell"><strong id="health-outbox">0</strong><span>envíos pendientes en este dispositivo</span></div>
+      <div class="cns-health-cell"><strong id="health-evals">0</strong><span>evaluaciones por asignar</span></div>
+      <div class="cns-health-cell"><strong id="health-tasks">0</strong><span>tareas por asignar</span></div>
+      <div class="cns-health-cell"><strong id="health-trash">0</strong><span>elementos en papelera</span></div>
+    </section>
 
     <div class="cns-aulas">${GRADE_ORDER.map(id=>
       `<button class="cns-aula-btn${id===gradeId?' on':''}" style="--gaccent:${GRADE_ACCENTS[id]||'var(--accent)'}" onclick="irAula('${id}')">${GRADES[id].emoji} ${GRADES[id].label}</button>`
@@ -4250,7 +4504,43 @@ function renderConsola(gradeId){
 
   html += `</div>`;
   document.getElementById('main').innerHTML = html;
+  loadSystemHealth();
   if(momentoActivo==='despues') cargarCifras(gradeId, it.sd.n);
+}
+
+function localOutboxCount(){
+  return ['dataOutboxV2','dataOutboxV1','evalOutboxV2'].reduce((total,key)=>{
+    try{
+      const value = JSON.parse(localStorage.getItem(key)||'[]');
+      return total + (Array.isArray(value) ? value.length : 0);
+    }catch(_){ return total; }
+  },0);
+}
+
+let _healthLoading = false;
+async function loadSystemHealth(force){
+  if(_healthLoading && !force) return;
+  const box = document.getElementById('cns-health');
+  if(!box) return;
+  _healthLoading = true;
+  document.getElementById('health-outbox').textContent = localOutboxCount();
+  try{
+    const res = await fetch('/.netlify/functions/health?pw=' + encodeURIComponent(CORRECT_PW), {cache:'no-store'});
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
+    document.getElementById('health-evals').textContent = data.unassigned_evaluations || 0;
+    document.getElementById('health-tasks').textContent = data.unassigned_tasks || 0;
+    document.getElementById('health-trash').textContent = data.trash || 0;
+    const pending = localOutboxCount() + (data.unassigned_evaluations||0) + (data.unassigned_tasks||0);
+    box.className = 'cns-health ' + (pending ? 'warn' : 'ok');
+    document.getElementById('health-state').textContent = pending ? 'Sistema operativo, con revisiones pendientes' : 'Todo guardando correctamente';
+    const time = new Date(data.checked_at).toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+    document.getElementById('health-checked').textContent = 'Base de datos disponible, ' + data.latency_ms + ' ms. Revisado a las ' + time;
+  }catch(error){
+    box.className = 'cns-health error';
+    document.getElementById('health-state').textContent = 'No se pudo verificar el guardado';
+    document.getElementById('health-checked').textContent = error.message || 'Error de conexión';
+  }finally{ _healthLoading = false; }
 }
 
 /** Hasta dónde llega el material ya creado, para este salón.
@@ -4546,8 +4836,8 @@ function entrarConsola(){
 </div>
 
 <!-- ── ROSTER EDITOR MODAL ────────────────────────────────── -->
-<div class="roster-overlay" id="roster-overlay" onclick="if(event.target===this)closeRosterEditor()">
-  <div class="roster-panel">
+<div class="roster-overlay" id="roster-overlay" onclick="if(event.target===this)closeRosterEditor()" role="dialog" aria-modal="true" aria-labelledby="roster-title">
+  <div class="roster-panel" tabindex="-1">
     <div class="roster-panel-hdr">
       <h2 id="roster-title">📋 Lista de alumnos</h2>
       <button class="roster-hdr-btn gold" onclick="normalizeRosterNames()">Aa Normalizar</button>
@@ -4589,8 +4879,8 @@ function entrarConsola(){
 </div>
 
 <!-- ── RESULTS OVERLAY ────────────────────────────────────── -->
-<div class="results-overlay" id="results-overlay" onclick="closeResultsOnBg(event)">
-  <div class="results-panel">
+<div class="results-overlay" id="results-overlay" onclick="closeResultsOnBg(event)" role="dialog" aria-modal="true" aria-labelledby="results-panel-title">
+  <div class="results-panel" tabindex="-1">
     <div class="results-panel-header">
       <h2 id="results-panel-title">📊 Resultados de alumnos</h2>
       <div class="results-header-actions">
@@ -4656,14 +4946,28 @@ function entrarConsola(){
 </div>
 
 <!-- ── TASKS OVERLAY ───────────────────────────────────────── -->
-<div class="tasks-overlay" id="tasks-overlay" onclick="closeTasksOnBg(event)">
-  <div class="tasks-panel">
+<div class="tasks-overlay" id="tasks-overlay" onclick="closeTasksOnBg(event)" role="dialog" aria-modal="true" aria-labelledby="tasks-panel-title">
+  <div class="tasks-panel" tabindex="-1">
     <div class="tasks-panel-header">
       <h2 id="tasks-panel-title">📬 Entregas de tareas</h2>
       <button class="tasks-close-btn" onclick="closeTasksPanel()">✕ Cerrar</button>
     </div>
     <div id="tasks-content">
       <div style="padding:2rem;text-align:center;color:#94a3b8">⏳ Cargando entregas…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PAPELERA RECUPERABLE ──────────────────────────────── -->
+<div class="trash-overlay" id="trash-overlay" onclick="if(event.target===this)closeTrash()" role="dialog" aria-modal="true" aria-labelledby="trash-title">
+  <div class="trash-panel" tabindex="-1">
+    <div class="trash-header">
+      <h2 id="trash-title">🗑️ Papelera recuperable</h2>
+      <button class="tasks-close-btn" onclick="closeTrash()">✕ Cerrar</button>
+    </div>
+    <div class="trash-body">
+      <p class="trash-intro">Nada de esta lista fue eliminado físicamente. Puedes restaurar un registro o un alumno con todas sus notas, tareas y puntos.</p>
+      <div id="trash-content" class="trash-empty" aria-live="polite">Cargando papelera...</div>
     </div>
   </div>
 </div>
@@ -4692,7 +4996,7 @@ function entrarConsola(){
    reintentar nunca duplica. */
 (function(){
   var DEFAULT_EP='/.netlify/functions/submit-eval';
-  var BOXES=['evalOutboxV2','dataOutboxV1'];
+  var BOXES=['dataOutboxV2','evalOutboxV2','dataOutboxV1'];
   function read(k){try{return JSON.parse(localStorage.getItem(k)||'[]');}catch(e){return [];}}
   function write(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
   function toast(msg){

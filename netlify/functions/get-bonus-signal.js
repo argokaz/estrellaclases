@@ -36,6 +36,7 @@ exports.handler = async (event) => {
       .from("bonuses")
       .select("id, fecha, alumnos(nombre)")
       .eq("grado", grado)
+      .is("deleted_at", null)
       .gte("fecha", since)
       .order("fecha", { ascending: false })
       .limit(1);

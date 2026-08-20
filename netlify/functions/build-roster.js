@@ -60,7 +60,8 @@ exports.handler = async (event) => {
       const { data: alumnosDB, error: fetchErr } = await db
         .from("alumnos")
         .select("id, nombre")
-        .eq("grado", grado);
+        .eq("grado", grado)
+        .is("deleted_at", null);
 
       if (fetchErr) throw fetchErr;
 
@@ -117,6 +118,7 @@ exports.handler = async (event) => {
           .select("id, score")
           .eq("alumno_id", payload.alumno_id)
           .eq("sesion",    payload.sesion)
+          .is("deleted_at", null)
           .maybeSingle();
 
         if (!existing) {
@@ -125,7 +127,8 @@ exports.handler = async (event) => {
         } else if (payload.score > existing.score) {
           const { error } = await db.from("evaluaciones")
             .update({ score: payload.score, fecha: payload.fecha, nombre_raw: payload.nombre_raw })
-            .eq("id", existing.id);
+            .eq("id", existing.id)
+            .is("deleted_at", null);
           if (!error) synced++;
         }
         // Si score <= existing.score: ya tiene un mejor intento, no tocar

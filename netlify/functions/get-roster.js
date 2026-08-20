@@ -28,6 +28,8 @@ exports.handler = async (event) => {
       .from("alumnos")
       .select("id, nombre, variantes, evaluaciones(sesion, score, fecha)")
       .eq("grado", grado)
+      .is("deleted_at", null)
+      .is("evaluaciones.deleted_at", null)
       .order("nombre");
 
     if (error) throw error;

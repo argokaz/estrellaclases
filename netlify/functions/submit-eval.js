@@ -69,7 +69,8 @@ exports.handler = async (event) => {
     const { data: alumnos, error: rosterErr } = await db
       .from("alumnos")
       .select("id, nombre")
-      .eq("grado", grado);
+      .eq("grado", grado)
+      .is("deleted_at", null);
     if (rosterErr) throw new Error("leer roster: " + rosterErr.message);
 
     const normBuscado = normalize(nombreNorm);
@@ -111,6 +112,7 @@ exports.handler = async (event) => {
         .from("evaluaciones")
         .select("id, score")
         .is("alumno_id", null)
+        .is("deleted_at", null)
         .eq("grado", grado)
         .eq("sesion", sesId)
         .eq("nombre_raw", nombre)
@@ -134,7 +136,8 @@ exports.handler = async (event) => {
       } else if (score > previa.score) {
         const { error } = await db.from("evaluaciones")
           .update({ score, correctas: correctas ?? null, fecha: fechaStr })
-          .eq("id", previa.id);
+          .eq("id", previa.id)
+          .is("deleted_at", null);
         if (error) throw new Error("update evaluación sin asignar: " + error.message);
       }
 
@@ -160,6 +163,7 @@ exports.handler = async (event) => {
       .select("id, score")
       .eq("alumno_id", alumno.id)
       .eq("sesion", sesId)
+      .is("deleted_at", null)
       .maybeSingle();
     if (exErr) throw new Error("lookup evaluación: " + exErr.message);
 
@@ -182,7 +186,8 @@ exports.handler = async (event) => {
     } else if (score > existing.score) {
       const { error: updErr } = await db.from("evaluaciones")
         .update({ score, correctas: correctas ?? null, fecha: fechaStr, nombre_raw: nombre })
-        .eq("id", existing.id);
+        .eq("id", existing.id)
+        .is("deleted_at", null);
       if (updErr) throw new Error("update evaluación: " + updErr.message);
     }
     // Si score <= existing.score: ignorar (ya tiene un mejor intento)

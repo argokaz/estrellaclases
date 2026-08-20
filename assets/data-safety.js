@@ -34,6 +34,7 @@
   var chip = null;
   var banner = null;
   var rosterByName = Object.create(null);
+  var rosterStudents = [];
   var rosterReady = false;
   var rosterFailed = false;
   var identityReady = loadRoster();
@@ -50,6 +51,8 @@
   function showChip(text, color, ms) {
     if (!chip) {
       chip = document.createElement('div');
+      chip.setAttribute('role', 'status');
+      chip.setAttribute('aria-live', 'polite');
       chip.style.cssText = 'position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:99999;padding:.65rem 1.2rem;border-radius:999px;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;line-height:1.25;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.3);max-width:92vw;text-align:center;transition:opacity .3s';
       document.body.appendChild(chip);
     }
@@ -63,6 +66,7 @@
   function showStorageWarning() {
     if (banner) return;
     banner = document.createElement('div');
+    banner.setAttribute('role', 'alert');
     banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:100000;background:#b91c1c;color:#fff;font-family:Inter,system-ui,sans-serif;font-size:14px;font-weight:700;text-align:center;padding:.65rem 1rem;box-shadow:0 2px 12px rgba(0,0,0,.3)';
     banner.textContent = '⚠️ Este navegador no pudo guardar la copia de seguridad local. No cierres esta página hasta ver la confirmación del sistema.';
     document.body.appendChild(banner);
@@ -151,7 +155,8 @@
         return response.json();
       })
       .then(function (data) {
-        (data.alumnos || []).forEach(function (student) {
+        rosterStudents = (data.alumnos || []).slice();
+        rosterStudents.forEach(function (student) {
           rosterByName[normalize(student.nombre)] = student;
         });
         rosterReady = true;
@@ -246,6 +251,76 @@
     window.addEventListener('pagehide', saveTaskDraft);
   }
 
+  function setupTaskRosterSelector() {
+    if (!isTask) return;
+    var input = document.getElementById('inp-nombre');
+    var button = document.getElementById('submit-btn');
+    if (!input || input.tagName === 'SELECT') return;
+
+    var hint = input.closest && input.closest('.form-group')
+      ? input.closest('.form-group').querySelector('.form-hint') : null;
+    var oldList = document.getElementById('ac-list');
+
+    if (!rosterReady || !rosterStudents.length) {
+      input.value = '';
+      input.disabled = true;
+      input.setAttribute('aria-invalid', 'true');
+      if (button) button.disabled = true;
+      if (oldList) oldList.style.display = 'none';
+      if (hint) {
+        hint.innerHTML = 'No pudimos cargar la lista del salón. <button type="button" id="retry-roster" style="font:inherit;font-weight:700;color:var(--brand);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer">Volver a intentar</button>';
+        var retry = document.getElementById('retry-roster');
+        if (retry) retry.addEventListener('click', function () { location.reload(); });
+      }
+      return;
+    }
+
+    var select = document.createElement('select');
+    select.id = input.id;
+    select.className = input.className + ' task-roster-select';
+    select.required = true;
+    select.setAttribute('aria-label', 'Elige tu nombre y apellido');
+    select.innerHTML = '<option value="" selected disabled>Elige tu nombre y apellido</option>' +
+      rosterStudents.map(function (student) {
+        var option = document.createElement('option');
+        option.value = student.nombre;
+        option.textContent = student.nombre;
+        return option.outerHTML;
+      }).join('');
+    input.replaceWith(select);
+    if (oldList) oldList.remove();
+    if (hint) hint.textContent = 'Selecciona tu nombre de la lista oficial. Si no aparece, avísale a la profesora.';
+    if (button) button.disabled = true;
+
+    select.addEventListener('change', function () {
+      select.setAttribute('aria-invalid', 'false');
+      if (button) button.disabled = false;
+      restoreTaskDraft();
+      saveTaskDraft();
+    });
+  }
+
+  function installTaskSubmitGuard() {
+    if (!isTask) return;
+    var button = document.getElementById('submit-btn');
+    if (!button || button.dataset.submitGuard === '1') return;
+    button.dataset.submitGuard = '1';
+    button.addEventListener('click', function (event) {
+      if (button.dataset.submitting === '1') {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        return;
+      }
+      button.dataset.submitting = '1';
+      setTimeout(function releaseIfValidationStoppedSubmit() {
+        if (!button.disabled) button.dataset.submitting = '0';
+      }, 100);
+    }, true);
+    new MutationObserver(function () {
+      if (!button.disabled) button.dataset.submitting = '0';
+    }).observe(button, { attributes: true, attributeFilter: ['disabled'] });
+  }
+
   function evalIdentity() {
     if (!isEval) return null;
     var nameEl = document.getElementById('eval-student-name') || document.getElementById('exam-who-name');
@@ -338,6 +413,15 @@
   function finishSaved(endpoint, key, payload, data) {
     dequeue(key);
     if (endpoint === EP_TASK && data && data.matched === true) clearTaskDraft(payload);
+    if (endpoint === EP_TASK && data && data.matched === true) {
+      var taskError = document.getElementById('err-msg');
+      var taskButton = document.getElementById('submit-btn');
+      if (taskError) taskError.classList.remove('show');
+      if (taskButton) {
+        taskButton.disabled = true;
+        taskButton.textContent = '✅ Tarea guardada';
+      }
+    }
     if (data && data.sinAsignar) {
       showChip('⚠️ Guardado, pero queda pendiente de asignar a un alumno','#b45309',9000);
     } else if (isTaskUnassigned(endpoint, data)) {
@@ -436,7 +520,13 @@
 
   migrateLegacy();
   installFetchGuard();
-  setupTaskDraft();
+  if (isTask) {
+    identityReady.then(function () {
+      setupTaskRosterSelector();
+      setupTaskDraft();
+      installTaskSubmitGuard();
+    });
+  }
   if (isEval) {
     document.addEventListener('change', function (event) {
       if (event.target && event.target.type === 'radio' && /^eq\d+$/.test(event.target.name || '')) saveEvalProgress();

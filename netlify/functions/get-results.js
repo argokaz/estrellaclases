@@ -39,6 +39,7 @@ exports.handler = async (event) => {
       // `grado` de la propia evaluación: sin él, una nota sin dueño se queda
       // sin salón ("—") y el botón de asignar no sabe qué lista pedir.
       .select("id, sesion, score, correctas, total, fecha, nombre_raw, alumno_id, grado, alumnos(nombre, grado)")
+      .is("deleted_at", null)
       .order("fecha", { ascending: false });
 
     if (session) query = query.eq("sesion", session);

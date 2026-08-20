@@ -6,6 +6,7 @@
  */
 
 const { supabase } = require("./_supabase");
+const { softDelete } = require("./_deletion");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 
@@ -28,13 +29,8 @@ exports.handler = async (event) => {
   if (!body.key)              return { statusCode: 400, headers: CORS, body: '{"error":"key required"}' };
 
   try {
-    const { error } = await supabase()
-      .from("evaluaciones")
-      .delete()
-      .eq("id", body.key);
-
-    if (error) throw error;
-    return { statusCode: 200, headers: CORS, body: '{"ok":true}' };
+    const deletion = await softDelete(supabase(), "evaluacion", body.key);
+    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, deletion }) };
   } catch (err) {
     console.error("delete-result error:", err.message);
     return { statusCode: 500, headers: CORS, body: JSON.stringify({ error: err.message }) };

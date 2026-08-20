@@ -16,6 +16,7 @@
  */
 
 const { supabase } = require("./_supabase");
+const { softDelete } = require("./_deletion");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
 const CORS = {
@@ -29,7 +30,8 @@ const ok  = body => ({ statusCode: 200, headers: CORS, body: JSON.stringify(body
 const err = (code, msg) => ({ statusCode: code, headers: CORS, body: JSON.stringify({ error: msg }) });
 
 async function cargar(db, id) {
-  const { data, error } = await db.from("alumnos").select("id, nombre, grado").eq("id", id).maybeSingle();
+  const { data, error } = await db.from("alumnos").select("id, nombre, grado")
+    .eq("id", id).is("deleted_at", null).maybeSingle();
   if (error) throw new Error("alumno " + id + ": " + error.message);
   return data;
 }
@@ -49,9 +51,9 @@ exports.handler = async (event) => {
       const alumno = await cargar(db, b.id);
       if (!alumno) return err(404, "Alumno no encontrado");
       const [ev, bo, ta] = await Promise.all([
-        db.from("evaluaciones").select("id, sesion, score, fecha, nombre_raw").eq("alumno_id", b.id),
-        db.from("bonuses").select("id, puntos, razon, mes, fecha").eq("alumno_id", b.id),
-        db.from("tareas").select("id, sesion, drive_link, fecha").eq("alumno_id", b.id),
+        db.from("evaluaciones").select("id, sesion, score, fecha, nombre_raw").eq("alumno_id", b.id).is("deleted_at", null),
+        db.from("bonuses").select("id, puntos, razon, mes, fecha").eq("alumno_id", b.id).is("deleted_at", null),
+        db.from("tareas").select("id, sesion, drive_link, fecha").eq("alumno_id", b.id).is("deleted_at", null),
       ]);
       return ok({
         alumno,
@@ -73,8 +75,8 @@ exports.handler = async (event) => {
       //    Si ya la tiene, la del duplicado es redundante y se queda para que
       //    el borrado se la lleve; nunca se pisa una nota existente.
       const [{ data: evOrigen }, { data: evDestino }] = await Promise.all([
-        db.from("evaluaciones").select("id, sesion, score").eq("alumno_id", desde.id),
-        db.from("evaluaciones").select("sesion, score").eq("alumno_id", hacia.id),
+        db.from("evaluaciones").select("id, sesion, score").eq("alumno_id", desde.id).is("deleted_at", null),
+        db.from("evaluaciones").select("sesion, score").eq("alumno_id", hacia.id).is("deleted_at", null),
       ]);
       const yaTiene = new Map((evDestino || []).map(e => [e.sesion, e.score]));
 
@@ -85,24 +87,24 @@ exports.handler = async (event) => {
         }
         const { error } = await db.from("evaluaciones")
           .update({ alumno_id: hacia.id, grado: hacia.grado })
-          .eq("id", ev.id);
+          .eq("id", ev.id).is("deleted_at", null);
         reporte.evaluaciones.push({ sesion: ev.sesion, score: ev.score, resultado: error ? "ERROR: " + error.message : "movida" });
         if (error) throw new Error("mover evaluación S" + ev.sesion + ": " + error.message);
       }
 
       // ── Bonos: se mueven todos; el destino es la misma persona.
-      const { data: boOrigen } = await db.from("bonuses").select("id, puntos, mes").eq("alumno_id", desde.id);
+      const { data: boOrigen } = await db.from("bonuses").select("id, puntos, mes").eq("alumno_id", desde.id).is("deleted_at", null);
       for (const bo of boOrigen || []) {
         const { error } = await db.from("bonuses")
           .update({ alumno_id: hacia.id, grado: hacia.grado })
-          .eq("id", bo.id);
+          .eq("id", bo.id).is("deleted_at", null);
         reporte.bonuses.push({ puntos: bo.puntos, mes: bo.mes, resultado: error ? "ERROR: " + error.message : "movido" });
       }
 
       // ── Tareas: una por sesión; si el destino ya entregó, se deja.
       const [taOrigen, taDestino] = await Promise.all([
-        db.from("tareas").select("id, sesion").eq("alumno_id", desde.id),
-        db.from("tareas").select("sesion").eq("alumno_id", hacia.id),
+        db.from("tareas").select("id, sesion").eq("alumno_id", desde.id).is("deleted_at", null),
+        db.from("tareas").select("sesion").eq("alumno_id", hacia.id).is("deleted_at", null),
       ]);
       if (!taOrigen.error) {
         const entregadas = new Set((taDestino.data || []).map(t => t.sesion));
@@ -113,7 +115,7 @@ exports.handler = async (event) => {
           }
           const { error } = await db.from("tareas")
             .update({ alumno_id: hacia.id, grado: hacia.grado })
-            .eq("id", ta.id);
+            .eq("id", ta.id).is("deleted_at", null);
           reporte.tareas.push({ sesion: ta.sesion, resultado: error ? "ERROR: " + error.message : "movida" });
         }
       }
@@ -133,6 +135,7 @@ exports.handler = async (event) => {
         .from("evaluaciones")
         .select("id, sesion, score, alumno_id")
         .eq("id", b.evaluacion)
+        .is("deleted_at", null)
         .maybeSingle();
       if (evErr) throw new Error("lookup evaluación: " + evErr.message);
       if (!ev)   return err(404, "Evaluación no encontrada");
@@ -142,6 +145,7 @@ exports.handler = async (event) => {
         .select("id, score")
         .eq("alumno_id", alumno.id)
         .eq("sesion", ev.sesion)
+        .is("deleted_at", null)
         .limit(1);
       if (ytErr) throw new Error("lookup nota existente: " + ytErr.message);
       const suya = yaTiene && yaTiene[0];
@@ -150,23 +154,56 @@ exports.handler = async (event) => {
         // Ya tenía nota en esa sesión: se queda la mejor y la suelta se borra
         if (ev.score > suya.score) {
           const { error } = await db.from("evaluaciones")
-            .update({ score: ev.score }).eq("id", suya.id);
+            .update({ score: ev.score }).eq("id", suya.id).is("deleted_at", null);
           if (error) throw new Error("actualizar nota: " + error.message);
         }
-        const { error: delErr } = await db.from("evaluaciones").delete().eq("id", ev.id);
-        if (delErr) throw new Error("borrar duplicada: " + delErr.message);
+        await softDelete(db, "evaluacion", ev.id);
         return ok({ ok: true, alumno: alumno.nombre, sesion: ev.sesion,
           resultado: ev.score > suya.score ? "se quedó la mejor (" + ev.score + ")" : "ya tenía una mejor (" + suya.score + ")" });
       }
 
       const { error } = await db.from("evaluaciones")
         .update({ alumno_id: alumno.id, grado: alumno.grado })
-        .eq("id", ev.id);
+        .eq("id", ev.id).is("deleted_at", null);
       if (error) throw new Error("asignar evaluación: " + error.message);
       return ok({ ok: true, alumno: alumno.nombre, sesion: ev.sesion, resultado: "asignada (" + ev.score + ")" });
     }
 
-    return err(400, 'action debe ser "inspeccionar", "fusionar" o "asignar"');
+    if (b.action === "asignar-tarea") {
+      const alumno = await cargar(db, b.alumno);
+      if (!alumno) return err(404, "Alumno no encontrado");
+      const { data: tarea, error: tareaErr } = await db.from("tareas")
+        .select("id, sesion, drive_link, comentario, fecha, nombre_raw, alumno_id")
+        .eq("id", b.tarea).is("deleted_at", null).maybeSingle();
+      if (tareaErr) throw new Error("lookup tarea: " + tareaErr.message);
+      if (!tarea) return err(404, "Tarea no encontrada");
+
+      const { data: existing, error: existingErr } = await db.from("tareas")
+        .select("id, fecha").eq("alumno_id", alumno.id).eq("sesion", tarea.sesion)
+        .is("deleted_at", null).limit(1);
+      if (existingErr) throw new Error("lookup tarea existente: " + existingErr.message);
+      const current = existing && existing[0];
+      if (current && current.id !== tarea.id) {
+        if (new Date(tarea.fecha || 0) > new Date(current.fecha || 0)) {
+          const { error } = await db.from("tareas").update({
+            drive_link: tarea.drive_link,
+            comentario: tarea.comentario,
+            fecha: tarea.fecha,
+            nombre_raw: tarea.nombre_raw,
+          }).eq("id", current.id).is("deleted_at", null);
+          if (error) throw new Error("actualizar tarea: " + error.message);
+        }
+        const deletion = await softDelete(db, "tarea", tarea.id);
+        return ok({ ok: true, alumno: alumno.nombre, sesion: tarea.sesion, resultado: "combinada", deletion });
+      }
+
+      const { error } = await db.from("tareas").update({ alumno_id: alumno.id, grado: alumno.grado })
+        .eq("id", tarea.id).is("deleted_at", null);
+      if (error) throw new Error("asignar tarea: " + error.message);
+      return ok({ ok: true, alumno: alumno.nombre, sesion: tarea.sesion, resultado: "asignada" });
+    }
+
+    return err(400, 'action debe ser "inspeccionar", "fusionar", "asignar" o "asignar-tarea"');
   } catch (e) {
     console.error("admin-roster error:", e.message);
     return err(500, e.message);

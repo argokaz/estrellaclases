@@ -33,12 +33,13 @@ exports.handler = async (event) => {
   const sesionPad = String(session).padStart(2, '0');
   const db        = supabase();
 
-  let rosterQ = db.from('alumnos').select('id, nombre, grado').order('nombre');
+  let rosterQ = db.from('alumnos').select('id, nombre, grado').is('deleted_at', null).order('nombre');
   if (grado) rosterQ = rosterQ.eq('grado', grado);
 
   let tasksQ = db.from('tareas')
     .select('id, alumno_id, nombre_raw, grado, drive_link, comentario, fecha')
     .eq('sesion', sesionPad)
+    .is('deleted_at', null)
     .order('fecha', { ascending: false });
   if (grado) tasksQ = tasksQ.eq('grado', grado);
 

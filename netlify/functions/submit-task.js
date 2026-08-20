@@ -4,16 +4,15 @@
  * POST /.netlify/functions/submit-task
  * Body: { nombre, grado, sesion, drive_link, comentario? }
  *
- * Busca el alumno canónico en Supabase (ID canónico cuando está disponible;
- * fuzzy match solo como compatibilidad con envíos antiguos).
+ * Exige un alumno canónico elegido desde el roster y vuelve a verificar el ID.
  * Si existe la entrega (alumno_id + sesion) → actualiza.
  * Si no existe → inserta.
- * Si el alumno no está en el roster → conserva la entrega sin alumno_id y la
- * marca para revisión; nunca se presenta como entrega identificada.
+ * Si el alumno no está en el roster, rechaza la identidad para que el cliente
+ * obligue a elegir de nuevo. Nunca crea una entrega anónima nueva.
  */
 
 const { supabase }  = require('./_supabase');
-const { normalize, findBestPerson, titleCase } = require('./_nameUtils');
+const { normalize, titleCase } = require('./_nameUtils');
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -37,6 +36,13 @@ exports.handler = async (event) => {
   if (!drive_link.startsWith('http')) {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'drive_link debe comenzar con http' }) };
   }
+  if (!alumno_id) {
+    return {
+      statusCode: 409,
+      headers: CORS,
+      body: JSON.stringify({ ok: false, identidadInvalida: true, error: 'Elige tu nombre de la lista del salón.' }),
+    };
+  }
 
   const db          = supabase();
   const nombreClean = titleCase(nombre.trim());
@@ -44,7 +50,7 @@ exports.handler = async (event) => {
 
   let alumnos;
   try {
-    const roster = await db.from('alumnos').select('id, nombre').eq('grado', grado);
+    const roster = await db.from('alumnos').select('id, nombre').eq('grado', grado).is('deleted_at', null);
     if (roster.error) throw new Error('leer roster: ' + roster.error.message);
     alumnos = roster.data;
     if (!alumnos || !alumnos.length) throw new Error('Roster vacío para ' + grado);
@@ -54,14 +60,14 @@ exports.handler = async (event) => {
   }
 
   const normNombre = normalize(nombreClean);
-  const byId = alumno_id ? alumnos.find(a => String(a.id) === String(alumno_id)) : null;
-  if (alumno_id && !byId) {
+  const byId = alumnos.find(a => String(a.id) === String(alumno_id));
+  if (!byId) {
     return { statusCode: 409, headers: CORS, body: JSON.stringify({ ok: false, identidadInvalida: true, error: 'Actualiza la lista de alumnos e inténtalo de nuevo.' }) };
   }
   if (byId && normalize(byId.nombre) !== normNombre) {
     return { statusCode: 409, headers: CORS, body: JSON.stringify({ ok: false, identidadInvalida: true, error: 'El nombre no coincide con la identidad seleccionada.' }) };
   }
-  const matched = byId || findBestPerson(normNombre, alumnos, a => a.nombre); // exacto > subset > ancla
+  const matched = byId;
 
   const payload = {
     grado,
@@ -70,26 +76,17 @@ exports.handler = async (event) => {
     comentario: (comentario || '').trim(),
     nombre_raw: nombreClean,
     fecha:      new Date().toISOString(),
-    ...(matched ? { alumno_id: matched.id } : {}),
+    alumno_id: matched.id,
   };
 
   try {
-    // Idempotente: buscar entrega existente por alumno_id (si matchea) o, si no,
-    // por (grado, sesion, nombre_raw) — así reintentar el mismo envío NUNCA
-    // duplica filas. ⚠️ Verificar el error de CADA insert/update: un fallo
+    // Idempotente: buscar la entrega activa por alumno_id + sesión. Reintentar
+    // el mismo envío NUNCA duplica filas. Verificar el error de CADA insert/update: un fallo
     // silencioso respondía ok:true y la entrega se perdía (mismo bug que evals).
-    let existing = null;
-    if (matched) {
-      const r = await db.from('tareas').select('id')
-        .eq('alumno_id', matched.id).eq('sesion', sesionPad).maybeSingle();
-      if (r.error) throw new Error('lookup tarea: ' + r.error.message);
-      existing = r.data;
-    } else {
-      const r = await db.from('tareas').select('id')
-        .eq('grado', grado).eq('sesion', sesionPad).eq('nombre_raw', nombreClean).maybeSingle();
-      if (r.error) throw new Error('lookup tarea sin asignar: ' + r.error.message);
-      existing = r.data;
-    }
+    const lookup = await db.from('tareas').select('id')
+      .eq('alumno_id', matched.id).eq('sesion', sesionPad).is('deleted_at', null).maybeSingle();
+    if (lookup.error) throw new Error('lookup tarea: ' + lookup.error.message);
+    const existing = lookup.data;
 
     if (existing) {
       const { error: uErr } = await db.from('tareas').update({
@@ -109,10 +106,9 @@ exports.handler = async (event) => {
       headers: CORS,
       body: JSON.stringify({
         ok: true,
-        nombre: matched ? matched.nombre : nombreClean,
-        matched: !!matched,
-        requiereRevision: !matched,
-        mensaje: matched ? undefined : 'La entrega quedó guardada, pero falta vincularla a un alumno del roster.',
+        nombre: matched.nombre,
+        matched: true,
+        requiereRevision: false,
       }),
     };
   } catch (err) {

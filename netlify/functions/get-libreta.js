@@ -34,7 +34,9 @@ async function traerTodo(db, tabla, columnas) {
   const PAGINA = 1000;
   let desde = 0, filas = [];
   for (;;) {
-    const { data, error } = await db.from(tabla).select(columnas).range(desde, desde + PAGINA - 1);
+    const { data, error } = await db.from(tabla).select(columnas)
+      .is("deleted_at", null)
+      .range(desde, desde + PAGINA - 1);
     if (error) throw new Error(tabla + ": " + error.message);
     filas = filas.concat(data || []);
     if (!data || data.length < PAGINA) return filas;

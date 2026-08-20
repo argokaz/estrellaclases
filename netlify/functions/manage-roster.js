@@ -44,7 +44,8 @@ exports.handler = async (event) => {
         const { error } = await db
           .from("alumnos")
           .update({ nombre, variantes: a.variantes || [] })
-          .eq("id", a.id);
+          .eq("id", a.id)
+          .is("deleted_at", null);
         if (!error) updated++;
       } else {
         const { error } = await db

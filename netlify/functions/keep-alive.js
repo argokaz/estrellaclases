@@ -22,7 +22,8 @@ exports.handler = async () => {
   // Una lectura simple — cuenta alumnos registrados
   const { count, error } = await supabase
     .from('alumnos')
-    .select('*', { count: 'exact', head: true });
+    .select('*', { count: 'exact', head: true })
+    .is('deleted_at', null);
 
   const ms = Date.now() - start;
 

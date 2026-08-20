@@ -43,7 +43,8 @@ exports.handler = async (event) => {
     const { data: alumnos, error: aErr } = await db
       .from("alumnos")
       .select("id, nombre")
-      .eq("grado", grado);
+      .eq("grado", grado)
+      .is("deleted_at", null);
     if (aErr) throw aErr;
     if (!alumnos || alumnos.length === 0) {
       return { statusCode: 200, headers: CORS, body: JSON.stringify({ mes: targetMes, grado, ranking: [] }) };
@@ -56,6 +57,7 @@ exports.handler = async (event) => {
       .from("evaluaciones")
       .select("alumno_id, sesion, score")
       .in("alumno_id", ids)
+      .is("deleted_at", null)
       .gte("fecha", `${targetMes}-01`)
       .lt("fecha", nextMes);
     if (eErr) throw eErr;
@@ -65,6 +67,7 @@ exports.handler = async (event) => {
       .from("bonuses")
       .select("alumno_id, puntos")
       .in("alumno_id", ids)
+      .is("deleted_at", null)
       .eq("mes", targetMes);
     if (bErr) throw bErr;
 

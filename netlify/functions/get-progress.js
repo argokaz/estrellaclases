@@ -46,7 +46,8 @@ exports.handler = async (event) => {
     const { data: alumnos } = await db
       .from("alumnos")
       .select("id, nombre")
-      .eq("grado", grado);
+      .eq("grado", grado)
+      .is("deleted_at", null);
 
     const normSearch = normalize(nombre);
     const alumno = findBestPerson(normSearch, alumnos, a => a.nombre); // exacto > subset > ancla
@@ -60,11 +61,13 @@ exports.handler = async (event) => {
       db.from("evaluaciones")
         .select("sesion, score, correctas, total, fecha")
         .eq("alumno_id", alumno.id)
+        .is("deleted_at", null)
         .order("sesion"),
       // Todas las sesiones que EXISTEN para este grado (cualquier alumno)
       db.from("evaluaciones")
         .select("sesion")
-        .eq("grado", grado),
+        .eq("grado", grado)
+        .is("deleted_at", null),
     ]);
 
     const historial = (evals || []).map(e => ({
@@ -84,6 +87,7 @@ exports.handler = async (event) => {
       .from("bonuses")
       .select("puntos, razon, mes, fecha")
       .eq("alumno_id", alumno.id)
+      .is("deleted_at", null)
       .order("fecha", { ascending: false });
 
     const bonusTotal = (bonuses || []).reduce((s, b) => s + (Number(b.puntos) || 0), 0);
@@ -98,11 +102,13 @@ exports.handler = async (event) => {
       db.from("evaluaciones")
         .select("alumno_id, score")
         .in("alumno_id", rankIds)
+        .is("deleted_at", null)
         .gte("fecha", `${currentMes}-01`)
         .lt("fecha", nextMes),
       db.from("bonuses")
         .select("alumno_id, puntos")
         .in("alumno_id", rankIds)
+        .is("deleted_at", null)
         .eq("mes", currentMes),
     ]);
 

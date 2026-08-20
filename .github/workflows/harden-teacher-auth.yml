@@ -1,104 +1,16 @@
-name: Harden teacher auth branch
+name: Teacher auth migration (manual only)
 
 on:
-  push:
-    branches:
-      - 'security/harden-teacher-auth*'
-    paths:
-      - SECURITY-HANDOFF.md
-      - scripts/harden-teacher-auth.py
-      - scripts/normalize-auth-block.py
-      - scripts/add-build-history.py
-      - netlify/functions/_teacherAuth.js
-      - netlify/functions/teacher-login.js
-      - .github/workflows/harden-teacher-auth.yml
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  migrate:
-    if: github.actor != 'github-actions[bot]'
+  info:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Migrate, validate and persist diagnostics
-        shell: bash
+      - name: Migration status
         run: |
-          set +e
-          mkdir -p .ci
-          LOG=.ci/migration-status.txt
-          : > "$LOG"
-          failed=0
-
-          run_step() {
-            name="$1"; shift
-            echo "=== $name ===" | tee -a "$LOG"
-            "$@" >>"$LOG" 2>&1
-            code=$?
-            echo "exit_code=$code" | tee -a "$LOG"
-            echo >> "$LOG"
-            if [ "$code" -ne 0 ]; then failed=1; fi
-          }
-
-          run_step normalize python scripts/normalize-auth-block.py
-          if [ "$failed" -eq 0 ]; then run_step harden python scripts/harden-teacher-auth.py; fi
-          if [ "$failed" -eq 0 ]; then run_step build_history python scripts/add-build-history.py; fi
-
-          if [ "$failed" -eq 0 ]; then
-            echo "=== node_check ===" | tee -a "$LOG"
-            for file in netlify/functions/*.js; do
-              node --check "$file" >>"$LOG" 2>&1 || failed=1
-            done
-            echo "exit_code=$failed" | tee -a "$LOG"
-            echo >> "$LOG"
-          fi
-
-          if [ "$failed" -eq 0 ]; then
-            echo "=== html_validation ===" | tee -a "$LOG"
-            grep -q "Build 20260819.1" index.html || failed=1
-            grep -q "BUILD_HISTORY_WIDGET" index.html || failed=1
-            ! grep -q "yoshipotosucio" index.html || failed=1
-            ! grep -Eq '[?&]pw=' index.html || failed=1
-            echo "exit_code=$failed" | tee -a "$LOG"
-            echo >> "$LOG"
-          fi
-
-          if [ "$failed" -eq 0 ]; then
-            echo "=== diff_check ===" | tee -a "$LOG"
-            git diff --check >>"$LOG" 2>&1 || failed=1
-            echo "exit_code=$failed" | tee -a "$LOG"
-            echo >> "$LOG"
-          fi
-
-          if [ "$failed" -eq 0 ]; then
-            echo "RESULT=SUCCESS" | tee -a "$LOG"
-          else
-            echo "RESULT=FAILURE" | tee -a "$LOG"
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- "$LOG"
-          if [ "$failed" -eq 0 ]; then
-            git add -- index.html netlify/functions/*.js
-          fi
-
-          if ! git diff --cached --quiet; then
-            if [ "$failed" -eq 0 ]; then
-              git commit -m "security: harden teacher auth and add build history"
-            else
-              git commit -m "ci: record auth migration failure diagnostics"
-            fi
-            git push origin HEAD:${{ github.ref_name }}
-          fi
-
-          exit "$failed"
+          echo "Automatic migration is disabled."
+          echo "The validated implementation lives on security/harden-teacher-auth-run."

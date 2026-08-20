@@ -2,7 +2,7 @@
 
 Fecha: 2026-08-19
 
-Rama de trabajo: `security/harden-teacher-auth`
+Rama de trabajo: `security/harden-teacher-auth-run`
 
 ## Objetivo
 
@@ -33,42 +33,56 @@ Resolver los dos problemas detectados en la consola docente:
 
 - `scripts/harden-teacher-auth.py`
   - Migración reproducible e idempotente.
-  - Parchea `index.html` sin reescribir manualmente sus 260 KB.
+  - Parchea `index.html` sin reescribir manualmente sus ~260 KB.
   - Elimina el literal histórico de contraseña.
   - Cambia estado docente de `localStorage` a `sessionStorage`.
   - Agrega `teacherFetch()` con `Authorization: Bearer <token>`.
   - Quita `pw` de URLs de resultados, tareas, libreta, papelera y health.
   - Migra `get-results.js`, `get-tasks.js`, `get-libreta.js`, `health.js` y `trash.js` a Bearer auth para lecturas protegidas.
   - Elimina el fallback hardcodeado del resto de funciones legacy y hace que fallen cerrado si falta la variable de entorno.
-  - Falla explícitamente si encuentra todavía el literal histórico o `?pw=` en `index.html`.
+  - Falla explícitamente si encuentra todavía el secreto histórico o `?pw=` en `index.html`.
+
+- `scripts/normalize-auth-block.py`
+  - Normaliza el bloque legacy de acceso antes de aplicar la migración.
+  - Solo cambia formato, no comportamiento.
+
+- `scripts/add-build-history.py`
+  - Agrega el build visible en la esquina inferior izquierda.
+  - El build abre un popup compacto con historial de versiones y cambios.
+  - Primer build formal: `Build 20260819.1`.
 
 - `.github/workflows/harden-teacher-auth.yml`
-  - Intenta ejecutar el script automáticamente en esta rama.
-  - Valida sintaxis de todas las Netlify Functions con `node --check`.
+  - Ejecuta la migración y las validaciones en esta rama.
+  - Valida sintaxis de las Netlify Functions con `node --check`.
   - Ejecuta `git diff --check`.
-  - Si hay cambios generados, los commitea en la misma rama.
+  - Persiste diagnóstico en `.ci/migration-status.txt` incluso si falla.
+  - Si todo pasa, commitea los archivos generados en la misma rama.
 
-## IMPORTANTE: estado pendiente antes de mergear
+## Estado pendiente antes de mergear
 
-Al momento de escribir este handoff, el workflow todavía no había aplicado el parche generado a `index.html`.
+**NO MERGEAR todavía** hasta que el workflow termine en verde y se revise el deploy preview.
 
-Por lo tanto, **NO MERGEAR todavía** esta rama a `main`.
+El workflow ya superó la normalización del bloque de acceso y llegó a aplicar la migración sobre `index.html` y las funciones. Un run posterior detectó correctamente que el secreto histórico seguía escrito en este mismo documento de handoff; esa referencia ya fue eliminada.
 
-Codex puede continuar así:
+### Validaciones mínimas locales / Codex
 
 ```bash
-git checkout security/harden-teacher-auth
+git checkout security/harden-teacher-auth-run
+python3 scripts/normalize-auth-block.py
 python3 scripts/harden-teacher-auth.py
+python3 scripts/add-build-history.py
 
-# Validaciones mínimas
 for file in netlify/functions/*.js; do node --check "$file"; done
 git diff --check
 
-grep -R "yoshipotosucio" index.html netlify/functions || true
+# No debe existir ningún fallback de password hardcodeado.
+grep -R -nE "TEACHER_PASSWORD.*\|\|" netlify/functions || true
+
+# La contraseña no debe viajar en query strings desde el frontend.
 grep -nE '[?&]pw=' index.html || true
 ```
 
-Los dos últimos comandos deben devolver cero coincidencias.
+Los dos últimos comandos deben devolver cero coincidencias relevantes.
 
 Después revisar el diff, especialmente:
 
@@ -97,6 +111,8 @@ En un deploy preview de esta rama:
 10. Papelera lista y restaura registros.
 11. Health carga correctamente.
 12. Abrir notas desde la consola y dar bonus sigue funcionando. Durante esta transición, `nota_pw` se conserva únicamente en `sessionStorage` para compatibilidad con las páginas de notas ya generadas.
+13. Abajo a la izquierda aparece `Build 20260819.1`.
+14. Al pulsar el build se abre el popup de historial y se puede cerrar con `✕`, clic fuera o `Escape`.
 
 ## Acción manual obligatoria de infraestructura
 
@@ -119,7 +135,7 @@ Por eso:
 
 - La consola nueva usa token Bearer para recursos protegidos de lectura.
 - La contraseña ingresada por la profesora se guarda solo durante la pestaña/sesión del navegador, en `sessionStorage`, para POSTs legacy y para `nota_pw`.
-- Ya no existe en el código fuente ni viaja en URLs.
+- Ya no debe existir en el código fuente ni viajar en URLs.
 
 Siguiente mejora recomendada, fuera del alcance de esta rama: migrar también todas las páginas `notas-*` y endpoints POST legacy a Bearer token y eliminar por completo el almacenamiento temporal de la contraseña en el navegador.
 
@@ -127,6 +143,8 @@ Siguiente mejora recomendada, fuera del alcance de esta rama: migrar también to
 
 - `SECURITY-HANDOFF.md`
 - `scripts/harden-teacher-auth.py`
+- `scripts/normalize-auth-block.py`
+- `scripts/add-build-history.py`
 - `.github/workflows/harden-teacher-auth.yml`
 - `netlify/functions/_teacherAuth.js`
 - `netlify/functions/teacher-login.js`

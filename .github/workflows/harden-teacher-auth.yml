@@ -6,6 +6,7 @@ on:
       - 'security/harden-teacher-auth*'
     paths:
       - scripts/harden-teacher-auth.py
+      - scripts/normalize-auth-block.py
       - scripts/add-build-history.py
       - netlify/functions/_teacherAuth.js
       - netlify/functions/teacher-login.js
@@ -27,6 +28,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Normalize legacy auth block
+        run: python scripts/normalize-auth-block.py
 
       - name: Apply teacher-auth migration
         run: python scripts/harden-teacher-auth.py

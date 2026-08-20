@@ -1,0 +1,54 @@
+name: Harden teacher auth branch
+
+on:
+  push:
+    branches:
+      - security/harden-teacher-auth
+    paths:
+      - scripts/harden-teacher-auth.py
+      - netlify/functions/_teacherAuth.js
+      - netlify/functions/teacher-login.js
+      - .github/workflows/harden-teacher-auth.yml
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: security/harden-teacher-auth
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Apply reproducible migration
+        run: python scripts/harden-teacher-auth.py
+
+      - name: Validate JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in netlify/functions/*.js; do node --check "$file"; done
+
+      - name: Validate diff
+        run: git diff --check
+
+      - name: Commit generated migration changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- index.html netlify/functions/*.js
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+            exit 0
+          fi
+          git commit -m "security: remove exposed teacher password and URL auth"
+          git push origin HEAD:security/harden-teacher-auth

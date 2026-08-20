@@ -1,3 +1,4 @@
+// Teacher login issues a short-lived signed session token after server-side password validation.
 const { issueTeacherToken, SESSION_TTL_SECONDS, authCorsHeaders } = require('./_teacherAuth');
 
 const CORS = authCorsHeaders('POST, OPTIONS');

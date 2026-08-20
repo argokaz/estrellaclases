@@ -345,7 +345,7 @@ exports.handler = async (event) => {
     token: process.env.NETLIFY_TOKEN,
   });
 
-  const esperado = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+  const esperado = process.env.TEACHER_PASSWORD;
 
   // ── Panel de la profesora ────────────────────────────────────────────────
   if (body.action) {

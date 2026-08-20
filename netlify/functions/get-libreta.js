@@ -1,7 +1,7 @@
 /**
  * get-libreta.js
  *
- * GET /.netlify/functions/get-libreta?pw=...
+ * GET /.netlify/functions/get-libreta (Authorization: Bearer …)
  *
  * La libreta completa del año en una sola llamada: todos los alumnos de las
  * cinco aulas, con su nota de cada sesión, su promedio, sus puntos de
@@ -14,14 +14,14 @@
 
 const { supabase } = require("./_supabase");
 
-const TEACHER_PW     = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const { requireTeacher } = require("./_teacherAuth");
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);   // la profesora como test user
 const PENALIZACION   = 2;   // puntos que se descuentan del promedio por práctica no rendida
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Content-Type": "application/json",
 };
 
@@ -50,8 +50,8 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
   if (event.httpMethod !== "GET")     return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
 
-  const params = event.queryStringParameters || {};
-  if (params.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  const auth = requireTeacher(event);
+  if (!auth.ok) return { statusCode: auth.statusCode, headers: CORS, body: JSON.stringify({ error: auth.error }) };
 
   try {
     const db = supabase();

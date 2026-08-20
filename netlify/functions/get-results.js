@@ -1,7 +1,7 @@
 /**
  * get-results.js
  *
- * GET /.netlify/functions/get-results?pw=...&session=02&grado=sec2
+ * GET /.netlify/functions/get-results?session=02&grado=sec2 (Authorization: Bearer …)
  *
  * Vista del profesor: todas las evaluaciones de una sesión (y grado opcional).
  * Retorna array compatible con el panel de resultados del dashboard.
@@ -9,14 +9,14 @@
 
 const { supabase } = require("./_supabase");
 
-const TEACHER_PW    = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const { requireTeacher } = require("./_teacherAuth");
 // Excluir de resultados: profesora actuando como test user
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "GET, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
   "Content-Type": "application/json",
 };
 
@@ -24,8 +24,10 @@ exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 204, headers: CORS, body: "" };
   if (event.httpMethod !== "GET")     return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
 
+  const auth = requireTeacher(event);
+  if (!auth.ok) return { statusCode: auth.statusCode, headers: CORS, body: JSON.stringify({ error: auth.error }) };
+
   const params = event.queryStringParameters || {};
-  if (params.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
 
   const session = params.session ? String(params.session).padStart(2, "0") : null;
   const grado   = params.grado || null;

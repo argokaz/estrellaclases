@@ -1464,6 +1464,43 @@ body.modo-consola{background:var(--bg2);}
 @media(max-width:560px){
   .sem-tit{font-size:var(--fs-sm);white-space:normal;}
 }
+
+/* BUILD_HISTORY_WIDGET */
+.build-version-trigger{
+  position:fixed;left:10px;bottom:10px;z-index:1800;
+  border:1px solid rgba(0,0,0,.14);background:rgba(255,255,255,.92);
+  color:#555;border-radius:999px;padding:5px 9px;
+  font:600 10px/1.2 'Inter',system-ui,sans-serif;letter-spacing:.02em;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);backdrop-filter:blur(10px);
+  cursor:pointer;opacity:.78;transition:opacity .15s,border-color .15s,background .15s;
+}
+.build-version-trigger:hover,.build-version-trigger:focus-visible{opacity:1;background:#fff;border-color:#999;}
+.build-version-popover{
+  display:none;position:fixed;left:10px;bottom:43px;z-index:1810;
+  width:min(380px,calc(100vw - 20px));max-height:min(62vh,560px);overflow:auto;
+  background:#fff;color:#111;border:1px solid #ddd;border-radius:14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.16);padding:14px 14px 12px;
+  font-family:'Inter',system-ui,sans-serif;
+}
+.build-version-popover.open{display:block;}
+.build-version-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.build-version-head strong{font:800 15px/1.2 'Space Grotesk','Inter',sans-serif;}
+.build-version-current{font-size:11px;color:#666;margin-top:3px;}
+.build-version-close{border:0;background:#f3f3f1;color:#555;border-radius:7px;padding:4px 7px;font-size:12px;cursor:pointer;}
+.build-version-list{display:flex;flex-direction:column;gap:9px;}
+.build-version-item{border-top:1px solid #ecece8;padding-top:9px;}
+.build-version-item:first-child{border-top:0;padding-top:0;}
+.build-version-meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:4px;}
+.build-version-tag{font:800 11px/1 'Space Grotesk','Inter',sans-serif;color:#111;}
+.build-version-date{font-size:10px;color:#777;}
+.build-version-title{font-size:12px;font-weight:700;color:#222;margin-bottom:3px;}
+.build-version-changes{margin:0;padding-left:17px;color:#555;font-size:11px;line-height:1.45;}
+.build-version-foot{border-top:1px solid #ecece8;margin-top:10px;padding-top:8px;font-size:10px;color:#888;line-height:1.4;}
+@media(max-width:520px){
+  .build-version-trigger{left:8px;bottom:8px;}
+  .build-version-popover{left:8px;bottom:39px;width:calc(100vw - 16px);max-height:68vh;}
+}
+
 </style>
 </head>
 <body>
@@ -2324,19 +2361,49 @@ let currentGrade  = null;   // hasta que el alumno elija su salón
 // ═══════════════════════════════════════════════════════════
 // ACCESS CONTROL
 // ═══════════════════════════════════════════════════════════
-const PASS_KEY   = 'cc2026_unlocked';
-const CORRECT_PW = 'yoshipotosucio';
+const PASS_KEY = 'cc2026_teacher_token';
+const PW_KEY   = 'cc2026_teacher_pw';
 
-function isUnlocked(){ return localStorage.getItem(PASS_KEY) === '1'; }
+function teacherToken(){ return sessionStorage.getItem(PASS_KEY) || ''; }
+function teacherPassword(){ return sessionStorage.getItem(PW_KEY) || ''; }
+function isUnlocked(){ return !!teacherToken(); }
+function teacherHeaders(extra){
+  return Object.assign({}, extra || {}, teacherToken() ? {Authorization:'Bearer ' + teacherToken()} : {});
+}
+async function teacherFetch(url, options){
+  const opts = Object.assign({}, options || {});
+  opts.headers = teacherHeaders(opts.headers);
+  const res = await fetch(url, opts);
+  if(res.status === 401){
+    sessionStorage.removeItem(PASS_KEY);
+    if(ES_CONSOLA) pedirClave();
+  }
+  return res;
+}
+async function authenticateTeacher(password){
+  const res = await fetch('/.netlify/functions/teacher-login', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({password})
+  });
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok || !data.token) throw new Error(data.error || 'Contraseña incorrecta');
+  sessionStorage.setItem(PASS_KEY, data.token);
+  // Compatibilidad temporal con páginas de notas ya generadas. Se borra al salir
+  // y nunca vuelve a formar parte del código ni de una URL.
+  sessionStorage.setItem(PW_KEY, password);
+  sessionStorage.setItem('nota_pw', password);
+}
 
-function tryUnlock(){
+async function tryUnlock(){
   const input = document.getElementById('pass-input');
   if(!input) return;
-  if(input.value === CORRECT_PW){
-    localStorage.setItem(PASS_KEY, '1');
+  const password = input.value;
+  try{
+    await authenticateTeacher(password);
+    input.value = '';
     updateLogoutBtn();
     repintar();
-  } else {
+  }catch(_){
     input.value = '';
     input.classList.add('shake');
     const err = document.getElementById('lock-err');
@@ -2347,7 +2414,9 @@ function tryUnlock(){
 }
 
 function lock(){
-  localStorage.removeItem(PASS_KEY);
+  sessionStorage.removeItem(PASS_KEY);
+  sessionStorage.removeItem(PW_KEY);
+  sessionStorage.removeItem('nota_pw');
   updateLogoutBtn();
   // En la consola, salir devuelve al muro; no a la vista del alumno.
   if(ES_CONSOLA){ pedirClave(); return; }
@@ -2871,7 +2940,7 @@ async function submitSyncConnect(){
   msg.style.color='#4ade80';
   msg.textContent=`✅ Sesión ${d.session} · ${label}`;
   // Pre-cargar el PW del bonus en sessionStorage — notas lo lee al cargar
-  sessionStorage.setItem('nota_pw', CORRECT_PW);
+  sessionStorage.setItem('nota_pw', teacherPassword());
   setTimeout(()=>{
     closeSyncConnect();
     window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;
@@ -2908,7 +2977,7 @@ async function loadResults(session){
   summary.style.display = 'none';
 
   try {
-    const res = await fetch(`/.netlify/functions/get-results?pw=${encodeURIComponent(CORRECT_PW)}&session=${session}`);
+    const res = await teacherFetch(`/.netlify/functions/get-results?session=${session}`);
     if(!res.ok) throw new Error('Error ' + res.status);
     const data = await res.json();
     _resultsCache[session] = data;
@@ -3056,7 +3125,7 @@ async function asignarSuelta(evalId, escrito, grado){
         .alumnos.find(a=>a.nombre === nombre).id;
       const res = await fetch('/.netlify/functions/admin-roster', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({pw: CORRECT_PW, action:'asignar', evaluacion: evalId, alumno: alumnoId})
+        body: JSON.stringify({pw: teacherPassword(), action:'asignar', evaluacion: evalId, alumno: alumnoId})
       });
       const d = await res.json();
       if(!res.ok || d.error) throw new Error(d.error || ('Error ' + res.status));
@@ -3094,7 +3163,7 @@ async function restoreDeletion(deletionId, button){
   try{
     const res = await fetch('/.netlify/functions/trash',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,action:'restore',deletion_id:deletionId})
+      body:JSON.stringify({pw:teacherPassword(),action:'restore',deletion_id:deletionId})
     });
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
@@ -3118,7 +3187,7 @@ async function deleteResult(key, nombre){
     const res = await fetch('/.netlify/functions/delete-result', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ pw: CORRECT_PW, key })
+      body: JSON.stringify({ pw: teacherPassword(), key })
     });
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
@@ -3198,7 +3267,7 @@ async function descargarLibreta(btn){
   const texto = et ? et.innerHTML : '';
   if(btn){ btn.disabled = true; et.innerHTML = '⏳ Preparando…'; }
   try{
-    const res = await fetch('/.netlify/functions/get-libreta?pw=' + encodeURIComponent(CORRECT_PW));
+    const res = await teacherFetch('/.netlify/functions/get-libreta');
     if(!res.ok) throw new Error('El servidor respondió ' + res.status);
     const d = await res.json();
     if(d.error) throw new Error(d.error);
@@ -3380,9 +3449,9 @@ async function loadTasks(){
   const content = document.getElementById('tasks-content');
   content.innerHTML = '<div style="padding:2rem;text-align:center;color:#94a3b8">⏳ Cargando entregas…</div>';
   try {
-    let url = `/.netlify/functions/get-tasks?pw=${encodeURIComponent(CORRECT_PW)}&session=${_currentTasksSession}`;
+    let url = `/.netlify/functions/get-tasks?session=${_currentTasksSession}`;
     if(_currentTasksGrade) url += `&grado=${_currentTasksGrade}`;
-    const res = await fetch(url);
+    const res = await teacherFetch(url);
     const data = await res.json().catch(()=>({}));
     if(!res.ok) throw new Error(data.error || ('Error ' + res.status));
     renderTasks(data);
@@ -3475,7 +3544,7 @@ async function deleteTask(taskId, button){
   try{
     const res = await fetch('/.netlify/functions/delete-task',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,key:taskId})
+      body:JSON.stringify({pw:teacherPassword(),key:taskId})
     });
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
@@ -3516,7 +3585,7 @@ async function asignarTareaSuelta(taskId, grado, button){
       try{
         const res = await fetch('/.netlify/functions/admin-roster',{
           method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({pw:CORRECT_PW,action:'asignar-tarea',tarea:taskId,alumno:select.value})
+          body:JSON.stringify({pw:teacherPassword(),action:'asignar-tarea',tarea:taskId,alumno:select.value})
         });
         const data = await res.json().catch(()=>({}));
         if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
@@ -3556,7 +3625,7 @@ async function loadTrash(){
   const content = document.getElementById('trash-content');
   content.className = 'trash-empty'; content.textContent = 'Cargando papelera...';
   try{
-    const res = await fetch('/.netlify/functions/trash?pw=' + encodeURIComponent(CORRECT_PW),{cache:'no-store'});
+    const res = await teacherFetch('/.netlify/functions/trash',{cache:'no-store'});
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
     const items = data.items || [];
@@ -3850,7 +3919,7 @@ async function submitBonusModal(){
   try{
     const res=await fetch('/.netlify/functions/add-bonus',{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,nombre,grado:gradeId,puntos,razon,mes})
+      body:JSON.stringify({pw:teacherPassword(),nombre,grado:gradeId,puntos,razon,mes})
     });
     const d=await res.json();
     if(d.ok){
@@ -4044,7 +4113,7 @@ async function deleteRosterRow(i){
   try{
     const res = await fetch('/.netlify/functions/delete-alumno',{
       method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pw:CORRECT_PW,id:student.id})
+      body:JSON.stringify({pw:teacherPassword(),id:student.id})
     });
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.deletion) throw new Error(data.error || ('Error ' + res.status));
@@ -4120,7 +4189,7 @@ async function saveRoster(){
   try{
     const res = await fetch('/.netlify/functions/manage-roster',{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({pw:CORRECT_PW, grado:_rosterGrade, alumnos})
+      body: JSON.stringify({pw:teacherPassword(), grado:_rosterGrade, alumnos})
     });
     const d = await res.json();
     if(d.ok){
@@ -4145,7 +4214,7 @@ async function syncEvalsFromBlobs(){
   try{
     const res = await fetch('/.netlify/functions/build-roster',{
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({pw:CORRECT_PW, grado:_rosterGrade})
+      body: JSON.stringify({pw:teacherPassword(), grado:_rosterGrade})
     });
     const d = await res.json();
     if(d.ok){
@@ -4192,7 +4261,7 @@ async function loadShifts(){
 }
 
 async function saveShifts(){
-  const pw = localStorage.getItem(PASS_KEY)==='1' ? CORRECT_PW : '';
+  const pw = isUnlocked() ? teacherPassword() : '';
   const st = document.getElementById('sched-status');
   if(st) st.textContent = 'Guardando…';
   try{
@@ -4298,7 +4367,7 @@ let ACC_LAST = '';
 async function accApi(payload){
   const r = await fetch('/.netlify/functions/prompts-access',{
     method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(Object.assign({pw: CORRECT_PW}, payload))
+    body: JSON.stringify(Object.assign({pw: teacherPassword()}, payload))
   });
   const d = await r.json();
   if(!r.ok || d.error) throw new Error(d.error || 'error');
@@ -4525,7 +4594,7 @@ async function loadSystemHealth(force){
   _healthLoading = true;
   document.getElementById('health-outbox').textContent = localOutboxCount();
   try{
-    const res = await fetch('/.netlify/functions/health?pw=' + encodeURIComponent(CORRECT_PW), {cache:'no-store'});
+    const res = await teacherFetch('/.netlify/functions/health', {cache:'no-store'});
     const data = await res.json().catch(()=>({}));
     if(!res.ok || !data.ok) throw new Error(data.error || ('Error ' + res.status));
     document.getElementById('health-evals').textContent = data.unassigned_evaluations || 0;
@@ -4684,11 +4753,11 @@ function filasAnio(todas, gradeId){
 async function cargarCifras(gradeId, sesion){
   const cont = document.getElementById('cns-cifras');
   if(!cont) return;
-  const pw = CORRECT_PW, nn = String(sesion).padStart(2,'0');
+  const nn = String(sesion).padStart(2,'0');
   try{
     const [rRes, rTar] = await Promise.all([
-      fetch(`/.netlify/functions/get-results?pw=${encodeURIComponent(pw)}&session=${nn}`).then(r=>r.json()).catch(()=>null),
-      fetch(`/.netlify/functions/get-tasks?pw=${encodeURIComponent(pw)}&session=${nn}&grado=${gradeId}`).then(r=>r.json()).catch(()=>null)
+      teacherFetch(`/.netlify/functions/get-results?session=${nn}`).then(r=>r.json()).catch(()=>null),
+      teacherFetch(`/.netlify/functions/get-tasks?session=${nn}&grado=${gradeId}`).then(r=>r.json()).catch(()=>null)
     ]);
     const evals = Array.isArray(rRes) ? rRes.filter(x=>(x.grado||x.grade)===gradeId) : [];
     const notas = evals.map(e=>+e.score).filter(n=>!isNaN(n));
@@ -4737,16 +4806,20 @@ function pedirClave(){
     '</div>';
   setTimeout(function(){ var i=document.getElementById('pass-input'); if(i) i.focus(); }, 80);
 }
-function entrarConsola(){
+async function entrarConsola(){
   var inp = document.getElementById('pass-input');
   var err = document.getElementById('lock-err');
-  if(inp.value.trim() === CORRECT_PW){
-    localStorage.setItem(PASS_KEY, '1');
-    sessionStorage.setItem('nota_pw', CORRECT_PW);
+  var password = inp.value;
+  try{
+    await authenticateTeacher(password);
+    inp.value = '';
+    if(err) err.style.display = 'none';
     updateLogoutBtn();
     render();
-  } else {
-    err.style.display = 'block'; inp.value = ''; inp.focus();
+  }catch(_){
+    if(err) err.style.display = 'block';
+    inp.value = '';
+    inp.focus();
   }
 }
 </script>
@@ -5030,5 +5103,100 @@ function entrarConsola(){
   setTimeout(flushAll,2000);
 })();
 </script>
+
+<!-- BUILD_HISTORY_WIDGET -->
+<button id="build-version-trigger" class="build-version-trigger" type="button"
+  aria-haspopup="dialog" aria-expanded="false" aria-controls="build-version-popover"
+  onclick="toggleBuildHistory()">Build 20260819.1</button>
+
+<section id="build-version-popover" class="build-version-popover" role="dialog"
+  aria-modal="false" aria-labelledby="build-version-title">
+  <div class="build-version-head">
+    <div>
+      <strong id="build-version-title">Historial de versiones</strong>
+      <div class="build-version-current">Build actual: 20260819.1 · 19 ago 2026</div>
+    </div>
+    <button class="build-version-close" type="button" onclick="closeBuildHistory()" aria-label="Cerrar historial">✕</button>
+  </div>
+
+  <div class="build-version-list">
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">Build 20260819.1</span><span class="build-version-date">19 ago 2026</span></div>
+      <div class="build-version-title">Seguridad docente + versionado visible</div>
+      <ul class="build-version-changes">
+        <li>La contraseña docente deja de estar incrustada en el frontend y en fallbacks del backend.</li>
+        <li>El acceso de profesora pasa a una sesión temporal firmada; lecturas protegidas usan Authorization.</li>
+        <li>La contraseña deja de viajar en URLs/query strings.</li>
+        <li>Se agrega este build number y el historial de cambios dentro de la interfaz.</li>
+      </ul>
+    </article>
+
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">9f30d2b</span><span class="build-version-date">19 ago 2026</span></div>
+      <div class="build-version-title">Protección de datos y papelera</div>
+      <ul class="build-version-changes">
+        <li>Papelera recuperable para alumnos, evaluaciones, tareas y puntos.</li>
+        <li>Deshacer/restaurar eliminaciones y panel de salud de datos.</li>
+        <li>Selector oficial de alumno para entregar tareas y protección contra doble envío.</li>
+        <li>Mejoras de accesibilidad y comportamiento móvil.</li>
+      </ul>
+    </article>
+
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">0cc7f24</span><span class="build-version-date">18 ago 2026</span></div>
+      <div class="build-version-title">Guardado más seguro</div>
+      <ul class="build-version-changes">
+        <li>Blindaje de evaluaciones y tareas para evitar pérdidas silenciosas o asignaciones incorrectas.</li>
+      </ul>
+    </article>
+
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">c2444b6</span><span class="build-version-date">18 ago 2026</span></div>
+      <div class="build-version-title">Calendario de 4.° secundaria corregido</div>
+      <ul class="build-version-changes">
+        <li>Fusión de S26 + S27 y soporte para aplazamientos con rango definido.</li>
+      </ul>
+    </article>
+
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">a8bd240</span><span class="build-version-date">17 ago 2026</span></div>
+      <div class="build-version-title">Cierre anual en 30 sesiones</div>
+      <ul class="build-version-changes">
+        <li>El año se consolida en 30 sesiones y termina el 18 de diciembre.</li>
+        <li>S29/S30 absorben el cierre del plan original y se eliminan S31/S32.</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="build-version-foot">Desde este build, cada cambio relevante debería incrementar el build y añadir una entrada aquí. El historial anterior se conserva por commit porque aún no existía numeración formal.</div>
+</section>
+
+<script>
+(function(){
+  const trigger = document.getElementById('build-version-trigger');
+  const popover = document.getElementById('build-version-popover');
+  if(!trigger || !popover) return;
+
+  window.toggleBuildHistory = function(){
+    const open = !popover.classList.contains('open');
+    popover.classList.toggle('open', open);
+    trigger.setAttribute('aria-expanded', String(open));
+  };
+  window.closeBuildHistory = function(){
+    popover.classList.remove('open');
+    trigger.setAttribute('aria-expanded','false');
+  };
+
+  document.addEventListener('click', function(event){
+    if(!popover.classList.contains('open')) return;
+    if(popover.contains(event.target) || trigger.contains(event.target)) return;
+    window.closeBuildHistory();
+  });
+  document.addEventListener('keydown', function(event){
+    if(event.key === 'Escape' && popover.classList.contains('open')) window.closeBuildHistory();
+  });
+})();
+</script>
+
 </body>
 </html>

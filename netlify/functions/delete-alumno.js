@@ -14,7 +14,7 @@ const { supabase } = require("./_supabase");
 const { titleCase } = require("./_nameUtils");
 const { softDelete } = require("./_deletion");
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const TEACHER_PW = process.env.TEACHER_PASSWORD;
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -28,7 +28,7 @@ exports.handler = async (event) => {
 
   let b;
   try { b = JSON.parse(event.body); } catch { return { statusCode: 400, headers: CORS, body: '{"error":"Bad JSON"}' }; }
-  if (b.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  if (!TEACHER_PW || b.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
 
   try {
     const db = supabase();

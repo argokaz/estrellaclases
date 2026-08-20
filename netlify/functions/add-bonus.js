@@ -8,7 +8,7 @@
 const { supabase }    = require("./_supabase");
 const { normalize, findBestPerson } = require("./_nameUtils");
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const TEACHER_PW = process.env.TEACHER_PASSWORD;
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -27,7 +27,7 @@ exports.handler = async (event) => {
 
   const { pw, nombre, grado, puntos, razon, mes: mesParam, fecha: fechaParam } = data;
 
-  if (pw !== TEACHER_PW)  return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  if (!TEACHER_PW || pw !== TEACHER_PW)  return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
   if (!nombre || !grado || puntos === undefined)
     return { statusCode: 400, headers: CORS, body: '{"error":"Missing fields"}' };
 

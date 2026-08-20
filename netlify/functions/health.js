@@ -1,18 +1,18 @@
 const { supabase } = require('./_supabase');
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || 'yoshipotosucio';
+const { requireTeacher } = require('./_teacherAuth');
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Content-Type': 'application/json',
 };
 
 exports.handler = async event => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
   if (event.httpMethod !== 'GET') return { statusCode: 405, headers: CORS, body: '{"error":"Method not allowed"}' };
-  const params = event.queryStringParameters || {};
-  if (params.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  const auth = requireTeacher(event);
+  if (!auth.ok) return { statusCode: auth.statusCode, headers: CORS, body: JSON.stringify({ error: auth.error }) };
 
   const db = supabase();
   const started = Date.now();

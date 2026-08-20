@@ -77,7 +77,7 @@ exports.handler = async (event) => {
     try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
 
     const pw = String(body.pw || "");
-    const esperado = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+    const esperado = process.env.TEACHER_PASSWORD;
     if (pw !== esperado) return res(401, { error: "no autorizado" });
 
     const shifts = limpiar(body.shifts);

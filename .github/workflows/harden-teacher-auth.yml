@@ -3,7 +3,7 @@ name: Harden teacher auth branch
 on:
   push:
     branches:
-      - security/harden-teacher-auth
+      - 'security/harden-teacher-auth*'
     paths:
       - scripts/harden-teacher-auth.py
       - scripts/add-build-history.py
@@ -21,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: security/harden-teacher-auth
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
       - uses: actions/setup-python@v5
@@ -64,4 +64,4 @@ jobs:
             exit 0
           fi
           git commit -m "security: harden teacher auth and add build history"
-          git push origin HEAD:security/harden-teacher-auth
+          git push origin HEAD:${{ github.ref_name }}

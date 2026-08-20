@@ -3,6 +3,7 @@
 
 The current index has isUnlocked() on one line, while the original migration
 regex expected a multiline function. This changes formatting only, not behavior.
+Kept as an explicit pre-migration step so fresh workflow runs are reproducible.
 """
 from pathlib import Path
 

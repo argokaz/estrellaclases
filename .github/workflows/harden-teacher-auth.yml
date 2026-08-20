@@ -6,6 +6,7 @@ on:
       - security/harden-teacher-auth
     paths:
       - scripts/harden-teacher-auth.py
+      - scripts/add-build-history.py
       - netlify/functions/_teacherAuth.js
       - netlify/functions/teacher-login.js
       - .github/workflows/harden-teacher-auth.yml
@@ -27,14 +28,26 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Apply reproducible migration
+      - name: Apply teacher-auth migration
         run: python scripts/harden-teacher-auth.py
+
+      - name: Inject build/version history
+        run: python scripts/add-build-history.py
 
       - name: Validate JavaScript syntax
         shell: bash
         run: |
           set -euo pipefail
           for file in netlify/functions/*.js; do node --check "$file"; done
+
+      - name: Validate generated HTML markers
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q "Build 20260819.1" index.html
+          grep -q "BUILD_HISTORY_WIDGET" index.html
+          ! grep -q "yoshipotosucio" index.html
+          ! grep -Eq '[?&]pw=' index.html
 
       - name: Validate diff
         run: git diff --check
@@ -50,5 +63,5 @@ jobs:
             echo "No generated changes to commit"
             exit 0
           fi
-          git commit -m "security: remove exposed teacher password and URL auth"
+          git commit -m "security: harden teacher auth and add build history"
           git push origin HEAD:security/harden-teacher-auth

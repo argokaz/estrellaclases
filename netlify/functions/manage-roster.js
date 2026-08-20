@@ -12,7 +12,7 @@
 const { supabase }  = require("./_supabase");
 const { titleCase } = require("./_nameUtils");
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const TEACHER_PW = process.env.TEACHER_PASSWORD;
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",
@@ -28,7 +28,7 @@ exports.handler = async (event) => {
   let body = {};
   try { body = JSON.parse(event.body || "{}"); } catch {}
 
-  if (body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  if (!TEACHER_PW || body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
   if (!body.grado)            return { statusCode: 400, headers: CORS, body: '{"error":"grado required"}' };
   if (!Array.isArray(body.alumnos)) return { statusCode: 400, headers: CORS, body: '{"error":"alumnos required"}' };
 

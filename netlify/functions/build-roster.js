@@ -18,7 +18,7 @@ const { getStore }  = require("@netlify/blobs");
 const { supabase }  = require("./_supabase");
 const { normalize, areSamePerson } = require("./_nameUtils");
 
-const TEACHER_PW = process.env.TEACHER_PASSWORD || "yoshipotosucio";
+const TEACHER_PW = process.env.TEACHER_PASSWORD;
 const GRADES     = ["prim6", "sec2", "sec3", "sec4", "sec5"];
 
 const CORS = {
@@ -38,7 +38,7 @@ exports.handler = async (event) => {
 
   let body = {};
   try { body = JSON.parse(event.body || "{}"); } catch {}
-  if (body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
+  if (!TEACHER_PW || body.pw !== TEACHER_PW) return { statusCode: 401, headers: CORS, body: '{"error":"Unauthorized"}' };
 
   const targetGrade   = body.grado || null;
   const gradesToBuild = targetGrade ? [targetGrade] : GRADES;

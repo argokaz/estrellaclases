@@ -1,67 +1,16 @@
-name: Harden teacher auth branch
+name: Teacher auth migration (manual only)
 
 on:
-  push:
-    branches:
-      - 'security/harden-teacher-auth*'
-    paths:
-      - scripts/harden-teacher-auth.py
-      - scripts/add-build-history.py
-      - netlify/functions/_teacherAuth.js
-      - netlify/functions/teacher-login.js
-      - .github/workflows/harden-teacher-auth.yml
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  migrate:
-    if: github.actor != 'github-actions[bot]'
+  info:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Apply teacher-auth migration
-        run: python scripts/harden-teacher-auth.py
-
-      - name: Inject build/version history
-        run: python scripts/add-build-history.py
-
-      - name: Validate JavaScript syntax
-        shell: bash
+      - name: Migration status
         run: |
-          set -euo pipefail
-          for file in netlify/functions/*.js; do node --check "$file"; done
-
-      - name: Validate generated HTML markers
-        shell: bash
-        run: |
-          set -euo pipefail
-          grep -q "Build 20260819.1" index.html
-          grep -q "BUILD_HISTORY_WIDGET" index.html
-          ! grep -q "yoshipotosucio" index.html
-          ! grep -Eq '[?&]pw=' index.html
-
-      - name: Validate diff
-        run: git diff --check
-
-      - name: Commit generated migration changes
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- index.html netlify/functions/*.js
-          if git diff --cached --quiet; then
-            echo "No generated changes to commit"
-            exit 0
-          fi
-          git commit -m "security: harden teacher auth and add build history"
-          git push origin HEAD:${{ github.ref_name }}
+          echo "Automatic migration is disabled."
+          echo "The validated implementation lives on security/harden-teacher-auth-run."

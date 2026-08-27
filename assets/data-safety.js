@@ -20,7 +20,9 @@
   var path = location.pathname;
   var match = path.match(/\/(?:repaso|tarea)-(\d+)-([a-z0-9]+)\.html$/i);
   var SESSION = match ? String(match[1]).padStart(2, '0') : '';
-  var GRADE = match ? match[2] : '';
+  // 2.° A/B comparte el archivo *-sec2.html, pero sus borradores, progreso,
+  // roster e identidad siempre deben llevar la sección elegida.
+  var GRADE = window.SEC2_SECTION || (match ? match[2] : '');
   var isEval = /\/repaso-\d+-[a-z0-9]+\.html$/i.test(path);
   var isTask = /\/tarea-\d+-[a-z0-9]+\.html$/i.test(path);
   var EP_EVAL = '/.netlify/functions/submit-eval';

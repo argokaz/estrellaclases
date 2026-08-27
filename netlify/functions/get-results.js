@@ -1,7 +1,7 @@
 /**
  * get-results.js
  *
- * GET /.netlify/functions/get-results?session=02&grado=sec2 (Authorization: Bearer …)
+ * GET /.netlify/functions/get-results?session=02&grado=sec2a (Authorization: Bearer …)
  *
  * Vista del profesor: todas las evaluaciones de una sesión (y grado opcional).
  * Retorna array compatible con el panel de resultados del dashboard.

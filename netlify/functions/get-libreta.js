@@ -4,7 +4,7 @@
  * GET /.netlify/functions/get-libreta (Authorization: Bearer …)
  *
  * La libreta completa del año en una sola llamada: todos los alumnos de las
- * cinco aulas, con su nota de cada sesión, su promedio, sus puntos de
+ * seis aulas, con su nota de cada sesión, su promedio, sus puntos de
  * participación y cuántas tareas entregó. De aquí sale el Excel que la
  * profesora descarga desde la consola.
  *
@@ -66,7 +66,7 @@ exports.handler = async (event) => {
     ]);
 
     const porAlumno = new Map();
-    const excluidos = new Set();   // la profesora existe en las 5 aulas como test user
+    const excluidos = new Set();   // la profesora puede existir como usuaria de prueba
     for (const a of alumnos) {
       if (EXCLUDED_NAMES.has((a.nombre || "").toLowerCase())) { excluidos.add(a.id); continue; }
       porAlumno.set(a.id, {

@@ -41,7 +41,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .vw-btn{width:100%;margin-top:.2em}
 .bw-res{font-size:.85em;font-weight:700;color:var(--text);margin-top:.45em;line-height:1.45}
 .bw-res:empty{display:none}
-</style></head>
+</style><script src="/assets/sec2-section.js"></script>
+</head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 29 · 2.° Secundaria</div><div class="top-bar-meta">Sustentación final y autoevaluación digital · Viernes 11 de diciembre 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
 <div class="cards-wrap">
@@ -254,7 +255,7 @@ function closeSyncOverlay(){document.getElementById('sync-overlay').style.displa
 function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();const st=document.getElementById('sync-status');if(code.length!==4){st.textContent='Ingresa 4 caracteres';return;}st.textContent='Verificando sala…';fetch(API+'?room='+code+'&_='+Date.now()).then(r=>r.json()).then(d=>{if(!d||((typeof d.slide!=='number'||d.slide<0)&&!d.grade)){st.textContent='❌ Sala no encontrada. Revisa el código del proyector.';return;}syncRoom=code;syncActive=true;lastPosted=cur;st.textContent='✅ Conectado';postSlide(cur);setTimeout(closeSyncOverlay,700);}).catch(()=>{st.textContent='❌ Sin conexión. Intenta de nuevo.';});}
 async function postSlide(idx){pendingSlide=idx;if(!syncActive||syncBusy)return;syncBusy=true;try{while(pendingSlide!==null&&syncActive){const t=pendingSlide;pendingSlide=null;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:t})});}catch(e){}}}finally{syncBusy=false;}}
 setInterval(function(){if(syncActive&&!syncBusy)postSlide(cur);},4000); // keepalive: reenvía posición actual — autorrepara posts perdidos o recargas del proyector
-const NOTA_GRADE='sec2';const NOTA_SESSION='29';
+const NOTA_GRADE=window.SEC2_SECTION;const NOTA_SESSION='29';
 let bwPw=sessionStorage.getItem('nota_pw')||'';
 (async function bwInit(){
   try{

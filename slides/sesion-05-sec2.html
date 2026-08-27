@@ -123,6 +123,7 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 @keyframes cSlide{0%{opacity:0;transform:translateY(30px) scale(.85)}100%{opacity:1;transform:none}}
 @keyframes cDrop{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(108vh) rotate(740deg);opacity:0}}
 </style>
+<script src="/assets/sec2-section.js"></script>
 </head>
 <body>
 <div class="deck-wrap" id="deck">
@@ -349,10 +350,10 @@ body{background:#0a0a0a;display:flex;flex-direction:column;align-items:center;
 (function(){
   const API='/.netlify/functions/sync';const OFFSET=1;
   function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}
-  const ROOM=sessionStorage.getItem('deck-room')||genCode();
-  sessionStorage.setItem('deck-room',ROOM);
+  const ROOM=sessionStorage.getItem('deck-room-'+window.SEC2_SECTION+'-05')||genCode();
+  sessionStorage.setItem('deck-room-'+window.SEC2_SECTION+'-05',ROOM);
   document.getElementById('room-code-display').textContent=ROOM;
-  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec2',session:'05'})}).catch(()=>{});
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:window.SEC2_SECTION,session:'05'})}).catch(()=>{});
   let last=0,busy=false,lastBonusTs=0;
   async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);}}catch(e){}finally{busy=false;}}
   setInterval(poll,1500);poll();
@@ -407,7 +408,7 @@ function spawnConfetti(){
   }
 }
 
-const DECK_GRADE='sec2';
+const DECK_GRADE=window.SEC2_SECTION;
 const DECK_SESSION='05';
 let lastBonusId=null;
 (async function pollBonus(){

@@ -1,7 +1,7 @@
 /**
  * get-progress.js
  *
- * GET /.netlify/functions/get-progress?nombre=Ana+Garcia&grado=sec2
+ * GET /.netlify/functions/get-progress?nombre=Ana+Garcia&grado=sec2a
  *
  * Busca el alumno en Supabase (fuzzy sobre la tabla alumnos del grado),
  * retorna su historial completo y posición en el ranking del mes actual.

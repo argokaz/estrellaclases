@@ -78,6 +78,7 @@ details.tut-text .steps{padding:0 14px 14px;margin-bottom:0;}
 .ac-item:last-child{border-bottom:none;}
 .ac-item:hover,.ac-item.sel{background:#f1f5f9;}
 </style>
+<script src="/assets/sec2-section.js"></script>
 </head>
 <body>
 <div class="page-wrap">
@@ -203,7 +204,7 @@ details.tut-text .steps{padding:0 14px 14px;margin-bottom:0;}
 </div>
 
 <script>
-const GRADE='sec2', SESION='12';
+const GRADE=window.SEC2_SECTION, SESION='12';
 let ROSTER=[];
 fetch('/.netlify/functions/get-roster?grado='+GRADE).then(r=>r.ok?r.json():null).then(d=>{if(d&&d.alumnos)ROSTER=d.alumnos.map(a=>a.nombre);}).catch(()=>{});
 const acInput=document.getElementById('inp-nombre');

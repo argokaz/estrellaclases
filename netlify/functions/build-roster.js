@@ -19,7 +19,7 @@ const { supabase }  = require("./_supabase");
 const { normalize, areSamePerson } = require("./_nameUtils");
 
 const TEACHER_PW = process.env.TEACHER_PASSWORD;
-const GRADES     = ["prim6", "sec2", "sec3", "sec4", "sec5"];
+const GRADES     = ["prim6", "sec2a", "sec2b", "sec3", "sec4", "sec5"];
 
 const CORS = {
   "Access-Control-Allow-Origin":  "*",

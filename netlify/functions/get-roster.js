@@ -1,7 +1,7 @@
 /**
  * get-roster.js
  *
- * GET /.netlify/functions/get-roster?grado=sec2
+ * GET /.netlify/functions/get-roster?grado=sec2a
  *
  * Devuelve la lista canónica de alumnos del grado con su historial
  * completo calculado desde la tabla evaluaciones de Supabase.

@@ -293,7 +293,8 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   .slide.active .tarea-plazo{animation:pIn .45s .3s ease both}
   .slide.active .tarea-aviso{animation:fUp .45s .45s ease both}
 }
-</style></head>
+</style><script src="/assets/sec2-section.js"></script>
+</head>
 <body>
 <div class="deck-wrap" id="deck"><div class="slide active">
 <div class="brand">Asunción School</div><div class="snum">29 · 1</div><p class="t-sm accent">Viernes 11 de diciembre · 2.° Secundaria</p><div class="line"></div>
@@ -522,7 +523,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #1d4ed8;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#1d4ed8;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-sec2-29';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:'sec2',session:'29'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-'+window.SEC2_SECTION+'-29';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:window.SEC2_SECTION,session:'29'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=19;let cur=0;
 const dots=document.getElementById('dots');
@@ -566,7 +567,7 @@ function spawnConfetti(){
     w.appendChild(d);
   }
 }
-const DECK_GRADE='sec2';
+const DECK_GRADE=window.SEC2_SECTION;
 const DECK_SESSION='29';
 let lastBonusId=null;
 (async function pollBonus(){
@@ -664,8 +665,8 @@ let lastBonusId=null;
    La ruleta gira de dos formas: tocándola en el proyector, o desde el control
    remoto de la profesora (notas → sync → este deck llama a girarHacia). */
 (function(){
-  var GRADO='sec2';
-  var RESPALDO=["Alejandra Katalella Loza Rojas","Almudena Milagros Caycho Mendoza","Amy Anahi Alexia Barreto Rojas","Astridth Minelly Montano Ramos","Breixo Daichi Berrios Santos","Camila Antuanet Soto Huamani","Dana Marycielo Chafloque Chuco","Fabianna Zoe Aliaga Llamccaya","Gael Adriano Ramos Ore","Gonzalo Antonio Anco Malca","James Johann Santa Cruz Holguin","Jasmin Fatima Torrejon Sanchez","Jesus Adrian Flores Mamani","Joe Valentino Salcedo Palomino","Jordan Rodrigo Bujaico Garcia","Joshua Emanuel Panta de las Casas","Julio Angelo Torres Sanchez","Leisy Mabel Montano Ramos","Luciana Mayte Soto Huamani","Maria Angela Quilla Curi Mayhuire","Maximo Lionel Isaac Saavedra Napan","Miley Aileen Nahui Saavedra","Naomi Ysamar Siesquen Castaneda","Rodrigo Andree Cieza Zanabria","Sayuri Dariana Bastidas Salinas","Sebastian Otori Valderrama","Sofia Alexandra Rojas Chuco","Tatiana Gabriela Rivas Comitivo","Valentino Aldair Lopez Pajuelo","Verioska Valery Perez Calle","Victoria Guadalupe Rojas Ocanto","Zoe Akari Jorge Jorge"];
+  var GRADO=window.SEC2_SECTION;
+  var RESPALDO=(window.SEC2_ROSTERS&&window.SEC2_ROSTERS[GRADO])||["Alejandra Katalella Loza Rojas","Almudena Milagros Caycho Mendoza","Amy Anahi Alexia Barreto Rojas","Astridth Minelly Montano Ramos","Breixo Daichi Berrios Santos","Camila Antuanet Soto Huamani","Dana Marycielo Chafloque Chuco","Fabianna Zoe Aliaga Llamccaya","Gael Adriano Ramos Ore","Gonzalo Antonio Anco Malca","James Johann Santa Cruz Holguin","Jasmin Fatima Torrejon Sanchez","Jesus Adrian Flores Mamani","Joe Valentino Salcedo Palomino","Jordan Rodrigo Bujaico Garcia","Joshua Emanuel Panta de las Casas","Julio Angelo Torres Sanchez","Leisy Mabel Montano Ramos","Luciana Mayte Soto Huamani","Maria Angela Quilla Curi Mayhuire","Maximo Lionel Isaac Saavedra Napan","Miley Aileen Nahui Saavedra","Naomi Ysamar Siesquen Castaneda","Rodrigo Andree Cieza Zanabria","Sayuri Dariana Bastidas Salinas","Sebastian Otori Valderrama","Sofia Alexandra Rojas Chuco","Tatiana Gabriela Rivas Comitivo","Valentino Aldair Lopez Pajuelo","Verioska Valery Perez Calle","Victoria Guadalupe Rojas Ocanto","Zoe Akari Jorge Jorge"];
   var nombres=RESPALDO.slice();
 
   /* Etiqueta corta para que quepa en el sector; si dos comparten el primer

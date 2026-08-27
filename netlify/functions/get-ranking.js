@@ -1,7 +1,7 @@
 /**
  * get-ranking.js
  *
- * GET /.netlify/functions/get-ranking?grado=sec2&mes=2026-05
+ * GET /.netlify/functions/get-ranking?grado=sec2a&mes=2026-05
  */
 
 const { supabase } = require("./_supabase");

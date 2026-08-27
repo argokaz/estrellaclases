@@ -1644,8 +1644,8 @@ const CROSS_FOCUS=[
   'Derechos de autor, datos y pensamiento computacional',
   'Colaboración, encuestas y portafolio',
   'Presentaciones, diseño y sesgos algorítmicos',
-  'Infografías, variables y privacidad',
-  'Seguridad digital y producción colaborativa',
+  'Canva, jerarquía visual y comunicación clara',
+  'Canva, rediseño y experiencia de usuario',
   'Verificación, huella digital y accesibilidad',
   'Tablas, video, web y definición de soluciones',
   'Operaciones, edición y diseño de producto',
@@ -1679,15 +1679,17 @@ const TASK_SESSIONS  = new Set([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1
 
 // ── Sesiones publicadas solo para algunos salones ──
 // Sirve cuando una sesión se publica primero para un salón: sin esto, los otros
-// cuatro mostrarían botones que apuntan a archivos que no existen. (La S13 pasó
-// por aquí unas horas, hasta que se generó para los cinco salones.)
+// los demás mostrarían botones que apuntan a archivos que no existen. (La S13
+// pasó por aquí unas horas, hasta que se generó para los cinco grados curriculares.)
 const SOLO_AULA = {};
 function hayMaterial(set, n, gradeId){
-  return set.has(n) || !!(SOLO_AULA[n] && SOLO_AULA[n].has(gradeId));
+  return set.has(n) || !!(SOLO_AULA[n] && (
+    SOLO_AULA[n].has(gradeId) || SOLO_AULA[n].has(materialGrade(gradeId))
+  ));
 }
 
 // ═══════════════════════════════════════════════════════════
-// CURRICULUM DATA  — 5 grados × 30 sesiones
+// CURRICULUM DATA  — 6 salones × 30 sesiones
 // ═══════════════════════════════════════════════════════════
 const GRADES = {
  prim6:{
@@ -2009,14 +2011,14 @@ const GRADES = {
     cover:'If/else, puntaje, vidas, temporizador y mensajes.',
     act:'Mini juego de preguntas', evidence:'Juego simple',
     tools:'Scratch', mat:'M13', ai:''},
-   {n:14, title:'Scratch: proyecto educativo',
-    cover:'Diseñar juego/animación para explicar un tema escolar.',
-    act:'Plan de juego educativo + storyboard', evidence:'Storyboard',
-    tools:'Scratch / Docs', mat:'M14', ai:''},
-   {n:15, title:'Prueba y depuración',
-    cover:'Encontrar errores, probar con usuarios y mejorar instrucciones.',
-    act:'Ronda de pruebas con compañeros', evidence:'Lista de bugs corregidos',
-    tools:'Scratch / Forms', mat:'M15', ai:''},
+   {n:14, title:'Canva: diseño que guía la mirada',
+    cover:'Jerarquía, retícula, tipografía y contraste para comunicar una idea sin saturar.',
+    act:'Laboratorio de afiche con prueba de cinco segundos', evidence:'Afiche informativo en Canva',
+    tools:'Canva', mat:'M14', ai:''},
+   {n:15, title:'Canva: rediseño y experiencia de usuario',
+    cover:'Detectar fricción visual, rediseñar una pieza y comprobar si otra persona la entiende sin ayuda.',
+    act:'Reto antes/después + prueba con compañero', evidence:'Rediseño documentado',
+    tools:'Canva / Docs', mat:'M15', ai:''},
    {n:16, title:'Infografías con datos',
     cover:'Combinar dato, gráfico, fuente, texto breve e íconos.',
     act:'Infografía basada en encuesta propia', evidence:'Infografía',
@@ -2342,6 +2344,28 @@ const GRADES = {
  },
 };
 
+// 2.° A y 2.° B comparten exactamente el mismo currículo y los mismos
+// archivos de clase. Solo se separa la identidad del aula y sus datos.
+const SEC2_SHARED_CURRICULUM = GRADES.sec2;
+GRADES.sec2a = Object.assign({}, SEC2_SHARED_CURRICULUM, {
+  id:'sec2a', label:'2.° Secundaria A', materialId:'sec2'
+});
+GRADES.sec2b = Object.assign({}, SEC2_SHARED_CURRICULUM, {
+  id:'sec2b', label:'2.° Secundaria B', materialId:'sec2'
+});
+delete GRADES.sec2;
+
+function materialGrade(gradeId){
+  return (gradeId === 'sec2a' || gradeId === 'sec2b') ? 'sec2' : gradeId;
+}
+function materialUrl(kind, session, gradeId, root, extra){
+  const fileGrade = materialGrade(gradeId);
+  const query = new URLSearchParams(extra || {});
+  if(fileGrade === 'sec2') query.set('aula', gradeId);
+  const qs = query.toString();
+  return `${root ? '/' : ''}slides/${kind}-${String(session).padStart(2,'0')}-${fileGrade}.html${qs ? '?' + qs : ''}`;
+}
+
 // ═══════════════════════════════════════════════════════════
 // STORAGE
 // ═══════════════════════════════════════════════════════════
@@ -2355,7 +2379,7 @@ function saveDone(gId, set){ localStorage.setItem(storageKey(gId), JSON.stringif
 // ═══════════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════════
-const GRADE_ORDER = ['prim6','sec2','sec3','sec4','sec5'];
+const GRADE_ORDER = ['prim6','sec2a','sec2b','sec3','sec4','sec5'];
 let currentGrade  = null;   // hasta que el alumno elija su salón
 
 // ═══════════════════════════════════════════════════════════
@@ -2448,7 +2472,7 @@ function daysSince(dateStr){
 }
 
 // Acento visual de cada grado (mismo sistema que decks/repasos/tareas)
-const GRADE_ACCENTS = {prim6:'#15803d', sec2:'#1d4ed8', sec3:'#c2410c', sec4:'#7c3aed', sec5:'#b91c1c'};
+const GRADE_ACCENTS = {prim6:'#15803d', sec2a:'#1d4ed8', sec2b:'#2563eb', sec3:'#c2410c', sec4:'#7c3aed', sec5:'#b91c1c'};
 
 // El selector NO recuerda el salón: las laptops del colegio rotan entre
 // alumnos y el siguiente entraría al aula del anterior sin darse cuenta.
@@ -2713,10 +2737,10 @@ function buildWeekHero(todayItem, lastPast, nextItem, gradeId){
   const n   = featured.sdata.n;
   const cal = calInfo(n, gradeId);
   const isToday = !!todayItem;
-  const repasoUrl = hayMaterial(REPASO_SESSIONS, n, gradeId) ? `slides/repaso-${pad(n)}-${gradeId}.html` : '';
-  const tareaUrl  = hayMaterial(TASK_SESSIONS, n, gradeId)   ? `slides/tarea-${pad(n)}-${gradeId}.html`  : '';
-  const slideUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/sesion-${pad(n)}-${gradeId}.html` : '';
-  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/notas-${pad(n)}-${gradeId}.html`  : '';
+  const repasoUrl = hayMaterial(REPASO_SESSIONS, n, gradeId) ? materialUrl('repaso', n, gradeId) : '';
+  const tareaUrl  = hayMaterial(TASK_SESSIONS, n, gradeId)   ? materialUrl('tarea', n, gradeId)  : '';
+  const slideUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? materialUrl('sesion', n, gradeId) : '';
+  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? materialUrl('notas', n, gradeId)  : '';
 
   let actions = '';
   if(repasoUrl) actions += `<a href="${repasoUrl}" target="_blank" class="hero-btn repaso">📝 Hacer la guía de repaso</a>`;
@@ -2774,9 +2798,9 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
   const pad = x => String(x).padStart(2,'0');
   // Una clase que todavía no toca muestra su tema, nunca su material: el alumno
   // no abre la presentación del mes que viene antes de que se dicte.
-  const slideUrl  = (materialVisible && hayMaterial(READY_SESSIONS, n, gradeId))  ? `slides/sesion-${pad(n)}-${gradeId}.html`  : '';
-  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? `slides/notas-${pad(n)}-${gradeId}.html`   : '';
-  const repasoUrl = (materialVisible && hayMaterial(REPASO_SESSIONS, n, gradeId)) ? `slides/repaso-${pad(n)}-${gradeId}.html`  : '';
+  const slideUrl  = (materialVisible && hayMaterial(READY_SESSIONS, n, gradeId))  ? materialUrl('sesion', n, gradeId) : '';
+  const notasUrl  = hayMaterial(READY_SESSIONS, n, gradeId)  ? materialUrl('notas', n, gradeId) : '';
+  const repasoUrl = (materialVisible && hayMaterial(REPASO_SESSIONS, n, gradeId)) ? materialUrl('repaso', n, gradeId) : '';
   const slideBtn  = slideUrl
     ? `<a href="${slideUrl}"  target="_blank" class="slide-btn">🎬 Ver presentación</a>` : '';
   const notasBtn  = (notasUrl && unlocked)
@@ -2785,7 +2809,7 @@ function buildCard(sdata, cal_info, done, gradeId, isNext, unlocked=false, isPas
     ? `<a href="${repasoUrl}" target="_blank" class="repaso-btn">📝 Guía de repaso</a>` : '';
   const resultsBtn = (repasoUrl && unlocked)
     ? `<button class="results-card-btn" onclick="openResults(${n}, '${gradeId}')">📊 Resultados</button>` : '';
-  const tareaUrl     = (materialVisible && hayMaterial(TASK_SESSIONS, n, gradeId)) ? `slides/tarea-${pad(n)}-${gradeId}.html` : '';
+  const tareaUrl     = (materialVisible && hayMaterial(TASK_SESSIONS, n, gradeId)) ? materialUrl('tarea', n, gradeId) : '';
   const tareaBtn     = tareaUrl
     ? `<a href="${tareaUrl}" target="_blank" class="tarea-btn">📎 Entregar tarea</a>` : '';
   const tasksViewBtn = (tareaUrl && unlocked)
@@ -2890,13 +2914,13 @@ let _resultsCache = {};
 let _currentResultsGrade = null;
 
 const GRADE_LABELS_MAP = {
-  prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
+  prim6:'6.° Primaria', sec2a:'2.° Secundaria A', sec2b:'2.° Secundaria B', sec3:'3.° Secundaria',
   sec4:'4.° Secundaria', sec5:'5.° Secundaria'
 };
 
 // ── Sync-connect modal ────────────────────────────────────────────────────────
 const GRADE_LABELS = {
-  prim6:'6.° Primaria', sec2:'2.° Secundaria', sec3:'3.° Secundaria',
+  prim6:'6.° Primaria', sec2a:'2.° Secundaria A', sec2b:'2.° Secundaria B', sec3:'3.° Secundaria',
   sec4:'4.° Secundaria', sec5:'5.° Secundaria'
 };
 function openSyncConnect(){
@@ -2943,7 +2967,7 @@ async function submitSyncConnect(){
   sessionStorage.setItem('nota_pw', teacherPassword());
   setTimeout(()=>{
     closeSyncConnect();
-    window.location.href = `slides/notas-${d.session}-${d.grade}.html?room=${code}`;
+    window.location.href = materialUrl('notas', d.session, d.grade, false, {room:code});
   }, 900);
 }
 
@@ -4233,7 +4257,7 @@ async function syncEvalsFromBlobs(){
 // ═══════════════════════════════════════════════════════════
 // REPROGRAMAR CLASES — panel de aplazamientos
 // ═══════════════════════════════════════════════════════════
-const GRADE_LABEL_SHORT = {all:'Todos los salones', prim6:'6.° Primaria', sec2:'2.° Secundaria',
+const GRADE_LABEL_SHORT = {all:'Todos los salones', prim6:'6.° Primaria', sec2a:'2.° Secundaria A', sec2b:'2.° Secundaria B',
                            sec3:'3.° Secundaria', sec4:'4.° Secundaria', sec5:'5.° Secundaria'};
 
 
@@ -4673,13 +4697,13 @@ function panelAntes(it, gradeId){
       <span class="cns-fecha">${fmtDate(it.fecha)}</span>
     </div>
     <div class="cns-acts">
-      <a class="cns-act primaria" href="/slides/notas-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act primaria" href="${materialUrl('notas', n, gradeId, true)}" target="_blank">
         <span class="a-em">📋</span><b>Leer las notas</b><span>Qué decir y qué hacer, pantalla por pantalla</span></a>
-      <a class="cns-act" href="/slides/sesion-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act" href="${materialUrl('sesion', n, gradeId, true)}" target="_blank">
         <span class="a-em">📽️</span><b>Ver la presentación</b><span>Revisarla antes de proyectarla</span></a>
-      <a class="cns-act" href="/slides/repaso-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act" href="${materialUrl('repaso', n, gradeId, true)}" target="_blank">
         <span class="a-em">📝</span><b>Guía de repaso</b><span>Lo que verán en casa</span></a>
-      <a class="cns-act" href="/slides/tarea-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act" href="${materialUrl('tarea', n, gradeId, true)}" target="_blank">
         <span class="a-em">📎</span><b>La tarea</b><span>Qué se les pide esta semana</span></a>
     </div>`;
 }
@@ -4693,11 +4717,11 @@ function panelDurante(it, gradeId){
       <span class="cns-fecha">${fmtDate(it.fecha)}</span>
     </div>
     <div class="cns-acts">
-      <a class="cns-act primaria" href="/slides/sesion-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act primaria" href="${materialUrl('sesion', n, gradeId, true)}" target="_blank">
         <span class="a-em">📽️</span><b>Proyectar</b><span>Abre la clase en la pantalla grande</span></a>
       <button class="cns-act" onclick="openSyncConnect()">
         <span class="a-em">📡</span><b>Conectar mi teléfono</b><span>Con el código que muestra el proyector</span></button>
-      <a class="cns-act" href="/slides/notas-${n}-${gradeId}.html" target="_blank">
+      <a class="cns-act" href="${materialUrl('notas', n, gradeId, true)}" target="_blank">
         <span class="a-em">📱</span><b>Mis notas</b><span>Ahí también se dan los puntos de participación</span></a>
     </div>`;
 }
@@ -4885,7 +4909,8 @@ async function entrarConsola(){
           <select id="sched-grade" onchange="renderSchedulePanel()">
             <option value="all">Todos los salones</option>
             <option value="prim6">🟢 6.° Primaria</option>
-            <option value="sec2">🔵 2.° Secundaria</option>
+            <option value="sec2a">🔵 2.° Secundaria A</option>
+            <option value="sec2b">🔵 2.° Secundaria B</option>
             <option value="sec3">🟠 3.° Secundaria</option>
             <option value="sec4">🟣 4.° Secundaria</option>
             <option value="sec5">🔴 5.° Secundaria</option>
@@ -5107,19 +5132,30 @@ async function entrarConsola(){
 <!-- BUILD_HISTORY_WIDGET -->
 <button id="build-version-trigger" class="build-version-trigger" type="button"
   aria-haspopup="dialog" aria-expanded="false" aria-controls="build-version-popover"
-  onclick="toggleBuildHistory()">Build 20260819.1</button>
+  onclick="toggleBuildHistory()">Build 20260826.1</button>
 
 <section id="build-version-popover" class="build-version-popover" role="dialog"
   aria-modal="false" aria-labelledby="build-version-title">
   <div class="build-version-head">
     <div>
       <strong id="build-version-title">Historial de versiones</strong>
-      <div class="build-version-current">Build actual: 20260819.1 · 19 ago 2026</div>
+      <div class="build-version-current">Build actual: 20260826.1 · 26 ago 2026</div>
     </div>
     <button class="build-version-close" type="button" onclick="closeBuildHistory()" aria-label="Cerrar historial">✕</button>
   </div>
 
   <div class="build-version-list">
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">Build 20260826.1</span><span class="build-version-date">26 ago 2026</span></div>
+      <div class="build-version-title">2.º A/B separados + nuevas clases de Canva</div>
+      <ul class="build-version-changes">
+        <li>2.º de secundaria se separa en aulas A y B para alumnos, notas, tareas, ruleta y progreso.</li>
+        <li>Ambas secciones comparten el mismo material de clase, con selector de aula al abrirlo directamente.</li>
+        <li>Leysi Montaño Ramos queda registrada en 2.º A y Sebastián Otori se retira sin destruir datos.</li>
+        <li>Las sesiones 14 y 15 de 3.º cambian Scratch por Canva y se corrigen sus tutoriales de entrega.</li>
+      </ul>
+    </article>
+
     <article class="build-version-item">
       <div class="build-version-meta"><span class="build-version-tag">Build 20260819.1</span><span class="build-version-date">19 ago 2026</span></div>
       <div class="build-version-title">Seguridad docente + versionado visible</div>

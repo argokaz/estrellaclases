@@ -25,7 +25,7 @@ const CORS = {
 };
 
 const KEY = "shifts";
-const GRADES = ["all", "prim6", "sec2", "sec3", "sec4", "sec5"];
+const GRADES = ["all", "prim6", "sec2a", "sec2b", "sec3", "sec4", "sec5"];
 
 function res(statusCode, body) {
   return { statusCode, headers: CORS, body: JSON.stringify(body) };

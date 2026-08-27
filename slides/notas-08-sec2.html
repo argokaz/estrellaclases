@@ -36,6 +36,7 @@ body{background:#111;font-family:'Segoe UI',system-ui,sans-serif;color:#f0f0f0;p
 .bw-btn{background:#60a5fa;color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:#6b7280;}
 </style>
+<script src="/assets/sec2-section.js"></script>
 </head>
 <body>
 
@@ -291,7 +292,7 @@ function openCard(i){_oc(i);}
 cards.forEach((c,i)=>{c.querySelector('.card-header').addEventListener('click',()=>_oc(i));});
 function navCard(d){_oc(Math.max(0,Math.min(total-1,cur+d)));}
 _oc(0);
-const NOTA_GRADE='sec2';const NOTA_SESSION='08';
+const NOTA_GRADE=window.SEC2_SECTION;const NOTA_SESSION='08';
 let bwPw=sessionStorage.getItem('nota_pw')||'';
 (async function bwInit(){try{const r=await fetch('/.netlify/functions/get-roster?grado='+NOTA_GRADE);const d=await r.json();if(d.found){const opts=d.alumnos.map(a=>`<option value="${a.nombre}">${a.nombre}</option>`).join('');
       document.querySelectorAll('.bw-sel').forEach(sel=>{sel.innerHTML='<option value="">— Selecciona alumno —</option>'+opts;});}}catch(e){}})();

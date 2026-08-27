@@ -62,6 +62,7 @@ details.tut-text[open] summary::before{transform:rotate(90deg)}
 .resubmit-btn{background:#fff;border:2px solid var(--accent);color:var(--brand);border-radius:9px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer}
 .resubmit-btn:hover{background:#eff6ff}
 </style>
+<script src="/assets/sec2-section.js"></script>
 </head>
 <body>
 <div class="page">
@@ -215,7 +216,7 @@ details.tut-text[open] summary::before{transform:rotate(90deg)}
 </div>
 
 <script>
-const GRADE='sec2',SESION='06';
+const GRADE=window.SEC2_SECTION,SESION='06';
 let ROSTER=[];let acIndex=-1;
 fetch('/.netlify/functions/get-roster?grado='+GRADE)
   .then(r=>r.json()).then(d=>{if(d.found)ROSTER=d.alumnos.map(a=>a.nombre);}).catch(()=>{});

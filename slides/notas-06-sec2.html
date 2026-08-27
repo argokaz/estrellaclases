@@ -34,7 +34,8 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .bw-inp::placeholder{color:var(--muted);}
 .bw-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:.45em 1.1em;font-weight:800;font-size:.85em;cursor:pointer;white-space:nowrap;flex-shrink:0;}
 .bw-msg{font-size:.78em;margin-top:.3em;min-height:1.1em;color:var(--muted);}
-</style></head>
+</style><script src="/assets/sec2-section.js"></script>
+</head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 06 · 2.° Secundaria</div><div class="top-bar-meta">Animaciones y transiciones con criterio · Viernes 19 de junio 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
 <div class="cards-wrap"><div class="card">
@@ -177,7 +178,7 @@ function openSyncOverlay(){document.getElementById('sync-overlay').style.display
 function closeSyncOverlay(){document.getElementById('sync-overlay').style.display='none';}
 function startSync(){const code=document.getElementById('sync-code-inp').value.trim().toUpperCase();if(code.length!==4){document.getElementById('sync-status').textContent='Ingresa 4 caracteres';return;}syncRoom=code;syncActive=true;document.getElementById('sync-status').textContent='Conectando…';postSlide(cur);setTimeout(closeSyncOverlay,800);}
 async function postSlide(idx){if(!syncActive||syncBusy)return;syncBusy=true;try{await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:syncRoom,slide:idx})});}catch(e){}finally{syncBusy=false;}}
-const NOTA_GRADE='sec2';const NOTA_SESSION='06';
+const NOTA_GRADE=window.SEC2_SECTION;const NOTA_SESSION='06';
 let bwPw=sessionStorage.getItem('nota_pw')||'';
 (async function bwInit(){
   try{

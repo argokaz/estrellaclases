@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -353,11 +360,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">22 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cómo sabes si una imagen aporta?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Si es bonita y de buena calidad</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Si va con los colores de la página</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Si al taparla se pierde información</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Si es grande</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Si va con los colores de la página</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Si es bonita y de buena calidad</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -406,11 +414,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">22 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu página tarda 8 segundos en cargar por las imágenes. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo dejo, se ven mejor así</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Reduzco el tamaño de las imágenes antes de subirlas</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Quito todas las imágenes</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Aviso que hay que esperar</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Quito todas las imágenes</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Aviso que hay que esperar</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Reduzco el tamaño de las imágenes antes de subirlas</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Lo dejo, se ven mejor así</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -429,10 +438,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">22 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Si al tapar la imagen no se pierde nada, esa imagen sobra</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Mientras más imágenes tenga la página, mejor</div>
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>El texto alternativo ayuda a quien no puede ver la imagen</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Las imágenes pesadas no afectan a la página</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Si al tapar la imagen no se pierde nada, esa imagen sobra</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>El texto alternativo ayuda a quien no puede ver la imagen</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
 </div>
@@ -446,11 +455,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">22 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Vas a poner texto sobre una foto clara. ¿Qué corresponde?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Poner el texto en blanco y ya</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Agregar una capa oscura sobre la foto o un fondo sólido al texto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Achicar el texto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Cambiar la fuente</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Cambiar la fuente</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Achicar el texto</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Poner el texto en blanco y ya</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Agregar una capa oscura sobre la foto o un fondo sólido al texto</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -803,6 +813,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

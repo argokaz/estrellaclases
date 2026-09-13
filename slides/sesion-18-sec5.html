@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál está mejor definido como proyecto de egreso?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Mejorar la comunicación del colegio"</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"Una guía web de 5 páginas para que los de 1.° encuentren sus salones"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Una app completa para el colegio"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Investigar sobre tecnología educativa"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Investigar sobre tecnología educativa"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Una app completa para el colegio"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -405,11 +413,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estos es un criterio de éxito comprobable?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Que quede bonito"</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Que a la profesora le guste"</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"Que 10 alumnos de 1.° encuentren su salón usando la guía"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Que a la profesora le guste"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Que sea innovador"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Que sea innovador"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Que quede bonito"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -428,9 +437,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">18 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Escribir lo que queda fuera es parte de definir el alcance</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Un proyecto más grande siempre tiene mejor nota</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>El criterio de éxito debe poder comprobarse con algo observable</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Un proyecto más grande siempre tiene mejor nota</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Escribir lo que queda fuera es parte de definir el alcance</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>El entregable se puede decidir al final</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
@@ -445,11 +454,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu proyecto depende de entrevistar a 20 personas y solo responden 4. ¿Qué debiste tener previsto?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Nada, es mala suerte</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Un plan B: reducir la muestra o cambiar el método de recolección</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Insistir hasta que respondan</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Inventar las respuestas faltantes</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Un plan B: reducir la muestra o cambiar el método de recolección</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Inventar las respuestas faltantes</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Nada, es mala suerte</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Insistir hasta que respondan</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -802,6 +812,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

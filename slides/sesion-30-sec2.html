@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -353,11 +360,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">30 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué hace que un portafolio sea "de evidencias"?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Que tenga muchos archivos</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Que cada trabajo muestre un aprendizaje concreto, no solo que exista</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Que sea muy largo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Que tenga buen diseño</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Que tenga buen diseño</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Que sea muy largo</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -406,11 +414,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">30 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué son las "reglas personales" de hoy?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Reglas del colegio, copiadas</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Reglas propias sobre cómo vas a usar la tecnología, con lo aprendido en el año</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Reglas que decide la profesora</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Nada importante</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Nada importante</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Reglas que decide la profesora</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Reglas propias sobre cómo vas a usar la tecnología, con lo aprendido en el año</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Reglas del colegio, copiadas</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -453,10 +462,11 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">30 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué dices en tu minuto de muestra final?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Todo tu portafolio, trabajo por trabajo</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Solo tu nombre</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Tu evidencia más representativa y tus reglas personales</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Solo tu nombre</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Todo tu portafolio, trabajo por trabajo</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Nada, solo se muestra la pantalla</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
@@ -810,6 +820,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

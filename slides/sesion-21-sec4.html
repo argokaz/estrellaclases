@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál afirmación es defendible en una pieza promocional?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"La mejor app del colegio"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"La probaron 24 alumnos de 4.° durante dos semanas"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Increíblemente revolucionaria"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Todos la aman"</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Increíblemente revolucionaria"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Todos la aman"</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>"La probaron 24 alumnos de 4.° durante dos semanas"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"La mejor app del colegio"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -405,11 +413,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Encuentras una imagen perfecta en internet, sin datos de licencia. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>La uso, está pública</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Busco una con licencia clara o hago la mía</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>La edito para que no se reconozca</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>La uso y pongo "imagen de internet"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>La edito para que no se reconozca</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Busco una con licencia clara o hago la mía</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -429,8 +438,8 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Una afirmación con dato convence más que un superlativo</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Se puede inventar un testimonio si "representa" lo que la gente opina</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>La música con licencia libre igual suele exigir acreditar al autor</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Se puede inventar un testimonio si "representa" lo que la gente opina</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Si es un trabajo escolar, se puede usar cualquier canción</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
@@ -445,11 +454,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu dato más fuerte suena menos impresionante de lo que esperabas. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo redondeo hacia arriba</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Lo presento como es y lo acompaño del contexto que lo hace relevante</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo quito y uso un superlativo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Lo comparo con un número inventado</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Lo quito y uso un superlativo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo comparo con un número inventado</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Lo presento como es y lo acompaño del contexto que lo hace relevante</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -802,6 +812,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

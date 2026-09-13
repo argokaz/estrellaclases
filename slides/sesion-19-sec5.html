@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">19 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas afirmaciones está mejor sostenida?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Todo el mundo sabe que el reciclaje es importante"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"El 62 % de los 40 encuestados del colegio no separa residuos (encuesta propia, septiembre 2026)"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Leí en internet que casi nadie recicla"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Es obvio que el colegio necesita más tachos"</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Leí en internet que casi nadie recicla"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Es obvio que el colegio necesita más tachos"</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>"El 62 % de los 40 encuestados del colegio no separa residuos (encuesta propia, septiembre 2026)"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Todo el mundo sabe que el reciclaje es importante"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -405,11 +413,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">19 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu encuesta propia tiene 8 respuestas de un salón de 30. ¿Cómo la presentas?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Como "la mayoría del colegio opina que…"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Diciendo que son 8 de 30 y que no representa a todo el colegio</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Redondeando a porcentajes sin mencionar el total</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Mejor no la menciono</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Redondeando a porcentajes sin mencionar el total</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Mejor no la menciono</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Diciendo que son 8 de 30 y que no representa a todo el colegio</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Como "la mayoría del colegio opina que…"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -428,10 +437,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">19 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Un dato propio bien documentado puede pesar más que un blog</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Si una fuente cita un estudio, ya no hace falta buscar el original</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Un porcentaje debe decir sobre cuántos casos se calculó</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Las suposiciones no se pueden incluir en un proyecto</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Un dato propio bien documentado puede pesar más que un blog</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
 </div>
@@ -445,10 +454,11 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">19 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">No conseguiste datos para una afirmación importante. ¿Qué corresponde?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Quitarla y no mencionar el tema</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Escribirla como suposición pendiente, con cómo la comprobarías</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Dejarla como hecho, total nadie revisa</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Dejarla como hecho, total nadie revisa</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Escribirla como suposición pendiente, con cómo la comprobarías</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Buscar cualquier cita que se parezca</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
@@ -802,6 +812,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

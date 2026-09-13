@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -353,11 +360,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">23 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas es una buena pregunta guía?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Los animales"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"¿Qué hacen en mi barrio con la basura reciclable?"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"La historia del Perú"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Todo sobre la música"</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"La historia del Perú"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Los animales"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Todo sobre la música"</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>"¿Qué hacen en mi barrio con la basura reciclable?"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -406,11 +414,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">23 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Eliges un tema del que no encuentras ninguna fuente confiable. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo hago igual, con lo que encuentre</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Cambio el enfoque a algo que sí pueda averiguar</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Uso solo lo que dice la IA</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Invento los datos</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Cambio el enfoque a algo que sí pueda averiguar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Invento los datos</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo hago igual, con lo que encuentre</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Uso solo lo que dice la IA</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -429,10 +438,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">23 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Una pregunta guía te dice cuándo terminaste</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Se puede elegir el tema sin saber dónde buscar información</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Cuanto más amplio el tema, mejor el proyecto</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Conviene escribir también lo que NO vas a cubrir</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Se puede elegir el tema sin saber dónde buscar información</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Una pregunta guía te dice cuándo terminaste</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
 </div>
@@ -446,10 +455,11 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">23 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuándo defines qué vas a entregar al final?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Cuando esté por terminar</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Hoy, junto con la pregunta</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Cuando lo pida la profesora</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Cuando lo pida la profesora</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Hoy, junto con la pregunta</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>No hace falta definirlo</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
@@ -803,6 +813,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

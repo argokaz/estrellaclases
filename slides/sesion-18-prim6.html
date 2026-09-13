@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 6</div><h2 class="t-h1">🧩 Mini quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas fórmulas está bien escrita para sumar de B2 a B10?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>SUMA B2 B10</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>suma(B2-B10)</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>=SUMA(B2:B10)</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>=B2+B10</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>suma(B2-B10)</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>SUMA B2 B10</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>=B2+B10</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -405,11 +413,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Escribes =SUMA(B2:B10) pero te aparece 0. ¿Qué revisarías primero?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Si la computadora está lenta</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Si los números están escritos con palabras, como "5 puntos"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Si la hoja tiene nombre</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Si hay muchas columnas</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Si los números están escritos con palabras, como "5 puntos"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Si hay muchas columnas</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Si la computadora está lenta</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Si la hoja tiene nombre</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -427,10 +436,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">18 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Toda fórmula empieza con el signo =</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Escribir el resultado a mano es igual de bueno que usar fórmula</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Si borro una casilla que usa la fórmula, no pasa nada</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>=PROMEDIO() evita tener que dividir a mano</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Escribir el resultado a mano es igual de bueno que usar fórmula</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Toda fórmula empieza con el signo =</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 con los pulgares antes de destapar</p></div>
 </div>
@@ -451,11 +460,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">18 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu hoja muestra #¿NOMBRE? en una casilla. ¿Qué pasó, casi seguro?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Falta ponerle nombre a la hoja</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Escribiste mal el nombre de la fórmula</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>La casilla está protegida</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Falta ponerle nombre a la hoja</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Hay muchas filas</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>La casilla está protegida</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Escribiste mal el nombre de la fórmula</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -808,6 +818,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

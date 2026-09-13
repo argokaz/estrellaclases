@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">27 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Un comentario te pide algo que ya está en tu informe, en otra sección. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo aplico igual, por si acaso</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>No lo aplico, pero reviso si esa sección es fácil de encontrar</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo ignoro sin revisar</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Borro esa sección</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo ignoro sin revisar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Borro esa sección</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo aplico igual, por si acaso</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>No lo aplico, pero reviso si esa sección es fácil de encontrar</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -405,11 +413,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">27 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Aplicaste un comentario y ahora el párrafo siguiente no tiene sentido. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo dejo así</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Ajusto el párrafo siguiente para que conecte</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Borro el párrafo siguiente</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Deshago el comentario</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Borro el párrafo siguiente</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Deshago el comentario</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Ajusto el párrafo siguiente para que conecte</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -428,10 +437,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="brand">Asunción School</div><div class="snum">27 · 12</div><h2 class="t-h1">⚡ Verdadero o falso</h2><div class="line"></div>
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>No todos los comentarios de revisión se aplican igual</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Un comentario sobre evidencia pesa más que uno de estilo</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Aplicar un comentario nunca afecta el párrafo de al lado</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>No todos los comentarios de revisión se aplican igual</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Recibir un comentario obliga a aplicarlo tal cual</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Aplicar un comentario nunca afecta el párrafo de al lado</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
 </div>
@@ -445,11 +454,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">27 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Terminaste de aplicar los comentarios al informe y al sitio. ¿Qué haces antes de dar por cerrada la sesión?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Los entrego directo</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Le pido a alguien que lo revise por mí</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Reviso el informe completo y pruebo el sitio en celular una vez más</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Le pido a alguien que lo revise por mí</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Agrego una sección nueva</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Agrego una sección nueva</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Los entrego directo</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -802,6 +812,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

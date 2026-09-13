@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -352,11 +359,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Te llega un audio donde una persona conocida dice algo grave. ¿Qué haces primero?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Lo reenvío para avisar a otros</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Busco si alguna fuente confiable lo publicó y de dónde salió</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Escucho si la voz suena rara</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Comento pidiendo explicaciones</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Busco si alguna fuente confiable lo publicó y de dónde salió</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Comento pidiendo explicaciones</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo reenvío para avisar a otros</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Escucho si la voz suena rara</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -400,11 +408,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Un deepfake pasa todas las señales visuales: ¿significa que es real?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Sí, si no se le notan fallas</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Depende de cuántos lo compartieron</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>No: hay que revisar de dónde salió, no solo cómo se ve</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Solo si es de buena calidad</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Depende de cuántos lo compartieron</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Sí, si no se le notan fallas</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -424,8 +433,8 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-sm" style="opacity:.75">Toca cada frase para descubrir la respuesta.</p>
 <div class="vf-lista">
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Revisar la procedencia es más duradero que buscar fallas visuales</div>
-<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Si el video se ve perfecto, entonces es auténtico</div>
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Reenviar un video dudoso "para avisar" también hace daño</div>
+<div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Si el video se ve perfecto, entonces es auténtico</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Los deepfakes solo afectan a personas famosas</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
@@ -440,11 +449,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">21 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Un compañero aparece en un video falso que circula por el colegio. ¿Qué corresponde?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Reenviarlo para que sepa</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>No reenviarlo, guardar evidencia y avisar a un adulto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Comentar que es falso en el grupo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Ignorarlo completamente</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Ignorarlo completamente</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Comentar que es falso en el grupo</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -797,6 +807,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

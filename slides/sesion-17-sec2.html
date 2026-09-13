@@ -233,6 +233,13 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 /* ── Ruleta: cuántos faltan por participar ── */
 .ruleta-quedan{font-size:clamp(12px,1.5vw,25px);color:var(--acc);font-weight:700;margin-top:.35em}
 
+/* ── Quiz sin pista visual: primero se responde, luego se ven alternativas ── */
+.quiz-reveal{margin-top:2.5%;border:2px solid var(--acc);background:var(--pas);color:var(--pasInk);
+  border-radius:999px;padding:.65em 1.25em;font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
+.quiz-opts.quiz-ocultas{display:none}
+.quiz-reveal[hidden]{display:none}
+
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
 .podio-fila{display:flex;align-items:center;gap:.8em;background:#fff;border:1px solid #e2ded6;
@@ -353,10 +360,11 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">17 · 6</div><h2 class="t-h1">🧩 Quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál es el mejor arranque para un video educativo de 90 segundos?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Hola, hoy les voy a hablar un poquito de…"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"¿Sabías que el 70 % del agua del colegio se desperdicia en los caños?"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Bueno, este… no sé por dónde empezar"</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Bueno, este… no sé por dónde empezar"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Hola, hoy les voy a hablar un poquito de…"</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>"¿Sabías que el 70 % del agua del colegio se desperdicia en los caños?"</div>
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Primero les cuento quién soy y luego el tema"</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
@@ -406,11 +414,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">17 · 10</div><h2 class="t-h1">🧩 Quiz relámpago</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">En un guion de video, ¿para qué sirve la columna de "video"?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Para anotar los efectos de edición</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Para escribir lo que se verá en pantalla en cada momento</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Para poner la duración total</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Para anotar quién graba</div>
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Para escribir lo que se verá en pantalla en cada momento</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Para poner la duración total</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Para anotar quién graba</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Para anotar los efectos de edición</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -431,8 +440,8 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="vf-lista">
 <div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>El guion se escribe tal como vas a hablar, no en lenguaje formal</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Presentarte debe ser lo primero del video</div>
-<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Conviene anotar qué se ve en pantalla en cada momento</div>
 <div class="vf-item" data-vf="f" onclick="vfPick(this)"><span class="vf-marca">?</span>Un guion largo garantiza un buen video</div>
+<div class="vf-item" data-vf="v" onclick="vfPick(this)"><span class="vf-marca">?</span>Conviene anotar qué se ve en pantalla en cada momento</div>
 </div>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> a quien acierte las 4 antes de destapar</p></div>
 </div>
@@ -446,11 +455,12 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <div class="slide">
 <div class="brand">Asunción School</div><div class="snum">17 · 14</div><h2 class="t-h1">🧩 Último quiz</h2><div class="line"></div>
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu guion leído en voz alta dura 2:30 y el video debe durar 1:30. ¿Qué haces?</p>
-<div class="quiz-opts" style="margin-top:2.5%">
+<button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
+<div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
 <div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Hablo más rápido al grabar</div>
 <div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Corto un ejemplo y acorto el cierre</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Grabo igual y luego corto el video</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Divido en dos videos sin avisar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Divido en dos videos sin avisar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Grabo igual y luego corto el video</div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -803,6 +813,13 @@ let lastBonusId=null;
     var esV=el.dataset.vf==='v';
     el.classList.add('abierto',esV?'v':'f');
     el.querySelector('.vf-marca').textContent=esV?'✓':'✗';
+  };
+
+  window.revelarOpciones=function(btn){
+    var opciones=btn&&btn.nextElementSibling;
+    if(!opciones||!opciones.classList.contains('quiz-opts'))return;
+    opciones.classList.remove('quiz-ocultas');
+    btn.hidden=true;
   };
 })();
 </script>

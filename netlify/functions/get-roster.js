@@ -14,6 +14,7 @@ const CORS = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Content-Type": "application/json",
+  "Cache-Control": "no-store",
 };
 
 exports.handler = async (event) => {

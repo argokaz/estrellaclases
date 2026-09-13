@@ -218,6 +218,17 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 @keyframes ctaDestacar{0%,100%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 18%,transparent)}
   30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
 </style>
+<style>
+.eval-q:not(.eval-q-revealed) .eval-opts{display:none}
+.eval-recall{margin:14px 0 4px;padding:14px;border:1px dashed #a5b4fc;border-radius:11px;background:#f8faff}
+.eval-recall-label{display:block;font-size:14px;font-weight:700;color:#3730a3;margin-bottom:8px}
+.eval-recall-input,.eval-rewrite-input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;font:inherit;line-height:1.45;resize:vertical;background:#fff;color:#172033}
+.eval-recall-input:disabled{background:#eef2ff;color:#475569}
+.eval-recall-btn{margin-top:8px;border:0;border-radius:9px;padding:9px 12px;background:#3730a3;color:#fff;font-weight:800;cursor:pointer}
+.eval-recall-btn:hover{background:#312e81}.eval-recall-msg{min-height:18px;margin-top:6px;font-size:13px;color:#b91c1c}
+.eval-q.eval-q-revealed .eval-recall{background:#eefbf3;border-color:#86efac}.eval-q.eval-q-revealed .eval-recall-msg{color:#166534}
+.eval-rewrite{margin-top:18px}.eval-rewrite p{line-height:1.6}.eval-rewrite-hint{font-size:13px;color:#64748b;margin-top:7px}
+</style>
 </head>
 <body>
 <div class="page-wrap">
@@ -247,7 +258,7 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 <div class="concept-block" style="border-left-color:#16a34a"><div class="cb-icon">🪝</div><div class="cb-body"><div class="cb-title">El gancho</div><div class="cb-text">Los primeros 10 segundos deciden si te ven. Nunca "hola, hoy les voy a hablar de".</div></div></div>
 <div class="concept-block" style="border-left-color:#059669"><div class="cb-icon">🗂️</div><div class="cb-body"><div class="cb-title">Guion de dos columnas</div><div class="cb-text"><strong>Audio</strong> (lo que dices, como lo dirás) y <strong>video</strong> (lo que se ve). Sin la segunda, hablas tres minutos sobre una imagen fija.</div></div></div>
 <div class="concept-block" style="border-left-color:#0d9488"><div class="cb-icon">🧩</div><div class="cb-body"><div class="cb-title">El ejemplo completo</div><div class="cb-text">Es el corazón del video educativo. Sin él queda una definición leída en voz alta.</div></div></div>
-<div class="concept-block" style="border-left-color:#d97706"><div class="cb-icon">⏱️</div><div class="cb-body"><div class="cb-title">Cronometrar en voz alta</div><div class="cb-text">Unas <strong>150 palabras por minuto</strong>. Leer en silencio da un tiempo falso, siempre menor.</div></div></div>
+<div class="concept-block" style="border-left-color:#d97706"><div class="cb-icon">⏱️</div><div class="cb-body"><div class="cb-title">Cronometrar en voz alta</div><div class="cb-text">Usa <strong>130–150 palabras por minuto</strong> como referencia. El ritmo real se confirma leyendo en voz alta con cronómetro.</div></div></div>
 </div></div>
 <div class="section"><div class="section-title">📚 Palabras clave</div><div class="gloss-v2">
 <div class="gloss-card"><div class="gloss-term">Objetivo</div><div class="gloss-def">Lo que sabrá hacer quien vea el video.</div></div>
@@ -267,6 +278,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 <tr class="tf-row"><td>Un ejemplo completo enseña más que una definición.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>Leer el guion en silencio sirve para medir la duración.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 </tbody></table></div>
+    <div class="ex eval-rewrite"><div class="ex-num">Ejercicio 2</div>
+      <h4>Corrige y justifica</h4>
+      <p>Escoge una afirmación falsa, corrige el criterio y explica en una oración por qué tu versión sí funciona.</p>
+      <textarea class="eval-rewrite-input" rows="3" placeholder="Escribe aquí tu versión corregida…"></textarea>
+      <p class="eval-rewrite-hint">Úsala para comprobar que entendiste la idea, no solo si recordabas V o F.</p>
+    </div>
   </div>
 </details></div>
 </div>
@@ -302,43 +319,93 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
     </div>
     <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 3.° Secundaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Es el corazón del video educativo. Sin él queda una definición leída en voz alta.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Columna de audio</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Guion de dos columnas</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) El ejemplo completo</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) El objetivo va primero</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“"Al terminar, el espectador sabrá…". Se escribe <strong>antes</strong> de la primera línea del guion.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Cronometrar en voz alta</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) El objetivo va primero</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Guion de dos columnas</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) El ejemplo completo</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Un caso resuelto de principio a fin.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Guion de dos columnas</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Columna de audio</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Columna de video</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Ejemplo completo</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuánto dura aproximadamente un minuto hablado?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Unas 150 palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Unas 60 palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Unas 400 palabras</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Unas 700 palabras</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Los primeros 10 segundos deciden si te ven. Nunca "hola, hoy les voy a hablar de".”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Columna de audio</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Objetivo</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Cierre</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) El gancho</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Cuándo conviene presentarte en el video?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Nunca</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál es un objetivo bien planteado?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-1">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-1" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) "Que sea entretenido"</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) "Explicar todo sobre el reciclaje"</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) "Al terminar, el espectador sabrá separar residuos en tres tipos"</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) "Que dure 3 minutos"</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué va en la columna de video del guion?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-2">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-2" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) La duración total</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Lo que se ve en pantalla en cada momento</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Los efectos de edición</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) El nombre del que graba</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Tu video explica la teoría pero nadie sabe aplicarlo. ¿Qué falta?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-3">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-3" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Más duración</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Mejor música</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Más texto en pantalla</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Un ejemplo resuelto de principio a fin</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué rango sirve como referencia para un minuto hablado con claridad?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-4">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-4" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) 130–150 palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) 40–60 palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) 300–400 palabras</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) 600–700 palabras</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">Tu guion dura 3:10 y el video debe durar 2:00. ¿Qué haces?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-5">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-5" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Hablo más rápido</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Corto el video al final</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Lo divido en dos sin avisar</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Quito un ejemplo secundario y acorto el cierre</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Cuándo conviene presentarte en el video?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-6">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-6" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Nunca</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Al principio de todo</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Después del gancho o en el cierre</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) En una pantalla aparte al final</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“<strong>Audio</strong> (lo que dices, como lo dirás) y <strong>video</strong> (lo que se ve). Sin la segunda, hablas tres minutos sobre una imagen fija.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Guion de dos columnas</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) El objetivo va primero</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Cronometrar en voz alta</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) El ejemplo completo</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“El inicio que hace querer seguir viendo.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Objetivo</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Cierre</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Gancho</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Columna de video</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Lo que aparece en pantalla en ese momento.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Columna de audio</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Columna de video</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) El ejemplo completo</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Guion de dos columnas</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">El corazón de un video educativo es…</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) La música</span></label>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Cómo se mide de verdad la duración de un guion?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-7">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-7" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Leyéndolo en voz alta con cronómetro</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Leyéndolo en silencio</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Por el número de páginas</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Contando párrafos</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Hablar tres minutos sobre una sola imagen indica que…</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-8">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-8" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) El tema es complejo</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Falta música</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Falta la columna de video del guion</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) El video es muy largo</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué hace un buen cierre en un video educativo?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-9">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-9" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Agradece la atención</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Dice qué hacer con lo aprendido</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Resume todo otra vez</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Presenta al autor</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">El corazón de un video educativo es…</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-10">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-10" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) La música</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) El ejemplo completo</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) La miniatura</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) La duración</span></label></div></div>
@@ -567,6 +634,16 @@ function irAEvaluacion(){
     return original.apply(this, arguments);
   };
 })();
+</script>
+<script>
+function revealEvalOptions(btn){
+  const box=btn.closest('.eval-recall');const q=btn.closest('.eval-q');
+  const input=box&&box.querySelector('.eval-recall-input');const msg=box&&box.querySelector('.eval-recall-msg');
+  const value=(input&&input.value||'').trim();const words=value.split(/\s+/).filter(w=>w.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,'').length>1);
+  if(value.length<8||words.length<2){if(msg)msg.textContent='Escribe al menos dos palabras con tu idea antes de comparar.';if(input)input.focus();return;}
+  input.disabled=true;q.classList.add('eval-q-revealed');btn.style.display='none';
+  if(msg)msg.textContent='Idea inicial registrada en pantalla. Ahora compara las alternativas.';
+}
 </script>
 </body>
 </html>

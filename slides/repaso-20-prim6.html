@@ -218,6 +218,17 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 @keyframes ctaDestacar{0%,100%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 18%,transparent)}
   30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
 </style>
+<style>
+.eval-q:not(.eval-q-revealed) .eval-opts{display:none}
+.eval-recall{margin:14px 0 4px;padding:14px;border:1px dashed #a5b4fc;border-radius:11px;background:#f8faff}
+.eval-recall-label{display:block;font-size:14px;font-weight:700;color:#3730a3;margin-bottom:8px}
+.eval-recall-input,.eval-rewrite-input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;font:inherit;line-height:1.45;resize:vertical;background:#fff;color:#172033}
+.eval-recall-input:disabled{background:#eef2ff;color:#475569}
+.eval-recall-btn{margin-top:8px;border:0;border-radius:9px;padding:9px 12px;background:#3730a3;color:#fff;font-weight:800;cursor:pointer}
+.eval-recall-btn:hover{background:#312e81}.eval-recall-msg{min-height:18px;margin-top:6px;font-size:13px;color:#b91c1c}
+.eval-q.eval-q-revealed .eval-recall{background:#eefbf3;border-color:#86efac}.eval-q.eval-q-revealed .eval-recall-msg{color:#166534}
+.eval-rewrite{margin-top:18px}.eval-rewrite p{line-height:1.6}.eval-rewrite-hint{font-size:13px;color:#64748b;margin-top:7px}
+</style>
 </head>
 <body>
 <div class="page-wrap">
@@ -267,6 +278,12 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 <tr class="tf-row"><td>Las preguntas de opciones se cuentan solas.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
 <tr class="tf-row"><td>Hay que pedir el nombre completo en toda encuesta.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 </tbody></table></div>
+    <div class="ex eval-rewrite"><div class="ex-num">Ejercicio 2</div>
+      <h4>Convierte el error en una idea correcta</h4>
+      <p>Escoge una frase falsa de arriba y escríbela de nuevo para que sea verdadera.</p>
+      <textarea class="eval-rewrite-input" rows="3" placeholder="Escribe aquí tu versión corregida…"></textarea>
+      <p class="eval-rewrite-hint">Úsala para comprobar que entendiste la idea, no solo si recordabas V o F.</p>
+    </div>
   </div>
 </details></div>
 </div>
@@ -302,43 +319,93 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
     </div>
     <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 6.° Primaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál pregunta está bien hecha?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) "¿Te gusta el fútbol y el vóley?"</span></label>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál pregunta está bien hecha?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-1">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-1" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) "¿Te gusta el fútbol y el vóley?"</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) "¿No te disgusta el recreo?"</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) "¿Qué opinas de todo?"</span></label>
 <label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) "¿Qué deporte prefieres?"</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuántas cosas debe preguntar cada pregunta?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Las que quepan</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuántas cosas debe preguntar cada pregunta?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-2">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-2" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Las que quepan</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Dos, para ahorrar</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Una sola</span></label>
 <label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Ninguna, deben ser abiertas</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Tu encuesta tiene 12 preguntas. ¿Qué es más probable?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Que todos la completen</span></label>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Tu encuesta tiene 12 preguntas. ¿Qué es más probable?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-3">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-3" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Que todos la completen</span></label>
 <label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Que las respuestas sean más exactas</span></label>
 <label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Que muchos la dejen a medias</span></label>
 <label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Que se cuente más rápido</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Cinco preguntas bastan. Con doce, muchos la dejan a medias y los datos quedan incompletos.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Corta se responde completa</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Solo los datos necesarios</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) De opciones se cuentan solas</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) No empujes la respuesta</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Los gráficos que Forms arma con las respuestas.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Resumen</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Muestra</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Encuesta</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Formulario</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué ventaja tienen las preguntas de opciones?</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Dan respuestas más largas</span></label>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Quieres saber cómo vienen al colegio tus compañeros. ¿Qué usas?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-4">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-4" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Una pregunta de opciones: caminando, bus, auto, bici</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Una pregunta abierta larga</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Texto libre</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Lo adivino</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Por qué no sirve "¿Verdad que es lo mejor?"</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-5">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-5" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Sugiere la respuesta y no mide nada</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Está mal escrita</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Es muy larga</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Es de texto libre</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué ventaja tienen las preguntas de opciones?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-6">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-6" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Dan respuestas más largas</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Se cuentan y se grafican solas</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Permiten explicar mejor</span></label>
 <label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) No necesitan enunciado</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“No pidas nombre, dirección ni edad si tu pregunta no los necesita.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Corta se responde completa</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Solo los datos necesarios</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) No empujes la respuesta</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) De opciones se cuentan solas</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“La herramienta donde se responden las preguntas.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Encuesta</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Texto libre</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Formulario</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Resumen</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Si preguntas "¿te gusta A y B?", la respuesta no sirve: no se sabe a cuál dijo que sí.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Solo los datos necesarios</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) No empujes la respuesta</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Pregunta de opciones</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Una pregunta, una cosa</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Antes de enviar tu encuesta conviene…</div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Pedir el nombre a todos</span></label>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué datos personales conviene pedir?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-7">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-7" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Nombre completo siempre</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Solo los que la encuesta realmente necesita</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Teléfono por si acaso</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Dirección y edad</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Si dos opciones se pisan ("a veces" y "casi siempre")…</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-8">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-8" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) La encuesta es más completa</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Se cuentan igual</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) La gente no sabe cuál elegir y los datos se confunden</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Mejora el gráfico</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Dónde ves el resumen de las respuestas?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-9">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-9" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Hay que contarlas a mano</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) En un documento aparte</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Solo si lo pides por correo</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) En el propio Forms, que arma los gráficos</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Antes de enviar tu encuesta conviene…</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-10">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-10" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Pedir el nombre a todos</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Enviarla a todo el colegio</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Agregar más preguntas</span></label>
 <label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Probarla con 2 o 3 personas</span></label></div></div>
@@ -567,6 +634,16 @@ function irAEvaluacion(){
     return original.apply(this, arguments);
   };
 })();
+</script>
+<script>
+function revealEvalOptions(btn){
+  const box=btn.closest('.eval-recall');const q=btn.closest('.eval-q');
+  const input=box&&box.querySelector('.eval-recall-input');const msg=box&&box.querySelector('.eval-recall-msg');
+  const value=(input&&input.value||'').trim();const words=value.split(/\s+/).filter(w=>w.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,'').length>1);
+  if(value.length<8||words.length<2){if(msg)msg.textContent='Escribe al menos dos palabras con tu idea antes de comparar.';if(input)input.focus();return;}
+  input.disabled=true;q.classList.add('eval-q-revealed');btn.style.display='none';
+  if(msg)msg.textContent='Idea inicial registrada en pantalla. Ahora compara las alternativas.';
+}
 </script>
 </body>
 </html>

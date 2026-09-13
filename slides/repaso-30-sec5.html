@@ -218,6 +218,17 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 @keyframes ctaDestacar{0%,100%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 18%,transparent)}
   30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
 </style>
+<style>
+.eval-q:not(.eval-q-revealed) .eval-opts{display:none}
+.eval-recall{margin:14px 0 4px;padding:14px;border:1px dashed #a5b4fc;border-radius:11px;background:#f8faff}
+.eval-recall-label{display:block;font-size:14px;font-weight:700;color:#3730a3;margin-bottom:8px}
+.eval-recall-input,.eval-rewrite-input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;font:inherit;line-height:1.45;resize:vertical;background:#fff;color:#172033}
+.eval-recall-input:disabled{background:#eef2ff;color:#475569}
+.eval-recall-btn{margin-top:8px;border:0;border-radius:9px;padding:9px 12px;background:#3730a3;color:#fff;font-weight:800;cursor:pointer}
+.eval-recall-btn:hover{background:#312e81}.eval-recall-msg{min-height:18px;margin-top:6px;font-size:13px;color:#b91c1c}
+.eval-q.eval-q-revealed .eval-recall{background:#eefbf3;border-color:#86efac}.eval-q.eval-q-revealed .eval-recall-msg{color:#166534}
+.eval-rewrite{margin-top:18px}.eval-rewrite p{line-height:1.6}.eval-rewrite-hint{font-size:13px;color:#64748b;margin-top:7px}
+</style>
 </head>
 <body>
 <div class="page-wrap">
@@ -263,10 +274,16 @@ details[open] .ps-arrow{transform:rotate(180deg)}
     <div class="practice-invite"><div class="practice-invite-icon">💡</div><div><strong>Practica aquí primero.</strong><br>Feedback inmediato y puedes intentarlo cuantas veces quieras. Cuando estés listo, baja a la <strong>Evaluación</strong>.</div></div>
     <div class="ex"><div class="ex-num">Ejercicio 1</div><h4>¿Verdadero o Falso?</h4><table class="tf-tbl"><thead><tr><th style='width:74%'>Afirmación</th><th style='text-align:center'>V</th><th style='text-align:center'>F</th></tr></thead><tbody>
 <tr class="tf-row"><td>Un portafolio de transición conecta lo aprendido con lo que viene después.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>El portafolio de hoy solo mira hacia atrás, a lo ya hecho.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Nombrar una habilidad basta para demostrar que puedes transferirla a otro contexto.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 <tr class="tf-row"><td>Un compromiso de salida es un principio que se lleva más allá del colegio.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','V')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','V')">F</button></td></tr>
-<tr class="tf-row"><td>Las habilidades del proyecto solo sirven para la clase de Computación.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
+<tr class="tf-row"><td>Una habilidad transferible depende de usar exactamente las mismas herramientas del curso.</td><td style="text-align:center"><button class="tf-btn" data-val="V" onclick="tfPick(this,'V','F')">V</button></td><td style="text-align:center"><button class="tf-btn" data-val="F" onclick="tfPick(this,'F','F')">F</button></td></tr>
 </tbody></table></div>
+    <div class="ex eval-rewrite"><div class="ex-num">Ejercicio 2</div>
+      <h4>Corrige y justifica</h4>
+      <p>Escoge una afirmación falsa, corrige el criterio y explica en una oración por qué tu versión sí funciona.</p>
+      <textarea class="eval-rewrite-input" rows="3" placeholder="Escribe aquí tu versión corregida…"></textarea>
+      <p class="eval-rewrite-hint">Úsala para comprobar que entendiste la idea, no solo si recordabas V o F.</p>
+    </div>
   </div>
 </details></div>
 </div>
@@ -302,46 +319,96 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
     </div>
     <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 5.° Secundaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Para cada habilidad clave, pensar en qué situación real la usarías de nuevo — no de forma genérica, sino concreta.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Conecta con el futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Muestra de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Habilidad transferible</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) De tareas a transición</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Presentación de cierre que mira hacia adelante.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Muestra de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Conecta con el futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Compromiso de salida</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) De tareas a transición</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Evidencia de habilidades conectadas con el futuro.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Habilidad transferible</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) De tareas a transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Portafolio de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) No es un cierre, es un punto de partida</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Principio que se lleva más allá del curso.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Compromiso de salida</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Conecta con el futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Muestra de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) De tareas a transición</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Un portafolio de transición no solo dice qué hiciste: dice <strong>qué puedes hacer ahora</strong> con eso, en situaciones reales fuera del colegio.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Habilidad transferible</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) De tareas a transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Muestra de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Conecta con el futuro</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“Un contexto concreto fuera del colegio.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Conecta con el futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Cierre de curso</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Compromiso de salida</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Situación real</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“La que sirve en distintos contextos, no solo en clase.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Conecta con el futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) De tareas a transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Habilidad transferible</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Muestra de transición</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“La última sesión del curso completo.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Situación real</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) Cierre de curso</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Compromiso de salida</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Muestra de transición</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“El compromiso de salida es algo que se lleva más allá del colegio: verificar, sostener con evidencia, terminar lo que se empieza.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) No es un cierre, es un punto de partida</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Un principio, no una regla de clase</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Una habilidad, no todo el año</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Portafolio de transición</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Qué concepto corresponde mejor a esta explicación?<br><em>“En el minuto de muestra de transición se cuenta una habilidad representativa y el compromiso de salida.”</em></div></div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Habilidad transferible</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Portafolio de transición</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Un principio, no una regla de clase</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Una habilidad, no todo el año</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál entrada pertenece a un portafolio de transición?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-1">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-1" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Una evidencia de planificación y una situación laboral o académica donde volverías a usarla</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Una lista de entregas con fechas</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Una galería de productos vistosos</span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) El archivo completo por semanas</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál compromiso de salida puede guiar una decisión real?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-2">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-2" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) “Cuando una afirmación influya en una decisión, buscaré evidencia antes de compartirla”</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) “Debí organizar mejor este proyecto”</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) “Quiero usar mejor la tecnología”</span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) “Computación fue importante”</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué guion demuestra mejor la transferencia de una habilidad?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-3">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-3" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Describir todo el proyecto en orden</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Enumerar herramientas y tiempo</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Nombrar la habilidad, mostrar evidencia, aplicarla a una situación futura y cerrar con un compromiso</span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Explicar el compromiso sin evidencia</span></label></div></div>
+<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál conexión demuestra transferencia y no una frase genérica?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-4">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-4" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) “Usaría la matriz de prioridades para decidir qué funciones lanzar primero en un emprendimiento”</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) “Aprendí bastante al organizar el proyecto”</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) “La planificación sirve para todo”</span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) “Volvería a usar las mismas diapositivas en otro curso”</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cómo expresas un compromiso de salida para que guíe decisiones?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-5">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-5" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Como una opinión sobre el curso que terminó</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Como un principio acompañado por una situación y una acción concreta</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Como una lista de herramientas que sabes usar</span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Como una meta cuya aplicación depende de otros</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué evidencia demuestra mejor una habilidad transferible?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-6">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-6" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) La pieza visual más llamativa del proyecto</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) El producto con la calificación más alta</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Una lista completa de herramientas aprendidas</span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Una decisión documentada y la explicación de cómo aplicarías el criterio en otro contexto</span></label></div></div>
+<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">En un futuro trabajo te piden afirmar algo sin evidencia suficiente. ¿Qué principio aplicas?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-7">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-7" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Afirmarlo si el plazo está cerca</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Buscar una frase más convincente</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Explicar qué se sabe, qué falta comprobar y qué decisión depende de ello</span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Omitir la incertidumbre para no debilitar el mensaje</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Una parte del proyecto muestra un intento fallido que cambió tu estrategia. ¿Qué haces?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-8">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-8" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) La excluyes porque no prueba competencia</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) La usas para explicar el criterio aprendido y su posible uso futuro</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) La reemplazas por el resultado final</span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) La incluyes sin relacionarla con una habilidad</span></label></div></div>
+<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué orientación hacia el futuro vuelve útil una entrada?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-9">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-9" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Decir que el trabajo será útil algún día</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Nombrar un nuevo contexto, la decisión que enfrentarías y el criterio que aplicarías</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Enumerar todas las etapas ya completadas</span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Comparar la nota con la de otros proyectos</span></label></div></div>
+<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Por qué eliges una habilidad representativa para la muestra?</div></div>
+    <div class="eval-recall"><label class="eval-recall-label" for="recall-10">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
+      <textarea id="recall-10" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
+      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
+      <div class="eval-recall-msg" aria-live="polite"></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Para escoger la habilidad que suene más profesional</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Para evitar hablar de limitaciones o dudas</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Para sustituir el portafolio por una sola afirmación</span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Para demostrar con evidencia una transferencia concreta dentro del minuto disponible</span></label></div></div>
 <div id="eval-submit-wrap" class="eval-submit-wrap">
       <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
       <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>
@@ -567,6 +634,16 @@ function irAEvaluacion(){
     return original.apply(this, arguments);
   };
 })();
+</script>
+<script>
+function revealEvalOptions(btn){
+  const box=btn.closest('.eval-recall');const q=btn.closest('.eval-q');
+  const input=box&&box.querySelector('.eval-recall-input');const msg=box&&box.querySelector('.eval-recall-msg');
+  const value=(input&&input.value||'').trim();const words=value.split(/\s+/).filter(w=>w.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,'').length>1);
+  if(value.length<8||words.length<2){if(msg)msg.textContent='Escribe al menos dos palabras con tu idea antes de comparar.';if(input)input.focus();return;}
+  input.disabled=true;q.classList.add('eval-q-revealed');btn.style.display='none';
+  if(msg)msg.textContent='Idea inicial registrada en pantalla. Ahora compara las alternativas.';
+}
 </script>
 </body>
 </html>

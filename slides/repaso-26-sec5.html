@@ -219,7 +219,7 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
 </style>
 <style>
-.eval-q:not(.eval-q-revealed) .eval-opts{display:none}
+.eval-q.eval-needs-recall:not(.eval-q-revealed) .eval-opts{display:none}
 .eval-recall{margin:14px 0 4px;padding:14px;border:1px dashed #a5b4fc;border-radius:11px;background:#f8faff}
 .eval-recall-label{display:block;font-size:14px;font-weight:700;color:#3730a3;margin-bottom:8px}
 .eval-recall-input,.eval-rewrite-input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;font:inherit;line-height:1.45;resize:vertical;background:#fff;color:#172033}
@@ -228,6 +228,15 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .eval-recall-btn:hover{background:#312e81}.eval-recall-msg{min-height:18px;margin-top:6px;font-size:13px;color:#b91c1c}
 .eval-q.eval-q-revealed .eval-recall{background:#eefbf3;border-color:#86efac}.eval-q.eval-q-revealed .eval-recall-msg{color:#166534}
 .eval-rewrite{margin-top:18px}.eval-rewrite p{line-height:1.6}.eval-rewrite-hint{font-size:13px;color:#64748b;margin-top:7px}
+.eval-opt{min-height:72px;box-sizing:border-box;align-items:center}
+.opcion-marco{display:block;width:100%}.opcion-contexto{font-weight:750;color:#475569}
+.eval-visual{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch;margin:4px 0 14px}
+.eval-route{border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:6px;line-height:1.4;font-size:14px}
+.eval-route span{font-size:11px;font-weight:850;letter-spacing:.06em}.eval-route b{font-weight:650}
+.route-a{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}.route-b{background:#fff7ed;border:1px solid #fdba74;color:#7c2d12}
+.eval-route-arrow{display:flex;align-items:center;font-size:20px;font-weight:900;color:#64748b}
+.eval-process{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin:2px 0 14px;padding:11px;border-radius:12px;background:#f1f5f9;color:#334155;font-size:13px;font-weight:750}
+@media(max-width:560px){.eval-visual{grid-template-columns:1fr}.eval-route-arrow{justify-content:center;transform:rotate(90deg)}.eval-opt{min-height:78px}.opcion-contexto{display:block;margin-bottom:2px}}
 </style>
 </head>
 <body>
@@ -319,96 +328,72 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
     </div>
     <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 5.° Secundaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">Faltan dos sesiones para el pitch. ¿Qué conviene hacer?</div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">Faltan dos sesiones para el pitch. ¿Qué conviene hacer?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-1">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-1" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Agregar una función nueva</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Empezar de nuevo una parte</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Rediseñar los colores</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) Revisar pendientes y arreglar lo más urgente</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Por qué agregar es riesgoso a esta altura?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-2">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-2" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) Porque toma menos tiempo</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) Porque suma riesgo sin sumar valor real</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) Porque lo prohíbe la profesora</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) Porque no hay más ideas</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Arreglaste un bloqueo hace dos sesiones. ¿Qué comprobación da mejor evidencia de que sigue resuelto?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como primera respuesta al caso presentado:</span> Agregar una función nueva</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta la situación descrita:</span> Empezar de nuevo una parte</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Rediseñar los colores</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Revisar pendientes y arreglar lo más urgente</span></span></label></div></div>
+<div class="eval-q eval-format-mc" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Por qué agregar es riesgoso a esta altura?</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando la situación presentada:</span> Porque toma menos tiempo</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Porque suma riesgo sin sumar valor real</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Porque lo prohíbe la profesora</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta la situación descrita:</span> Porque no hay más ideas</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">Arreglaste un bloqueo hace dos sesiones. ¿Qué comprobación da mejor evidencia de que sigue resuelto?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-3">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-3" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Repetir el recorrido completo después de los cambios posteriores</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Probar solo la pantalla modificada</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Esperar a que otra persona reporte un fallo</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Releer la nota donde registraste el arreglo</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cómo se prioriza en la mejora final?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-4">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-4" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) Por lo más fácil</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) Por orden alfabético</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) Por impacto y por lo ya prometido</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) Por lo más entretenido</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">No vas a llegar a arreglar todo. ¿Qué haces?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Repetir el recorrido completo después de los cambios posteriores</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Probar solo la pantalla modificada</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Esperar a que otra persona reporte un fallo</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Releer la nota donde registraste el arreglo</span></span></label></div></div>
+<div class="eval-q eval-format-vf" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Verdadero o falso: A pocas sesiones del final, agregar es más riesgoso que terminar.</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Verdadero: coincide con lo trabajado en clase</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Para el caso presentado:</span> Falso: no coincide con lo trabajado en clase</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">No vas a llegar a arreglar todo. ¿Qué haces?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-5">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-5" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Lo oculto</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Prometo arreglarlo después</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Priorizo lo importante y digo en el pitch qué quedó fuera</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Cambio de tema</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué NO se hace en la mejora final?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-6">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-6" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) Revisar lo ya arreglado</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) Agregar funciones nuevas</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Priorizar por impacto</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Decidir qué queda fuera</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">Entre un botón roto en celular y el logo poco lindo, ¿qué va primero?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Lo oculto</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Prometo arreglarlo después</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Priorizo lo importante y digo en el pitch qué quedó fuera</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Cambio de tema</span></span></label></div></div>
+<div class="eval-q eval-format-graphic" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">Observa las dos rutas. ¿Cuál coincide con lo trabajado en clase?</div></div><div class="eval-visual" role="img" aria-label="Dos rutas para comparar"><div class="eval-route route-a"><span>RUTA AZUL</span><b>Un arreglo anterior puede haberse roto y hay que revisarlo.</b></div><div class="eval-route-arrow">↔</div><div class="eval-route route-b"><span>RUTA NARANJA</span><b>Rediseñar el producto es una buena idea en esta etapa.</b></div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Solo la ruta naranja coincide con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> Solo la ruta azul coincide con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación presentada:</span> Las dos rutas coinciden con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Ninguna ruta coincide con lo aprendido</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">Entre un botón roto en celular y el logo poco lindo, ¿qué va primero?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-7">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-7" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) El logo</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Ninguno</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Los dos a la vez</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) El botón: bloquea la tarea principal</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Fingir que algo funciona cuando no…</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-8">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-8" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) Es lo recomendado</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) No se nota</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) Mejora la nota</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) Sale peor que reconocer un límite con criterio</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué junta la lista de pendientes de hoy?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> El logo</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Ninguno</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Los dos a la vez</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> El botón: bloquea la tarea principal</span></span></label></div></div>
+<div class="eval-q eval-format-vf" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Verdadero o falso: Conviene priorizar lo más fácil de arreglar.</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Verdadero: coincide con lo trabajado en clase</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Para el caso presentado:</span> Falso: no coincide con lo trabajado en clase</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué junta la lista de pendientes de hoy?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-9">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-9" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Solo ideas nuevas</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Solo comentarios de otros</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Los bloqueos de producción y los hallazgos de ética</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) La lista de materiales</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Revisar que lo anterior siga funcionando se llama…</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-10">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-10" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Verificar regresiones</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Rediseñar</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Ampliar</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Documentar</span></label></div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Solo ideas nuevas</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Solo comentarios de otros</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Los bloqueos de producción y los hallazgos de ética</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> La lista de materiales</span></span></label></div></div>
+<div class="eval-q eval-format-graphic" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">Revisar que lo anterior siga funcionando se llama…</div></div><div class="eval-process" role="img" aria-label="Ruta para tomar una decisión"><span>1 · Lee el caso</span><b>→</b><span>2 · Aplica el criterio</span><b>→</b><span>3 · Elige</span></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Verificar regresiones</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Rediseñar</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Considerando la situación presentada:</span> Ampliar</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Documentar</span></span></label></div></div>
 <div id="eval-submit-wrap" class="eval-submit-wrap">
       <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
       <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>

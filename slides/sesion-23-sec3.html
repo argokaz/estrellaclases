@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál es la diferencia entre guion literario y guion técnico?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>El literario lleva imágenes</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>El literario dice qué se dice; el técnico, qué se ve y cuánto dura</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>El técnico es más corto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Ninguna, son lo mismo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> El literario lleva imágenes</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> El literario dice qué se dice; el técnico, qué se ve y cuánto dura</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> El técnico es más corto</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Ninguna, son lo mismo</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu escaleta suma 95 segundos y el límite es 60. ¿Qué haces?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Hablo más rápido</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Acorto un poco cada escena</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo entrego más largo</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Quito escenas enteras hasta que la suma dé 60</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Hablo más rápido</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como primera respuesta al caso presentado:</span> Acorto un poco cada escena</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Lo entrego más largo</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Quito escenas enteras hasta que la suma dé 60</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -456,10 +459,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Un dato clave de tu video lo sacaste de una sola fuente. ¿Qué corresponde?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Usarlo, es suficiente</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Decir "según internet"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Buscar una segunda fuente que lo confirme antes de ponerlo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Quitarlo del video</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Usarlo, es suficiente</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Decir "según internet"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Buscar una segunda fuente que lo confirme antes de ponerlo</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Quitarlo del video</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

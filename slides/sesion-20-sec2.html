@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -362,10 +365,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Ves una noticia impactante en una cuenta que no conoces. ¿Qué haces primero?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Preguntarle en comentarios al autor</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Leerla completa con atención</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Buscar el mismo tema en otras fuentes y ver quién más lo publica</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Mirar cuántos "me gusta" tiene</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Preguntarle en comentarios al autor</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Leerla completa con atención</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Buscar el mismo tema en otras fuentes y ver quién más lo publica</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Mirar cuántos "me gusta" tiene</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -411,10 +414,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Un post cita "un estudio de una universidad" pero no enlaza nada. ¿Qué significa?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Que es demasiado técnico para enlazarlo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Que el autor lo leyó en papel</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Que es confiable, cita una universidad</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Que hay que buscar ese estudio: sin enlace no se puede comprobar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Que es demasiado técnico para enlazarlo</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Que el autor lo leyó en papel</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Que es confiable, cita una universidad</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Que hay que buscar ese estudio: sin enlace no se puede comprobar</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -452,10 +455,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Comprobaste que algo que compartiste era falso. ¿Qué corresponde?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Dejarlo, ya lo vio poca gente</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Borrarlo y no decir nada</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Borrarlo y avisar que era falso a quienes lo vieron</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Publicar otra cosa para tapar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Dejarlo, ya lo vio poca gente</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Borrarlo y no decir nada</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Borrarlo y avisar que era falso a quienes lo vieron</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Publicar otra cosa para tapar</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

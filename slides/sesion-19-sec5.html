@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas afirmaciones está mejor sostenida?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"Leí en internet que casi nadie recicla"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Es obvio que el colegio necesita más tachos"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>"El 62 % de los 40 encuestados del colegio no separa residuos (encuesta propia, septiembre 2026)"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"Todo el mundo sabe que el reciclaje es importante"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> "Leí en internet que casi nadie recicla"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como primera decisión posible frente a toda la situación que se describe:</span> "Es obvio que el colegio necesita más tachos"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> "El 62 % de los 40 encuestados del colegio no separa residuos (encuesta propia, septiembre 2026)"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> "Todo el mundo sabe que el reciclaje es importante"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu encuesta propia tiene 8 respuestas de un salón de 30. ¿Cómo la presentas?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Redondeando a porcentajes sin mencionar el total</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Mejor no la menciono</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Diciendo que son 8 de 30 y que no representa a todo el colegio</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Como "la mayoría del colegio opina que…"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación presentada:</span> Redondeando a porcentajes sin mencionar el total</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Mejor no la menciono</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Diciendo que son 8 de 30 y que no representa a todo el colegio</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Como "la mayoría del colegio opina que…"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -456,10 +459,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">No conseguiste datos para una afirmación importante. ¿Qué corresponde?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Quitarla y no mencionar el tema</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Dejarla como hecho, total nadie revisa</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Escribirla como suposición pendiente, con cómo la comprobarías</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Buscar cualquier cita que se parezca</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Quitarla y no mencionar el tema</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta toda la situación presentada:</span> Dejarla como hecho, total nadie revisa</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Escribirla como suposición pendiente, con cómo la comprobarías</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Buscar cualquier cita que se parezca</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

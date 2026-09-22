@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué se arregla primero en la iteración final?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>La música</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Los efectos visuales</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Lo que se te ocurrió recién</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Lo que confundió a más de un compañero en el testeo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> La música</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Los efectos visuales</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta toda la situación presentada:</span> Lo que se te ocurrió recién</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Lo que confundió a más de un compañero en el testeo</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Terminaste de aplicar los arreglos. ¿Qué haces antes de exportar la versión final?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Le pregunto a un solo compañero</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Veo el video entero de corrido una vez más</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Cambio la música de nuevo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Exporto directo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Le pregunto a un solo compañero</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Veo el video entero de corrido una vez más</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta la situación descrita:</span> Cambio la música de nuevo</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Exporto directo</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -456,10 +459,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Exportaste tu video en baja calidad para probarlo rápido. ¿Sirve para entregar?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Solo si nadie se queja</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Depende del tamaño</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Sí, se ve casi igual</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>No: hay que exportar en la calidad final antes de entregar</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Solo si nadie se queja</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Depende del tamaño</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Sí, se ve casi igual</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> No: hay que exportar en la calidad final antes de entregar</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

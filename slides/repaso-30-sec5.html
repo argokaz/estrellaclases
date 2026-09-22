@@ -219,7 +219,7 @@ details[open] .ps-arrow{transform:rotate(180deg)}
   30%,60%{box-shadow:0 14px 40px color-mix(in srgb,var(--accent) 55%,transparent)}}
 </style>
 <style>
-.eval-q:not(.eval-q-revealed) .eval-opts{display:none}
+.eval-q.eval-needs-recall:not(.eval-q-revealed) .eval-opts{display:none}
 .eval-recall{margin:14px 0 4px;padding:14px;border:1px dashed #a5b4fc;border-radius:11px;background:#f8faff}
 .eval-recall-label{display:block;font-size:14px;font-weight:700;color:#3730a3;margin-bottom:8px}
 .eval-recall-input,.eval-rewrite-input{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:10px 12px;font:inherit;line-height:1.45;resize:vertical;background:#fff;color:#172033}
@@ -228,6 +228,15 @@ details[open] .ps-arrow{transform:rotate(180deg)}
 .eval-recall-btn:hover{background:#312e81}.eval-recall-msg{min-height:18px;margin-top:6px;font-size:13px;color:#b91c1c}
 .eval-q.eval-q-revealed .eval-recall{background:#eefbf3;border-color:#86efac}.eval-q.eval-q-revealed .eval-recall-msg{color:#166534}
 .eval-rewrite{margin-top:18px}.eval-rewrite p{line-height:1.6}.eval-rewrite-hint{font-size:13px;color:#64748b;margin-top:7px}
+.eval-opt{min-height:72px;box-sizing:border-box;align-items:center}
+.opcion-marco{display:block;width:100%}.opcion-contexto{font-weight:750;color:#475569}
+.eval-visual{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:stretch;margin:4px 0 14px}
+.eval-route{border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:6px;line-height:1.4;font-size:14px}
+.eval-route span{font-size:11px;font-weight:850;letter-spacing:.06em}.eval-route b{font-weight:650}
+.route-a{background:#eff6ff;border:1px solid #93c5fd;color:#1e3a8a}.route-b{background:#fff7ed;border:1px solid #fdba74;color:#7c2d12}
+.eval-route-arrow{display:flex;align-items:center;font-size:20px;font-weight:900;color:#64748b}
+.eval-process{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;margin:2px 0 14px;padding:11px;border-radius:12px;background:#f1f5f9;color:#334155;font-size:13px;font-weight:750}
+@media(max-width:560px){.eval-visual{grid-template-columns:1fr}.eval-route-arrow{justify-content:center;transform:rotate(90deg)}.eval-opt{min-height:78px}.opcion-contexto{display:block;margin-bottom:2px}}
 </style>
 </head>
 <body>
@@ -319,96 +328,72 @@ details[open] .ps-arrow{transform:rotate(180deg)}
       <button class="exam-who-change" onclick="if(confirm('¿Seguro? Volverás al inicio y perderás el progreso actual.'))location.reload()">✏️ No soy yo</button>
     </div>
     <div class="eval-top"><span>Alumno: <strong id="eval-student-name"></strong> &nbsp;·&nbsp; 5.° Secundaria</span><span id="eval-answered" class="eval-answered">0 / 10 respondidas</span></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál entrada pertenece a un portafolio de transición?</div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">1</div><div class="eval-q-text">¿Cuál entrada pertenece a un portafolio de transición?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-1">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-1" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) Una evidencia de planificación y una situación laboral o académica donde volverías a usarla</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) Una lista de entregas con fechas</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) Una galería de productos vistosos</span></label>
-<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) El archivo completo por semanas</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál compromiso de salida puede guiar una decisión real?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-2">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-2" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) “Cuando una afirmación influya en una decisión, buscaré evidencia antes de compartirla”</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) “Debí organizar mejor este proyecto”</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) “Quiero usar mejor la tecnología”</span></label>
-<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) “Computación fue importante”</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué guion demuestra mejor la transferencia de una habilidad?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq1" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Una evidencia de planificación y una situación laboral o académica donde volverías a usarla</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> Una lista de entregas con fechas</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> Una galería de productos vistosos</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq1" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta inicial para resolver el problema exactamente como ha sido planteado:</span> El archivo completo por semanas</span></span></label></div></div>
+<div class="eval-q eval-format-mc" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">2</div><div class="eval-q-text">¿Cuál compromiso de salida puede guiar una decisión real?</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq2" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> “Cuando una afirmación influya en una decisión, buscaré evidencia antes de compartirla”</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Como primera decisión posible frente a toda la situación que se describe:</span> “Debí organizar mejor este proyecto”</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> “Quiero usar mejor la tecnología”</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq2" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta inicial para resolver el problema exactamente como ha sido planteado:</span> “Computación fue importante”</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">3</div><div class="eval-q-text">¿Qué guion demuestra mejor la transferencia de una habilidad?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-3">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-3" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) Describir todo el proyecto en orden</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) Enumerar herramientas y tiempo</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) Nombrar la habilidad, mostrar evidencia, aplicarla a una situación futura y cerrar con un compromiso</span></label>
-<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) Explicar el compromiso sin evidencia</span></label></div></div>
-<div class="eval-q" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">¿Cuál conexión demuestra transferencia y no una frase genérica?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-4">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-4" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) “Usaría la matriz de prioridades para decidir qué funciones lanzar primero en un emprendimiento”</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) “Aprendí bastante al organizar el proyecto”</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="C" onchange="updateAnswered()"> <span>C) “La planificación sirve para todo”</span></label>
-<label class="eval-opt"><input type="radio" name="eq4" value="D" onchange="updateAnswered()"> <span>D) “Volvería a usar las mismas diapositivas en otro curso”</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cómo expresas un compromiso de salida para que guíe decisiones?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq3" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando solo la información, los límites y las condiciones que aparecen en el caso:</span> Describir todo el proyecto en orden</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Considerando solo la información, los límites y las condiciones que aparecen en el caso:</span> Enumerar herramientas y tiempo</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Nombrar la habilidad, mostrar evidencia, aplicarla a una situación futura y cerrar con un compromiso</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq3" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando solo la información, los límites y las condiciones que aparecen en el caso:</span> Explicar el compromiso sin evidencia</span></span></label></div></div>
+<div class="eval-q eval-format-vf" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">4</div><div class="eval-q-text">Verdadero o falso: Nombrar una habilidad basta para demostrar que puedes transferirla a otro contexto.</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq4" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Verdadero: coincide con lo trabajado en clase</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq4" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Para resolver este caso:</span> Falso: no coincide con lo trabajado en clase</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">5</div><div class="eval-q-text">¿Cómo expresas un compromiso de salida para que guíe decisiones?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-5">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-5" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) Como una opinión sobre el curso que terminó</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) Como un principio acompañado por una situación y una acción concreta</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) Como una lista de herramientas que sabes usar</span></label>
-<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) Como una meta cuya aplicación depende de otros</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">¿Qué evidencia demuestra mejor una habilidad transferible?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-6">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-6" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) La pieza visual más llamativa del proyecto</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) El producto con la calificación más alta</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) Una lista completa de herramientas aprendidas</span></label>
-<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) Una decisión documentada y la explicación de cómo aplicarías el criterio en otro contexto</span></label></div></div>
-<div class="eval-q" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">En un futuro trabajo te piden afirmar algo sin evidencia suficiente. ¿Qué principio aplicas?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq5" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Como una opinión sobre el curso que terminó</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Como un principio acompañado por una situación y una acción concreta</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Como una lista de herramientas que sabes usar</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq5" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Como una meta cuya aplicación depende de otros</span></span></label></div></div>
+<div class="eval-q eval-format-graphic" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">6</div><div class="eval-q-text">Observa las dos rutas. ¿Cuál coincide con lo trabajado en clase?</div></div><div class="eval-visual" role="img" aria-label="Dos rutas para comparar"><div class="eval-route route-a"><span>RUTA AZUL</span><b>Una habilidad transferible depende de usar exactamente las mismas herramientas del curso.</b></div><div class="eval-route-arrow">↔</div><div class="eval-route route-b"><span>RUTA NARANJA</span><b>Un compromiso de salida es un principio que se lleva más allá del colegio.</b></div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq6" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> Solo la ruta azul coincide con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Ninguna ruta coincide con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación presentada:</span> Las dos rutas coinciden con lo aprendido</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq6" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Solo la ruta naranja coincide con lo aprendido</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="C"><div class="eval-q-head"><div class="eval-q-num">7</div><div class="eval-q-text">En un futuro trabajo te piden afirmar algo sin evidencia suficiente. ¿Qué principio aplicas?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-7">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-7" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) Afirmarlo si el plazo está cerca</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) Buscar una frase más convincente</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) Explicar qué se sabe, qué falta comprobar y qué decisión depende de ello</span></label>
-<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) Omitir la incertidumbre para no debilitar el mensaje</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Una parte del proyecto muestra un intento fallido que cambió tu estrategia. ¿Qué haces?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-8">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-8" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) La excluyes porque no prueba competencia</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) La usas para explicar el criterio aprendido y su posible uso futuro</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="C" onchange="updateAnswered()"> <span>C) La reemplazas por el resultado final</span></label>
-<label class="eval-opt"><input type="radio" name="eq8" value="D" onchange="updateAnswered()"> <span>D) La incluyes sin relacionarla con una habilidad</span></label></div></div>
-<div class="eval-q" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué orientación hacia el futuro vuelve útil una entrada?</div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq7" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Afirmarlo si el plazo está cerca</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Buscar una frase más convincente</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Explicar qué se sabe, qué falta comprobar y qué decisión depende de ello</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq7" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Omitir la incertidumbre para no debilitar el mensaje</span></span></label></div></div>
+<div class="eval-q eval-format-vf" data-correct="A"><div class="eval-q-head"><div class="eval-q-num">8</div><div class="eval-q-text">Verdadero o falso: Un portafolio de transición conecta lo aprendido con lo que viene después.</div></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq8" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Verdadero: coincide con lo trabajado en clase</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq8" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Para el caso presentado:</span> Falso: no coincide con lo trabajado en clase</span></span></label></div></div>
+<div class="eval-q eval-needs-recall eval-format-mc" data-correct="B"><div class="eval-q-head"><div class="eval-q-num">9</div><div class="eval-q-text">¿Qué orientación hacia el futuro vuelve útil una entrada?</div></div>
     <div class="eval-recall"><label class="eval-recall-label" for="recall-9">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
       <textarea id="recall-9" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
       <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
       <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) Decir que el trabajo será útil algún día</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) Nombrar un nuevo contexto, la decisión que enfrentarías y el criterio que aplicarías</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) Enumerar todas las etapas ya completadas</span></label>
-<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) Comparar la nota con la de otros proyectos</span></label></div></div>
-<div class="eval-q" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Por qué eliges una habilidad representativa para la muestra?</div></div>
-    <div class="eval-recall"><label class="eval-recall-label" for="recall-10">Antes de ver alternativas: escribe tu idea en pocas palabras.</label>
-      <textarea id="recall-10" class="eval-recall-input" rows="2" placeholder="Primero recupera la respuesta con tus palabras…"></textarea>
-      <button type="button" class="eval-recall-btn" onclick="revealEvalOptions(this)">Ya pensé mi respuesta · mostrar alternativas</button>
-      <div class="eval-recall-msg" aria-live="polite"></div>
-    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) Para escoger la habilidad que suene más profesional</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) Para evitar hablar de limitaciones o dudas</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) Para sustituir el portafolio por una sola afirmación</span></label>
-<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) Para demostrar con evidencia una transferencia concreta dentro del minuto disponible</span></label></div></div>
+    </div><div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq9" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Decir que el trabajo será útil algún día</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Nombrar un nuevo contexto, la decisión que enfrentarías y el criterio que aplicarías</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Enumerar todas las etapas ya completadas</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq9" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Comparar la nota con la de otros proyectos</span></span></label></div></div>
+<div class="eval-q eval-format-graphic" data-correct="D"><div class="eval-q-head"><div class="eval-q-num">10</div><div class="eval-q-text">¿Por qué eliges una habilidad representativa para la muestra?</div></div><div class="eval-process" role="img" aria-label="Ruta para tomar una decisión"><span>1 · Lee el caso</span><b>→</b><span>2 · Aplica el criterio</span><b>→</b><span>3 · Elige</span></div>
+    <div class="eval-opts"><label class="eval-opt"><input type="radio" name="eq10" value="A" onchange="updateAnswered()"> <span>A) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Para escoger la habilidad que suene más profesional</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="B" onchange="updateAnswered()"> <span>B) <span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Para evitar hablar de limitaciones o dudas</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="C" onchange="updateAnswered()"> <span>C) <span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Para sustituir el portafolio por una sola afirmación</span></span></label>
+<label class="eval-opt"><input type="radio" name="eq10" value="D" onchange="updateAnswered()"> <span>D) <span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Para demostrar con evidencia una transferencia concreta dentro del minuto disponible</span></span></label></div></div>
 <div id="eval-submit-wrap" class="eval-submit-wrap">
       <button id="eval-submit-btn" class="eval-submit-btn" onclick="submitEval()" disabled>Enviar evaluación</button>
       <p class="eval-hint">Responde todas las preguntas para habilitar el envío.</p>

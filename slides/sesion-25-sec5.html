@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu formulario pide nombre completo y colegio, pero solo analizas respuestas agregadas. ¿Qué corresponde?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Guardarlos aparte</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Pedir también el correo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Dejarlo, es más completo</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Quitar esos campos: no los necesitas para lo que haces</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Guardarlos aparte</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Pedir también el correo</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Dejarlo, es más completo</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Quitar esos campos: no los necesitas para lo que haces</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu hoja de respuestas está compartida como "cualquiera con el enlace puede ver". ¿Es un problema?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Solo si es de otro colegio</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>No, nadie tiene el enlace</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Sí: cualquiera que lo consiga o lo encuentre la ve completa</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>No, si no tiene nombres</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Solo si es de otro colegio</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> No, nadie tiene el enlace</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Sí: cualquiera que lo consiga o lo encuentre la ve completa</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> No, si no tiene nombres</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -456,10 +459,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Alguien te pide que borres su respuesta de tu encuesta. ¿Qué haces?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Le digo que ya está procesada</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Le digo que es anónima igual</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>La borro y ajusto los números</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Lo dejo para el final</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Le digo que ya está procesada</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Para resolver este caso:</span> Le digo que es anónima igual</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> La borro y ajusto los números</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Lo dejo para el final</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

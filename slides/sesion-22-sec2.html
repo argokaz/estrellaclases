@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -362,10 +365,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cómo sabes si una imagen aporta?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Si va con los colores de la página</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Si al taparla se pierde información</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Si es grande</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Si es bonita y de buena calidad</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Para el caso presentado:</span> Si va con los colores de la página</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Si al taparla se pierde información</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Si es grande</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> Si es bonita y de buena calidad</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -416,10 +419,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu página tarda 8 segundos en cargar por las imágenes. ¿Qué haces?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Quito todas las imágenes</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Aviso que hay que esperar</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Reduzco el tamaño de las imágenes antes de subirlas</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Lo dejo, se ven mejor así</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Quito todas las imágenes</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Aviso que hay que esperar</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Reduzco el tamaño de las imágenes antes de subirlas</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Lo dejo, se ven mejor así</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -457,10 +460,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Vas a poner texto sobre una foto clara. ¿Qué corresponde?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Cambiar la fuente</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Achicar el texto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Poner el texto en blanco y ya</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Agregar una capa oscura sobre la foto o un fondo sólido al texto</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Cambiar la fuente</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Achicar el texto</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Poner el texto en blanco y ya</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Agregar una capa oscura sobre la foto o un fondo sólido al texto</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

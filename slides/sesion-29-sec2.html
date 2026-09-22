@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -362,10 +365,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué conviene tener listo antes de tu turno?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>El prototipo abierto, probado, con capturas de respaldo</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Nada, se improvisa mejor</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Una versión distinta a la ensayada</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Cambios de último momento</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> El prototipo abierto, probado, con capturas de respaldo</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Nada, se improvisa mejor</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Una versión distinta a la ensayada</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Cambios de último momento</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -416,10 +419,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Te preguntan algo que no puedes responder con seguridad. ¿Qué haces?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Digo que no lo sé y explico cómo lo averiguaría</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Invento algo que suene bien</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Le pido que pregunte otra cosa</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Cambio de tema</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Digo que no lo sé y explico cómo lo averiguaría</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando únicamente el caso presentado:</span> Invento algo que suene bien</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta la situación descrita:</span> Le pido que pregunte otra cosa</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta principal para resolver el caso planteado:</span> Cambio de tema</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -457,10 +460,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuándo se completa la autoevaluación digital?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Antes de sustentar, para adivinar cómo saldrá</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Nunca, es opcional</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Después de sustentar, con lo que de verdad pasó</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>La completa la profesora</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> Antes de sustentar, para adivinar cómo saldrá</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Nunca, es opcional</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Después de sustentar, con lo que de verdad pasó</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> La completa la profesora</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

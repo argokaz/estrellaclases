@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál de estas preguntas está bien hecha?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"¿Te gusta el fútbol y el vóley?"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"¿Qué deporte prefieres?"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"¿Qué opinas de todo?"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"¿No te disgusta el recreo?"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> "¿Te gusta el fútbol y el vóley?"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> "¿Qué deporte prefieres?"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> "¿Qué opinas de todo?"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación presentada:</span> "¿No te disgusta el recreo?"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Tu encuesta tiene 12 preguntas. ¿Qué va a pasar?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>Muchos se van a cansar y la dejarán a medias</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Se contará más rápido</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Todos la van a responder completa</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Las respuestas serán más exactas</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> Muchos se van a cansar y la dejarán a medias</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> Se contará más rápido</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Todos la van a responder completa</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Las respuestas serán más exactas</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -462,10 +465,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Quieres saber cuántos compañeros vienen caminando al colegio. ¿Qué tipo de pregunta usas?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>De opciones (caminando, bus, auto, bici)</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Una pregunta abierta larga</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Ninguna, mejor lo adivino</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>De texto libre</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> De opciones (caminando, bus, auto, bici)</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación presentada:</span> Una pregunta abierta larga</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación presentada:</span> Ninguna, mejor lo adivino</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> De texto libre</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

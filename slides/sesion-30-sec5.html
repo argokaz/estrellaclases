@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál entrada pertenece a un portafolio de transición?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Una lista de entregas con sus fechas</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Un archivo completo del curso ordenado por semanas</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>Una evidencia de planificación y una situación laboral o académica donde volverías a usarla</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Una galería con los productos finales más vistosos</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> Una lista de entregas con sus fechas</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Un archivo completo del curso ordenado por semanas</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> Una evidencia de planificación y una situación laboral o académica donde volverías a usarla</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> Una galería con los productos finales más vistosos</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Cuál compromiso de salida puede guiar una decisión real?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>“Debí organizar mejor este proyecto”</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>“Quiero usar mejor la tecnología”</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span>“Cuando una afirmación influya en una decisión, buscaré evidencia antes de compartirla”</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>“Recordaré que Computación fue importante”</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como primera decisión posible frente a toda la situación que se describe:</span> “Debí organizar mejor este proyecto”</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> “Quiero usar mejor la tecnología”</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> “Cuando una afirmación influya en una decisión, buscaré evidencia antes de compartirla”</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> “Recordaré que Computación fue importante”</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -463,10 +466,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué guion demuestra mejor que una habilidad puede transferirse fuera del colegio?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Explicar el compromiso sin conectarlo con ninguna evidencia</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Enumerar las herramientas usadas y el tiempo invertido</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Describir todo el proyecto en orden cronológico</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>Nombrar la habilidad, mostrar una evidencia, aplicarla a una situación futura y cerrar con un compromiso</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando solamente la información disponible en el caso presentado:</span> Explicar el compromiso sin conectarlo con ninguna evidencia</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como primera decisión posible frente a toda la situación que se describe:</span> Enumerar las herramientas usadas y el tiempo invertido</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente los datos y condiciones de la situación presentada:</span> Describir todo el proyecto en orden cronológico</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Nombrar la habilidad, mostrar una evidencia, aplicarla a una situación futura y cerrar con un compromiso</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

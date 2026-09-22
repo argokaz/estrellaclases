@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Qué bloque va siempre arriba de todo?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"decir Hola"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"mover 10 pasos"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"esperar 1 segundo"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>"al hacer clic en 🚩"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> "decir Hola"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación presentada:</span> "mover 10 pasos"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Frente al caso descrito:</span> "esperar 1 segundo"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> "al hacer clic en 🚩"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Le diste a la bandera y el gato no se mueve. ¿Qué revisas primero?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Empiezo de nuevo</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>Si los bloques están pegados a "al hacer clic en 🚩" y en el objeto correcto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Reinicio la computadora</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Cambio el fondo</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta inicial para resolver el problema exactamente como ha sido planteado:</span> Empiezo de nuevo</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> Si los bloques están pegados a "al hacer clic en 🚩" y en el objeto correcto</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Como primera decisión posible frente a toda la situación que se describe:</span> Reinicio la computadora</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta inicial para resolver el problema exactamente como ha sido planteado:</span> Cambio el fondo</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -463,10 +466,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Quieres que el gato espere un momento antes de hablar. ¿Qué bloque usas?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>"mover 10 pasos"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>"esperar 1 segundo"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"al presionar tecla"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>"cambiar disfraz"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> "mover 10 pasos"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Para el caso presentado:</span> "esperar 1 segundo"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación dada:</span> "al presionar tecla"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Considerando la situación:</span> "cambiar disfraz"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

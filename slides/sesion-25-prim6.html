@@ -239,6 +239,9 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   font-size:clamp(13px,1.55vw,26px);font-weight:800;cursor:pointer}
 .quiz-opts.quiz-ocultas{display:none}
 .quiz-reveal[hidden]{display:none}
+.quiz-opts .qopt{min-height:clamp(64px,8vh,96px);box-sizing:border-box;display:flex;align-items:center}
+.quiz-opts .opcion-marco{display:block;line-height:1.35}
+.quiz-opts .opcion-contexto{font-weight:800;color:var(--acc)}
 
 /* ── Podio del día (diapositiva de cierre) ── */
 .podio-hoy{width:100%;max-width:70%;margin-top:2.2%;display:flex;flex-direction:column;gap:.4em}
@@ -361,10 +364,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">Usas una imagen de IA en tu trabajo. ¿Qué escribes debajo?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>Nada, se entiende</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>"Foto de internet"</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>"Dibujo mío"</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span>"Imagen generada con IA"</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Nada, se entiende</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Ante la situación presentada:</span> "Foto de internet"</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> "Dibujo mío"</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> "Imagen generada con IA"</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -415,10 +418,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">¿Una imagen de IA sirve para probar que algo pasó de verdad?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span>No: la máquina la inventó, no pasó</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span>Sí, si se ve muy real</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Sí, si la hizo un adulto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>Depende del color</div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Según el caso descrito:</span> No: la máquina la inventó, no pasó</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta el caso planteado:</span> Sí, si se ve muy real</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Frente a la situación descrita:</span> Sí, si la hizo un adulto</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta la situación descrita:</span> Depende del color</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>
@@ -463,10 +466,10 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
 <p class="t-body" style="margin-top:1.5%;font-weight:700">La IA te genera una imagen con un error raro. ¿Qué haces?</p>
 <button class="quiz-reveal" onclick="revelarOpciones(this)">Pensé mi respuesta · mostrar opciones</button>
 <div class="quiz-opts quiz-ocultas" style="margin-top:2.5%">
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span>La uso igual</div>
-<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span>La cambio o la vuelvo a pedir con otras palabras</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span>Digo que es una foto</div>
-<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span>La borro y no uso ninguna</div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">A</span><span class="opcion-marco"><span class="opcion-contexto">Tomando en cuenta únicamente la situación que se presenta:</span> La uso igual</span></div>
+<div class="qopt" onclick="quizPick(this)" data-correct="true"><span class="qletter">B</span><span class="opcion-marco"><span class="opcion-contexto">Como respuesta al caso:</span> La cambio o la vuelvo a pedir con otras palabras</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">C</span><span class="opcion-marco"><span class="opcion-contexto">Considerando los datos de la situación descrita:</span> Digo que es una foto</span></div>
+<div class="qopt" onclick="quizPick(this)"><span class="qletter">D</span><span class="opcion-marco"><span class="opcion-contexto">Como decisión principal ante el caso descrito:</span> La borro y no uso ninguna</span></div>
 </div>
 <p class="quiz-feedback t-sm" style="margin-top:2%;min-height:1.5em"></p>
 <div class="bonus-bar"><span class="bonus-icon">⭐</span><p class="bonus-text"><strong>+1 punto</strong> · primer alumno en responder correctamente</p></div>

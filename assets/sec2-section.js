@@ -22,7 +22,7 @@
       'Joe Valentino Salcedo Palomino',
       'Naomi Ysamar Siesquen Castañeda',
       'Julio Angelo Torres Sanchez',
-      'Leysi Montaño Ramos',
+      'Leysi Montano',
     ],
     sec2b: [
       'Fabianna Zoe Aliaga Llamccaya',
@@ -60,6 +60,7 @@
   // en una laptop del colegio después de publicar la separación.
   sectionByName[norm('Leisy Mabel Montano Ramos')] = 'sec2a';
   sectionByName[norm('Leysi Montaño')] = 'sec2a';
+  sectionByName[norm('Leysi Montaño Ramos')] = 'sec2a';
 
   window.SEC2_SECTION = selected || 'sec2';
   window.SEC2_SECTION_LABEL = selected ? VALID[selected] : '2.° Secundaria';

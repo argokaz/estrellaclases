@@ -339,6 +339,13 @@
   function saveEvalProgress() {
     var identity = evalIdentity();
     if (!identity) return;
+    if (typeof window.__collectEvalProgress === 'function') {
+      writeStorage(evalProgressKey(identity), JSON.stringify({
+        diverse: window.__collectEvalProgress(), version: window.__evalProgressVersion,
+        t: Date.now(), nombre: identity.name
+      }));
+      return;
+    }
     var selected = {};
     document.querySelectorAll('.eval-q input[type="radio"]:checked').forEach(function (input) {
       selected[input.name] = input.value;
@@ -358,6 +365,13 @@
     try {
       var state = JSON.parse(raw);
       if (!state || !state.sel || Date.now() - (state.t || 0) > 6 * 3600 * 1000) {
+        if (state && state.diverse && state.version === window.__evalProgressVersion
+            && Date.now() - (state.t || 0) <= 6 * 3600 * 1000
+            && typeof window.__restoreEvalProgress === 'function') {
+          window.__restoreEvalProgress(state.diverse);
+          showChip('↩️ Recuperamos tu progreso de esta evaluación','#1d4ed8',5000);
+          return;
+        }
         removeStorage(key);
         return;
       }
@@ -530,8 +544,17 @@
     });
   }
   if (isEval) {
+    window.__saveEvalProgress = saveEvalProgress;
     document.addEventListener('change', function (event) {
-      if (event.target && event.target.type === 'radio' && /^eq\d+$/.test(event.target.name || '')) saveEvalProgress();
+      if (event.target && event.target.closest && event.target.closest('.eval-q')) saveEvalProgress();
+    }, true);
+    document.addEventListener('input', function (event) {
+      if (event.target && event.target.closest && event.target.closest('.eval-q')) saveEvalProgress();
+    }, true);
+    document.addEventListener('click', function (event) {
+      if (event.target && event.target.closest && event.target.closest('.eval-order-actions,.eval-confirm-order')) {
+        setTimeout(saveEvalProgress, 0);
+      }
     }, true);
     setInterval(restoreEvalProgress, 400);
   }

@@ -11,6 +11,7 @@
 
 const { supabase }    = require("./_supabase");
 const { normalize, titleCase, findBestPerson } = require("./_nameUtils");
+const { calcularScore } = require("./_scoreEval");
 
 // Nombres excluidos: no se guardan en BD (profesora actuando como test user)
 const EXCLUDED_NAMES = new Set(["estrella vizcarra"]);
@@ -41,14 +42,7 @@ exports.handler = async (event) => {
   // la BD rechaza → la nota se perdía en silencio. Recalculamos desde `correctas`
   // cuando el score viene fuera de rango, para que hasta los envíos ya
   // encolados (con score=100) se guarden bien al reintentar.
-  const totalN = (typeof total === "number" && total > 0) ? total : 10;
-  if (typeof correctas === "number" && correctas >= 0 && correctas <= totalN) {
-    score = Math.round((correctas / totalN) * 20);   // fuente de verdad: aciertos
-  } else if (score > 20) {
-    score = Math.round(score / 5);                    // 0–100 → 0–20
-  }
-  if (score < 0) score = 0;
-  if (score > 20) score = 20;
+  score = calcularScore(data);
 
   // Ignorar entregas de la profesora (test user) — responder OK sin guardar
   if (EXCLUDED_NAMES.has(normalize(nombre).toLowerCase())) {

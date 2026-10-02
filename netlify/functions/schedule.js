@@ -16,6 +16,7 @@
  */
 
 const { getStore } = require("@netlify/blobs");
+const calendarPlan = require('../../assets/calendar-plan');
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -65,10 +66,10 @@ exports.handler = async (event) => {
   if (event.httpMethod === "GET") {
     try {
       const raw = await store.get(KEY);
-      return res(200, { shifts: raw ? limpiar(JSON.parse(raw)) : [] });
+      return res(200, { shifts: calendarPlan.combine(raw ? limpiar(JSON.parse(raw)) : []) });
     } catch (e) {
       console.error("schedule GET error:", e.message);
-      return res(200, { shifts: [] });
+      return res(200, { shifts: calendarPlan.combine([]) });
     }
   }
 
@@ -80,7 +81,8 @@ exports.handler = async (event) => {
     const esperado = process.env.TEACHER_PASSWORD;
     if (pw !== esperado) return res(401, { error: "no autorizado" });
 
-    const shifts = limpiar(body.shifts);
+    // El plan versionado no se elimina accidentalmente desde el panel genérico.
+    const shifts = calendarPlan.combine(limpiar(body.shifts));
 
     try {
       await store.set(KEY, JSON.stringify(shifts));

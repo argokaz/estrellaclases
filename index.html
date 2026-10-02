@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<script src="/assets/calendar-plan.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Computación 2026 – Guía de Sesiones</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1586,7 +1587,8 @@ try { SHIFTS = JSON.parse(localStorage.getItem('cal_shifts')||'[]'); } catch(_){
 // S26 y S27 de sec4 se dictan juntas el 27 de noviembre por el aplazamiento
 // de una semana. S27 conserva sus archivos como referencia, pero no aparece
 // como una clase adicional en el recorrido del aula.
-const MERGED_SESSIONS = { sec4: { 27: 26 } };
+const MERGED_SESSIONS = window.SCHOOL_CALENDAR_PLAN.merged;
+SHIFTS = window.SCHOOL_CALENDAR_PLAN.combine(SHIFTS);
 function isMergedSession(session, gradeId){ return !!(MERGED_SESSIONS[gradeId] && MERGED_SESSIONS[gradeId][session]); }
 
 function addDaysISO(iso, days){
@@ -2355,6 +2357,13 @@ GRADES.sec2b = Object.assign({}, SEC2_SHARED_CURRICULUM, {
 });
 delete GRADES.sec2;
 
+// Clases integradas por aula; cada salón conserva su propia lista y sus datos.
+Object.entries(window.SCHOOL_CALENDAR_PLAN.lessons).forEach(([gradeId, lesson])=>{
+  GRADES[gradeId].sessions = GRADES[gradeId].sessions.map(s=>s.n===lesson.session
+    ? {...s,title:lesson.title,tools:lesson.tools,act:lesson.act,evidence:lesson.evidence,
+       cover:'Clase integrada: S'+lesson.sources.join(' + S')+'. '+lesson.act+'.'} : s);
+});
+
 function materialGrade(gradeId){
   return (gradeId === 'sec2a' || gradeId === 'sec2b') ? 'sec2' : gradeId;
 }
@@ -2553,6 +2562,7 @@ function renderPanel(gradeId){
   document.getElementById('prog-pct').textContent    = pct+'%';
 
   let html = `<div class="panel active" id="panel-${gradeId}">`;
+  if(today <= '2026-10-16') html += '<p role="status" style="padding:14px;border:1px solid var(--border);border-radius:12px">📅 El viernes 9 de octubre no habrá clases. Retomamos el 16 con una actividad integrada, sin duplicar exámenes ni tareas.</p>';
 
   // Las herramientas de la profesora viven en /profe, no aquí.
 
@@ -4287,7 +4297,7 @@ async function loadShifts(){
     if(!r.ok) return;
     const d = await r.json();
     if(Array.isArray(d.shifts)){
-      SHIFTS = d.shifts;
+      SHIFTS = window.SCHOOL_CALENDAR_PLAN.combine(d.shifts);
       localStorage.setItem('cal_shifts', JSON.stringify(SHIFTS));
       repintar();
     }
@@ -4348,7 +4358,9 @@ function renderSchedulePanel(){
           <span>· ${s.weeks} semana${s.weeks>1?'s':''}${s.until ? ` · hasta S${String(s.until).padStart(2,'0')}` : ''} · ${GRADE_LABEL_SHORT[s.grade]||s.grade}</span>
           ${s.reason?`<em>${s.reason}</em>`:''}
         </div>
-        <button class="sched-del" onclick="removeShift('${s.id}')">Quitar</button>
+        ${window.SCHOOL_CALENDAR_PLAN.shifts.some(p=>p.id===s.id)
+          ? '<span class="sched-empty">Plan de recuperación</span>'
+          : `<button class="sched-del" onclick="removeShift('${s.id}')">Quitar</button>`}
       </div>`).join('');
   }
 
@@ -5142,19 +5154,28 @@ async function entrarConsola(){
 <!-- BUILD_HISTORY_WIDGET -->
 <button id="build-version-trigger" class="build-version-trigger" type="button"
   aria-haspopup="dialog" aria-expanded="false" aria-controls="build-version-popover"
-  onclick="toggleBuildHistory()">Build 20260922.5</button>
+  onclick="toggleBuildHistory()">Build 20261002.1</button>
 
 <section id="build-version-popover" class="build-version-popover" role="dialog"
   aria-modal="false" aria-labelledby="build-version-title">
   <div class="build-version-head">
     <div>
       <strong id="build-version-title">Historial de versiones</strong>
-      <div class="build-version-current">Build actual: 20260922.5 · 22 sep 2026</div>
+      <div class="build-version-current">Build actual: 20261002.1 · 2 oct 2026</div>
     </div>
     <button class="build-version-close" type="button" onclick="closeBuildHistory()" aria-label="Cerrar historial">✕</button>
   </div>
 
   <div class="build-version-list">
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">Build 20261002.1</span><span class="build-version-date">2 oct 2026</span></div>
+      <div class="build-version-title">Recuperación integrada del 16 de octubre</div>
+      <ul class="build-version-changes">
+        <li>El 9 de octubre no habrá clases en ningún salón; 2.º B recupera también el contenido pendiente por la grabación de video.</li>
+        <li>Una actividad, una evaluación y una tarea integradas por salón; el año sigue cerrando el 18 de diciembre.</li>
+        <li>Se conserva el aplazamiento anterior de 4.º y sus ajustes de noviembre.</li>
+      </ul>
+    </article>
     <article class="build-version-item">
       <div class="build-version-meta"><span class="build-version-tag">Build 20260922.5</span><span class="build-version-date">22 sep 2026</span></div>
       <div class="build-version-title">Nombre de Leysi corregido en 2.º A</div>

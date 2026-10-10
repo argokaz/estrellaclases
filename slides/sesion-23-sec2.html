@@ -303,6 +303,22 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   .slide.active .tarea-plazo{animation:pIn .45s .3s ease both}
   .slide.active .tarea-aviso{animation:fUp .45s .45s ease both}
 }
+
+/* ── Cronómetro de clase ── */
+#crono{position:fixed;top:2.2%;left:0;right:0;margin:0 auto;width:fit-content;z-index:60;display:none;align-items:center;gap:.45em;
+  background:#fff;border:2px solid var(--acc);border-radius:100px;padding:.35em 1em .35em .7em;
+  box-shadow:0 8px 24px rgba(30,25,15,.18);cursor:pointer;color:#0a0a0a;
+  font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:clamp(20px,3.2vw,56px);line-height:1}
+#crono.abierto{display:flex}
+#crono .cr-ico{font-size:.8em}
+#crono .cr-t{font-variant-numeric:tabular-nums;min-width:2.6em;text-align:center}
+#crono.urgente{background:#fee2e2;border-color:#dc2626;color:#991b1b}
+#crono.listo{background:var(--pas);border-color:var(--acc)}
+@media (prefers-reduced-motion: no-preference){
+  #crono.abierto{animation:pIn .3s ease both}
+  #crono.urgente{animation:cronoLate 1s ease-in-out infinite}
+}
+@keyframes cronoLate{50%{transform:scale(1.07)}}
 </style><script src="/assets/sec2-section.js"></script>
 </head>
 <body>
@@ -536,7 +552,7 @@ body{background:#e7e3db;display:flex;flex-direction:column;align-items:center;ju
   <button id="btn-next" onclick="go(1)">Sig →</button>
 </nav>
 <div id="room-badge" style="position:fixed;bottom:52px;right:12px;z-index:200;background:#fff;border:2px solid #1d4ed8;border-radius:12px;padding:.4rem 1rem;font-family:monospace;font-size:1.2rem;font-weight:900;color:#1d4ed8;letter-spacing:.22em;box-shadow:0 6px 18px rgba(30,25,15,.12);pointer-events:none;display:flex;align-items:center;gap:.5rem"><span style="font-size:.8rem;letter-spacing:0;font-weight:600;font-family:system-ui;opacity:.8">📡</span><span id="room-code-display">···</span></div>
-<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-'+window.SEC2_SECTION+'-23';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:window.SEC2_SECTION,session:'23'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
+<script>(function(){const API='/.netlify/functions/sync';const OFFSET=1;function genCode(){const c='ABCDEFGHJKMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;}const RK='deck-room-'+window.SEC2_SECTION+'-23';const ROOM=sessionStorage.getItem(RK)||genCode();sessionStorage.setItem(RK,ROOM);document.getElementById('room-code-display').textContent=ROOM;(function reg(n){fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({room:ROOM,slide:0,grade:window.SEC2_SECTION,session:'23'})}).then(r=>{if(!r.ok&&n<8)setTimeout(()=>reg(n+1),1500);}).catch(()=>{if(n<8)setTimeout(()=>reg(n+1),1500);});})(0);let last=0,busy=false,lastBonusTs=0,lastRuletaTs=0,lastVotoTs=0,lastCronoTs=0;async function poll(){if(busy)return;busy=true;try{const r=await fetch(API+'?room='+ROOM+'&_='+Date.now());if(!r.ok)return;const d=await r.json();if(typeof d.slide==='number'&&d.slide>=0&&d.slide!==last){last=d.slide;goTo(d.slide+OFFSET);}if(d.bonus&&d.bonus.ts&&d.bonus.ts>lastBonusTs){lastBonusTs=d.bonus.ts;showCeleb(d.bonus.nombre);if(window.registrarPunto)registrarPunto(d.bonus.nombre);}if(d.ruleta&&d.ruleta.ts&&d.ruleta.ts>lastRuletaTs){lastRuletaTs=d.ruleta.ts;if(window.girarHacia)girarHacia(d.ruleta.nombre);}if(d.votacion&&d.votacion.ts&&d.votacion.ts>lastVotoTs){lastVotoTs=d.votacion.ts;if(window.mostrarVotacion)mostrarVotacion(d.votacion);}if(d.cronometro&&d.cronometro.ts&&d.cronometro.ts>lastCronoTs){lastCronoTs=d.cronometro.ts;if(window.cronometroRemoto)cronometroRemoto(d.cronometro,d.ahora);}}catch(e){}finally{busy=false;}}setInterval(poll,1500);poll();})();</script>
 <script>const slides=[...document.querySelectorAll('.slide')];let initialized=false;
 const total=19;let cur=0;
 const dots=document.getElementById('dots');
@@ -858,6 +874,81 @@ let lastBonusId=null;
     void el.offsetWidth;
     [].forEach.call(el.querySelectorAll('.vt-barra'),function(b){b.style.width=b.dataset.w+'%';});
   };
+})();
+</script>
+<script>
+/* ═══ Cronómetro de clase ═══
+   La profesora lo lanza desde el teléfono (notas → sync → cronometroRemoto) o
+   con la tecla T en el proyector (1 min; otra vez T lo detiene). Cuenta hacia
+   atrás en una esquina, sin tapar la diapositiva; en los últimos 10 s se pone
+   urgente y al llegar a cero avisa con un tono suave. El tiempo restante se
+   calcula contra la hora del servidor (`ahora`), así un deck recargado o un
+   teléfono con el reloj corrido no reinician ni desfasan la cuenta. */
+(function(){
+  var el=document.createElement('div');
+  el.id='crono';
+  el.setAttribute('role','timer');
+  el.innerHTML='<span class="cr-ico">⏱️</span><span class="cr-t">0:00</span>';
+  el.title='Toca para cerrar';
+  document.body.appendChild(el);
+
+  var fin=0,tick=null,oculta=null,aviso=false;
+  function fmt(ms){
+    var s=Math.max(0,Math.ceil(ms/1000));
+    return Math.floor(s/60)+':'+('0'+(s%60)).slice(-2);
+  }
+  function pitar(){
+    try{
+      var Ctx=window.AudioContext||window.webkitAudioContext;
+      if(!Ctx)return;
+      var c=new Ctx(),o=c.createOscillator(),g=c.createGain();
+      o.type='sine';o.frequency.value=660;
+      g.gain.setValueAtTime(.0001,c.currentTime);
+      g.gain.exponentialRampToValueAtTime(.18,c.currentTime+.05);
+      g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.9);
+      o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.95);
+    }catch(e){}
+  }
+  function detener(){
+    clearInterval(tick);tick=null;clearTimeout(oculta);fin=0;
+    el.classList.remove('abierto','urgente','listo');
+  }
+  function pintar(){
+    var resta=fin-Date.now();
+    if(resta>0){
+      el.querySelector('.cr-t').textContent=fmt(resta);
+      el.classList.toggle('urgente',resta<=10000);
+      return;
+    }
+    clearInterval(tick);tick=null;
+    el.classList.remove('urgente');el.classList.add('listo');
+    el.querySelector('.cr-t').textContent='¡Tiempo!';
+    if(!aviso){aviso=true;pitar();}
+    oculta=setTimeout(detener,8000);
+  }
+  function iniciar(segundos){
+    detener();aviso=false;
+    fin=Date.now()+segundos*1000;
+    el.classList.add('abierto');
+    pintar();
+    tick=setInterval(pintar,250);
+  }
+  el.onclick=detener;
+
+  /* Llega por el poll de sync. `ahora` y `c.ts` son hora del servidor. */
+  window.cronometroRemoto=function(c,ahora){
+    if(!c||typeof c.segundos!=='number')return;
+    if(c.segundos<=0){detener();return;}
+    var resta=c.segundos-(((ahora||Date.now())-c.ts)/1000);
+    if(resta<=0)return;           /* cronómetro viejo: no se revive */
+    iniciar(resta);
+  };
+
+  document.addEventListener('keydown',function(e){
+    if(e.key!=='t'&&e.key!=='T')return;
+    if(e.ctrlKey||e.metaKey||e.altKey)return;
+    if(fin&&el.classList.contains('abierto'))detener();else iniciar(60);
+  });
 })();
 </script>
 </body></html>

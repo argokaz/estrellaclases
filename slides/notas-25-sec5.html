@@ -41,10 +41,27 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 .vw-btn{width:100%;margin-top:.2em}
 .bw-res{font-size:.85em;font-weight:700;color:var(--text);margin-top:.45em;line-height:1.45}
 .bw-res:empty{display:none}
+.cron-panel{background:var(--bg2);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:.7em .8em;margin-bottom:.8em}
+.cron-tit{font-size:.7em;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:.5em}
+.cron-row{display:flex;gap:.4em}
+.cron-btn{flex:1;min-height:44px;border:0;border-radius:10px;background:var(--accent);color:#0b0b0b;font-weight:800;font-size:.9em;cursor:pointer}
+.cron-stop{flex:0 0 52px;background:rgba(255,255,255,.12);color:var(--text)}
+.cron-msg{font-size:.8em;color:var(--muted);margin-top:.45em;min-height:1.2em}
 </style></head>
 <body>
 <div class="top-bar"><div><div class="top-bar-title">Sesión 25 · 5.° Secundaria</div><div class="top-bar-meta">Proyecto final: Revisión de seguridad y ética · Viernes 13 de noviembre 2026</div></div><button onclick="openSyncOverlay()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#e6edf3;border-radius:8px;padding:.3rem .75rem;font-size:.78rem;font-weight:700;cursor:pointer;">📡 Sync</button></div>
 <div class="cards-wrap">
+<div class="cron-panel">
+  <p class="cron-tit">⏱️ Cronómetro en la pantalla grande</p>
+  <div class="cron-row">
+    <button class="cron-btn" onclick="cronoRemoto(60)">1 min</button>
+    <button class="cron-btn" onclick="cronoRemoto(120)">2 min</button>
+    <button class="cron-btn" onclick="cronoRemoto(180)">3 min</button>
+    <button class="cron-btn" onclick="cronoRemoto(300)">5 min</button>
+    <button class="cron-btn cron-stop" onclick="cronoRemoto(0)">⏹</button>
+  </div>
+  <p id="cron-msg" class="cron-msg"> </p>
+</div>
 <div class="card">
   <div class="card-header"><div class="ch-left"><span class="card-num">2</span><span class="card-title">¿Qué haremos hoy?</span></div><span class="card-time">3 min</span><span class="card-arrow">▾</span></div>
   <div class="card-body"><p class="section-lbl">📋 Notas</p><p class="notes-text">Las 3 metas: datos, consentimiento y mal uso. Continúa la S23 y S24: ya midieron y ya arman el pitch; antes de mostrarlo hay que revisar riesgos.</p><p class="section-lbl">⚙️ Mecánica</p><p class="mech-text">Pide que tengan abiertos su proyecto y sus hojas de datos: la auditoría es sobre lo real.</p></div>
@@ -398,6 +415,22 @@ async function darBonus(selId,msgId){
 })();
 </script>
 <script>
+/* ═══ Cronómetro desde el control remoto ═══
+   Manda la duración por sync; el proyector la cuenta hacia atrás. 0 = detener. */
+function cronoRemoto(seg){
+  var msg=document.getElementById('cron-msg');
+  if(!msg)return;
+  if(!syncActive||!syncRoom){msg.textContent='⚠️ Conecta 📡 Sync para usar el cronómetro en la pantalla';return;}
+  msg.textContent=seg?'Enviando…':'Deteniendo…';
+  fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({room:syncRoom,cronometro:{segundos:seg}})})
+    .then(function(r){
+      if(!r.ok)throw new Error('http '+r.status);
+      msg.textContent=seg?('⏱️ '+(seg/60)+' min en la pantalla'):'⏹ Cronómetro detenido';
+    })
+    .catch(function(){msg.textContent='❌ No llegó a la pantalla';});
+}
+
 /* ═══ Ruleta desde el control remoto ═══
    La profesora gira desde el teléfono y la rueda del proyector obedece: se
    elige aquí al alumno, se manda por sync y el deck lo hace girar hasta él.

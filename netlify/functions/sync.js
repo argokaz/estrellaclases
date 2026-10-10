@@ -1,8 +1,8 @@
 /**
  * sync.js — Remote sync entre proyector (sesion-NN) y notas del profesor (notas-NN)
  *
- * GET  /.netlify/functions/sync?room=CODE   → {slide, grade, session, bonus?, ts}
- * POST /.netlify/functions/sync             ← {room, slide?, grade?, session?, bonus?}
+ * GET  /.netlify/functions/sync?room=CODE   → {slide, grade, session, bonus?, cronometro?, ahora, ts}
+ * POST /.netlify/functions/sync             ← {room, slide?, grade?, session?, bonus?, cronometro?}
  *
  * Usa Netlify Blobs ("sync-rooms") para persistencia entre instancias Lambda.
  * Credenciales explícitas: SITE_ID + NETLIFY_TOKEN (ya configurados en Netlify).
@@ -39,7 +39,10 @@ exports.handler = async (event) => {
     try {
       const raw = await store.get(room);
       if (!raw) return res(200, { slide: -1 }); // sala no inicializada aún
-      return res(200, JSON.parse(raw));
+      // `ahora` es la hora del SERVIDOR: el proyector calcula cuánto le queda al
+      // cronómetro contra ella, no contra el reloj del teléfono (que puede ir
+      // desfasado) y sin reiniciar un cronómetro viejo al recargar el deck.
+      return res(200, { ...JSON.parse(raw), ahora: Date.now() });
     } catch (e) {
       console.error("sync GET error:", e.message);
       return res(200, { slide: -1 });
@@ -51,9 +54,9 @@ exports.handler = async (event) => {
     let body;
     try { body = JSON.parse(event.body); } catch { return res(400, { error: "bad json" }); }
 
-    const { room, slide, bonus, grade, session, ruleta, votacion } = body;
+    const { room, slide, bonus, grade, session, ruleta, votacion, cronometro } = body;
     if (!room || room.length > 8) return res(400, { error: "bad params" });
-    if (typeof slide !== "number" && !bonus && !grade && !ruleta && !votacion) return res(400, { error: "bad params" });
+    if (typeof slide !== "number" && !bonus && !grade && !ruleta && !votacion && !(cronometro && typeof cronometro.segundos === "number")) return res(400, { error: "bad params" });
 
     // Leer estado actual y mergear — todos los campos son independientes
     let current = { slide: -1 };
@@ -77,6 +80,14 @@ exports.handler = async (event) => {
           n: Math.max(0, Math.min(999, Number(o.n) || 0)),
         })),
         ts: votacion.ts || Date.now(),
+      };
+    }
+    // Cronómetro de clase: la profesora lo lanza desde sus notas. El inicio se
+    // sella con la hora del servidor; segundos = 0 lo detiene.
+    if (cronometro && typeof cronometro.segundos === "number") {
+      current.cronometro = {
+        segundos: Math.max(0, Math.min(3600, Math.round(cronometro.segundos))),
+        ts: Date.now(),
       };
     }
     if (grade)   current.grade   = grade;

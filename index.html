@@ -189,6 +189,10 @@ button{font-family:inherit;cursor:pointer;}
   border:1px solid var(--border);border-radius:10px;
 }
 .obj-strip strong{color:var(--text);}
+.obj-strip{flex-wrap:wrap;}
+.obj-diseno{margin-left:auto;font-weight:700;color:var(--text);text-decoration:none;white-space:nowrap;
+  border-bottom:2px solid var(--gaccent,var(--accent));}
+.obj-diseno:hover{color:var(--gaccent,var(--accent));}
 
 /* ── ACCESO PROFESORA EN HEADER ──────────────────────────── */
 .prof-access{
@@ -2482,6 +2486,8 @@ function daysSince(dateStr){
 
 // Acento visual de cada grado (mismo sistema que decks/repasos/tareas)
 const GRADE_ACCENTS = {prim6:'#15803d', sec2a:'#1d4ed8', sec2b:'#2563eb', sec3:'#c2410c', sec4:'#7c3aed', sec5:'#b91c1c'};
+// Salones cuyo proyecto final es una página, web app o app (ver diseno.html)
+const DISENO_AULAS = ['sec2a','sec2b','sec4','sec5'];
 
 // El selector NO recuerda el salón: las laptops del colegio rotan entre
 // alumnos y el siguiente entraría al aula del anterior sin darse cuenta.
@@ -2574,7 +2580,10 @@ function renderPanel(gradeId){
   html += buildRankingPlaceholder(gradeId, unlocked);
 
   // ── 4. OBJETIVO FINAL — strip compacto ─────────────────────
-  html += `<div class="obj-strip">🎯 <span>Proyecto final del curso: <strong>${g.project}</strong></span></div>`;
+  // Los salones que construyen página o app planean en grupo su documento de diseño
+  const diseno = DISENO_AULAS.includes(gradeId)
+    ? `<a class="obj-diseno" href="/diseno.html?aula=${gradeId}" style="--gaccent:${GRADE_ACCENTS[gradeId]}">📐 Documento de diseño del grupo →</a>` : '';
+  html += `<div class="obj-strip">🎯 <span>Proyecto final del curso: <strong>${g.project}</strong></span>${diseno}</div>`;
 
   // ── CLASE DE HOY (tarjeta completa) — solo profesora; el hero cubre al alumno ──
   if(todayItem && unlocked){
@@ -4567,6 +4576,7 @@ function renderConsola(gradeId){
         <button class="cns-tool" onclick="openSchedule()" title="Aplazar clases si no se dictó alguna">🗓️ Aplazar clases</button>
         <button class="cns-tool" onclick="openAccess()" title="Generar el enlace de acceso a los prompts para un colega">✨ Enlaces de prompts</button>
         <button class="cns-tool" onclick="openTrash()" title="Restaurar alumnos, evaluaciones o tareas archivadas">🗑️ Papelera</button>
+        ${DISENO_AULAS.includes(gradeId) ? `<a class="cns-tool" href="/diseno.html?aula=${gradeId}" style="text-decoration:none" title="Ver los documentos de diseño de los grupos de este salón">📐 Diseños de proyecto</a>` : ''}
         <a class="cns-tool" href="/" style="text-decoration:none">Ver como alumno</a>
         <button class="cns-tool" onclick="lock()">Salir</button>
       </div>
@@ -5159,19 +5169,29 @@ async function entrarConsola(){
 <!-- BUILD_HISTORY_WIDGET -->
 <button id="build-version-trigger" class="build-version-trigger" type="button"
   aria-haspopup="dialog" aria-expanded="false" aria-controls="build-version-popover"
-  onclick="toggleBuildHistory()">Build 20261030.1</button>
+  onclick="toggleBuildHistory()">Build 20261030.2</button>
 
 <section id="build-version-popover" class="build-version-popover" role="dialog"
   aria-modal="false" aria-labelledby="build-version-title">
   <div class="build-version-head">
     <div>
       <strong id="build-version-title">Historial de versiones</strong>
-      <div class="build-version-current">Build actual: 20261030.1 · 30 oct 2026</div>
+      <div class="build-version-current">Build actual: 20261030.2 · 30 oct 2026</div>
     </div>
     <button class="build-version-close" type="button" onclick="closeBuildHistory()" aria-label="Cerrar historial">✕</button>
   </div>
 
   <div class="build-version-list">
+    <article class="build-version-item">
+      <div class="build-version-meta"><span class="build-version-tag">Build 20261030.2</span><span class="build-version-date">30 oct 2026</span></div>
+      <div class="build-version-title">Documento de diseño del proyecto final, por grupos</div>
+      <ul class="build-version-changes">
+        <li>Nueva página /diseno.html para 2.º A, 2.º B, 4.º y 5.º: cada grupo crea su documento con el nombre del proyecto y lo llena en 10 secciones (problema, idea en una frase, funciones, pantallas, contenido, herramienta, prueba, plan y revisión).</li>
+        <li>Se guarda solo mientras escriben, campo por campo: dos integrantes pueden escribir a la vez sin borrarse el trabajo, y cada uno ve lo del resto en segundos, con quién lo escribió.</li>
+        <li>Sin conexión, lo escrito queda en el equipo y se envía solo al volver. Se entra desde el panel del salón; la profesora lo abre desde la consola y puede eliminar proyectos de prueba.</li>
+      </ul>
+    </article>
+
     <article class="build-version-item">
       <div class="build-version-meta"><span class="build-version-tag">Build 20261030.1</span><span class="build-version-date">30 oct 2026</span></div>
       <div class="build-version-title">La consola vuelve a recorrer las clases anteriores</div>

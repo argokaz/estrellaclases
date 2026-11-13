@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>App vocacional · Demo 5.° Secundaria</title>
+<meta name="description" content="Demo interactiva de la app de test vocacional que está construyendo 5.° de secundaria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07040f; --ink:#fff; --mute:#b9b3d6;
+  --a:#ff3d7f; --b:#7c3aed; --c:#22d3ee; --d:#facc15; --e:#34d399;
+  --card:rgba(255,255,255,.07); --line:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+
+/* ---------- fondo vivo ---------- */
+.sky{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;animation:float 14s ease-in-out infinite}
+.orb.o1{width:520px;height:520px;background:var(--b);left:-120px;top:-140px}
+.orb.o2{width:460px;height:460px;background:var(--a);right:-140px;top:20%;animation-delay:-4s}
+.orb.o3{width:420px;height:420px;background:var(--c);left:25%;bottom:-200px;animation-delay:-8s;opacity:.35}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-30px) scale(1.12)}}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+.star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:tw 3s infinite}
+@keyframes tw{0%,100%{opacity:.15}50%{opacity:1}}
+
+/* ---------- layout ---------- */
+.stage{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:56px;align-items:center;max-width:1180px;margin:0 auto;padding:40px 24px}
+.pitch h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,5.6vw,76px);line-height:.95;letter-spacing:-2px;font-weight:700}
+.grad{background:linear-gradient(90deg,var(--d),var(--a),var(--c),var(--d));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes shine{to{background-position:300% 0}}
+.tag{display:inline-flex;gap:8px;align-items:center;font-weight:800;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border-radius:99px;background:rgba(250,204,21,.14);color:var(--d);border:1px solid rgba(250,204,21,.4);margin-bottom:22px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--d);box-shadow:0 0 12px var(--d);animation:tw 1.2s infinite}
+.lead{font-size:19px;line-height:1.55;color:var(--mute);margin:22px 0 28px;max-width:520px}
+.lead b{color:#fff}
+.steps{display:grid;gap:10px;max-width:520px}
+.step{display:flex;gap:14px;align-items:center;padding:13px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(8px);font-size:15px}
+.step .n{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-weight:900;background:linear-gradient(135deg,var(--a),var(--b))}
+.step.ok .n{background:linear-gradient(135deg,var(--e),#059669)}
+.step small{display:block;color:var(--mute);font-size:12.5px;margin-top:2px}
+.credit{margin-top:22px;font-size:13px;color:var(--mute)}
+.credit b{color:var(--c)}
+
+/* ---------- teléfono ---------- */
+.phone{width:min(390px,92vw);height:min(800px,86vh);min-height:640px;border-radius:52px;padding:12px;background:linear-gradient(145deg,#2a2440,#0d0a18);box-shadow:0 0 0 2px #3b3355,0 40px 120px -20px rgba(124,58,237,.7),0 0 80px -10px rgba(255,61,127,.5);position:relative;animation:bob 6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-12px) rotate(1deg)}}
+.screen{position:relative;height:100%;border-radius:42px;overflow:hidden;background:radial-gradient(120% 80% at 50% 0%,#2b1458 0%,#120926 55%,#0a0616 100%)}
+.notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;border-radius:20px;background:#000;z-index:20}
+.status{position:absolute;top:14px;left:30px;right:30px;display:flex;justify-content:space-between;font-size:13px;font-weight:700;z-index:19}
+.view{position:absolute;inset:0;padding:62px 22px 26px;display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(40px);transition:.45s cubic-bezier(.2,.8,.2,1)}
+.view.on{opacity:1;pointer-events:auto;transform:none}
+.view.out{transform:translateX(-40px)}
+
+/* splash */
+.logo{width:110px;height:110px;border-radius:32px;margin:40px auto 22px;display:grid;place-items:center;font-size:56px;background:conic-gradient(from 0deg,var(--a),var(--d),var(--c),var(--b),var(--a));animation:spin 8s linear infinite;box-shadow:0 0 60px rgba(255,61,127,.6)}
+.logo span{animation:spin 8s linear infinite reverse;display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.appname{font-family:'Space Grotesk';font-size:40px;font-weight:700;text-align:center;letter-spacing:-1px}
+.sub{text-align:center;color:var(--mute);margin:10px 8px 0;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:24px 0 auto}
+.chip{padding:8px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-size:13px;font-weight:600}
+.cta{margin-top:18px;width:100%;padding:18px;border-radius:20px;font-weight:900;font-size:17px;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 12px 40px -8px rgba(255,61,127,.8);position:relative;overflow:hidden;transition:transform .15s}
+.cta:active{transform:scale(.97)}
+.cta::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 2.6s infinite}
+@keyframes sweep{60%,100%{transform:translateX(100%)}}
+.ghost{margin-top:10px;width:100%;padding:13px;border-radius:16px;font-weight:700;color:var(--mute);border:1px solid var(--line)}
+
+/* test */
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.back{width:38px;height:38px;border-radius:12px;background:var(--card);font-size:18px}
+.bar{height:10px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:26px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--d),var(--a));border-radius:9px;transition:width .5s;box-shadow:0 0 16px var(--a)}
+.qnum{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--d);text-transform:uppercase}
+.q{font-family:'Space Grotesk';font-size:27px;line-height:1.15;margin:8px 0 22px;font-weight:700}
+.opts{display:grid;gap:11px}
+.opt{display:flex;align-items:center;gap:14px;text-align:left;padding:16px;border-radius:18px;background:var(--card);border:1.5px solid var(--line);font-weight:600;font-size:15.5px;transition:.2s;animation:pop .45s backwards}
+.opt:nth-child(2){animation-delay:.06s}.opt:nth-child(3){animation-delay:.12s}.opt:nth-child(4){animation-delay:.18s}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}}
+.opt .em{font-size:26px}
+.opt:hover{border-color:var(--c);background:rgba(34,211,238,.1)}
+.opt.pick{border-color:var(--d);background:rgba(250,204,21,.16);transform:scale(1.02)}
+
+/* cargando */
+.loader{margin:auto;text-align:center}
+.ring{width:130px;height:130px;margin:0 auto 26px;border-radius:50%;background:conic-gradient(var(--a),var(--d),var(--c),var(--b),var(--a));animation:spin 1s linear infinite;-webkit-mask:radial-gradient(circle,transparent 55%,#000 57%);mask:radial-gradient(circle,transparent 55%,#000 57%)}
+.loadtxt{font-family:'Space Grotesk';font-size:22px;font-weight:700}
+
+/* resultados */
+.h2{font-family:'Space Grotesk';font-size:26px;font-weight:700;line-height:1.1}
+.hint{color:var(--mute);font-size:13.5px;margin:6px 0 14px}
+.stack{position:relative;flex:1;min-height:300px}
+.car{position:absolute;inset:0 0 auto;height:100%;max-height:360px;border-radius:26px;padding:22px;display:flex;flex-direction:column;background:linear-gradient(160deg,var(--c1),var(--c2));box-shadow:0 20px 50px -14px rgba(0,0,0,.7);transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .45s;touch-action:pan-y;user-select:none}
+.car .big{font-size:58px}
+.car h3{font-family:'Space Grotesk';font-size:28px;margin:8px 0 4px;line-height:1.05}
+.car p{font-size:14px;opacity:.9;line-height:1.45}
+.match{margin-top:auto;display:flex;align-items:end;justify-content:space-between}
+.match b{font-family:'Space Grotesk';font-size:52px;line-height:.9}
+.match small{font-weight:800;font-size:12px;letter-spacing:1px;text-transform:uppercase;opacity:.85}
+.new{position:absolute;top:18px;right:18px;background:#fff;color:#000;font-weight:900;font-size:11px;padding:5px 9px;border-radius:8px;letter-spacing:.5px}
+.car.gone-l{transform:translateX(-130%) rotate(-18deg);opacity:0}
+.car.gone-r{transform:translateX(130%) rotate(18deg);opacity:0}
+.swipe{display:flex;gap:14px;justify-content:center;margin-top:14px}
+.swipe button{width:66px;height:66px;border-radius:50%;font-size:28px;background:var(--card);border:1.5px solid var(--line);transition:.15s}
+.swipe button:active{transform:scale(.9)}
+.swipe .yes{background:linear-gradient(135deg,var(--e),#059669);border:0;box-shadow:0 10px 30px -6px rgba(52,211,153,.8)}
+.swipe .no{color:#fda4af}
+
+/* detalle */
+.hero{border-radius:24px;padding:18px;background:linear-gradient(160deg,var(--c1),var(--c2));display:flex;gap:14px;align-items:center;margin-bottom:14px}
+.hero .big{font-size:44px}
+.hero h3{font-family:'Space Grotesk';font-size:22px;line-height:1.05}
+.hero small{opacity:.9;font-size:12.5px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
+.tab{padding:10px 2px;border-radius:14px;font-size:11.5px;font-weight:800;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:3px}
+.tab span{font-size:19px}
+.tab.on{background:#fff;color:#120926}
+.panel{flex:1;overflow:auto;display:grid;gap:10px;align-content:start;scrollbar-width:none}
+.row{padding:14px;border-radius:18px;background:var(--card);border:1px solid var(--line);animation:pop .4s backwards}
+.row:nth-child(2){animation-delay:.07s}.row:nth-child(3){animation-delay:.14s}
+.row b{display:block;font-size:15px}
+.row small{color:var(--mute);font-size:12.5px;line-height:1.4;display:block;margin-top:3px}
+.pill{display:inline-block;margin-top:8px;margin-right:6px;padding:4px 9px;border-radius:8px;font-size:11.5px;font-weight:800;background:rgba(34,211,238,.15);color:var(--c)}
+.pill.y{background:rgba(250,204,21,.15);color:var(--d)}
+.pill.g{background:rgba(52,211,153,.15);color:var(--e)}
+.count{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.count div{text-align:center;padding:10px 4px;border-radius:14px;background:rgba(0,0,0,.3)}
+.count b{font-family:'Space Grotesk';font-size:26px}
+.count small{margin:0}
+.demo-note{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:10.5px;color:rgba(255,255,255,.45);z-index:5}
+
+/* confeti */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+@media (max-width:900px){
+  .stage{grid-template-columns:1fr;gap:28px;padding:24px 16px 40px;justify-items:center}
+  .pitch{text-align:center}
+  .lead,.steps{margin-left:auto;margin-right:auto}
+  .step{text-align:left}
+  .phone{animation:none}
+}
+@media (max-width:480px){
+  .stage{padding:0 0 30px}
+  .pitch{padding:22px 16px 0;order:2}
+  .phone{order:1;width:100vw;height:100svh;min-height:600px;border-radius:0;padding:0;box-shadow:none;background:none}
+  .screen{border-radius:0}
+  .notch{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><div class="grid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <section class="pitch">
+    <div class="tag"><i></i> Demo en vivo · 5.° de Secundaria</div>
+    <h1>¿No sabes qué estudiar?<br><span class="grad">Tu rumbo empieza aquí.</span></h1>
+    <p class="lead">Esta es la app que está creando <b>5.° de Secundaria</b>: haces un test, ves las carreras que van contigo, <b>descartas</b> las que no te gustan y te muestra <b>dónde estudiar, cuándo es la admisión y cuánto cuesta</b>.</p>
+    <div class="steps">
+      <div class="step ok"><div class="n">✓</div><div>La idea y el problema<small>Ayudar a quien no sabe qué ni dónde estudiar</small></div></div>
+      <div class="step ok"><div class="n">✓</div><div>El recorrido de la app<small>Test → carreras → descartar → dónde estudiar</small></div></div>
+      <div class="step ok"><div class="n">✓</div><div>El pitch<small>«Tranquilo, si todavía no sabes qué carrera elegir…»</small></div></div>
+      <div class="step"><div class="n">4</div><div>Marca, preguntas reales y datos<small>Lo que estamos construyendo ahora</small></div></div>
+    </div>
+    <p class="credit">Hecho con las ideas de las tareas de <b>5.° de Secundaria</b> · Asunción School · Computación 2026</p>
+  </section>
+
+  <div class="phone" role="region" aria-label="Demo de la app">
+    <div class="screen" id="screen">
+      <div class="notch"></div>
+      <div class="status"><span id="clock">8:15</span><span>📶 🔋</span></div>
+
+      <!-- 1. inicio -->
+      <section class="view on" id="v-home">
+        <div class="logo"><span>🧭</span></div>
+        <div class="appname">Rumbo</div>
+        <p class="sub">Descubre la carrera que va contigo y todo lo que necesitas para llegar.</p>
+        <div class="chips"><span class="chip">🎯 ¿Qué estudiar?</span><span class="chip">📍 ¿Dónde?</span><span class="chip">💰 ¿Cuánto cuesta?</span><span class="chip">📅 ¿Cuándo es la admisión?</span></div>
+        <button class="cta" data-go="test">Empezar mi test ✨</button>
+        <button class="ghost" data-go="new">🆕 Ver carreras nuevas</button>
+      </section>
+
+      <!-- 2. test -->
+      <section class="view" id="v-test">
+        <div class="top"><button class="back" data-go="home" aria-label="Volver">←</button><span class="qnum" id="qn">Pregunta 1 de 6</span><span style="width:38px"></span></div>
+        <div class="bar"><i id="qbar"></i></div>
+        <div class="q" id="qt"></div>
+        <div class="opts" id="qo"></div>
+      </section>
+
+      <!-- 3. calculando -->
+      <section class="view" id="v-load">
+        <div class="loader"><div class="ring"></div><div class="loadtxt" id="lt">Leyendo tus respuestas…</div></div>
+      </section>
+
+      <!-- 4. resultados -->
+      <section class="view" id="v-res">
+        <div class="h2">Tus carreras 🔥</div>
+        <p class="hint">Descarta 👈 las que menos te gustan · quédate 👉 con la que más.</p>
+        <div class="stack" id="stack"></div>
+        <div class="swipe"><button class="no" id="bNo" aria-label="Descartar">✕</button><button class="yes" id="bYes" aria-label="Elegir">💚</button></div>
+      </section>
+
+      <!-- 5. detalle -->
+      <section class="view" id="v-det">
+        <div class="top"><button class="back" data-go="res" aria-label="Volver">←</button><span class="qnum">Tu elección</span><span style="width:38px"></span></div>
+        <div class="hero" id="hero"></div>
+        <div class="tabs" id="tabs">
+          <button class="tab on" data-t="donde"><span>📍</span>Dónde</button>
+          <button class="tab" data-t="admision"><span>📅</span>Admisión</button>
+          <button class="tab" data-t="simulacro"><span>📝</span>Simulacro</button>
+          <button class="tab" data-t="costos"><span>💰</span>Costos</button>
+        </div>
+        <div class="panel" id="panel"></div>
+      </section>
+
+      <!-- 6. carreras nuevas -->
+      <section class="view" id="v-new">
+        <div class="top"><button class="back" data-go="home" aria-label="Volver">←</button><span class="qnum">Carreras nuevas</span><span style="width:38px"></span></div>
+        <div class="h2">Lo nuevo que están abriendo 🚀</div>
+        <p class="hint">Carreras que recién se están implementando y dónde.</p>
+        <div class="panel" id="newlist"></div>
+      </section>
+
+      <div class="demo-note">Demo · datos de ejemplo, no son fechas ni precios reales</div>
+    </div>
+  </div>
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+
+/* ---------- datos (de ejemplo) ---------- */
+const AREAS={
+  tec:{n:'Tecnología'}, sal:{n:'Salud'}, art:{n:'Arte y diseño'}, neg:{n:'Negocios'}, soc:{n:'Personas y sociedad'}, cie:{n:'Ciencia'}
+};
+const Q=[
+  {t:'Un sábado libre, ¿qué prefieres hacer?',o:[['🎮','Armar o arreglar algo con la compu','tec'],['🎨','Dibujar, editar videos o diseñar','art'],['🤝','Ayudar a alguien con un problema','soc'],['💸','Vender algo y ganar plata','neg']]},
+  {t:'En el colegio, el curso que más te late es…',o:[['🧪','Ciencias o biología','cie'],['🧮','Matemática y lógica','tec'],['📚','Comunicación o historia','soc'],['🖌️','Arte o música','art']]},
+  {t:'Tus amigos te buscan porque…',o:[['🩹','Siempre sabes qué hacer si alguien se siente mal','sal'],['💡','Tienes ideas para todo','art'],['📊','Organizas los planes y las cuentas','neg'],['🔧','Les arreglas el celular','tec']]},
+  {t:'¿Dónde te imaginas trabajando?',o:[['🏥','En un hospital o clínica','sal'],['🏢','En una empresa propia','neg'],['🔬','En un laboratorio','cie'],['🌍','En la calle, con la comunidad','soc']]},
+  {t:'Elige un superpoder:',o:[['⚡','Entender cómo funciona todo','cie'],['❤️','Curar a las personas','sal'],['🧠','Convencer a cualquiera','neg'],['✨','Crear mundos de la nada','art']]},
+  {t:'Lo que más te importa de tu futuro trabajo:',o:[['🚀','Que me reten y aprenda siempre','tec'],['🫶','Que ayude a otros','sal'],['🎉','Que sea creativo y libre','art'],['📈','Que me vaya bien económicamente','neg']]},
+];
+const CAR=[
+  {id:'sis',a:['tec','cie'],em:'💻',n:'Ingeniería de Sistemas',d:'Creas apps, webs y sistemas que usa todo el mundo.',c1:'#7c3aed',c2:'#22d3ee'},
+  {id:'ia',a:['tec','cie'],em:'🤖',n:'Ciencia de Datos e IA',d:'Enseñas a las máquinas a aprender con datos.',c1:'#0ea5e9',c2:'#6366f1',nueva:true},
+  {id:'med',a:['sal','cie'],em:'🩺',n:'Medicina Humana',d:'Diagnosticas y curas a las personas.',c1:'#ef4444',c2:'#f97316'},
+  {id:'enf',a:['sal','soc'],em:'💉',n:'Enfermería',d:'Cuidas a los pacientes de cerca, día a día.',c1:'#ec4899',c2:'#f43f5e'},
+  {id:'dis',a:['art','tec'],em:'🎨',n:'Diseño Gráfico y Digital',d:'Marcas, apps y campañas que se ven increíbles.',c1:'#f59e0b',c2:'#ec4899'},
+  {id:'ani',a:['art'],em:'🎬',n:'Animación y Videojuegos',d:'Das vida a personajes y mundos.',c1:'#a855f7',c2:'#ec4899',nueva:true},
+  {id:'adm',a:['neg'],em:'📈',n:'Administración de Empresas',d:'Diriges negocios y los haces crecer.',c1:'#10b981',c2:'#0ea5e9'},
+  {id:'mkt',a:['neg','art'],em:'📣',n:'Marketing Digital',d:'Haces que una marca se vuelva viral.',c1:'#f43f5e',c2:'#f59e0b',nueva:true},
+  {id:'psi',a:['soc','sal'],em:'🧠',n:'Psicología',d:'Entiendes cómo piensan y sienten las personas.',c1:'#8b5cf6',c2:'#ec4899'},
+  {id:'der',a:['soc','neg'],em:'⚖️',n:'Derecho',d:'Defiendes a las personas y sus derechos.',c1:'#334155',c2:'#6366f1'},
+  {id:'bio',a:['cie','sal'],em:'🧬',n:'Biotecnología',d:'Usas la vida para resolver problemas.',c1:'#22c55e',c2:'#14b8a6',nueva:true},
+];
+const SEDES=[
+  {n:'Universidad pública',t:'Universidad · Lima',k:'pública',tiempo:'45 min',adm:'Domingo 14 de marzo',sim:'Sábado 21 de febrero',costoSim:'S/ 30',costoAdm:'S/ 350',pens:'Sin pensión'},
+  {n:'Universidad privada',t:'Universidad · Lima',k:'privada',tiempo:'25 min',adm:'Sábado 6 de febrero',sim:'Sábado 23 de enero',costoSim:'Gratis',costoAdm:'S/ 250',pens:'Desde S/ 1 200 al mes'},
+  {n:'Instituto tecnológico',t:'Instituto · Carrera de 3 años',k:'instituto',tiempo:'15 min',adm:'Cada mes',sim:'Todos los sábados',costoSim:'Gratis',costoAdm:'S/ 120',pens:'Desde S/ 450 al mes'},
+];
+
+/* ---------- navegación ---------- */
+let cur='home';
+function go(v){
+  if(v===cur)return;
+  const a=$('#v-'+cur), b=$('#v-'+v);
+  a.classList.remove('on'); a.classList.add('out');
+  setTimeout(()=>a.classList.remove('out'),450);
+  b.classList.add('on'); cur=v;
+  if(v==='test') startTest();
+  if(v==='new') renderNew();
+}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]'); if(g) go(g.dataset.go);});
+
+/* ---------- test ---------- */
+let qi=0, score={};
+function startTest(){qi=0;score={};showQ();}
+function showQ(){
+  const q=Q[qi];
+  $('#qn').textContent=`Pregunta ${qi+1} de ${Q.length}`;
+  $('#qbar').style.width=(qi/Q.length*100)+'%';
+  $('#qt').textContent=q.t;
+  $('#qo').innerHTML=q.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="em">${o[0]}</span>${o[1]}</button>`).join('');
+}
+$('#qo').addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b||$('#qo').dataset.lock)return;
+  $('#qo').dataset.lock=1; b.classList.add('pick');
+  const area=Q[qi].o[b.dataset.i][2]; score[area]=(score[area]||0)+1;
+  burst(e.clientX,e.clientY,14);
+  setTimeout(()=>{delete $('#qo').dataset.lock; qi++; if(qi<Q.length) showQ(); else {$('#qbar').style.width='100%'; calc();}},420);
+});
+function calc(){
+  go('load');
+  const msgs=['Leyendo tus respuestas…','Cruzando tus intereses…','Buscando carreras…','¡Listo! 🎉'];
+  msgs.forEach((m,i)=>setTimeout(()=>$('#lt').textContent=m,i*650));
+  setTimeout(()=>{buildDeck();go('res');confetti();},2700);
+}
+
+/* ---------- resultados: descartar ---------- */
+let deck=[], pos=0;
+function buildDeck(){
+  const total=Object.values(score).reduce((a,b)=>a+b,0)||1;
+  deck=CAR.map(c=>{
+    const s=c.a.reduce((acc,a,i)=>acc+(score[a]||0)*(i?0.6:1),0);
+    return {...c,pct:Math.min(98,Math.round(55+ s/total*60 + Math.random()*6))};
+  }).sort((a,b)=>b.pct-a.pct).slice(0,4);
+  pos=0; renderDeck();
+}
+function cardHTML(c,i){
+  return `<article class="car" style="--c1:${c.c1};--c2:${c.c2};z-index:${10-i};transform:translateY(${i*12}px) scale(${1-i*.05});opacity:${i>2?0:1}" data-id="${c.id}">
+    ${c.nueva?'<span class="new">NUEVA</span>':''}
+    <div class="big">${c.em}</div><h3>${c.n}</h3><p>${c.d}</p>
+    <div class="match"><div><small>Va contigo</small><br><b>${c.pct}%</b></div><div style="font-size:13px;font-weight:700;opacity:.9">#${deck.indexOf(c)+1}</div></div>
+  </article>`;
+}
+function renderDeck(){
+  const rest=deck.slice(pos);
+  $('#stack').innerHTML=rest.map(cardHTML).reverse().join('');
+  if(!rest.length){$('#stack').innerHTML=`<div class="row" style="text-align:center;margin-top:40px"><b>Descartaste todas 😅</b><small>Vuelve a intentarlo o repite el test.</small><button class="cta" style="margin-top:14px" data-go="test">Repetir test</button></div>`;}
+  if(rest.length===1) $('.hint').textContent='¡Última! ¿Te quedas con esta? 👉';
+  else $('.hint').textContent='Descarta 👈 las que menos te gustan · quédate 👉 con la que más.';
+}
+function topCard(){return $('#stack .car:last-child');}
+function discard(){const el=topCard(); if(!el)return; el.classList.add('gone-l'); setTimeout(()=>{pos++;renderDeck();},300);}
+function choose(){
+  const el=topCard(); if(!el)return; el.classList.add('gone-r');
+  const c=deck[pos]; confetti();
+  setTimeout(()=>{openDetail(c);},380);
+}
+$('#bNo').onclick=discard; $('#bYes').onclick=choose;
+let sx=null;
+$('#stack').addEventListener('pointerdown',e=>{if(e.target.closest('.car')===topCard()){sx=e.clientX;topCard().style.transition='none';}});
+addEventListener('pointermove',e=>{if(sx===null)return;const dx=e.clientX-sx;const el=topCard();if(el)el.style.transform=`translateX(${dx}px) rotate(${dx/14}deg)`;});
+addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;const el=topCard();if(!el)return;el.style.transition='';el.style.transform='';if(dx<-80)discard();else if(dx>80)choose();});
+
+/* ---------- detalle ---------- */
+let chosen=null;
+function openDetail(c){
+  chosen=c;
+  $('#hero').style.cssText=`--c1:${c.c1};--c2:${c.c2}`;
+  $('#hero').innerHTML=`<div class="big">${c.em}</div><div><small>Tu carrera · ${c.pct}% contigo</small><h3>${c.n}</h3></div>`;
+  setTab('donde'); go('det');
+}
+$('#tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(t)setTab(t.dataset.t);});
+function setTab(t){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  const P={
+    donde:()=>SEDES.map(s=>`<div class="row"><b>🏫 ${s.n}</b><small>${s.t} · ofrece ${chosen.n}</small><span class="pill">🚌 ${s.tiempo} de tu casa</span><span class="pill g">${s.k}</span></div>`).join(''),
+    admision:()=>`<div class="row" style="background:linear-gradient(135deg,rgba(255,61,127,.25),rgba(124,58,237,.25))"><b>⏳ Próximo examen</b><small>${SEDES[0].n} · ${SEDES[0].adm}</small><div class="count" id="cd"><div><b>--</b><small>días</small></div><div><b>--</b><small>horas</small></div><div><b>--</b><small>min</small></div></div></div>`+SEDES.map(s=>`<div class="row"><b>📅 ${s.adm}</b><small>Examen de admisión · ${s.n}</small><span class="pill y">Horario de clases: mañana o tarde</span></div>`).join(''),
+    simulacro:()=>SEDES.map(s=>`<div class="row"><b>📝 Simulacro · ${s.sim}</b><small>${s.n} · prueba el examen antes del real</small><span class="pill y">${s.costoSim}</span></div>`).join('')+`<button class="cta" id="simBtn">Reservar mi simulacro 🎯</button>`,
+    costos:()=>SEDES.map(s=>`<div class="row"><b>💰 ${s.n}</b><small>Examen: ${s.costoAdm} · Simulacro: ${s.costoSim}</small><span class="pill g">${s.pens}</span></div>`).join(''),
+  };
+  $('#panel').innerHTML=P[t]();
+  if(t==='admision') tick();
+  const sb=$('#simBtn'); if(sb) sb.onclick=e=>{sb.textContent='¡Reservado! ✅ Te avisamos un día antes';confetti();};
+}
+function tick(){
+  const el=$('#cd'); if(!el)return;
+  const y=new Date().getFullYear()+1, target=new Date(y,2,14,9,0);
+  const ms=target-new Date(), d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60;
+  el.innerHTML=`<div><b>${d}</b><small>días</small></div><div><b>${h}</b><small>horas</small></div><div><b>${m}</b><small>min</small></div>`;
+}
+setInterval(tick,30000);
+
+/* ---------- carreras nuevas ---------- */
+function renderNew(){
+  $('#newlist').innerHTML=CAR.filter(c=>c.nueva).map(c=>`<div class="row" style="background:linear-gradient(135deg,${c.c1}55,${c.c2}44)"><b>${c.em} ${c.n}</b><small>${c.d}</small><span class="pill y">🆕 Recién abierta</span><span class="pill">📍 ${SEDES[1].n}</span></div>`).join('');
+}
+
+/* ---------- reloj ---------- */
+function clock(){const d=new Date();$('#clock').textContent=d.getHours()+':'+String(d.getMinutes()).padStart(2,'0');}
+clock(); setInterval(clock,20000);
+
+/* ---------- estrellas ---------- */
+const sky=$('.sky');
+for(let i=0;i<40;i++){const s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=(Math.random()*3)+'s';sky.appendChild(s);}
+
+/* ---------- confeti ---------- */
+const cv=$('#fx'), cx=cv.getContext('2d'); let P=[];
+function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;cx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);}
+size(); addEventListener('resize',size);
+const COLS=['#ff3d7f','#facc15','#22d3ee','#7c3aed','#34d399','#fff'];
+function burst(x,y,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=2+Math.random()*5;P.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-2,s:3+Math.random()*4,c:COLS[i%COLS.length],l:50+Math.random()*30,r:Math.random()*6});}run();}
+function confetti(){const r=$('#screen').getBoundingClientRect();for(let k=0;k<3;k++)burst(r.left+r.width*(.2+.3*k),r.top+r.height*.3,40);}
+let raf=null;
+function run(){if(raf)return;const f=()=>{cx.clearRect(0,0,innerWidth,innerHeight);P=P.filter(p=>p.l-->0);P.forEach(p=>{p.vy+=.18;p.x+=p.vx;p.y+=p.vy;p.r+=.2;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.globalAlpha=Math.min(1,p.l/30);cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*1.6);cx.restore();});if(P.length)raf=requestAnimationFrame(f);else{raf=null;cx.clearRect(0,0,innerWidth,innerHeight);}};raf=requestAnimationFrame(f);}
+</script>
+</body>
+</html>

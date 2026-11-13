@@ -316,7 +316,7 @@ function caja(id,ok,txt){const b=$(`[data-box="${id}"]`);if(!b)return;b.classLis
 
 /* ---------- guardar / traer ---------- */
 function estado(cls,txt){const s=$('#sync');s.className='sync '+cls;s.lastElementChild.textContent=txt;}
-async function api(body){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({aula:PROYECTO.aula,...body}),keepalive:true});const d=await r.json().catch(()=>({}));if(!r.ok&&r.status!==409)throw new Error(d.error||'Error');return {status:r.status,...d};}
+async function api(body){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({aula:PROYECTO.aula,...body}),keepalive:true});const d=await r.json().catch(()=>({}));if(!r.ok&&r.status!==409&&r.status!==404)throw new Error(d.error||'Error');return {status:r.status,...d};}
 function cambio(f){
   S[f]=valorDe(f); dirty[f]=S[f]; META[f]={por:yo.value.trim()||'Alguien del salón',t:Date.now()};
   try{localStorage.setItem('vocacional-pend',JSON.stringify(dirty))}catch{}

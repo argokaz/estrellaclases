@@ -136,6 +136,44 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 /* confeti */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:50}
 
+/* colegio + equipo + tipografía grande */
+.cole{display:flex;align-items:center;gap:14px;margin-bottom:20px;animation:rise .8s cubic-bezier(.2,.8,.2,1) backwards}
+.cole img{height:64px;width:auto;background:#fff;border-radius:16px;padding:6px 10px;box-shadow:0 0 0 0 rgba(250,204,21,.6);animation:halo 2.8s infinite}
+.cole b{display:block;font-family:'Space Grotesk';font-size:22px;letter-spacing:.5px}
+.cole small{color:var(--mute);font-size:15px;font-weight:600}
+@keyframes halo{0%{box-shadow:0 0 0 0 rgba(250,204,21,.55)}70%{box-shadow:0 0 0 18px rgba(250,204,21,0)}100%{box-shadow:0 0 0 0 rgba(250,204,21,0)}}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.pitch h1{font-size:clamp(46px,6.6vw,96px)!important;animation:rise .9s .1s cubic-bezier(.2,.8,.2,1) backwards}
+.lead{font-size:22px!important;animation:rise .9s .25s cubic-bezier(.2,.8,.2,1) backwards}
+.step{font-size:17.5px!important;animation:slide .7s cubic-bezier(.2,.8,.2,1) backwards}
+.step small{font-size:14px!important}
+.step:nth-child(1){animation-delay:.4s}.step:nth-child(2){animation-delay:.55s}.step:nth-child(3){animation-delay:.7s}.step:nth-child(4){animation-delay:.85s}
+@keyframes slide{from{opacity:0;transform:translateX(-40px)}}
+.step:not(.ok) .n{animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.15);box-shadow:0 0 22px var(--a)}}
+.equipo{margin-top:26px;max-width:560px;animation:rise .9s 1s cubic-bezier(.2,.8,.2,1) backwards}
+.equipo h3{font-size:14px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;color:var(--d);margin-bottom:12px}
+.nombres{display:flex;flex-wrap:wrap;gap:9px}
+.nombres span{padding:10px 15px;border-radius:99px;font-weight:800;font-size:16px;background:linear-gradient(135deg,rgba(255,61,127,.25),rgba(124,58,237,.3));border:1px solid rgba(255,255,255,.22);animation:pop .5s backwards,bobn 4s ease-in-out infinite}
+.nombres span:nth-child(odd){animation-duration:.5s,5s}
+@keyframes bobn{50%{transform:translateY(-5px)}}
+.q{font-size:30px!important}.opt{font-size:17px!important;padding:18px!important}
+.appname{font-size:48px!important;animation:glow 3s ease-in-out infinite}
+@keyframes glow{50%{text-shadow:0 0 26px rgba(255,61,127,.8)}}
+.sub{font-size:16.5px}
+.hecho{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font-size:12px;color:var(--mute);font-weight:700}
+.hecho img{height:22px;background:#fff;border-radius:6px;padding:2px 4px}
+.chip{animation:bobn 3.5s ease-in-out infinite}.chip:nth-child(2){animation-delay:-.9s}.chip:nth-child(3){animation-delay:-1.8s}.chip:nth-child(4){animation-delay:-2.6s}
+
+/* contenido en vivo del salón */
+.live{display:none;position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:18;font-size:10.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:4px 10px;border-radius:99px;background:rgba(52,211,153,.18);color:var(--e);border:1px solid rgba(52,211,153,.45);white-space:nowrap}
+.live.on{display:block}
+.tablero-link{display:inline-flex;align-items:center;gap:10px;margin-top:22px;padding:14px 20px;border-radius:16px;font-weight:900;color:#120926;background:linear-gradient(90deg,var(--d),#fb923c);text-decoration:none;box-shadow:0 12px 34px -10px rgba(250,204,21,.8)}
+body.embed .pitch,body.embed .sky .grid{display:none}
+body.embed .stage{display:block;min-height:0;padding:0;max-width:none}
+body.embed .phone{width:100%;height:100vh;min-height:0;border-radius:44px;animation:none;box-shadow:0 0 0 2px #3b3355}
+body.embed{background:transparent}
+
 @media (max-width:900px){
   .stage{grid-template-columns:1fr;gap:28px;padding:24px 16px 40px;justify-items:center}
   .pitch{text-align:center}
@@ -159,6 +197,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 
 <main class="stage">
   <section class="pitch">
+    <div class="cole"><img src="https://datacole2023.s3.amazonaws.com/asuncionschool.edu.pe/logos_schools/2025/Febrero/9ca3b7a6f967afb10d5e8cc.png" alt="Asunción School"><div><b>ASUNCIÓN SCHOOL</b><small>Computación 2026 · Proyecto de egreso</small></div></div>
     <div class="tag"><i></i> Demo en vivo · 5.° de Secundaria</div>
     <h1>¿No sabes qué estudiar?<br><span class="grad">Tu rumbo empieza aquí.</span></h1>
     <p class="lead">Esta es la app que está creando <b>5.° de Secundaria</b>: haces un test, ves las carreras que van contigo, <b>descartas</b> las que no te gustan y te muestra <b>dónde estudiar, cuándo es la admisión y cuánto cuesta</b>.</p>
@@ -168,13 +207,18 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
       <div class="step ok"><div class="n">✓</div><div>El pitch<small>«Tranquilo, si todavía no sabes qué carrera elegir…»</small></div></div>
       <div class="step"><div class="n">4</div><div>Marca, preguntas reales y datos<small>Lo que estamos construyendo ahora</small></div></div>
     </div>
-    <p class="credit">Hecho con las ideas de las tareas de <b>5.° de Secundaria</b> · Asunción School · Computación 2026</p>
+    <a class="tablero-link" href="app-vocacional-tablero.html">🛠️ Ir al tablero del salón: completa lo que falta</a>
+    <div class="equipo"><h3>⭐ El equipo que la está creando</h3><div class="nombres">
+      <span>Aarón Lenche</span><span>Carlos Lerma</span><span>Daniel Vicencio</span><span>Elias Chafloque</span><span>Enid Vasquez</span><span>Fabrizio Serna</span><span>Gabriel Mostajo</span><span>Madison Ccoicca</span><span>María Fernanda Aldonate</span><span>Pedro Huamanciza</span><span>Victor Arquinego</span>
+    </div></div>
+    <p class="credit">Hecho con las ideas de las tareas de <b>5.° de Secundaria</b> · Asunción School · Prof. Estrella Vizcarra</p>
   </section>
 
   <div class="phone" role="region" aria-label="Demo de la app">
     <div class="screen" id="screen">
       <div class="notch"></div>
       <div class="status"><span id="clock">8:15</span><span>📶 🔋</span></div>
+      <div class="live" id="live">● Con lo que escribió el salón</div>
 
       <!-- 1. inicio -->
       <section class="view on" id="v-home">
@@ -184,6 +228,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
         <div class="chips"><span class="chip">🎯 ¿Qué estudiar?</span><span class="chip">📍 ¿Dónde?</span><span class="chip">💰 ¿Cuánto cuesta?</span><span class="chip">📅 ¿Cuándo es la admisión?</span></div>
         <button class="cta" data-go="test">Empezar mi test ✨</button>
         <button class="ghost" data-go="new">🆕 Ver carreras nuevas</button>
+        <div class="hecho"><img src="https://datacole2023.s3.amazonaws.com/asuncionschool.edu.pe/logos_schools/2025/Febrero/9ca3b7a6f967afb10d5e8cc.png" alt="">Creada por 5.° de Secundaria · Asunción School</div>
       </section>
 
       <!-- 2. test -->
@@ -267,6 +312,57 @@ const SEDES=[
   {n:'Instituto tecnológico',t:'Instituto · Carrera de 3 años',k:'instituto',tiempo:'15 min',adm:'Cada mes',sim:'Todos los sábados',costoSim:'Gratis',costoAdm:'S/ 120',pens:'Desde S/ 450 al mes'},
 ];
 
+/* ---------- lo que escribió el salón (tablero) ---------- */
+const PROYECTO={aula:'sec5',p:'app-vocacional-5to'};
+const AREA_COL={tec:['#7c3aed','#22d3ee'],sal:['#ef4444','#f97316'],art:['#f59e0b','#ec4899'],neg:['#10b981','#0ea5e9'],soc:['#8b5cf6','#ec4899'],cie:['#22c55e','#14b8a6']};
+const MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+let ADM_TARGET=null;
+const BASE={Q:Q.slice(),CAR:CAR.slice(),SEDES:SEDES.slice(),nombre:'Rumbo',sub:document.querySelector('.sub').textContent};
+const jp=s=>{try{return JSON.parse(s)}catch{return null}};
+const lleno=v=>typeof v==='string'&&v.trim()!=='';
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function fechaBonita(iso){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return iso||'';return `${+m[3]} de ${MESES[m[2]-1]}`;}
+function aplicar(c){
+  const v=id=>c[id]&&c[id].v;
+  let usados=0;
+  // preguntas: una por una, solo las completas
+  const qs=[];
+  for(let n=1;n<=8;n++){const q=jp(v('q'+n));if(!q||!lleno(q.t))continue;
+    const o=[0,1,2,3].map(i=>q.o&&q.o[i]).filter(x=>x&&lleno(x.x)&&AREA_COL[x.a]).map(x=>[x.e||'•',x.x,x.a]);
+    if(o.length===4)qs.push({t:q.t,o});}
+  Q.splice(0,Q.length,...(qs.length>=4?qs:BASE.Q)); if(qs.length>=4)usados++;
+  // carreras: el área que el salón llenó reemplaza a la de ejemplo
+  let car=BASE.CAR.slice();
+  Object.keys(AREA_COL).forEach(a=>{const l=jp(v('car-'+a));if(!l)return;
+    const items=Object.values(l).filter(x=>x&&lleno(x.n)).map((x,i)=>({id:a+i,a:[a],em:x.e||'🎓',n:x.n,d:x.d||'',c1:AREA_COL[a][0],c2:AREA_COL[a][1],nueva:!!x.nueva}));
+    if(items.length){car=car.filter(k=>k.a[0]!==a).concat(items);usados++;}});
+  CAR.splice(0,CAR.length,...car);
+  // sedes
+  const sd=[];
+  for(let n=1;n<=6;n++){const s=jp(v('sede'+n));if(!s||!lleno(s.n))continue;
+    sd.push({n:s.n,t:[s.tipo,s.distrito].filter(lleno).join(' · '),k:s.tipo||'',tiempo:'',adm:fechaBonita(s.adm)||'Por confirmar',admISO:s.adm,sim:fechaBonita(s.sim)||'Por confirmar',costoSim:s.cSim||'—',costoAdm:s.cAdm||'—',pens:s.pension||'Consultar'});}
+  SEDES.splice(0,SEDES.length,...(sd.length?sd:BASE.SEDES)); if(sd.length)usados++;
+  const fut=SEDES.map(s=>s.admISO&&new Date(s.admISO+'T09:00')).filter(d=>d&&d>new Date()).sort((a,b)=>a-b);
+  ADM_TARGET=fut[0]||null;
+  // marca
+  const nom=v('marca-nombre'),es=v('marca-eslogan'),col=v('marca-color'),emo=v('marca-emoji');
+  document.querySelector('.appname').textContent=lleno(nom)?nom:BASE.nombre;
+  document.querySelector('.sub').textContent=lleno(es)?es:BASE.sub;
+  if(lleno(emo))document.querySelector('.logo span').textContent=emo;
+  if(/^#[0-9a-f]{6}$/i.test(col||''))document.documentElement.style.setProperty('--a',col);
+  if(lleno(nom))usados++;
+  document.getElementById('live').classList.toggle('on',usados>0);
+}
+async function cargarVivo(){
+  try{
+    const r=await fetch('/.netlify/functions/diseno',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'leer',...PROYECTO})});
+    if(!r.ok)return; const d=await r.json(); if(d.campos)aplicar(d.campos);
+  }catch(e){}
+}
+if(new URLSearchParams(location.search).has('embed'))document.body.classList.add('embed');
+addEventListener('message',e=>{if(e.origin===location.origin&&e.data==='recargar'){cargarVivo().then(()=>{if(cur!=='home')go('home');});}});
+cargarVivo();
+
 /* ---------- navegación ---------- */
 let cur='home';
 function go(v){
@@ -288,7 +384,7 @@ function showQ(){
   $('#qn').textContent=`Pregunta ${qi+1} de ${Q.length}`;
   $('#qbar').style.width=(qi/Q.length*100)+'%';
   $('#qt').textContent=q.t;
-  $('#qo').innerHTML=q.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="em">${o[0]}</span>${o[1]}</button>`).join('');
+  $('#qo').innerHTML=q.o.map((o,i)=>`<button class="opt" data-i="${i}"><span class="em">${esc(o[0])}</span>${esc(o[1])}</button>`).join('');
 }
 $('#qo').addEventListener('click',e=>{
   const b=e.target.closest('.opt'); if(!b||$('#qo').dataset.lock)return;
@@ -317,7 +413,7 @@ function buildDeck(){
 function cardHTML(c,i){
   return `<article class="car" style="--c1:${c.c1};--c2:${c.c2};z-index:${10-i};transform:translateY(${i*12}px) scale(${1-i*.05});opacity:${i>2?0:1}" data-id="${c.id}">
     ${c.nueva?'<span class="new">NUEVA</span>':''}
-    <div class="big">${c.em}</div><h3>${c.n}</h3><p>${c.d}</p>
+    <div class="big">${esc(c.em)}</div><h3>${esc(c.n)}</h3><p>${esc(c.d)}</p>
     <div class="match"><div><small>Va contigo</small><br><b>${c.pct}%</b></div><div style="font-size:13px;font-weight:700;opacity:.9">#${deck.indexOf(c)+1}</div></div>
   </article>`;
 }
@@ -346,17 +442,17 @@ let chosen=null;
 function openDetail(c){
   chosen=c;
   $('#hero').style.cssText=`--c1:${c.c1};--c2:${c.c2}`;
-  $('#hero').innerHTML=`<div class="big">${c.em}</div><div><small>Tu carrera · ${c.pct}% contigo</small><h3>${c.n}</h3></div>`;
+  $('#hero').innerHTML=`<div class="big">${esc(c.em)}</div><div><small>Tu carrera · ${c.pct}% contigo</small><h3>${esc(c.n)}</h3></div>`;
   setTab('donde'); go('det');
 }
 $('#tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(t)setTab(t.dataset.t);});
 function setTab(t){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
   const P={
-    donde:()=>SEDES.map(s=>`<div class="row"><b>🏫 ${s.n}</b><small>${s.t} · ofrece ${chosen.n}</small><span class="pill">🚌 ${s.tiempo} de tu casa</span><span class="pill g">${s.k}</span></div>`).join(''),
-    admision:()=>`<div class="row" style="background:linear-gradient(135deg,rgba(255,61,127,.25),rgba(124,58,237,.25))"><b>⏳ Próximo examen</b><small>${SEDES[0].n} · ${SEDES[0].adm}</small><div class="count" id="cd"><div><b>--</b><small>días</small></div><div><b>--</b><small>horas</small></div><div><b>--</b><small>min</small></div></div></div>`+SEDES.map(s=>`<div class="row"><b>📅 ${s.adm}</b><small>Examen de admisión · ${s.n}</small><span class="pill y">Horario de clases: mañana o tarde</span></div>`).join(''),
-    simulacro:()=>SEDES.map(s=>`<div class="row"><b>📝 Simulacro · ${s.sim}</b><small>${s.n} · prueba el examen antes del real</small><span class="pill y">${s.costoSim}</span></div>`).join('')+`<button class="cta" id="simBtn">Reservar mi simulacro 🎯</button>`,
-    costos:()=>SEDES.map(s=>`<div class="row"><b>💰 ${s.n}</b><small>Examen: ${s.costoAdm} · Simulacro: ${s.costoSim}</small><span class="pill g">${s.pens}</span></div>`).join(''),
+    donde:()=>SEDES.map(s=>`<div class="row"><b>🏫 ${esc(s.n)}</b><small>${esc(s.t)} · ofrece ${esc(chosen.n)}</small>${s.tiempo?`<span class="pill">🚌 ${esc(s.tiempo)} de tu casa</span>`:""}${s.k?`<span class="pill g">${esc(s.k)}</span>`:""}</div>`).join(''),
+    admision:()=>`<div class="row" style="background:linear-gradient(135deg,rgba(255,61,127,.25),rgba(124,58,237,.25))"><b>⏳ Próximo examen</b><small>${esc(SEDES[0].n)} · ${esc(SEDES[0].adm)}</small><div class="count" id="cd"><div><b>--</b><small>días</small></div><div><b>--</b><small>horas</small></div><div><b>--</b><small>min</small></div></div></div>`+SEDES.map(s=>`<div class="row"><b>📅 ${esc(s.adm)}</b><small>Examen de admisión · ${esc(s.n)}</small><span class="pill y">Horario de clases: mañana o tarde</span></div>`).join(''),
+    simulacro:()=>SEDES.map(s=>`<div class="row"><b>📝 Simulacro · ${esc(s.sim)}</b><small>${esc(s.n)} · prueba el examen antes del real</small><span class="pill y">${esc(s.costoSim)}</span></div>`).join('')+`<button class="cta" id="simBtn">Reservar mi simulacro 🎯</button>`,
+    costos:()=>SEDES.map(s=>`<div class="row"><b>💰 ${esc(s.n)}</b><small>Examen: ${esc(s.costoAdm)} · Simulacro: ${esc(s.costoSim)}</small><span class="pill g">${esc(s.pens)}</span></div>`).join(''),
   };
   $('#panel').innerHTML=P[t]();
   if(t==='admision') tick();
@@ -364,7 +460,7 @@ function setTab(t){
 }
 function tick(){
   const el=$('#cd'); if(!el)return;
-  const y=new Date().getFullYear()+1, target=new Date(y,2,14,9,0);
+  const y=new Date().getFullYear()+1, target=ADM_TARGET||new Date(y,2,14,9,0);
   const ms=target-new Date(), d=Math.floor(ms/864e5), h=Math.floor(ms/36e5)%24, m=Math.floor(ms/6e4)%60;
   el.innerHTML=`<div><b>${d}</b><small>días</small></div><div><b>${h}</b><small>horas</small></div><div><b>${m}</b><small>min</small></div>`;
 }
@@ -372,7 +468,7 @@ setInterval(tick,30000);
 
 /* ---------- carreras nuevas ---------- */
 function renderNew(){
-  $('#newlist').innerHTML=CAR.filter(c=>c.nueva).map(c=>`<div class="row" style="background:linear-gradient(135deg,${c.c1}55,${c.c2}44)"><b>${c.em} ${c.n}</b><small>${c.d}</small><span class="pill y">🆕 Recién abierta</span><span class="pill">📍 ${SEDES[1].n}</span></div>`).join('');
+  $('#newlist').innerHTML=CAR.filter(c=>c.nueva).map(c=>`<div class="row" style="background:linear-gradient(135deg,${c.c1}55,${c.c2}44)"><b>${esc(c.em)} ${esc(c.n)}</b><small>${esc(c.d)}</small><span class="pill y">🆕 Recién abierta</span><span class="pill">📍 ${esc((SEDES[1]||SEDES[0]).n)}</span></div>`).join('');
 }
 
 /* ---------- reloj ---------- */

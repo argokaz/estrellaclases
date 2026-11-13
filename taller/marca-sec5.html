@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taller de marca · 5.° Sec</title>
+<meta name="description" content="Taller en clase: brief, nombre, colores, logo, voz y pantalla de inicio para la app de test vocacional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&family=Poppins:wght@400;700&family=Montserrat:wght@400;800&family=Nunito:wght@400;800&family=DM+Serif+Display&family=Fraunces:wght@400;700&family=Baloo+2:wght@400;800&family=Outfit:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --acc:#b91c1c; --pas:#f7d6d6; --pasInk:#4c0f0f;
+  --ink:#141414; --mute:#5b5b5b; --line:#e3ddd2; --paper:#f4f1ea; --card:#ffffff;
+  --ok:#15803d; --okBg:#dcfce7; --bad:#b91c1c; --badBg:#fee2e2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 'Inter',system-ui,sans-serif;
+  background-image:linear-gradient(#0000000a 1px,transparent 1px),linear-gradient(90deg,#0000000a 1px,transparent 1px);
+  background-size:28px 28px}
+h1,h2,h3{font-family:'Space Grotesk','Inter',sans-serif;line-height:1.15;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px 80px}
+header.top{padding:28px 0 18px}
+.kicker{display:inline-block;background:var(--acc);color:#fff;font-weight:700;font-size:13px;padding:4px 10px;border-radius:999px;letter-spacing:.02em}
+header.top h1{font-size:clamp(30px,6vw,46px);margin:12px 0 8px}
+header.top p{margin:0;color:var(--mute);max-width:680px}
+.app-idea{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.app-idea span{background:var(--pas);color:var(--pasInk);border-radius:10px;padding:8px 12px;font-weight:700;font-size:15px}
+.who{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.who input{flex:1;min-width:220px}
+
+nav.steps{position:sticky;top:0;z-index:20;background:#f4f1eaf2;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:0 -16px;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav.steps::-webkit-scrollbar{display:none}
+nav.steps a{flex:0 0 auto;display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border-radius:10px;border:1.5px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px}
+nav.steps a .st{width:20px;height:20px;border-radius:50%;border:2px solid #c9c2b5;display:inline-grid;place-items:center;font-size:12px;color:#fff}
+nav.steps a.done .st{background:var(--ok);border-color:var(--ok)}
+nav.steps a.done .st::after{content:'✓'}
+
+section.mission{background:var(--card);border:1.5px solid var(--ink);border-radius:18px;padding:22px;margin-top:22px;box-shadow:6px 6px 0 var(--ink);scroll-margin-top:70px}
+.mhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mnum{font:700 13px 'Space Grotesk';color:var(--acc);letter-spacing:.06em;text-transform:uppercase}
+.mhead h2{font-size:26px;margin-top:2px}
+.time{background:var(--ink);color:#fff;border-radius:999px;padding:4px 12px;font-weight:700;font-size:14px;white-space:nowrap}
+.why{background:var(--pas);color:var(--pasInk);border-radius:12px;padding:10px 14px;margin:14px 0 6px;font-size:15px}
+.why b{font-weight:800}
+.status{margin-top:16px;padding:10px 14px;border-radius:12px;font-weight:600;font-size:15px}
+.status.ok{background:var(--okBg);color:var(--ok)}
+.status.no{background:#f5f2ec;color:var(--mute)}
+
+label.f{display:block;font-weight:700;margin:16px 0 6px}
+label.f small{font-weight:400;color:var(--mute)}
+input[type=text],textarea,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1.5px solid #cfc8bb;border-radius:12px;padding:11px 13px;min-height:46px;outline:none}
+textarea{resize:vertical;min-height:84px}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px #b91c1c22}
+.count{font-size:13px;color:var(--mute);text-align:right;margin-top:4px}
+.count.over{color:var(--bad);font-weight:700}
+.hint{font-size:14px;color:var(--mute);margin-top:6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid #cfc8bb;background:#fff;font:600 15px 'Inter';color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.neg[aria-pressed=true]{background:var(--bad);border-color:var(--bad)}
+.checks{display:grid;gap:8px}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;padding:6px 12px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+.check input{width:22px;height:22px;accent-color:var(--acc);flex:0 0 auto}
+.check.auto{background:#f8f6f1;cursor:default}
+
+.btn{min-height:46px;padding:0 18px;border-radius:12px;border:1.5px solid var(--ink);background:#fff;font:700 15px 'Inter';color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.main{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn:active{transform:translateY(1px)}
+.btn.small{min-height:44px;padding:0 12px;font-size:14px}
+
+/* Nombres */
+.names{display:grid;gap:14px}
+.nameRow{border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.nameRow.pick{border-color:var(--acc);box-shadow:0 0 0 3px #b91c1c22}
+.nameTop{display:flex;gap:10px;align-items:center}
+.nameTop input[type=text]{flex:1}
+.pickBtn{flex:0 0 auto}
+.score{font:700 14px 'Space Grotesk';color:var(--mute);white-space:nowrap}
+.nameRow .checks{grid-template-columns:1fr 1fr;margin-top:10px}
+@media(max-width:620px){.nameRow .checks{grid-template-columns:1fr}}
+
+/* Colores */
+.presets{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.preset{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:10px;cursor:pointer;text-align:left;font:600 14px 'Inter';color:var(--ink);min-height:44px}
+.preset .bar{display:flex;height:26px;border-radius:7px;overflow:hidden;margin-bottom:8px;border:1px solid #0001}
+.preset .bar i{flex:1}
+.roles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+@media(max-width:720px){.roles{grid-template-columns:repeat(2,1fr)}}
+.role{border:1.5px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.role b{display:block;font-size:14px}
+.role small{color:var(--mute);font-size:12px;display:block;line-height:1.3;min-height:32px}
+.role .sw{display:flex;align-items:center;gap:8px;margin-top:8px}
+.role input[type=color]{width:48px;height:44px;border:1.5px solid #cfc8bb;border-radius:10px;padding:2px;background:#fff;cursor:pointer;flex:0 0 auto}
+.role input.hex{min-height:44px;padding:8px;font:600 14px ui-monospace,monospace;text-transform:uppercase}
+.contrast{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:720px){.contrast{grid-template-columns:1fr}}
+.ctest{border-radius:12px;padding:14px;border:1.5px solid var(--line);position:relative}
+.ctest .demo{font-weight:800;font-size:18px}
+.ctest .res{margin-top:8px;font-size:13px;font-weight:700;display:inline-block;padding:3px 9px;border-radius:999px;background:#fff;color:var(--ink);border:1px solid #0002}
+.ctest .res.ok::before{content:'✓ '}
+.ctest .res.no::before{content:'✗ '}
+
+/* Logo */
+.symbols{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+.sym{aspect-ratio:1;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;display:grid;place-items:center;padding:8px;min-height:64px}
+.sym svg{width:34px;height:34px}
+.sym[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 3px #b91c1c33;background:#fff7f7}
+.sym span{font-size:11px;color:var(--mute);margin-top:2px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg .chip{font-size:14px}
+.fonts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.fontBtn{min-height:56px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:20px;color:var(--ink);padding:6px 10px}
+.fontBtn small{display:block;font:500 11px 'Inter';color:var(--mute)}
+.fontBtn[aria-pressed=true]{border-color:var(--acc);box-shadow:0 0 0 3px #b91c1c33}
+.stage{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;margin-top:18px}
+@media(max-width:720px){.stage{grid-template-columns:1fr}}
+.board{border-radius:16px;min-height:170px;display:grid;place-items:center;padding:24px;border:1.5px solid var(--line);overflow:hidden}
+.sizes{border-radius:16px;border:1.5px solid var(--line);padding:16px;display:flex;align-items:flex-end;justify-content:space-around;gap:10px;background:#fff}
+.sizes figure{margin:0;text-align:center}
+.sizes figcaption{font-size:12px;color:var(--mute);margin-top:6px}
+.logo{display:inline-flex;align-items:center;gap:.45em;max-width:100%}
+.logo.v{flex-direction:column;gap:.25em;text-align:center}
+.logo .word{line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.mark{display:grid;place-items:center;flex:0 0 auto}
+
+/* Voz */
+.sliders{display:grid;gap:12px}
+.slider{display:grid;grid-template-columns:110px 1fr 110px;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.slider span:last-child{text-align:right}
+.slider input{width:100%;height:44px;accent-color:var(--acc)}
+@media(max-width:520px){.slider{grid-template-columns:80px 1fr 80px;font-size:13px}}
+
+/* Pantallas */
+.phones{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.phone{width:290px;max-width:100%;border:10px solid #141414;border-radius:38px;overflow:hidden;box-shadow:0 18px 40px #0003;background:#fff}
+.screen{min-height:560px;padding:16px 16px 20px;display:flex;flex-direction:column;gap:12px}
+.sbar{display:flex;justify-content:space-between;font:600 11px 'Inter';opacity:.7}
+.scrTitle{font-size:24px;line-height:1.15;font-weight:800;margin-top:6px}
+.scrSub{font-size:14px;opacity:.8}
+.scrBtn{border:0;border-radius:14px;min-height:50px;font-size:16px;font-weight:800;width:100%}
+.scrCard{border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center;font-size:14px}
+.scrCard b{display:block;font-size:15px}
+.scrCard .ico{font-size:22px}
+.scrFoot{font-size:11px;opacity:.65;margin-top:auto}
+.bar3{height:8px;border-radius:99px;overflow:hidden}
+.bar3 i{display:block;height:100%;border-radius:99px}
+
+/* Lámina */
+canvas#lam{width:100%;height:auto;border-radius:14px;border:1.5px solid var(--line);background:#fff;display:block}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(40px);opacity:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;transition:.25s;z-index:50;pointer-events:none;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+details.prof{margin-top:22px;background:#fff;border:1.5px dashed #b9b1a3;border-radius:14px;padding:4px 16px}
+details.prof summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+details.prof ol{padding-left:20px}
+details.prof li{margin:6px 0}
+footer{margin-top:30px;color:var(--mute);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <span class="kicker">5.° Secundaria · Proyecto final</span>
+  <h1>Taller de marca de tu app</h1>
+  <p>Hoy le damos identidad a la app de test vocacional del salón. Trabaja solo o en pareja: cada propuesta compite y al final el salón elige una. Al final de la clase vas a tener un brief, un nombre, una paleta, un logo, un tono de voz y la pantalla de inicio. Todo queda en una lámina que puedes descargar.</p>
+  <div class="app-idea"><span>🎯 ¿Qué estudiar?</span><span>📍 ¿Dónde?</span><span>💰 ¿Cuánto cuesta?</span><span>📅 ¿Cuándo es la admisión?</span></div>
+  <div class="who">
+    <input type="text" id="autor" placeholder="Tu nombre o el de tu equipo" autocomplete="off" aria-label="Nombre o equipo">
+  </div>
+</header>
+
+<nav class="steps" aria-label="Misiones">
+  <a href="#m1" data-step="1"><span class="st"></span>1 · Brief</a>
+  <a href="#m2" data-step="2"><span class="st"></span>2 · Nombre</a>
+  <a href="#m3" data-step="3"><span class="st"></span>3 · Colores</a>
+  <a href="#m4" data-step="4"><span class="st"></span>4 · Logo</a>
+  <a href="#m5" data-step="5"><span class="st"></span>5 · Voz</a>
+  <a href="#m6" data-step="6"><span class="st"></span>6 · Pantalla</a>
+  <a href="#m7" data-step="7"><span class="st"></span>7 · Lámina</a>
+</nav>
+
+<!-- ═════════ 1 · BRIEF ═════════ -->
+<section class="mission" id="m1">
+  <div class="mhead"><div><div class="mnum">Misión 1</div><h2>El brief: para quién y para qué</h2></div><span class="time">⏱ 10 min</span></div>
+  <div class="why"><b>¿Por qué primero?</b> Logo y colores se deciden a partir del brief. Si no está claro a quién le hablas, al diseñar solo vas a decidir qué te gusta a ti.</div>
+
+  <label class="f" for="problema">¿Qué duda o miedo tiene un estudiante al elegir qué estudiar? <small>(el problema)</small></label>
+  <textarea id="problema" data-k="problema" maxlength="280" placeholder="Ej.: No sabe si lo que le gusta “sirve” para una carrera, no sabe qué universidades o institutos la ofrecen y teme que sea impagable."></textarea>
+
+  <label class="f" for="usuario">Describe a UNA persona real que usaría la app <small>(edad, situación, qué le preocupa)</small></label>
+  <textarea id="usuario" data-k="usuario" maxlength="280" placeholder="Ej.: Valeria, 16 años, 5.° de secundaria. Le van bien biología y dibujo. Su familia no puede pagar una privada cara y nadie en casa fue a la universidad."></textarea>
+
+  <label class="f" for="promesa">La promesa en una frase <small>(lo que la app logra por esa persona)</small></label>
+  <input type="text" id="promesa" data-k="promesa" maxlength="110" placeholder="Ej.: Descubre qué estudiar, dónde hacerlo y cuánto te va a costar, en 10 minutos.">
+  <div class="count" data-count="promesa" data-max="110"></div>
+  <div class="hint">Fórmula si te trabas: <i>“[Tu app] ayuda a [usuario] a [lograr algo] sin [el miedo o la duda]”</i>.</div>
+
+  <label class="f">La personalidad de la marca <small>(elige exactamente 3)</small></label>
+  <div class="chips" id="pers"></div>
+  <div class="count" id="persCount"></div>
+
+  <label class="f">¿Qué NO queremos parecer? <small>(1 o 2)</small></label>
+  <div class="chips" id="noPers"></div>
+
+  <label class="f" for="fuentes">¿De dónde saldrán los datos de “dónde” y “cuánto cuesta”?</label>
+  <input type="text" id="fuentes" data-k="fuentes" maxlength="160" placeholder="Ej.: Ponte en Carrera (MINEDU), webs oficiales de universidades e institutos, SUNEDU">
+
+  <label class="f">Promesa ética <small>(lo vimos en la revisión de seguridad y ética · marca al menos 2)</small></label>
+  <div class="checks" id="etica"></div>
+
+  <div class="status no" id="st1"></div>
+</section>
+
+<!-- ═════════ 2 · NOMBRE ═════════ -->
+<section class="mission" id="m2">
+  <div class="mhead"><div><div class="mnum">Misión 2</div><h2>Tres nombres, uno gana</h2></div><span class="time">⏱ 7 min</span></div>
+  <div class="why"><b>Regla:</b> escribe 3 opciones antes de enamorarte de una. Pasa cada una por los filtros y quédate con la que cumpla más, aunque no sea la que más te gustaba.</div>
+  <div class="names" id="names"></div>
+  <div class="status no" id="st2"></div>
+</section>
+
+<!-- ═════════ 3 · COLORES ═════════ -->
+<section class="mission" id="m3">
+  <div class="mhead"><div><div class="mnum">Misión 3</div><h2>Paleta de 5 colores con función</h2></div><span class="time">⏱ 10 min</span></div>
+  <div class="why"><b>Cada color tiene un trabajo.</b> Parte de una paleta base y ajústala. Si un texto no se lee, la marca no funciona, por bonita que sea.</div>
+
+  <label class="f">Paletas base <small>(toca una para empezar; luego cámbiala)</small></label>
+  <div class="presets" id="presets"></div>
+
+  <div class="roles" id="roles"></div>
+
+  <label class="f">Prueba de lectura <small>(se calcula sola · mínimo 4.5 : 1 para textos)</small></label>
+  <div class="contrast" id="contrast"></div>
+
+  <label class="f" for="porque">¿Por qué elegiste tu color principal? <small>(conéctalo con la personalidad)</small></label>
+  <input type="text" id="porque" data-k="porque" maxlength="160" placeholder="Ej.: Azul profundo porque transmite confianza; el turquesa da el toque juvenil.">
+
+  <div class="status no" id="st3"></div>
+</section>
+
+<!-- ═════════ 4 · LOGO ═════════ -->
+<section class="mission" id="m4">
+  <div class="mhead"><div><div class="mnum">Misión 4</div><h2>Logo: símbolo + nombre</h2></div><span class="time">⏱ 12 min</span></div>
+  <div class="why"><b>Pista:</b> un test vocacional no necesita un birrete. Piensa en lo que <b>siente</b> el usuario cuando por fin tiene claro su camino: orientación, una puerta que se abre, llegar a la cima…</div>
+
+  <label class="f">Símbolo</label>
+  <div class="symbols" id="symbols"></div>
+
+  <div class="opts" style="margin-top:6px">
+    <div><label class="f">Contenedor</label><div class="seg" id="segCont"></div></div>
+    <div><label class="f">Color del símbolo</label><div class="seg" id="segColor"></div></div>
+    <div><label class="f">Disposición</label><div class="seg" id="segLayout"></div></div>
+    <div><label class="f">Letras</label><div class="seg" id="segCase"></div></div>
+  </div>
+
+  <label class="f">Tipografía del nombre</label>
+  <div class="fonts" id="fonts"></div>
+
+  <div class="stage">
+    <div class="board" id="boardLight"></div>
+    <div class="board" id="boardDark"></div>
+  </div>
+  <div class="sizes" id="sizes" style="margin-top:12px"></div>
+
+  <label class="f" for="simbolo">¿Qué significa tu símbolo para el usuario?</label>
+  <input type="text" id="simbolo" data-k="simbolo" maxlength="140" placeholder="Ej.: La brújula: no te dice a dónde ir, te ayuda a orientarte.">
+  <div class="checks" style="margin-top:10px">
+    <label class="check"><input type="checkbox" id="chk24" data-k="chk24"> Lo miré en tamaño 24 px (como ícono en el celular) y todavía se reconoce.</label>
+  </div>
+
+  <div class="status no" id="st4"></div>
+</section>
+
+<!-- ═════════ 5 · VOZ ═════════ -->
+<section class="mission" id="m5">
+  <div class="mhead"><div><div class="mnum">Misión 5</div><h2>Voz: cómo habla la app</h2></div><span class="time">⏱ 6 min</span></div>
+  <div class="why"><b>La marca también se lee.</b> Un mismo botón puede decir “Iniciar evaluación” o “¡Vamos!”. Ninguno está mal: tiene que sonar a la personalidad que elegiste.</div>
+
+  <div class="sliders" id="sliders"></div>
+
+  <label class="f">Tipografía para textos largos</label>
+  <div class="seg" id="segBody"></div>
+
+  <div class="grid2">
+    <div>
+      <label class="f" for="bienvenida">Titular de bienvenida</label>
+      <input type="text" id="bienvenida" data-k="bienvenida" maxlength="60" placeholder="Ej.: Tu futuro no se adivina, se explora">
+      <div class="count" data-count="bienvenida" data-max="60"></div>
+    </div>
+    <div>
+      <label class="f" for="boton">Texto del botón principal</label>
+      <input type="text" id="boton" data-k="boton" maxlength="24" placeholder="Ej.: Empezar mi test">
+      <div class="count" data-count="boton" data-max="24"></div>
+    </div>
+  </div>
+  <label class="f" for="planb">Mensaje cuando el resultado no convence <small>(la app sugiere, no decide)</small></label>
+  <input type="text" id="planb" data-k="planb" maxlength="120" placeholder="Ej.: ¿No te ves ahí? Normal. Mira otras opciones parecidas o vuelve a intentarlo.">
+
+  <div class="status no" id="st5"></div>
+</section>
+
+<!-- ═════════ 6 · PANTALLA ═════════ -->
+<section class="mission" id="m6">
+  <div class="mhead"><div><div class="mnum">Misión 6</div><h2>Así se ve tu app</h2></div><span class="time">⏱ 5 min</span></div>
+  <div class="why"><b>Prueba de realidad.</b> Estas pantallas se arman solas con tus decisiones. Si algo choca (un color, una frase larga), vuelve a esa misión y ajústalo.</div>
+  <div class="phones" id="phones"></div>
+  <div class="checks" style="margin-top:16px">
+    <label class="check"><input type="checkbox" id="chkScreen" data-k="chkScreen"> Le mostré la pantalla a un compañero y entendió para qué sirve la app en menos de 5 segundos.</label>
+  </div>
+  <div class="status no" id="st6"></div>
+</section>
+
+<!-- ═════════ 7 · LÁMINA ═════════ -->
+<section class="mission" id="m7">
+  <div class="mhead"><div><div class="mnum">Misión 7</div><h2>Lámina de marca</h2></div><span class="time">⏱ 5 min</span></div>
+  <div class="why"><b>Para entregar:</b> descarga la lámina y súbela a la carpeta de Drive de tu proyecto. Copia el brief y pégalo en tu documento del proyecto.</div>
+  <canvas id="lam" width="1600" height="1000" aria-label="Lámina de marca"></canvas>
+  <div class="actions">
+    <button class="btn main" id="dlPng">⬇️ Descargar lámina (PNG)</button>
+    <button class="btn" id="cpTxt">📋 Copiar brief en texto</button>
+    <button class="btn" id="reset" style="margin-left:auto">↺ Empezar de cero</button>
+  </div>
+  <div class="status no" id="st7"></div>
+</section>
+
+<details class="prof">
+  <summary>👩‍🏫 Guion para la profesora (55 min)</summary>
+  <ol>
+    <li><b>0–5 min:</b> recordar la idea de la app: <i>qué estudiar, dónde y cuánto cuesta</i>. Pregunta disparadora: “¿Qué app usas que reconozcas solo por su color?”.</li>
+    <li><b>5–15 min · Brief:</b> insistir en que el usuario sea UNA persona concreta. Si eligen 3 adjetivos que no combinan (“seria” + “divertida” + “infantil”), pedir que lo justifiquen.</li>
+    <li><b>15–22 min · Nombre:</b> que lean sus 3 opciones en voz alta al compañero de al lado: el que se entiende a la primera suele ganar.</li>
+    <li><b>22–32 min · Colores:</b> la prueba de lectura no se negocia. Si sale ✗, ajustar el tono, no ignorarlo.</li>
+    <li><b>32–44 min · Logo:</b> mirar la versión de 24 px. Si no se reconoce, simplificar.</li>
+    <li><b>44–50 min · Voz y pantalla:</b> prueba de los 5 segundos con un compañero.</li>
+    <li><b>50–55 min · Cierre y votación:</b> 3 o 4 propuestas proyectan su lámina. El salón vota una sola marca para la app grupal (se pueden mezclar: el nombre de una y la paleta de otra). Pregunta guía: “¿Esta marca le da confianza a alguien que tiene miedo de equivocarse de carrera?”.</li>
+  </ol>
+  <p class="hint">La página guarda el avance en el mismo dispositivo. Si el alumno cambia de equipo, pierde lo hecho: que descargue la lámina antes de irse.</p>
+</details>
+
+<footer>Computación 2026 · 5.° Secundaria · Taller de marca para el proyecto final</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+const KEY = 'taller-marca-sec5-v1';
+
+/* ───── Catálogos ───── */
+const PERS = ['Confiable','Cercana','Optimista','Clara','Inspiradora','Práctica','Juvenil','Seria','Curiosa','Honesta','Moderna','Tranquila'];
+const NOPERS = ['Aburrida','De banco','Infantil','Publicidad engañosa','Robot frío','Elitista'];
+const ETICA = [
+  'El test sugiere opciones; la decisión es del estudiante.',
+  'Los precios muestran la fuente y la fecha de actualización.',
+  'No pedimos datos que no usamos (DNI, dirección, fotos).',
+  'Ninguna universidad paga por aparecer primero.',
+  'Incluimos opciones públicas, institutos y becas, no solo universidades caras.'
+];
+const CRIT = [
+  ['short','Corto: 12 letras o menos', true],
+  ['say','Se lee y se pronuncia a la primera'],
+  ['mean','Sugiere orientar, elegir o futuro'],
+  ['unique','Lo busqué y no existe una app igual'],
+  ['peru','Suena bien en español, para todo el Perú']
+];
+const PRESETS = [
+  {n:'Brújula confiable', c:['#1e3a8a','#dbeafe','#14b8a6','#ffffff','#0f172a']},
+  {n:'Energía joven',     c:['#6d28d9','#ede9fe','#f97316','#fffbf5','#1c1917']},
+  {n:'Cálida y cercana',  c:['#c2410c','#ffedd5','#0d9488','#fffaf5','#292524']},
+  {n:'Sobria académica',  c:['#134e4a','#ccfbf1','#ca8a04','#fafaf9','#1c1917']},
+  {n:'Optimista',         c:['#0369a1','#e0f2fe','#facc15','#ffffff','#0c4a6e']},
+  {n:'Futuro digital',    c:['#111827','#e5e7eb','#06b6d4','#f9fafb','#111827']}
+];
+const ROLES = [
+  ['p','Principal','Botones, logo, lo más importante'],
+  ['s','Secundario','Tarjetas y fondos suaves'],
+  ['a','Acento','Detalles y avisos (poco)'],
+  ['f','Fondo','Donde vive todo'],
+  ['t','Texto','Para leer cómodo']
+];
+const FONTS = ['Poppins','Montserrat','Nunito','Space Grotesk','DM Serif Display','Fraunces','Baloo 2','Outfit'];
+const FONT_W = {'DM Serif Display':400};
+const BODY = ['Inter','Nunito','Lora'];
+// Símbolos dibujados en una grilla de 24×24, solo trazos (sirven igual en SVG y en canvas).
+const SYMS = {
+  brujula:{n:'Brújula',d:['M12 2.5a9.5 9.5 0 1 0 0 19a9.5 9.5 0 1 0 0-19z','M15.8 8.2 13.4 13.4 8.2 15.8 10.6 10.6z']},
+  camino:{n:'Camino',d:['M6 21.5c0-6 12-5 12-10.5 0-3.2-3.2-5-6.5-5','M11.5 6V2l4.5 2-4.5 2']},
+  puerta:{n:'Puerta',d:['M3.5 21.5h17','M6 21.5V3h9v18.5','M15 3l4 2v14.5l-4 2','M12 12.5h.01']},
+  cima:{n:'Cima',d:['M2.5 20.5 9 9.5l4.2 6.5 2.3-3.2 6 7.7z','M9 9.5V3.5l4.5 1.8L9 7']},
+  flecha:{n:'Subir',d:['M12 20.5V4','M5.5 10.5 12 4l6.5 6.5']},
+  estrella:{n:'Estrella',d:['M12 2.8l2.8 5.9 6.4.8-4.7 4.5 1.2 6.4L12 17.3l-5.7 3.1 1.2-6.4-4.7-4.5 6.4-.8z']},
+  pin:{n:'Lugar',d:['M12 21.5s7-6.3 7-11.8a7 7 0 0 0-14 0c0 5.5 7 11.8 7 11.8z','M12 7.2a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z']},
+  bombilla:{n:'Idea',d:['M9 18h6','M10 21.2h4','M12 2.8a6.2 6.2 0 0 0-4 11c.8.8 1 1.5 1 2.4h6c0-.9.2-1.6 1-2.4a6.2 6.2 0 0 0-4-11z']},
+  brote:{n:'Brote',d:['M12 21.5v-9.5','M12 12c0-4.2 3-7 8.5-7 0 4.2-3 7-8.5 7z','M12 14.5c0-3.2-2.5-5.8-7.5-5.8 0 3.2 2.5 5.8 7.5 5.8z']},
+  chispa:{n:'Chispa',d:['M12 2.5v5','M12 16.5v5','M2.5 12h5','M16.5 12h5','M5.3 5.3l3.2 3.2','M15.5 15.5l3.2 3.2','M5.3 18.7l3.2-3.2','M15.5 8.5l3.2-3.2']},
+  pregunta:{n:'Pregunta',d:['M8.6 8.6a3.5 3.5 0 1 1 5.2 3c-1 .6-1.8 1.4-1.8 2.8v.6','M12 19h.01']},
+  birrete:{n:'Birrete',d:['M1.8 9 12 4l10.2 5L12 14z','M6 11v5.2c3.2 2.6 8.8 2.6 12 0V11','M22.2 9v6']},
+  inicial:{n:'Inicial',d:[]}
+};
+const SEG = {
+  cont:[['none','Sin fondo'],['circle','Círculo'],['square','Cuadrado']],
+  color:[['p','Principal'],['a','Acento']],
+  layout:[['h','Horizontal'],['v','Apilado']],
+  caso:[['normal','Normal'],['upper','MAYÚS'],['lower','minús']]
+};
+const SLIDERS = [['formal','Formal','Cercana'],['serio','Seria','Divertida'],['experto','Experta','Compañera']];
+
+/* ───── Estado ───── */
+const DEF = {autor:'',problema:'',usuario:'',promesa:'',fuentes:'',pers:[],noPers:[],etica:[],
+  nombres:['','',''],crit:[{},{},{}],elegido:0,pal:PRESETS[0].c.slice(),porque:'',
+  sym:'brujula',cont:'circle',color:'p',layout:'h',caso:'normal',font:'Poppins',simbolo:'',chk24:false,
+  tono:{formal:65,serio:40,experto:65},body:'Inter',bienvenida:'',boton:'',planb:'',chkScreen:false};
+let S = JSON.parse(JSON.stringify(DEF));
+try{ const raw = localStorage.getItem(KEY); if(raw){ const o = JSON.parse(raw); S = Object.assign(S,o); } }catch(e){}
+let saveT = null;
+function save(){ clearTimeout(saveT); saveT = setTimeout(()=>{ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }, 250); }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2200); }
+
+/* ───── Color ───── */
+function hexOk(h){ return /^#[0-9a-f]{6}$/i.test(h); }
+function lum(h){ const n=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)); return .2126*n[0]+.7152*n[1]+.0722*n[2]; }
+function ratio(a,b){ const x=lum(a), y=lum(b); return (Math.max(x,y)+.05)/(Math.min(x,y)+.05); }
+function onColor(bg){ return ratio(bg,'#ffffff') >= ratio(bg,'#111111') ? '#ffffff' : '#111111'; }
+const P = () => ({p:S.pal[0],s:S.pal[1],a:S.pal[2],f:S.pal[3],t:S.pal[4]});
+
+/* ───── Nombre de la marca ───── */
+function brand(){ const n=(S.nombres[S.elegido]||'').trim() || S.nombres.find(x=>x.trim()) || 'Tu app'; return n.trim(); }
+function cased(n){ return S.caso==='upper'?n.toUpperCase():S.caso==='lower'?n.toLowerCase():n; }
+
+/* ───── Logo (HTML+SVG) ───── */
+function symSVG(key, stroke, sizePx){
+  const sym = SYMS[key];
+  if(key==='inicial'){
+    const L = esc(brand().charAt(0).toUpperCase()||'A');
+    return `<svg viewBox="0 0 24 24" width="${sizePx}" height="${sizePx}" aria-hidden="true"><text x="12" y="12.5" text-anchor="middle" dominant-baseline="central" font-family="${esc(S.font)}" font-weight="${FONT_W[S.font]||700}" font-size="17" fill="${stroke}">${L}</text></svg>`;
+  }
+  return `<svg viewBox="0 0 24 24" width="${sizePx}" height="${sizePx}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${sym.d.map(d=>`<path d="${d}"/>`).join('')}</svg>`;
+}
+// mode: 'light' (sobre fondo) | 'dark' (sobre principal)
+function markColors(mode){
+  const c = P(); const pick = S.color==='a'?c.a:c.p;
+  if(mode==='dark'){
+    if(S.cont==='none') return {bg:null, st:onColor(c.p)};
+    return {bg:onColor(c.p), st: ratio(onColor(c.p),pick)>=2 ? pick : c.p};
+  }
+  if(S.cont==='none') return {bg:null, st:pick};
+  return {bg:pick, st:onColor(pick)};
+}
+function markHTML(mode, px){
+  const m = markColors(mode);
+  const inner = Math.round(S.cont==='none'?px:px*.62);
+  const rad = S.cont==='circle'?'50%':S.cont==='square'?'24%':'0';
+  return `<span class="mark" style="width:${px}px;height:${px}px;${m.bg?`background:${m.bg};`:''}border-radius:${rad}">${symSVG(S.sym,m.st,inner)}</span>`;
+}
+function logoHTML(mode, px){
+  const c = P(); const word = mode==='dark'?onColor(c.p):c.t;
+  const fs = S.layout==='v'?px*.55:px*.62;
+  return `<span class="logo ${S.layout==='v'?'v':''}">${markHTML(mode,px)}<span class="word" style="font-family:'${esc(S.font)}';font-weight:${FONT_W[S.font]||700};font-size:${fs}px;color:${word}">${esc(cased(brand()))}</span></span>`;
+}
+
+/* ───── Construcción de controles ───── */
+function chips(el, list, key, max){
+  el.innerHTML = list.map(x=>`<button type="button" class="chip ${key==='noPers'?'neg':''}" aria-pressed="${S[key].includes(x)}" data-v="${esc(x)}">${esc(x)}</button>`).join('');
+  el.onclick = e => {
+    const b = e.target.closest('.chip'); if(!b) return;
+    const v = b.dataset.v; const arr = S[key]; const i = arr.indexOf(v);
+    if(i>=0) arr.splice(i,1);
+    else { if(arr.length>=max){ toast(`Máximo ${max}. Quita uno primero.`); return; } arr.push(v); }
+    b.setAttribute('aria-pressed', arr.includes(v)); update();
+  };
+}
+function seg(el, opts, key, after){
+  el.innerHTML = opts.map(([v,l])=>`<button type="button" class="chip" aria-pressed="${S[key]===v}" data-v="${v}">${l}</button>`).join('');
+  el.onclick = e => { const b=e.target.closest('.chip'); if(!b) return; S[key]=b.dataset.v; el.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed', x.dataset.v===S[key])); after&&after(); update(); };
+}
+
+function buildBrief(){
+  chips($('#pers'), PERS, 'pers', 3);
+  chips($('#noPers'), NOPERS, 'noPers', 2);
+  $('#etica').innerHTML = ETICA.map((t,i)=>`<label class="check"><input type="checkbox" data-et="${i}" ${S.etica.includes(i)?'checked':''}> ${esc(t)}</label>`).join('');
+  $('#etica').onchange = e => { const i=+e.target.dataset.et; const k=S.etica.indexOf(i); if(e.target.checked&&k<0) S.etica.push(i); if(!e.target.checked&&k>=0) S.etica.splice(k,1); update(); };
+}
+
+function buildNames(){
+  const el = $('#names');
+  el.innerHTML = [0,1,2].map(i=>`
+    <div class="nameRow" data-row="${i}">
+      <div class="nameTop">
+        <input type="text" data-name="${i}" maxlength="24" placeholder="Opción ${i+1}" value="${esc(S.nombres[i])}" aria-label="Nombre opción ${i+1}">
+        <span class="score" data-score="${i}"></span>
+        <button type="button" class="btn small pickBtn" data-pick="${i}">Elegir</button>
+      </div>
+      <div class="checks">${CRIT.map(([k,t,auto])=>`<label class="check ${auto?'auto':''}"><input type="checkbox" data-crit="${i}" data-ck="${k}" ${auto?'disabled':''}> ${t}${auto?' <small>(automático)</small>':''}</label>`).join('')}</div>
+    </div>`).join('');
+  el.oninput = e => { const i=e.target.dataset.name; if(i!=null){ S.nombres[+i]=e.target.value; update(); } };
+  el.onchange = e => { const i=e.target.dataset.crit; if(i!=null){ S.crit[+i][e.target.dataset.ck]=e.target.checked; update(); } };
+  el.onclick = e => { const b=e.target.closest('[data-pick]'); if(!b) return; const i=+b.dataset.pick; if(!S.nombres[i].trim()){ toast('Primero escribe ese nombre.'); return; } S.elegido=i; update(); };
+}
+function nameScore(i){
+  const n = S.nombres[i].trim(); if(!n) return 0;
+  S.crit[i].short = n.replace(/\s/g,'').length<=12;
+  return CRIT.filter(([k])=>S.crit[i][k]).length;
+}
+
+function buildColors(){
+  $('#presets').innerHTML = PRESETS.map((p,i)=>`<button type="button" class="preset" data-pre="${i}"><div class="bar">${p.c.map(c=>`<i style="background:${c}"></i>`).join('')}</div>${p.n}</button>`).join('');
+  $('#presets').onclick = e => { const b=e.target.closest('[data-pre]'); if(!b) return; S.pal = PRESETS[+b.dataset.pre].c.slice(); syncRoles(); update(); toast('Paleta aplicada. Ahora hazla tuya.'); };
+  $('#roles').innerHTML = ROLES.map(([k,n,d],i)=>`<div class="role"><b>${n}</b><small>${d}</small><div class="sw"><input type="color" data-ci="${i}" aria-label="${n}"><input type="text" class="hex" data-hi="${i}" maxlength="7" aria-label="Código ${n}"></div></div>`).join('');
+  $('#roles').oninput = e => {
+    const t=e.target;
+    if(t.dataset.ci!=null){ S.pal[+t.dataset.ci]=t.value; $(`[data-hi="${t.dataset.ci}"]`).value=t.value.toUpperCase(); update(); }
+    if(t.dataset.hi!=null){ let v=t.value.trim(); if(v&&v[0]!=='#') v='#'+v; if(hexOk(v)){ S.pal[+t.dataset.hi]=v.toLowerCase(); $(`[data-ci="${t.dataset.hi}"]`).value=v.toLowerCase(); update(); } }
+  };
+  syncRoles();
+}
+function syncRoles(){ S.pal.forEach((c,i)=>{ const a=$(`[data-ci="${i}"]`), b=$(`[data-hi="${i}"]`); if(a) a.value=c; if(b) b.value=c.toUpperCase(); }); }
+function contrastTests(){
+  const c=P();
+  return [
+    {n:'Texto sobre fondo', bg:c.f, fg:c.t, min:4.5, demo:'Arquitectura · S/ 1 200 al mes'},
+    {n:'Botón principal', bg:c.p, fg:onColor(c.p), min:4.5, demo:(S.boton||'Empezar mi test')},
+    {n:'Acento sobre fondo', bg:c.f, fg:c.a, min:3, demo:'● Nuevo · Becas'}
+  ].map(t=>Object.assign(t,{r:ratio(t.bg,t.fg)}));
+}
+
+function buildLogo(){
+  const el=$('#symbols');
+  el.innerHTML = Object.entries(SYMS).map(([k,s])=>`<button type="button" class="sym" data-sym="${k}" aria-pressed="${S.sym===k}" aria-label="${s.n}"><div style="display:grid;place-items:center">${k==='inicial'?'<span style="font:800 28px Poppins;line-height:34px">A</span>':symSVG(k,'#141414',34)}<span>${s.n}</span></div></button>`).join('');
+  el.onclick = e => { const b=e.target.closest('[data-sym]'); if(!b) return; S.sym=b.dataset.sym; el.querySelectorAll('.sym').forEach(x=>x.setAttribute('aria-pressed',x.dataset.sym===S.sym)); update(); };
+  seg($('#segCont'), SEG.cont, 'cont');
+  seg($('#segColor'), SEG.color, 'color');
+  seg($('#segLayout'), SEG.layout, 'layout');
+  seg($('#segCase'), SEG.caso, 'caso');
+  const f=$('#fonts');
+  f.innerHTML = FONTS.map(n=>`<button type="button" class="fontBtn" data-font="${esc(n)}" aria-pressed="${S.font===n}" style="font-family:'${n}';font-weight:${FONT_W[n]||700}">Vocación<small>${n}</small></button>`).join('');
+  f.onclick = e => { const b=e.target.closest('[data-font]'); if(!b) return; S.font=b.dataset.font; f.querySelectorAll('.fontBtn').forEach(x=>x.setAttribute('aria-pressed',x.dataset.font===S.font)); update(); };
+}
+
+function buildVoice(){
+  $('#sliders').innerHTML = SLIDERS.map(([k,a,b])=>`<label class="slider"><span>${a}</span><input type="range" min="0" max="100" step="5" data-tono="${k}" value="${S.tono[k]}" aria-label="${a} a ${b}"><span>${b}</span></label>`).join('');
+  $('#sliders').oninput = e => { const k=e.target.dataset.tono; if(k){ S.tono[k]=+e.target.value; update(); } };
+  seg($('#segBody'), BODY.map(n=>[n,n]), 'body');
+  $('#segBody').querySelectorAll('.chip').forEach(b=>b.style.fontFamily=`'${b.dataset.v}'`);
+}
+function tonoTxt(){
+  const t=S.tono, w=[];
+  w.push(t.formal>=60?'cercana':t.formal<=40?'formal':'ni muy formal ni muy cercana');
+  w.push(t.serio>=60?'con humor':t.serio<=40?'seria':'equilibrada');
+  w.push(t.experto>=60?'como una compañera que acompaña':t.experto<=40?'como una experta que orienta':'entre guía y compañera');
+  return 'Habla '+w.join(', ')+'.';
+}
+
+/* ───── Pantallas del celular ───── */
+function renderPhones(){
+  const c=P(), btnInk=onColor(c.p), sInk=onColor(c.s);
+  const hl = S.bienvenida.trim()||'Tu futuro no se adivina, se explora';
+  const sub = S.promesa.trim()||'Descubre qué estudiar, dónde y cuánto cuesta.';
+  const bt = S.boton.trim()||'Empezar mi test';
+  const pb = S.planb.trim()||'¿No te ves ahí? Mira opciones parecidas o vuelve a intentarlo.';
+  const ff = `font-family:'${S.body}',sans-serif`;
+  const card = (ico,t,d)=>`<div class="scrCard" style="background:${c.s};color:${sInk}"><span class="ico">${ico}</span><div><b>${t}</b>${d}</div></div>`;
+  $('#phones').innerHTML = `
+  <div class="phone"><div class="screen" style="background:${c.f};color:${c.t};${ff}">
+    <div class="sbar"><span>9:41</span><span>●●● 5G</span></div>
+    <div style="margin-top:4px">${logoHTML('light',30)}</div>
+    <div class="scrTitle" style="font-family:'${esc(S.font)}';font-weight:${FONT_W[S.font]||800}">${esc(hl)}</div>
+    <div class="scrSub">${esc(sub)}</div>
+    <button class="scrBtn" style="background:${c.p};color:${btnInk};${ff}">${esc(bt)}</button>
+    ${card('🎯','Qué estudiar','Según lo que te gusta y te sale bien')}
+    ${card('📍','Dónde','Universidades e institutos cerca de ti')}
+    ${card('💰','Cuánto cuesta','Pensiones, becas y opciones públicas')}
+    ${card('📅','Admisión','Fechas de examen, simulacros y sus costos')}
+    <div class="scrFoot">Pantalla de inicio</div>
+  </div></div>
+  <div class="phone"><div class="screen" style="background:${c.f};color:${c.t};${ff}">
+    <div class="sbar"><span>9:48</span><span>●●● 5G</span></div>
+    <div style="display:flex;align-items:center;gap:8px">${markHTML('light',26)}<b style="font-size:14px">Tu resultado</b></div>
+    <div class="scrTitle" style="font-size:20px;font-family:'${esc(S.font)}';font-weight:${FONT_W[S.font]||800}">Perfil creativo-analítico</div>
+    <div class="scrSub">Te podrían interesar:</div>
+    ${[['Arquitectura',88],['Diseño industrial',74],['Ingeniería civil',61]].map(([n,v])=>`
+      <div><div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700"><span>${n}</span><span>${v}%</span></div>
+      <div class="bar3" style="background:${c.s}"><i style="width:${v}%;background:${c.p}"></i></div></div>`).join('')}
+    <div class="scrCard" style="background:${c.s};color:${sInk};display:block"><b>📍 3 lugares · 💰 desde S/ 0</b>Incluye una universidad pública y un instituto. 📅 Próximo examen: 14 de marzo · simulacro S/ 30</div>
+    <div style="border-left:4px solid ${c.a};padding:6px 10px;font-size:13px">${esc(pb)}</div>
+    <div class="scrFoot">Fuente: ${esc(S.fuentes.trim()||'webs oficiales')} · actualizado nov. 2026</div>
+  </div></div>`;
+}
+
+/* ───── Estado de cada misión ───── */
+function checks(){
+  const len = k => (S[k]||'').trim().length;
+  const ct = contrastTests();
+  return {
+    1: len('problema')>=20 && len('usuario')>=20 && len('promesa')>=15 && S.pers.length===3 && S.etica.length>=2,
+    2: !!S.nombres[S.elegido].trim() && nameScore(S.elegido)>=3,
+    3: ct[0].r>=4.5 && ct[1].r>=4.5 && len('porque')>=10,
+    4: len('simbolo')>=10 && S.chk24,
+    5: len('bienvenida')>=5 && len('boton')>=3 && len('planb')>=10,
+    6: !!S.chkScreen,
+  };
+}
+function stMsg(id, ok, okTxt, faltan){
+  const el=$('#st'+id); el.className='status '+(ok?'ok':'no');
+  el.textContent = ok ? '✅ '+okTxt : 'Falta: '+faltan.filter(Boolean).join(' · ');
+}
+
+/* ───── Render general ───── */
+function update(){
+  const c=P(), len=k=>(S[k]||'').trim().length;
+  // contadores
+  document.querySelectorAll('[data-count]').forEach(el=>{ const k=el.dataset.count, m=+el.dataset.max, n=(S[k]||'').length; el.textContent=`${n} / ${m}`; el.classList.toggle('over', n>=m); });
+  $('#persCount').textContent = `${S.pers.length} de 3`;
+
+  // nombres
+  [0,1,2].forEach(i=>{
+    const sc=nameScore(i); const row=$(`[data-row="${i}"]`);
+    row.classList.toggle('pick', S.elegido===i && !!S.nombres[i].trim());
+    $(`[data-score="${i}"]`).textContent = S.nombres[i].trim()?`${sc}/5`:'';
+    row.querySelectorAll('[data-crit]').forEach(x=>x.checked=!!S.crit[i][x.dataset.ck]);
+    row.querySelector('.pickBtn').textContent = S.elegido===i && S.nombres[i].trim() ? '★ Elegido' : 'Elegir';
+  });
+
+  // contraste
+  $('#contrast').innerHTML = contrastTests().map(t=>`<div class="ctest" style="background:${t.bg};color:${t.fg}"><div style="font-size:12px;font-weight:700;opacity:.8">${t.n}</div><div class="demo">${esc(t.demo)}</div><span class="res ${t.r>=t.min?'ok':'no'}">${t.r.toFixed(1)} : 1 ${t.r>=t.min?'se lee':'no se lee'}</span></div>`).join('');
+
+  // logo
+  $('#boardLight').style.background=c.f; $('#boardLight').innerHTML=logoHTML('light',64);
+  $('#boardDark').style.background=c.p;  $('#boardDark').innerHTML=logoHTML('dark',48);
+  const tile = px => { const m=markColors('light'); const bg = S.cont==='none'?c.f:(m.bg); return `<span class="mark" style="width:${px}px;height:${px}px;background:${bg};border-radius:${Math.round(px*.24)}px;border:1px solid #0001">${symSVG(S.sym, S.cont==='none'?m.st:onColor(bg), Math.round(px*.62))}</span>`; };
+  $('#sizes').innerHTML = [96,48,24].map(px=>`<figure>${tile(px)}<figcaption>${px} px${px===96?' · ícono de app':px===24?' · ¿se reconoce?':''}</figcaption></figure>`).join('');
+
+  renderPhones();
+
+  // estados
+  const ok=checks(); const ct=contrastTests();
+  stMsg(1, ok[1], 'Brief listo. Ya sabes a quién le hablas.', [len('problema')<20&&'el problema', len('usuario')<20&&'la persona', len('promesa')<15&&'la promesa', S.pers.length!==3&&'3 rasgos de personalidad', S.etica.length<2&&'2 compromisos éticos']);
+  stMsg(2, ok[2], `Nombre elegido: “${brand()}”.`, [!S.nombres[S.elegido].trim()&&'elegir un nombre', S.nombres[S.elegido].trim()&&nameScore(S.elegido)<3&&'que el elegido cumpla al menos 3 filtros']);
+  stMsg(3, ok[3], 'Paleta legible y justificada.', [ct[0].r<4.5&&'que el texto se lea sobre el fondo', ct[1].r<4.5&&'que el botón se lea', len('porque')<10&&'explicar el color principal']);
+  stMsg(4, ok[4], 'Logo con significado y probado en pequeño.', [len('simbolo')<10&&'explicar el símbolo', !S.chk24&&'probarlo a 24 px']);
+  stMsg(5, ok[5], tonoTxt(), [len('bienvenida')<5&&'titular', len('boton')<3&&'texto del botón', len('planb')<10&&'mensaje del plan B']);
+  stMsg(6, ok[6], 'Pasó la prueba de los 5 segundos.', ['mostrárselo a un compañero']);
+  const n=Object.values(ok).filter(Boolean).length;
+  const st7=$('#st7'); st7.className='status '+(n===6?'ok':'no');
+  st7.textContent = n===6 ? '🏁 Las 6 misiones están completas. Descarga la lámina y súbela a tu Drive.' : `Llevas ${n} de 6 misiones. Puedes descargar igual, pero la lámina queda incompleta.`;
+  document.querySelectorAll('nav.steps a').forEach(a=>{ const s=+a.dataset.step; a.classList.toggle('done', s<7 ? !!ok[s] : n===6); });
+
+  drawSheetSoon();
+  save();
+}
+
+/* ───── Lámina en canvas ───── */
+let drawT=null;
+function drawSheetSoon(){ clearTimeout(drawT); drawT=setTimeout(drawSheet,300); }
+function wrap(ctx, text, x, y, maxW, lh, maxLines){
+  const words=String(text).split(/\s+/); let line='', n=0;
+  for(let i=0;i<words.length;i++){
+    const test=line?line+' '+words[i]:words[i];
+    if(ctx.measureText(test).width>maxW && line){
+      n++; if(maxLines && n>=maxLines){ ctx.fillText(line.replace(/\s*$/,'')+'…',x,y); return y+lh; }
+      ctx.fillText(line,x,y); line=words[i]; y+=lh;
+    } else line=test;
+  }
+  if(line) ctx.fillText(line,x,y);
+  return y+lh;
+}
+function drawMark(ctx, x, y, px, mode){
+  const m=markColors(mode);
+  if(m.bg){ ctx.fillStyle=m.bg; ctx.beginPath();
+    if(S.cont==='circle') ctx.arc(x+px/2,y+px/2,px/2,0,Math.PI*2);
+    else { const r=px*.24; ctx.moveTo(x+r,y); ctx.arcTo(x+px,y,x+px,y+px,r); ctx.arcTo(x+px,y+px,x,y+px,r); ctx.arcTo(x,y+px,x,y,r); ctx.arcTo(x,y,x+px,y,r); }
+    ctx.fill(); }
+  const inner = S.cont==='none'?px:px*.62, off=(px-inner)/2, k=inner/24;
+  if(S.sym==='inicial'){
+    ctx.fillStyle=m.st; ctx.font=`${FONT_W[S.font]||700} ${Math.round(17*k)}px "${S.font}"`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText((brand().charAt(0)||'A').toUpperCase(), x+px/2, y+px/2+k*.5); ctx.textAlign='left'; ctx.textBaseline='alphabetic'; return;
+  }
+  ctx.save(); ctx.translate(x+off,y+off); ctx.scale(k,k);
+  ctx.strokeStyle=m.st; ctx.lineWidth=2; ctx.lineCap='round'; ctx.lineJoin='round';
+  SYMS[S.sym].d.forEach(d=>ctx.stroke(new Path2D(d)));
+  ctx.restore();
+}
+function drawLogo(ctx, x, y, px, mode, maxW){
+  const c=P();
+  drawMark(ctx,x,y,px,mode);
+  let fs=px*.62; ctx.fillStyle = mode==='dark'?onColor(c.p):c.t;
+  const word=cased(brand());
+  do{ ctx.font=`${FONT_W[S.font]||700} ${fs}px "${S.font}"`; fs-=2; } while(ctx.measureText(word).width > maxW-px-px*.45 && fs>12);
+  ctx.textBaseline='middle'; ctx.fillText(word, x+px+px*.4, y+px/2+2); ctx.textBaseline='alphabetic';
+}
+async function drawSheet(){
+  const cv=$('#lam'), ctx=cv.getContext('2d'), c=P();
+  try{ await Promise.all([`700 40px "${S.font}"`,`400 40px "${S.font}"`,`400 20px "${S.body}"`,'700 20px "Inter"','700 20px "Space Grotesk"'].map(f=>document.fonts.load(f))); }catch(e){}
+  const W=1600,H=1000; ctx.clearRect(0,0,W,H);
+  // panel izquierdo
+  ctx.fillStyle=c.p; ctx.fillRect(0,0,620,H);
+  const ink=onColor(c.p);
+  ctx.fillStyle=ink; ctx.globalAlpha=.75; ctx.font='700 22px "Space Grotesk"'; ctx.fillText('LÁMINA DE MARCA',60,80); ctx.globalAlpha=1;
+  drawLogo(ctx,60,150,96,'dark',520);
+  ctx.fillStyle=ink; ctx.font=`400 30px "${S.body}"`;
+  wrap(ctx, S.promesa.trim()||'(escribe tu promesa en la misión 1)', 60, 330, 500, 42, 4);
+  ctx.globalAlpha=.85; ctx.font='700 20px "Inter"'; ctx.fillText('PARA QUIÉN', 60, 540); ctx.globalAlpha=1;
+  ctx.font=`400 22px "${S.body}"`; wrap(ctx, S.usuario.trim()||'—', 60, 576, 500, 32, 5);
+  ctx.globalAlpha=.85; ctx.font='700 20px "Inter"'; ctx.fillText('EL PROBLEMA', 60, 770); ctx.globalAlpha=1;
+  ctx.font=`400 22px "${S.body}"`; wrap(ctx, S.problema.trim()||'—', 60, 806, 500, 32, 4);
+  // panel derecho
+  ctx.fillStyle='#ffffff'; ctx.fillRect(620,0,W-620,H);
+  const X=680; let y=80;
+  const label=(t,yy)=>{ ctx.fillStyle='#6b6b6b'; ctx.font='700 18px "Inter"'; ctx.fillText(t,X,yy); };
+  label('PERSONALIDAD',y); y+=20;
+  let cx=X; ctx.font='700 22px "Inter"';
+  (S.pers.length?S.pers:['—']).forEach(p=>{ const w=ctx.measureText(p).width+36; ctx.fillStyle=c.s; roundRect(ctx,cx,y,w,44,22); ctx.fill(); ctx.fillStyle=onColor(c.s); ctx.fillText(p,cx+18,y+30); cx+=w+12; });
+  if(S.noPers.length){ ctx.fillStyle='#6b6b6b'; ctx.font='600 18px "Inter"'; ctx.fillText('No queremos parecer: '+S.noPers.join(', ').toLowerCase(), X, y+76); }
+  y+=120;
+  label('PALETA',y); y+=18;
+  ROLES.forEach(([k,n],i)=>{ const sx=X+i*172; ctx.fillStyle=S.pal[i]; roundRect(ctx,sx,y,156,120,14); ctx.fill(); ctx.strokeStyle='#00000018'; ctx.lineWidth=2; ctx.stroke();
+    ctx.fillStyle=onColor(S.pal[i]); ctx.font='700 18px "Inter"'; ctx.fillText(n,sx+14,y+32); ctx.font='600 17px ui-monospace, monospace'; ctx.fillText(S.pal[i].toUpperCase(),sx+14,y+104); });
+  y+=150;
+  if(S.porque.trim()){ ctx.fillStyle='#333'; ctx.font=`400 19px "${S.body}"`; y=wrap(ctx,'“'+S.porque.trim()+'”',X,y,840,26,2); }
+  y+=26;
+  label('TIPOGRAFÍAS',y); y+=50;
+  ctx.fillStyle='#141414'; ctx.font=`${FONT_W[S.font]||700} 52px "${S.font}"`; ctx.fillText('Aa',X,y); ctx.font='600 18px "Inter"'; ctx.fillText(S.font+' · títulos y logo',X+90,y-14);
+  ctx.font=`400 52px "${S.body}"`; ctx.fillText('Aa',X+440,y); ctx.font='600 18px "Inter"'; ctx.fillText(S.body+' · textos',X+530,y-14);
+  y+=56;
+  label('SÍMBOLO',y); y+=16;
+  drawMark(ctx,X,y,72,'light');
+  ctx.fillStyle='#333'; ctx.font=`400 20px "${S.body}"`; wrap(ctx, S.simbolo.trim()||SYMS[S.sym].n, X+96, y+30, 744, 28, 2);
+  y+=110;
+  label('VOZ',y); y+=34;
+  ctx.fillStyle='#141414'; ctx.font=`${FONT_W[S.font]||700} 30px "${S.font}"`; y=wrap(ctx, S.bienvenida.trim()||'(titular de bienvenida)', X, y, 840, 38, 2);
+  ctx.fillStyle=c.p; roundRect(ctx,X,y-6,Math.min(360,ctx.measureText(S.boton||'Empezar mi test').width+80),52,14); ctx.fill();
+  ctx.fillStyle=onColor(c.p); ctx.font='800 22px "Inter"'; ctx.fillText(S.boton.trim()||'Empezar mi test',X+24,y+28);
+  ctx.fillStyle='#555'; ctx.font=`400 18px "${S.body}"`; ctx.fillText(tonoTxt(), X, y+76);
+  y+=118;
+  label('PROMESA ÉTICA',y); y+=30;
+  ctx.fillStyle='#333'; ctx.font=`400 18px "${S.body}"`;
+  (S.etica.length?S.etica.slice().sort():[]).slice(0,3).forEach(i=>{ y=wrap(ctx,'✓ '+ETICA[i],X,y,840,24,1); });
+  // pie
+  ctx.fillStyle='#8a8a8a'; ctx.font='600 16px "Inter"';
+  const f=new Date(); const fecha=f.toLocaleDateString('es-PE',{day:'numeric',month:'long',year:'numeric'});
+  ctx.fillText(`${S.autor.trim()||'Sin nombre'} · 5.° Secundaria · Taller de marca · ${fecha}`, X, H-36);
+}
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+function briefText(){
+  const c=P();
+  return [
+    `BRIEF DE MARCA · ${brand()}`,
+    `Autor/equipo: ${S.autor||'—'}`,
+    ``,
+    `Problema: ${S.problema||'—'}`,
+    `Usuario: ${S.usuario||'—'}`,
+    `Promesa: ${S.promesa||'—'}`,
+    `Personalidad: ${S.pers.join(', ')||'—'}`,
+    `No queremos parecer: ${S.noPers.join(', ')||'—'}`,
+    `Fuentes de datos: ${S.fuentes||'—'}`,
+    `Promesa ética:`, ...S.etica.slice().sort().map(i=>'  - '+ETICA[i]),
+    ``,
+    `Nombres evaluados: ${S.nombres.filter(n=>n.trim()).map((n,i)=>`${n} (${nameScore(S.nombres.indexOf(n))}/5)`).join(' · ')||'—'}`,
+    `Nombre elegido: ${brand()}`,
+    ``,
+    `Paleta: ${ROLES.map(([k,n],i)=>`${n} ${S.pal[i].toUpperCase()}`).join(' · ')}`,
+    `Por qué el principal: ${S.porque||'—'}`,
+    `Contraste: ${contrastTests().map(t=>`${t.n} ${t.r.toFixed(1)}:1`).join(' · ')}`,
+    ``,
+    `Logo: símbolo ${SYMS[S.sym].n.toLowerCase()}, ${SEG.cont.find(x=>x[0]===S.cont)[1].toLowerCase()}, tipografía ${S.font}`,
+    `Significado: ${S.simbolo||'—'}`,
+    ``,
+    `Voz: ${tonoTxt()}`,
+    `Bienvenida: ${S.bienvenida||'—'}`,
+    `Botón: ${S.boton||'—'}`,
+    `Si el resultado no convence: ${S.planb||'—'}`,
+    `Tipografía de textos: ${S.body}`
+  ].join('\n');
+}
+
+/* ───── Campos de texto simples ───── */
+function bindFields(){
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const k=el.dataset.k;
+    if(el.type==='checkbox'){ el.checked=!!S[k]; el.addEventListener('change',()=>{ S[k]=el.checked; update(); }); }
+    else { el.value=S[k]||''; el.addEventListener('input',()=>{ S[k]=el.value; update(); }); }
+  });
+  const a=$('#autor'); a.value=S.autor||''; a.addEventListener('input',()=>{ S.autor=a.value; update(); });
+}
+
+$('#dlPng').onclick = async () => {
+  await drawSheet();
+  const name = ('marca-'+brand()+'-'+(S.autor||'')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  $('#lam').toBlob(b=>{ if(!b){ toast('No se pudo crear la imagen.'); return; } const u=URL.createObjectURL(b); const l=document.createElement('a'); l.href=u; l.download=(name||'lamina-marca')+'.png'; document.body.appendChild(l); l.click(); l.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); toast('Lámina descargada ✓'); },'image/png');
+};
+$('#cpTxt').onclick = async () => {
+  const t=briefText();
+  try{ await navigator.clipboard.writeText(t); toast('Brief copiado. Pégalo en tu documento.'); }
+  catch(e){ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); toast('Brief copiado.'); }catch(_){ toast('No se pudo copiar.'); } ta.remove(); }
+};
+$('#reset').onclick = () => {
+  if(!confirm('¿Borrar todo lo que hiciste en este taller? No se puede deshacer.')) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  location.reload();
+};
+
+buildBrief(); buildNames(); buildColors(); buildLogo(); buildVoice(); bindFields(); update();
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(drawSheet);
+})();
+</script>
+</body>
+</html>

@@ -193,6 +193,13 @@ button{font-family:inherit;cursor:pointer;}
 .obj-diseno{margin-left:auto;font-weight:700;color:var(--text);text-decoration:none;white-space:nowrap;
   border-bottom:2px solid var(--gaccent,var(--accent));}
 .obj-diseno:hover{color:var(--gaccent,var(--accent));}
+.obj-entrega{margin-left:auto;display:inline-flex;align-items:center;gap:.35rem;min-height:44px;
+  padding:.5rem .95rem;border-radius:10px;text-decoration:none;font-weight:700;
+  background:rgba(16,185,129,.12);color:#047857;border:1px solid rgba(16,185,129,.35);}
+.obj-entrega:hover{background:rgba(16,185,129,.2);}
+@media(max-width:560px){.obj-entrega{margin-left:0;width:100%;justify-content:center;}}
+.obj-diseno + .obj-entrega{margin-left:.75rem;}
+@media(max-width:560px){.obj-diseno + .obj-entrega{margin-left:0;}}
 
 /* ── ACCESO PROFESORA EN HEADER ──────────────────────────── */
 .prof-access{
@@ -946,7 +953,7 @@ button{font-family:inherit;cursor:pointer;}
   background:var(--surface-2);border-radius:5px;padding:2px 7px;
 }
 .tasks-item-date{font-size:12px;color:var(--text-muted);margin-left:auto;}
-.tasks-item-comment{font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:6px;}
+.tasks-item-comment{font-size:13px;color:var(--text-muted);font-style:italic;margin-bottom:6px;white-space:pre-line;word-break:break-word;}
 .tasks-item-link{
   display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:600;
   color:#047857;text-decoration:none;
@@ -2615,7 +2622,8 @@ function renderPanel(gradeId){
   // Los salones que construyen página o app planean en grupo su documento de diseño
   const diseno = DISENO_AULAS.includes(gradeId)
     ? `<a class="obj-diseno" href="/diseno.html?aula=${gradeId}" style="--gaccent:${GRADE_ACCENTS[gradeId]}">📐 Documento de diseño del grupo →</a>` : '';
-  html += `<div class="obj-strip">🎯 <span>Proyecto final del curso: <strong>${g.project}</strong></span>${diseno}</div>`;
+  html += `<div class="obj-strip">🎯 <span>Proyecto final del curso: <strong>${g.project}</strong></span>${diseno}
+    <a class="obj-entrega" href="/entrega-final.html?aula=${gradeId}">🎓 Entregar mi trabajo final</a></div>`;
 
   // ── CLASE DE HOY (tarjeta completa) — solo profesora; el hero cubre al alumno ──
   if(todayItem && unlocked){
@@ -3504,10 +3512,12 @@ let _currentTasksSession = '05';
 function openTasks(session, gradeId){
   _currentTasksGrade = gradeId || null;
   _currentTasksSession = session ? String(session).padStart(2,'0') : '05';
+  // 'FINAL' = formulario de entrega del trabajo final (/entrega-final.html).
+  const etiqueta = _currentTasksSession === 'FINAL' ? '🎓 Trabajo final' : 'Sesión ' + _currentTasksSession;
   const titleEl = document.getElementById('tasks-panel-title');
   titleEl.textContent = gradeId
-    ? '📬 Entregas — ' + (GRADE_LABELS_MAP[gradeId] || gradeId) + ' · Sesión ' + _currentTasksSession
-    : '📬 Entregas de tareas · Sesión ' + _currentTasksSession;
+    ? '📬 Entregas — ' + (GRADE_LABELS_MAP[gradeId] || gradeId) + ' · ' + etiqueta
+    : '📬 Entregas de tareas · ' + etiqueta;
   document.getElementById('tasks-overlay').classList.add('open');
   focusDialog('tasks-overlay');
   loadTasks();
@@ -3535,6 +3545,13 @@ async function loadTasks(){
   }
 }
 
+/** Comentario seguro con sus links clicables (el formulario del trabajo final
+    guarda ahí el segundo link: "🔗 Otro link: https://…"). */
+function linkifyComment(text){
+  return escHtml(text).replace(/https?:\/\/[^\s"<]+/g,
+    u => `<a href="${u}" target="_blank" rel="noopener" style="font-style:normal;font-weight:600">${u}</a>`);
+}
+
 function renderTasks(data){
   const content = document.getElementById('tasks-content');
   const submitted = data.submitted || [];
@@ -3557,7 +3574,7 @@ function renderTasks(data){
       const gl = GRADE_LABELS_MAP[t.grado] || t.grado;
       const rawDate = t.fecha ? new Date(t.fecha) : null;
       const fechaStr = rawDate ? rawDate.toLocaleDateString('es-PE',{day:'2-digit',month:'short'}) + ' ' + rawDate.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}) : '—';
-      const comentario = t.comentario ? `<div class="tasks-item-comment">"${escHtml(t.comentario)}"</div>` : '';
+      const comentario = t.comentario ? `<div class="tasks-item-comment">"${linkifyComment(t.comentario)}"</div>` : '';
       html += `<div class="tasks-item" data-task-id="${escHtml(t.id||'')}">
         <div class="tasks-item-top">
           <span class="tasks-item-name">${escHtml(t.nombre_raw || '—')}</span>
@@ -3580,7 +3597,7 @@ function renderTasks(data){
       const gl = GRADE_LABELS_MAP[t.grado] || t.grado;
       const rawDate = t.fecha ? new Date(t.fecha) : null;
       const fechaStr = rawDate ? rawDate.toLocaleDateString('es-PE',{day:'2-digit',month:'short'}) + ' ' + rawDate.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'}) : '—';
-      const comentario = t.comentario ? `<div class="tasks-item-comment">"${escHtml(t.comentario)}"</div>` : '';
+      const comentario = t.comentario ? `<div class="tasks-item-comment">"${linkifyComment(t.comentario)}"</div>` : '';
       html += `<div class="tasks-item" data-task-id="${escHtml(t.id||'')}" style="border-color:#f59e0b;background:#fff7ed">
         <div class="tasks-item-top"><span class="tasks-item-name">${escHtml(t.nombre_raw || '—')}</span><span class="tasks-item-grade">${escHtml(gl)}</span><span class="tasks-item-date">${fechaStr}</span></div>
         <div style="font-size:12px;color:#92400e;margin:.25rem 0">Guardada, pero todavía no cuenta para ningún alumno.</div>
@@ -4809,6 +4826,8 @@ function panelDespues(it, gradeId){
         <span class="a-em">📊</span><b>Ver quién rindió</b><span>Notas de la evaluación, una por alumno</span></button>
       <button class="cns-act" onclick="openTasks(${it.sd.n}, '${gradeId}')">
         <span class="a-em">📬</span><b>Ver entregas</b><span>Quién entregó y quién falta</span></button>
+      <button class="cns-act" onclick="openTasks('FINAL', '${gradeId}')">
+        <span class="a-em">🎓</span><b>Trabajos finales</b><span>Lo que llegó por el formulario de entrega final</span></button>
       <button class="cns-act" onclick="openRankingModal('${gradeId}')">
         <span class="a-em">🏆</span><b>Ranking del mes</b><span>Notas más puntos de participación</span></button>
       <button class="cns-act" onclick="descargarLibreta(this)">

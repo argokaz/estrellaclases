@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrega del trabajo final | Asunción School</title>
+<meta name="robots" content="noindex">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap');
+/* Acento por salón: lo cambia elegirAula(). Valores por defecto = neutro. */
+:root{--accent:#4f46e5;--accent2:#4338ca;--brand:#312e81;--pas:#e0e7ff;--grad:linear-gradient(135deg,#1e1b4b,#312e81);
+  --text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg-alt:#f8fafc;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;font-size:17px;color:var(--text);background:#fff;line-height:1.7}
+button{font-family:inherit;cursor:pointer}
+.page-wrap{max-width:780px;margin:0 auto;padding:40px 44px 60px}
+@media(max-width:640px){.page-wrap{padding:22px 16px 48px}}
+.doc-header{border-bottom:3px solid var(--accent);padding-bottom:16px;margin-bottom:26px;display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.doc-header .school{font-size:12px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.doc-header .teacher{font-size:15px;font-weight:700;color:var(--accent2);margin-top:3px}
+.doc-header .meta{text-align:right;font-size:13px;color:var(--muted);line-height:1.9}
+@media(max-width:560px){.doc-header .meta{text-align:left}}
+.back{color:var(--accent2);font-weight:600;text-decoration:none}
+.doc-title{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:800;color:var(--brand);line-height:1.2;margin-bottom:6px}
+.doc-subtitle{font-size:15.5px;color:var(--muted);margin-bottom:26px}
+.step-label{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;color:var(--brand);margin:0 0 12px;display:flex;align-items:center;gap:10px}
+.step-label .n{background:var(--accent);color:#fff;border-radius:50%;width:30px;height:30px;min-width:30px;display:inline-flex;align-items:center;justify-content:center;font-size:14px}
+.aulas{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px}
+@media(max-width:560px){.aulas{grid-template-columns:repeat(2,1fr)}}
+.aula-btn{min-height:56px;border:2px solid var(--border);background:#fff;border-radius:12px;padding:10px 12px;font-size:15.5px;font-weight:700;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px;transition:border-color .15s,background .15s,transform .15s}
+.aula-btn:hover{transform:translateY(-1px)}
+.aula-btn[aria-pressed="true"]{border-color:var(--c);background:var(--cp);color:var(--c)}
+.task-card{background:var(--grad);border-radius:18px;padding:28px 32px;margin-bottom:28px;color:#fff;position:relative;overflow:hidden}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 85% 35%,rgba(255,255,255,.09) 0%,transparent 65%);pointer-events:none}
+@media(max-width:640px){.task-card{padding:22px 20px}}
+.task-badge{display:inline-flex;align-items:center;gap:6px;background:var(--pas);color:var(--brand);font-weight:900;font-size:12px;letter-spacing:.5px;text-transform:uppercase;border-radius:7px;padding:4px 12px;margin-bottom:12px}
+.task-title{font-family:'Space Grotesk',sans-serif;font-size:25px;font-weight:800;line-height:1.2;margin-bottom:10px}
+.task-desc{font-size:16px;opacity:.94;line-height:1.65;margin-bottom:14px}
+.task-items{list-style:none;display:flex;flex-direction:column;gap:7px}
+.task-items li{display:flex;align-items:flex-start;gap:10px;font-size:15.5px;line-height:1.55}
+.task-items li::before{content:'✓';background:rgba(255,255,255,.22);border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:2px}
+.task-deadline{margin-top:16px;font-size:14px;background:rgba(0,0,0,.22);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.share-box{background:#fffbeb;border:2px solid #fde68a;border-radius:16px;padding:20px 24px;margin-bottom:28px}
+.share-box h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:800;color:#78350f;margin-bottom:10px}
+.share-box ol{padding-left:22px;color:#44403c;font-size:15px;display:flex;flex-direction:column;gap:6px}
+.share-box ol strong{color:#78350f}
+.share-box .tip{margin-top:12px;font-size:14px;color:#78350f;background:#fef3c7;border-radius:10px;padding:10px 13px}
+.form-section{border:2px solid var(--border);border-radius:18px;padding:26px 30px;margin-bottom:28px;background:var(--bg-alt)}
+@media(max-width:640px){.form-section{padding:20px 16px}}
+.form-group{margin-bottom:18px}
+.form-label{display:block;font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:7px}
+.form-label .opt{font-weight:400;color:var(--muted)}
+.form-input,.form-textarea{width:100%;border:2px solid var(--border);border-radius:10px;padding:13px 15px;font-size:16px;font-family:inherit;outline:none;color:var(--text);background:#fff;transition:border-color .2s}
+.form-input{min-height:50px}
+.form-textarea{resize:vertical;min-height:84px;line-height:1.6}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent)}
+.form-input.ok{border-color:#16a34a}
+.form-hint{font-size:13px;color:var(--muted);margin-top:5px}
+.check-row{display:flex;gap:12px;align-items:flex-start;background:#fff;border:2px solid var(--border);border-radius:12px;padding:13px 15px;cursor:pointer;min-height:48px;font-size:15px;line-height:1.5}
+.check-row input{width:22px;height:22px;min-width:22px;margin-top:1px;accent-color:var(--accent)}
+.submit-btn{width:100%;min-height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;padding:16px;font-size:17px;font-weight:700;margin-top:6px;transition:opacity .15s,transform .15s}
+.submit-btn:hover:not(:disabled){opacity:.9;transform:translateY(-1px)}
+.submit-btn:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}
+.err-msg{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:9px;padding:11px 15px;font-size:14.5px;color:#b91c1c;margin-top:12px;display:none}
+.err-msg.show{display:block}
+.prev-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:11px 14px;font-size:14px;color:#166534;margin-bottom:16px;display:none;word-break:break-all}
+.prev-box.show{display:block}
+.confirm-card{background:var(--pas);border:2px solid var(--accent);border-radius:18px;padding:34px 26px;text-align:center;display:none;margin-bottom:28px}
+.confirm-card.show{display:block}
+.confirm-icon{font-size:3.4rem;margin-bottom:10px}
+.confirm-title{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:800;color:var(--brand);margin-bottom:8px}
+.confirm-sub{font-size:15.5px;color:var(--text);margin-bottom:16px;line-height:1.6}
+.confirm-link-box{background:#fff;border:1.5px solid var(--border);border-radius:9px;padding:11px 14px;font-size:14px;color:var(--muted);word-break:break-all;margin-bottom:18px;text-align:left}
+.confirm-link-box a{color:var(--accent2);font-weight:600}
+.resubmit-btn{min-height:46px;background:#fff;border:2px solid var(--accent);color:var(--accent2);border-radius:10px;padding:10px 22px;font-size:15px;font-weight:700}
+.ac-wrap{position:relative}
+.ac-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:2px solid var(--accent);border-radius:10px;max-height:250px;overflow-y:auto;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.15);display:none}
+.ac-list.open{display:block}
+.ac-item{padding:12px 15px;min-height:46px;font-size:15.5px;cursor:pointer;border-bottom:1px solid #f1f5f9}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.sel{background:#f1f5f9}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="doc-header">
+  <div>
+    <div class="school">Asunción School &nbsp;·&nbsp; Computación 2026</div>
+    <div class="teacher">Profesora Estrella Vizcarra</div>
+  </div>
+  <div class="meta">
+    <div id="meta-aula">Todos los salones</div>
+    <div><a class="back" href="/">← Volver a mis clases</a></div>
+  </div>
+</div>
+
+<div class="doc-title">🎓 Entrega de tu trabajo final</div>
+<div class="doc-subtitle">Aquí mandas el link del proyecto que construiste en estas últimas clases. Puedes enviarlo otra vez si lo mejoras: se guarda el último.</div>
+
+<div class="step-label"><span class="n">1</span> ¿En qué salón estás?</div>
+<div class="aulas" id="aulas" role="group" aria-label="Elige tu salón"></div>
+
+<div id="detalle" class="hidden">
+  <div class="task-card">
+    <div class="task-badge" id="tc-badge">🎓 Trabajo final</div>
+    <div class="task-title" id="tc-title"></div>
+    <div class="task-desc" id="tc-desc"></div>
+    <ul class="task-items" id="tc-items"></ul>
+    <div class="task-deadline"><span>📅 Entrega hasta el <strong>domingo 20 de diciembre</strong>. Si lo terminas antes, ¡mejor!</span></div>
+  </div>
+
+  <div class="share-box">
+    <h3>🔓 Antes de enviar: deja tu link abierto</h3>
+    <ol id="share-steps">
+      <li>Abre tu trabajo (Drive, Docs, Slides, Canva, Sites o YouTube).</li>
+      <li>Toca <strong>Compartir</strong>.</li>
+      <li>En «Acceso general» elige <strong>«Cualquier persona con el enlace»</strong>.</li>
+      <li>Toca <strong>Copiar enlace</strong> y pégalo abajo.</li>
+    </ol>
+    <div class="tip" id="share-tip">💡 Si tu trabajo tiene varias partes, ponlas todas en <strong>una carpeta de Drive</strong> y comparte la carpeta.</div>
+  </div>
+
+  <div class="form-section" id="form-section">
+    <div class="step-label"><span class="n">2</span> Tus datos y tu link</div>
+    <div class="prev-box" id="prev-box"></div>
+    <div class="form-group">
+      <label class="form-label" for="inp-nombre">Tu nombre y apellido</label>
+      <div class="ac-wrap">
+        <input id="inp-nombre" class="form-input" type="text" placeholder="Escribe y elige tu nombre de la lista…" maxlength="80" autocomplete="off" aria-autocomplete="list" aria-controls="ac-list">
+        <div class="ac-list" id="ac-list" role="listbox"></div>
+      </div>
+      <div class="form-hint" id="nombre-hint">Empieza a escribir y toca tu nombre en la lista.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="inp-link" id="lbl-link">Link de tu trabajo final</label>
+      <input id="inp-link" class="form-input" type="url" inputmode="url" placeholder="https://…" autocomplete="off">
+      <div class="form-hint" id="link-hint">Pega el enlace que copiaste después de tocar «Compartir».</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="inp-extra" id="lbl-extra">Otro link <span class="opt">(opcional)</span></label>
+      <input id="inp-extra" class="form-input" type="url" inputmode="url" placeholder="https://…" autocomplete="off">
+      <div class="form-hint" id="extra-hint">Por ejemplo, tu portafolio o una segunda parte del trabajo.</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="inp-comment">Mensaje para la profesora <span class="opt">(opcional)</span></label>
+      <textarea id="inp-comment" class="form-textarea" maxlength="600" placeholder="¿De qué parte de tu trabajo estás más orgulloso u orgullosa?"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="check-row"><input type="checkbox" id="chk-abierto"> <span>Revisé que mi link está en <strong>«Cualquier persona con el enlace»</strong>.</span></label>
+    </div>
+    <button class="submit-btn" id="submit-btn" type="button">📤 Enviar mi trabajo final</button>
+    <div class="err-msg" id="err-msg" role="alert"></div>
+  </div>
+
+  <div class="confirm-card" id="confirm-card" role="status">
+    <div class="confirm-icon">🎉</div>
+    <div class="confirm-title" id="confirm-title">¡Trabajo final entregado!</div>
+    <div class="confirm-sub" id="confirm-sub">La profesora ya puede abrir tu trabajo.</div>
+    <div class="confirm-link-box" id="confirm-link-box"></div>
+    <button class="resubmit-btn" type="button" id="resubmit-btn">✏️ Cambiar o actualizar mi link</button>
+  </div>
+</div>
+</div>
+
+<script>
+/* Entrega del trabajo final — usa el mismo backend que las tareas
+   (submit-task → tabla "tareas") con sesion 'FINAL'. La profesora lo ve en
+   /profe → "🎓 Trabajos finales" (openTasks('FINAL', aula)).
+   El alumno DEBE elegir su nombre del roster: se manda su alumno_id. */
+var SESION = 'FINAL';
+var AULAS = {
+  prim6:{label:'6.° Primaria', short:'6.° Prim', emoji:'🟢', acc:'#15803d', acc2:'#166534', brand:'#14532d', pas:'#dceeb1', grad:'linear-gradient(135deg,#052e16,#14532d)',
+    title:'📰 ¡Tu página de la revista del aula!',
+    desc:'Tu misión final: mandar tu página de la <strong>revista digital del aula</strong>. Todas las páginas juntas forman la revista.',
+    items:['Tu página hecha en <strong>Canva</strong>','Un <strong>título</strong> que dé ganas de leer','Tu <strong>artículo</strong> con tus propias palabras','Se lee bien: letra grande y colores que contrastan'],
+    link:'Link de tu página en Canva', linkHint:'En Canva: Compartir → «Cualquier persona con el enlace» → Copiar enlace.',
+    extra:'Link de tu carpeta de Drive', extraHint:'Si tienes tu portafolio en Drive, pega aquí la carpeta.',
+    tip:'💡 En Canva, el botón <strong>Compartir</strong> está arriba a la derecha.'},
+  sec2a:{label:'2.° Secundaria A', short:'2.° A', emoji:'🔵', acc:'#1d4ed8', acc2:'#1e40af', brand:'#1e3a8a', pas:'#cfe0fb', grad:'linear-gradient(135deg,#0f172a,#1e3a5f)', base:'sec2'},
+  sec2b:{label:'2.° Secundaria B', short:'2.° B', emoji:'🔵', acc:'#2563eb', acc2:'#1d4ed8', brand:'#1e3a8a', pas:'#cfe0fb', grad:'linear-gradient(135deg,#0f172a,#1e3a5f)', base:'sec2'},
+  sec3:{label:'3.° Secundaria', short:'3.° Sec', emoji:'🟠', acc:'#c2410c', acc2:'#9a3412', brand:'#7c2d12', pas:'#f7d6c2', grad:'linear-gradient(135deg,#431407,#7c2d12)',
+    title:'🎬 Tu video educativo final',
+    desc:'Entrega el <strong>video final</strong> de tu proyecto integrador, ya exportado.',
+    items:['El <strong>video final</strong> exportado (no el archivo de edición)','Se ve y se escucha bien de principio a fin','Tu <strong>bitácora</strong> del proceso','Créditos: música, imágenes y fuentes que usaste'],
+    link:'Link de tu video final', linkHint:'Drive o YouTube (puede ser «No listado»). Revisa que se reproduzca sin pedir permiso.',
+    extra:'Link de tu bitácora o carpeta del proceso', extraHint:'La carpeta de Drive con guion, escaleta y bitácora.',
+    tip:'💡 En YouTube, «No listado» funciona: solo lo ve quien tenga el link.'},
+  sec4:{label:'4.° Secundaria', short:'4.° Sec', emoji:'🟣', acc:'#6d28d9', acc2:'#5b21b6', brand:'#4c1d95', pas:'#ddd0f7', grad:'linear-gradient(135deg,#2e1065,#4a1d96)',
+    title:'🔎 Tu investigación + sitio digital',
+    desc:'Entrega tu <strong>sitio publicado</strong> y el <strong>informe</strong> de tu investigación sobre un problema real.',
+    items:['El <strong>sitio publicado</strong> (Google Sites u otro) que abre sin iniciar sesión','El <strong>informe</strong> con sus fuentes citadas','La evidencia de tu validación (encuesta, datos o entrevistas)','Tu <strong>pitch</strong> o la presentación que usaste'],
+    link:'Link de tu sitio publicado', linkHint:'Usa el link de «Publicar», no el del editor.',
+    extra:'Link de tu informe o carpeta del proyecto', extraHint:'El Doc del informe o la carpeta de Drive con todo.',
+    tip:'💡 Abre tu sitio en una ventana de incógnito: si se ve sin iniciar sesión, está bien publicado.'},
+  sec5:{label:'5.° Secundaria', short:'5.° Sec', emoji:'🔴', acc:'#b91c1c', acc2:'#991b1b', brand:'#7f1d1d', pas:'#f7d6d6', grad:'linear-gradient(135deg,#450a0a,#7f1d1d)',
+    title:'🚀 Tu proyecto final de egreso',
+    desc:'Entrega el <strong>producto</strong> de tu proyecto de egreso, con la evidencia de que funciona.',
+    items:['El <strong>producto final</strong> (sitio, dashboard, video, campaña o portafolio)','La <strong>medición</strong>: indicador, línea base y resultado','La presentación de tu <strong>sustentación</strong>','Fuentes y revisión de seguridad/ética'],
+    link:'Link de tu producto final', linkHint:'El link que abre tu producto tal como lo verá alguien de afuera.',
+    extra:'Link de tu carpeta de evidencias', extraHint:'La carpeta de Drive con medición, sustentación y fuentes.',
+    tip:'💡 Si tu producto tiene varias piezas, ordénalas en una carpeta con nombres claros (01-producto, 02-medicion…).'}
+};
+var SEC2 = {
+  title:'💡 Tu producto digital escolar',
+  desc:'Entrega el <strong>prototipo</strong> de tu producto (página, video o pieza) y lo que aprendiste al probarlo.',
+  items:['Tu <strong>prototipo</strong> final, ya mejorado','El <strong>registro de pruebas</strong> con tus usuarios','Qué <strong>cambiaste</strong> gracias a esas pruebas','Tu <strong>pregunta guía</strong> del proyecto'],
+  link:'Link de tu prototipo', linkHint:'Drive, Canva, Sites o YouTube. Que abra sin pedir permiso.',
+  extra:'Link de tu registro de pruebas o carpeta', extraHint:'El documento o la carpeta con tus pruebas.',
+  tip:'💡 Si tu trabajo tiene varias partes, ponlas todas en <strong>una carpeta de Drive</strong> y comparte la carpeta.'
+};
+Object.keys(AULAS).forEach(function(k){var a=AULAS[k];if(a.base==='sec2'){for(var p in SEC2)if(!(p in a))a[p]=SEC2[p];}});
+
+var aula = null, ROSTER = [], picked = null, rosterSeq = 0;
+var $ = function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function norm(s){return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v);}catch(e){return null;}}
+
+/* ── salones ── */
+$('aulas').innerHTML = Object.keys(AULAS).map(function(k){var a=AULAS[k];
+  return '<button type="button" class="aula-btn" data-aula="'+k+'" aria-pressed="false" style="--c:'+a.acc+';--cp:'+a.pas+'">'+a.emoji+' '+a.short+'</button>';}).join('');
+$('aulas').addEventListener('click',function(e){var b=e.target.closest('.aula-btn');if(b)elegirAula(b.dataset.aula,true);});
+
+function elegirAula(k, fromClick){
+  if(!AULAS[k]) return;
+  aula = k; var a = AULAS[k], r = document.documentElement.style;
+  r.setProperty('--accent',a.acc); r.setProperty('--accent2',a.acc2); r.setProperty('--brand',a.brand);
+  r.setProperty('--pas',a.pas); r.setProperty('--grad',a.grad);
+  document.querySelectorAll('.aula-btn').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.aula===k?'true':'false');});
+  $('meta-aula').textContent = a.label+' '+a.emoji;
+  $('tc-title').innerHTML = a.title; $('tc-desc').innerHTML = a.desc;
+  $('tc-items').innerHTML = a.items.map(function(i){return '<li><span>'+i+'</span></li>';}).join('');
+  $('lbl-link').textContent = a.link; $('link-hint').textContent = a.linkHint;
+  $('lbl-extra').innerHTML = esc(a.extra)+' <span class="opt">(opcional)</span>'; $('extra-hint').textContent = a.extraHint;
+  $('share-tip').innerHTML = a.tip;
+  $('detalle').classList.remove('hidden');
+  try{var u=new URL(location.href);u.searchParams.set('aula',k);history.replaceState(null,'',u);}catch(e){}
+  $('inp-nombre').value=''; picked=null; marcarNombre(); mostrarForm(); cargarRoster(k);
+  if(fromClick) $('detalle').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ── roster ── */
+function cargarRoster(k){
+  var seq = ++rosterSeq; ROSTER = [];
+  $('nombre-hint').textContent = '⏳ Cargando la lista del salón…';
+  fetch('/.netlify/functions/get-roster?grado='+encodeURIComponent(k)).then(function(r){return r.ok?r.json():null;})
+    .then(function(d){
+      if(seq!==rosterSeq) return;
+      ROSTER = (d&&d.alumnos||[]).filter(function(x){return norm(x.nombre)!=='estrella vizcarra';}).map(function(x){return {id:x.id,nombre:x.nombre};});
+      $('nombre-hint').textContent = ROSTER.length ? 'Empieza a escribir y toca tu nombre en la lista.' : '⚠️ No se pudo cargar la lista. Recarga la página.';
+    })
+    .catch(function(){ if(seq===rosterSeq) $('nombre-hint').textContent='⚠️ No se pudo cargar la lista. Revisa tu internet y recarga.'; });
+}
+
+/* ── autocomplete del roster (propio, nunca datalist) ── */
+var acIn = $('inp-nombre'), acList = $('ac-list'), acSel = -1;
+function elegirNombre(al){ picked = al; acIn.value = al.nombre; acList.classList.remove('open'); marcarNombre(); mostrarPrevia(); }
+function marcarNombre(){
+  acIn.classList.toggle('ok', !!picked);
+  if(picked) $('nombre-hint').textContent = '✅ '+picked.nombre;
+}
+function acRender(){
+  var q = norm(acIn.value);
+  var m = (q ? ROSTER.filter(function(a){return norm(a.nombre).indexOf(q)>=0 || q.split(' ').every(function(w){return norm(a.nombre).indexOf(w)>=0;});}) : ROSTER).slice(0,8);
+  if(!m.length){ acList.classList.remove('open'); return; }
+  acSel = -1;
+  acList.innerHTML = m.map(function(a,i){return '<div class="ac-item" role="option" data-i="'+i+'">'+esc(a.nombre)+'</div>';}).join('');
+  acList._m = m;
+  acList.classList.add('open');
+}
+acList.addEventListener('mousedown',function(e){var it=e.target.closest('.ac-item');if(!it)return;e.preventDefault();elegirNombre(acList._m[+it.dataset.i]);});
+acIn.addEventListener('input',function(){ if(picked && norm(acIn.value)!==norm(picked.nombre)){picked=null;marcarNombre();$('nombre-hint').textContent='Empieza a escribir y toca tu nombre en la lista.';$('prev-box').classList.remove('show');} acRender(); });
+acIn.addEventListener('focus',acRender);
+acIn.addEventListener('blur',function(){setTimeout(function(){acList.classList.remove('open');
+  if(!picked){var exact=ROSTER.filter(function(a){return norm(a.nombre)===norm(acIn.value);});if(exact.length===1)elegirNombre(exact[0]);}},150);});
+acIn.addEventListener('keydown',function(e){
+  var items=[].slice.call(acList.querySelectorAll('.ac-item'));
+  if(!acList.classList.contains('open')||!items.length) return;
+  if(e.key==='ArrowDown'){e.preventDefault();acSel=Math.min(acSel+1,items.length-1);}
+  else if(e.key==='ArrowUp'){e.preventDefault();acSel=Math.max(acSel-1,0);}
+  else if(e.key==='Enter'){e.preventDefault();var i=acSel>=0?acSel:(items.length===1?0:-1);if(i>=0)elegirNombre(acList._m[i]);return;}
+  else if(e.key==='Escape'){acList.classList.remove('open');return;}
+  else return;
+  items.forEach(function(el,i){el.classList.toggle('sel',i===acSel);});
+});
+
+/* ── envío previo en este dispositivo (solo recordatorio, la verdad está en el servidor) ── */
+function prevKey(){ return 'finalSent-'+aula+'-'+(picked?picked.id:''); }
+function mostrarPrevia(){
+  var box=$('prev-box'), raw=picked&&store(prevKey()), p=null;
+  try{p=raw?JSON.parse(raw):null;}catch(e){}
+  if(!p){box.classList.remove('show');return;}
+  box.innerHTML='✅ Ya enviaste desde aquí el '+esc(new Date(p.t).toLocaleDateString('es-PE',{day:'numeric',month:'long'}))+': <a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.link)+'</a><br>Si envías de nuevo, se reemplaza por el nuevo link.';
+  box.classList.add('show');
+  if(!$('inp-link').value) $('inp-link').value=p.link;
+  if(!$('inp-extra').value && p.extra) $('inp-extra').value=p.extra;
+}
+
+/* ── validación de links ── */
+function limpiarLink(v){ v=String(v||'').trim(); if(/^(www\.|drive\.|docs\.|youtu|canva\.|sites\.)/i.test(v)) v='https://'+v; return v; }
+function linkValido(v){ try{var u=new URL(v);return (u.protocol==='https:'||u.protocol==='http:') && u.hostname.indexOf('.')>0;}catch(e){return false;} }
+function error(msg, focusId){ var el=$('err-msg'); el.textContent=msg; el.classList.add('show'); if(focusId) $(focusId).focus(); }
+
+function enviar(){
+  var errEl=$('err-msg'), btn=$('submit-btn');
+  errEl.classList.remove('show');
+  if(!aula) return error('⚠️ Primero elige tu salón (paso 1).');
+  if(!picked){
+    var exact=ROSTER.filter(function(a){return norm(a.nombre)===norm(acIn.value);});
+    if(exact.length===1) elegirNombre(exact[0]);
+    else return error(ROSTER.length?'⚠️ Toca tu nombre en la lista que aparece al escribir. Si no estás en la lista, avísale a la profesora.':'⚠️ La lista del salón no cargó. Recarga la página e inténtalo otra vez.','inp-nombre');
+  }
+  var link=limpiarLink($('inp-link').value), extra=limpiarLink($('inp-extra').value), msg=$('inp-comment').value.trim();
+  $('inp-link').value=link; $('inp-extra').value=extra;
+  if(!linkValido(link)) return error('⚠️ Pega un link completo que empiece con «https://». Cópialo con el botón «Copiar enlace».','inp-link');
+  if(extra && !linkValido(extra)) return error('⚠️ El segundo link no es válido. Corrígelo o déjalo vacío.','inp-extra');
+  if(extra && extra===link) extra='';
+  if(!$('chk-abierto').checked) return error('⚠️ Marca la casilla cuando hayas revisado que tu link está abierto para «Cualquier persona con el enlace».','chk-abierto');
+
+  var comentario=[extra?('🔗 Otro link: '+extra):'', msg].filter(Boolean).join('\n');
+  btn.disabled=true; btn.textContent='⏳ Enviando…';
+  var nombre=picked.nombre, alumnoId=picked.id, aulaEnvio=aula;
+  fetch('/.netlify/functions/submit-task',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({nombre:nombre,alumno_id:alumnoId,grado:aulaEnvio,sesion:SESION,drive_link:link,comentario:comentario})})
+  .then(function(r){return r.json().catch(function(){return {};}).then(function(d){d._status=r.status;return d;});})
+  .then(function(d){
+    if(!d.ok){
+      if(d.identidadInvalida){picked=null;marcarNombre();cargarRoster(aulaEnvio);}
+      var e=new Error(d.error||('No se pudo guardar (error '+d._status+').'));e.retry=!d.identidadInvalida;throw e;
+    }
+    store('finalSent-'+aulaEnvio+'-'+alumnoId, JSON.stringify({link:link,extra:extra,t:Date.now()}));
+    $('form-section').style.display='none';
+    $('confirm-card').classList.add('show');
+    $('confirm-title').textContent='¡Trabajo final entregado, '+(d.nombre||nombre).split(' ')[0]+'!';
+    $('confirm-sub').textContent='La profesora ya puede abrir tu trabajo. Si lo mejoras, vuelve aquí y envía el link nuevo.';
+    $('confirm-link-box').innerHTML='🔗 <a href="'+esc(link)+'" target="_blank" rel="noopener">Abrir mi trabajo</a>'+(extra?'<br>🔗 <a href="'+esc(extra)+'" target="_blank" rel="noopener">Abrir el otro link</a>':'');
+    $('confirm-card').scrollIntoView({behavior:'smooth',block:'center'});
+  })
+  .catch(function(err){
+    btn.disabled=false; btn.textContent='📤 Enviar mi trabajo final';
+    var m=err&&err.message||'';
+    if(!m||/fetch|network|load failed/i.test(m)) m='Sin conexión. Tu entrega quedó guardada en este dispositivo y se enviará sola cuando vuelva el internet. No cierres esta página.';
+    error('❌ '+m);
+  });
+}
+function mostrarForm(){ $('confirm-card').classList.remove('show'); $('form-section').style.display=''; var b=$('submit-btn'); b.disabled=false; b.textContent='📤 Enviar mi trabajo final'; $('chk-abierto').checked=false; }
+$('submit-btn').addEventListener('click',enviar);
+$('resubmit-btn').addEventListener('click',function(){mostrarForm();mostrarPrevia();$('inp-link').focus();});
+
+/* ── arranque: ?aula=sec3 preselecciona; sec2 a secas obliga a elegir A o B ── */
+(function(){ var q=''; try{q=new URLSearchParams(location.search).get('aula')||'';}catch(e){} if(AULAS[q]) elegirAula(q,false); })();
+</script>
+<!-- Cola de reintentos compartida con tareas y evaluaciones: si falla la red, el envío
+     queda en localStorage y se reintenta solo (no depende de la ruta tarea-NN). -->
+<script src="/assets/data-safety.js"></script>
+</body>
+</html>

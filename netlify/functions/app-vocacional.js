@@ -30,7 +30,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const res = (statusCode, body) => ({ statusCode, headers: CORS, body: JSON.stringify(body) });
 
 async function actuales(db, proyecto, campos) {
-  let q = db.from("app_vocacional_actual").select("campo, valor, autor_raw, creado").eq("proyecto", proyecto);
+  let q = db.from("app_vocacional_actual").select("campo, valor, alumno_id, autor_raw, creado").eq("proyecto", proyecto);
   if (campos) q = q.in("campo", campos);
   const { data, error } = await q;
   if (error) throw error;
@@ -57,7 +57,7 @@ exports.handler = async (event) => {
       const campos = {};
       let version = "";
       for (const f of filas) {
-        campos[f.campo] = { v: f.valor, por: autorCorto(f.autor_raw), t: Date.parse(f.creado) };
+        campos[f.campo] = { v: f.valor, por: f.alumno_id ? autorCorto(f.autor_raw) : f.autor_raw, t: Date.parse(f.creado) };
         if (f.creado > version) version = f.creado;
       }
       return res(200, { campos, version });

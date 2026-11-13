@@ -98,6 +98,29 @@ select option{background:#1a1030}
 .chk input{width:22px;height:22px;accent-color:var(--d)}
 .warn{font-size:12.5px;color:#fda4af;margin-top:4px;display:none}
 .warn.on{display:block}
+.send{width:100%;margin-top:12px;padding:16px;border-radius:16px;font-weight:900;font-size:16px;background:linear-gradient(90deg,var(--a),var(--b));box-shadow:0 12px 30px -10px rgba(255,61,127,.8);min-height:48px}
+.send:disabled{opacity:.6;cursor:wait}
+.mini{padding:8px 12px;border-radius:12px;font-size:12.5px;font-weight:800;background:var(--card2);border:1px solid var(--line);min-height:36px}
+.filt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filt button{padding:8px 12px;border-radius:12px;font-size:13px;font-weight:800;background:var(--card);border:1px solid var(--line);min-height:40px}
+.filt button.on{background:#fff;color:#140b2a}
+.bq{padding:14px;border-radius:18px;background:rgba(0,0,0,.25);border:1px solid var(--line);margin-bottom:10px;animation:in .4s backwards}
+.bq.aprobada{border-color:rgba(52,211,153,.6);background:rgba(52,211,153,.08)}
+.bq.descartada{opacity:.6}
+.bq-top{display:flex;justify-content:space-between;gap:10px;align-items:start}
+.bq-top b{font-size:16px;line-height:1.3}
+.est{flex:none;font-size:11.5px;font-weight:900;padding:4px 9px;border-radius:8px;background:rgba(250,204,21,.15);color:var(--d)}
+.aprobada .est{background:rgba(52,211,153,.18);color:var(--e)}
+.descartada .est{background:rgba(255,255,255,.1);color:var(--mute)}
+.bq-ops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:10px 0 6px}
+.bq-ops span{font-size:13.5px;padding:8px 10px;border-radius:10px;background:var(--card)}
+.bq-ops span i{font-style:normal;color:var(--mute);font-size:11.5px;display:block}
+.bq-nota{font-size:13px;color:var(--d);margin-top:4px}
+.bq-rev{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.bq-rev input{flex:1;min-width:160px;min-height:40px;padding:8px 12px}
+.bq-rev button{padding:8px 12px;border-radius:12px;font-weight:800;font-size:13px;min-height:40px;background:var(--card2);border:1px solid var(--line)}
+.bq-rev .ap{background:rgba(52,211,153,.2);color:var(--e)}
+@media (max-width:640px){.bq-ops{grid-template-columns:1fr}}
 
 /* vista previa */
 .preview{position:sticky;top:20px}
@@ -170,6 +193,7 @@ const API='/.netlify/functions/diseno';
 const AREAS=[['tec','💻','Tecnología'],['sal','🩺','Salud'],['art','🎨','Arte y diseño'],['neg','📈','Negocios'],['soc','🤝','Personas y sociedad'],['cie','🔬','Ciencia']];
 const AREA_OPTS='<option value="">¿A qué área suma?</option>'+AREAS.map(a=>`<option value="${a[0]}">${a[1]} ${a[2]}</option>`).join('');
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let BANCO=[];
 const jp=s=>{try{return JSON.parse(s)||{}}catch{return {}}};
 const lleno=v=>typeof v==='string'&&v.trim().length>0;
 const largo=(v,n)=>typeof v==='string'&&v.trim().length>=n;
@@ -190,15 +214,20 @@ const M=[
   ok:c=>[lleno(c['marca-nombre']),largo(c['marca-eslogan'],15),lleno(c['marca-color']),lleno(c['marca-emoji'])]},
 
  {id:'test',em:'❓',t:'Las preguntas del test',m1:'#7c3aed',m2:'#22d3ee',
-  d:'Son el corazón de la app: con ellas se calcula qué carreras van contigo. Necesitamos 8 preguntas propias.',
-  profe:'<b>Pista de la profesora:</b> pregunten por lo que a la persona le <b>gusta hacer</b>, no por notas ni por plata. Cada respuesta debe sumar a un área <b>distinta</b>: si dos respuestas suman a la misma área, la pregunta no ayuda a decidir. Nada de respuestas "correctas": todas valen igual.',
-  campos:[1,2,3,4,5,6,7,8].map(n=>'q'+n),
-  html:()=>[1,2,3,4,5,6,7,8].map(n=>`<div class="box" data-box="q${n}"><div class="bt"><h3>Pregunta ${n}</h3><span class="st"></span></div>
-    <div class="f"><input type="text" data-f="q${n}" data-k="t" maxlength="90" placeholder="${n===1?'Ej.: Un sábado libre, ¿qué prefieres hacer?':'Escribe la pregunta'}" aria-label="Pregunta ${n}"></div>
-    ${[0,1,2,3].map(i=>`<div class="opt"><input type="text" data-f="q${n}" data-k="o.${i}.e" maxlength="4" placeholder="${['🎮','🎨','🤝','💸'][i]}" aria-label="Emoji de la respuesta ${i+1}"><input type="text" data-f="q${n}" data-k="o.${i}.x" maxlength="60" placeholder="Respuesta ${i+1}" aria-label="Respuesta ${i+1}"><select data-f="q${n}" data-k="o.${i}.a" aria-label="Área de la respuesta ${i+1}">${AREA_OPTS}</select></div>`).join('')}
-    <div class="warn" data-warn="q${n}">⚠️ Dos respuestas suman a la misma área. Cambia una para que la pregunta ayude a decidir.</div>
-    <div class="who" data-who="q${n}"></div></div>`).join(''),
-  ok:c=>[1,2,3,4,5,6,7,8].map(n=>qOk(jp(c['q'+n])))},
+  d:'Son el corazón de la app. Cada uno propone sus preguntas al banco del salón; la profesora aprueba las mejores y esas son las que usa la app. Meta: 8 aprobadas.',
+  profe:'<b>Pista de la profesora:</b> pregunten por lo que a la persona le <b>gusta hacer</b>, no por notas ni por plata. Cada respuesta debe sumar a un área <b>distinta</b>: si dos respuestas suman a la misma área, la pregunta no ayuda a decidir. Nada de respuestas "correctas": todas valen igual. Pueden proponer varias: se guardan todas con su nombre.',
+  campos:[],
+  html:()=>`<div class="box" id="bq-form"><div class="bt"><h3>📥 Propón una pregunta</h3><span class="st" id="bq-mias">Se guarda con tu nombre</span></div>
+    <div class="f"><label for="bq-yo">¿Quién la propone?</label><select id="bq-yo"><option value="">Cargando la lista del salón…</option></select></div>
+    <div class="f"><label for="bq-t">La pregunta</label><input type="text" id="bq-t" maxlength="140" placeholder="Ej.: Un sábado libre, ¿qué prefieres hacer?"></div>
+    ${[0,1,2,3].map(i=>`<div class="opt"><input type="text" id="bq-e${i}" maxlength="4" placeholder="${['🎮','🎨','🤝','💸'][i]}" aria-label="Emoji de la respuesta ${i+1}"><input type="text" id="bq-x${i}" maxlength="60" placeholder="Respuesta ${i+1}" aria-label="Respuesta ${i+1}"><select id="bq-a${i}" aria-label="Área de la respuesta ${i+1}">${AREA_OPTS}</select></div>`).join('')}
+    <div class="warn" id="bq-warn"></div>
+    <button type="button" class="send" id="bq-send">📥 Enviar al banco del salón</button></div>
+    <div class="box"><div class="bt"><h3>🗂️ Banco del salón <span id="bq-n" style="color:var(--mute)"></span></h3>
+      <span style="display:flex;gap:8px;align-items:center"><button type="button" class="mini" id="bq-csv" hidden>⬇️ Descargar CSV</button><button type="button" class="mini" id="bq-profe">🔑 Profesora</button></span></div>
+      <div class="filt" id="bq-filt"><button type="button" class="on" data-e="">Todas</button><button type="button" data-e="aprobada">✅ Aprobadas</button><button type="button" data-e="propuesta">🟡 Por revisar</button><button type="button" data-e="descartada">✖ Descartadas</button></div>
+      <div id="bq-list"><p class="who">Cargando…</p></div></div>`,
+  ok:()=>{const n=BANCO.filter(p=>p.estado==='aprobada').length;return Array.from({length:8},(_,i)=>i<n);}},
 
  {id:'carreras',em:'🎓',t:'Las carreras',m1:'#f59e0b',m2:'#ec4899',
   d:'Lo que aparece como resultado. Por cada área, al menos 2 carreras con una frase que la explique a alguien de 16 años.',
@@ -303,7 +332,6 @@ function progreso(){
     $(`[data-bar="${m.id}"]`).style.width=p+'%';
   });
   // estado de cada caja
-  [1,2,3,4,5,6,7,8].forEach(n=>{const q=jp(S['q'+n]),ok=qOk(q);caja('q'+n,ok,ok?'✓ Lista':'Pendiente');const a=qAreas(q);$(`[data-warn="q${n}"]`).classList.toggle('on',new Set(a).size<a.length);});
   AREAS.forEach(a=>{const k=Object.values(jp(S['car-'+a[0]])).filter(x=>x&&lleno(x.n)&&largo(x.d,10)).length;caja('car-'+a[0],k>=2,k>=2?'✓ Lista':`${k} de 2`);});
   [1,2,3,4,5,6].forEach(n=>{const s=jp(S['sede'+n]),ok=sedeOk(s);caja('sede'+n,ok,ok?'✓ Con fuente':'Pendiente');$(`[data-warn="sede${n}"]`).classList.toggle('on',lleno(s.n)&&!/^https?:\/\/\S+\.\S+/.test(s.fuente||''));});
   [['marca-1','marca'],['etica','etica'],['medicion','medicion']].forEach(([b,id])=>{const ok=M.find(m=>m.id===id).ok(S),k=ok.filter(Boolean).length;caja(b,k===ok.length,k===ok.length?'✓ Lista':`${k} de ${ok.length}`);});
@@ -368,6 +396,103 @@ $('#pvClose').onclick=()=>{$('#preview').classList.remove('open');};
   if(Object.keys(dirty).length)guardar();
   setInterval(traer,4000); setInterval(pintarQuien,30000);
 })();
+
+/* ---------- banco de preguntas (Supabase: banco_preguntas) ---------- */
+const BQ_API='/.netlify/functions/banco-preguntas';
+const AREA_TXT=Object.fromEntries(AREAS.map(a=>[a[0],a[1]+' '+a[2]]));
+const TK='cc2026_teacher_token';
+let bqFiltro='', ROSTER=[];
+const token=()=>{try{return sessionStorage.getItem(TK)||''}catch{return ''}};
+const esProfe=()=>!!token();
+
+fetch('/.netlify/functions/get-roster?grado=sec5').then(r=>r.ok?r.json():null).then(d=>{
+  ROSTER=(d&&d.alumnos||[]).filter(a=>!/estrella vizcarra/i.test(a.nombre)).map(a=>({id:a.id,nombre:a.nombre}));
+  let guardado='';try{guardado=localStorage.getItem('vocacional-alumno')||''}catch{}
+  $('#bq-yo').innerHTML='<option value="">Elige tu nombre</option>'+ROSTER.map(a=>`<option value="${esc(a.id)}"${a.id===guardado?' selected':''}>${esc(a.nombre)}</option>`).join('');
+}).catch(()=>{$('#bq-yo').innerHTML='<option value="">No se pudo cargar la lista · recarga la página</option>';});
+$('#bq-yo').addEventListener('change',e=>{try{localStorage.setItem('vocacional-alumno',e.target.value)}catch{}
+  const a=ROSTER.find(x=>x.id===e.target.value); if(a&&!yo.value.trim()){yo.value=a.nombre;try{localStorage.setItem('vocacional-yo',a.nombre)}catch{}}});
+
+function bqLeerForm(){
+  return {pregunta:$('#bq-t').value.trim(),opciones:[0,1,2,3].map(i=>({e:$('#bq-e'+i).value.trim(),x:$('#bq-x'+i).value.trim(),a:$('#bq-a'+i).value}))};
+}
+function bqProblema(p){
+  if(!$('#bq-yo').value)return 'Elige tu nombre de la lista.';
+  if(p.pregunta.length<8)return 'Escribe la pregunta completa.';
+  if(p.opciones.some(o=>o.x.length<2))return 'Escribe las 4 respuestas.';
+  if(p.opciones.some(o=>!o.a))return 'Elige el área de cada respuesta.';
+  if(new Set(p.opciones.map(o=>o.a)).size<4)return 'Dos respuestas suman a la misma área: cambia una para que la pregunta ayude a decidir.';
+  if(new Set(p.opciones.map(o=>o.x.toLowerCase())).size<4)return 'Hay dos respuestas iguales.';
+  return '';
+}
+function bqAviso(t){const w=$('#bq-warn');w.textContent=t?'⚠️ '+t:'';w.classList.toggle('on',!!t);}
+$('#bq-form').addEventListener('input',()=>{const p=bqLeerForm();const a=p.opciones.map(o=>o.a).filter(Boolean);bqAviso(new Set(a).size<a.length?'Dos respuestas suman a la misma área: cambia una para que la pregunta ayude a decidir.':'');});
+$('#bq-send').addEventListener('click',async e=>{
+  const p=bqLeerForm(), prob=bqProblema(p); if(prob){bqAviso(prob);return;}
+  const b=$('#bq-send'); b.disabled=true; b.textContent='Enviando…';
+  try{
+    const r=await fetch(BQ_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'proponer',proyecto:PROYECTO.p,grado:PROYECTO.aula,alumno_id:$('#bq-yo').value,...p})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){bqAviso(d.error||'No se pudo enviar. Inténtalo otra vez.');return;}
+    BANCO.push(d.pregunta); bqPintar(); progreso();
+    ['#bq-t',...[0,1,2,3].flatMap(i=>['#bq-e'+i,'#bq-x'+i,'#bq-a'+i])].forEach(s=>$(s).value='');
+    bqAviso(''); burst(e.clientX,e.clientY,40);
+    const t=$('#toast');t.textContent='📥 ¡Pregunta enviada al banco del salón!';t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);
+  }catch{bqAviso('Sin conexión. Tu pregunta sigue escrita: vuelve a intentarlo.');}
+  finally{b.disabled=false;b.textContent='📥 Enviar al banco del salón';}
+});
+
+function bqPintar(){
+  const n={aprobada:0,propuesta:0,descartada:0}; BANCO.forEach(p=>n[p.estado]=(n[p.estado]||0)+1);
+  $('#bq-n').textContent=`· ${BANCO.length} propuestas · ${n.aprobada} aprobadas`;
+  const lista=BANCO.filter(p=>!bqFiltro||p.estado===bqFiltro).slice().reverse();
+  const EST={aprobada:'✅ Aprobada',propuesta:'🟡 Por revisar',descartada:'✖ Descartada'};
+  $('#bq-list').innerHTML=lista.length?lista.map(p=>`<div class="bq ${p.estado}" data-id="${esc(p.id)}">
+    <div class="bq-top"><b>${esc(p.pregunta)}</b><span class="est">${EST[p.estado]||p.estado}</span></div>
+    <div class="bq-ops">${(p.opciones||[]).map(o=>`<span>${esc(o.e)} ${esc(o.x)}<i>${esc(AREA_TXT[o.a]||o.a)}</i></span>`).join('')}</div>
+    <div class="who">✏️ ${esc(p.autor)}</div>
+    ${p.nota?`<div class="bq-nota">👩‍🏫 ${esc(p.nota)}</div>`:''}
+    ${esProfe()?`<div class="bq-rev"><input type="text" maxlength="300" placeholder="Comentario para el alumno (opcional)" value="${esc(p.nota||'')}"><button type="button" class="ap" data-rev="aprobada">✅ Aprobar</button><button type="button" data-rev="descartada">✖ Descartar</button><button type="button" data-rev="propuesta">↺</button></div>`:''}
+  </div>`).join(''):'<p class="who">Todavía no hay preguntas aquí. ¡Sé el primero en proponer una!</p>';
+  $('#bq-csv').hidden=!esProfe(); $('#bq-profe').textContent=esProfe()?'👩‍🏫 Modo profesora':'🔑 Profesora';
+  refrescarPreview();
+}
+async function bqTraer(){
+  try{const r=await fetch(BQ_API+'?proyecto='+PROYECTO.p);const d=await r.json();
+    if(!r.ok){$('#bq-list').innerHTML=`<p class="who">⚠️ ${esc(d.error||'No se pudo cargar el banco.')}</p>`;return;}
+    const antes=JSON.stringify(BANCO); BANCO=d.preguntas||[]; if(JSON.stringify(BANCO)!==antes){bqPintar();progreso();}
+  }catch{}
+}
+$('#bq-filt').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;bqFiltro=b.dataset.e;$$('#bq-filt button').forEach(x=>x.classList.toggle('on',x===b));bqPintar();});
+$('#bq-list').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-rev]'); if(!b)return;
+  const card=b.closest('.bq'), nota=card.querySelector('.bq-rev input').value;
+  const r=await fetch(BQ_API,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token()},body:JSON.stringify({accion:'revisar',proyecto:PROYECTO.p,id:card.dataset.id,estado:b.dataset.rev,nota})});
+  const d=await r.json().catch(()=>({}));
+  if(r.status===401){try{sessionStorage.removeItem(TK)}catch{};bqPintar();alertaToast('La sesión de profesora venció: vuelve a entrar.');return;}
+  if(!r.ok){alertaToast(d.error||'No se pudo guardar.');return;}
+  BANCO=BANCO.map(p=>p.id===d.pregunta.id?d.pregunta:p); bqPintar(); progreso();
+  if(b.dataset.rev==='aprobada')burst(e.clientX,e.clientY,30);
+});
+function alertaToast(t){const x=$('#toast');x.textContent=t;x.classList.add('on');setTimeout(()=>x.classList.remove('on'),2600);}
+$('#bq-profe').addEventListener('click',async()=>{
+  if(esProfe()){if(confirm('¿Salir del modo profesora en esta pestaña?')){try{sessionStorage.removeItem(TK)}catch{};bqPintar();}return;}
+  const pw=prompt('Contraseña de la profesora'); if(!pw)return;
+  const r=await fetch('/.netlify/functions/teacher-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pw})});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok||!d.token){alertaToast('Contraseña incorrecta.');return;}
+  try{sessionStorage.setItem(TK,d.token)}catch{}; bqPintar(); alertaToast('👩‍🏫 Modo profesora activado');
+});
+$('#bq-csv').addEventListener('click',async()=>{
+  const r=await fetch(BQ_API+'?export=1&proyecto='+PROYECTO.p,{headers:{Authorization:'Bearer '+token()}});
+  const d=await r.json().catch(()=>({})); if(!r.ok){alertaToast(d.error||'No se pudo exportar.');return;}
+  const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const head=['id','estado','pregunta','resp1','area1','resp2','area2','resp3','area3','resp4','area4','autor','creado','revisado','nota_profesora'];
+  const rows=d.preguntas.map(p=>[p.id,p.estado,p.pregunta,...[0,1,2,3].flatMap(i=>[((p.opciones[i]||{}).e+' '+(p.opciones[i]||{}).x).trim(),(p.opciones[i]||{}).a]),p.autor_raw,p.creado,p.revisado,p.nota_profesora].map(q).join(','));
+  const blob=new Blob(['﻿'+[head.join(','),...rows].join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`banco-preguntas-vocacional-${new Date().toISOString().slice(0,10)}.csv`;a.click();URL.revokeObjectURL(a.href);
+});
+bqTraer(); setInterval(bqTraer,6000);
 
 /* ---------- confeti ---------- */
 const cv=$('#fx'),cx=cv.getContext('2d');let P=[],raf=null;

@@ -322,14 +322,12 @@ const jp=s=>{try{return JSON.parse(s)}catch{return null}};
 const lleno=v=>typeof v==='string'&&v.trim()!=='';
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function fechaBonita(iso){const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||'');if(!m)return iso||'';return `${+m[3]} de ${MESES[m[2]-1]}`;}
-function aplicar(c){
+function aplicar(c,banco){
   const v=id=>c[id]&&c[id].v;
   let usados=0;
-  // preguntas: una por una, solo las completas
-  const qs=[];
-  for(let n=1;n<=8;n++){const q=jp(v('q'+n));if(!q||!lleno(q.t))continue;
-    const o=[0,1,2,3].map(i=>q.o&&q.o[i]).filter(x=>x&&lleno(x.x)&&AREA_COL[x.a]).map(x=>[x.e||'•',x.x,x.a]);
-    if(o.length===4)qs.push({t:q.t,o});}
+  // preguntas: las que la profesora aprobó en el banco del salón (mínimo 4 para armar un test)
+  const qs=(banco||[]).filter(p=>p.estado==='aprobada'&&Array.isArray(p.opciones)&&p.opciones.length===4)
+    .map(p=>({t:p.pregunta,o:p.opciones.map(x=>[x.e||'•',x.x,x.a])}));
   Q.splice(0,Q.length,...(qs.length>=4?qs:BASE.Q)); if(qs.length>=4)usados++;
   // carreras: el área que el salón llenó reemplaza a la de ejemplo
   let car=BASE.CAR.slice();
@@ -355,8 +353,11 @@ function aplicar(c){
 }
 async function cargarVivo(){
   try{
-    const r=await fetch('/.netlify/functions/diseno',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'leer',...PROYECTO})});
-    if(!r.ok)return; const d=await r.json(); if(d.campos)aplicar(d.campos);
+    const [r,b]=await Promise.all([
+      fetch('/.netlify/functions/diseno',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'leer',...PROYECTO})}),
+      fetch('/.netlify/functions/banco-preguntas?proyecto='+PROYECTO.p).catch(()=>null)]);
+    const d=r.ok?await r.json():{}; const bq=b&&b.ok?await b.json():{};
+    aplicar(d.campos||{},bq.preguntas||[]);
   }catch(e){}
 }
 if(new URLSearchParams(location.search).has('embed'))document.body.classList.add('embed');

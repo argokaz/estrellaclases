@@ -40,8 +40,14 @@ h1{font-family:'Space Grotesk';font-size:clamp(28px,3.6vw,46px);line-height:1;le
 .intro{color:var(--mute);font-size:15px;line-height:1.5;max-width:640px}
 .yo{display:grid;gap:6px;min-width:220px}
 .yo label{font-size:12px;font-weight:800;color:var(--mute)}
-.yo input{padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:rgba(0,0,0,.35);outline:none}
-.yo input:focus{border-color:var(--d)}
+.yo select{padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:rgba(0,0,0,.45);outline:none;font-weight:800;min-height:48px}
+.yo select:focus{border-color:var(--d)}
+.yo.falta select{border-color:var(--d);animation:llama 1.4s infinite}
+@keyframes llama{50%{box-shadow:0 0 0 6px rgba(250,204,21,.35)}}
+.yo.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.lock{display:flex;gap:12px;align-items:center;padding:16px 18px;border-radius:18px;margin-bottom:16px;font-weight:800;font-size:16px;background:rgba(250,204,21,.14);border:1.5px solid rgba(250,204,21,.5);color:#fde68a}
+.lock[hidden]{display:none}
 .sync{font-size:12px;color:var(--mute);display:flex;gap:6px;align-items:center}
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--dim)}
 .sync.ok i{background:var(--e);box-shadow:0 0 10px var(--e)}
@@ -167,15 +173,15 @@ select option{background:#1a1030}
       <p class="intro">La idea, el recorrido y el pitch ya están. Ahora toca lo que convierte la demo en una app de verdad. Elige una misión, complétala y mira cómo cambia la app a la derecha. Todo se guarda solo y lo ve todo el salón.</p>
     </div>
     <div class="yo">
-      <label for="yo">¿Quién está escribiendo?</label>
-      <input id="yo" type="text" placeholder="Tu nombre y apellido" autocomplete="name">
+      <label for="yo">¿Quién está escribiendo? <b style="color:var(--d)">(obligatorio)</b></label>
+      <select id="yo"><option value="">Cargando la lista del salón…</option></select>
       <div class="sync" id="sync"><i></i><span>Conectando…</span></div>
     </div>
   </header>
 
   <nav class="nav" id="nav" aria-label="Misiones"></nav>
 
-  <main id="misiones"></main>
+  <main><div class="lock" id="lock">👆 Para escribir, primero elige tu nombre arriba. Así el salón sabe quién aportó cada idea.</div><div id="misiones"></div></main>
 
   <aside class="preview" id="preview">
     <div class="pv-head"><b>👀 Así se ve la app</b><a href="app-vocacional.html" target="_blank" rel="noopener">Abrir en grande ↗</a></div>
@@ -189,7 +195,7 @@ select option{background:#1a1030}
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const PROYECTO={aula:'sec5',p:'app-vocacional-5to',nombre:'App vocacional 5to'};
-const API='/.netlify/functions/diseno';
+const API='/.netlify/functions/app-vocacional';
 const AREAS=[['tec','💻','Tecnología'],['sal','🩺','Salud'],['art','🎨','Arte y diseño'],['neg','📈','Negocios'],['soc','🤝','Personas y sociedad'],['cie','🔬','Ciencia']];
 const AREA_OPTS='<option value="">¿A qué área suma?</option>'+AREAS.map(a=>`<option value="${a[0]}">${a[1]} ${a[2]}</option>`).join('');
 const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -218,7 +224,6 @@ const M=[
   profe:'<b>Pista de la profesora:</b> pregunten por lo que a la persona le <b>gusta hacer</b>, no por notas ni por plata. Cada respuesta debe sumar a un área <b>distinta</b>: si dos respuestas suman a la misma área, la pregunta no ayuda a decidir. Nada de respuestas "correctas": todas valen igual. Pueden proponer varias: se guardan todas con su nombre.',
   campos:[],
   html:()=>`<div class="box" id="bq-form"><div class="bt"><h3>📥 Propón una pregunta</h3><span class="st" id="bq-mias">Se guarda con tu nombre</span></div>
-    <div class="f"><label for="bq-yo">¿Quién la propone?</label><select id="bq-yo"><option value="">Cargando la lista del salón…</option></select></div>
     <div class="f"><label for="bq-t">La pregunta</label><input type="text" id="bq-t" maxlength="140" placeholder="Ej.: Un sábado libre, ¿qué prefieres hacer?"></div>
     ${[0,1,2,3].map(i=>`<div class="opt"><input type="text" id="bq-e${i}" maxlength="4" placeholder="${['🎮','🎨','🤝','💸'][i]}" aria-label="Emoji de la respuesta ${i+1}"><input type="text" id="bq-x${i}" maxlength="60" placeholder="Respuesta ${i+1}" aria-label="Respuesta ${i+1}"><select id="bq-a${i}" aria-label="Área de la respuesta ${i+1}">${AREA_OPTS}</select></div>`).join('')}
     <div class="warn" id="bq-warn"></div>
@@ -293,12 +298,29 @@ $('#nav').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(!
   $$('.mision').forEach(s=>s.classList.toggle('on',s.id==='m-'+b.dataset.m));
   b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});});
 
-/* ---------- estado ---------- */
-const S={}, META={}, ETAG={};
-let latido='', dirty={}, timer=null, enviando=false;
+/* ---------- quién escribe: obligatorio y de la lista del salón ---------- */
+const S={}, META={};
+let dirty={}, timer=null, enviando=false, version='', ROSTER=[], ALUMNO='';
 const yo=$('#yo');
-try{yo.value=localStorage.getItem('vocacional-yo')||'';}catch{}
-yo.addEventListener('input',()=>{try{localStorage.setItem('vocacional-yo',yo.value)}catch{}});
+const nombreDe=id=>(ROSTER.find(a=>a.id===id)||{}).nombre||'';
+function corto(n){const p=String(n||'').trim().split(/\s+/);return p.length<2?(p[0]||''):`${p[0]} ${p[p.length>=3?p.length-2:1][0]}.`;}
+function pintarNombre(){$('.yo').classList.toggle('falta',!ALUMNO);$('#lock').hidden=!!ALUMNO;}
+function pideNombre(){const y=$('.yo');y.classList.remove('shake');void y.offsetWidth;y.classList.add('shake');yo.focus();alertaToast('👆 Primero elige tu nombre: sin nombre no se guarda nada.');}
+fetch('/.netlify/functions/get-roster?grado='+PROYECTO.aula).then(r=>r.ok?r.json():null).then(d=>{
+  const todos=(d&&d.alumnos||[]).map(a=>({id:a.id,nombre:a.nombre}));
+  const profe=todos.filter(a=>/estrella vizcarra/i.test(a.nombre));
+  ROSTER=todos.filter(a=>!/estrella vizcarra/i.test(a.nombre)).concat(profe);
+  let guardado='';try{guardado=sessionStorage.getItem('vocacional-alumno')||''}catch{}
+  yo.innerHTML='<option value="">👉 Elige tu nombre</option>'+ROSTER.map(a=>`<option value="${esc(a.id)}">${esc(a.nombre)}${/estrella vizcarra/i.test(a.nombre)?' (profesora)':''}</option>`).join('');
+  if(ROSTER.some(a=>a.id===guardado)){yo.value=guardado;ALUMNO=guardado;}
+  pintarNombre(); if(ALUMNO&&Object.keys(dirty).length)guardar();
+}).catch(()=>{yo.innerHTML='<option value="">No se pudo cargar la lista · recarga la página</option>';});
+yo.addEventListener('change',()=>{
+  ALUMNO=yo.value; try{sessionStorage.setItem('vocacional-alumno',ALUMNO)}catch{}
+  pintarNombre(); if(ALUMNO){alertaToast(`✍️ Escribiendo como ${corto(nombreDe(ALUMNO))}`);if(Object.keys(dirty).length)guardar();}
+});
+// Sin nombre no se puede escribir: se ve todo, pero no se edita.
+document.addEventListener('focusin',e=>{if(ALUMNO)return;const el=e.target;if(el.closest&&el.closest('#misiones')&&el.matches('input,textarea,select')&&!el.closest('.bq-rev')){el.blur();pideNombre();}});
 
 function setPath(o,path,v){const k=path.split('.');let x=o;k.slice(0,-1).forEach(p=>{if(typeof x[p]!=='object'||!x[p])x[p]={};x=x[p];});x[k[k.length-1]]=v;}
 function getPath(o,path){return path.split('.').reduce((x,p)=>x&&x[p],o);}
@@ -331,7 +353,6 @@ function progreso(){
     $(`[data-pc="${m.id}"]`).parentElement.classList.toggle('done',p===100);
     $(`[data-bar="${m.id}"]`).style.width=p+'%';
   });
-  // estado de cada caja
   AREAS.forEach(a=>{const k=Object.values(jp(S['car-'+a[0]])).filter(x=>x&&lleno(x.n)&&largo(x.d,10)).length;caja('car-'+a[0],k>=2,k>=2?'✓ Lista':`${k} de 2`);});
   [1,2,3,4,5,6].forEach(n=>{const s=jp(S['sede'+n]),ok=sedeOk(s);caja('sede'+n,ok,ok?'✓ Con fuente':'Pendiente');$(`[data-warn="sede${n}"]`).classList.toggle('on',lleno(s.n)&&!/^https?:\/\/\S+\.\S+/.test(s.fuente||''));});
   [['marca-1','marca'],['etica','etica'],['medicion','medicion']].forEach(([b,id])=>{const ok=M.find(m=>m.id===id).ok(S),k=ok.filter(Boolean).length;caja(b,k===ok.length,k===ok.length?'✓ Lista':`${k} de ${ok.length}`);});
@@ -342,26 +363,30 @@ function progreso(){
 }
 function caja(id,ok,txt){const b=$(`[data-box="${id}"]`);if(!b)return;b.classList.toggle('ok',ok);b.querySelector('.st').textContent=txt;}
 
-/* ---------- guardar / traer ---------- */
+/* ---------- guardar / traer (Supabase: app_vocacional_aportes) ---------- */
 function estado(cls,txt){const s=$('#sync');s.className='sync '+cls;s.lastElementChild.textContent=txt;}
-async function api(body){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({aula:PROYECTO.aula,...body}),keepalive:true});const d=await r.json().catch(()=>({}));if(!r.ok&&r.status!==409&&r.status!==404)throw new Error(d.error||'Error');return {status:r.status,...d};}
+function guardarPendientes(){try{localStorage.setItem('vocacional-pend',JSON.stringify({alumno:ALUMNO,campos:dirty}))}catch{}}
 function cambio(f){
-  S[f]=valorDe(f); dirty[f]=S[f]; META[f]={por:yo.value.trim()||'Alguien del salón',t:Date.now()};
-  try{localStorage.setItem('vocacional-pend',JSON.stringify(dirty))}catch{}
-  progreso(); pintarQuien(); estado('busy','Guardando…');
-  clearTimeout(timer); timer=setTimeout(guardar,900);
+  if(!ALUMNO){pideNombre();pintarCampo(f);return;}
+  S[f]=valorDe(f); dirty[f]=S[f]; META[f]={por:corto(nombreDe(ALUMNO)),t:Date.now()};
+  guardarPendientes(); progreso(); pintarQuien(); estado('busy','Guardando…');
+  clearTimeout(timer); timer=setTimeout(guardar,1500);
 }
 async function guardar(){
+  if(!ALUMNO){estado('err','Elige tu nombre para guardar');return;}
   if(enviando){clearTimeout(timer);timer=setTimeout(guardar,600);return;}
   const campos=dirty; if(!Object.keys(campos).length)return;
   dirty={}; enviando=true;
   try{
-    await api({accion:'guardar',p:PROYECTO.p,campos,por:yo.value.trim()||'Alguien del salón',progreso:progreso()});
-    try{localStorage.setItem('vocacional-pend',JSON.stringify(dirty))}catch{}
-    estado('ok','Guardado · lo ve todo el salón');
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({accion:'guardar',proyecto:PROYECTO.p,grado:PROYECTO.aula,alumno_id:ALUMNO,campos})});
+    const d=await r.json().catch(()=>({}));
+    if(r.status===400){dirty={...campos,...dirty};guardarPendientes();estado('err',d.error||'No se pudo guardar');return;}
+    if(!r.ok)throw new Error(d.error||'Error');
+    guardarPendientes(); estado('ok',`Guardado como ${d.por||corto(nombreDe(ALUMNO))} · lo ve todo el salón`);
     refrescarPreview();
   }catch(e){
-    dirty={...campos,...dirty}; estado('err','Sin conexión · reintentando');
+    dirty={...campos,...dirty}; guardarPendientes(); estado('err','Sin conexión · reintentando');
     clearTimeout(timer); timer=setTimeout(guardar,5000);
   }finally{enviando=false;}
 }
@@ -369,14 +394,12 @@ let pvT=null;
 function refrescarPreview(){clearTimeout(pvT);pvT=setTimeout(()=>{try{$('#pv').contentWindow.postMessage('recargar',location.origin)}catch{}},300);}
 async function traer(){
   try{
-    const d=await api({accion:'leer',p:PROYECTO.p,latido,conocidos:ETAG});
-    if(d.status===404){await api({accion:'crear',nombre:PROYECTO.nombre,miembros:[],por:'Tablero'});return traer();}
-    if(d.sinCambios){if(!Object.keys(dirty).length)estado('ok','Al día · guardado automático');return;}
-    latido=d.latido||'';
-    let llego=false;
-    Object.entries(d.campos||{}).forEach(([f,c])=>{ETAG[f]=c.etag;if(f in dirty)return;S[f]=c.v;META[f]={por:c.por,t:c.t};pintarCampo(f);llego=true;});
-    progreso(); pintarQuien();
-    if(llego)refrescarPreview();
+    const r=await fetch(API+'?proyecto='+PROYECTO.p); const d=await r.json().catch(()=>({}));
+    if(!r.ok){estado('err',d.error||'Sin conexión · reintentando');return;}
+    if(d.version===version){if(!Object.keys(dirty).length)estado('ok','Al día · guardado automático');return;}
+    version=d.version;
+    Object.entries(d.campos||{}).forEach(([f,c])=>{if(f in dirty)return;S[f]=c.v;META[f]={por:c.por,t:c.t};pintarCampo(f);});
+    progreso(); pintarQuien(); refrescarPreview();
     if(!Object.keys(dirty).length)estado('ok','Al día · guardado automático');
   }catch(e){estado('err','Sin conexión · reintentando');}
 }
@@ -384,16 +407,19 @@ async function traer(){
 /* ---------- eventos ---------- */
 document.addEventListener('input',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f)cambio(f);});
 document.addEventListener('change',e=>{const f=e.target.dataset&&e.target.dataset.f;if(f&&(e.target.tagName==='SELECT'||e.target.type==='checkbox'||e.target.type==='date'))cambio(f);});
-document.addEventListener('click',e=>{const b=e.target.closest('[data-pick] button');if(!b)return;const f=b.parentElement.dataset.pick;S[f]=b.dataset.v;
-  dirty[f]=S[f];META[f]={por:yo.value.trim()||'Alguien del salón',t:Date.now()};pintarCampo(f);progreso();pintarQuien();burst(e.clientX,e.clientY,16);estado('busy','Guardando…');clearTimeout(timer);timer=setTimeout(guardar,400);});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-pick] button');if(!b)return;
+  if(!ALUMNO){pideNombre();return;}
+  const f=b.parentElement.dataset.pick;S[f]=b.dataset.v;dirty[f]=S[f];META[f]={por:corto(nombreDe(ALUMNO)),t:Date.now()};
+  pintarCampo(f);progreso();pintarQuien();burst(e.clientX,e.clientY,16);estado('busy','Guardando…');guardarPendientes();clearTimeout(timer);timer=setTimeout(guardar,400);});
 addEventListener('pagehide',()=>{if(Object.keys(dirty).length)guardar();});
 $('#pvOpen').onclick=()=>{$('#preview').classList.add('open');$('#pvClose').style.display='flex';refrescarPreview();};
 $('#pvClose').onclick=()=>{$('#preview').classList.remove('open');};
 
 (async()=>{
-  try{const p=JSON.parse(localStorage.getItem('vocacional-pend')||'{}');if(p&&typeof p==='object'){Object.assign(dirty,p);Object.assign(S,p);}}catch{}
-  await traer(); Object.keys(S).forEach(pintarCampo); progreso();
-  if(Object.keys(dirty).length)guardar();
+  // Lo que quedó sin enviar en este equipo solo se reenvía a nombre de quien lo escribió.
+  try{const p=JSON.parse(localStorage.getItem('vocacional-pend')||'{}');let g='';try{g=sessionStorage.getItem('vocacional-alumno')||''}catch{}
+    if(p&&p.alumno&&p.alumno===g&&p.campos&&typeof p.campos==='object'){Object.assign(dirty,p.campos);Object.assign(S,p.campos);}}catch{}
+  await traer(); Object.keys(S).forEach(pintarCampo); progreso(); pintarNombre();
   setInterval(traer,4000); setInterval(pintarQuien,30000);
 })();
 
@@ -401,23 +427,15 @@ $('#pvClose').onclick=()=>{$('#preview').classList.remove('open');};
 const BQ_API='/.netlify/functions/banco-preguntas';
 const AREA_TXT=Object.fromEntries(AREAS.map(a=>[a[0],a[1]+' '+a[2]]));
 const TK='cc2026_teacher_token';
-let bqFiltro='', ROSTER=[];
+let bqFiltro='';
 const token=()=>{try{return sessionStorage.getItem(TK)||''}catch{return ''}};
 const esProfe=()=>!!token();
-
-fetch('/.netlify/functions/get-roster?grado=sec5').then(r=>r.ok?r.json():null).then(d=>{
-  ROSTER=(d&&d.alumnos||[]).filter(a=>!/estrella vizcarra/i.test(a.nombre)).map(a=>({id:a.id,nombre:a.nombre}));
-  let guardado='';try{guardado=localStorage.getItem('vocacional-alumno')||''}catch{}
-  $('#bq-yo').innerHTML='<option value="">Elige tu nombre</option>'+ROSTER.map(a=>`<option value="${esc(a.id)}"${a.id===guardado?' selected':''}>${esc(a.nombre)}</option>`).join('');
-}).catch(()=>{$('#bq-yo').innerHTML='<option value="">No se pudo cargar la lista · recarga la página</option>';});
-$('#bq-yo').addEventListener('change',e=>{try{localStorage.setItem('vocacional-alumno',e.target.value)}catch{}
-  const a=ROSTER.find(x=>x.id===e.target.value); if(a&&!yo.value.trim()){yo.value=a.nombre;try{localStorage.setItem('vocacional-yo',a.nombre)}catch{}}});
 
 function bqLeerForm(){
   return {pregunta:$('#bq-t').value.trim(),opciones:[0,1,2,3].map(i=>({e:$('#bq-e'+i).value.trim(),x:$('#bq-x'+i).value.trim(),a:$('#bq-a'+i).value}))};
 }
 function bqProblema(p){
-  if(!$('#bq-yo').value)return 'Elige tu nombre de la lista.';
+  if(!ALUMNO)return 'Primero elige tu nombre arriba.';
   if(p.pregunta.length<8)return 'Escribe la pregunta completa.';
   if(p.opciones.some(o=>o.x.length<2))return 'Escribe las 4 respuestas.';
   if(p.opciones.some(o=>!o.a))return 'Elige el área de cada respuesta.';
@@ -431,7 +449,7 @@ $('#bq-send').addEventListener('click',async e=>{
   const p=bqLeerForm(), prob=bqProblema(p); if(prob){bqAviso(prob);return;}
   const b=$('#bq-send'); b.disabled=true; b.textContent='Enviando…';
   try{
-    const r=await fetch(BQ_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'proponer',proyecto:PROYECTO.p,grado:PROYECTO.aula,alumno_id:$('#bq-yo').value,...p})});
+    const r=await fetch(BQ_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'proponer',proyecto:PROYECTO.p,grado:PROYECTO.aula,alumno_id:ALUMNO,...p})});
     const d=await r.json().catch(()=>({}));
     if(!r.ok){bqAviso(d.error||'No se pudo enviar. Inténtalo otra vez.');return;}
     BANCO.push(d.pregunta); bqPintar(); progreso();

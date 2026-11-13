@@ -354,7 +354,7 @@ function aplicar(c,banco){
 async function cargarVivo(){
   try{
     const [r,b]=await Promise.all([
-      fetch('/.netlify/functions/diseno',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({accion:'leer',...PROYECTO})}),
+      fetch('/.netlify/functions/app-vocacional?proyecto='+PROYECTO.p),
       fetch('/.netlify/functions/banco-preguntas?proyecto='+PROYECTO.p).catch(()=>null)]);
     const d=r.ok?await r.json():{}; const bq=b&&b.ok?await b.json():{};
     aplicar(d.campos||{},bq.preguntas||[]);
